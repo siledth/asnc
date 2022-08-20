@@ -62,32 +62,32 @@ function irArriba() {
 }
 
 /**
- * sncApp
+ * SncApp
  * Es el módulo que GESTIONA de manera general, las interfaces en el FRONT-END
  * @type type
  */
-var sncApp = {
+var SncApp = {
 	cargarDatosDePagina: function (uri) {
 		switch (uri) {
 			case "/diasferiados":
-				sncApp.inicializarGestionFeriados();
+				SncApp.inicializarGestionFeriados();
 				break;
 			case "/gestionlapsos":
-				sncApp.inicializarGestionLapsos();
+				SncApp.inicializarGestionLapsos();
 				break;
 			case "/perfilinstitucional":
-				sncApp.inicializarOrganoEntePropio();
+				SncApp.inicializarOrganoEntePropio();
 				break;
 			case "/llamadoconcurso":
-				sncApp.inicializarLlamadoConcurso();
+				SncApp.inicializarLlamadoConcurso();
 				break;
 			case "/regllamadoconcurso":
-				sncApp.inicializarRegistroLlamado();
+				SncApp.inicializarRegistroLlamado();
 				break;
 			default:
 				let aURI = uri.split("/");
 				if (aURI[1] === "editllamadoconcurso") {
-					sncApp.inicializarEditarLlamado(aURI[2]);
+					SncApp.inicializarEditarLlamado(aURI[2]);
 				}
 				break;
 		}
@@ -205,6 +205,21 @@ var sncApp = {
 		LlamadoConcurso.cambioSltTipoFiltro();
 		$("#sltTipoFiltro").change(function () {
 			LlamadoConcurso.cambioSltTipoFiltro();
+		});
+		$.ajax({
+			url: "apirest/objetoscont",
+			success: function (json) {
+				let salida = "<option>[Objeto de Contratación]</option>\n";
+				$.each(json.datos, function (i, oc) {
+					salida +=
+						"<option value=" +
+						oc.id_objeto_contratacion +
+						">" +
+						oc.descripcion +
+						"</option>\n";
+				});
+				$("#sltObjetoContratacion").html(salida);
+			},
 		});
 		LlamadoConcurso.listar();
 		$("#btnFiltrarLlamados").click(function () {
@@ -578,6 +593,9 @@ var sncApp = {
 		$("#txtLugarEntrega").change(function () {
 			LlamadoConcurso.cambioLugarEntrega();
 		});
+		$("#txtObservaciones").change(function () {
+			LlamadoConcurso.cambioObservaciones();
+		});
 		$("#btnGuardar").click(function () {
 			LlamadoConcurso.agregar();
 		});
@@ -600,9 +618,9 @@ var sncApp = {
 				break;
 		}
 		if (json) {
-			sncApp.enviarNotificacion(json.descripcion, json.titulo, icon, true);
+			SncApp.enviarNotificacion(json.descripcion, json.titulo, icon, true);
 		} else {
-			sncApp.enviarNotificacion(error.responseText, "Error", icon);
+			SncApp.enviarNotificacion(error.responseText, "Error", icon);
 		}
 	},
 };

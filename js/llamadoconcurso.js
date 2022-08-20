@@ -43,13 +43,13 @@ var LlamadoConcurso = {
 				data: llamadoConcursoFrm,
 				success: function (json) {
 					alert(json.descripcion);
-					sncApp.enviarNotificacion(json.descripcion);
+					SncApp.enviarNotificacion(json.descripcion);
 					let salida = LlamadoConcurso.mostrarLlamado(json.dato);
 					$("#areaLlamadoConcurso").html(salida);
 					history.pushState(null, "", "llamadoconcurso");
 				},
 				error: function (error) {
-					sncApp.notificarError(error);
+					SncApp.notificarError(error);
 				},
 			});
 		} else {
@@ -67,7 +67,7 @@ var LlamadoConcurso = {
 			},
 			error: function (error) {
 				$("#resultadosLlamadoConcurso").html("No hay resultados para mostrar");
-				sncApp.notificarError(error);
+				SncApp.notificarError(error);
 			},
 		});
 	},
@@ -93,6 +93,11 @@ var LlamadoConcurso = {
 		let url = "apirest/llamadoConcurso/" + textoABuscar + "/" + x;
 		LlamadoConcurso.consultaAjax(url, propio);
 	},
+	buscarPorObjetoContratacion: function (id, propio) {
+		let x = propio ? 1 : 0;
+		let url = "apirest/llamadoConcursoOC/" + id + "/" + x;
+		LlamadoConcurso.consultaAjax(url, propio);
+	},
 	dialogoConfirmarBorrar: function (rif, numero_proceso) {
 		if (rif !== undefined && numero_proceso !== undefined) {
 			$.get("frmConfirmarBorrar", function (html) {
@@ -116,7 +121,7 @@ var LlamadoConcurso = {
 						});
 					},
 					error: function (error) {
-						sncApp.notificarError(error);
+						SncApp.notificarError(error);
 					},
 				});
 			});
@@ -128,11 +133,11 @@ var LlamadoConcurso = {
 			method: "GET",
 			success: function (json) {
 				LlamadoConcurso.mostrarTodos(json.datos, propio);
-				sncApp.enviarNotificacion(json.descripcion);
+				SncApp.enviarNotificacion(json.descripcion);
 			},
 			error: function (error) {
 				$("#resultadosLlamadoConcurso").html("No hay resultados para mostrar");
-				sncApp.notificarError(error);
+				SncApp.notificarError(error);
 			},
 		});
 	},
@@ -176,6 +181,7 @@ var LlamadoConcurso = {
 				$("#camposIdentificadores").hide();
 				$("#camposFechas").hide();
 				$("#camposTextos").hide();
+				$("#camposObjetoContratacion").hide();
 				break;
 			case "opcNumeroProceso":
 				$("#chkPropio").prop("disabled", true);
@@ -185,6 +191,7 @@ var LlamadoConcurso = {
 				$("#camposIdentificadores").show();
 				$("#camposFechas").hide();
 				$("#camposTextos").hide();
+				$("#camposObjetoContratacion").hide();
 				break;
 			case "opcFechaLlamado":
 			case "opcFechaFin":
@@ -195,6 +202,7 @@ var LlamadoConcurso = {
 				$("#camposIdentificadores").hide();
 				$("#camposFechas").show();
 				$("#camposTextos").hide();
+				$("#camposObjetoContratacion").hide();
 				break;
 			case "opcTexto":
 				$("#txtTextoABuscar").val("");
@@ -202,6 +210,15 @@ var LlamadoConcurso = {
 				$("#camposIdentificadores").hide();
 				$("#camposFechas").hide();
 				$("#camposTextos").show();
+				$("#camposObjetoContratacion").hide();
+				break;
+			case "opcObjetoContratacion":
+				$("#camposIdentificadores").hide();
+				$("#camposFechas").hide();
+				$("#camposTextos").hide();
+				$("#camposObjetoContratacion").show();
+				break;
+			case "opcOrganoEnte":
 				break;
 		}
 	},
@@ -481,7 +498,7 @@ var LlamadoConcurso = {
 				location.href = "llamadoconcurso";
 			},
 			error: function (error) {
-				sncApp.notificarError(error);
+				SncApp.notificarError(error);
 			},
 		});
 	},
@@ -494,13 +511,13 @@ var LlamadoConcurso = {
 				method: "PUT",
 				data: llamadoConcursoFrm,
 				success: function (json) {
-					sncApp.enviarNotificacion(json.descripcion);
+					SncApp.enviarNotificacion(json.descripcion);
 					let salida = LlamadoConcurso.mostrarLlamado(json.dato);
 					$("#areaLlamadoConcurso").html(salida);
 					history.pushState(null, "", "../llamadoconcurso");
 				},
 				error: function (error) {
-					sncApp.notificarError(error);
+					SncApp.notificarError(error);
 				},
 			});
 		} else {
@@ -566,6 +583,16 @@ var LlamadoConcurso = {
 					$("#errTextoABuscar").html("El campo no puede estar vacío");
 				}
 				break;
+			case "opcObjetoContratacion":
+				let id = $("#sltObjetoContratacion").val();
+				if (id !== "") {
+					LlamadoConcurso.buscarPorObjetoContratacion(id, propio);
+				} else {
+					$("#errObjetoContratacion").html(
+						"Debe seleccionar una opción válida"
+					);
+				}
+				break;
 		}
 	},
 	listar: function (propio) {
@@ -626,10 +653,9 @@ var LlamadoConcurso = {
 			</div>\n\
 			<div class="col-sm-8 col-md-8 col-lg-9 col-xl-10"><div class="font-weight-bold text-vinotinto">Descripción de Contratación: </div>' +
 			llamadoConcurso.descripcion_contratacion +
-			"\n\
-			</div>\n" +
-			observaciones +
-			'</div>\n\
+			'\n\
+			</div>\n\
+		</div>\n\
   </div>\n\
 	<div class="card-body">\n\
     <h5 class="card-title text-center bg-dark text-light">DATOS DEL ÓRGANO O ENTE</h5>\n\
@@ -742,8 +768,10 @@ var LlamadoConcurso = {
 			" (" +
 			llamadoConcurso.estado_sobre +
 			")" +
-			'\n\
-			</div>\n\
+			"\n\
+			</div>\n" +
+			observaciones +
+			'\
 		</div>\n\
   </div>\n\
 	<div class="card-footer text-center bg-turquesa">\n\

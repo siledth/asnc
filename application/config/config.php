@@ -24,9 +24,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 //$config['base_url'] = 'http://sistemaintegradoprueba.snc.gob.ve';
-$config['base_url'] = 'http://sistemaintegrado.snc.gob.ve';
+//$config['base_url'] = 'http://sistemaintegrado.snc.gob.ve';
 
-//$config['base_url'] = 'http://localhost/asnc';
+$config['base_url'] = 'http://localhost/asnc';
 //$config['base_url'] = 'http://localhost';
 /*
 |--------------------------------------------------------------------------
