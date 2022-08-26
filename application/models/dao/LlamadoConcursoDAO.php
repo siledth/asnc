@@ -38,6 +38,7 @@ class LlamadoConcursoDAO extends \CI_Model {
 		$this->db->like('denominacion_proceso', $textoABuscar);
 		$this->db->or_like('descripcion_contratacion', $textoABuscar);
 		$this->db->or_like('rif_organoente', $textoABuscar);
+		
 		if ($rif) {
 			$this->db->where('rif_organoente', $rif);
 		}
