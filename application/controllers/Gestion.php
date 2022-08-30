@@ -1,8 +1,6 @@
 <?php
 
-/**
- * @author Gary Diaz <garyking1982@gmail.com>
- */
+
 
 
 class Gestion extends CI_Controller {

@@ -1,6 +1,51 @@
 <?php
     class Publicaciones_model extends CI_model{
+		
 
+		public function consulta_anulacion($rif){
+            $this->db->select('*');
+            $this->db->from('public.llamado_concurso');
+            $this->db->where('rif_organoente', $rif);
+            $query = $this->db->get();
+            return $result = $query->result_array();
+        }
+		public function consulta_anulacion_general(){
+            $this->db->select('m.*,
+			b.descripcion');
+			$this->db->join('public.organoente b', 'b.rif = m.rif_organoente');
+            $this->db->from('public.llamado_concurso m');
+			
+            $this->db->where('estatus', "ANULADO");
+            $query = $this->db->get();
+            return $result = $query->result_array();
+        }
+		
+		   public function inf_1($data ){
+           
+            $this->db->select('*');
+           // $this->db->join('programacion.propiet oc', 'oc.matricula = pp.matricula');
+            $this->db->where('numero_proceso', $data );
+            $query = $this->db->get('public.llamado_concurso_view');
+            return $query->result_array();
+        }
+		public function causa_b(){
+            $this->db->select('*');
+            $this->db->from('public.causa_anulacion');
+			$this->db->order_by("id", "Asc");
+           // $this->db->where('rif_organoente', $rif);
+            $query = $this->db->get();
+            return $result = $query->result_array();
+        }
+		public function guardar_anulaciones($anular, $numero_proceso){
+
+            $this->db->where('numero_proceso', $numero_proceso);
+        
+            $update = $this->db->update('public.llamado_concurso', $anular);
+
+           
+            return true;
+        }
+		
 	//CRUP BANCO
 		function consultar_b(){
 			$this->db->select('*');

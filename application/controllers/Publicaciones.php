@@ -8,7 +8,74 @@ class Publicaciones extends CI_Controller {
         parent :: __construct();
         //$this->load->model('Tablas_model');
     }
+    //aca anulacion de un llamdo a consulros 
 
+    public function anulacion(){
+		if(!$this->session->userdata('session'))redirect('login');
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $data['rif'] = $this->session->userdata('rif');
+        $rif = $this->session->userdata['rif_organoente'];
+        $data['llamados'] = $this->Publicaciones_model->consulta_anulacion($rif);
+		$this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+		$this->load->view('anularllamado/anularllamado.php', $data);
+        $this->load->view('templates/footer.php');
+	}
+// lo vera solo el snc o perfil 1 
+    public function anulaciones_general(){
+		if(!$this->session->userdata('session'))redirect('login');
+        $data['descripcion'] = $this->session->userdata('unidad');
+      $data['rif'] = $this->session->userdata('rif');
+       $rif = $this->session->userdata['rif_organoente'];
+        $data['llamados'] = $this->Publicaciones_model->consulta_anulacion_general();
+		$this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+		$this->load->view('anularllamado/anulados_general.php', $data);
+        $this->load->view('templates/footer.php');
+	}
+   
+    public function anular(){
+        if(!$this->session->userdata('session'))
+        redirect('login');
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $data['rif'] = $this->session->userdata('rif');
+        $parametros = $this->input->get('id');
+        $data['numero_proceso']=$this->input->get('id');
+        $data['causas'] = $this->Publicaciones_model->causa_b();
+
+        $data['inf_1'] = $this->Publicaciones_model->inf_1($data['numero_proceso']);
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        
+          $this->load->view('anularllamado/anular.php', $data);
+        
+        $this->load->view('templates/footer.php');
+    }
+    public function guardar_anulacion(){
+		if(!$this->session->userdata('session'))redirect('login');
+        
+        $numero_proceso = $this->input->post("numero_proceso");
+        $estatus = 'ANULADO';
+        $observaciones = $this->input->post("observaciones"); 
+        $especifique_anulacion = $this->input->post("especifique_anulacion"); 
+        
+        $anular = array(
+                
+         
+            "estatus"     => $estatus,
+            "observaciones"     => $observaciones,
+            "especifique_anulacion"     => $especifique_anulacion              
+        ); 
+       $data = $this->Publicaciones_model->guardar_anulaciones($anular, $numero_proceso);
+	 
+	   if ($data) {
+		   $this->session->set_flashdata('sa-success2', 'Se guardo los datos correctamente');
+		   redirect('Publicaciones/anulacion');
+	   }else{
+			 $this->session->set_flashdata('sa-error', 'error');
+			redirect('Publicaciones/anulacion');
+		 }
+	}
     //CRUD BANCO
     public function banco() {
         $data['bancos'] = $this->Publicaciones_model->consultar_b();

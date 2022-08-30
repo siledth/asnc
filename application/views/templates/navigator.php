@@ -128,6 +128,12 @@
                       - Registro llamado a consurso
                     </a>
                   </li>
+                  <li>
+                  <a href="<?= base_url() ?>index.php/Publicaciones/anulacion">- Anular llamado a Consurso </a>
+                  </li>
+                  <?php if (($this->session->userdata('perfil') == 1)) : ?>
+                        <li><a href="<?= base_url() ?>index.php/Publicaciones/anulaciones_general">-Anulaciones General</b></a></li>
+                      <?php endif; ?>
                 </ul>
               </li>
             </ul>
