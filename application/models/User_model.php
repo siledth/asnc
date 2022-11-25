@@ -3,7 +3,30 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class User_model extends CI_Model
 {
+//desbloquear un usuario
 
+function consulta_usuarios(){
+    $this->db->select("f.id,
+                        f.nombre,
+                        f.id_estatus,
+                        f.intentos,
+                        c.nombrefun,
+                        c.apellido
+                       ");
+    $this->db->join('seguridad.funcionarios c', 'c.id_usuario = f.id', 'left');
+    $this->db->where('f.id_estatus >', '3');
+    $query = $this->db->get('seguridad.usuarios f');
+    return $result = $query->result_array();
+
+}
+function desblo_usuario($data){
+    $data1 = array('id_estatus' => '1',
+                    'intentos' => '0',
+                    'fecha_update' => date('Y-m-d h:i:s'));
+    $this->db->where('id', $data['id']);
+    $update = $this->db->update('seguridad.usuarios', $data1);
+    return true;
+}
 
     public function save($data)
     {
@@ -144,6 +167,98 @@ class User_model extends CI_Model
           return true;
         }
 
+    }
+    public function get_usuario() {
+        $this->db->select("f.id,
+                    f.nombre,
+                    f.id_estatus,
+                    f.intentos,
+                    c.nombrefun,
+                    c.apellido,
+                    r.descripcion,
+                    r.rif,
+                    c.id as id1
+                ");
+            $this->db->join('seguridad.funcionarios c', 'c.id_usuario = f.id', 'left');
+            $this->db->join('public.organoente r', 'r.rif = f.rif_organoente', 'left');
+            //$this->db->where('f.id_estatus <', '3');
+            $query = $this->db->get('seguridad.usuarios f');
+            return $result = $query->result_array();
+
+
+        //$query = $this->db->get('programacion.alicuota_iva');
+        // if (count($query->result()) > 0) {
+        //return $query->result();
+        // }
+    }
+    public function single_user($data) {
+        $this->db->select('*');
+        $this->db->from('seguridad.funcionarios');
+        $this->db->where('id_usuario', $data['id']);
+        $query = $this->db->get();
+            $resultado = $query->row_array();
+            return $resultado;
+    }
+
+    // public function guardar_mod_user($data) {
+    //     return $this->db->update('seguridad.funcionarios', $data, array('id_usuario' => $data['id_ver']));
+    // }
+
+     public function guardar_mod_user($data){
+       
+       
+        //aca modifique
+        $data1 = array('nombrefun' => $data['nombrefun'],
+                        'apellido' => $data['apellido'],
+                        'cedula' => $data['cedula'],
+                        'email' => $data['email'],
+                        'cargo' => $data['cargo'],
+                        'oficina' => $data['oficina'],
+                        'tele_1' => $data['tele_1'],
+                        'tele_2' => $data['tele_2'],
+                    //    'fecha_update' => date('Y-m-d h:i:s'),
+                    //      'nro_factura' => $data['numfact'],
+                    //     'nota' => $data['nota'],
+                    //     'fechapago' => $data['fechapago'],
+                    );
+                        
+         $this->db->where('id_usuario', $data['id_ver']);
+        $update = $this->db->update('seguridad.funcionarios', $data1);
+
+         return true;
+        
+     }
+    
+
+     // ver usuarios 
+     public function ver_users($data){
+        $this->db->select("f.id,
+        f.nombre,
+        f.id_estatus,
+        f.intentos,
+        c.*,
+        r.descripcion,
+        r.rif,
+        c.id as id1");
+        $this->db->from('seguridad.usuarios f');
+        $this->db->join('seguridad.funcionarios c', 'c.id_usuario = f.id', 'left');
+        $this->db->join('public.organoente r', 'r.rif = f.rif_organoente', 'left');
+        $this->db->where('c.id_usuario', $data);
+        $query = $this->db->get();
+        $resultado = $query->row_array();
+        return $resultado;
+    }
+
+    function consulta_organoente(){
+        $this->db->select("id_organoente, rif, id_organoenteads, tipo_organoente, descripcion, cod_onapre, id_estado, id_municipio, id_parroquia, siglas, direccion, 
+                            gaceta, fecha_gaceta, pagina_web, 
+                            correo, tel1, tel2, movil1, movil2, usuario, fecha, codigo
+                                ");
+       // $this->db->join('seguridad.funcionarios c', 'c.id_usuario = f.id', 'left');
+        //$this->db->where('f.id_estatus >', '3');
+        $query = $this->db->get('public.organoente ');
+        return $result = $query->result_array();
+    
     }
 
 }

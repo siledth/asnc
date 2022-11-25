@@ -25,21 +25,13 @@
                                 <label>Seleccione Organo/Ente <b title="Campo Obligatorio" style="color:red">*</b></label>
                                 <select id="id_unidad" name="id_unidad" class="default-select2 form-control" required>
                                     <option value="0">Seleccione</option>
-                                    <optgroup label="Órganos">
-                                        <?php foreach ($organo as $data): ?>
-                                            <option value="<?=$data['codigo']?>"><?=$data['desc_organo']?> / <?=$data['rif']?></option>
+                                    
+                                        <?php foreach ($final as $data): ?>
+                                            <option value="<?=$data['codigo']?>/<?=$data['rif']?>"><?=$data['descripcion']?> / <?=$data['rif']?></option>
                                         <?php endforeach; ?>
-                                    </optgroup>
-    								               <optgroup label="Entes">
-                                        <?php foreach ($entes as $data): ?>
-                                            <option value="<?=$data['codigo']?>"><?=$data['desc_entes']?> / <?=$data['rif']?></option>
-                                        <?php endforeach; ?>
-                                    </optgroup>
-                                    <optgroup label="Ente Adscrito">
-                                        <?php foreach ($enteads as $data): ?>
-                                            <option value="<?=$data['codigo']?>"><?=$data['desc_entes_ads']?> / <?=$data['rif']?></option>
-                                        <?php endforeach; ?>
-                                    </optgroup>
+                                   
+    								               
+                                    
                                 </select>
                             </div>
                             <div class="form-group col-6">

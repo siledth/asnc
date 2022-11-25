@@ -345,6 +345,20 @@
                 </a>
               </li>
             <?php endif; ?>
+            <?php if ($this->session->userdata('perfil') <= 2) : ?>
+              <li>
+                <a href="<?= base_url() ?>index.php/user/bloquear_usuario">
+                  <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Desbloqueo de Usuarios
+                </a>
+              </li>
+            <?php endif; ?>
+            <?php if ($this->session->userdata('perfil') <= 2) : ?>
+              <li>
+                <a href="<?= base_url() ?>index.php/user/modif_usuarios">
+                  <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Lista de Usuarios
+                </a>
+              </li>
+            <?php endif; ?>
           </ul>
         </li>
       </ul>

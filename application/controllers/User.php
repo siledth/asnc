@@ -95,9 +95,10 @@ class User extends CI_Controller
       //crerar usuario externo
 	  public function int()
 	{
-		$data['organo']  = $this->User_model->consultar_organos();
-		$data['entes']   = $this->User_model->consultar_entes();
-		$data['enteads'] = $this->User_model->consultar_enteads();
+		// $data['organo']  = $this->User_model->consultar_organos();
+		// $data['entes']   = $this->User_model->consultar_entes();
+		// $data['enteads'] = $this->User_model->consultar_enteads();
+		$data['final']  = $this->User_model->consulta_organoente();
 
 		$this->load->view('templates/header.php');
 		$this->load->view('templates/navigator.php');
@@ -132,6 +133,13 @@ class User extends CI_Controller
 				}
 		public function savedante()
 	{
+		$parametros = $this->input->post('id_unidad');
+        $separar        = explode("/", $parametros);
+        $data['codigo']  = $separar['0'];
+        $data['rif'] = $separar['1'];
+
+		$codigo = $data['codigo'];
+		$rif=$data['rif'];
 		$nombrefun = $this->input->post("nombrefun");
 		$apellido = $this->input->post("apellido");
 		$tipo_ced = $this->input->post("tipo_ced");
@@ -195,16 +203,22 @@ class User extends CI_Controller
 			);
 			//esto es lo que va a la primera tabla usuarios
 			$data = array(
+		// 		$codigo = $data['codigo'];
+		// $rif=$data['rif'];
+
 				"nombre" => $usuario,
 				"password" => $clave,
 				"email" => $email,
 				"perfil" => $perfil,
 				"foto" => 2,
 				"estado" => 1,
-				"ultimo_login" => date("Y-m-d h:m:s"),
+				"ultimo_login" => date("Y-m-d"),
 				"fecha" => date("Y-m-d"),
-				"intentos" => 1,
-				"unidad" => $unidad
+				"intentos" => 0,
+				"unidad" => $codigo,
+				"id_estatus"=>1,
+				"fecha_update" => date("Y-m-d"),
+				"rif_organoente" =>$rif
 
 			);
 
@@ -222,7 +236,7 @@ class User extends CI_Controller
 				"email" => $email,
 				"obser" => $obser,
 				"tipo_funcionario" => 3, // revisar que es esto
-				"unidad" => $unidad,
+				"unidad" => $codigo,
 				"id_usuario" => null
 			);
 
@@ -343,4 +357,74 @@ class User extends CI_Controller
 			redirect('user/cuentadante');
 		}
 	}*/
+
+	//usuario desbloquear y bloquear usuarios
+	public function bloquear_usuario(){		
+		if(!$this->session->userdata('session'))redirect('login');
+        //$data['descripcion'] = $this->session->userdata('unidad');
+        //$data['rif'] = $this->session->userdata('rif');
+        $data['time']=date("d-m-Y");
+		$data['usuarios'] 	= $this->User_model->consulta_usuarios();
+        
+		$this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+		$this->load->view('user/bloqueo_user.php', $data);
+        $this->load->view('templates/footer.php');
+	}
+	public function desbloquear_usuario(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $data = $this->input->post();
+        $data = $this->User_model->desblo_usuario($data);
+        echo json_encode($data);
+    }
+	//modificar usuario
+
+	
+	public function modif_usuarios(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $data['rif'] = $this->session->userdata('rif');
+        $data['time']=date("d-m-Y");
+        $data['te']=date('d');
+
+		$data['ver_usuarios'] = $this->User_model->get_usuario();  
+
+		$this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+		$this->load->view('user/modi_user.php', $data);
+        $this->load->view('templates/footer.php');
+	}
+
+	public function consultar_user(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $data = $this->input->post();
+        $data =	$this->User_model->single_user($data);
+        echo json_encode($data);
+    }
+
+	public function guardar_proc_pag(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $data['time']=date("d-m-Y");
+        $data = $this->input->post();
+        $data =	$this->User_model->guardar_mod_user($data);
+        echo json_encode($data);
+    }
+	//ver usuario
+	public function verUsuario(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $id = $this->input->get('id');
+
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $data['rif'] = $this->session->userdata('rif');
+      
+        $data['time']=date("d-m-Y");
+
+        $data['ver_usuarios'] =	$this->User_model->ver_users($id);
+        
+
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+		$this->load->view('user/ver_user.php', $data);
+        $this->load->view('templates/footer.php');
+    }
 }

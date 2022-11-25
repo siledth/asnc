@@ -90,7 +90,7 @@ class Login extends CI_Controller {
       //	print_r($clave_r);die;
       $data = array(
         'password' => $clave_r,
-        'fecha_update' => date('Y-m-d h:i:s'),
+        'fecha_update' => date('Y-m-d'),
       );
       $data = $this->login_model->cambiar_clave($id_usuario, $data);
       echo json_encode($data);
