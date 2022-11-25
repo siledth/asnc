@@ -44,9 +44,7 @@
                                                         </td>
                                                     
                                                     <td>
-                                                        <a class="button" href="<?php echo base_url() ?>index.php/Factura/ver_recibo_transito?id=<?php echo $lista['id'];?>" >
-                                                            <i title="Ver" class="fas fa-lg fa-fw fa-list-alt" style="color: #00d41a;"></i>
-                                                        <a/>
+                                                      
                                                         <?php if ($lista['id_estatus'] == 4): ?>
                                                             <a title="Desbloquear" onclick="desbloquear_usuario(<?php echo $lista['id'];?>);" class="button">
                                                                 <i class="fas fa-lg fa-fw fa-times-circle" style="color:#d84600"></i>
