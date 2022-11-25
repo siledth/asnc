@@ -159,6 +159,7 @@ class User extends CI_Controller
 		$perfil = $this->input->post("perfil");
 		//aca empiezo las validaciones
 		$this->form_validation->set_rules('perfil', 'perfil', 'required|callback_select_validate');
+		$this->form_validation->set_rules('id_unidad', 'id_unidad', 'required|callback_select_validate');
 		$this->form_validation->set_rules('nombrefun', 'Nombre ', 'required|min_length[3]');
 		$this->form_validation->set_rules('apellido', 'Apellido ', 'required|min_length[4]');
 		$this->form_validation->set_rules('tipo_ced', 'tipo_ced ', 'required|min_length[1]');
@@ -188,6 +189,7 @@ class User extends CI_Controller
 			$data['organo']  = $this->User_model->consultar_organos();
 			$data['entes']   = $this->User_model->consultar_entes();
 			$data['enteads'] = $this->User_model->consultar_enteads();
+			$data['final']  = $this->User_model->consulta_organoente();
 			$this->load->view('templates/header.php');
 			$this->load->view('templates/navigator.php');
 			$this->load->view('user/usuarioexterno.php', $data);

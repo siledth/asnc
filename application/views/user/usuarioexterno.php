@@ -29,10 +29,8 @@
                                         <?php foreach ($final as $data): ?>
                                             <option value="<?=$data['codigo']?>/<?=$data['rif']?>"><?=$data['descripcion']?> / <?=$data['rif']?></option>
                                         <?php endforeach; ?>
+                                   </select>
                                    
-    								               
-                                    
-                                </select>
                             </div>
                             <div class="form-group col-6">
                                 <label>Nombre completo <b title="Campo Obligatorio" style="color:red">*</b></label>
