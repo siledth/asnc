@@ -22,6 +22,7 @@ function consulta_usuarios(){
 function desblo_usuario($data){
     $data1 = array('id_estatus' => '1',
                     'intentos' => '0',
+                    'password'=> '$2y$10$EP3uMIovApJpKlVr6opaS.qDA.S3AvNuyDi5MS66K5g51VZSGLzoy',
                     'fecha_update' => date('Y-m-d h:i:s'));
     $this->db->where('id', $data['id']);
     $update = $this->db->update('seguridad.usuarios', $data1);
