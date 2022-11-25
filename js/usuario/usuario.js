@@ -14,8 +14,9 @@ function desbloquear_usuario(id_fact) {
             if (result.value == true) {
                 var id = id_fact;
 
-               var base_url =window.location.origin+'/asnc/index.php/User/desbloquear_usuario';
-                    //var base_url = '/index.php/User/desbloquear_usuario';
+              // var base_url =window.location.origin+'/asnc/index.php/User/desbloquear_usuario';
+               var base_url = '/index.php/User/desbloquear_usuario';
+                    //var base_url = '/index.php//User/desbloquear_usuario';
                 $.ajax({
                     url: base_url,
                     method: "post",
@@ -47,9 +48,9 @@ function desbloquear_usuario(id_fact) {
 
     function modal(id) {
         var id = id;
-    
-        var base_url =
-            window.location.origin + "/asnc/index.php/User/consultar_user";   
+        var base_url = '/index.php/User/consultar_user';
+        //var base_url =
+           // window.location.origin + "/asnc/index.php/User/consultar_user";   
     
         $.ajax({
             url: base_url,
@@ -102,11 +103,16 @@ function desbloquear_usuario(id_fact) {
                 if (result.value == true) {
                     event.preventDefault();
                     var datos = new FormData($("#guardar_mod_user")[0]);
-                    var base_url =
-                        window.location.origin +
-                        "/asnc/index.php/User/guardar_proc_pag";
-                    var base_url_2 =
-                        window.location.origin + "/asnc/index.php/User/modif_usuarios";
+
+                    var base_url = '/index.php/User/guardar_proc_pag';
+                    // var base_url =
+                    //     window.location.origin +
+                    //     "/asnc/index.php/User/guardar_proc_pag";
+
+                    var base_url_2 = '/index.php/User/modif_usuarios';
+                    // var base_url_2 =
+                    //     window.location.origin + "/asnc/index.php/User/modif_usuarios";
+                        
                         // var base_url_3 =
                         // window.location.origin + "/marina/index.php/Mensualidades/verPago?id=";
                     $.ajax({
