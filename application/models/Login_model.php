@@ -3,9 +3,16 @@
 class Login_model extends CI_model {
 
     public function iniciar($usuario, $contrasena) {
-        $this->db->select('*');
+        $this->db->select('f.*,
+        c.id_perfil, c.menu_rnce, c.menu_progr, c.menu_eval_desem, c.menu_reg_eval_desem, c.menu_soli_anular_eval_desem, 
+        c.menu_proc_anular_eval_desem, c.menu_comprobante_eval_desem, c.menu_estdi_eval_desem, 
+        c.menu_noregi_eval_desem, c.menu_llamado, c.consultar_llamado, c.reg_llamado, anul_llamado, 
+        c.ver_anul_llamado, c.ver_rnc, c.ver_conf, c.ver_parametro, 
+        c.ver_conf_publ, c.ver_user, c.ver_user_exter, c.ver_user_desb, c.ver_user_lista, c.ver_user_perfil, c.menu_anulacion, c.menu_repor_evalu');
+        
+        $this->db->from('seguridad.usuarios f');
+        $this->db->join('seguridad.perfil c', 'c.id_perfil = f.perfil', 'left');
         $this->db->where('nombre', $usuario);
-        $this->db->from('seguridad.usuarios');
         $result = $this->db->get();
         if ($result->num_rows() == 1) {
             $id_estatus = $result->row('id_estatus');

@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class User extends CI_Controller
 {
 	public function index()
-	{
+	{ if(!$this->session->userdata('session'))redirect('login');
 		$data['organo']  = $this->User_model->consultar_organos();
 		$data['entes']   = $this->User_model->consultar_entes();
 		$data['enteads'] = $this->User_model->consultar_enteads();
@@ -16,7 +16,7 @@ class User extends CI_Controller
 	}
 
 	public function save()
-	{
+	{ if(!$this->session->userdata('session'))redirect('login');
 		$nombre = $this->input->post("nombre");
 		$email = $this->input->post("email");
 		$password = $this->input->post("password");
@@ -63,8 +63,8 @@ class User extends CI_Controller
 	}
 	// guardar organismo externo
 	public function save_organismo()
-	{
-
+	{ if(!$this->session->userdata('session'))redirect('login');
+ 
 		$data = array(
 			'id_organoads'		=> $this->input->post("id_organoads"),
 			'desc_organo'		=> $this->input->post("organo"),
@@ -94,10 +94,11 @@ class User extends CI_Controller
 	//_________________________________________________________________________________________________________________________________________________________
       //crerar usuario externo
 	  public function int()
-	{
+	{ if(!$this->session->userdata('session'))redirect('login');
 		// $data['organo']  = $this->User_model->consultar_organos();
 		// $data['entes']   = $this->User_model->consultar_entes();
 		// $data['enteads'] = $this->User_model->consultar_enteads();
+		$data['ver_perfil'] = $this->User_model->consultar_perfiles(); 
 		$data['final']  = $this->User_model->consulta_organoente();
 
 		$this->load->view('templates/header.php');
@@ -106,7 +107,7 @@ class User extends CI_Controller
 		$this->load->view('templates/footer.php');
 	}
 		public function chk_password_expression($str)
-			{
+			{ if(!$this->session->userdata('session'))redirect('login');
 			if (1 !== preg_match("/^.*(?=.{6,})(?=.*[0-9])(?=.*[^a-zA-Z\d])(?=.*[a-z])(?=.*[A-Z]).*$/", $str))
 			{
 				$this->form_validation->set_message('chk_password_expression', '%s debe tener al menos 6
@@ -119,7 +120,7 @@ class User extends CI_Controller
 			}
 			}
 		function select_validate($selectValue)
-				{
+				{ 
 				// 'none' is the first option and the text says something like "-Choose one-"
 				if($selectValue == 'none')
 				{
@@ -132,7 +133,7 @@ class User extends CI_Controller
 				}
 				}
 		public function savedante()
-	{
+	{ if(!$this->session->userdata('session'))redirect('login');
 		$parametros = $this->input->post('id_unidad');
         $separar        = explode("/", $parametros);
         $data['codigo']  = $separar['0'];
@@ -186,10 +187,12 @@ class User extends CI_Controller
 
 
 		if ($this->form_validation->run() == FALSE) {
+			if(!$this->session->userdata('session'))redirect('login');
 			$data['organo']  = $this->User_model->consultar_organos();
 			$data['entes']   = $this->User_model->consultar_entes();
 			$data['enteads'] = $this->User_model->consultar_enteads();
 			$data['final']  = $this->User_model->consulta_organoente();
+			$data['ver_perfil'] = $this->User_model->consultar_perfiles(); 
 			$this->load->view('templates/header.php');
 			$this->load->view('templates/navigator.php');
 			$this->load->view('user/usuarioexterno.php', $data);
@@ -427,6 +430,47 @@ class User extends CI_Controller
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
 		$this->load->view('user/ver_user.php', $data);
+        $this->load->view('templates/footer.php');
+    }
+
+	//creacion de perfiles
+	public function perfil_(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $data['rif'] = $this->session->userdata('rif');
+        $data['time']=date("d-m-Y");
+        $data['te']=date('d');
+
+		$data['ver_perfil'] = $this->User_model->consultar_perfiles();  
+
+		$this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+		$this->load->view('user/perfil.php', $data);
+        $this->load->view('templates/footer.php');
+	}
+
+	public function guardar_perfil(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $data['time']=date("d-m-Y");
+        $data = $this->input->post();
+        $data =	$this->User_model->guardar_perfil($data);
+        echo json_encode($data);
+    }
+	public function verPerfil(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $id = $this->input->get('id');
+
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $data['rif'] = $this->session->userdata('rif');
+      
+        $data['time']=date("d-m-Y");
+
+        $data['ver_perfil'] =	$this->User_model->ver_perfil($id);
+        
+
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+		$this->load->view('user/ver_peril.php', $data);
         $this->load->view('templates/footer.php');
     }
 }

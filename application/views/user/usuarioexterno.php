@@ -11,12 +11,20 @@
                         <div class="row">
                             <div class="form-group col-3">
                                 <label>Perfil <b title="Campo Obligatorio" style="color:red">*</b></label>
-                                <select class="default-select2 form-control <?php echo form_error('perfil') ? 'is-invalid' : ''; ?>" id="perfil"  name="perfil" >
-                                <option value="none" <?php echo set_select('perfil', 'none', true);?> >- Seleccione -</option>
-                                <option value="3" <?php echo set_select('perfil', '3');?>>Cuentadante</option>
-                                <option value="4" <?php echo set_select('perfil', '4');?>>Secretaria</option>
-                                <option value="5" <?php echo set_select('perfil', '5');?>>Programación</option>
-                                </select>
+                                <select class="default-select2 form-control <?php  echo form_error('perfil') ? 'is-invalid' : ''; ?>" id="perfil"  name="perfil" >
+                                <option value="none" <?php // echo set_select('perfil', 'none', true);?> >- Seleccione -</option>
+                                    
+                                        <?php foreach ($ver_perfil as $data): ?>
+                                        
+                                            <option value="<?=$data['id_perfil']?>"><?=$data['nombrep']?> </option>
+                                        <?php endforeach; ?>
+                                   </select>
+                                <!-- <select class="default-select2 form-control <?php // echo form_error('perfil') ? 'is-invalid' : ''; ?>" id="perfil"  name="perfil" >
+                                <option value="none" <?php // echo set_select('perfil', 'none', true);?> >- Seleccione -</option>
+                                <option value="3" <?php // echo set_select('perfil', '3');?>>Cuentadante</option>
+                                <option value="4" <?php // echo set_select('perfil', '4');?>>Secretaria</option>
+                                <option value="5" <?php//  echo set_select('perfil', '5');?>>Programación</option>
+                                </select> -->
                                 <div class="invalid-feedback">
                                         <?php echo form_error('perfil'); ?>
                                     </div>

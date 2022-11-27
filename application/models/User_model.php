@@ -262,4 +262,62 @@ function desblo_usuario($data){
     
     }
 
+
+    //perfiles 
+    public function consultar_perfiles() {
+        $this->db->select("f.id_perfil, 
+                          f.nombrep,
+                           f.fecha_creacion                   
+                ");
+            $query = $this->db->get('seguridad.perfil f');
+            return $result = $query->result_array();
+
+
+    }
+    public function guardar_perfil($data){
+       
+        $data1 = array(
+                    'nombrep' => $data['nombrep'],
+                    'menu_rnce' => $data['menu_rnce'],
+                    'menu_progr' => $data['menu_progr'],
+                    'menu_eval_desem' => $data['menu_eval_desem'],
+                    'menu_reg_eval_desem' => $data['menu_reg_eval_desem'],
+                    'menu_soli_anular_eval_desem' => $data['menu_soli_anular_eval_desem'],
+                    'menu_proc_anular_eval_desem' => $data['menu_proc_anular_eval_desem'],
+                    'menu_comprobante_eval_desem' => $data['menu_comprobante_eval_desem'],
+                    'menu_estdi_eval_desem' => $data['menu_estdi_eval_desem'],
+                    'menu_noregi_eval_desem' => $data['menu_noregi_eval_desem'],
+                    'menu_llamado' => $data['menu_llamado'],
+                    'consultar_llamado' => $data['consultar_llamado'],
+                    'reg_llamado' => $data['reg_llamado'],
+                    'anul_llamado'=> $data['anul_llamado'],
+                    'ver_anul_llamado' => $data['ver_anul_llamado'],
+                    'ver_rnc' => $data['ver_rnc'],
+                    'ver_conf' => $data['ver_conf'],
+                    'ver_parametro' => $data['ver_parametro'],
+                    'ver_conf_publ' => $data['ver_conf_publ'],
+                    'ver_user' => $data['ver_user'],
+                    'ver_user_exter' => $data['ver_user_exter'],
+                    'ver_user_desb' => $data['ver_user_desb'],
+                    'ver_user_lista' => $data['ver_user_lista'],
+                    'ver_user_perfil' => $data['ver_user_perfil'],
+                    'fecha_creacion' => date('Y-m-d h:i:s'),
+                    'menu_anulacion' => $data['menu_anulacion'],
+                    'menu_repor_evalu' => $data['menu_repor_evalu'],
+                    );
+                        
+                    $this->db->insert("seguridad.perfil", $data1);
+
+         return true;
+        
+     }
+
+     public function ver_perfil($data){
+        $this->db->select("f.*");
+        $this->db->from('seguridad.perfil f');
+        $this->db->where('f.id_perfil', $data);
+        $query = $this->db->get();
+        $resultado = $query->row_array();
+        return $resultado;
+    }
 }
