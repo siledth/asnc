@@ -45,7 +45,7 @@
                                     <div class="col-4">
                                         <select id="tipo_rif" name="tipo_rif" class="default-select2 form-control">
                                             <?php foreach ($tipo_rif as $data): ?>
-                                                <option value="<?=$data['id_rif']?>"><?=$data['desc_rif']?></option>
+                                                <option value="<?=$data['id_rif']?>/<?=$data['desc_rif']?>" ><?=$data['desc_rif']?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -60,9 +60,12 @@
                             <div class="col-3 form-group">
                                 <label>Clasificación</label>
                                 <select id="id_clasificacion" name="id_clasificacion" class="default-select2 form-control">
-                                    <option>Ejemplo</option>
-                                    <option value="1">Prueba</option>
-                                </select>
+                                    <option>Seleccione</option>
+                                        <?php foreach ($clasificacion as $data): ?>
+                                            <option value="<?=$data['id_clasificacion']?>"><?=$data['desc_clasificacion']?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+
                             </div>
                             <div class="col-3 form-group">
 								<label>Teléfono Local</label>
@@ -115,26 +118,24 @@
                                 <div class="row">
                                     <div class="form-group col-4">
                                         <label>Estado</label>
-                                        <select id="id_estado" name="id_estado" class="default-select2 form-control">
-                                            <option>Seleccione</option>
-                                            <?php foreach ($estados as $data): ?>
-                                                <option value="<?=$data['id']?>"><?=$data['descedo']?></option>
-                                            <?php endforeach; ?>
-                                        </select>
+                                        <select class="form-control" name="id_estado_n" id="id_estado_n" onclick="llenar_municipio();listar_ciudades();">
+                                    <option value="0">Seleccione</option>
+                                    <?php foreach ($estados as $data): ?>
+                                        <option value="<?=$data['id']?>"><?=$data['descedo']?></option>
+                                    <?php endforeach; ?>
+                                </select>
                                     </div>
                                     <div class="form-group col-4">
                                         <label>Municipio</label>
-                                        <select id="id_municipio" name="id_municipio" class="default-select2 form-control">
-                                            <option>Seleccione</option>
-                                            <option value="1">Libertador</option>
-                                        </select>
+                                        <select class="form-control" name="id_municipio_n" id="id_municipio_n" onclick="llenar_parroquia();">
+                                    <option value="0">Seleccione</option>
+                                </select>
                                     </div>
                                     <div class="form-group col-4">
                                         <label>Parroquia</label>
-                                        <select id="id_parroquia" name="id_parroquia" class="default-select2 form-control">
-                                            <option>Seleccione</option>
-                                            <option value="1">Catia</option>
-                                        </select>
+                                        <select class="form-control" name="id_parroquia_n" id="id_parroquia_n" >
+                                    <option value="0">Seleccione</option>
+                                </select>
                                     </div>
                                     <div class="form-group col-12">
     									<label>Dirección</label>

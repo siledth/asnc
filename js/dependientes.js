@@ -1,46 +1,38 @@
-$(document).ready(function(){
+function llenar_municipio(){
+    var id_estado_n = $('#id_estado_n').val();
+   // var base_url = window.location.origin+'/asnc/index.php/evaluacion_desempenio/listar_municipio';
+    var base_url = '/index.php/evaluacion_desempenio/listar_municipio';
 
-    $('#id_estado').change(function(){
-        var id_estado = $(this).val();
-        //var base_url = window.location.origin+'/asnc/index.php/configuracion/listar_municipio';
-        var base_url = '/index.php/Programacion/listar_municipio';
+    $.ajax({
+        url: base_url,
+        method:'post',
+        data: {id_estado: id_estado_n},
+        dataType:'json',
 
-        $.ajax({
-            url: base_url,
-            method:'post',
-            data: {id_estado: id_estado},
-            dataType:'json',
-
-            success: function(response){
-                console.log(response);
-
-                $('#id_municipio').find('option').not(':first').remove();
-                $('#id_parroquia').find('option').not(':first').remove();
-                $.each(response, function(index, data){
-                    $('#id_municipio').append('<option value="'+data['id']+'">'+data['descmun']+'</option>');
-                });
-            }
-        });
+        success: function(response){
+            $('#id_municipio_n').find('option').not(':first').remove();
+            $.each(response, function(index, data){
+                $('#id_municipio_n').append('<option value="'+data['id']+'">'+data['descmun']+'</option>');
+            });
+        }
     });
+}
+function llenar_parroquia(){
+    var id_municipio_n = $('#id_estado_n').val();
+    //var base_url = window.location.origin+'/asnc/index.php/evaluacion_desempenio/listar_parroquia';
+    var base_url = '/index.php/evaluacion_desempenio/listar_parroquia';
 
-    $('#id_estado').change(function(){
-        var id_municipio = $(this).val();
-        //var base_url = window.location.origin+'/asnc/index.php/configuracion/listar_parroquia';
-        var base_url = '/index.php/Programacion/listar_parroquia';
-        $.ajax({
-            url: base_url,
-            method:'post',
-            data: {id_municipio: id_municipio},
-            dataType:'json',
+    $.ajax({
+        url: base_url,
+        method:'post',
+        data: {id_municipio: id_municipio_n},
+        dataType:'json',
 
-            success: function(response){
-                console.log(response);
-                $('#id_parroquia').find('option').not(':first').remove();
-
-                $.each(response, function(index, data){
-                    $('#id_parroquia').append('<option value="'+data['id']+'">'+data['descparro']+'</option>');
-                });
-            }
-        });
+        success: function(response){
+            $('#id_parroquia_n').find('option').not(':first').remove();
+            $.each(response, function(index, data){
+                $('#id_parroquia_n').append('<option value="'+data['id']+'">'+data['descparro']+'</option>');
+            });
+        }
     });
-});
+}

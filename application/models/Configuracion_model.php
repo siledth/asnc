@@ -115,13 +115,18 @@
             $query = $this->db->get('organos');
             return $result = $query->result_array();
         }
-
-        public function save_ente($data){
+        public function consulta_clasificacion(){
+            $this->db->select('id_clasificacion, desc_clasificacion');
+            $this->db->order_by('id_clasificacion asc');
+            $query = $this->db->get('public.clasificacion');
+            return $result = $query->result_array();
+        }
+        public function save_ente($data,$data1){
 
             $this->db->select('codigo');
-            $this->db->where('id_organo', $data['id_organo']);
+            $this->db->where('id_organoenteads', $data['id_organo']);
             $this->db->order_by('codigo desc');
-            $query = $this->db->get('organos');
+            $query = $this->db->get('public.organoente');
             $response = $query->row_array();
 
             $cod = $response['codigo'];
@@ -132,38 +137,73 @@
             $codigo = $letra.'-'.$codig;
 
             $this->db->select('*');
-            $this->db->where('tipo_rif', $data['tipo_rif']);
+            //$this->db->where('tipo_rif', $data['tipo_rif']);
             $this->db->where('rif', $data['rif']);
             $query2 = $this->db->get('entes');
             $response2 = $query2->row_array();
-
+            
+            $this->db->select('max(e.id_organoente) as id');
+            $query = $this->db->get('public.organoente e');
+            $response3 = $query->row_array();
             if ($response2) {
                 return 'false';
             }else {
+                $id = $response3['id'] + 1 ;
                 $data = array(
-        			'id_organo'		    => $data['id_organo'],
+                    'id_organoente'		    => $id,
+                    'id_organoenteads'		=> $data['id_organo'],
+                    'tipo_organoente'		=> 2,
                     'codigo'            => $codigo,
-        			'desc_entes'		=> $data['ente'],
-        			'cod_onapre'	 	=> $data['cod_onapre'],
-        			'siglas' 			=> $data['siglas'],
-        			'tipo_rif'			=> $data['tipo_rif'],
-        			'rif' 				=> $data['rif'],
-        			'id_clasificacion' 	=> $data['id_clasificacion'],
-        			'tel1' 		        => $data['tel_local'],
-        			'tel2' 		        => $data['tel_local_2'],
-        			'movil1'			=> $data['tel_movil'],
-        			'movil2' 		    => $data['tel_movil_2'],
-        			'pagina_web' 		=> $data['pag_web'],
-        			'correo'			=> $data['email'],
-        			'id_estado' 		=> $data['id_estado'],
-        			'id_municipio' 		=> $data['id_municipio'],
-        			'id_parroquia' 		=> $data['id_parroquia'],
-        			'direccion_fiscal' 	=> $data['direccion_fiscal'],
-        			'gaceta'	        => $data['gaceta_oficial'],
-        			'fecha_gaceta'		=> $data['fecha_gaceta'],
+                    'descripcion'		=> $data['ente'],
+                    'cod_onapre'	 	=> $data['cod_onapre'],
+                    'siglas' 			=> $data['siglas'],
+                    
+                    'rif' 				=> $data['tipor'].$data['rif'],
+                    'id_clasificacion' 	=> $data['id_clasificacion'],
+                    'tel1' 		        => $data['tel_local'],
+                    'tel2' 		        => $data['tel_local_2'],
+                    'movil1'			=> $data['tel_movil'],
+                    'movil2' 		    => $data['tel_movil_2'],
+                    'pagina_web' 		=> $data['pag_web'],
+                    'correo'			=> $data['email'],
+                    'id_estado' 		=> $data['id_estado'],
+                    'id_municipio' 		=> $data['id_municipio'],
+                    'id_parroquia' 		=> $data['id_parroquia'],
+                    'direccion' 	    => $data['direccion_fiscal'],
+                    'gaceta'	        => $data['gaceta_oficial'],
+                    'fecha_gaceta'		=> $data['fecha_gaceta'],
                     'usuario'		    => $data['usuario'],
-        		);
-                $this->db->insert("entes",$data); //colo nombre de la tabla
+                );
+                $this->db->insert("public.organoente",$data); //colo nombre de la tabla
+                
+                $data2 = array(
+                    'id_entes'		    => $id,
+                    'id_organo'		=> $data1['id_organo'],
+                   
+                    'codigo'            => $codigo,
+                    'desc_entes'		=> $data1['desc_entes'],
+                    'cod_onapre'	 	=> $data1['cod_onapre'],
+                    'siglas' 			=> $data1['siglas'],
+                    'tipo_rif'          => $data1['tipo_rif2'],
+                    
+                    'rif' 				=> $data1['rif'],
+                    'id_clasificacion' 	=> $data1['id_clasificacion'],
+                    'tel1' 		        => $data1['tel_local'],
+                    'tel2' 		        => $data1['tel_local_2'],
+                    'movil1'			=> $data1['tel_movil'],
+                    'movil2' 		    => $data1['tel_movil_2'],
+                    'pagina_web' 		=> $data1['pag_web'],
+                    'correo'			=> $data1['email'],
+                    'id_estado' 		=> $data1['id_estado'],
+                    'id_municipio' 		=> $data1['id_municipio'],
+                    'id_parroquia' 		=> $data1['id_parroquia'],
+                    'direccion_fiscal' 	    => $data1['direccion_fiscal'],
+                    'gaceta'	        => $data1['gaceta_oficial'],
+                    'fecha_gaceta'		=> $data1['fecha_gaceta'],
+                    'usuario'		    => $data1['usuario']
+                );
+                
+                $this->db->insert('public.entes', $data2);
                 return true;
             }
         }
