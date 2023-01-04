@@ -36,8 +36,8 @@ function valideKey(evt){
 				if (result.value == true) {
 					event.preventDefault();
 					var datos = new FormData($("#guardar_tcu")[0]);
-					//var base_url =window.location.origin+'/asnc/index.php/Fuentefinanc/registrar_tc';
-					var base_url = '/index.php/Fuentefinanc/registrar_tc';
+					var base_url =window.location.origin+'/asnc/index.php/Fuentefinanc/registrar_tc';
+					//var base_url = '/index.php/Fuentefinanc/registrar_tc';
 					$.ajax({
 						url:base_url,
 						method: 'POST',
@@ -67,8 +67,8 @@ function valideKey(evt){
 	//BUSCAR id_clasificacion
 	function modal_ver_tc(id_clasificacion){
 		var id_clasificacion = id_clasificacion;
-		//var base_url = window.location.origin+'/asnc/index.php/Fuentefinanc/consulta_tc';
-		var base_url = '/index.php/Fuentefinanc/consulta_tc';
+		var base_url = window.location.origin+'/asnc/index.php/Fuentefinanc/consulta_tc';
+		//var base_url = '/index.php/Fuentefinanc/consulta_tc';
 		$.ajax({
 			url: base_url,
 			method:'post',
@@ -103,9 +103,9 @@ function valideKey(evt){
 				if (result.value == true) {
 					event.preventDefault();
 					var datos = new FormData($("#editar")[0]);
-					//var base_urls =window.location.origin+'/asnc/index.php/Fuentefinanc/editar_tc';
+					var base_urls =window.location.origin+'/asnc/index.php/Fuentefinanc/editar_tc';
 				//produccion	
-                var base_urls = '/index.php/Fuentefinanc/editar_tc';
+               // var base_urls = '/index.php/Fuentefinanc/editar_tc';
 					$.ajax({
 						url: base_urls,
 						method:'post',

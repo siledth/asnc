@@ -326,7 +326,7 @@
                         </li>
                         <li>
                             <a href="<?= base_url() ?>index.php/Fuentefinanc/Casificacion">
-                                - Calsificación
+                                - Clasificación
                             </a>
                         </li>
                     </ul>
