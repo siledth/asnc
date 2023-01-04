@@ -67,8 +67,8 @@
 				<form class="form-horizontal" id="editar" data-parsley-validate="true" method="POST" enctype="multipart/form-data">
 			    	<div class="row">
                         <div class="form-group col-4">
-                            
-                            <input class="form-control" type="hidden" name="id_clasificacion" id="id_clasificacion" readonly>
+                            <label>ID </label>
+                            <input class="form-control" type="text" name="id_clasificacion" id="id_clasificacion" readonly>
                         </div>
                         <div class="col-8"></div>
                         <div class="form-group col-12">
