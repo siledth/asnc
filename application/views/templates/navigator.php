@@ -409,7 +409,14 @@
                         <?php if (($this->session->userdata('ver_user_lista') == 1)) : ?>
                         <li>
                             <a href="<?= base_url() ?>index.php/user/modif_usuarios">
-                                <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Lista de Usuarios
+                                <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Lista de Usuarios SNC
+                            </a>
+                        </li>
+                        <?php endif; ?>.
+                        <?php if (($this->session->userdata('ver_user_lista') == 1)) : ?>
+                        <li>
+                            <a href="<?= base_url() ?>index.php/user/listado_usuarios">
+                                <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Lista de Usuarios externos
                             </a>
                         </li>
                         <?php endif; ?>

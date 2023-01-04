@@ -384,10 +384,10 @@ class User extends CI_Controller
         $data = $this->User_model->desblo_usuario($data);
         echo json_encode($data);
     }
-	//modificar usuario
+	//ver listado de usuarios 
 
 	
-	public function modif_usuarios(){ // anterior ya no es este
+	public function modif_usuarios(){ // listado de usuarios internos solo snc
         if(!$this->session->userdata('session'))redirect('login');
         $data['descripcion'] = $this->session->userdata('unidad');
         $data['rif'] = $this->session->userdata('rif');
@@ -402,7 +402,23 @@ class User extends CI_Controller
 		$this->load->view('user/modi_user.php', $data);
         $this->load->view('templates/footer.php');
 	}
+
 	
+	public function listado_usuarios(){ // listado de usuarios externos 
+        if(!$this->session->userdata('session'))redirect('login');
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $data['rif'] = $this->session->userdata('rif');
+        $data['time']=date("d-m-Y");
+        $data['te']=date('d');
+
+		$data['ver_usuarios'] = $this->User_model->get_usuario_externos();  
+		$data['ver_perfil'] = $this->User_model->consultar_perfiles(); //consultar todos los perfiles
+
+		$this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+		$this->load->view('user/listado_user_exter.php', $data);
+        $this->load->view('templates/footer.php');
+	}
 
 	public function consultar_user(){
         if(!$this->session->userdata('session'))redirect('login');

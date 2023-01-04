@@ -17,7 +17,7 @@
                             <div class="col-md-12">
                                 <div class="panel-body">
                                     <div class="col-12 text-center">
-                                        <h4>Lista de Usuarios</h4>
+                                        <h4>Lista de Usuarios del SNC</h4>
                                     </div>
 
                                     <table id="data-table-default" class="table table-striped table-bordered">

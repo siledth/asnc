@@ -184,7 +184,7 @@ function desblo_usuario($data){
             $this->db->join('seguridad.funcionarios c', 'c.id_usuario = f.id', 'left');
             $this->db->join('public.organoente r', 'r.rif = f.rif_organoente', 'left');
             $this->db->join('seguridad.perfil t', 't.id_perfil = f.perfil', 'left');
-            //$this->db->where('f.id_estatus <', '3');
+            $this->db->where('f.rif_organoente ', 'G200024518');
             $query = $this->db->get('seguridad.usuarios f');
             return $result = $query->result_array();
 
@@ -193,6 +193,28 @@ function desblo_usuario($data){
         // if (count($query->result()) > 0) {
         //return $query->result();
         // }
+    }
+    public function get_usuario_externos() {
+        $this->db->select("f.id,
+                    f.nombre,
+                    f.id_estatus,
+                    f.intentos,
+                    c.nombrefun,
+                    c.apellido,
+                    r.descripcion,
+                    r.rif,
+                    c.id as id1,
+                    t.nombrep
+                ");
+            $this->db->join('seguridad.funcionarios c', 'c.id_usuario = f.id', 'left');
+            $this->db->join('public.organoente r', 'r.rif = f.rif_organoente', 'left');
+            $this->db->join('seguridad.perfil t', 't.id_perfil = f.perfil', 'left');
+            $this->db->where('f.rif_organoente !=', 'G200024518');
+            $query = $this->db->get('seguridad.usuarios f');
+            return $result = $query->result_array();
+
+
+        
     }
     public function single_user($id) {
         $this->db->select('e.id as id1, 
