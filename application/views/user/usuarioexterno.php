@@ -4,7 +4,7 @@
         <div class="col-lg-12">
             <div class="panel panel-inverse" data-sortable-id="form-validation-1">
                 <div class="panel-heading">
-                    <h4 class="panel-title">Registro de Usuario Externo</h4>
+                    <h4 class="panel-title">Registro de Usuarios </h4>
                 </div>
                 <div class="panel-body">
                     <form action="<?=base_url()?>index.php/User/savedante" class="form-horizontal"

@@ -386,16 +386,16 @@
                     </a>
                     <ul class="sub-menu">
                         <?php if (($this->session->userdata('ver_user_exter') == 1)) : ?>
-                        <li>
+                        <!-- <li>
                             <a href="<?= base_url() ?>index.php/user">
                                 <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Registros
                             </a>
-                        </li>
+                        </li> -->
 
 
                         <li>
                             <a href="<?= base_url() ?>index.php/user/int">
-                                <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Registros Usuarios Externos
+                                <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Registros Usuarios 
                             </a>
                         </li>
                         <?php endif; ?>
