@@ -30,6 +30,7 @@ class Configuracion extends CI_Controller {
         $data['organismos'] = $this->Configuracion_model->consulta_organismo();
         $data['tipo_rif'] = $this->Configuracion_model->consulta_tipo_rif();
         $data['estados'] = $this->Configuracion_model->consulta_estados();
+        $data['clasificacion'] = $this->Configuracion_model->consulta_clasificacion();
         
         $titulo='Organismos';
 
@@ -43,13 +44,18 @@ class Configuracion extends CI_Controller {
     public function save_organismo() {
         if (!$this->session->userdata('session'))
             redirect('login');
-
-        $data = array(
+            $parametros = $this->input->post('tipo_rif');
+            $separar        = explode("/", $parametros);
+            $data['id_rif']  = $separar['0'];
+            $data['desc_rif'] = $separar['1'];
+            
+        $data1 = array( // esto va a organo
             'id_organoads' => $this->input->post("id_organoads"),
-            'desc_organo' => $this->input->post("organo"),
+            'descripcion' => $this->input->post("organo"),
             'cod_onapre' => $this->input->post("cod_onapre"),
             'siglas' => $this->input->post("siglas"),
-            'tipo_rif' => $this->input->post("tipo_rif"),
+            'tipo_rif2' => $data['id_rif'],
+            'tipor' => $data['desc_rif'],
             'rif' => $this->input->post("rif"),
             'id_clasificacion' => $this->input->post("id_clasificacion"),
             'tel_local' => $this->input->post("tel_local"),
@@ -66,7 +72,30 @@ class Configuracion extends CI_Controller {
             'fecha_gaceta' => $this->input->post("fecha_gaceta"),
             'usuario' => $this->session->userdata('id_user')
         );
-        $data = $this->Configuracion_model->save_organismo($data);
+        $data = array( //organoente tabla
+            'organo' => $this->input->post("organo"),
+            'id_organoads' => $this->input->post("id_organoads"),
+            'cod_onapre' => $this->input->post("cod_onapre"),
+            'siglas' => $this->input->post("siglas"),
+            'tipo_rif2' => $data['id_rif'],
+            'tipor' => $data['desc_rif'],
+            'rif' => $this->input->post("rif"),
+            'id_clasificacion' => $this->input->post("id_clasificacion"),
+            'tel_local' => $this->input->post("tel_local"),
+            'tel_local_2' => $this->input->post("tel_local_2"),
+            'tel_movil' => $this->input->post("tel_movil"),
+            'tel_movil_2' => $this->input->post("tel_movil_2"),
+            'pag_web' => $this->input->post("pag_web"),
+            'email' => $this->input->post("email"),
+            'id_estado' => $this->input->post("id_estado_n"),
+            'id_municipio' => $this->input->post("id_municipio_n"),
+            'id_parroquia' => $this->input->post("id_parroquia_n"),
+            'direccion_fiscal' => $this->input->post("direccion_fiscal"),
+            'gaceta_oficial' => $this->input->post("gaceta_oficial"),
+            'fecha_gaceta' => $this->input->post("fecha_gaceta"),
+            'usuario' => $this->session->userdata('id_user')
+        );
+        $data = $this->Configuracion_model->save_organismo($data1,$data);
         $this->session->set_flashdata('sa-success2', 'Se guardo los datos correctamente');
         redirect('configuracion/organismo');
     }
@@ -120,7 +149,7 @@ class Configuracion extends CI_Controller {
             'usuario' => $this->session->userdata('id_user')
         );
         $data1 = array(
-            'id_organo' => $this->input->post("id_organo"),
+            'id_organoads' => $this->input->post("id_organoads"),
             'desc_entes' => $this->input->post("ente"),
             
             'cod_onapre' => $this->input->post("cod_onapre"),
@@ -157,6 +186,7 @@ class Configuracion extends CI_Controller {
         $data['entes'] = $this->Configuracion_model->consulta_entes();
         $data['tipo_rif'] = $this->Configuracion_model->consulta_tipo_rif();
         $data['estados'] = $this->Configuracion_model->consulta_estados();
+        $data['clasificacion'] = $this->Configuracion_model->consulta_clasificacion();
 
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');

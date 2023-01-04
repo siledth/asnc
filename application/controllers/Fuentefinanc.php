@@ -1212,4 +1212,46 @@ public function updateedocivil()
 	}
 }
 
+public function Casificacion() {
+	
+	$data['clasificacion'] = $this->Configuracion_model->consulta_clasificacion();
+	$this->load->view('templates/header.php');
+	$this->load->view('templates/navigator.php');
+	$this->load->view('tablas/clasificacion.php', $data);
+	$this->load->view('templates/footer.php');
+}
+public function registrar_tc() {
+	if (!$this->session->userdata('session'))
+		redirect('login');
+	$data = array(
+		'desc_clasificacion' => $this->input->POST('desc_clasificacion'),
+		'id_usuario' => $this->session->userdata('id_user'),
+		'fecha' => date('Y-m-d')
+	);
+
+	$data = $this->Tablas_model->registrar_tc($data);
+	echo json_encode($data);
+}
+public function consulta_tc() {
+	if (!$this->session->userdata('session'))
+		redirect('login');
+	$data = $this->input->post();
+	$data = $this->Tablas_model->consulta_tc($data);
+	echo json_encode($data);
+}
+public function editar_tc() {
+	if (!$this->session->userdata('session'))
+		redirect('login');
+	$data = $this->input->post();
+
+	$data = array(
+		'id_clasificacion' => $data['id_clasificacion'],
+		'desc_clasificacion' => $data['desc_clasificacion'],
+		'id_usuario' => $this->session->userdata('id_user')
+	);
+
+	$data = $this->Tablas_model->editar_tc($data);
+	echo json_encode($data);
+}
+
 }

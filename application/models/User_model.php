@@ -178,10 +178,12 @@ function desblo_usuario($data){
                     c.apellido,
                     r.descripcion,
                     r.rif,
-                    c.id as id1
+                    c.id as id1,
+                    t.nombrep
                 ");
             $this->db->join('seguridad.funcionarios c', 'c.id_usuario = f.id', 'left');
             $this->db->join('public.organoente r', 'r.rif = f.rif_organoente', 'left');
+            $this->db->join('seguridad.perfil t', 't.id_perfil = f.perfil', 'left');
             //$this->db->where('f.id_estatus <', '3');
             $query = $this->db->get('seguridad.usuarios f');
             return $result = $query->result_array();
@@ -192,18 +194,73 @@ function desblo_usuario($data){
         //return $query->result();
         // }
     }
-    public function single_user($data) {
-        $this->db->select('*');
-        $this->db->from('seguridad.funcionarios');
-        $this->db->where('id_usuario', $data['id']);
-        $query = $this->db->get();
-            $resultado = $query->row_array();
-            return $resultado;
+    public function single_user($id) {
+        $this->db->select('e.id as id1, 
+                           e.perfil, 
+                           e.rif_organoente,
+                             f.*, 
+                             t.nombrep,
+                             t.id_perfil,
+                             r.descripcion,
+                             r.rif,');
+        $this->db->join('seguridad.funcionarios f', 'f.id_usuario = e.id', 'left');
+        $this->db->join('seguridad.perfil t', 't.id_perfil = e.perfil', 'left');
+        $this->db->join('public.organoente r', 'r.rif = e.rif_organoente', 'left');
+        $this->db->where('e.id', $id);
+            $query = $this->db->get('seguridad.usuarios e ');
+            return $query->result_array();
     }
 
+     // public function single_user($data) {
+    //     $this->db->select('e.*
+    //                          f.*');
+    //     $this->db->join('seguridad.funcionarios f', 'f.id = e.id_usuario', 'left');
+    //     $this->db->join('seguridad.perfil t', 't.id_perfil = e.perfil', 'left');
+    //     $this->db->from('seguridad.usuarios e');
+    //     $this->db->where('id_usuario', $data['id']);
+    //     $query = $this->db->get();
+    //         $resultado = $query->row_array();
+    //         return $resultado;
+    // }
     // public function guardar_mod_user($data) {
     //     return $this->db->update('seguridad.funcionarios', $data, array('id_usuario' => $data['id_ver']));
     // }
+
+/// GUARDAR UN USUARIO MODIFICADO Y EL PERFIL DE ESE USUARIO
+        public function editar_modi_usua($usua,$funci,$id){
+          
+            $this->db->where('id', $id);
+           $update = $this->db->update('seguridad.usuarios', $usua);
+
+            if ($update){
+                $this->db->where('id_usuario', $id);
+               // $this->db->where('id_p_acc', 0);
+                                  
+                        $data_inf = array(
+                         // 'id_usuario'              => $id,
+                            'nombrefun'   		    => $funci['nombrefun'],
+                            'apellido'          	=> $funci['apellido'],
+                            'cedula'            	=> $funci['cedula'],
+                            'cargo' 	            => $funci['cargo'],
+                            'oficina' 	            => $funci['oficina'],
+                           'tele_1' 	            => $funci['tele_1'],
+                            'tele_2' 	            => $funci['tele_2'],
+                            'fecha_designacion' 	            => $funci['fecha_designacion'],
+                            'numero_gaceta'             => $funci['numero_gaceta'],
+                            'email'             =>$funci['email'],
+                            
+                        );
+                        $update = $this->db->update('seguridad.funcionarios', $data_inf);
+                    
+                   
+                   
+            }
+            return true;
+        }
+
+///////////////////////////////////////////////////////////////////////////////////
+
+
 
      public function guardar_mod_user($data){
        

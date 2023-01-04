@@ -44,9 +44,9 @@
                                 <label>Rif del Órgano</label>
                                 <div class="row">
                                     <div class="col-3">
-                                        <select id="tipo_rif" name="tipo_rif" class="default-select2 form-control">
+                                    <select id="tipo_rif" name="tipo_rif" class="default-select2 form-control">
                                             <?php foreach ($tipo_rif as $data): ?>
-                                                <option value="<?= $data['id_rif'] ?>"><?= $data['desc_rif'] ?></option>
+                                                <option value="<?=$data['id_rif']?>/<?=$data['desc_rif']?>" ><?=$data['desc_rif']?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -58,12 +58,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-4 form-group">
+                            <div class="col-3 form-group">
                                 <label>Clasificación</label>
                                 <select id="id_clasificacion" name="id_clasificacion" class="default-select2 form-control">
-                                    <option>Ejemplo</option>
-                                    <option value="1">Prueba</option>
-                                </select>
+                                    <option>Seleccione</option>
+                                        <?php foreach ($clasificacion as $data): ?>
+                                            <option value="<?=$data['id_clasificacion']?>"><?=$data['desc_clasificacion']?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+
                             </div>
                             <div class="col-3 form-group">
                                 <label>Teléfono Local</label>

@@ -159,31 +159,33 @@ class User extends CI_Controller
 		$unidad = $this->input->post("id_unidad");
 		$perfil = $this->input->post("perfil");
 		//aca empiezo las validaciones
-		$this->form_validation->set_rules('perfil', 'perfil', 'required|callback_select_validate');
-		$this->form_validation->set_rules('id_unidad', 'id_unidad', 'required|callback_select_validate');
-		$this->form_validation->set_rules('nombrefun', 'Nombre ', 'required|min_length[3]');
-		$this->form_validation->set_rules('apellido', 'Apellido ', 'required|min_length[4]');
-		$this->form_validation->set_rules('tipo_ced', 'tipo_ced ', 'required|min_length[1]');
-		$this->form_validation->set_rules('cedula', 'cedula de dentidad', 'required|min_length[6]|is_natural');
-		$this->form_validation->set_rules('cargo', 'cargo ', 'required|min_length[1]');
-		$this->form_validation->set_rules('tele_1', 'tele_1 comleto', 'required|min_length[6]|is_natural');
-		$this->form_validation->set_rules('oficina', 'oficina ', 'required|min_length[1]');
-		$this->form_validation->set_rules('cargo', 'cargo ', 'required|min_length[1]');
-		$this->form_validation->set_rules('fecha_designacion', 'fecha designacion ', 'required|min_length[1]');
-		$this->form_validation->set_rules('numero_gaceta', 'numero gaceta ', 'required|min_length[1]');
-		$this->form_validation->set_rules('email', 'Correo eléctronico ', 'required|valid_email|is_unique[usuarios.email]');
-		/*$this-> form_validation -> set_rules (
-			'email' ,  'email' ,
-			'required | valid_email | is_unique [usuarios.email]' ,
-			array (
-					'required'       =>  'No ha proporcionado % s. ' ,
-					' is_unique '      =>  ' Este% s ya existe. '
-					)
-				); */
+		$this->form_validation->set_rules('perfil', 'perfil', 'trim|required|callback_select_validate');
+		$this->form_validation->set_rules('id_unidad', 'id_unidad', 'trim|required|callback_select_validate');
+		$this->form_validation->set_rules('nombrefun', 'Nombre ', 'trim|required|min_length[3]');
+		$this->form_validation->set_rules('apellido', 'Apellido ', 'trim|required|min_length[4]');
+		$this->form_validation->set_rules('tipo_ced', 'tipo_ced ', 'trim|required|min_length[1]');
+		$this->form_validation->set_rules('cedula', 'cedula de dentidad', 'trim|required|min_length[6]|is_natural');
+		$this->form_validation->set_rules('cargo', 'cargo ', 'trim|required|min_length[1]');
+		$this->form_validation->set_rules('tele_1', 'tele_1 comleto', 'trim|required|min_length[6]|is_natural');
+		$this->form_validation->set_rules('oficina', 'oficina ', 'trim|required|min_length[1]');
+		$this->form_validation->set_rules('cargo', 'cargo ', 'trim|required|min_length[1]');
+		$this->form_validation->set_rules('fecha_designacion', 'fecha_designacion ', 'trim|required|min_length[1]');
+		$this->form_validation->set_rules('numero_gaceta', 'numero_gaceta ', 'trim|required|min_length[1]');
+		$this->form_validation->set_rules('obser', 'obser ', 'trim|required|min_length[1]');
+		$this->form_validation->set_rules('email', 'Correo eléctronico ', 'trim|required|valid_email|is_unique[usuario.email]');
+		//vista en public
+		$this->form_validation->set_rules(
+			'usuario', 'usuario',
+			'required|callback_chk_password_expression|is_unique[usuario.nombre]',
+			array(
+					'required'      => 'You have not provided %s.',
+					'is_unique'     => 'El nombre de usuario ya existe, intente de nuevo'
+			)
+	);
 
 		$this->form_validation->set_rules( 'password', 'Contraseña', 'trim|required|min_length[6]|max_length[15]|callback_chk_password_expression');
 		$this->form_validation->set_rules('repeatPassord', 'Confirma contraseña', 'required|matches[password]');
-		$this->form_validation->set_rules('usuario', 'Usuario', 'required|min_length[5]|is_unique[usuarios.nombre]|callback_chk_password_expression');
+		//$this->form_validation->set_rules('usuario', 'Usuario', 'required|min_length[5]|is_unique[usuario.nombre]|callback_chk_password_expression');
 
 
 		if ($this->form_validation->run() == FALSE) {
@@ -385,7 +387,7 @@ class User extends CI_Controller
 	//modificar usuario
 
 	
-	public function modif_usuarios(){
+	public function modif_usuarios(){ // anterior ya no es este
         if(!$this->session->userdata('session'))redirect('login');
         $data['descripcion'] = $this->session->userdata('unidad');
         $data['rif'] = $this->session->userdata('rif');
@@ -393,12 +395,14 @@ class User extends CI_Controller
         $data['te']=date('d');
 
 		$data['ver_usuarios'] = $this->User_model->get_usuario();  
+		$data['ver_perfil'] = $this->User_model->consultar_perfiles(); //consultar todos los perfiles
 
 		$this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
 		$this->load->view('user/modi_user.php', $data);
         $this->load->view('templates/footer.php');
 	}
+	
 
 	public function consultar_user(){
         if(!$this->session->userdata('session'))redirect('login');
@@ -432,6 +436,79 @@ class User extends CI_Controller
 		$this->load->view('user/ver_user.php', $data);
         $this->load->view('templates/footer.php');
     }
+	public function verUsuario_editar(){ // para editar los usuarios
+        if(!$this->session->userdata('session'))redirect('login');
+        //$id = $this->input->get('id');
+		$data['id']  = $this->input->get('id');
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $data['rif'] = $this->session->userdata('rif');
+      
+        $data['time']=date("d-m-Y");
+		
+        $data['ver_usuarios'] =	$this->User_model->single_user($data['id']);
+        $data['ver_perfil'] = $this->User_model->consultar_perfiles(); //consultar todos los perfiles
+
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+		$this->load->view('user/modi_users.php', $data);
+        $this->load->view('templates/footer.php');
+    }
+////Guardar Usuario modificado 
+public function modi_usua(){
+	if(!$this->session->userdata('session'))redirect('login');
+	
+	$id = $this->input->post("id1");
+	$perfil = $this->input->post("perfil");
+	$nombrefun = $this->input->post("nombrefun");
+	$apellido = $this->input->post("apellido");
+	$cedula = $this->input->post("cedula");
+	$cargo = $this->input->post("cargo");
+	$oficina = $this->input->post("oficina");
+	$tele_1 = $this->input->post("tele_1");
+	$tele_2 = $this->input->post("tele_2");
+	$fecha_designacion = $this->input->post("fecha_designacion");
+	$numero_gaceta = $this->input->post("numero_gaceta");
+	$email = $this->input->post("email");
+   
+	// $tarifas = $this->input->post("tarifa"); 
+	// $explode = explode('/', $tarifas);
+	// $id_tarifa = $explode['0'];
+	// $tarifa = $explode['1'];
+	// $idd_tarida = $explode['2'];
+
+   
+
+	$usua = array(
+		"id"  => $id,	
+		"perfil"   => $perfil,		     
+		"fecha_update"  => date("Y-m-d")            
+	); 
+	$funci = array( //propietarios
+		'nombrefun'   	 => $this->input->post('nombrefun'),
+		'apellido'   => $this->input->post('apellido'),
+		'cedula'  => $this->input->post('cedula'),
+		'cargo' 	 => $this->input->post('cargo'),
+		'oficina' 	 => $this->input->post('oficina'),
+		'tele_1' 	     => $this->input->post('tele_1'),
+		'tele_2' 	     => $this->input->post('tele_2'),
+		'fecha_designacion' 	     => $this->input->post('fecha_designacion'),
+		'numero_gaceta' 	     => $this->input->post('numero_gaceta'),
+		'email' 	     => $this->input->post('email'),
+		"id"  => $id,
+
+	);
+
+
+	$data = $this->User_model->editar_modi_usua($usua,$funci,$id);
+ 
+   if ($data) {
+	   $this->session->set_flashdata('sa-success2', 'Se guardo los datos correctamente');
+	   redirect('User/modif_usuarios');
+   }else{
+		 $this->session->set_flashdata('sa-error', 'error');
+		redirect('User/modif_usuarios');
+	 }
+}
 
 	//creacion de perfiles
 	public function perfil_(){

@@ -48,9 +48,9 @@ function desbloquear_usuario(id_fact) {
 
     function modal(id) {
         var id = id;
-        var base_url = '/index.php/User/consultar_user';
-        //var base_url =
-           // window.location.origin + "/asnc/index.php/User/consultar_user";   
+       //var base_url = '/index.php/User/consultar_user';
+         var base_url =
+             window.location.origin + "/asnc/index.php/User/consultar_user";   
     
         $.ajax({
             url: base_url,
@@ -67,6 +67,8 @@ function desbloquear_usuario(id_fact) {
                 $("#oficina").val(data["oficina"]);
                 $("#tele_1").val(data["tele_1"]);
                 $("#tele_2").val(data["tele_2"]);
+                $("#perfil").html('<option value="'+ data[nombrep] +'">'+ data[nombrep] +'</option>');
+                
     
                 
             },
@@ -105,14 +107,15 @@ function desbloquear_usuario(id_fact) {
                     event.preventDefault();
                     var datos = new FormData($("#guardar_mod_user")[0]);
 
-                    var base_url = '/index.php/User/guardar_proc_pag';
-                    // var base_url =
-                    //     window.location.origin +
-                    //     "/asnc/index.php/User/guardar_proc_pag";
-
-                    var base_url_2 = '/index.php/User/modif_usuarios';
-                    // var base_url_2 =
-                    //     window.location.origin + "/asnc/index.php/User/modif_usuarios";
+            //produccion       
+            // var base_url = '/index.php/User/guardar_proc_pag';
+                    var base_url =
+                        window.location.origin +
+                        "/asnc/index.php/User/guardar_proc_pag";
+                    //produccion 
+                   // var base_url_2 = '/index.php/User/modif_usuarios';
+                    var base_url_2 =
+                        window.location.origin + "/asnc/index.php/User/modif_usuarios";
                         
                         // var base_url_3 =
                         // window.location.origin + "/marina/index.php/Mensualidades/verPago?id=";

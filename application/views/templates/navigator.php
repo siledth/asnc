@@ -324,6 +324,11 @@
                                 - Estado Civil
                             </a>
                         </li>
+                        <li>
+                            <a href="<?= base_url() ?>index.php/Fuentefinanc/Casificacion">
+                                - Calsificación
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <?php endif; ?>

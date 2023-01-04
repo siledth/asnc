@@ -408,4 +408,27 @@ class Tablas_model extends CI_Model {
         return $this->db->update('public.edo_civil', $data, array('id_edo_civil' => $data['id_edo_civil']));
     }
 
+
+///clasificacion
+//guargar clasificacion
+function registrar_tc($data){
+    $this->db->insert('public.clasificacion',$data);
+    return true;
+}
+    //VER PARA EDITAR
+		function consulta_tc($data){
+			$this->db->select('*');
+			$this->db->from('public.clasificacion');
+			$this->db->where('id_clasificacion', $data['id_clasificacion']);
+			$this->db->order_by("id_clasificacion", "Asc");
+			$query = $this->db->get();
+			if (count($query->result()) > 0) {
+				return $query->row();
+			}
+		}
+        function editar_tc($data){
+			$this->db->where('id_clasificacion', $data['id_clasificacion']);
+			$update = $this->db->update('public.clasificacion', $data);
+			return true;
+		}
 }
