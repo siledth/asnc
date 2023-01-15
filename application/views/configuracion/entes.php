@@ -114,7 +114,7 @@
     						</li>
     					</ul>
     					<div class="tab-content">
-    						<div class="tab-pane fade active show" id="direccion_fiscal">
+                        <div class="tab-pane fade active show" id="direccion_fiscal">
                                 <div class="row">
                                     <div class="form-group col-4">
                                         <label>Estado</label>
@@ -128,13 +128,13 @@
                                     <div class="form-group col-4">
                                         <label>Municipio</label>
                                         <select class="form-control" name="id_municipio_n" id="id_municipio_n" onclick="llenar_parroquia();">
-                                    <option value="1">Seleccione</option>
+                                    <option value="0">Seleccione</option>
                                 </select>
                                     </div>
                                     <div class="form-group col-4">
                                         <label>Parroquia</label>
                                         <select class="form-control" name="id_parroquia_n" id="id_parroquia_n" >
-                                    <option value="1">Seleccione</option>
+                                    <option value="0">Seleccione</option>
                                 </select>
                                     </div>
                                     <div class="form-group col-12">

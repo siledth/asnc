@@ -115,37 +115,35 @@
                                 </li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane fade active show" id="direccion_fiscal">
-                                    <div class="row">
-                                        <div class="form-group col-4">
-                                            <label>Estado</label>
-                                            <select id="id_estado" name="id_estado" class="default-select2 form-control">
-                                                <option>Seleccione</option>
-                                                <?php foreach ($estados as $data): ?>
-                                                    <option value="<?= $data['id'] ?>"><?= $data['descedo'] ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-4">
-                                            <label>Municipio</label>
-                                            <select id="id_municipio" name="id_municipio" class="default-select2 form-control">
-                                                <option>Seleccione</option>
-                                                <option value="1">Libertador</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-4">
-                                            <label>Parroquia</label>
-                                            <select id="id_parroquia" name="id_parroquia" class="default-select2 form-control">
-                                                <option>Seleccione</option>
-                                                <option value="1">Catia</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-12">
-                                            <label>Dirección</label>
-                                            <textarea class="form-control" id="direccion_fiscal" name="direccion_fiscal" rows="3" cols="125"></textarea>
-                                        </div>
+                            <div class="tab-pane fade active show" id="direccion_fiscal">
+                                <div class="row">
+                                    <div class="form-group col-4">
+                                        <label>Estado</label>
+                                        <select class="form-control" name="id_estado_n" id="id_estado_n" onclick="llenar_municipio();listar_ciudades();">
+                                    <option value="0">Seleccione</option>
+                                    <?php foreach ($estados as $data): ?>
+                                        <option value="<?=$data['id']?>"><?=$data['descedo']?></option>
+                                    <?php endforeach; ?>
+                                </select>
                                     </div>
+                                    <div class="form-group col-4">
+                                        <label>Municipio</label>
+                                        <select class="form-control" name="id_municipio_n" id="id_municipio_n" onclick="llenar_parroquia();">
+                                    <option value="0">Seleccione</option>
+                                </select>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label>Parroquia</label>
+                                        <select class="form-control" name="id_parroquia_n" id="id_parroquia_n" >
+                                    <option value="0">Seleccione</option>
+                                </select>
+                                    </div>
+                                    <div class="form-group col-12">
+    									<label>Dirección</label>
+    									<textarea class="form-control" id="direccion_fiscal" name="direccion_fiscal" rows="3" cols="125"></textarea>
+								    </div>
                                 </div>
+    						</div>
                                 <div class="tab-pane fade" id="datos-legales">
                                     <div class="row">
                                         <div class="form-group col-6">
