@@ -21,7 +21,7 @@
                                     <select id="id_organo" name="id_organo"  class="default-select2 form-control">
                                         <option>Seleccione</option>
                                         <?php foreach ($organismos as $data): ?>
-                                            <option value="<?=$data['id_organo']?>"><?=$data['desc_organo']?></option>
+                                            <option value="<?=$data['id_organoente']?>"><?=$data['descripcion']?></option>
                                         <?php endforeach; ?>
                                     </select>
                             </div>
@@ -128,13 +128,13 @@
                                     <div class="form-group col-4">
                                         <label>Municipio</label>
                                         <select class="form-control" name="id_municipio_n" id="id_municipio_n" onclick="llenar_parroquia();">
-                                    <option value="0">Seleccione</option>
+                                    <option value="1">Seleccione</option>
                                 </select>
                                     </div>
                                     <div class="form-group col-4">
                                         <label>Parroquia</label>
                                         <select class="form-control" name="id_parroquia_n" id="id_parroquia_n" >
-                                    <option value="0">Seleccione</option>
+                                    <option value="1">Seleccione</option>
                                 </select>
                                     </div>
                                     <div class="form-group col-12">

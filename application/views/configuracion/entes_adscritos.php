@@ -4,22 +4,22 @@
 		<div class="col-lg-12">
 			<div class="panel panel-inverse" data-sortable-id="form-validation-1">
 				<div class="panel-heading">
-					<h4 class="panel-title">Registro de Entes</h4>
+					<h4 class="panel-title">Registro de Entes Adscritos</h4>
 				</div>
                 <div class="panel-body">
                     <form action="<?=base_url()?>index.php/configuracion/save_ente_adscrito" method="POST" class="form-horizontal">
                         <div class="row">
                             <div class="form-group col-4">
-                                <label>Ente Perteneciente</label>
+                                <label>Adscrito a Ente </label>
                                     <select id="id_ente" name="id_ente" class="default-select2 form-control">
                                         <option>Seleccione</option>
                                         <?php foreach ($entes as $data): ?>
-                                            <option value="<?=$data['id_entes']?>"><?=$data['desc_entes']?></option>
+                                            <option value="<?=$data['id_organoente']?>/<?=$data['id_organoenteads']?>"><?=$data['descripcion']?></option>
                                         <?php endforeach; ?>
                                     </select>
                             </div>
                             <div class="form-group col-4">
-                                <label>Ente Adscrito</label>
+                                <label>Nombre Ente Adscrito</label>
                                 <input type="text" name="ente" class="form-control <?php echo form_error('ente') ? 'is-invalid':'' ; ?>" placeholder="Nombre" value="<?php echo set_value('ente'); ?>">
                                 <div class="invalid-feedback">
                                     <?php echo form_error('ente'); ?>
@@ -44,9 +44,9 @@
                                 <label>Rif del Ente Adscrito</label>
                                 <div class="row">
                                     <div class="col-3">
-                                        <select id="tipo_rif" name="tipo_rif" class="default-select2 form-control">
+                                    <select id="tipo_rif" name="tipo_rif" class="default-select2 form-control">
                                             <?php foreach ($tipo_rif as $data): ?>
-                                                <option value="<?=$data['id_rif']?>"><?=$data['desc_rif']?></option>
+                                                <option value="<?=$data['id_rif']?>/<?=$data['desc_rif']?>" ><?=$data['desc_rif']?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -58,12 +58,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-4 form-group">
+                            <div class="col-3 form-group">
                                 <label>Clasificación</label>
                                 <select id="id_clasificacion" name="id_clasificacion" class="default-select2 form-control">
-                                    <option>Ejemplo</option>
-                                    <option value="1">Prueba</option>
-                                </select>
+                                    <option>Seleccione</option>
+                                        <?php foreach ($clasificacion as $data): ?>
+                                            <option value="<?=$data['id_clasificacion']?>"><?=$data['desc_clasificacion']?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+
                             </div>
                             <div class="col-3 form-group">
 								<label>Teléfono Local</label>
@@ -83,14 +86,14 @@
 							</div>
                             <div class="form-group col-6">
                                 <label>Página Web</label>
-                                <input type="text" name="pag_web" class="form-control <?php echo form_error('pag_web') ? 'is-invalid':'' ; ?>" placeholder="Nombre" value="<?php echo set_value('pag_web'); ?>">
+                                <input type="text" name="pag_web" class="form-control <?php echo form_error('pag_web') ? 'is-invalid':'' ; ?>" placeholder="WEB" value="<?php echo set_value('pag_web'); ?>">
                                 <div class="invalid-feedback">
                                     <?php echo form_error('pag_web'); ?>
                                 </div>
                             </div>
                             <div class="form-group col-6">
                                 <label>Correo Electronico</label>
-                                <input type="email" name="email" class="form-control <?php echo form_error('email') ? 'is-invalid':'' ; ?>" placeholder="Nombre" value="<?php echo set_value('email'); ?>">
+                                <input type="email" name="email" class="form-control <?php echo form_error('email') ? 'is-invalid':'' ; ?>" placeholder="Correo" value="<?php echo set_value('email'); ?>">
                                 <div class="invalid-feedback">
                                     <?php echo form_error('email'); ?>
                                 </div>
