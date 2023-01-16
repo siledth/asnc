@@ -57,7 +57,7 @@
 <script src="<?= base_url() ?>/js/organoente.js?<?= time() ?>"></script>
 <script src="<?= base_url() ?>/js/llamadoconcurso.js?<?= time() ?>"></script>
 <script src="<?= base_url() ?>/js/asnc.app.js?<?= time() ?>"></script>
-
+<script src="<?= base_url() ?>/js/ver_evalu.js.js?<?= time() ?>"></script>
 <script>
   $(document).ready(function() {
     App.init();

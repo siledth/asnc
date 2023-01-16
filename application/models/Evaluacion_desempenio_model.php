@@ -37,7 +37,8 @@
             $this->db_c->join('public.municipios m', 'm.id = c.municipio_id');
             $this->db_c->join('public.ciudades c2', 'c2.id = c.ciudade_id');
             $this->db_c->where('c.rifced',$data['rif_b']);
-            $query = $this->db_c->get('public.contratistas c');
+            //$query = $this->db_c->get('public.contratistas c');
+            $query = $this->db_c->get('evaluacion_desempenio.contratistas c');
             $result = $query->row_array();
                 if ($result == '') {
                     $this->db->select('c.user_id,

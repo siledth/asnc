@@ -15,11 +15,11 @@ function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
         $('#ueba').attr("disabled", true);
     }else{
         $("#items").show();
-        //var base_url  = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista';
-        //var base_url2 = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
+        var base_url  = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista';
+        var base_url2 = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
 
-      var base_url = '/index.php/evaluacion_desempenio/llenar_contratista';
-        var base_url2 = '/index.php/evaluacion_desempenio/llenar_contratista_rp';
+    //   var base_url = '/index.php/evaluacion_desempenio/llenar_contratista';
+    //     var base_url2 = '/index.php/evaluacion_desempenio/llenar_contratista_rp';
 
         $.ajax({
             url:base_url,
@@ -102,8 +102,8 @@ function valideKey(evt){
 
 function llenar_municipio(){
     var id_estado_n = $('#id_estado_n').val();
-    //var base_url = window.location.origin+'/asnc/index.php/evaluacion_desempenio/listar_municipio';
-    var base_url = '/index.php/evaluacion_desempenio/listar_municipio';
+    var base_url = window.location.origin+'/asnc/index.php/evaluacion_desempenio/listar_municipio';
+   // var base_url = '/index.php/evaluacion_desempenio/listar_municipio';
 
     $.ajax({
         url: base_url,
@@ -122,8 +122,8 @@ function llenar_municipio(){
 
 function llenar_parroquia(){
     var id_municipio_n = $('#id_estado_n').val();
-    //var base_url = window.location.origin+'/asnc/index.php/evaluacion_desempenio/listar_parroquia';
-    var base_url = '/index.php/evaluacion_desempenio/listar_parroquia';
+    var base_url = window.location.origin+'/asnc/index.php/evaluacion_desempenio/listar_parroquia';
+    //var base_url = '/index.php/evaluacion_desempenio/listar_parroquia';
 
     $.ajax({
         url: base_url,
@@ -142,8 +142,8 @@ function llenar_parroquia(){
 
 function listar_ciudades(){
     var id_estado_n = $('#id_estado_n').val();
-    //var base_url = window.location.origin+'/asnc/index.php/evaluacion_desempenio/listar_ciudades';
-    var base_url = '/index.php/evaluacion_desempenio/listar_ciudades';
+    var base_url = window.location.origin+'/asnc/index.php/evaluacion_desempenio/listar_ciudades';
+    //var base_url = '/index.php/evaluacion_desempenio/listar_ciudades';
 
     $.ajax({
         url: base_url,
@@ -162,8 +162,8 @@ function listar_ciudades(){
 
 function llenar_sub_mod(){
     var id_modalidad = $('#id_modalidad').val();
-    //var base_url = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_sub_modalidad';
-    var base_url = '/index.php/evaluacion_desempenio/llenar_sub_modalidad';
+    var base_url = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_sub_modalidad';
+    //var base_url = '/index.php/evaluacion_desempenio/llenar_sub_modalidad';
 
     $.ajax({
         url: base_url,
@@ -363,13 +363,17 @@ function registrar(){
     var nro_oc_os       = $("#nro_oc_os").val();
     var fileImagen      = $("#fileImagen").val();
 
+    if (fileImagen ==0) {
+        alert("Acuse de Recibido Obligatorio");
+        return false;
+    }
     var fileSize = $('#fileImagen')[0].files[0].size;
     var siezekiloByte = parseInt(fileSize / 1024);
     if (siezekiloByte >  $('#fileImagen').attr('size')) {
         alert("Imagen muy grande");
         return false;
     }
-
+   
     var tipo = fileImagen.split(".")[1];
     if (exitte == '0'){
         if (rif_cont_n == '') {
@@ -439,6 +443,7 @@ function registrar(){
             document.getElementById("nro_oc_os").focus();
         }
         else if (fileImagen == '') {
+            
             document.getElementById("fileImagen").focus();
         }else if (tipo != 'pdf' && tipo != 'jpg' && tipo != 'img'&& tipo != 'png' && tipo != 'jpeg') {
             swal("Mensaje de alerta!", "El tipo de archivo debe ser en formato pdf, jpg, img, png o jpeg.")
@@ -460,8 +465,8 @@ function registrar(){
                     if (result.value == true) {
                         event.preventDefault();
                         var datos = new FormData($("#resgistrar_eva")[0]);
-                        //var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
-                        var base_url = '/index.php/evaluacion_desempenio/registrar';
+                        var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
+                        //var base_url = '/index.php/evaluacion_desempenio/registrar';
                         $.ajax({
                             url:base_url,
                             method: 'POST',
@@ -504,8 +509,8 @@ function registrar(){
                     if (result.value == true) {
                         event.preventDefault();
                         var datos = new FormData($("#resgistrar_eva")[0]);
-                        //var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
-                        var base_url = '/index.php/evaluacion_desempenio/registrar';
+                        var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
+                        //var base_url = '/index.php/evaluacion_desempenio/registrar';
                         $.ajax({
                             url:base_url,
                             method: 'POST',
@@ -596,8 +601,8 @@ function registrar(){
                     if (result.value == true){
                         event.preventDefault();
                         var datos = new FormData($("#resgistrar_eva")[0]);
-                        //var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
-                         var base_url = '/index.php/evaluacion_desempenio/registrar';
+                        var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
+                        // var base_url = '/index.php/evaluacion_desempenio/registrar';
                         $.ajax({
                             url:base_url,
                             method: 'POST',
@@ -640,8 +645,8 @@ function registrar(){
 
                         event.preventDefault();
                         var datos = new FormData($("#resgistrar_eva")[0]);
-                        //var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
-                         var base_url = '/index.php/evaluacion_desempenio/registrar';
+                       var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
+                       //  var base_url = '/index.php/evaluacion_desempenio/registrar';
                         $.ajax({
                             url:base_url,
                             method: 'POST',
