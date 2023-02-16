@@ -233,7 +233,7 @@ function desblo_usuario($data){
             return $query->result_array();
     }
 
-     // public function single_user($data) {
+     // public function single_user1($data) {
     //     $this->db->select('e.*
     //                          f.*');
     //     $this->db->join('seguridad.funcionarios f', 'f.id = e.id_usuario', 'left');

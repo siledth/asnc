@@ -90,7 +90,7 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                                 <input type="password" id="bloquear1" onpaste="return false;" onCopy="return false" onCut="return false" class="form-control form-control-lg" placeholder="Contraseña" name="contrasena" required />
                             </div>
                             <p class="form-group current_captcha">
-                                <?php //echo $captcha_value; ?>
+                                <?php //echo $captcha_value;?>
                             </p>
 
                           <!--  <div class="col-12 text-center">
@@ -100,7 +100,7 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                                       /*  foreach ($captcha_numbers as $number) {
                                             echo '<a href="#" data="' . $number . '">' . $number . '</a> ';
                                         }*/
-                                        ?>
+?>
                                     </label>
                                    <input type="text" size="4" maxlength="4" id="captcha" name="captcha" class="form-control"readonly>
                                     <input type="hidden" id="current_captcha" name="current_captcha" value="<?php echo $captcha_value; ?>">
@@ -114,14 +114,18 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
 
                             <div class="login-buttons mt-2">
                                 
-              <button type="button"
-        onclick="location.href='<?php echo base_url() ?>index.php/llamadoconcurso'"
-        class="btn btn-grey btn-lg">Ver Llamado a Concurso</button>
-                        
-                                <!-- <button type="button"
-        onclick="location.href='<?php echo base_url() ?>index.php/User/contrato'"
-        class="btn btn-grey btn-lg">Registrar Cuentadante</button> -->
-                        </div> 
+                                        <button type="button"
+                                    onclick="location.href='<?php echo base_url() ?>index.php/llamadoconcurso'"
+                                    class="btn btn-grey btn-lg">Ver Llamado a Concurso</button>
+                                    <hr />
+                                                    
+                                                            <!-- <button type="button"
+                                    onclick="location.href='<?php echo base_url() ?>index.php/User/contrato'"
+                                    class="btn btn-grey btn-lg">Registrar Cuentadante</button> -->
+                                    <button type="button"
+                                    onclick="location.href='<?php echo base_url() ?>index.php/llamadoconcurso'"
+                                    class="btn btn-grey btn-lg">Registro de Certificación</button>
+                             </div> 
                         </form>
                     </div>
                 </div>

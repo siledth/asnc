@@ -140,5 +140,7 @@ $autoload['model'] = array(
     'Tablas_model',
     'Evaluacion_desempenio_model',
     'Contratista_model',
-    'Publicaciones_model'
+    'Publicaciones_model',
+    'Certificacion_model',
+   
 );

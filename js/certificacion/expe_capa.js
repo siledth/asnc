@@ -1,0 +1,72 @@
+
+function agregar_ff(button) {
+	var row = button.parentNode.parentNode;
+  	var cells = row.querySelectorAll('td:not(:last-of-type)');
+  	agregar_ffToCartTable(cells);
+}
+
+function remove_ff_acc() {
+	var row = this.parentNode.parentNode;
+    document.querySelector('#target_acc_ff tbody').removeChild(row);
+	
+	$("#organo_expe").val($("#organo_expe").data("default-value"));
+}
+
+function agregar_ffToCartTable(cells){
+	
+	var organo_expe = $("#organo_expe").val();
+	var tipo_ced = $("#tipo_ced").val();
+	var actividad_exp = $("#actividad_exp").val();
+	var desde_exp = $("#desde_exp").val();
+	var hasta_exp = $("#hasta_exp").val();
+	var tipo = $("#tipo").val();
+
+
+	if (organo_expe == '' || actividad_exp == '' || desde_exp == '' ){
+		if (organo_expe== '') {
+			document.getElementById("organo_expe").focus();
+		}else if (actividad_exp== '') {
+			document.getElementById("actividad_exp").focus();
+		}
+		else if (desde_exp == '') {
+			document.getElementById("desde_exp").focus();
+		}
+	}else{
+		var newRow = document.createElement('tr');
+		var increment = increment +1;
+		newRow.className='myTr';
+		newRow.innerHTML = `
+		<td>${organo_expe}<input type="text" name="organo_expe[]" id="ins-type-${increment}" hidden value="${organo_expe}"></td>
+		<td>${actividad_exp}<input type="text" name="actividad_exp[]" id="ins-type-${increment}" hidden value="${actividad_exp}"></td>
+		<td>${desde_exp}<input type="text" name="desde_exp[]" id="ins-type-${increment}" hidden value="${desde_exp}"></td>
+    	<td>${hasta_exp}<input type="text" name="hasta_exp[]" id="ins-type-${increment}" hidden value="${hasta_exp}"></td>
+	
+		`;
+
+		var cellremove_ff_accBtn = createCell();
+
+		cellremove_ff_accBtn.appendChild(createremove_ff_accBtn())
+		newRow.appendChild(cellremove_ff_accBtn);
+		document.querySelector('#target_acc_ff tbody').appendChild(newRow);
+
+
+		
+		$("#btn_guar_2").prop('disabled', false);
+	}
+}
+
+function createremove_ff_accBtn() {
+    var btnremove_ff_acc = document.createElement('button');
+    btnremove_ff_acc.className = 'btn btn-xs btn-danger';
+    btnremove_ff_acc.onclick = remove_ff_acc;
+    btnremove_ff_acc.innerText = 'Descartar';
+    return btnremove_ff_acc;
+}
+
+function createCell(text) {
+	var td = document.createElement('td');
+  if(text) {
+  	td.innerText = text;
+  }
+  return td;
+}

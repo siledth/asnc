@@ -174,6 +174,63 @@
                             </ul>
                         </li>
                         <?php endif; ?>
+                        <?php if (($this->session->userdata('menu_eval_desem') == 1)) : ?>
+                        <li class="has-sub">
+
+                                <a href="javascript:;">
+                                    <b class="caret"></b>
+                                    <span>Certificación</span>
+                                    <span class="ml-1">PN y PJ</span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <?php if (($this->session->userdata('menu_reg_eval_desem') == 1)) : ?>
+                                    <li><a href="<?= base_url() ?>index.php/certificacion/registrar">Registrar</a></li>
+                                    <?php endif; ?>
+                                    <?php if (($this->session->userdata('menu_anulacion') == 1)) : ?>
+                                    <li class="has-sub">
+                                        <a href="javascript:;">
+                                            <b class="caret"></b>
+                                            Anulación
+                                        </a>
+                                        <ul class="sub-menu">
+                                            <?php if (($this->session->userdata('menu_soli_anular_eval_desem') == 1)) : ?>
+                                            <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/anulacion">- Sol.
+                                                    Anulación</a></li>
+                                            <?php endif; ?>
+                                            <?php if (($this->session->userdata('menu_proc_anular_eval_desem') == 1)) : ?>
+                                            <li><a href="<?= base_url() ?>index.php/Evaluacion_desempenio/proc_anulacion">-
+                                                    Proc. Anulaciones</a></li>
+                                            <?php endif; ?>
+                                        </ul>
+                                    </li>
+                                    <?php endif; ?>
+                                  <?php if (($this->session->userdata('menu_repor_evalu') == 1)) : ?>
+
+                                      <li class="has-sub">
+                                          <a href="javascript:;">
+                                              <b class="caret"></b>
+                                              Reportes
+                                          </a>
+                                          <ul class="sub-menu">
+                                              <?php if (($this->session->userdata('menu_comprobante_eval_desem') == 1)) : ?>
+                                              <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/reporte">-
+                                                      Comprobante Registro</a></li>
+                                              <?php endif; ?>
+                                              <?php if (($this->session->userdata('menu_estdi_eval_desem') == 1)) : ?>
+                                              <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/consulta">-
+                                                      Estadistica</a></li>
+                                              <?php endif; ?>
+                                              <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
+                                              <li><a
+                                                      href="<?= base_url() ?>index.php/Evaluacion_desempenio/estatus_contratista">-
+                                                      Comprobante de Empresa <b>NO REGISTRADA</b></a></li>
+                                              <?php endif; ?>
+                                          </ul>
+                                      </li>
+                                    <?php endif; ?>
+                                </ul>
+                          </li>
+                        <?php endif; ?>
                     </ul>
                   </li>
                <?php endif; ?>
