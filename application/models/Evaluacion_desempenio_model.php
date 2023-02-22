@@ -24,6 +24,7 @@
             $this->db_c->select('c.user_id,
                                 c.edocontratista_id,
                                 c.rifced,
+                                c.numcertrnc,
                                 c.nombre,
                                 c.dirfiscal,
                                 e.descedo,
@@ -36,7 +37,7 @@
             $this->db_c->join('public.estados e', 'e.id = c.estado_id');
             $this->db_c->join('public.municipios m', 'm.id = c.municipio_id');
             $this->db_c->join('public.ciudades c2', 'c2.id = c.ciudade_id');
-            $this->db_c->where('c.rifced',$data['rif_b']);
+            $this->db_c->where('c.numcertrnc',$data['rif_b']);
             //$query = $this->db_c->get('public.contratistas c');
             $query = $this->db_c->get('evaluacion_desempenio.contratistas c');
             $result = $query->row_array();
@@ -53,7 +54,7 @@
                                          c.procactual');
                     $this->db->join('public.estados e', 'e.id = c.estado_id');
                     $this->db->join('public.municipios m', 'm.id = c.municipio_id');
-                    $this->db->where('c.rifced',$data['rif_b']);
+                    $this->db->where('c.numcertrnc',$data['rif_b']);
                     $query = $this->db->get('evaluacion_desempenio.contratistas_nr c');
                     return $result = $query->row_array();
                 }else {

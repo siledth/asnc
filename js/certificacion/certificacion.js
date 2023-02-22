@@ -46,6 +46,8 @@ function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
                     $('#ciudad').val(data['descciu']);
                     $('#persona_cont').val(data['percontacto']);
                     $('#tel_cont').val(data['telf1']);
+                    $('#numcertrnc').val(data['numcertrnc']);
+                    
 
                     var rif_cont_nr = data['rifced'];
                     var ultprocaprob = data['ultprocaprob'];

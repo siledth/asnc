@@ -40,28 +40,20 @@ function agregar_ffToCartTable(cells){
 		<td>${actividad_exp}<input type="text" name="actividad_exp[]" id="ins-type-${increment}" hidden value="${actividad_exp}"></td>
 		<td>${desde_exp}<input type="text" name="desde_exp[]" id="ins-type-${increment}" hidden value="${desde_exp}"></td>
     	<td>${hasta_exp}<input type="text" name="hasta_exp[]" id="ins-type-${increment}" hidden value="${hasta_exp}"></td>
-	
+		<td><input type="button" class="borrar" value="Eliminar" /></td>
 		`;
 
-		var cellremove_ff_accBtn = createCell();
-
-		cellremove_ff_accBtn.appendChild(createremove_ff_accBtn())
-		newRow.appendChild(cellremove_ff_accBtn);
 		document.querySelector('#target_acc_ff tbody').appendChild(newRow);
-
-
+		$(document).on('click', '.borrar', function(event) {
+			event.preventDefault();
+			$(this).closest('tr').remove();
+		  });
 		
 		$("#btn_guar_2").prop('disabled', false);
 	}
 }
 
-function createremove_ff_accBtn() {
-    var btnremove_ff_acc = document.createElement('button');
-    btnremove_ff_acc.className = 'btn btn-xs btn-danger';
-    btnremove_ff_acc.onclick = remove_ff_acc;
-    btnremove_ff_acc.innerText = 'Descartar';
-    return btnremove_ff_acc;
-}
+
 
 function createCell(text) {
 	var td = document.createElement('td');

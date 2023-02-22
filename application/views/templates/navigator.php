@@ -188,20 +188,8 @@
                                     <?php endif; ?>
                                     <?php if (($this->session->userdata('menu_anulacion') == 1)) : ?>
                                     <li class="has-sub">
-                                        <a href="javascript:;">
-                                            <b class="caret"></b>
-                                            Anulación
-                                        </a>
-                                        <ul class="sub-menu">
-                                            <?php if (($this->session->userdata('menu_soli_anular_eval_desem') == 1)) : ?>
-                                            <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/anulacion">- Sol.
-                                                    Anulación</a></li>
-                                            <?php endif; ?>
-                                            <?php if (($this->session->userdata('menu_proc_anular_eval_desem') == 1)) : ?>
-                                            <li><a href="<?= base_url() ?>index.php/Evaluacion_desempenio/proc_anulacion">-
-                                                    Proc. Anulaciones</a></li>
-                                            <?php endif; ?>
-                                        </ul>
+                                    <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion">Listado</a></li>
+                                        
                                     </li>
                                     <?php endif; ?>
                                   <?php if (($this->session->userdata('menu_repor_evalu') == 1)) : ?>
