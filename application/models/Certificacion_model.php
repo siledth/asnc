@@ -549,4 +549,69 @@ class Certificacion_model extends CI_model
             }
             return true;
     }
+
+
+    public function llenar_contratista($data){
+        $this->db_c->select('c.user_id,
+                            c.edocontratista_id,
+                            c.rifced,
+                            c.numcertrnc,
+                            c.nombre,
+                            c.dirfiscal,
+                            e.descedo,
+                            c.ciudade_id,
+                            c2.descciu,
+                            m.descmun,
+                            c.percontacto,
+                            c.telf1,
+                            c.ultprocaprob');
+        $this->db_c->join('public.estados e', 'e.id = c.estado_id');
+        $this->db_c->join('public.municipios m', 'm.id = c.municipio_id');
+        $this->db_c->join('public.ciudades c2', 'c2.id = c.ciudade_id');
+        $this->db_c->where('c.numcertrnc',$data['rif_b']);
+        //$query = $this->db_c->get('public.contratistas c');
+        $query = $this->db_c->get('evaluacion_desempenio.contratistas c');
+        $result = $query->row_array();
+            if ($result == '') {
+                $this->db->select('c.user_id,
+                                     c.edocontratista_id,
+                                     c.rifced,
+                                     c.nombre,
+                                     c.dirfiscal,
+                                     e.descedo,
+                                     m.descmun,
+                                     c.percontacto,
+                                     c.telf1,
+                                     c.procactual');
+                $this->db->join('public.estados e', 'e.id = c.estado_id');
+                $this->db->join('public.municipios m', 'm.id = c.municipio_id');
+                $this->db->where('c.numcertrnc',$data['rif_b']);
+                $query = $this->db->get('evaluacion_desempenio.contratistas_nr c');
+                return $result = $query->row_array();
+            }else {
+                return $result;
+            }
+    }
+//-------------------------------------------------------
+    public function llenar_contratista_rp($data){
+        $this->db_c->select('proceso_id,
+                           cedrif,
+                           concat(nomacc, \'\' ,apeacc) as repr,
+                           cargo ');
+        $this->db_c->where('proceso_id', $data['ultprocaprob']);
+        $query = $this->db_c->get('public.accionistas');
+        $result = $query->result_array();
+
+        if ($result == Array ()) {
+            $this->db->select('cedrif,
+                               concat(nomacc, \'\' ,apeacc) as repr,
+                               cargo ');
+            $this->db->where('rif_contratista', $data['rif_cont_nr']);
+            $query = $this->db->get('evaluacion_desempenio.accionistas_nr');
+
+            return $result = $query->result_array();
+        }else {
+            return $result;
+        }
+    }
 }

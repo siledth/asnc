@@ -2,8 +2,8 @@ if ($('#id').val().length != " "){//FUNCION EN DONDE SE CARGA LA TABLA DE IFF
     var rif_cont = $('#id').val();
     
 
-    var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar';
-    //var base_url = '/index.php/Programacion/ver_proy_editar';
+    //var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar';
+    var base_url = '/index.php/Certificacion/ver_certi_editar';
     $.ajax({
        url:base_url,
        method: 'post',
@@ -56,8 +56,8 @@ if ($('#id').val().length != " "){//FUNCION EN DONDE SE CARGA LA TABLA DE IP
 
     var rif_cont = $('#id').val();
 
-    var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar2';
-    //var base_url = '/index.php/Programacion/ver_proy_editar_items_o';
+    //var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar2';
+    var base_url = '/index.php/Certificacion/ver_certi_editar2';
     $.ajax({
        url:base_url,
        method: 'post',
@@ -108,8 +108,8 @@ if ($('#id').val().length != " "){//FUNCION EN DONDE SE CARGA LA TABLA DE person
 
     var rif_cont = $('#id').val();
 
-    var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar3';
-    //var base_url = '/index.php/Programacion/ver_proy_editar_items_o';
+    //var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar3';
+    var base_url = '/index.php/Certificacion/ver_certi_editar3';
     $.ajax({
        url:base_url,
        method: 'post',

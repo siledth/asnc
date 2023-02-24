@@ -13,11 +13,13 @@ function cambiarEndDate(){
 function modal(id) {
     var id = id;
 
-    var base_url =
-        window.location.origin + "/asnc/index.php/Certificacion/consultar_certificacion";
+    var base_url = '/index.php/Certificacion/consultar_certificacion';
+       // var base_url2 = '/index.php/certificacion/llenar_contratista_rp';
 
-    var base_url2 =
-        window.location.origin + "/marina/index.php/Mensualidades/consultar_dol";
+    //var base_url =
+        //window.location.origin + "/asnc/index.php/Certificacion/consultar_certificacion";
+
+   
 
     $.ajax({
         url: base_url,
@@ -62,13 +64,17 @@ function guardar_proc_pago() {
      if (result.value == true) {
         event.preventDefault();
         var datos = new FormData($("#guardar_proc_pag")[0]);
-        var base_url =
-            window.location.origin +
-            "/asnc/index.php/Certificacion/guardar_proc_pag";
-        var base_url_2 =
-            window.location.origin + "/asnc/index.php/Certificacion/Listado_certificacion";
-            var base_url_3 =
-            window.location.origin + "/asnc/index.php/Certificacion/verpdf?id=";
+        var base_url = '/index.php/Certificacion/guardar_proc_pagc';
+        var base_url_3 = '/index.php/Certificacion/verpdf?id=';
+
+      
+        // var base_url =
+        //     window.location.origin +
+        //     "/asnc/index.php/Certificacion/guardar_proc_pag";
+        // var base_url_2 =
+            // window.location.origin + "/asnc/index.php/Certificacion/Listado_certificacion";
+            // var base_url_3 =
+            // window.location.origin + "/asnc/index.php/Certificacion/verpdf?id=";
         $.ajax({
             url: base_url,
             method: "POST",

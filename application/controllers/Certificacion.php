@@ -40,14 +40,14 @@ class Certificacion extends CI_Controller
 	public function llenar_contratista(){
 		if(!$this->session->userdata('session'))redirect('login');
 		$data = $this->input->post();
-		$data =	$this->Evaluacion_desempenio_model->llenar_contratista($data);
+		$data =	$this->Certificacion_model->llenar_contratista($data);
 		echo json_encode($data);
 	}
 
 	public function llenar_contratista_rp(){
 		if(!$this->session->userdata('session'))redirect('login');
 		$data = $this->input->post();
-		$data =	$this->Evaluacion_desempenio_model->llenar_contratista_rp($data);
+		$data =	$this->Certificacion_model->llenar_contratista_rp($data);
 		echo json_encode($data);
 	}
 
@@ -494,5 +494,7 @@ class Certificacion extends CI_Controller
                                                                 $exp_par_comi_10,$exp_dic_cap_3);
         echo json_encode($data);
     }
+    
+
     
 }
