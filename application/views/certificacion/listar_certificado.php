@@ -25,7 +25,7 @@
                             </div>
 
                             <div class="col-4">
-                                <button onclick="location.href='<?php echo base_url()?>index.php/Buque/agregar'"
+                                <button onclick="location.href='<?php echo base_url()?>index.php/Certificacion/registrar_pn'"
                                     type="button" class="btn btn-lg btn-default" name="button">
                                     Registrar Certificación PN
                                 </button>
@@ -38,13 +38,14 @@
 
                     <div class="col-1"></div>
                     <div class="col-10 mt-3">
-                        <h3 class="text-center">Tabla Referente Certificaciones</h3>
+                        <h3 class="text-center">Registro de Certificaciones en espera de Revisión</h3>
                         <table id="data-table-default" data-order='[[ 3, "asc" ]]' class="table table-bordered table-hover">
                             <thead style="background:#e4e7e8">
                                 <tr class="text-center">
                                     <th>Razon Social</th>
                                     <th>Rif</th>
                                     <th>Fecha Solicitud</th>
+                                    <th>Tipo </th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -53,17 +54,26 @@
                                 <tr class="odd gradeX" style="text-align:center">
                                     <td><?=$datos['nombre']?> </td>
                                     <td><?=$datos['rif_cont']?> </td>
-                                    <td><?=$datos['fecha_solic']?> </td>
+                                    <td><?=date("d/m/Y", strtotime($datos['fecha_solic']));?> </td>
+
+                                    <?php if (($datos['tipo_pers'] < 2) ) : ?>
+                                    <td>Juridico </td>
+                                    <?php endif; ?>  
+                                    <?php if (($datos['tipo_pers'] > 1) ) : ?>
+                                    <td>Persona Nat. </td>
+                                    <?php endif; ?>  
                                     <td class="center">
                                         <a href="<?php echo base_url();?>index.php/Certificacion/ver_certifi?id=<?php echo $datos['rif_cont'];?>"
                                             class="button">
                                             <i class="fas fa-lg fa-fw fa-eye" style="color: green;"></i>
                                             <a />
-                                            <a href="<?php echo base_url();?>index.php/programacion/ver_programacion_planilla?id=<?php echo $datos['rif_cont'];?>"
+                                            <?php if (($datos['status'] == 2) ) : ?>
+                                            <a href="<?php echo base_url();?>index.php/Certificacion/verpdf?id=<?php echo $datos['id'];?>"
                                                 class="button">
                                                  <i class='fas fa-align-justify'> </i>
                                                 <a />
-                                                <a href="<?php echo base_url();?>index.php/buque/editar_proy?id=<?php echo $datos['id'];?>/<?php echo $datos['rif_cont'];?>"
+                                                <?php endif; ?> 
+                                                <a href="<?php echo base_url();?>index.php/Certificacion/editar_certificacion?id=<?php echo $datos['rif_cont'];?>"
                                             class="button">
                                             <i class="fas fa-lg fa-fw  fa-edit"></i>
                                         <a />

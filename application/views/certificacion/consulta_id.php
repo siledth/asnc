@@ -10,20 +10,21 @@
                             <div class="card card-outline-danger text-center bg-white">
                                 <div class="card-block">
                                     <blockquote class="card-blockquote" style="margin-bottom: -19px;">
-                                    <img style="width: 100%" height="100%" src=" <?= base_url() ?>Plantilla/img/loij.png"
-                                alt="Card image">
+                                        <img style="width: 100%" height="100%"
+                                            src=" <?= base_url() ?>Plantilla/img/loij.png" alt="Card image">
                                     </blockquote>
                                 </div>
                             </div>
                         </div>
                         <?php foreach($inf_1 as $inf_1):?><?php endforeach;?>
-                            <div class="col-12 mt-0 text-center">
+                        <div class="col-12 mt-0 text-center">
                             <hr style="border-top: 1px solid rgba(0, 0, 0, 0.17);">
-                            <h4 style="color:red;">FICHA TÉCNICA DE CERTIFICACIÓN PARA PERSONA NATURAL Y JURÍDICA DE CARÁCTER PRIVADO<br></h4>
+                            <h4 style="color:red;">FICHA TÉCNICA DE CERTIFICACIÓN PARA PERSONA NATURAL Y JURÍDICA DE
+                                CARÁCTER PRIVADO<br></h4>
                             <h6 style="color:red;">INFORMACIÓN DE LA PERSONA JURÍDICA</h6>
-                            
+
                         </div>
-                            
+
                         <div class="col-5 mt-1 form-group">
                             <label>N° de Comprobante Registro Unico</label>
                             <input value="<?=$inf_1['nro_comprobante']?>" type="text" class="form-control" disabled>
@@ -85,6 +86,7 @@
                             <label>Contenido Programático</label>
                             <input value="<?=$inf_1['cont_prog']?>" type="text" class="form-control" disabled>
                         </div>
+                        <?php if (($inf_1['tipo_pers'] < 2) ) : ?>
                         <div class="col-12 mt-0 text-center">
                             <hr style="border-top: 1px solid rgba(0, 0, 0, 0.17);">
                             <h6 style="color:red;">Experiencia de la Empresa en Capacitación en Materias Relacionadas
@@ -142,7 +144,7 @@
                                 <?php endforeach;?>
                             </tbody>
                         </table>
-
+                        <?php endif; ?>  
                         <div class="col-12 mt-0 text-center">
                             <hr style="border-top: 1px solid rgba(0, 0, 0, 0.17);">
                             <h6 style="color:red;"> INFORMACIÓN DE LA PERSONA NATURAL (que dicta la capacitación)</h6>
@@ -232,7 +234,8 @@
 
                         <div class="col-12 mt-5 text-center">
                             <hr style="border-top: 1px solid rgba(0, 0, 0, 0.17);">
-                            <h6 style="color:red;"> Experiencia de Participación en Comisiones de Contrataciones (en los últimos 10 años)</h6>
+                            <h6 style="color:red;"> Experiencia de Participación en Comisiones de Contrataciones (en los
+                                últimos 10 años)</h6>
                         </div>
                         <table id="target_req" class="table table-bordered table-hover">
                             <thead style="background:#e4e7e8;">
@@ -260,7 +263,8 @@
                         </table>
                         <div class="col-12 mt-0 text-center">
                             <hr style="border-top: 1px solid rgba(0, 0, 0, 0.17);">
-                            <h6 style="color:red;">Experiencia en Dictado de Capacitación en Materia de Comisión de Contrataciones (en los últimos 3 años)</h6>
+                            <h6 style="color:red;">Experiencia en Dictado de Capacitación en Materia de Comisión de
+                                Contrataciones (en los últimos 3 años)</h6>
                         </div>
                         <table id="target_req" class="table table-bordered table-hover">
                             <thead style="background:#e4e7e8;">
@@ -286,22 +290,105 @@
                     </div>
 
                 </div>
-                <!--////////////////////////////SEGUNDA PARTE DE LA CARGA -->
-
 
             </div>
         </div>
+
+   
         <div class="col 12 text-center">
-            <button class="btn btn-default mt-1 mb-1" type="button" id="print" onclick="printContent('imp1');">Imprimir
+        <?php if (($inf_1['status'] < 2) && $rif = 200024518) : ?>
+        <a onclick="modal(<?php echo $inf_1['id']?>);" data-toggle="modal" data-target="#exampleModal"
+            style="color: white">
+            <i title="Aprobar" class="fas fa-4x fa-fw fa-file-import" style="color: crimson;"></i>
+
+        </a>
+
+        <?php endif; ?>   
+        <button class="btn btn-default mt-1 mb-1" type="button" id="print" onclick="printContent('imp1');">Imprimir
             </button>
+       
+        <a class="btn btn-circle waves-effect btn-lg waves-circle waves-float btn-grey"
+                href="javascript:history.back()"> Volver</a>
         </div>
         <div class="col-12 text-center mt-3">
-            <a class="btn btn-circle waves-effect btn-lg waves-circle waves-float btn-grey"
-                href="javascript:history.back()"> Volver</a>
+            
         </div>
     </div>
 </div>
 </div>
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Gestión de Registro de Certificación</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="guardar_proc_pag" name="guardar_proc_pag" data-parsley-validate="true"
+                    method="POST" enctype="multipart/form-data">
+                    <div class="row">
+
+                        <div class="form-group col-2">
+
+                            <input class="form-control" type="hidden" name="id_mesualidad_ver" id="id_mesualidad_ver"
+                                readonly>
+                        </div>
+                        <input class="form-control" type="hidden" name="users" id="users" value="<?=$users?>" readonly>
+                        
+
+                        <div class="form-group col-4">
+                            <label>Razon Social</label>
+                            <input class="form-control" type="text" name="nombre" id="nombre" readonly>
+                        </div>
+                        <div class="form-group col-4">
+                            <label>Rif</label>
+                            <input class="form-control" type="text" name="rif_cont" id="rif_cont" readonly>
+                        </div>
+                        <div class="form-group col-3">
+                            <label>Seleccione estatus de la certificación <b title="Campo Obligatorio" style="color:red">*</b></label>
+
+                            <select class=" form-control " id="status" name="status" readonly onchange="cambiarEndDate()">
+                                <option value="">Seleccionar</option>
+
+                                <option value="2">Aprobado</option>
+                                <option value="3">Rechazado</option>
+                            </select>
+
+    
+
+                        </div>
+                        <div class="form-group col-3">
+                     
+                        <input type="hidden" id="vigen_cert_desde" name="vigen_cert_desde" class="form-control" value="<?=$time?>"  />
+                        <input type="hidden" id="vigen_cert_hasta" name="vigen_cert_hasta"  class="form-control"  />
+
+                        </div>
+                        <div class="form-group col-3">
+                            <label>Observación</label>
+                            <textarea name="observacion" id="observacion" rows="5" cols="50"></textarea>
+                        </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="javascript:window.location.reload()" class="btn btn-secondary"
+                    data-dismiss="modal">Cerrar</button>
+                <button type="button" id="guardar_pago_fin" onclick="guardar_proc_pago();"
+                    class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="<?=base_url()?>/js/certificacion/aprobar_certi.js"></script>
 <script>
 function printContent(imp1) {
     var restorepage = $('body').html();

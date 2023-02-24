@@ -174,7 +174,7 @@
                             </ul>
                         </li>
                         <?php endif; ?>
-                        <?php if (($this->session->userdata('menu_eval_desem') == 1)) : ?>
+                        <?php if (($this->session->userdata('ver_conf') == 1)) : ?>
                         <li class="has-sub">
 
                                 <a href="javascript:;">
@@ -183,16 +183,14 @@
                                     <span class="ml-1">PN y PJ</span>
                                 </a>
                                 <ul class="sub-menu">
-                                    <?php if (($this->session->userdata('menu_reg_eval_desem') == 1)) : ?>
-                                    <li><a href="<?= base_url() ?>index.php/certificacion/registrar">Registrar</a></li>
-                                    <?php endif; ?>
-                                    <?php if (($this->session->userdata('menu_anulacion') == 1)) : ?>
+                                    
+                                <?php if (($this->session->userdata('ver_conf') == 1)) : ?>
                                     <li class="has-sub">
                                     <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion">Listado</a></li>
                                         
                                     </li>
                                     <?php endif; ?>
-                                  <?php if (($this->session->userdata('menu_repor_evalu') == 1)) : ?>
+                                    <?php if (($this->session->userdata('ver_conf') == 1)) : ?>
 
                                       <li class="has-sub">
                                           <a href="javascript:;">

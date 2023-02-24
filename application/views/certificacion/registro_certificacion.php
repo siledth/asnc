@@ -11,7 +11,7 @@
                         <div class="col-4">
                             <label>N° de Comprobante del Registro Nacional de Contratistas (RNC):</label>
                             <input class="form-control" type="number" name="rif_b" id="rif_b"
-                                value="1374840411174807217">
+                            placeholder="1374840411174807217">
                         </div>
                         <div class="col- mt-4">
                             <button type="button" class="btn btn-default" onclick="consultar_rif();" name="button"> <i
@@ -692,8 +692,8 @@
 
                                                 </div>
                                                 <div class="form-group col-4">
-                                                    <label>Vigencia<b title="Campo Obligatorio"
-                                                            style="color:red">no debe dar mas de 2 años</b></label>
+                                                    <label>Vigencia<b title="Campo Obligatorio" style="color:red">no
+                                                            debe dar mas de 2 años</b></label>
                                                     <input class="form-control" type="text" name="vigencia"
                                                         id="vigencia" readonly>
                                                 </div>
