@@ -18,8 +18,10 @@ function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
         // var base_url  = window.location.origin+'/asnc/index.php/certificacion/llenar_contratista';
         // var base_url2 = window.location.origin+'/asnc/index.php/certificacion/llenar_contratista_rp';
 
-      var base_url = '/index.php/certificacion/llenar_contratista';
-        var base_url2 = '/index.php/certificacion/llenar_contratista_rp';
+    //   var base_url = '/index.php/certificacion/llenar_contratista';
+    //     var base_url2 = '/index.php/certificacion/llenar_contratista_rp';
+
+    var base_url = '/index.php/Certificacion/llenar_contratista';
 
         $.ajax({
             url:base_url,

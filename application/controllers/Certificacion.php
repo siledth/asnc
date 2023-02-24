@@ -495,6 +495,12 @@ class Certificacion extends CI_Controller
         echo json_encode($data);
     }
     
-
+    public function llenar_contratistas()
+	{
+		if(!$this->session->userdata('session'))redirect('login');
+		$data = $this->input->post();
+		$data =	$this->Contratista_model->llenar_contratistas($data);
+		echo json_encode($data);
+	}
     
 }

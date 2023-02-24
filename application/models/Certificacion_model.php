@@ -614,4 +614,13 @@ class Certificacion_model extends CI_model
             return $result;
         }
     }
+
+
+    public function llenar_contratistas($data){
+        $this->db_b->select('*');
+        $this->db_b->where('rifced', $data['rif_b']);
+        $this->db_b->order_by("proceso_id", "Desc");
+        $query = $this->db_b->get('public.planillapirmera2');
+        return $response = $query->row_array(); // sin el foreach
+    }
 }
