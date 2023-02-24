@@ -43,12 +43,9 @@ function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
 
                     $('#rif_cont').val(data['rifced']);
                     $('#nombre').val(data['nombre']);
-                    $('#estado').val(data['descedo']);
-                    $('#municipio').val(data['descmun']);
-                    $('#ciudad').val(data['descciu']);
-                    $('#persona_cont').val(data['percontacto']);
-                    $('#tel_cont').val(data['telf1']);
-                    $('#numcertrnc').val(data['numcertrnc']);
+                   
+                    
+                    $('#numcertrnc').val(data['numcertrnc2']);
                     
 
                     var rif_cont_nr = data['rifced'];
