@@ -190,7 +190,7 @@
                                         
                                     </li>
                                     <?php endif; ?>
-                                    <?php if (($this->session->userdata('ver_conf') == 1)) : ?>
+                                    <?php if (($this->session->userdata('ver_conf') == 8)) : ?>
 
                                       <li class="has-sub">
                                           <a href="javascript:;">
