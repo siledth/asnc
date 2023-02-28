@@ -42,21 +42,24 @@
                                 impartir los programas, cursos y talleres en materia de Comisión de Contrataciones
                                 Públicas:</h4> <br>
 
-                            <?php if (($inf_pdf['tipo_pers'] < 2) ) : ?>
+                            
                             <h4>INFORMACIÓN DE LA PERSONA JURÍDICA</h4>
-                            <?php endif; ?>
-
+                           
+                            <?php if (($inf_pdf['tipo_pers'] > 1) ) : ?>
                             <h4>INFORMACIÓN DE LA PERSONA NATURAL <br> Facilitador</h4>
+                            <?php endif; ?>
                         </div>
                         <div class="col-12 mt-2">
                             <table id="data-table" class="table table-striped " style="font-size:15px">
                                 <thead>
-                                    <tr> <?php if (($inf_pdf['tipo_pers'] < 2) ) : ?>
+                                    <tr> 
                                         <th style="text-align:right">Razón Social:</th>
                                         <th><?=$inf_pdf['nombre']?></th>
-                                        <?php endif; ?>
+                                     
+                                        <?php if (($inf_pdf['tipo_pers'] > 1) ) : ?>
                                         <th style="text-align:right">Nombres Y Apellido</th>
                                         <th><?=$inf_pdf['nombre_ape']?> </th>
+                                        <?php endif;  ?>
                                     </tr>
                                 </thead>
                                 <tbody>

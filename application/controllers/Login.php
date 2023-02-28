@@ -67,6 +67,7 @@ class Login extends CI_Controller {
                     'ver_user_desb' => $data['ver_user_desb'],
                     'ver_user_lista' => $data['ver_user_lista'],
                     'ver_user_perfil' => $data['ver_user_perfil'],
+                    'certificacion' => $data['certificacion'],
           'session' => TRUE,
         ];
 
@@ -123,5 +124,124 @@ class Login extends CI_Controller {
       $data = 'false';
       echo json_encode($data);
     }
+  }
+
+  public function registrar_prp(){
+    $nombrecomp = $this->input->post('nombre');
+    $nombres = explode(' ',  $nombrecomp );
+
+    //Para generar clave aleatoria
+    $comb = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+    $pass = array(); 
+    $combLen = strlen($comb) - 1; 
+    for ($i = 0; $i < 8; $i++) {
+        $n = rand(0, $combLen);
+        $pass[] = $comb[$n];
+    }
+    $clave = implode($pass); 
+    $passwords = implode($pass); 
+    $password = password_hash(
+      base64_encode(
+        hash('sha256', $passwords, true)
+      ),
+      PASSWORD_DEFAULT
+    );
+    $inf_usu = array(
+      
+      
+     
+     'nombre'   => $this->input->post('email'),
+      'password'   => $password,
+      'email'    => $this->input->post('email'),
+      'perfil'   => 1,
+      'foto'   => 1,
+      'estado'   => 1,
+      'ultimo_login'   => date('Y-m-d h:i:s'),
+      'fecha'   => date('Y-m-d h:i:s'),
+      'intentos'    => 0,
+      'unidad'   => $this->input->post('cedula_prop'),
+      'fecha_update'   => date('Y-m-d h:i:s'),
+     'id_estatus'   => 1,
+     'rif_organoente'   => $this->input->post('cedula_prop'),
+
+
+
+
+
+
+      // 'nombre'       => $nombres[0],
+      // 'apellido'     => $nombres[1],
+      // 'email'        => $this->input->post('email'),
+      // 'rif'          => $this->input->post('rif'),
+      // 'password'     => $password,
+      // 'tele_1'       => $this->input->post('tele_1'),
+      // 'perfil'       => 3,
+      // 'foto'         => 2,
+      // 'intentos'     => 0,
+      // 'id_estatus'   => 1,
+      // 'fecha'        => date('Y-m-d h:i:s'),
+      // 'fecha_update' => date('Y-m-d h:i:s')
+    );
+
+    $variables = $this->input->post('cedula_prop');
+    $ced = explode("-", $variables);
+
+    $inf_prop = array(
+  
+
+    'nombrefun'       => $nombres[0],
+    //'apellido'     => $nombres[1],
+      'cedula'     => $this->input->post('cedula_prop'),
+      //'tipo_cedula'   => $ced['0'],
+      'email'      => $this->input->post('email'),
+      'fecha'        => date('Y-m-d h:i:s'),
+      'id_usuario'        => 1,
+    );
+   
+    $if_emp = array(
+     
+      'codigo'          => $this->input->post('cedula_prop'),
+      'desc_entes'  => $this->input->post('cedula_prop'),
+      'rif'  => $this->input->post('cedula_prop'),
+      'correo'        => $this->input->post('email'),
+      'usuario' => 1,
+      'fecha'        => date('Y-m-d h:i:s'),
+      
+    );
+    require 'PHPMailer/PHPMailerAutoload.php';
+    $mail = new PHPMailer(true);                           // Enable verbose debug output
+
+    $mail->isSMTP();                                      // Set mailer to use SMTP
+    $mail->Host = 'smtp.gmail.com';                       // Specify main and backup SMTP servers
+    $mail->SMTPAuth = true;                               // Enable SMTP authentication
+    $mail->Username = 'soportecertificacion2023@gmail.com';               // SMTP username
+    //$mail->Password = 'kefxqwunkuubkdlf';
+    $mail->Password = 'evflwnswobdcfebm';                 // SMTP password
+    $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+    $mail->Port = 587;                                    // TCP port to connect to
+    $mail->Timeout = 20;
+    $mail->setFrom('soportecertificacion2023p@gmail.com', 'Certificacion 2023');
+
+    $mail->addAddress($this->input->post('email'), 'Joe User');     // Add a recipient
+    $mail->Subject = 'Envio de Clave de Acceso';
+    $mail->Body    = 'Clave para ingresar <b>' . $clave .'</b> <br>Este Correo Fue Generado de Forma Automatica. No responder a Este Correo';
+    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+    //$mail->SMTPDebug = true;
+    $data = $this->login_model->guardar_prp($inf_usu,$inf_prop, $if_emp);
+    if ($data == true) {
+      if(!$mail->send()) {
+
+
+        
+        echo json_encode(false);
+       
+        
+      }else {
+        echo json_encode($data);
+      
+     
+      }
+    }
+   
   }
 }

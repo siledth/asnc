@@ -15,8 +15,8 @@ function consultar_rif() { //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
         $('#ueba').attr("disabled", true);
     }else{
         $("#items").show();
-        //var base_url =window.location.origin+'/asnc/index.php/Contratista/llenar_contratista';S
-        var base_url = '/index.php/contratista/llenar_contratista';
+       // var base_url =window.location.origin+'/asnc/index.php/Contratista/llenar_contratista';S
+         var base_url = '/index.php/contratista/llenar_contratista';
 
         $.ajax({
             url: base_url,
@@ -80,7 +80,7 @@ function consultar_nombre(){
 	}else{
 		$("#items").show();
 		//var base_url =window.location.origin+'/asnc/index.php/Contratista/llenar_contratista_nombre';
-		var base_url = '/index.php/Contratista/llenar_contratista_nombre';
+		 var base_url = '/index.php/Contratista/llenar_contratista_nombre';
 
 		$.ajax({
 			url: base_url,
@@ -121,8 +121,8 @@ function consultar_objContr(){
 	}else{
 		$("#items").show();
 
-		//var base_url =window.location.origin+'/asnc/index.php/Contratista/llenar_contratista_objCont';
-		var base_url = '/index.php/Contratista/llenar_contratista_objCont';
+		var base_url =window.location.origin+'/asnc/index.php/Contratista/llenar_contratista_objCont';
+		// var base_url = '/index.php/Contratista/llenar_contratista_objCont';
 
 		$.ajax({
 			url: base_url,

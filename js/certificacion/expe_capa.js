@@ -49,7 +49,7 @@ function agregar_ffToCartTable(cells){
 			$(this).closest('tr').remove();
 		  });
 		
-		$("#btn_guar_2").prop('disabled', false);
+		$("#btn_guar_2").prop('disabled', true);
 	}
 }
 

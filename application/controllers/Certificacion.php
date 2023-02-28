@@ -29,11 +29,25 @@ class Certificacion extends CI_Controller
 		if(!$this->session->userdata('session'))redirect('login');
         $data['descripcion'] = $this->session->userdata('unidad');
         $data['rif'] = $this->session->userdata('rif');
+        $usuario = $this->session->userdata('id_user');
         $data['ver_certi'] = $this->Certificacion_model->consulta_certi();
 		$this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
 		$this->load->view('certificacion/listar_certificado.php', $data);
         $this->load->view('templates/footer.php');
+        //where ed.id_usuario = '$usuario'");
+	}
+    public function Listado_certificacion_exter(){
+		if(!$this->session->userdata('session'))redirect('login');
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $data['rif'] = $this->session->userdata('rif');
+        $usuario = $this->session->userdata('id_user');
+        $data['ver_certi'] = $this->Certificacion_model->consulta_certi_exter($usuario);
+		$this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+		$this->load->view('certificacion/listado_externo.php', $data);
+        $this->load->view('templates/footer.php');
+       
 	}
 
     //Consulta si existe el contrastita
@@ -178,6 +192,7 @@ class Certificacion extends CI_Controller
     public function ver_certifi(){
         if(!$this->session->userdata('session'))
         redirect('login');
+        $data['rif_organoente']= $this->session->userdata('rif_organoente');
         $data['descripcion'] = $this->session->userdata('unidad');
         $data['rif'] = $this->session->userdata('rif');
         $parametros = $this->input->get('id');
@@ -358,7 +373,7 @@ class Certificacion extends CI_Controller
         $data['descripcion'] = $this->session->userdata('unidad');
         $data['rif'] = $this->session->userdata('rif');
     
-        $data['time']=date("d-mm-Y");
+        $data['time']=date("d-m-Y");
        // $data =	$this->Certificacion_model->certificaciones_id($data);
         $data['inf_pdf'] =	$this->Certificacion_model->ver_pdfs($comprobante);
         

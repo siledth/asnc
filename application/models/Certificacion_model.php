@@ -1,6 +1,12 @@
 <?php
 class Certificacion_model extends CI_model
 {
+    public function __construct(){
+        parent::__construct();
+        // Este metodo conecta a nuestra segunda conexión
+        // y asigna a nuestra propiedad $this->db_b_b; los recursos de la misma.
+        $this->db_c = $this->load->database('SNCenlinea', true);
+    }
     public function inf_1(){
            
         $this->db->select('*');
@@ -35,6 +41,14 @@ class Certificacion_model extends CI_model
         $this->db->select('*');
         $this->db->from('certificacion.certificaciones ');
         //$this->db->where('status', '1');
+        $query = $this->db->get();
+        return $result = $query->result_array();
+    }
+    public function consulta_certi_exter($usuario){
+        $this->db->select('*');
+        $this->db->from('certificacion.certificaciones ');
+       // $this->db-> where (ed.id_usuario = '$usuario'");
+        $this->db->where('user_soli', $usuario);
         $query = $this->db->get();
         return $result = $query->result_array();
     }
@@ -206,10 +220,10 @@ class Certificacion_model extends CI_model
                     );
                     $this->db->insert('certificacion.exp_dic_cap_3',$data7);
                 }
-
+                return true;
 
             }
-            return true;
+            
     }
 
     public function certificaciones($rif_cont ){

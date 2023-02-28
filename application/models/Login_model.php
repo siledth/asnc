@@ -1,15 +1,16 @@
 <?php
 
-class Login_model extends CI_model {
-
-    public function iniciar($usuario, $contrasena) {
+class Login_model extends CI_model
+{
+    public function iniciar($usuario, $contrasena)
+    {
         $this->db->select('f.*,
         c.id_perfil, c.menu_rnce, c.menu_progr, c.menu_eval_desem, c.menu_reg_eval_desem, c.menu_soli_anular_eval_desem, 
         c.menu_proc_anular_eval_desem, c.menu_comprobante_eval_desem, c.menu_estdi_eval_desem, 
         c.menu_noregi_eval_desem, c.menu_llamado, c.consultar_llamado, c.reg_llamado, anul_llamado, 
         c.ver_anul_llamado, c.ver_rnc, c.ver_conf, c.ver_parametro, 
-        c.ver_conf_publ, c.ver_user, c.ver_user_exter, c.ver_user_desb, c.ver_user_lista, c.ver_user_perfil, c.menu_anulacion, c.menu_repor_evalu');
-        
+        c.ver_conf_publ, c.ver_user, c.ver_user_exter, c.ver_user_desb, c.ver_user_lista, c.ver_user_perfil, c.menu_anulacion, c.menu_repor_evalu, c.certificacion');
+
         $this->db->from('seguridad.usuarios f');
         $this->db->join('seguridad.perfil c', 'c.id_perfil = f.perfil', 'left');
         $this->db->where('nombre', $usuario);
@@ -21,9 +22,9 @@ class Login_model extends CI_model {
                 $unidad = $result->row('unidad');
                 if (password_verify(base64_encode(hash('sha256', $contrasena, true)), $db_clave)) {
                     $this->db->set('intentos', 0);
-                         $this->db->where('nombre', $usuario);
-                         $this->db->update('seguridad.usuarios');
-                         return $result->row_array();
+                    $this->db->where('nombre', $usuario);
+                    $this->db->update('seguridad.usuarios');
+                    return $result->row_array();
                 } else {
                     $intento = $result->row('intentos');
                     if ($intento <= 6) {
@@ -42,14 +43,13 @@ class Login_model extends CI_model {
             } else {
                 return 'BLOQUEADO';
             }
-           
         } else {
-           
             return 'FALSE';
         }
     }
 
-    public function consultar_organo($id_unidad) {
+    public function consultar_organo($id_unidad)
+    {
         $this->db->select('o.id_organo,
                                o.codigo,
                                o.cod_onapre,
@@ -94,12 +94,70 @@ class Login_model extends CI_model {
         }
     }
 
-    public function cambiar_clave($id_usuario, $data) {
+    public function cambiar_clave($id_usuario, $data)
+    {
         $this->db->where('id', $id_usuario);
         $update = $this->db->update('seguridad.usuarios', $data);
         return $update;
     }
+    public function guardar_prp($inf_usu, $inf_prop, $if_emp)
+    {
+        $this->db->select('max(e.id_entes) as id');
+        $query = $this->db->get('public.entes e');
+        $response3 = $query->row_array();
+        $id = $response3['id'] + 1 ;
+        $data = array(
+                'id'		    => $id,
+                'nombre'		=> $inf_usu['nombre'],
+                'password'		=> $inf_usu['password'],
+                'email'		=> $inf_usu['email'],
+                'perfil'            => 1,
+                'foto'            => 1,
+                'estado'            => 1,
 
+                'ultimo_login'            => $inf_usu['ultimo_login'],
+                'fecha'		=> $inf_usu['fecha'],
+                'intentos'	 	=> $inf_usu['intentos'],
+                'unidad' 			=> $inf_usu['unidad'],
+                'fecha_update' 			=> $inf_usu['fecha_update'],
+                'id_estatus' 			=> $inf_usu['id_estatus'],
+                'rif_organoente' 			=> $inf_usu['rif_organoente'],
+
+            );
+            $quers =$this->db->insert("seguridad.usuarios", $data); //colo nombre de la tabla
+            if ($quers) { 
+            $id = $id;
+           
+            $data2 = array(
+                'id_usuario'		    => $id,
+                'id'		    => $id,
+                'nombrefun'		=> $inf_prop['nombrefun'],
+
+                'apellido'		=> $inf_prop['nombrefun'],
+                'cedula'	 	=> $inf_prop['cedula'],
+                'email' 			=> $inf_prop['email'],
+                'fecha'          => $inf_prop['fecha'],
+            );
+           
+            $this->db->insert('seguridad.funcionarios', $data2);
+            $id = $id;
+            $data3 = array(
+                'id_entes'		    => $id,
+
+                'id_organo'		=> 0,
+                'rif'		=> $if_emp['rif'],
+                'codigo'		=> $if_emp['codigo'],
+                'desc_entes'	 	=> $if_emp['desc_entes'],
+                'correo' 			=> $if_emp['correo'],
+                'usuario'          => $id,
+                'fecha'          => $if_emp['fecha'],
+            );
+
+            $this->db->insert('public.entes', $data3);   
+            return true;      
+        }
+       
+    }
 }
 
 ?>

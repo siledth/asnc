@@ -10,8 +10,8 @@
                     <div class="row">
                         <div class="col-4">
                             <label>N° de Comprobante del Registro Nacional de Contratistas (RNC):</label>
-                            <input class="form-control" type="number" name="rif_b" id="rif_b"
-                            placeholder="1374840411174807217">
+                            <input class="form-control" type="text" name="rif_b" id="rif_b" 
+                            placeholder="1376973304354487213" value="1376973304354487213">
                         </div>
                         <div class="col- mt-4">
                             <button type="button" class="btn btn-default" onclick="consultar_rif();" name="button"> <i
@@ -68,28 +68,15 @@
                                         <label>Razón Social</label>
                                         <input type="text" name="nombre" id="nombre" class="form-control" readonly>
                                     </div>
+                                    <div class="form-group col-6">
+                                        <label>Representante Legal</label>
+                                        <input type="text" name="percontacto" id="percontacto" class="form-control" readonly>
+                                    </div>
 
                                     <br>
                                     <div class="col-11"></div>
                                     <div class="col-3"></div>
-                                    <div id="tabla_rep" class="col-6">
-                                        <table class="table table-bordered table-hover">
-                                            <thead style="background:#e4e7e8">
-                                                <tr>
-                                                    <th class="text-center" colspan="3">Datos del Representante de la
-                                                        Empresa:
-                                                    </th>
-                                                </tr>
-                                                <tr class="text-center">
-                                                    <th>Nombre y Apellido</th>
-                                                    <th>Cédula</th>
-                                                    <th>Rif</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="text-center">
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    
                                 </div>
                             </div>
 

@@ -105,7 +105,7 @@ function guardar_registro(){
 
             var base_url = '/index.php/Certificacion/registrar_certificacion_pn';
 
-            var base_url_2 = '/index.php/Certificacion/Listado_certificacion';
+            var base_url_2 = '/index.php/Certificacion/Listado_certificacion_exter';
 
 
             $.ajax({
