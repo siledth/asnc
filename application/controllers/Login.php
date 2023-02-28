@@ -153,7 +153,7 @@ class Login extends CI_Controller {
      'nombre'   => $this->input->post('email'),
       'password'   => $password,
       'email'    => $this->input->post('email'),
-      'perfil'   => 1,
+      'perfil'   => 8,
       'foto'   => 1,
       'estado'   => 1,
       'ultimo_login'   => date('Y-m-d h:i:s'),

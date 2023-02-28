@@ -111,7 +111,7 @@ class Login_model extends CI_model
                 'nombre'		=> $inf_usu['nombre'],
                 'password'		=> $inf_usu['password'],
                 'email'		=> $inf_usu['email'],
-                'perfil'            => 1,
+                'perfil'            => 8,
                 'foto'            => 1,
                 'estado'            => 1,
 
