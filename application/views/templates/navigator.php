@@ -175,53 +175,15 @@
                         </li>
                         <?php endif; ?>
                         <?php if (($this->session->userdata('certificacion') == 1)) : ?>
-                        <li class="has-sub">
-
-                            <a href="javascript:;">
-                                <b class="caret"></b>
-                                <span>Certificación</span>
-                                <span class="ml-1">PN y PJ</span>
-                            </a>
-                            <ul class="sub-menu">
-
-                                <?php if (($this->session->userdata('certificacion') == 1)) : ?>
-                                <li class="has-sub">
-                                <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion">Listado</a>
-                                </li>
-                                <?php endif; ?>
-                                <?php if (($this->session->userdata('certificacion') == 1)) : ?>
-                                <li class="has-sub">
-                                <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion_exter">Listado_exter</a>
-                                </li>
-                                
-                        </li>
+                    
                         <?php endif; ?>
                         <?php if (($this->session->userdata('ver_conf') == 8)) : ?>
 
-                        <li class="has-sub">
-                            <a href="javascript:;">
-                                <b class="caret"></b>
-                                Reportes
-                            </a>
-                            <ul class="sub-menu">
-                                <?php if (($this->session->userdata('menu_comprobante_eval_desem') == 1)) : ?>
-                                <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/reporte">-
-                                        Comprobante Registro</a></li>
-                                <?php endif; ?>
-                                <?php if (($this->session->userdata('menu_estdi_eval_desem') == 1)) : ?>
-                                <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/consulta">-
-                                        Estadistica</a></li>
-                                <?php endif; ?>
-                                <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
-                                <li><a href="<?= base_url() ?>index.php/Evaluacion_desempenio/estatus_contratista">-
-                                        Comprobante de Empresa <b>NO REGISTRADA</b></a></li>
-                                <?php endif; ?>
-                            </ul>
-                        </li>
+                   
                         <?php endif; ?>
-                    </ul>
+                 
                 </li>
-                <?php endif; ?>
+     
             </ul>
             </li>
             <?php endif; ?>
@@ -250,6 +212,34 @@
                         </ul>
                     </li>
                 </ul>
+
+            </li>
+            <?php endif; ?>
+
+            <?php if (($this->session->userdata('menu_rnce') == 1)) : ?>
+            <li class="has-sub">
+                <a href="javascript:;">
+                    <b class="caret"></b>
+                    <i class="fas fa-paste fa-lg" style="background:darkred;"></i>
+                    <span>CCP</span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                        </a>
+                        <?php if (($this->session->userdata('certificacion') == 1)) : ?>
+                    <li class="has-sub">
+                    <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion"><i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Listado de
+                            Certificación de Privado</a>
+                    </li>
+                    <?php endif; ?>
+                    <?php if (($this->session->userdata('certificacion') == 1)) : ?>
+                    <li class="has-sub">
+                    <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion_exter"><i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Listado_exter
+                            Certificación de Privado</a>
+                    </li>
+            </li><?php endif; ?>
+            </ul>
 
             </li>
             <?php endif; ?>

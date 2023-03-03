@@ -16,8 +16,7 @@ function modal(id) {
     var base_url = '/index.php/Certificacion/consultar_certificacion';
        // var base_url2 = '/index.php/certificacion/llenar_contratista_rp';
 
-    // var base_url =
-    //     window.location.origin + "/asnc/index.php/Certificacion/consultar_certificacion";
+     var base_url = window.location.origin + "/asnc/index.php/Certificacion/consultar_certificacion";
 
    
 
@@ -69,8 +68,8 @@ function guardar_proc_pago() {
 
       
         // var base_url =   window.location.origin +  "/asnc/index.php/Certificacion/guardar_proc_pag";
-        // var base_url_2 = window.location.origin + "/asnc/index.php/Certificacion/Listado_certificacion";
-            // var base_url_3 = window.location.origin + "/asnc/index.php/Certificacion/verpdf?id=";
+         //var base_url_2 = window.location.origin + "/asnc/index.php/Certificacion/Listado_certificacion";
+            /// var base_url_3 = window.location.origin + "/asnc/index.php/Certificacion/verpdf?id=";
         $.ajax({
             url: base_url,
             method: "POST",

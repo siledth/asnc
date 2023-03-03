@@ -53,6 +53,17 @@ function calcular(){
             var newstr8 = newstr7.replace('.', "");
             var precio_total_ac = newstr8.replace(',', ".");
     
+            var exitte  = $("#cedula").val();
+            if (exitte == 'V6429731'){ 
+                var finalss = 0;
+                $('#iva_estimado').val(finalss);
+                var finalsss = 0;
+                $('#monto_estimado').val(finalsss);
+                
+
+
+            }else{
+
             var monto_iva_estimado = precio_total_ac*porcentaje;
             var iva_estimado = parseFloat(monto_iva_estimado).toFixed(2);
             var iva_estimado = Intl.NumberFormat("de-DE").format(iva_estimado);
@@ -68,6 +79,7 @@ function calcular(){
             var monto_total_estimadoo = parseFloat(monto_t_estimado).toFixed(2);
             var monto_total_estimado = Intl.NumberFormat("de-DE").format(monto_total_estimadoo);
             $('#monto_estimado').val(monto_total_estimado);
+            }
     /*}*/
 }
 

@@ -1,6 +1,6 @@
 <?php
 class Certificacion_model extends CI_model
-{
+{ private $table = "certificacion.certificaciones";
     public function __construct(){
         parent::__construct();
         // Este metodo conecta a nuestra segunda conexión
@@ -52,9 +52,20 @@ class Certificacion_model extends CI_model
         $query = $this->db->get();
         return $result = $query->result_array();
     }
+    public function consulta_certi_exter2(){
+        $this->db->select('*');
+        $this->db->from('certificacion.certificaciones ');
+       $this->db->where('status', '2');
+       
+        $query = $this->db->get();
+        return $result = $query->result_array();
+    }
 
     public function save_certificacion($certifi, $experi_empre_capa,$experi_empre_cap_comisi,
     $infor_per_natu,$infor_per_prof,$for_mat_contr_publ,$exp_par_comi_10,$exp_dic_cap_3){
+       
+        $qrcode_data = $this->_generate_data_qrcode();
+       
         $this->db->select('max(e.id) as id');
         $query = $this->db->get('certificacion.certificaciones e');
         $response3 = $query->row_array();
@@ -80,6 +91,8 @@ class Certificacion_model extends CI_model
             'fecha_solic'=> $certifi['fecha_solic'],
             'user_soli'=> $certifi['user_soli'],
             'status' => $certifi['status'],
+            'qrcode_path'   => $this->_generate_qrcode($this->input->post('rif_cont'),$qrcode_data), //memanggil method _generate_qrcode dengan mengirimkan dua parameter yaitu data fullname dan data qrcode
+            'qrcode_data'   => $qrcode_data
             );         
         $quers =$this->db->insert('certificacion.certificaciones',$certifi1);
 
@@ -637,4 +650,86 @@ class Certificacion_model extends CI_model
         $query = $this->db_b->get('public.planillapirmera2');
         return $response = $query->row_array(); // sin el foreach
     }
+
+    public function get_data($qrcode_data="")
+ {
+  $this->db->select('*')
+        ->from($this->table);
+ 
+     if(!empty($qrcode_data)){
+      $this->db->where('qrcode_data', $qrcode_data);
+     }
+ 
+     $res = $this->db->get();
+     return $res->result_array();
+ }
+ 
+ public function save_data()
+ {
+  //memanggil method _generate_data_qrcode untuk proses generate data qrcode
+  $qrcode_data = $this->_generate_data_qrcode();
+ 
+  $data = array(
+            'fullname'      => $this->input->post('fullname'),
+            'email'       => $this->input->post('email'),
+            'qrcode_path'   => $this->_generate_qrcode($this->input->post('fullname'),$qrcode_data), //memanggil method _generate_qrcode dengan mengirimkan dua parameter yaitu data fullname dan data qrcode
+            'qrcode_data'   => $qrcode_data
+        );
+        $this->db->insert($this->table,$data);
+ }
+ 
+ //generate qrcode data
+   public function _generate_data_qrcode()
+   {
+     $this->load->helper('string');
+     $code = strtoupper(random_string('alnum', 6));
+     //proses cek data qrcode untuk memastikan data qrcode bersifat unik
+     $cek_data=$this->get_data($code); 
+     if(!empty($cek_data)){
+      //jika data qrcode ada yang sama, maka karakter terakhir dari data qrcode
+      //akan di-replace dengan angka jumlah data yang sama + 1
+        $code = substr_replace($code, count($cek_data)+1, 5);
+     }
+     return $code;
+   }
+ 
+ 
+ //generate image qrcode
+   public function _generate_qrcode($fullname, $data_code)
+   {
+    //load libraru qrcode
+     $this->load->library('ciqrcode');
+ 
+     //persiapan direktori untuk menyimpan image qrcode hasil generate. 
+     //Path dan nama direktori bisa kalian sesuaikan dengan kebutuhan kalian
+     $directory = "./assets/img/qrcode";
+     //persiapan filename untuk image qrcode. Diambil dari data fullname tanpa spasi + 3 digit angka random
+     $file_name = str_replace(" ", "", strtolower($fullname)).rand(pow(10, 2), pow(10, 3)-1);
+ 
+     //pembuatan direktori jika belum ada
+     if (!is_dir($directory)) {
+        mkdir($directory, 777, TRUE);
+     }
+ 
+     $config['cacheable']    = true; //boolean, the default is true
+     $config['quality']      = true; //boolean, the default is true
+     $config['size']         = '1024'; //interger, the default is 1024
+     $config['black']        = array(224,255,255); // array, default is array(255,255,255)
+     $config['white']        = array(70,130,180); // array, default is array(0,0,0)
+     $this->ciqrcode->initialize($config);
+ 
+     //menyisipkan ekstensi png pada filename qrcode
+     $image_name=$file_name.'.png';
+ 
+     $params['data'] = $data_code; //data yang akan di jadikan QR CODE
+     $params['level'] = 'H'; //H=High
+     $params['size'] = 10;
+     $params['savename'] = $directory.'/'.$image_name;
+    
+     $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
+     
+     return  $image_name;
+  }
+ 
+
 }

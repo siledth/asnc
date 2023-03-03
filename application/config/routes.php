@@ -14,6 +14,8 @@ $route['perfilinstitucional'] = 'Gestion/perfilinstitucional';
 $route['regllamadoconcurso']['get'] = 'Gestion/registrollamado';
 $route['editllamadoconcurso/(:any)']['get'] = 'Gestion/editarllamado/$1';
 $route['llamadoconcurso']['get'] = 'Gestion/llamadoconcurso';
+$route['certificacion1']['get'] = 'Gestion/certificacion1';// pagina de la consulta es el cotrolador /el nombre de la funcion
+$route['pdf']['get'] = 'Gestion/pdf';
 //******************************************************************************
 //******************************************************************************
 //***               RUTAS PARA EL SERVICIO DE FORMULARIOS                    ***
@@ -41,6 +43,9 @@ $route['frmLapso'] = 'Formulario/lapso';
 $route['apirest/calcularLapsos/(:any)/(:any)/(:num)/(:num)/(:num)']['get'] = 'LlamadoConcursoRest/calcular_lapsos/$1/$2/$3/$4/$5';
 $route['apirest/recalcularLapsos/(:any)/(:any)/(:any)']['get'] = 'LlamadoConcursoRest/recalcular_lapsos/$1/$2/$3';
 $route['apirest/llamadoConcurso']['get'] = 'LlamadoConcursoRest/buscar_todos';
+
+
+
 $route['apirest/llamadoConcursoPropio']['get'] = 'LlamadoConcursoRest/buscar_todos_propios';
 $route['apirest/llamadoConcurso/(:any)']['get'] = 'LlamadoConcursoRest/buscar_por_numero_proceso/$1';
 $route['apirest/llamadoConcurso/(:any)/(:num)']['get'] = 'LlamadoConcursoRest/buscar_por_texto/$1/$2';

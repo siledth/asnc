@@ -1,8 +1,6 @@
 <?php
 
-/**
- * @author Gary Diaz <garyking1982@gmail.com>
- */
+
 ?>
 
 <div id="content" class="content">

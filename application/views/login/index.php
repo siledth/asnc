@@ -125,6 +125,10 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                             <button type="button"
                                 onclick="location.href='<?php echo base_url() ?>index.php/llamadoconcurso'"
                                 class="btn btn-grey btn-lg">Ver Llamado a Concurso</button>
+                                <button type="button"
+                                onclick="location.href='<?php echo base_url() ?>index.php/certificacion1'"
+                                class="btn btn-grey btn-lg">Ver Certificación</button>
+                           
                            
                         </div>
 
@@ -138,6 +142,7 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                                 Registro Certificado
                             </button>
                         </div>
+
                     </form>
                 </div>
             </div>

@@ -62,5 +62,46 @@ class Gestion extends CI_Controller {
       $this->load->view('gestion/llamadoconcurso.php');
       $this->load->view('templates/footer.php');
     }
+    
+  }
+  public function certificacion1() {
+    if (!$this->session->userdata('session')) {
+      $data['ver_certi'] = $this->Certificacion_model->consulta_certi_exter2();
+      $this->load->view('templates/header.php');
+      $this->load->view('templates/navsinsesion.php');
+      $this->load->view('certificacion/cert_publ.php', $data);
+      $this->load->view('templates/footer.php');
+    } else {
+     
+      $this->load->view('templates/header.php');
+      $this->load->view('templates/navsinsesion.php');
+      $this->load->view('certificacion/cert_publ.php');
+      $this->load->view('templates/footer.php');
+    } 
+
+  }
+
+  public function pdf() {
+    if (!$this->session->userdata('session')) {
+      $comprobante = $this->input->get('id');
+      $data['time']=date("d-m-Y");
+       // $data =	$this->Certificacion_model->certificaciones_id($data);
+        $data['inf_pdf'] =	$this->Certificacion_model->ver_pdfs($comprobante);
+        
+
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navsinsesion.php');
+		$this->load->view('certificacion/pdf_ext.php', $data);
+        $this->load->view('templates/footer.php');
+    } else {
+     
+      $this->load->view('templates/header.php');
+      $this->load->view('templates/navsinsesion.php');
+      $this->load->view('certificacion/cert_publ.php');
+      $this->load->view('templates/footer.php');
+    }
+      
+    
+    
   }
 }

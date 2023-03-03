@@ -355,13 +355,13 @@
                                                         <label>N.º. Cédula de Identidad: <b title="Campo Obligatorio"
                                                                 style="color:red">*</b></label>
                                                         <input class="form-control" type="text" name="cedula"
-                                                            id="cedula" placeholder="cedula">
+                                                            id="cedula" placeholder="V6429731">
                                                     </div>
                                                     <div class="form-group col-4">
                                                         <label>N.º. RIF: <b title="Campo Obligatorio"
                                                                 style="color:red">*</b></label>
                                                         <input class="form-control" type="text" name="rif" id="rif"
-                                                            placeholder="Rif">
+                                                            placeholder="V0000000000">
                                                     </div>
                                                     <div class="form-group col-2">
                                                         <label>Alícuota IVA Estimado<b
@@ -482,11 +482,17 @@
                                                         <label class="col-form-label col-md-6 text-right">Bolivares a
                                                             Pagar </label>
                                                         <div class="col-md-6">
+                                                        
                                                             <input id="total_bs" name="total_bs" type="hidden"
                                                                 class="form-control text-center" readonly>
+                                                    
+                                                  
+
                                                             <input id="total_bss" name="total_bss" type="text"
                                                                 class="form-control text-center" readonly>
+
                                                         </div>
+
                                                     </div>
 
                                                     <div class="form-group col-8">

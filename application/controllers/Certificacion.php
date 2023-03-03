@@ -11,7 +11,7 @@ class Certificacion extends CI_Controller
         $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
         $data['pais'] 		 = $this->Configuracion_model->consulta_paises();
         $data['edo_civil'] 	 = $this->Configuracion_model->consulta_edo_civil();
-       
+        $data['rif_organoente']= $this->session->userdata('rif_organoente');
         $data['inf_1'] = $this->Certificacion_model-> inf_1();
         $data['inf_2'] = $this->Certificacion_model-> inf_2();
         $data['inf_3'] = $this->Certificacion_model-> inf_3();
@@ -38,6 +38,18 @@ class Certificacion extends CI_Controller
         //where ed.id_usuario = '$usuario'");
 	}
     public function Listado_certificacion_exter(){
+		if(!$this->session->userdata('session'))redirect('login');
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $data['rif'] = $this->session->userdata('rif');
+        $usuario = $this->session->userdata('id_user');
+        $data['ver_certi'] = $this->Certificacion_model->consulta_certi_exter($usuario);
+		$this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+		$this->load->view('certificacion/listado_externo.php', $data);
+        $this->load->view('templates/footer.php');
+       
+	}
+    public function Listado_certificacion_externo2(){
 		if(!$this->session->userdata('session'))redirect('login');
         $data['descripcion'] = $this->session->userdata('unidad');
         $data['rif'] = $this->session->userdata('rif');
@@ -88,6 +100,8 @@ class Certificacion extends CI_Controller
         $monto_trans  = $this->input->post("monto_trans");
         $declara  = $this->input->post("declara");
         $acepto  = $this->input->post("acepto");
+        $percontacto  = $this->input->post("percontacto");
+        
         $fecha_solic  = date('Y-m-d');
         $user_soli  = 1;
         $status  = '1';//estats pendiente  
@@ -383,6 +397,21 @@ class Certificacion extends CI_Controller
 		$this->load->view('certificacion/pdf.php', $data);
         $this->load->view('templates/footer.php');
     }
+    public function verpdf2(){
+        
+        $comprobante = $this->input->get('id');
+
+        
+        $data['time']=date("d-m-Y");
+       // $data =	$this->Certificacion_model->certificaciones_id($data);
+        $data['inf_pdf'] =	$this->Certificacion_model->ver_pdfs($comprobante);
+        
+
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+		$this->load->view('certificacion/pdf_ext.php', $data);
+        $this->load->view('templates/footer.php');
+    }
     ///////////////////////////////////////////////////////////////// registrar PN//////////////////////////////////////
     public function registrar_pn()
     {
@@ -517,5 +546,12 @@ class Certificacion extends CI_Controller
 		$data =	$this->Contratista_model->llenar_contratistas($data);
 		echo json_encode($data);
 	}
+
+
+  
+
+
+
+  
     
 }

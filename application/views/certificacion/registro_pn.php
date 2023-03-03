@@ -70,26 +70,11 @@
                                     </div>
 
                                     <br>
-                                    <div class="col-11"></div>
-                                    <div class="col-3"></div>
-                                    <div id="tabla_rep" class="col-6">
-                                        <table class="table table-bordered table-hover">
-                                            <thead style="background:#e4e7e8">
-                                                <tr>
-                                                    <th class="text-center" colspan="3">Datos del Representante de la
-                                                        Empresa:
-                                                    </th>
-                                                </tr>
-                                                <tr class="text-center">
-                                                    <th>Nombre y Apellido</th>
-                                                    <th>Cédula</th>
-                                                    <th>Rif</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="text-center">
-                                            </tbody>
-                                        </table>
+                                    <div class="form-group col-6">
+                                        <label>Representante Legal</label>
+                                        <input type="text" name="percontacto" id="percontacto" class="form-control" readonly>
                                     </div>
+                                    
                                 </div>
                             </div>
 
@@ -204,7 +189,7 @@
                                                         <label>N.º. Cédula de Identidad: <b title="Campo Obligatorio"
                                                                 style="color:red">*</b></label>
                                                         <input class="form-control" type="text" name="cedula"
-                                                            id="cedula" placeholder="V-24236852">
+                                                            id="cedula" placeholder="V24236852">
                                                     </div>
                                                     <div class="form-group col-4">
                                                         <label>N.º. RIF: <b title="Campo Obligatorio"

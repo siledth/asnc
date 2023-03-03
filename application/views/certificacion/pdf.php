@@ -31,11 +31,21 @@
                         <div class="col-12">
                             <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
                         </div>
-                        <div class="col-12 text-center">
+
+                        <div class="col-2 text-center"> 
+                            
+
+                        <img style="width: 100%" height="100%"
+                                        src=" <?= base_url() ?>assets/img/qrcode/<?=$inf_pdf['qrcode_path']?>" alt="Card image">
+                        </div>
+                        <div class="col-10 text-center">      
 
                             <h2> REGISTRO ÚNICO DE PERSONAS<br>
                                 NATURALES Y JURÍDICAS DE CARÁCTER<br>
                                 PRIVADO </h2> <br>
+
+                                </div>
+                                <div class="col-12 text-center"> 
                             <h4> Esta Dirección de Capacitación de Contrataciones Públicas, certifica que el
                                 Contratista detallado a continuación de conformidad a los criterios técnicos emitidos
                                 por el Servicio Nacional de Contrataciones (SNC), se encuentra acreditado para
@@ -49,8 +59,8 @@
                             <h4>INFORMACIÓN DE LA PERSONA NATURAL <br> Facilitador</h4>
                             <?php endif; ?>
                         </div>
-                        <div class="col-12 mt-2">
-                            <table id="data-table" class="table table-striped " style="font-size:15px">
+                        <div class="col-12 mt-4">
+                            <table BORDER=10  id="data-table" class="table table-striped " style="font-size:18px " padding: 0; >
                                 <thead>
                                     <tr> 
                                         <th style="text-align:right">Razón Social:</th>
