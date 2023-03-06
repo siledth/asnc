@@ -37,12 +37,16 @@ class Certificacion extends CI_Controller
         $this->load->view('templates/footer.php');
         //where ed.id_usuario = '$usuario'");
 	}
-    public function Listado_certificacion_exter(){
+    public function Listado_certificacion_exter(){ // esto es el perfil 8 
 		if(!$this->session->userdata('session'))redirect('login');
         $data['descripcion'] = $this->session->userdata('unidad');
         $data['rif'] = $this->session->userdata('rif');
         $usuario = $this->session->userdata('id_user');
+        $data['usuario']  = $this->session->userdata('id_user');
+        $data['ver'] = $this->Certificacion_model->consulta_certi50();
+        $data['ver3'] = $this->Certificacion_model->consulta_certi_exter50($usuario);
         $data['ver_certi'] = $this->Certificacion_model->consulta_certi_exter($usuario);
+        $data['time']=date("Y-m-d");
 		$this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
 		$this->load->view('certificacion/listado_externo.php', $data);
@@ -54,6 +58,7 @@ class Certificacion extends CI_Controller
         $data['descripcion'] = $this->session->userdata('unidad');
         $data['rif'] = $this->session->userdata('rif');
         $usuario = $this->session->userdata('id_user');
+        
         $data['ver_certi'] = $this->Certificacion_model->consulta_certi_exter($usuario);
 		$this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
@@ -101,9 +106,10 @@ class Certificacion extends CI_Controller
         $declara  = $this->input->post("declara");
         $acepto  = $this->input->post("acepto");
         $percontacto  = $this->input->post("percontacto");
+        $usuario = $this->session->userdata('id_user');
         
         $fecha_solic  = date('Y-m-d');
-        $user_soli  = 1;
+        
         $status  = '1';//estats pendiente  
         $nro_comprobante = $this->input->post("nro_comprobantes");     
         
@@ -124,7 +130,7 @@ class Certificacion extends CI_Controller
             "declara"       =>     $declara   ,
             "acepto"        =>    $acepto ,  
             "fecha_solic"   =>   date("Y-m-d"),  
-            "user_soli"     =>  1 ,  
+            "user_soli"     =>  $usuario ,  
             "status"        =>   1 
 
 
@@ -252,7 +258,142 @@ class Certificacion extends CI_Controller
 		$this->load->view('certificacion/ver_edit_cert.php', $data);
         $this->load->view('templates/footer.php');
 	}
+    public function editar_certificacion_pn(){
+		if(!$this->session->userdata('session'))redirect('login');
+        //$data['id']  = $this->input->get('id');
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $data['rif'] = $this->session->userdata('rif');
+        $data['rif_cont']       =$this->input->get('id');
+       // $data['id_propiet'] = $separar['2'];
+       $data['time']=date("Y-m-d");
+        $data['inf_1'] = $this->Certificacion_model->certificaciones($data['rif_cont']);
+        $data['bancos'] = $this->Publicaciones_model->consultar_b();
+        $data['inf_11'] = $this->Certificacion_model-> inf_1();
+        $data['inf_12'] = $this->Certificacion_model-> inf_2();
+        $data['inf_14'] = $this->Certificacion_model-> inf_35();
+        $data['inf__15'] = $this->Certificacion_model-> certificaciones4($data['rif_cont']);
 
+        //$data['inf_1'] = $this->Programacion_model->inf_1($data['matricula']);
+		$this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+		$this->load->view('certificacion/ver_edit_cert_pn.php', $data);
+        $this->load->view('templates/footer.php');
+	}
+
+    public function guardar_editar_certficado_pn(){
+		if(!$this->session->userdata('session'))redirect('login');
+        
+        $numcertrnc = $this->input->post("numcertrnc");
+        $nro_comprobante = $this->input->post("nro_comprobante");
+        $rif_cont = $this->input->post("rif_cont");
+        $nombresocial = $this->input->post("nombre");
+        $tipo_pers = 1;//persona juridica
+        $objetivo = $this->input->post("objetivo");
+        $cont_prog  = $this->input->post("cont_prog"); 
+        $total_bss  = $this->input->post("monto_estimado");
+        $n_ref  = $this->input->post("n_ref");
+        $banco_e  = $this->input->post("banco_e");
+        $banco_rec  = $this->input->post("banco_rec");
+        $fecha_trans = $this->input->post("fecha_trans");
+        $monto_trans  = $this->input->post("monto_trans");
+        $declara  = $this->input->post("declara");
+        $acepto  = $this->input->post("acepto");
+        $fecha_solic  = $this->input->post("fecha_solic");
+        $user_soli  = $this->session->userdata('id_user');;
+        $status  = '1';//estats pendiente  
+        $tipo_pers  = $this->input->post("tipo_pers");
+        $id  = $this->input->post("id_");
+        
+        
+        
+
+       
+
+        $certifi = array(
+            
+            "rif_cont"    =>        $rif_cont , 
+            "nombre"  =>       $nombresocial ,
+            "tipo_pers"     =>     $tipo_pers,  
+            "objetivo"      =>      $objetivo , 
+            "cont_prog"     =>      $cont_prog,  
+            "total_bss"     =>     $total_bss ,  
+            "n_ref"         =>    $n_ref   ,
+            "banco_e"       =>     $banco_e , 
+            "banco_rec"     =>    $banco_rec,  
+            "fecha_trans"   =>     $fecha_trans  ,
+            "monto_trans"   =>     $monto_trans ,  
+        
+            "fecha_solic"   =>   date("Y-m-d"),  
+            "user_soli"     =>  $user_soli ,  
+            "status"        =>   1 
+
+
+        ); 
+        $infor_per_natu = array( // registro de persona natural
+            'id'   	 => $this->input->post("id_"),
+            'nombre_ape'   	 => $this->input->post('nombre_ape'),
+            'cedula'   => $this->input->post('cedula'),
+            'rif'  => $this->input->post('rif'),
+            'bolivar_estimado' 	 => $this->input->post('bolivar_estimado'),
+            //"pj"     => $this->input->post("pj"),
+            "sub_total"     => $this->input->post("iva_estimado"),
+            "total_final"     => $this->input->post("monto_estimado"),
+            "n_certif"     => $this->input->post("numcertrnc"),
+            "rif_cont"     => $this->input->post("rif_cont"),
+            "nro_comprobante"  =>  $nro_comprobante, 
+              
+
+        );
+        $infor_per_prof = array( // registro infor profesional de la persona
+            "n_certif"     => $this->input->post("numcertrnc"),
+            "rif_cont"     => $this->input->post("rif_cont"),
+            "nro_comprobante"  =>  $nro_comprobante, 
+            'for_academica'   	 => $this->input->post('for_academica'),
+            'titulo'   => $this->input->post('titulo'),
+            'ano'  => $this->input->post('ano'),
+            'culminacion' 	 => $this->input->post('culminacion'),
+            "curso"     => $this->input->post("curso")
+                );
+        $for_mat_contr_publ = array( // registro frmacion en mat de contra publica
+                    'taller'   	 => $this->input->post('taller'),
+                    'institucion'   => $this->input->post('institucion'),
+                    'hor_dura'  => $this->input->post('hor_dura'),
+                    'certi' 	 => $this->input->post('certi'),
+                    "fech_cert"     => $this->input->post("fech_cert"),
+                    "vigencia"     => $this->input->post("vigencia"),
+                    "n_certif"     => $this->input->post("numcertrnc"),
+                    "nro_comprobante"  =>  $nro_comprobante, 
+                    
+                                ) ;   
+       $exp_par_comi_10 = array( // registro infor profesional de la persona
+          'organo10'   	 => $this->input->post('organo10'),
+           'act_adminis_desid'   => $this->input->post('act_adminis_desid'),
+           'n_acto'  => $this->input->post('n_acto'),
+           'fecha_act' 	 => $this->input->post('fecha_act'),
+           "area_10"     => $this->input->post("area_10"),
+           "dura_comi"     => $this->input->post("dura_comi"),
+           "n_certif"     => $this->input->post("numcertrnc"),
+           "nro_comprobante"  =>  $nro_comprobante, 
+                                );  
+        $exp_dic_cap_3 = array( // registro capsita 3 años de experiencia
+                  'organo3'   	 => $this->input->post('organo3'),
+                  'actividad3'   => $this->input->post('actividad3'),
+                  'desde3'  => $this->input->post('desde3'),
+                   'hasta3' 	 => $this->input->post('hasta3'),
+                   "n_certif"     => $this->input->post("numcertrnc"),
+                   "nro_comprobante"  =>  $nro_comprobante, 
+        );
+        $data = $this->Certificacion_model->sav_editar__certificacion_pn($rif_cont,$certifi,$infor_per_natu,$infor_per_prof,
+        $for_mat_contr_publ,$exp_par_comi_10, $exp_dic_cap_3);
+                                                    
+	   if ($data) {
+		   $this->session->set_flashdata('sa-success2', 'Se guardo los datos correctamente');
+		   redirect('certificacion/Listado_certificacion_exter');
+	   }else{
+			 $this->session->set_flashdata('sa-error', 'error');
+			redirect('certificacion/Listado_certificacion_exter');
+		 }
+	}
     public function ver_certi_editar(){
         if(!$this->session->userdata('session'))redirect('login');
 		$data = $this->input->post();
@@ -273,13 +414,42 @@ class Certificacion extends CI_Controller
 		$data = $this->Certificacion_model->inf_3_1($data);
 		echo json_encode($data);
     }
+    public function ver_certi_editar4(){
+        if(!$this->session->userdata('session'))
+        redirect('login');
+		$data = $this->input->post();
+		$data = $this->Certificacion_model->inf_3_2($data);
+		echo json_encode($data);
+    }
+    public function ver_certi_editar5(){
+        if(!$this->session->userdata('session'))
+        redirect('login');
+		$data = $this->input->post();
+		$data = $this->Certificacion_model->inf_3_3($data);
+		echo json_encode($data);
+    }
+    public function ver_certi_editar6(){
+        if(!$this->session->userdata('session'))
+        redirect('login');
+		$data = $this->input->post();
+		$data = $this->Certificacion_model->inf_3_4($data);
+		echo json_encode($data);
+    }
+    public function ver_certi_editar7(){
+        if(!$this->session->userdata('session'))
+        redirect('login');
+		$data = $this->input->post();
+		$data = $this->Certificacion_model->inf_3_5($data);
+		echo json_encode($data);
+    }
 
 
-
+// editar certififcacion pj
     public function editar_certficado(){
 		if(!$this->session->userdata('session'))redirect('login');
         
-        $numcertrnc = $this->input->post("numcertrnc");
+        $numcertrnc = $this->input->post("n_certif");
+        $nro_comprobante = $this->input->post("nro_comprobante");
         $rif_cont = $this->input->post("rif_cont");
         $nombresocial = $this->input->post("nombre");
         $tipo_pers = 1;//persona juridica
@@ -294,19 +464,19 @@ class Certificacion extends CI_Controller
         $declara  = $this->input->post("declara");
         $acepto  = $this->input->post("acepto");
         $fecha_solic  = $this->input->post("fecha_solic");
-        $user_soli  = 1;
+        $user_soli  = $this->session->userdata('id_user');;
         $status  = '1';//estats pendiente  
-        $nro_comprobante = $this->input->post("nro_comprobantes");     
+        $tipo_pers  = $this->input->post("tipo_pers");
+        
         
 
        
 
         $certifi = array(
-            "nro_comprobante"  =>  $nro_comprobante,  
-            "n_certif"  =>  $numcertrnc,  
+            
             "rif_cont"    =>        $rif_cont , 
             "nombre"  =>       $nombresocial ,
-            "tipo_pers"     =>     1,  
+            "tipo_pers"     =>     $tipo_pers,  
             "objetivo"      =>      $objetivo , 
             "cont_prog"     =>      $cont_prog,  
             "total_bss"     =>     $total_bss ,  
@@ -315,10 +485,9 @@ class Certificacion extends CI_Controller
             "banco_rec"     =>    $banco_rec,  
             "fecha_trans"   =>     $fecha_trans  ,
             "monto_trans"   =>     $monto_trans ,  
-            "declara"       =>     $declara   ,
-            "acepto"        =>    $acepto ,  
+        
             "fecha_solic"   =>   date("Y-m-d"),  
-            "user_soli"     =>  1 ,  
+            "user_soli"     =>  $user_soli ,  
             "status"        =>   1 
 
 
@@ -328,7 +497,7 @@ class Certificacion extends CI_Controller
             'actividad_experi_empre_capa'     => $this->input->post('actividad_experi_empre_capa'),
             'desde_experi_empre_capa'    => $this->input->post('desde_experi_empre_capa'),
             'hasta_experi_empre_capa' 	    => $this->input->post('hasta_experi_empre_capa'),  
-            "n_certif"     => $this->input->post("n_ref"),
+            "n_certif"     => $this->input->post("n_certif"),
             "rif_cont"     => $this->input->post("rif_cont"),
             "nro_comprobante"  =>  $nro_comprobante, 
                     
@@ -339,23 +508,214 @@ class Certificacion extends CI_Controller
             'actividad_exp'   => $this->input->post('actividad_exp'),
             'desde_exp'  => $this->input->post('desde_exp'),
             'hasta_exp' 	 => $this->input->post('hasta_exp'),
-            "n_certif"     => $this->input->post("n_ref"),
+            "n_certif"     => $this->input->post("n_certif"),
             "rif_cont"     => $this->input->post("rif_cont"),
             "nro_comprobante"  =>  $nro_comprobante,  
 
         );
-     
-        $data = $this->Certificacion_model->editar__certificacion($rif_cont,$certifi,$experi_empre_capa,$experi_empre_cap_comisi);
+        $infor_per_prof = array( // registro infor profesional de la persona
+            "n_certif"     => $this->input->post("n_certif"),
+            "rif_cont"     => $this->input->post("rif_cont"),
+            "nro_comprobante"  =>  $nro_comprobante, 
+            'for_academica'   	 => $this->input->post('for_academica'),
+            'titulo'   => $this->input->post('titulo'),
+            'ano'  => $this->input->post('ano'),
+            'culminacion' 	 => $this->input->post('culminacion'),
+            "curso"     => $this->input->post("curso")
+                );
+        $for_mat_contr_publ = array( // registro frmacion en mat de contra publica
+                    'taller'   	 => $this->input->post('taller'),
+                    'institucion'   => $this->input->post('institucion'),
+                    'hor_dura'  => $this->input->post('hor_dura'),
+                    'certi' 	 => $this->input->post('certi'),
+                    "fech_cert"     => $this->input->post("fech_cert"),
+                    "vigencia"     => $this->input->post("vigencia"),
+                    "n_certif"     => $this->input->post("n_certif"),
+                    
+                                ) ;   
+       $exp_par_comi_10 = array( // registro infor profesional de la persona
+          'organo10'   	 => $this->input->post('organo10'),
+           'act_adminis_desid'   => $this->input->post('act_adminis_desid'),
+           'n_acto'  => $this->input->post('n_acto'),
+           'fecha_act' 	 => $this->input->post('fecha_act'),
+           "area_10"     => $this->input->post("area_10"),
+           "dura_comi"     => $this->input->post("dura_comi"),
+           "n_certif"     => $this->input->post("n_certif"),
+                                );  
+        $exp_dic_cap_3 = array( // registro capsita 3 años de experiencia
+                  'organo3'   	 => $this->input->post('organo3'),
+                  'actividad3'   => $this->input->post('actividad3'),
+                  'desde3'  => $this->input->post('desde3'),
+                   'hasta3' 	 => $this->input->post('hasta3'),
+                   "n_certif"     => $this->input->post("n_certif"),
+        );
+        $data = $this->Certificacion_model->editar__certificacion($rif_cont,$certifi,$experi_empre_capa,
+        $experi_empre_cap_comisi,$infor_per_prof,
+        $for_mat_contr_publ,$exp_par_comi_10, $exp_dic_cap_3);
                                                     
 	   if ($data) {
 		   $this->session->set_flashdata('sa-success2', 'Se guardo los datos correctamente');
-		   redirect('certificacion/Listado_certificacion');
+		   redirect('certificacion/Listado_certificacion_exter');
 	   }else{
 			 $this->session->set_flashdata('sa-error', 'error');
-			redirect('certificacion/Listado_certificacion');
+			redirect('certificacion/Listado_certificacion_exter');
+		 }
+	}
+    public function renovar_certificacion(){
+		if(!$this->session->userdata('session'))redirect('login');
+        
+        $numcertrnc = $this->input->post("numcertrnc");
+        $nro_comprobante = $this->input->post("nro_comprobante");
+        $rif_cont = $this->input->post("rif_cont");
+        $nombresocial = $this->input->post("nombre");
+        $tipo_pers = 1;//persona juridica
+        $objetivo = $this->input->post("objetivo");
+        $cont_prog  = $this->input->post("cont_prog"); 
+        $total_bss  = $this->input->post("total_bss");
+        $n_ref  = $this->input->post("n_ref");
+        $banco_e  = $this->input->post("banco_e");
+        $banco_rec  = $this->input->post("banco_rec");
+        $fecha_trans = $this->input->post("fecha_trans");
+        $monto_trans  = $this->input->post("monto_trans");
+        $declara  = $this->input->post("declara");
+        $acepto  = $this->input->post("acepto");
+        $fecha_solic  = $this->input->post("fecha_solic");
+        $user_soli  = $this->session->userdata('id_user');
+        $status  = '1';//estats pendiente  
+        $tipo_pers  = $this->input->post("tipo_pers");     
+        $certifi = array(
+            
+            "rif_cont"    =>        $rif_cont , 
+            "nombre"  =>       $nombresocial ,
+            "tipo_pers"     =>     $tipo_pers,  
+            "objetivo"      =>      $objetivo , 
+            "cont_prog"     =>      $cont_prog,  
+            "total_bss"     =>     $total_bss ,  
+            "n_ref"         =>    $n_ref   ,
+            "banco_e"       =>     $banco_e , 
+            "banco_rec"     =>    $banco_rec,  
+            "fecha_trans"   =>     $fecha_trans  ,
+            "monto_trans"   =>     $monto_trans ,  
+            "fecha_solic"   =>   date("Y-m-d"),  
+            "user_soli"     =>  $user_soli ,  
+            "status"        =>   1 
+
+
+        ); 
+        $experi_empre_capa = array( //experi_empre_capa
+            'organo_experi_empre_capa'   	=> $this->input->post('organo_experi_empre_capa'),
+            'actividad_experi_empre_capa'     => $this->input->post('actividad_experi_empre_capa'),
+            'desde_experi_empre_capa'    => $this->input->post('desde_experi_empre_capa'),
+            'hasta_experi_empre_capa' 	    => $this->input->post('hasta_experi_empre_capa'),  
+            "n_certif"     => $numcertrnc,
+            "rif_cont"     => $this->input->post("rif_cont"),
+            "nro_comprobante"  =>  $nro_comprobante, 
+                    
+        ); 
+
+        $experi_empre_cap_comisi = array( // experien cap 3 años
+            'organo_expe'   	 => $this->input->post('organo_expe'),
+            'actividad_exp'   => $this->input->post('actividad_exp'),
+            'desde_exp'  => $this->input->post('desde_exp'),
+            'hasta_exp' 	 => $this->input->post('hasta_exp'),
+            "n_certif"     => $numcertrnc,
+            "rif_cont"     => $this->input->post("rif_cont"),
+            "nro_comprobante"  =>  $nro_comprobante, 
+           
+
+        );
+        $infor_per_natu = array( // registro de persona natural
+            'nombre_ape'   	 => $this->input->post('nombre_ape'),
+            'cedula'   => $this->input->post('cedula'),
+            'rif'  => $this->input->post('rif'),
+            'bolivar_estimado' 	 => $this->input->post('bolivar_estimado'),
+            "pj"     => $this->input->post("pj"),
+            "sub_total"     => $this->input->post("sub_total"),
+            "total_bss"     => $this->input->post("total_bss"),
+            "n_certif"     => $numcertrnc,
+            "rif_cont"     => $this->input->post("rif_cont"),
+            "nro_comprobante"  =>  $nro_comprobante, 
+             
+              
+
+        );
+        $infor_per_prof = array( // registro infor profesional de la persona
+            "n_certif"     => $numcertrnc,
+            "rif_cont"     => $this->input->post("rif_cont"),
+            "nro_comprobante"  =>  $nro_comprobante, 
+            'for_academica'   	 => $this->input->post('for_academica'),
+            'titulo'   => $this->input->post('titulo'),
+            'ano'  => $this->input->post('ano'),
+            'culminacion' 	 => $this->input->post('culminacion'),
+            "curso"     => $this->input->post("curso")
+                );
+        $for_mat_contr_publ = array( // registro frmacion en mat de contra publica
+                    'taller'   	 => $this->input->post('taller'),
+                    'institucion'   => $this->input->post('institucion'),
+                    'hor_dura'  => $this->input->post('hor_dura'),
+                    'certi' 	 => $this->input->post('certi'),
+                    "fech_cert"     => $this->input->post("fech_cert"),
+                    "vigencia"     => $this->input->post("vigencia"),
+                    "n_certif"     => $numcertrnc,
+                    "nro_comprobante"  =>  $nro_comprobante, 
+                    
+                                ) ;   
+       $exp_par_comi_10 = array( // registro infor profesional de la persona
+          'organo10'   	 => $this->input->post('organo10'),
+           'act_adminis_desid'   => $this->input->post('act_adminis_desid'),
+           'n_acto'  => $this->input->post('n_acto'),
+           'fecha_act' 	 => $this->input->post('fecha_act'),
+           "area_10"     => $this->input->post("area_10"),
+           "dura_comi"     => $this->input->post("dura_comi"),
+           "n_certif"     => $numcertrnc,
+                                );  
+        $exp_dic_cap_3 = array( // registro capsita 3 años de experiencia
+                  'organo3'   	 => $this->input->post('organo3'),
+                  'actividad3'   => $this->input->post('actividad3'),
+                  'desde3'  => $this->input->post('desde3'),
+                   'hasta3' 	 => $this->input->post('hasta3'),
+                   "n_certif"     => $numcertrnc,
+        );
+        $data = $this->Certificacion_model->renovacion__certificacion($rif_cont,$certifi,$experi_empre_capa,
+        $experi_empre_cap_comisi,$infor_per_prof,
+        $for_mat_contr_publ,$exp_par_comi_10, $exp_dic_cap_3,$infor_per_natu);
+                                                    
+	   if ($data) {
+		   $this->session->set_flashdata('sa-success2', 'Se guardo los datos correctamente');
+		   redirect('certificacion/Listado_certificacion_exter');
+	   }else{
+			 $this->session->set_flashdata('sa-error', 'error');
+			redirect('certificacion/Listado_certificacion_exter');
 		 }
 	}
 
+    public function renovar_certificacion1(){
+		if(!$this->session->userdata('session'))redirect('login');
+        //$data['id']  = $this->input->get('id');
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $data['rif'] = $this->session->userdata('rif');
+        $data['rif_cont']       =$this->input->get('id');
+       // $data['id_propiet'] = $separar['2'];
+       $data['time']=date("Y-m-d");
+        $data['inf_1'] = $this->Certificacion_model->certificaciones($data['rif_cont']);
+        $data['bancos'] = $this->Publicaciones_model->consultar_b();
+        $data['inf_11'] = $this->Certificacion_model-> inf_1();
+        $data['inf_12'] = $this->Certificacion_model-> inf_2();
+        $data['inf_14'] = $this->Certificacion_model-> inf_3();
+
+        $data['rif_organoente']= $this->session->userdata('rif_organoente');
+        $data['inf_15'] = $this->Certificacion_model-> inf_1();
+        $data['inf_2'] = $this->Certificacion_model-> inf_2();
+        $data['inf_3'] = $this->Certificacion_model-> inf_3();
+        $data['time']=date("Y-m-d");
+        $data['bancos'] = $this->Publicaciones_model->consultar_b();
+
+        //$data['inf_1'] = $this->Programacion_model->inf_1($data['matricula']);
+		$this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+		$this->load->view('certificacion/ver_renovar_certificacion1.php', $data);
+        $this->load->view('templates/footer.php');
+	} 
     public function consultar_certificacion(){
         if(!$this->session->userdata('session'))redirect('login');
         $data = $this->input->post();
@@ -448,7 +808,7 @@ class Certificacion extends CI_Controller
         $tipo_pers = 2;//persona natural
         $objetivo = $this->input->post("objetivo");
         $cont_prog  = $this->input->post("cont_prog"); 
-        $total_bss  = $this->input->post("total_bss");
+        $total_bss  = $this->input->post("monto_estimado");
         $n_ref  = $this->input->post("n_ref");
         $banco_e  = $this->input->post("banco_e");
         $banco_rec  = $this->input->post("banco_rec");
@@ -457,7 +817,7 @@ class Certificacion extends CI_Controller
         $declara  = $this->input->post("declara");
         $acepto  = $this->input->post("acepto");
         $fecha_solic  = date('Y-m-d');
-        $user_soli  = 1;
+        $user_soli  = $this->session->userdata('id_user');
         $status  = '1';//estats pendiente  
         $nro_comprobante = $this->input->post("nro_comprobantes");     
         
@@ -478,7 +838,7 @@ class Certificacion extends CI_Controller
             "declara"       =>     $declara   ,
             "acepto"        =>    $acepto ,  
             "fecha_solic"   =>   date("Y-m-d"),  
-            "user_soli"     =>  1 ,  
+            "user_soli"     =>  $user_soli  ,  
             "status"        =>   1 
 
 

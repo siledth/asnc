@@ -11,7 +11,7 @@
                         <div class="col-4">
                             <label>N° de Comprobante del Registro Nacional de Contratistas (RNC):</label>
                             <input class="form-control" type="text" name="rif_b" id="rif_b" 
-                            placeholder="1376973304354487213" value="1376973304354487213">
+                            placeholder="1376973304354487213" >
                         </div>
                         <div class="col- mt-4">
                             <button type="button" class="btn btn-default" onclick="consultar_rif();" name="button"> <i

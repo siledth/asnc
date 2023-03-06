@@ -10,15 +10,17 @@
                             <div class="card-block">
                                 <blockquote class="card-blockquote" style="margin-bottom: -19px;">
                                     <p class="f-s-18 text-inverse f-w-600"> <?=$descripcion?>.</p>
-                                    <p class="f-s-16">RIF.: <?=$rif?> <br>
+                                    <p class="f-s-16">RIF.: <?=$time?> <br>
                                 </blockquote>
                             </div>
                         </div>
                     </div>
+                   
+
                     <div class="col-12 text-center">
-                        <?php foreach($ver_certi as $datos):?>
-                        <?php if ($datos['status'] == 3) : ?>
                         <div class="row">
+
+                        <?php if   (($ver['user_soli'] != $usuario )  ): ?>
                             <div class="col-4">
                                 <button
                                     onclick="location.href='<?php echo base_url()?>index.php/Certificacion/registrar'"
@@ -26,6 +28,27 @@
                                     Registrar Certificación PJ
                                 </button>
                             </div>
+                            <div class="col-4">
+                                <button
+                                    onclick="location.href='<?php echo base_url()?>index.php/Certificacion/registrar_pn'"
+                                    type="button" class="btn btn-lg btn-default" name="button">
+                                    Registrar Certificación PN
+                                </button>
+                            </div>
+
+
+
+                        <?php elseif   ( $ver3['tipo_pers'] == 2 ): ?>
+                            <div class="col-4">
+                                <button
+                                    onclick="location.href='<?php echo base_url()?>index.php/Certificacion/registrar'"
+                                    type="button" class="btn btn-lg btn-default" name="button">
+                                    Registrar Certificación PJ
+                                </button>
+                            </div>
+                           
+
+                            <?php elseif ($ver3['tipo_pers'] == 1 ) : ?>
 
                             <div class="col-4">
                                 <button
@@ -34,13 +57,15 @@
                                     Registrar Certificación PN
                                 </button>
                             </div>
-                        </div>
-                        <?php endif; ?>
-                        <br>
-                        <?php endforeach;?>
-                    </div>
+                            <?php else: ?>
+                                _
+                            <?php endif; ?>
 
-                    <div class="col-1"></div>
+                        </div>
+
+                    </div>
+                   
+                                        <div class="col-1"></div>
                     <div class="col-10 mt-3">
                         <h3 class="text-center">Registro de Certificaciones en espera de Revisión</h3>
                         <table id="data-table-default" data-order='[[ 3, "asc" ]]'
@@ -70,21 +95,38 @@
                                     <td class="center">
                                         <a href="<?php echo base_url();?>index.php/Certificacion/ver_certifi?id=<?php echo $datos['rif_cont'];?>"
                                             class="button">
-                                            <i class="fas fa-lg fa-fw fa-eye" style="color: green;"></i>
+                                            <i class="fas fa-lg fa-fw fa-eye" style="color: green;"> <br><br>ver</i>
                                             <a />
-                                            <?php if (($datos['status'] == 2) ) : ?>
+                                            <?php if (($datos['vigen_cert_hasta'] > $time) ) : ?>
                                             <a href="<?php echo base_url();?>index.php/Certificacion/verpdf?id=<?php echo $datos['id'];?>"
                                                 class="button">
-                                                <i class='fas fa-align-justify'> </i>
+                                                <i class='fas fas fa-lg fa-fw fa-align-justify'><br><br>pdf</i> _
                                                 <a />
+                                                <?php elseif (($datos['status'] == 2) )  : ?> 
+                                                    
+                                                    <a href="<?php echo base_url();?>index.php/Certificacion/renovar_certificacion1?id=<?php echo $datos['rif_cont'];?>"
+                                                        class="button">
+                                                        <i class="fas fa-lg fa-fw  fa-edit" style="color: red;"><br><br> Renovar</i>
+
+                                                        <a />
                                                 <?php endif; ?>
-                                                <?php if (($datos['status'] == 1) ) : ?>
+                                                <?php if (($datos['tipo_pers'] == 1) && $datos['status'] == 1 ) : ?>
                                                 <a href="<?php echo base_url();?>index.php/Certificacion/editar_certificacion?id=<?php echo $datos['rif_cont'];?>"
                                                     class="button">
-                                                    <i class="fas fa-lg fa-fw  fa-edit"></i>
-                                                    <?php endif; ?>
+                                                    <i class="fas fa-lg fa-fw  fa-edit"><br><br> Ed</i>
                                                     <a />
+                                                    <?php elseif   (( $datos['tipo_pers'] == 2) && $datos['status'] == 1): ?> 
+                                                  
+                                                  
+                                                        <a href="<?php echo base_url();?>index.php/Certificacion/editar_certificacion_pn?id=<?php echo $datos['rif_cont'];?>"
+                                                    class="button">
+                                                    <i class="fas fa-lg fa-fw  fa-edit"><br><br> Ed</i>
+                                                    <a />
+                                                  
+                                                  
+                                                  <?php endif; ?>
 
+                                                    
 
 
                                     </td>

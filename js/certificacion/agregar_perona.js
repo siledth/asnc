@@ -189,12 +189,31 @@ function agregar_personaToCartTable(cells){
 
 
 
-		document.querySelector('#target_persona tbody').appendChild(newRow);
+		  var cellremove_medBtn = createCell();
+		  cellremove_medBtn.appendChild(createremove_medBtn())
+		  newRow.appendChild(cellremove_medBtn);
+
+		  document.querySelector('#target_persona tbody').appendChild(newRow);
 		
-		$(document).on('click', '.borrar', function(event) {
-			event.preventDefault();
-			$(this).closest('tr').remove();
-		  });
+		   $("#nombre_ape").val(''); // me resfresca los input
+	
+			
+	
+
+		  function remove_med() {
+				 var row = this.parentNode.parentNode;
+				 document.querySelector('#target_persona tbody')
+				 .removeChild(row);
+			
+		  }
+
+		  function createremove_medBtn() {
+			  var btnremove_med = document.createElement('button');
+			  btnremove_med.className = 'btn btn-xs btn-danger';
+			  btnremove_med.onclick = remove_med;
+			  btnremove_med.innerText = 'Descartar';
+			  return btnremove_med;
+		  }
 		
 		$("#btn_guar_2").prop('disabled', true);
 	}

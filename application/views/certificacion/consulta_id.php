@@ -296,7 +296,7 @@
 
    
         <div class="col 12 text-center">
-        <?php if (($inf_1['status'] < 2) && $rif_organoente == "G200024518") : ?>
+        <?php if (($inf_1['status'] == 1) && $rif_organoente == "G200024518") : ?>
         <a onclick="modal(<?php echo $inf_1['id']?>);" data-toggle="modal" data-target="#exampleModal"
             style="color: white">
             <i title="Aprobar" class="fas fa-4x fa-fw fa-file-import" style="color: crimson;"></i>

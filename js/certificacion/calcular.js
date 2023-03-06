@@ -1,23 +1,3 @@
-$('#matricular').on('select2:select', function (e) {
-    var matricular = e.params.data['id'];
-    var base_url =window.location.origin+'/marina/index.php/factura/listar_info';
-//llenan los datos en la factura del propietario
-    $.ajax({
-        url: base_url,
-        method:'post',
-        data: {matricular: matricular},
-        dataType:'json',
-
-        success: function(response){
-            $("#cedula").val(response['cedula']);
-            $("#nombre").val(response['nombrecom']);
-            $("#pies").val(response['pies']);
-            $("#tele_1").val(response['tele_1']);
-        }
-    });
-});
-
-
 function calcular(){
 
    // var pies = $('#pies').val();

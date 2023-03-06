@@ -68,6 +68,8 @@ class Login extends CI_Controller {
                     'ver_user_lista' => $data['ver_user_lista'],
                     'ver_user_perfil' => $data['ver_user_perfil'],
                     'certificacion' => $data['certificacion'],
+                    'certi_externo' => $data['certi_externo'],
+                    'menu_certi' => $data['menu_certi'],  
           'session' => TRUE,
         ];
 

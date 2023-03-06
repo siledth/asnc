@@ -216,7 +216,7 @@
             </li>
             <?php endif; ?>
 
-            <?php if (($this->session->userdata('menu_rnce') == 1)) : ?>
+            <?php if (($this->session->userdata('menu_certi') == 1)) : ?>
             <li class="has-sub">
                 <a href="javascript:;">
                     <b class="caret"></b>
@@ -233,7 +233,7 @@
                             Certificación de Privado</a>
                     </li>
                     <?php endif; ?>
-                    <?php if (($this->session->userdata('certificacion') == 1)) : ?>
+                    <?php if (($this->session->userdata('certi_externo') == 1)) : ?>
                     <li class="has-sub">
                     <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion_exter"><i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Listado_exter
                             Certificación de Privado</a>
