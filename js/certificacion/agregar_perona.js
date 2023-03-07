@@ -22,11 +22,13 @@ function agregar_personaToCartTable(cells){
 	var nombre_ape = $("#nombre_ape").val();
 	var cedula = $("#cedula").val();
  	var rif = $("#rif").val();
+	 var id_alicuota_iva = $("#id_alicuota_iva").val();
+	 
 	var bolivar_estimado = $("#bolivar_estimado").val();
 	var iva_estimado = $("#iva_estimado").val();
 	var monto_estimado = $("#monto_estimado").val();
      	
-	if (nombre_ape == '' || cedula == '' || rif == ''  ){
+	if (nombre_ape == '' || cedula == '' || rif == '' || id_alicuota_iva == ''  ){
 
 		if (nombre_ape== '') {
 			document.getElementById("nombre_ape").focus();
@@ -39,6 +41,9 @@ function agregar_personaToCartTable(cells){
 		}
         else if (bolivar_estimado == '') {
 			document.getElementById("bolivar_estimado").focus();
+		}
+		else if (id_alicuota_iva == '') {
+			document.getElementById("id_alicuota_iva").focus();
 		}
 		
 	}else{

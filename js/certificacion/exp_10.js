@@ -28,7 +28,8 @@ function agregar_exp_10ToCartTable(cells){
 	var fecha_act = $("#fecha_act").val();
 
      	
-	if (organo10 == '' || act_adminis_desid == '' || n_acto == ''  ){
+	if (organo10 == '' || act_adminis_desid == '' || n_acto == ''  || area_10 == '' || dura_comi == ''
+	|| fecha_act == ''){
 
 		if (organo10== '') {
 			document.getElementById("organo10").focus();
@@ -38,6 +39,15 @@ function agregar_exp_10ToCartTable(cells){
 		}
 		else if (n_acto == '') {
 			document.getElementById("n_acto").focus();
+		}
+		else if (area_10 == '') {
+			document.getElementById("area_10").focus();
+		}
+		else if (dura_comi == '') {
+			document.getElementById("dura_comi").focus();
+		}
+		else if (fecha_act == '') {
+			document.getElementById("fecha_act").focus();
 		}
       
 		

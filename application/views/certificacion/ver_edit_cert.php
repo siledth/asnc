@@ -24,12 +24,14 @@
                                     </div>
                                 </div>
                             </div>
+                            <h4 style="color:red;">EDITAR REGISTRO PERSONA JURIDICO</h4>
                             <?php foreach($inf_1 as $inf_1):?>
                             <div class="col-9 mt-2 form-group">
                                 <label>N° de Comprobante Registro Unico <b style="color:red">*</b></label>
                                 <input id="nro_comprobante" name="nro_comprobante"
                                     value="<?=$inf_1['nro_comprobante']?>" type="text" class="form-control" readonly>
-
+                                    <input id="id_" name="id_"
+                                    value="<?=$inf_1['id']?>" type="text" class="form-control" readonly>
                             </div>
                             <div class="col-2 mt-2 form-group">
 

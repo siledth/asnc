@@ -28,7 +28,8 @@ function agregar_for_mat_certToCartTable(cells){
 	var vigencia = $("#vigencia").val();
 
      	
-	if (taller == '' || institucion == '' || hor_dura == ''  ){
+	if (taller == '' || institucion == '' || hor_dura == ''  || certi == ''
+	|| fech_cert == '' ){
 
 		if (taller== '') {
 			document.getElementById("taller").focus();
@@ -38,6 +39,12 @@ function agregar_for_mat_certToCartTable(cells){
 		}
 		else if (hor_dura == '') {
 			document.getElementById("hor_dura").focus();
+		}
+		else if (certi == '') {
+			document.getElementById("certi").focus();
+		}
+		else if (fech_cert == '') {
+			document.getElementById("fech_cert").focus();
 		}
         
 		

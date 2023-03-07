@@ -21,7 +21,7 @@ function agregar_ex3aToCartTable(cells){
 	 
 
 
-	if (organo3 == '' || actividad3 == '' || desde3 == '' ){
+	if (organo3 == '' || actividad3 == '' || desde3 == '' || hasta3 == '' ){
 		if (organo3== '') {
 			document.getElementById("organo3").focus();
 		}else if (actividad3== '') {
@@ -29,6 +29,9 @@ function agregar_ex3aToCartTable(cells){
 		}
 		else if (desde3 == '') {
 			document.getElementById("desde3").focus();
+		}
+		else if (hasta3 == '') {
+			document.getElementById("hasta3").focus();
 		}
 	}else{
 		var newRow = document.createElement('tr');

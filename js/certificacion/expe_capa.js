@@ -15,14 +15,14 @@ function remove_ff_acc() {
 function agregar_ffToCartTable(cells){
 	
 	var organo_expe = $("#organo_expe").val();
-	var tipo_ced = $("#tipo_ced").val();
+	
 	var actividad_exp = $("#actividad_exp").val();
 	var desde_exp = $("#desde_exp").val();
 	var hasta_exp = $("#hasta_exp").val();
-	var tipo = $("#tipo").val();
 
 
-	if (organo_expe == '' || actividad_exp == '' || desde_exp == '' ){
+
+	if (organo_expe == '' || actividad_exp == '' || desde_exp == '' || hasta_exp == ''){
 		if (organo_expe== '') {
 			document.getElementById("organo_expe").focus();
 		}else if (actividad_exp== '') {
@@ -30,6 +30,9 @@ function agregar_ffToCartTable(cells){
 		}
 		else if (desde_exp == '') {
 			document.getElementById("desde_exp").focus();
+		}
+		else if (hasta_exp == '') {
+			document.getElementById("hasta_exp").focus();
 		}
 	}else{
 		var newRow = document.createElement('tr');

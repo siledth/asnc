@@ -22,8 +22,8 @@ function agregar_ccnu_accToCartTable(cells){
  	var desde_experi_empre_capa = $("#desde_experi_empre_capa").val();
 	var hasta_experi_empre_capa = $("#hasta_experi_empre_capa").val();
      	
-	if (organo_experi_empre_capa == '' || actividad_experi_empre_capa == '' || desde_experi_empre_capa == ''  ){
-
+	if (organo_experi_empre_capa == '' || actividad_experi_empre_capa == '' || desde_experi_empre_capa == '' || hasta_experi_empre_capa == '' ){
+		
 		if (organo_experi_empre_capa== '') {
 			document.getElementById("organo_experi_empre_capa").focus();
 		}
@@ -36,6 +36,7 @@ function agregar_ccnu_accToCartTable(cells){
         else if (hasta_experi_empre_capa == '') {
 			document.getElementById("hasta_experi_empre_capa").focus();
 		}
+	
 		
 	}else{
 		var newRow = document.createElement('tr');

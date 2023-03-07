@@ -32,43 +32,44 @@
                             <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
                         </div>
 
-                        <div class="col-2 text-center"> 
-                            
+                        <div class="col-2 text-center">
 
-                        <img style="width: 100%" height="100%"
-                                        src=" <?= base_url() ?>assets/img/qrcode/<?=$inf_pdf['qrcode_path']?>" alt="Card image">
+
+                            <img style="width: 100%" height="100%"
+                                src=" <?= base_url() ?>assets/img/qrcode/<?=$inf_pdf['qrcode_path']?>" alt="Card image">
                         </div>
-                        <div class="col-10 text-center">      
+                        <div class="col-10 text-center">
 
                             <h2> REGISTRO ÚNICO DE PERSONAS<br>
                                 NATURALES Y JURÍDICAS DE CARÁCTER<br>
                                 PRIVADO </h2> <br>
 
-                                </div>
-                                <div class="col-12 text-center"> 
+                        </div>
+                        <div class="col-12 text-center">
                             <h4> Esta Dirección de Capacitación de Contrataciones Públicas, certifica que el
                                 Contratista detallado a continuación de conformidad a los criterios técnicos emitidos
                                 por el Servicio Nacional de Contrataciones (SNC), se encuentra acreditado para
                                 impartir los programas, cursos y talleres en materia de Comisión de Contrataciones
                                 Públicas:</h4> <br>
 
-                                <?php if   (($inf_pdf['tipo_pers'] === 1 )  ): ?>
+                            <?php if   (($inf_pdf['tipo_pers'] == 1 )  ): ?>
                             <h4>INFORMACIÓN DE LA PERSONA JURÍDICA</h4>
-                           
+
 
                             <?php else: ?>
-                                <h4>INFORMACIÓN DE LA PERSONA NATURAL <br> Facilitador</h4>
+                            <h4>INFORMACIÓN DE LA PERSONA NATURAL <br> FACILITADOR(A)</h4>
                             <?php endif; ?>
 
                         </div>
                         <div class="col-12 mt-4">
-                            <table BORDER=10  id="data-table" class="table table-striped " style="font-size:18px " padding: 0; >
+                            <table BORDER=10 id="data-table" class="table table-striped " style="font-size:18px "
+                                padding: 0;>
                                 <thead>
-                                    <tr> 
-                                    <?php if   (($inf_pdf['tipo_pers'] === 1 )  ): ?>
+                                    <tr>
+                                        <?php if   (($inf_pdf['tipo_pers'] == 1 )  ): ?>
                                         <th style="text-align:right">Razón Social:</th>
                                         <th><?=$inf_pdf['nombre']?></th>
-                                     
+
                                         <?php else: ?>
                                         <th style="text-align:right">Nombres Y Apellido</th>
                                         <th><?=$inf_pdf['nombre_ape']?> </th>
@@ -76,7 +77,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr> <?php if (($inf_pdf['tipo_pers'] > 1) ) : ?>
+                                    <tr> <?php if (($inf_pdf['tipo_pers'] > 1) ) : ?>
                                     <tr>
                                         <th style="text-align:right"> Cédula de Identidad:</th>
                                         <th> <?=$inf_pdf['cedula']?> </th>
@@ -131,8 +132,9 @@
                                     de fecha 11 de enero de 2019 y N° 41.589 de fecha 19 de febrero de 2019
                                 </h5>
                             </div>
-                            <div class="col-12 text-center">
-                                <div class="form-group col-6">
+                            <div class="col-12 text-right">
+                            
+                                <div class="form-group col-12">
                                     <label class="col-form-label col-md-6 text-leff"> Fecha de Consulta <?=$time ?>
                                     </label>
 

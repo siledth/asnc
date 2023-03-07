@@ -412,9 +412,8 @@ class Certificacion_model extends CI_model
     }
 
     
-    public function editar__certificacion($rif_cont,$certifi,   //editar certificacion  pj
-    
-    $infor_per_prof,$for_mat_contr_publ,$exp_par_comi_10, $exp_dic_cap_3){
+    public function editarcertificacion_pj($rif_cont,$certifi,   //editar certificacion  pj
+   $experi_empre_capa, $experi_empre_cap_comisi, $infor_per_prof,$for_mat_contr_publ,$exp_par_comi_10, $exp_dic_cap_3){
         $this->db->where('rif_cont', $rif_cont);
         // $this->db->where('id_p_proyecto', $id_p_proyecto);
          $update = $this->db->update('certificacion.certificaciones', $certifi);
@@ -422,17 +421,12 @@ class Certificacion_model extends CI_model
          if ($update){
              $this->db->where('rif_cont', $rif_cont);
             // $this->db->where('id_p_acc', 0);
-             $this->db->delete('certificacion.experi_empre_capa');	
-            $this->db->select('max(e.id) as id');
-                  $query = $this->db->get('certificacion.experi_empre_capa e');
-                  $response3 = $query->row_array();
-                  $id = $response3['id'] + 1 ;    
-             
+             $this->db->delete('certificacion.experi_empre_capa');	  
              $cant_proy = $experi_empre_capa['organo_experi_empre_capa'];
                  $count_prog = count($cant_proy);
                  for ($i=0; $i < $count_prog; $i++) {
                      $data_inf = array(
-                          'id'              => $id,
+                          'id'              => $experi_empre_capa['id'],
                          'organo_experi_empre_capa'   		    => $experi_empre_capa['organo_experi_empre_capa'][$i],
                          'actividad_experi_empre_capa'          	=> $experi_empre_capa['actividad_experi_empre_capa'][$i],
                          'desde_experi_empre_capa'           	=> $experi_empre_capa['desde_experi_empre_capa'][$i],
@@ -448,17 +442,14 @@ class Certificacion_model extends CI_model
                  $this->db->where('rif_cont', $rif_cont);
                 // $this->db->where('id_p_acc', 0);
                  $this->db->delete('certificacion.experi_empre_cap_comisi');
-                 $this->db->select('max(e.id) as id');
-                 $query = $this->db->get('certificacion.experi_empre_cap_comisi e');
-                 $response3 = $query->row_array();
-                 $id = $response3['id'] + 1 ;
+                 
                  $cant_pff = $experi_empre_cap_comisi['organo_expe'];
                  $count_pff = count($cant_pff);
 
                  for ($i=0; $i < $count_pff; $i++) {
 
                      $data2 = array(
-                        'id'              => $id,
+                        'id'              => $experi_empre_cap_comisi['id'],
                         'nro_comprobante'             => $experi_empre_cap_comisi['nro_comprobante'],
                         'n_certif'=> $experi_empre_cap_comisi['n_certif'],
                         'rif_cont'=> $experi_empre_cap_comisi['rif_cont'],

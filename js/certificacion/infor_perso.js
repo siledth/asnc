@@ -19,7 +19,7 @@ function agregar_infor_persoToCartTable(cells){
 	 var culminacion = $("#culminacion").val();
 	var curso = $("#curso").val();
 	
-	if (for_academica == '' || titulo == '' || ano == ''  ){
+	if (for_academica == '' || titulo == '' || ano == ''  || culminacion == '' || curso == ''  ){
 
 		if (for_academica== '') {
 			document.getElementById("for_academica").focus();
@@ -29,6 +29,12 @@ function agregar_infor_persoToCartTable(cells){
 		}
 		else if (ano == '') {
 			document.getElementById("ano").focus();
+		}
+		else if (culminacion == '') {
+			document.getElementById("culminacion").focus();
+		}
+		else if (curso == '') {
+			document.getElementById("curso").focus();
 		}
        
 		

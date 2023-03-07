@@ -21,7 +21,7 @@ function agregar_experi_empre_capaToCartTable(cells){
 	 
 
 
-	if (organo_experi_empre_capa == '' || actividad_experi_empre_capa == '' || desde_experi_empre_capa == '' ){
+	if (organo_experi_empre_capa == '' || actividad_experi_empre_capa == '' || desde_experi_empre_capa == '' || hasta_experi_empre_capa == '' ){
 		if (organo_experi_empre_capa== '') {
 			document.getElementById("organo_experi_empre_capa").focus();
 		}else if (actividad_experi_empre_capa== '') {
@@ -29,6 +29,9 @@ function agregar_experi_empre_capaToCartTable(cells){
 		}
 		else if (desde_experi_empre_capa == '') {
 			document.getElementById("desde_experi_empre_capa").focus();
+		}
+		else if (hasta_experi_empre_capa == '') {
+			document.getElementById("hasta_experi_empre_capa").focus();
 		}
 	}else{
 		var newRow = document.createElement('tr');
