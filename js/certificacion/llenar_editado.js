@@ -2,8 +2,8 @@ if ($('#id').val().length != " "){//FUNCION EN DONDE SE CARGA LA TABLA DE IFF
     var rif_cont = $('#id').val();
     
 
-    var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar';
-    //var base_url = '/index.php/Certificacion/ver_certi_editar';
+    // var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar';
+    var base_url = '/index.php/Certificacion/ver_certi_editar';
     $.ajax({
        url:base_url,
        method: 'post',

@@ -1,7 +1,7 @@
 $(document).ready(function() {
     //para consultar y crear el numero de nro_comprobante
-    var base_url = window.location.origin + "/asnc/index.php/Certificacion/nro_comprobante_pn";
-    //    var base_url = '/index.php/Certificacion/nro_comprobante_pn';
+    // var base_url = window.location.origin + "/asnc/index.php/Certificacion/nro_comprobante_pn";
+       var base_url = '/index.php/Certificacion/nro_comprobante_pn';
 
     $.ajax({
         url: base_url,
@@ -98,12 +98,12 @@ function guardar_registro(){
 
             event.preventDefault();
             var datos = new FormData($("#reg_bien")[0]);
-            var base_url  = window.location.origin+'/asnc/index.php/Certificacion/registrar_certificacion_pn';
-             var base_url_2 = window.location.origin + "/asnc/index.php/Certificacion/Listado_certificacion_exter";
+            // var base_url  = window.location.origin+'/asnc/index.php/Certificacion/registrar_certificacion_pn';
+            //  var base_url_2 = window.location.origin + "/asnc/index.php/Certificacion/Listado_certificacion_exter";
 
-        //   var base_url = '/index.php/Certificacion/registrar_certificacion_pn';
+          var base_url = '/index.php/Certificacion/registrar_certificacion_pn';
 
-        //    var base_url_2 = '/index.php/Certificacion/Listado_certificacion_exter';
+           var base_url_2 = '/index.php/Certificacion/Listado_certificacion_exter';
 
 
             $.ajax({

@@ -1,7 +1,7 @@
 $(document).ready(function() {
     //para consultar y crear el numero de nro_comprobante
-     var base_url =   window.location.origin + "/asnc/index.php/Certificacion/nro_comprobante";
-    //  var base_url = '/index.php/Certificacion/nro_comprobante';
+    //  var base_url =   window.location.origin + "/asnc/index.php/Certificacion/nro_comprobante";
+     var base_url = '/index.php/Certificacion/nro_comprobante';
     $.ajax({
         url: base_url,
         method: "post",
@@ -97,8 +97,8 @@ function guardar_registro(){
 
             event.preventDefault();
             var datos = new FormData($("#reg_bien")[0]);
-            var base_url  = window.location.origin+'/asnc/index.php/Certificacion/registrar_certificacion';
-            // var base_url = '/index.php/Certificacion/registrar_certificacion';
+            // var base_url  = window.location.origin+'/asnc/index.php/Certificacion/registrar_certificacion';
+            var base_url = '/index.php/Certificacion/registrar_certificacion';
             $.ajax({
                 url:base_url,
                 method: 'POST',
