@@ -102,12 +102,17 @@
                                                 class="button">
                                                 <i class='fas fas fa-lg fa-fw fa-align-justify'><br><br>pdf</i> _
                                                 <a />
-                                                <?php elseif (($datos['status'] == 2) )  : ?> 
+                                                <?php elseif (($datos['tipo_pers'] == 1) && ($datos['status'] == 2) )  : ?> 
                                                     
                                                     <a href="<?php echo base_url();?>index.php/Certificacion/renovar_certificacion1?id=<?php echo $datos['rif_cont'];?>"
                                                         class="button">
                                                         <i class="fas fa-lg fa-fw  fa-edit" style="color: red;"><br><br> Renovar</i>
-
+                                                        <a />
+                                                        <?php elseif (($datos['tipo_pers'] == 2) && ($datos['status'] == 2) )  : ?> 
+                                                    
+                                                    <a href="<?php echo base_url();?>index.php/Certificacion/renovar_certificacion_pn?id=<?php echo $datos['rif_cont'];?>"
+                                                        class="button">
+                                                        <i class="fas fa-lg fa-fw  fa-edit" style="color: red;"><br><br> Renovar pn</i>
                                                         <a />
                                                 <?php endif; ?>
                                                 <?php if (($datos['tipo_pers'] == 1) && $datos['status'] == 1 ) : ?>

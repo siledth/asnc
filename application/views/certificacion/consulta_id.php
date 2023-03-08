@@ -73,9 +73,41 @@
                             <label style="color:red;">N° de Referencia</label>
                             <input value="<?=$inf_1['n_ref']?>" type="text" class="form-control" disabled>
                         </div>
-
+                        <?php if   (($inf_1['status'] > 1 )  ): ?>
                         <div class="col-12 mt-0 text-center">
-                            <hr style="border-top: 1px solid rgba(0, 0, 0, 0.17);">
+                            <hr style="border-top: 1px solid rgba(0, 0, 0, 0.25);">
+                            <h6 style="color:red;">APROBADO O RECHAZADO POR</h6>
+                        </div>
+                        <div class="form-group mt-0  col-6">
+                            <label>Nombre de Analista</label>
+                            <input value="<?=$inf_1['nombrefun']?>,<?=$inf_1['apellido']?>" type="text"
+                                class="form-control" disabled>
+                        </div>
+                        <div class="form-group mt-0  col-6">
+                            <label>Observación</label>
+                            <input value="<?=$inf_1['observacion']?>" type="text" class="form-control" disabled>
+                        </div>
+                        <div class="form-group mt-0  col-2">
+                            <label>Status</label> <br>
+                            <?php if   (($inf_1['status'] == 2 )  ): ?>
+                            <label > <h4 style="color:green;">Aprobado </h4></label>
+                            <?php elseif   ( $inf_1['status'] == 3 ): ?>
+                            <label ><h4 style="color:red;"> Rechazado </h4></label>
+
+                            <?php else: ?>
+                     
+                            <?php endif; ?>
+
+                        </div>
+                        <div class="form-group mt-0  col-2">
+                            <label>Fecha de Aprobación o de Rechazo</label>
+                            <input value="<?=date("d/m/Y", strtotime($inf_1['fecha_status']));?>" type="text"
+                                class="form-control" disabled>
+                        </div>
+                        <?php endif; ?>
+                        
+                        <div class="col-12 mt-0 text-center">
+                            <hr style="border-top: 1px solid rgba(0, 0, 0, 0.25);">
                             <h6 style="color:red;">PROGRAMA DEL CURSO O TALLER</h6>
                         </div>
                         <div class="form-group mt-0  col-9">
@@ -144,7 +176,7 @@
                                 <?php endforeach;?>
                             </tbody>
                         </table>
-                        <?php endif; ?>  
+                        <?php endif; ?>
                         <div class="col-12 mt-0 text-center">
                             <hr style="border-top: 1px solid rgba(0, 0, 0, 0.17);">
                             <h6 style="color:red;"> INFORMACIÓN DE LA PERSONA NATURAL (que dicta la capacitación)</h6>
@@ -294,24 +326,24 @@
             </div>
         </div>
 
-   
+
         <div class="col 12 text-center">
-        <?php if (($inf_1['status'] == 1) && $rif_organoente == "G200024518") : ?>
-        <a onclick="modal(<?php echo $inf_1['id']?>);" data-toggle="modal" data-target="#exampleModal"
-            style="color: white">
-            <i title="Aprobar" class="fas fa-4x fa-fw fa-file-import" style="color: crimson;"></i>
+            <?php if (($inf_1['status'] == 1) && $rif_organoente == "G200024518") : ?>
+            <a onclick="modal(<?php echo $inf_1['id']?>);" data-toggle="modal" data-target="#exampleModal"
+                style="color: white">
+                <i title="Aprobar" class="fas fa-4x fa-fw fa-file-import" style="color: crimson;"></i>
 
-        </a>
+            </a>
 
-        <?php endif; ?>   
-        <button class="btn btn-default mt-1 mb-1" type="button" id="print" onclick="printContent('imp1');">Imprimir
+            <?php endif; ?>
+            <button class="btn btn-default mt-1 mb-1" type="button" id="print" onclick="printContent('imp1');">Imprimir
             </button>
-       
-        <a class="btn btn-circle waves-effect btn-lg waves-circle waves-float btn-grey"
+
+            <a class="btn btn-circle waves-effect btn-lg waves-circle waves-float btn-grey"
                 href="javascript:history.back()"> Volver</a>
         </div>
         <div class="col-12 text-center mt-3">
-            
+
         </div>
     </div>
 </div>
@@ -340,7 +372,7 @@
                                 readonly>
                         </div>
                         <input class="form-control" type="hidden" name="users" id="users" value="<?=$users?>" readonly>
-                        
+
 
                         <div class="form-group col-4">
                             <label>Razon Social</label>
@@ -351,22 +383,25 @@
                             <input class="form-control" type="text" name="rif_cont" id="rif_cont" readonly>
                         </div>
                         <div class="form-group col-3">
-                            <label>Seleccione estatus de la certificación <b title="Campo Obligatorio" style="color:red">*</b></label>
+                            <label>Seleccione estatus de la certificación <b title="Campo Obligatorio"
+                                    style="color:red">*</b></label>
 
-                            <select class=" form-control " id="status" name="status" readonly onchange="cambiarEndDate()">
+                            <select class=" form-control " id="status" name="status" readonly
+                                onchange="cambiarEndDate()">
                                 <option value="">Seleccionar</option>
 
                                 <option value="2">Aprobado</option>
                                 <option value="3">Rechazado</option>
                             </select>
 
-    
+
 
                         </div>
                         <div class="form-group col-3">
-                     
-                        <input type="hidden" id="vigen_cert_desde" name="vigen_cert_desde" class="form-control" value="<?=$time?>"  />
-                        <input type="hidden" id="vigen_cert_hasta" name="vigen_cert_hasta"  class="form-control"  />
+
+                            <input type="hidden" id="vigen_cert_desde" name="vigen_cert_desde" class="form-control"
+                                value="<?=$time?>" />
+                            <input type="hidden" id="vigen_cert_hasta" name="vigen_cert_hasta" class="form-control" />
 
                         </div>
                         <div class="form-group col-3">

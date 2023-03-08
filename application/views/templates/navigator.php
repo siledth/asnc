@@ -175,15 +175,15 @@
                         </li>
                         <?php endif; ?>
                         <?php if (($this->session->userdata('certificacion') == 1)) : ?>
-                    
+
                         <?php endif; ?>
                         <?php if (($this->session->userdata('ver_conf') == 8)) : ?>
 
-                   
+
                         <?php endif; ?>
-                 
+
                 </li>
-     
+
             </ul>
             </li>
             <?php endif; ?>
@@ -229,16 +229,24 @@
                         </a>
                         <?php if (($this->session->userdata('certificacion') == 1)) : ?>
                     <li class="has-sub">
-                    <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion"><i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Listado de
+                    <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion"><i
+                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Listado de
                             Certificación de Privado</a>
                     </li>
                     <?php endif; ?>
                     <?php if (($this->session->userdata('certi_externo') == 1)) : ?>
                     <li class="has-sub">
-                    <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion_exter"><i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Listado_exter
+                    <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion_exter"><i
+                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Listado_exter
                             Certificación de Privado</a>
                     </li>
-            </li><?php endif; ?>
+                    <?php endif; ?>
+                    <?php if (($this->session->userdata('certificacion') == 1)) : ?>
+                    <li><a href="<?= base_url() ?>index.php/certificacion/Consulta_certificacion"><i
+                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Reporte </a>
+                    </li>
+                    <?php endif; ?>
+            </li>
             </ul>
 
             </li>

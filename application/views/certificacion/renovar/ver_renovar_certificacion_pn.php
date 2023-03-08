@@ -5,7 +5,7 @@
             <div class="panel panel-inverse">
                 <div class="panel-body">
 
-                    <form id="reg_bien" action="<?=base_url()?>index.php/Certificacion/guardar_editar_certficado_pn"
+                    <form id="reg_bien" action="<?=base_url()?>index.php/Certificacion/renovar_certificacion_pn1"
                         method="POST" class="form-horizontal">
                         <div class="row">
 
@@ -19,7 +19,7 @@
                                             <p class="f-s-16">RIF.: <?=$rif?> <br>
                                             <p class="f-s-16">Fecha.: <?=date("d/m/Y", strtotime($time)); ?> <br>
                                                 <input type="hidden" id="id" name="id" value="<?=$rif_cont?>">
-                                            <h4 style="color:red;">Editar Persona Natural</h4>
+                                            <h3 style="color:red;">Renovación de Certificación PN</h3>
                                         </blockquote>
                                     </div>
                                 </div>
@@ -42,7 +42,7 @@
                                 <label>Registro de Información Fiscal (RIF) <b title="Campo Obligatorio"
                                         style="color:red">*</b></label>
                                 <input type="text" id="rif_cont" name="rif_cont" onkeyup="mayusculas(this);"
-                                    class="form-control   " onKeyUp="mayus(this);" value="<?=$inf_1['rif_cont']?>"
+                                    class="form-control" onKeyUp="mayus(this);" value="<?=$inf_1['rif_cont']?>"
                                     readonly>
 
                             </div>
@@ -62,64 +62,60 @@
 
                             </div>
                             <div class="form-group col-3">
-                                <label>Fecha solicitud <b title="Campo Obligatorio" style="color:red">*</b></label>
-                                <input id="fecha_solic" name="fecha_solic"
-                                    value="<?=date("d/m/Y", strtotime($inf_1['fecha_solic']));?>" type="text"
-                                    class="form-control" readonly>
+                                <label>Fecha de renovación<b title="Campo Obligatorio" style="color:red">*</b></label>
+                                <input id="fecha_solic" name="fecha_solic" value="<?=date("d/m/Y", strtotime($time));?>"
+                                    type="text" class="form-control" readonly>
 
                             </div>
+
+
+
+
 
 
                             <div class="col-12 mt-0 text-center">
                                 <hr style="border-top: 1px solid rgba(0, 0, 0, 0.17);">
                                 <h6 style="color:red;">PROGRAMA DEL CURSO O TALLER</h6>
                             </div>
-                            <div class="form-group col-2">
+                            <div class="form-group col-6">
                                 <label>Objetivo <b title="Campo Obligatorio" style="color:red">*</b></label>
                                 <textarea class="form-control" name="objetivo" id="objetivo" rows="5" cols="70"
-                                    onkeyup="mayusculas(this);"><?=$inf_1['objetivo']?></textarea>
+                                    onkeyup="mayusculas(this);"></textarea>
 
                             </div>
-                            <div class="form-group col-2">
+                            <div class="form-group col-6">
                                 <label>Contenido Programático <b title="Campo Obligatorio"
                                         style="color:red">*</b></label>
 
                                 <textarea class="form-control" name="cont_prog" id="cont_prog" rows="5" cols="100"
-                                    onkeyup="mayusculas(this);"><?=$inf_1['cont_prog']?></textarea>
+                                    onkeyup="mayusculas(this);"></textarea>
                             </div>
                             <?php endforeach;?>
                             <div class="col-12">
                                 <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
                             </div>
-
-
-
-
-
+ 
                             <div class="panel-body">
                                 <div class="row">
-                                    <?php foreach ($inf__15 as $data): ?>
                                     <div class="form-group col-8">
                                         <label>Nombres y Apellidos <b title="Campo Obligatorio"
                                                 style="color:red">*</b></label>
 
                                         <input class="form-control" type="text" name="nombre_ape" id="nombre_ape"
-                                            value="<?=$data['nombre_ape']?>" onkeyup="mayusculas(this);">
+                                            onkeyup="mayusculas(this);">
 
                                     </div>
-
                                     <div class="form-group col-4">
                                         <label>N.º. Cédula de Identidad: <b title="Campo Obligatorio"
                                                 style="color:red">*</b></label>
                                         <input class="form-control" type="text" name="cedula" id="cedula"
-                                            value="<?=$data['cedula']?>">
+                                             >
                                     </div>
                                     <div class="form-group col-4">
                                         <label>N.º. RIF: <b title="Campo Obligatorio" style="color:red">*</b></label>
                                         <input class="form-control" type="text" name="rif" id="rif"
-                                        value="<?=$data['rif']?>">
+                                         >
                                     </div>
-                                    <?php endforeach; ?>
                                     <div class="form-group col-2">
                                         <label>Alícuota IVA Estimado<b style="color:red">*</b></label><br>
                                         <select style="width: 100%;" name="id_alicuota_iva" id="id_alicuota_iva"
@@ -142,26 +138,27 @@
                                         <?php endforeach; ?>
 
                                     </div>
-
-
                                     <div class="form-group col-2">
                                         <label>Iva<b style="color:red">*</b></label>
-                                        <?php foreach ($inf__15 as $data): ?>
+                                         
                                         <input id="iva_estimado" name="iva_estimado" type="text" class="form-control"
-                                            value="<?=$data['sub_total']?>" readonly>
-                                            <?php endforeach; ?>
+                                              readonly>
+                                            
                                     </div>
                                     <div class="form-group col-2">
                                         <label>Total Bolivares<b style="color:red">*</b></label>
                                         <input id="monto_estimado" name="monto_estimado" type="text"
-                                            value="<?=$data['total_final']?>" class="form-control" readonly>
+                                             class="form-control" readonly>
                                     </div>
-                                   
                                     <div class="col-12">
                                         <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
+                                        <h4 class="text-center"><b style="color:red;">
+                                            Ingrese La Informacion de Pago</b> </h4>
                                     </div>
-                                    <h5 class="text-center"><b style="color:red;">
-                                            Ingrese La Informacion de Pago</b> </h5>
+ 
+                                    <div class="row">
+                                  
+                                   
 
 
                                     <div class="form-group col-8">
@@ -171,53 +168,65 @@
                                             readonly>El número de Cuenta Corriente Nº 01020552270000042877 del Banco de Venezuela, a nombre del Servicio Nacional de Contrataciones.</textarea>
                                     </div>
 
-                                    <div class="form-group col-2">
-                                        <label>Banco Emisor</label>
-                                        <select id="banco_e" name="banco_e" class="default-select2 form-control">
-                                            <option value="<?=$inf_1['banco_e']?>"><?=$inf_1['banco_e']?></option>
-                                            <?php foreach ($bancos as $data): ?>
-                                            <option value="<?=$data['nombre_b']?>"><?=$data['nombre_b']?></option>
-                                            <?php endforeach; ?>
-                                        </select>
+                                        <div class="form-group col-3">
+                                            <label class="col-form-label col-md-6 text-right">Numero de
+                                                Referencia </label>
+                                            <input id="n_ref" name="n_ref" type="text" class="form-control">
+                                        </div>
+                                        <div class="form-group col-4">
+                                            <label>Banco Emisor <b title="Campo Obligatorio"
+                                                    style="color:red">*</b></label>
+
+                                            <select style="width: 100%;" name="banco_e" id="banco_e"
+                                                class="default-select2 form-control ">
+                                                <option value="">SELECCIONE</option>
+                                                <?php foreach ($bancos as $data): ?>
+                                                <option value="<?=$data['nombre_b']?>">
+                                                    <?=$data['nombre_b']?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-4">
+                                            <label>Banco Receptor <b title="Campo Obligatorio"
+                                                    style="color:red">*</b></label>
+                                            <select style="width: 100%;" name="banco_rec" id="banco_rec"
+                                                class="default-select2 form-control ">
+                                                <option value="">SELECCIONE</option>
+                                                <?php foreach ($bancos as $data): ?>
+                                                <option value="<?=$data['nombre_b']?>">
+                                                    <?=$data['nombre_b']?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label>Fecha de La trasferencia <b title="Campo Obligatorio"
+                                                    style="color:red">*</b></label>
+                                            <input class="form-control" type="date" name="fecha_trans" id="fecha_trans"
+                                                max="<?=$time?>">
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label>Ingrese Monto de la trasferencia <b title="Campo Obligatorio"
+                                                    style="color:red">*</b></label>
+                                            <input class="form-control" type="text" name="monto_trans" id="monto_trans">
+                                        </div>
+
+
+
+
+
                                     </div>
 
-                                    <div class="form-group col-2">
-                                        <label>Banco Receptor</label>
-                                        <select id="banco_rec" name="banco_rec" class="default-select2 form-control">
-                                            <option value="<?=$inf_1['banco_rec']?>"><?=$inf_1['banco_rec']?></option>
-                                            <?php foreach ($bancos as $data): ?>
-                                            <option value="<?=$data['nombre_b']?>"><?=$data['nombre_b']?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
 
-                                    <div class="form-group col-2">
-                                        <label>Fecha de Trasferencia <b title="Campo Obligatorio"
-                                                style="color:red">*</b></label>
-                                        <input type="text" id="fecha_trans" name="fecha_trans" class="form-control  "
-                                            value="<?=date("d/m/Y", strtotime($inf_1['fecha_trans']));?>" />
 
-                                    </div>
-                                    <div class="form-group col-2">
-                                        <label>Bs trasnferidos <b title="Campo Obligatorio"
-                                                style="color:red">*</b></label>
-                                        <input type="text" id="monto_trans" name="monto_trans" class="form-control  "
-                                            value="<?=$inf_1['monto_trans']?>" />
 
-                                    </div>
-                                    <div class="form-group col-2">
-                                        <label>N° de Referencia <b title="Campo Obligatorio"
-                                                style="color:red">*</b></label>
-                                        <input type="text" id="n_ref" name="n_ref" class="form-control "
-                                            value="<?=$inf_1['n_ref']?>" />
-
-                                    </div>
 
                                     <div class="col-12">
                                         <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
                                     </div>
+
                                     <div class="col-12 text-center">
-                                        <h4 style="color:red;"> Información de la Formación Profesional</h4>
+                                        <h6 style="color:red;"> Información de la Formación Profesional</h6>
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-8">
@@ -571,7 +580,8 @@
     <script src="<?=base_url()?>/js/certificacion/experi_empre_capa.js"></script>
     <script src="<?=base_url()?>/js/certificacion/calcular_vigencia.js"></script>
 
-    <script src="<?=base_url()?>/js/certificacion/llenar_editado.js"></script>
+
+
     <script type="text/javascript">
     function mayusculas(e) {
         e.value = e.value.toUpperCase();
