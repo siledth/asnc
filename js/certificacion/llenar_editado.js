@@ -56,8 +56,8 @@ if ($('#id').val().length != " "){//FUNCION EN DONDE SE CARGA LA TABLA DE IP
 
     var rif_cont = $('#id').val();
 
-    var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar2';
-    //var base_url = '/index.php/Certificacion/ver_certi_editar2';
+   // var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar2';
+    var base_url = '/index.php/Certificacion/ver_certi_editar2';
     $.ajax({
        url:base_url,
        method: 'post',
@@ -108,8 +108,8 @@ if ($('#id').val().length != " "){//FUNCION EN DONDE SE CARGA LA TABLA DE person
 
     var rif_cont = $('#id').val();
 
-    var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar3';
-    //var base_url = '/index.php/Certificacion/ver_certi_editar3';
+   // var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar3';
+    var base_url = '/index.php/Certificacion/ver_certi_editar3';
     $.ajax({
        url:base_url,
        method: 'post',
@@ -161,8 +161,8 @@ if ($('#id').val().length != " "){//FUNCION EN DONDE SE CARGA LA TABLA DE person
 
     var rif_cont = $('#id').val();
 
-    var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar4';
-    //var base_url = '/index.php/Certificacion/ver_certi_editar4';
+   // var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar4';
+    var base_url = '/index.php/Certificacion/ver_certi_editar4';
     $.ajax({
        url:base_url,
        method: 'post',
@@ -216,8 +216,8 @@ if ($('#id').val().length != " "){ //Formación en Materia de Contratación Púb
 
     var rif_cont = $('#id').val();
 
-    var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar5';
-    //var base_url = '/index.php/Certificacion/ver_certi_editar5';
+    //var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar5';
+    var base_url = '/index.php/Certificacion/ver_certi_editar5';
     $.ajax({
        url:base_url,
        method: 'post',
@@ -271,8 +271,8 @@ if ($('#id').val().length != " "){ // Experiencia de Participación en Comisione
 
     var rif_cont = $('#id').val();
 
-    var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar6';
-    //var base_url = '/index.php/Certificacion/ver_certi_editar6';
+    //var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar6';
+    var base_url = '/index.php/Certificacion/ver_certi_editar6';
     $.ajax({
        url:base_url,
        method: 'post',
@@ -327,8 +327,8 @@ if ($('#id').val().length != " "){ // Experiencia de Participación en Comisione
 
     var rif_cont = $('#id').val();
 
-    var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar7';
-    //var base_url = '/index.php/Certificacion/ver_certi_editar7';
+   // var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar7';
+   var base_url = '/index.php/Certificacion/ver_certi_editar7';
     $.ajax({
        url:base_url,
        method: 'post',

@@ -73,16 +73,23 @@
                             <label style="color:red;">N° de Referencia</label>
                             <input value="<?=$inf_1['n_ref']?>" type="text" class="form-control" disabled>
                         </div>
-                        <?php if   (($inf_1['status'] > 1 )  ): ?>
-                        <div class="col-12 mt-0 text-center">
+                        <?php if   (($inf_1['status'] == 1 )  ): ?>
+                        
+                        
+                            <?php else: ?>
+                            
+                                <div class="col-12 mt-0 text-center">
                             <hr style="border-top: 1px solid rgba(0, 0, 0, 0.25);">
                             <h6 style="color:red;">APROBADO O RECHAZADO POR</h6>
                         </div>
                         <div class="form-group mt-0  col-6">
+                        <?php foreach($inf_9 as $inf_9):?>
                             <label>Nombre de Analista</label>
-                            <input value="<?=$inf_1['nombrefun']?>,<?=$inf_1['apellido']?>" type="text"
+                            <input value="<?=$inf_9['nombrefun']?>,<?=$inf_9['apellido']?>" type="text"
                                 class="form-control" disabled>
+                                <?php endforeach;?>
                         </div>
+                        
                         <div class="form-group mt-0  col-6">
                             <label>Observación</label>
                             <input value="<?=$inf_1['observacion']?>" type="text" class="form-control" disabled>
@@ -104,7 +111,10 @@
                             <input value="<?=date("d/m/Y", strtotime($inf_1['fecha_status']));?>" type="text"
                                 class="form-control" disabled>
                         </div>
-                        <?php endif; ?>
+                            <?php endif; ?>
+                          
+                        
+                       
                         
                         <div class="col-12 mt-0 text-center">
                             <hr style="border-top: 1px solid rgba(0, 0, 0, 0.25);">

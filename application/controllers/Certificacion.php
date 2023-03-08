@@ -238,6 +238,7 @@ class Certificacion extends CI_Controller
         $data['inf_6'] = $this->Certificacion_model->certificaciones6($data['rif_cont']);
         $data['inf_7'] = $this->Certificacion_model->certificaciones7($data['rif_cont']);
         $data['inf_8'] = $this->Certificacion_model->certificaciones8($data['rif_cont']);
+        $data['inf_9'] = $this->Certificacion_model->certificaciones_ver($data['rif_cont']);
 
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');

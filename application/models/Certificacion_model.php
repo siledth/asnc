@@ -286,6 +286,14 @@ class Certificacion_model extends CI_model
 
     public function certificaciones($rif_cont ){
            
+        $this->db->select('pp.*');
+
+        $this->db->where('pp.rif_cont', $rif_cont );
+        $query = $this->db->get('certificacion.certificaciones pp');
+        return $query->result_array();
+    }
+      public function certificaciones_ver($rif_cont ){
+           
         $this->db->select('pp.*,p.nombrefun, p.apellido');
         $this->db->join('seguridad.funcionarios p','p.id_usuario = pp.user_snc_aprob');
         $this->db->where('pp.rif_cont', $rif_cont );
