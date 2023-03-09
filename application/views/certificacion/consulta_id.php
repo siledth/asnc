@@ -344,6 +344,14 @@
                 <i title="Aprobar" class="fas fa-4x fa-fw fa-file-import" style="color: crimson;"></i>
 
             </a>
+            <?php elseif (($inf_1['status'] == 3) && $rif_organoente == "G200024518") : ?> 
+
+                <a onclick="modal(<?php echo $inf_1['id']?>);" data-toggle="modal" data-target="#exampleModal"
+                style="color: white">
+                <i title="Aprobar" class="fas fa-4x fa-fw fa-file-import" style="color: crimson;"></i>
+
+            </a>
+
 
             <?php endif; ?>
             <button class="btn btn-default mt-1 mb-1" type="button" id="print" onclick="printContent('imp1');">Imprimir

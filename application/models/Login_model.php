@@ -158,6 +158,14 @@ class Login_model extends CI_model
         }
        
     }
+    public function valida_correo($email){
+        $this->db->select('nombre');
+        $this->db->where('nombre ', $email);
+        //$this->db->order_by('id desc');
+        $query = $this->db->get('seguridad.usuarios');
+        $response = $query->row_array();
+        return $response;
+    }
 }
 
 ?>

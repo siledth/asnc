@@ -91,6 +91,22 @@ class Login extends CI_Controller {
     $this->session->sess_destroy();
     redirect('login');
   }
+  
+  
+  public function validad_correo(){
+    $email = $this->input->post('email');
+    $data= $this->login_model->valida_correo($email);
+   //$data = $this->input->post();
+echo json_encode($data);
+// echo json_encode($email);
+// if (json_encode($data) == 'null') {
+//   echo '<div class="alert alert-success"><strong>Bien!</strong> Correo disponible.</div>';
+  
+// }else {
+//   echo '<div class="alert alert-danger"><strong>Oh no!</strong> Correo ya Registrado, ingrese otro Correo .</div>';
+// }
+
+}
 
   public function v_camb_clave() {
     if (!$this->session->userdata('session')) {
@@ -230,7 +246,7 @@ class Login extends CI_Controller {
     $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
     //$mail->SMTPDebug = true;
     $data = $this->login_model->guardar_prp($inf_usu,$inf_prop, $if_emp);
-    if ($data == true) {
+    /*if ($data == true) {
       if(!$mail->send()) {
 
 
@@ -243,7 +259,7 @@ class Login extends CI_Controller {
       
      
       }
-    }
+    }*/
    
   }
 }

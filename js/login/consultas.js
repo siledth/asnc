@@ -23,8 +23,8 @@ function guardar(){
         .then((result) => {
             if (result.value == true) {
                 event.preventDefault();
-            //    var base_url = window.location.origin + '/asnc/index.php/Login/registrar_prp'
-                   var base_url = '/index.php/Login/registrar_prp';
+               //var base_url = window.location.origin + '/asnc/index.php/Login/registrar_prp'
+                    var base_url = '/index.php/Login/registrar_prp';
                 $.ajax({
                     url: base_url,
                     method: 'post',
@@ -69,3 +69,4 @@ function guardar(){
             }
         });
 }
+

@@ -14,10 +14,10 @@ function modal(id) {
     var id = id;
 
    var base_url = '/index.php/Certificacion/consultar_certificacion';
-//        var base_url2 = '/index.php/certificacion/llenar_contratista_rp';
+       var base_url2 = '/index.php/certificacion/llenar_contratista_rp';
 
-     var base_url =
-        // window.location.origin + "/asnc/index.php/Certificacion/consultar_certificacion";
+    //  var base_url =
+    //      window.location.origin + "/asnc/index.php/Certificacion/consultar_certificacion";
 
    
 

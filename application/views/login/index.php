@@ -125,11 +125,11 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                             <button type="button"
                                 onclick="location.href='<?php echo base_url() ?>index.php/llamadoconcurso'"
                                 class="btn btn-grey btn-lg">Ver Llamado a Concurso</button>
-                                <button type="button"
+                            <button type="button"
                                 onclick="location.href='<?php echo base_url() ?>index.php/certificacion1'"
                                 class="btn btn-grey btn-lg">Ver Certificación</button>
-                           
-                           
+
+
                         </div>
 
                         <!-- <button type="button"
@@ -150,88 +150,97 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
     </div>
 
 
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Registro de Usuario Para Cargar Ceritificación</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-          <div class="modal-body">
-              <div class="row">
-              
-                <div class="form-group col-3 m-b-15">
-                <label>Cedula</label>
-                  <input type="text" id="cedula_prop" class="form-control form-control-lg" placeholder="V-123456789" name="cedula_prop" required />
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Registro de Usuario Para Cargar Ceritificación
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <!-- <div class="col-2 mt-1">
+                <div class="modal-body">
+                    <div class="row">
+
+                        <div class="form-group col-3 m-b-15">
+                            <label>Cedula</label>
+                            <input type="text" id="cedula_prop" class="form-control form-control-lg"
+                                placeholder="V-123456789" name="cedula_prop" required />
+                        </div>
+                        <!-- <div class="col-2 mt-1">
                   <button onclick=buscar(); class="btn btn-success btn-lg btn-flat"><i class="fas fa-search"></i></button>
                 </div> -->
-                <div class="col-7">
-                  <h4 class="mt-3" style="display:none; color:crimson" id="mensaj" name="mensaj">Por favor llenar sus datos</h4>
-                </div>
-                <div class="form-group col-6 m-b-15">
-                  <label>Nombre y Apellido</label>
-                  <input type="text" id="nombre" name="nombre" class="form-control form-control-lg" placeholder="Nombre y Apellido" />
-                </div>
-                <!-- <div class="form-group col-3 m-b-15">
+                        <div class="col-7">
+                            <h4 class="mt-3" style="display:none; color:crimson" id="mensaj" name="mensaj">Por favor
+                                llenar sus datos</h4>
+                        </div>
+                        <div class="form-group col-6 m-b-15">
+                            <label>Nombre y Apellido</label>
+                            <input type="text" id="nombre" name="nombre" class="form-control form-control-lg"
+                                placeholder="Nombre y Apellido" />
+                        </div>
+                        <!-- <div class="form-group col-3 m-b-15">
                   <label>Rif</label>
                   <input type="text" id="rif" name="rif" class="form-control form-control-lg" placeholder="J-45154524"/>
                 </div> -->
-                <!-- <div class="form-group col-3 m-b-15">
+                        <!-- <div class="form-group col-3 m-b-15">
                   <label>Propietario / Empresa</label>
                   <input type="text" id="propietario" name="propietario" class="form-control form-control-lg" placeholder="Propietario" />
                 </div> -->
-                <!-- <div class="form-group col-3 m-b-15">
+                        <!-- <div class="form-group col-3 m-b-15">
                   <label>Télefono</label>
                   <input type="text" id="tele_1" name="tele_1"  class="form-control form-control-lg" placeholder="Télefono"/>
                 </div> -->
-                <div class="form-group col-5 m-b-15">
-                  <label>Email</label>
-                  <input type="text" id="email" name="email" class="form-control form-control-lg" placeholder="Email"/>
-                </div>
-                <!-- <div class="form-group col-3 m-b-15">
+                        <div class="form-group col-5 m-b-15">
+                            <label>Correo</label>
+                            <input type="text" id="email" name="email" class="form-control form-control-lg"
+                                placeholder="Email" />
+                            <div  id="result-email"></div>
+                        </div>
+                        <!-- <div class="form-group col-3 m-b-15">
                   <label>Tipo</label>
                   <input type="text" id="tipo" name="tipo" class="form-control form-control-lg" placeholder="Tipo"/>
                 </div> -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" id="btn_guar_2" onclick="guardar()" class="btn btn-primary"
+                            disabled>Guardar</button>
+                    </div>
+                </div>
             </div>
-        <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-              <button type="button" onclick="guardar()" class="btn btn-primary">Guardar</button>
-            </div>
-      </div>
-    </div>
-  </div>
+        </div>
 
-    <?php if ($this->session->flashdata('sa-error')) { ?>
-    <div hidden id="sa-error"> <?= $this->session->flashdata('sa-error') ?> </div>
-    <?php } ?>
-    <?php if ($this->session->flashdata('sa-error2')) { ?>
-    <div hidden id="sa-error2"> <?= $this->session->flashdata('sa-error2') ?> </div>
-    <?php } ?>
-    <?php if ($this->session->flashdata('fallido')) { ?>
-    <div hidden id="fallido"> <?= $this->session->flashdata('fallido') ?> </div>
-    <?php } ?>
+        <?php if ($this->session->flashdata('sa-error')) { ?>
+        <div hidden id="sa-error"> <?= $this->session->flashdata('sa-error') ?> </div>
+        <?php } ?>
+        <?php if ($this->session->flashdata('sa-error2')) { ?>
+        <div hidden id="sa-error2"> <?= $this->session->flashdata('sa-error2') ?> </div>
+        <?php } ?>
+        <?php if ($this->session->flashdata('fallido')) { ?>
+        <div hidden id="fallido"> <?= $this->session->flashdata('fallido') ?> </div>
+        <?php } ?>
 
-    <!-- ================== BEGIN BASE JS ================== -->
-    <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/jquery/jquery-3.3.1.min.js"></script>
-    <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
-    <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/js-cookie/js.cookie.js"></script>
-    <script src="<?= base_url() ?>Plantilla/admin/assets/js/theme/apple.min.js"></script>
-    <script src="<?= base_url() ?>Plantilla/admin/assets/js/apps.min.js"></script>
-    <script src="<?= base_url() ?>js/login/consultas.js"></script>
+        <!-- ================== BEGIN BASE JS ================== -->
+        <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/jquery/jquery-3.3.1.min.js"></script>
+        <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+        <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/bootstrap/4.1.3/js/bootstrap.bundle.min.js">
+        </script>
+        <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+        <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/js-cookie/js.cookie.js"></script>
+        <script src="<?= base_url() ?>Plantilla/admin/assets/js/theme/apple.min.js"></script>
+        <script src="<?= base_url() ?>Plantilla/admin/assets/js/apps.min.js"></script>
+        <script src="<?= base_url() ?>js/login/consultas.js"></script>
 
 
-    <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/sweetalert/sweetalert.min.js"></script>
-    <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/sweetalert/jquery.sweet-alert.custom.js"></script>
-    <!-- ================== END BASE JS ================== -->
+        <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/sweetalert/sweetalert.min.js"></script>
+        <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/sweetalert/jquery.sweet-alert.custom.js"></script>
+        <!-- ================== END BASE JS ================== -->
 
-    <script>
-    /*  $(document).ready(function () {
+        <script>
+        /*  $(document).ready(function () {
                 $('.button').attr("disabled", true);
                 $('.captha_numbers a').on('click', function () {
                     var data = $(this).attr('data');
@@ -243,55 +252,94 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                     return false;
                 });
             });/*
-    </script>
+        </script>
 
-    <script>
-    $(document).ready(function() {
-        $("#bloquear").on('paste', function(e) {
-            e.preventDefault();
-            alert('Esta acción está deshabilitada');
-        });
+        <script>
+        $(document).ready(function() {
+            $("#bloquear").on('paste', function(e) {
+                e.preventDefault();
+                alert('Esta acción está deshabilitada');
+            });
 
-        $("#bloquear").on('copy', function(e) {
-            e.preventDefault();
-            alert('Esta acción está deshabilitada');
+            $("#bloquear").on('copy', function(e) {
+                e.preventDefault();
+                alert('Esta acción está deshabilitada');
+            });
         });
-    });
-    </script>
-    <script>
-    $(document).ready(function() {
-        $("#bloquear1").on('paste', function(e) {
-            e.preventDefault();
-            alert('Esta acción está deshabilitada');
-        });
+        </script>
+        <script>
+        $(document).ready(function() {
+            $("#bloquear1").on('paste', function(e) {
+                e.preventDefault();
+                alert('Esta acción está deshabilitada');
+            });
 
-        $("#bloquear1").on('copy', function(e) {
-            e.preventDefault();
-            alert('Esta acción está deshabilitada');
+            $("#bloquear1").on('copy', function(e) {
+                e.preventDefault();
+                alert('Esta acción está deshabilitada');
+            });
         });
-    });
-    </script>
-    <script>
-    $(document).ready(function() {
-        App.init();
-    });
-    </script>
-    <script>
-    (function(i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function() {
-            (i[r].q = i[r].q || []).push(arguments)
-        }, i[r].l = 1 * new Date();
-        a = s.createElement(o),
-            m = s.getElementsByTagName(o)[0];
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+        </script>
+        <script>
+        $(document).ready(function() {
+            App.init();
+        });
+        </script>
+        <script>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-    ga('create', 'UA-53034621-1', 'auto');
-    ga('send', 'pageview');
-    </script>
+        ga('create', 'UA-53034621-1', 'auto');
+        ga('send', 'pageview');
+        </script>
+
+
+
+        <script type="text/javascript">
+        $(document).ready(function() {
+            $('#email').on('blur', function() {
+                // url(http://localhost/asnc/Plantilla/img/images.jpeg);
+                $('#result-email').html('<img src="http://localhost/asnc/Plantilla/img/5.gif"/>')
+                    .fadeOut(1000);
+
+                var email = $(this).val();
+                var dataString = 'email=' + email;
+              //  var base_url = window.location.origin + '/asnc/index.php/Login/validad_correo'
+                  var base_url = '/index.php/Login/validad_correo';
+                $.ajax({
+                    type: "POST",
+                    url: base_url,
+                    data: dataString,
+                    success: function(data) {
+                       // console.log(data);
+                        if (data == 'null') {
+                            $('#result-email').fadeIn(1600).html('<div class="alert alert-success"><strong>Bien!</strong> Correo disponible.</div>');
+                            $("#btn_guar_2").prop('disabled', false)
+                 
+                        } else {
+                            $('#result-email').fadeIn(1600).html('<div class="alert alert-danger"><strong>Correo ya Registrado!</strong> Ingrese otro Correo.</div>');
+                            $("#btn_guar_2").prop('disabled', true)
+                          
+                        }
+
+
+
+
+                        
+                    }
+                });
+            });
+        });
+        </script>
 </body>
 
 </html>

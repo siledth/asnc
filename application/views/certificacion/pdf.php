@@ -77,7 +77,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr> <?php if (($inf_pdf['tipo_pers'] > 1) ) : ?>
+                                     <?php if (($inf_pdf['tipo_pers'] > 1) ) : ?>
                                     <tr>
                                         <th style="text-align:right"> Cédula de Identidad:</th>
                                         <th> <?=$inf_pdf['cedula']?> </th>
@@ -93,19 +93,33 @@
                                     <tr>
                                         <th style="text-align:right">N° de Certificado Registro <br>Nacional de
                                             Contratista RNC:</th>
+                                            <?php if (($inf_pdf['status'] == 2) ) : ?>
                                         <th><?=$inf_pdf['n_certif']?></th>
-
+                                        <?php else: ?>
+                                        <th style="color:red;">RECHAZADO</th>
+                                        
+                                        <?php endif;  ?>
                                     </tr>
                                     <tr>
                                         <th style="text-align:right">N° de Comprobante Registro:</th>
+                                        <?php if (($inf_pdf['status'] == 2) ) : ?>
                                         <th><?=$inf_pdf['nro_comprobante']?></th>
-
+                                        <?php else: ?>
+                                        <th style="color:red;">RECHAZADO. Por Favor contacte a un analista</th>
+                                        
+                                        <?php endif;  ?>
                                     </tr>
                                     <tr>
+                                   
                                         <th style="text-align:right">Vigencia de la Certificación</th>
+                                        <?php if (($inf_pdf['status'] == 2) ) : ?>
                                         <th>Desde <?=date("d/m/Y", strtotime($inf_pdf['vigen_cert_desde']));?> / Hasta
                                             <?=date("d/m/Y", strtotime($inf_pdf['vigen_cert_hasta']));?> </th>
 
+                                            <?php else: ?>
+                                        <th style="color:red;">RECHAZADO</th>
+                                        
+                                        <?php endif;  ?>
                                     </tr>
                                     <?php if (($inf_pdf['tipo_pers'] < 2) ) : ?>
                                     <td style="text-align:center" colspan="2"> INFORMACIÓN DEL FACILITADOR(A)</td>

@@ -46,6 +46,7 @@
                                     <th>Rif</th>
                                     <th>Fecha Solicitud</th>
                                     <th>Tipo </th>
+                                    <th>Estatus </th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -62,12 +63,20 @@
                                     <?php if (($datos['tipo_pers'] > 1) ) : ?>
                                     <td>Persona Nat. </td>
                                     <?php endif; ?>  
+                                    <?php if   (($datos['status'] == 1 )  ): ?>
+                                        <td style="color:red;">Pendiente Revisión </td>
+                                    <?php elseif   ( $datos['status'] == 2 ): ?>
+                                         <td>Aprobado</td>
+                                        
+                                        <?php else: ?>
+                                            <td style="color:red;">Rechazado</td>
+                                       <?php endif; ?>
                                     <td class="center">
                                         <a href="<?php echo base_url();?>index.php/Certificacion/ver_certifi?id=<?php echo $datos['rif_cont'];?>"
                                             class="button">
                                             <i class="fas fa-lg fa-fw fa-eye" style="color: green;"></i>
                                             <a />
-                                            <?php if (($datos['status'] == 2) ) : ?>
+                                            <?php if (($datos['status'] > 2) ) : ?>
                                             <a href="<?php echo base_url();?>index.php/Certificacion/verpdf?id=<?php echo $datos['id'];?>"
                                                 class="button">
                                                  <i class='fas fa-align-justify'> </i>
