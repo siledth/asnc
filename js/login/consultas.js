@@ -33,11 +33,11 @@ function guardar(){
                            email:email
                         },
                     dataType: 'json',
-                    success: function(response) {
+                    success: function(data) {
                        // console.log(response);
                         var menj = 'La contraseña se envío al correo electronico ingresado.';
                         var menj2 = 'Ocurrido un error, por favor comunicarse con los administradores.';
-                         if(response == true) {
+                         if(data == true) {
                              swal.fire({
                                  title: 'Registro Exitoso ',
                                  text: menj,

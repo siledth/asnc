@@ -248,11 +248,7 @@ echo json_encode($data);
     $data = $this->login_model->guardar_prp($inf_usu,$inf_prop, $if_emp);
     if ($data == true) {
       if(!$mail->send()) {
-
-
-        
-        echo json_encode(false);
-       
+       echo json_encode(false);   
         
       }else {
         echo json_encode($data);
