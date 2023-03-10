@@ -166,6 +166,16 @@ class Login_model extends CI_model
         $response = $query->row_array();
         return $response;
     }
+    public function valida_ced($cedula_prop){
+        $this->db->select('codigo');
+        $this->db->where('codigo ', $cedula_prop);
+        //$this->db->order_by('id desc');
+        $query = $this->db->get('public.entes');
+        $response = $query->row_array();
+        return $response;
+    }
+
+
 }
 
 ?>

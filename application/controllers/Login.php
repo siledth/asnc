@@ -107,6 +107,14 @@ echo json_encode($data);
 // }
 
 }
+public function validad_cedula(){
+  $cedula_prop = $this->input->post('cedula_prop');
+  $data= $this->login_model->valida_ced($cedula_prop);
+ //$data = $this->input->post();
+echo json_encode($data);
+ 
+
+}
 
   public function v_camb_clave() {
     if (!$this->session->userdata('session')) {
@@ -246,16 +254,16 @@ echo json_encode($data);
     $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
     //$mail->SMTPDebug = true;
     $data = $this->login_model->guardar_prp($inf_usu,$inf_prop, $if_emp);
-    if ($data == true) {
-      if(!$mail->send()) {
-       echo json_encode(false);   
+    // if ($data == true) {
+    //   if(!$mail->send()) {
+    //    echo json_encode(false);   
         
-      }else {
-        echo json_encode($data);
+    //   }else {
+    //     echo json_encode($data);
       
      
-      }
-    }
+    //   }
+    // }
    
   }
 }

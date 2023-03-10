@@ -167,7 +167,8 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                         <div class="form-group col-3 m-b-15">
                             <label>Cedula</label>
                             <input type="text" id="cedula_prop" class="form-control form-control-lg"
-                                placeholder="V-123456789" name="cedula_prop" required />
+                                placeholder="123456789" name="cedula_prop" maxlength="8" minlength="5" required />
+                                <div  id="result-cedula_prop"></div>
                         </div>
                         <!-- <div class="col-2 mt-1">
                   <button onclick=buscar(); class="btn btn-success btn-lg btn-flat"><i class="fas fa-search"></i></button>
@@ -181,28 +182,14 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                             <input type="text" id="nombre" name="nombre" class="form-control form-control-lg"
                                 placeholder="Nombre y Apellido" />
                         </div>
-                        <!-- <div class="form-group col-3 m-b-15">
-                  <label>Rif</label>
-                  <input type="text" id="rif" name="rif" class="form-control form-control-lg" placeholder="J-45154524"/>
-                </div> -->
-                        <!-- <div class="form-group col-3 m-b-15">
-                  <label>Propietario / Empresa</label>
-                  <input type="text" id="propietario" name="propietario" class="form-control form-control-lg" placeholder="Propietario" />
-                </div> -->
-                        <!-- <div class="form-group col-3 m-b-15">
-                  <label>Télefono</label>
-                  <input type="text" id="tele_1" name="tele_1"  class="form-control form-control-lg" placeholder="Télefono"/>
-                </div> -->
+                 
                         <div class="form-group col-5 m-b-15">
                             <label>Correo</label>
                             <input type="text" id="email" name="email" class="form-control form-control-lg"
                                 placeholder="Email" />
                             <div  id="result-email"></div>
                         </div>
-                        <!-- <div class="form-group col-3 m-b-15">
-                  <label>Tipo</label>
-                  <input type="text" id="tipo" name="tipo" class="form-control form-control-lg" placeholder="Tipo"/>
-                </div> -->
+                    
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -327,6 +314,43 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                  
                         } else {
                             $('#result-email').fadeIn(1600).html('<div class="alert alert-danger"><strong>Correo ya Registrado!</strong> Ingrese otro Correo.</div>');
+                            $("#btn_guar_2").prop('disabled', true)
+                          
+                        }
+
+
+
+
+                        
+                    }
+                });
+            });
+        });
+        </script>
+
+<script type="text/javascript">
+        $(document).ready(function() {
+            $('#cedula_prop').on('blur', function() {
+                // url(http://localhost/asnc/Plantilla/img/images.jpeg);
+                $('#result-cedula_prop').html('<img src="http://localhost/asnc/Plantilla/img/5.gif"/>')
+                    .fadeOut(1000);
+
+                var cedula_prop = $(this).val();
+                var dataString = 'cedula_prop=' + cedula_prop;
+               // var base_url = window.location.origin + '/asnc/index.php/Login/validad_cedula'
+                 var base_url = '/index.php/Login/validad_cedula';
+                $.ajax({
+                    type: "POST",
+                    url: base_url,
+                    data: dataString,
+                    success: function(data) {
+                       // console.log(data);
+                        if (data == 'null') {
+                            $('#result-cedula_prop').fadeIn(1600).html('<div class="alert alert-success"><strong>Bien!</strong> Cedula disponible.</div>');
+                            $("#btn_guar_2").prop('disabled', false)
+                 
+                        } else {
+                            $('#result-cedula_prop').fadeIn(1600).html('<div class="alert alert-danger"><strong>Cedula ya Registrado!</strong> .</div>');
                             $("#btn_guar_2").prop('disabled', true)
                           
                         }
