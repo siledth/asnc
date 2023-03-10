@@ -127,7 +127,7 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                                 class="btn btn-grey btn-lg">Ver Llamado a Concurso</button>
                             <button type="button"
                                 onclick="location.href='<?php echo base_url() ?>index.php/certificacion1'"
-                                class="btn btn-grey btn-lg">Ver Certificación</button>
+                                class="btn btn-grey btn-lg">Ver Certificación PJ y PN Privada</button>
 
 
                         </div>
