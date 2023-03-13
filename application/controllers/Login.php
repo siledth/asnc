@@ -240,13 +240,13 @@ echo json_encode($data);
     $mail->isSMTP();                                      // Set mailer to use SMTP
     $mail->Host = 'smtp.gmail.com';                       // Specify main and backup SMTP servers
     $mail->SMTPAuth = true;                               // Enable SMTP authentication
-                // SMTP username
+    $mail->Username = 'soportecertificacionsnc2023@gmail.com';               // SMTP username
    
-                   // SMTP password
+    $mail->Password = 'axqampbuuwdfnmvd';                 // SMTP password
     $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
     $mail->Port = 587;                                    // TCP port to connect to
     $mail->Timeout = 20;
-
+    $mail->setFrom('soportecertificacion2023p@gmail.com', 'Certificacion 2023');
 
     $mail->addAddress($this->input->post('email'), '');     // Add a recipient
     $mail->Subject = 'Envio de Clave de Acceso';
@@ -254,16 +254,16 @@ echo json_encode($data);
     $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
     //$mail->SMTPDebug = true;
     $data = $this->login_model->guardar_prp($inf_usu,$inf_prop, $if_emp);
-    // if ($data == true) {
-    //   if(!$mail->send()) {
-    //    echo json_encode(false);   
+    if ($data == true) {
+      if(!$mail->send()) {
+       echo json_encode(false);   
         
-    //   }else {
-    //     echo json_encode($data);
+      }else {
+        echo json_encode($data);
       
      
-    //   }
-    // }
+      }
+    }
    
   }
 }

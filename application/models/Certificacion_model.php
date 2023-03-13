@@ -44,20 +44,19 @@ class Certificacion_model extends CI_model
         $response = $query->row_array();
         return $response;
     }
-    public function consulta_certi50(){
+    public function consulta_certi50($usuario){
         $this->db->select('*');
-        $this->db->from('certificacion.certificaciones ');
-        //$this->db->where('status', '1');
-        $query = $this->db->get();
-        return $response = $query->row_array();
+        $this->db->where('user_soli', $usuario);
+      //$this->db->where('status', '1');
+        $query = $this->db->get('certificacion.certificaciones');
+        return $response = $query->row_array(); // sin el foreach
     }
     public function consulta_certi_exter50($usuario){
         $this->db->select('*');
-        $this->db->from('certificacion.certificaciones ');
-       // $this->db-> where (ed.id_usuario = '$usuario'");
+       
         $this->db->where('user_soli', $usuario);
-        $query = $this->db->get();
-        return $response = $query->row_array();
+        $query = $this->db->get('certificacion.certificaciones');
+        return $response = $query->row_array(); // sin el foreach
     }
     public function consulta_certi(){
         $this->db->select('*');

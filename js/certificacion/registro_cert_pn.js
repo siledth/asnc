@@ -1,7 +1,7 @@
 $(document).ready(function() {
     //para consultar y crear el numero de nro_comprobante
-    // var base_url = window.location.origin + "/asnc/index.php/Certificacion/nro_comprobante_pn";
-       var base_url = '/index.php/Certificacion/nro_comprobante_pn';
+    var base_url = window.location.origin + "/asnc/index.php/Certificacion/nro_comprobante_pn";
+       //var base_url = '/index.php/Certificacion/nro_comprobante_pn';
 
     $.ajax({
         url: base_url,
@@ -72,16 +72,22 @@ function guardar_registro(){
         document.reg_bien.acepto.focus()
         return 0;
  }
-//  if (document.reg_bien.ubicacion.value.length==0){
-//     alert("No Puede dejar el campo ubicacion vacio, Ingrese una ubicacion")
-//     document.reg_bien.ubicacion.focus()
-//     return 0;
-// }
-// if (document.reg_bien.pies.value.length==0){
-//     alert("No Puede dejar el campo Pie vacio, Ingrese un Pie")
-//     document.reg_bien.pies.focus()
-//     return 0;
-// }
+
+ if (document.reg_bien.n_ref.value.length==0){
+    alert("No Puede dejar el campo referencia bancaria vacio, Ingrese un dato")
+    document.reg_bien.n_ref.focus()
+    return 0;
+}
+ if (document.reg_bien.fecha_trans.value.length==0){
+    alert("No Puede dejar el campo fecha de trasferencia vacio, Ingrese una fecha de trasferencia")
+    document.reg_bien.fecha_trans.focus()
+    return 0;
+    }
+if (document.reg_bien.monto_trans.value.length==0){
+    alert("No Puede dejar el campo Monto de trasferencia vacio")
+    document.reg_bien.monto_trans.focus()
+    return 0;
+}
 // if (document.reg_bien.canon.value.length==0){
 //     alert("No Puede dejar el campo canon vacio, Ingrese un canon")
 //     document.reg_bien.canon.focus()
@@ -98,12 +104,12 @@ function guardar_registro(){
 
             event.preventDefault();
             var datos = new FormData($("#reg_bien")[0]);
-            // var base_url  = window.location.origin+'/asnc/index.php/Certificacion/registrar_certificacion_pn';
-            //   var base_url_2 = window.location.origin + "/asnc/index.php/Certificacion/Listado_certificacion_exter";
+            var base_url  = window.location.origin+'/asnc/index.php/Certificacion/registrar_certificacion_pn';
+              var base_url_2 = window.location.origin + "/asnc/index.php/Certificacion/Listado_certificacion_exter";
 
-          var base_url = '/index.php/Certificacion/registrar_certificacion_pn';
+        //   var base_url = '/index.php/Certificacion/registrar_certificacion_pn';
 
-           var base_url_2 = '/index.php/Certificacion/Listado_certificacion_exter';
+        //    var base_url_2 = '/index.php/Certificacion/Listado_certificacion_exter';
 
 
             $.ajax({

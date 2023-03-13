@@ -1,7 +1,7 @@
 $(document).ready(function() {
     //para consultar y crear el numero de nro_comprobante
-    //   var base_url =   window.location.origin + "/asnc/index.php/Certificacion/nro_comprobante";
-    var base_url = '/index.php/Certificacion/nro_comprobante';
+       var base_url =   window.location.origin + "/asnc/index.php/Certificacion/nro_comprobante";
+   // var base_url = '/index.php/Certificacion/nro_comprobante';
     $.ajax({
         url: base_url,
         method: "post",
@@ -71,6 +71,21 @@ function guardar_registro(){
         document.reg_bien.acepto.focus()
         return 0;
  }
+ if (document.reg_bien.n_ref.value.length==0){
+    alert("No Puede dejar el campo referencia bancaria vacio, Ingrese un dato")
+    document.reg_bien.n_ref.focus()
+    return 0;
+}
+ if (document.reg_bien.fecha_trans.value.length==0){
+    alert("No Puede dejar el campo fecha de trasferencia vacio, Ingrese una fecha de trasferencia")
+    document.reg_bien.fecha_trans.focus()
+    return 0;
+    }
+if (document.reg_bien.monto_trans.value.length==0){
+    alert("No Puede dejar el campo Monto de trasferencia vacio")
+    document.reg_bien.monto_trans.focus()
+    return 0;
+}
 //  if (document.reg_bien.ubicacion.value.length==0){
 //     alert("No Puede dejar el campo ubicacion vacio, Ingrese una ubicacion")
 //     document.reg_bien.ubicacion.focus()
@@ -97,8 +112,8 @@ function guardar_registro(){
 
             event.preventDefault();
             var datos = new FormData($("#reg_bien")[0]);
-            //  var base_url  = window.location.origin+'/asnc/index.php/Certificacion/registrar_certificacion';
-            var base_url = '/index.php/Certificacion/registrar_certificacion';
+            var base_url  = window.location.origin+'/asnc/index.php/Certificacion/registrar_certificacion';
+           // var base_url = '/index.php/Certificacion/registrar_certificacion';
             $.ajax({
                 url:base_url,
                 method: 'POST',

@@ -54,7 +54,7 @@ class Certificacion extends CI_Controller
         $data['rif'] = $this->session->userdata('rif');
         $usuario = $this->session->userdata('id_user');
         $data['usuario']  = $this->session->userdata('id_user');
-        $data['ver'] = $this->Certificacion_model->consulta_certi50();
+        $data['ver'] = $this->Certificacion_model->consulta_certi50($usuario);
         $data['ver3'] = $this->Certificacion_model->consulta_certi_exter50($usuario);
         $data['ver_certi'] = $this->Certificacion_model->consulta_certi_exter($usuario);
         $data['time']=date("Y-m-d");

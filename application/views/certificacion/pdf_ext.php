@@ -40,32 +40,35 @@
                                 NATURALES Y JURÍDICAS DE CARÁCTER<br>
                                 PRIVADO </h2> <br>   
                             </div>
-                            <div class="col-12 text-center">
-                                <h4> Esta Dirección de Capacitación de Contrataciones Públicas, certifica que el
-                                    Contratista detallado a continuación de conformidad a los criterios técnicos
-                                    emitidos
-                                    por el Servicio Nacional de Contrataciones (SNC), se encuentra acreditado para
-                                    impartir los programas, cursos y talleres en materia de Comisión de Contrataciones
-                                    Públicas:</h4> <br>
+
+                             <div class="col-12 text-center">
+                            <h4> Esta Dirección de Capacitación de Contrataciones Públicas, certifica que el
+                                Contratista detallado a continuación de conformidad a los criterios técnicos emitidos
+                                por el Servicio Nacional de Contrataciones (SNC), se encuentra acreditado para
+                                impartir los programas, cursos y talleres en materia de Comisión de Contrataciones
+                                Públicas:</h4> <br>
+
+                            <?php if   (($inf_pdf['tipo_pers'] == 1 )  ): ?>
+                            <h4>INFORMACIÓN DE LA PERSONA JURÍDICA</h4>
 
 
-                                <h4>INFORMACIÓN DE LA PERSONA JURÍDICA</h4>
+                            <?php else: ?>
+                            <h4>INFORMACIÓN DE LA PERSONA NATURAL <br> FACILITADOR(A)</h4>
+                            <?php endif; ?>
 
-                                <?php if (($inf_pdf['tipo_pers'] > 1) ) : ?>
-                                <h4>INFORMACIÓN DE LA PERSONA NATURAL <br> Facilitador</h4>
-                                <?php endif; ?>
-                            </div>
+                        </div>
                             <div class="col-12 mt-2">
                                 <table BORDER=10 id="data-table" class="table table-striped " style="font-size:15px">
                                     <thead>
                                         <tr>
-                                            <th style="text-align:right">Razón Social:</th>
-                                            <th><?=$inf_pdf['nombre']?></th>
+                                        <?php if   (($inf_pdf['tipo_pers'] == 1 )  ): ?>
+                                        <th style="text-align:right">Razón Social:</th>
+                                        <th><?=$inf_pdf['nombre']?></th>
 
-                                            <?php if (($inf_pdf['tipo_pers'] > 1) ) : ?>
-                                            <th style="text-align:right">Nombres Y Apellido</th>
-                                            <th><?=$inf_pdf['nombre_ape']?> </th>
-                                            <?php endif;  ?>
+                                        <?php else: ?>
+                                        <th style="text-align:right">Nombres Y Apellido</th>
+                                        <th><?=$inf_pdf['nombre_ape']?> </th>
+                                        <?php endif;  ?>
                                         </tr>
                                     </thead>
                                     <tbody>
