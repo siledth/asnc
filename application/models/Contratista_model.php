@@ -24,14 +24,32 @@ class Contratista_model extends CI_Model
         $query = $this->db_b->get('public.objcontratistas');
         return $response = $query->result_array();
 	}
-
-    public function llenar_contratista($data){
+    // se cambio la consulta xq pn no tiene acta contisturiva
+    public function llenar_contratistas($data){
         $this->db_b->select('*');
         $this->db_b->where('rifced', $data['rif_b']);
-        $this->db_b->order_by("proceso_id", "Desc");
         $query = $this->db_b->get('public.planillapirmera2');
-        return $response = $query->row_array(); // sin el foreach
+        $result = $query->row_array();
+            if ($result == '') {
+                $this->db_b->select('*');
+                $this->db_b->where('rifced', $data['rif_b']);;
+                $query = $this->db_b->get('public.pn');
+                return $result = $query->row_array();
+            }else {
+                return $result;
+            }
     }
+    // public function llenar_contratistas($data){
+    //     $this->db_b->select('*');
+    //     $this->db_b->where('rifced', $data['rif_b']);
+    //   //  $this->db_b->order_by("id", "Desc");
+    //      $this->db_b->order_by("proceso_id", "Desc");
+
+    //   //  $query = $this->db_b->get('public.infcontratista');
+    //      $query = $this->db_b->get('public.planillapirmera2');
+
+    //     return $response = $query->row_array(); // sin el foreach
+    // }
 
 	//BUSQUEDA DE CONTRATISTAS POR NOMBRE
     public function llenar_contratista_nombre($data){
@@ -59,13 +77,28 @@ class Contratista_model extends CI_Model
         $query = $this->db_b->get('public.contratistas c');
         return $response = $query->result_array(); // sin el foreach
     }
-
     public function consulta_planillaresumen($rifced){
         $this->db_b->select('*');
         $this->db_b->where('rifced', $rifced);
         $query = $this->db_b->get('public.planillapirmera2');
-        return $response = $query->row_array();
+        $result = $query->row_array();
+        if ($result == '') {
+            $this->db_b->select('*');
+            $this->db_b->where('rifced', $rifced);
+            $query = $this->db_b->get('public.pn');
+            return $result = $query->row_array();
+        }else {
+            return $result;
+        }
     }
+
+
+    // public function consulta_planillaresumen($rifced){
+    //     $this->db_b->select('*');
+    //     $this->db_b->where('rifced', $rifced);
+    //     $query = $this->db_b->get('public.planillapirmera2');
+    //     return $response = $query->row_array();
+    // }
     public function llenar_contratista_rp($proceso_id){
         $this->db_b->select('proceso_id, descmodif, descrm, desccirjudicial,
                             numreg, fecreg_at, tomo, folio');
@@ -105,10 +138,10 @@ class Contratista_model extends CI_Model
         return $query->result_array();
     }
     public function consulta_activ_prod_clasif_compr_edo($rif,$proceso_id){
-        $this->db_b->select(' proceso_id, segmento_id,  desc_seg_mostrar, anoexp, tipexp, principal, tipo,  articulo_id,  desc_arti_mostrar, infoprod, desctiprel');
+        $this->db_b->select('proceso_id, segmento_id,  desc_seg_mostrar, anoexp, tipexp, principal, tipo,  articulo_id,  desc_arti_mostrar, infoprod, desctiprel');
         $this->db_b->where('proceso_id', $proceso_id);
-        $this->db_b->order_by("segmento_id", "Desc");
-        $query = $this->db_b->get('public.actvyprodcdeclasifcompredo ');
+        $this->db_b->order_by("segmento_id", "Asc");
+        $query = $this->db_b->get('public.actvyprodcdeclasifcompredo');
         return $query->result_array();
     }
     public function consulta_rel_obr_serv($rif,$proceso_id){
@@ -162,12 +195,26 @@ class Contratista_model extends CI_Model
         return $query->result_array();
       }
 
-      public function comprobante($rifced){
-          $this->db_b->select('*');
-          $this->db_b->where('rifced', $rifced);
-          $this->db_b->order_by("proceso_id", "Desc");
-          $query = $this->db_b->get('public.planillapirmera2');
-          return $response = $query->row_array(); // sin el foreach
+    //   public function comprobante($rifced){
+    //       $this->db_b->select('*');
+    //       $this->db_b->where('rifced', $rifced);
+    //       $this->db_b->order_by("proceso_id", "Desc");
+    //       $query = $this->db_b->get('public.planillapirmera2');
+    //       return $response = $query->row_array(); // sin el foreach
 
-       }
+    //    }
+       public function comprobante($rifced){
+        $this->db_b->select('*');
+        $this->db_b->where('rifced', $rifced);
+        $query = $this->db_b->get('public.planillapirmera2');
+        $result = $query->row_array();
+            if ($result == '') {
+                $this->db_b->select('*');
+                $this->db_b->where('rifced', $rifced);;
+                $query = $this->db_b->get('public.pn');
+                return $result = $query->row_array();
+            }else {
+                return $result;
+            }
+    }
 }

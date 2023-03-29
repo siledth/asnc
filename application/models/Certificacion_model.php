@@ -65,6 +65,13 @@ class Certificacion_model extends CI_model
         $query = $this->db->get();
         return $result = $query->result_array();
     }
+    public function consulta_certi_pendiente(){
+        $this->db->select('*');
+        $this->db->from('certificacion.certificaciones ');
+        $this->db->where('status', '1');
+        $query = $this->db->get();
+        return $result = $query->result_array();
+    }
    
     public function consulta_certi_exter($usuario){
         $this->db->select('*');
@@ -1063,6 +1070,14 @@ class Certificacion_model extends CI_model
         $resultado = $query->row_array();
         return $resultado;
     }
+    public function ver_pdfs_2($data){
+           
+        $this->db->select('m.*, b.nombre_ape, b.cedula');
+        $this->db->join('certificacion.infor_per_natu b', 'b.id = m.id', 'left');
+       $this->db->where('m.id', $data);
+        $query = $this->db->get('certificacion.certificaciones m');
+        return $result = $query->result_array();
+    }
     ///////////////////////////////////////////////registro pn
     public function cons_nro_comprobantenn(){
         $this->db->select('id,tipo_pers');
@@ -1407,4 +1422,58 @@ class Certificacion_model extends CI_model
             return $result;
         }
 }
+
+function consultar_exonerado($data){
+    $this->db->select('*');
+    $this->db->where('rif', $data['rif_organoente']);
+    $query = $this->db->get('certificacion.exonerado');
+    return $response = $query->row_array();
+}
+
+public function valida_exon($numcertrnc2){
+    $this->db->select('numcertrnc');
+    $this->db->where('numcertrnc ', $numcertrnc2);
+    //$this->db->order_by('id desc');
+    $query = $this->db->get('certificacion.exonerado');
+    $response = $query->row_array();
+    return $response;
+}
+function consultar_exonerado_2(){
+    $this->db->select('*');
+    $this->db->from('certificacion.exonerado');
+   // $this->db->order_by("codigo_b", "Asc");
+    $query = $this->db->get();
+    return $query->result_array();
+}
+
+//GUARDAR
+function registrar_b($data){
+    $this->db->insert('certificacion.exonerado',$data);
+    return true;
+}
+//VER PARA EDITAR
+function consulta_b($data){
+    $this->db->select('*');
+    $this->db->from('certificacion.exonerado');
+    $this->db->where('id_exonerado', $data['id_exonerado']);
+   // $this->db->order_by("codigo_b", "Asc");
+    $query = $this->db->get();
+    if (count($query->result()) > 0) {
+        return $query->row();
+    }
+}
+//EDITAR
+function editar_b($data){
+    $this->db->where('id_exonerado', $data['id_exonerado']);
+    $update = $this->db->update('certificacion.exonerado', $data);
+    return true;
+}
+//ELIMAR
+function eliminar_b($data){
+    $this->db->where('id_exonerado', $data['id_exonerado']);
+    $query = $this->db->delete('certificacion.exonerado');
+    return true;
+}
+
+
 }

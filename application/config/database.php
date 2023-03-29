@@ -77,7 +77,7 @@ $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
 	'username' => 'postgres',
-	'password' => '1234',
+	'password' => 'postgres',
 	'database' => 'bd_contrata',
 	'dbdriver' => 'postgre',
 	'port'	   => '5435',
@@ -97,12 +97,12 @@ $db['default'] = array(
 );
 
 //Base de datos solo de consulta del SNC Anterior
-$db['SNCenlinea'] = array(
+/*$db['SNCenlinea'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
 	'username' => 'postgres',
 	'password' => '1234',
-	'database' => 'bd_contrata',
+	'database' => 'postgres',
 	'dbdriver' => 'postgre',
 	'port'	   => '5435',
 	'dbprefix' => '',
@@ -118,10 +118,10 @@ $db['SNCenlinea'] = array(
 	'stricton' => FALSE,
 	'failover' => array(),
 	'save_queries' => TRUE
-  );
+  );*/
 
 
-/*$db['SNCenlinea'] = array(
+$db['SNCenlinea'] = array(
   	'dsn'	=> '',
   	'hostname' => '10.10.10.147',
   	'username' => 'snc_si',
@@ -142,5 +142,5 @@ $db['SNCenlinea'] = array(
   	'stricton' => FALSE,
   	'failover' => array(),
   	'save_queries' => TRUE
-  );*/
+  );
 

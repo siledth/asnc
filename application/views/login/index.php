@@ -120,11 +120,11 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                         </div>
                         <hr />
 
-                        <div class="login-buttons mt-1">
+                        <div class="login-buttons mt-0">
 
                             <button type="button"
                                 onclick="location.href='<?php echo base_url() ?>index.php/llamadoconcurso'"
-                                class="btn btn-grey btn-lg">Ver Llamado a Concurso</button>
+                                class="btn btn-grey btn-lg">Ver Llamados   a   Concursos</button>
                             <button type="button"
                                 onclick="location.href='<?php echo base_url() ?>index.php/certificacion1'"
                                 class="btn btn-grey btn-lg">Ver Certificación PJ y PN Privada</button>
@@ -135,13 +135,13 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                         <!-- <button type="button"
                                     onclick="location.href='<?php echo base_url() ?>index.php/User/contrato'"
                                     class="btn btn-grey btn-lg">Registrar Cuentadante</button> -->
-                        <div class="login-buttons mt-1">
+                        <!-- <div class="login-buttons mt-1">
                             <button type="button" class="btn btn-lg btn-block"
                                 style="background: #161635; color:#FFFFFF;" data-toggle="modal"
                                 data-target="#exampleModalCenter">
                                 Registro Certificado
                             </button>
-                        </div>
+                        </div> -->
 
                     </form>
                 </div>
@@ -167,12 +167,12 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                         <div class="form-group col-3 m-b-15">
                             <label>Cedula</label>
                             <input type="text" id="cedula_prop" class="form-control form-control-lg"
-                                placeholder="123456789" name="cedula_prop" maxlength="8" minlength="5" required />
+                                placeholder="VXXXXXXXX" name="cedula_prop" maxlength="9" minlength="5" value="V" required />
                                 <div  id="result-cedula_prop"></div>
                         </div>
                         <!-- <div class="col-2 mt-1">
-                  <button onclick=buscar(); class="btn btn-success btn-lg btn-flat"><i class="fas fa-search"></i></button>
-                </div> -->
+                                  <button onclick=buscar(); class="btn btn-success btn-lg btn-flat"><i class="fas fa-search"></i></button>
+                                 </div> -->
                         <div class="col-7">
                             <h4 class="mt-3" style="display:none; color:crimson" id="mensaj" name="mensaj">Por favor
                                 llenar sus datos</h4>
@@ -353,7 +353,7 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                             $('#result-cedula_prop').fadeIn(1600).html('<div class="alert alert-danger"><strong>Cedula ya Registrado!</strong> .</div>');
                             $("#btn_guar_2").prop('disabled', true)
                           
-                        }
+                        } ///DESABILITAR BOTON UNA VEZ ENVIADA LA INFORMACION
 
 
 

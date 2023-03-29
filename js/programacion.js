@@ -91,8 +91,8 @@ function registrar_anio(){
 
             event.preventDefault();
             var datos = new FormData($("#resgistrar_anio")[0]);
-            var base_url =window.location.origin+'/asnc/index.php/programacion/agg_programacion_anio';
-            //var base_url = '/index.php/programacion/agg_programacion_anio';
+           // var base_url =window.location.origin+'/asnc/index.php/programacion/agg_programacion_anio';
+            var base_url = '/index.php/programacion/agg_programacion_anio';
             $.ajax({
                 url:base_url,
                 method: 'POST',

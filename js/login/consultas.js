@@ -19,11 +19,14 @@ function guardar(){
             cancelButtonColor: "#d33",
             cancelButtonText: "Cancelar",
             confirmButtonText: "¡Si, guardar!",
+            
         })
+       
         .then((result) => {
             if (result.value == true) {
                 event.preventDefault();
                //var base_url = window.location.origin + '/asnc/index.php/Login/registrar_prp'
+              
                     var base_url = '/index.php/Login/registrar_prp';
                 $.ajax({
                     url: base_url,
@@ -38,6 +41,7 @@ function guardar(){
                         var menj = 'La contraseña se envío al correo electronico ingresado.';
                         var menj2 = 'Ocurrido un error, por favor comunicarse con los administradores.';
                          if(data == true) {
+                            $("#btn_guar_2").prop('disabled', true);
                              swal.fire({
                                  title: 'Registro Exitoso ',
                                  text: menj,
@@ -49,8 +53,10 @@ function guardar(){
                                  if (result.value == true){
                                     location.reload();
                                  }
+                                 $("#btn_guar_2").prop('disabled', true);
                              });
                          }else{
+                            $("#btn_guar_2").prop('disabled', true);
                             swal.fire({
                                 title: 'Error',
                                 text: menj2,
@@ -61,10 +67,12 @@ function guardar(){
                             }).then((result) => {
                                 if (result.value == true){
                                    location.reload();
+                                   $("#btn_guar_2").prop('disabled', true);
                                 }
                             });
                          }
                     },
+                     
                 });
             }
         });

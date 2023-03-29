@@ -3,6 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Certificacion extends CI_Controller
 {
+    public function validad_exo(){
+        $numcertrnc2 = $this->input->post('numcertrnc2');
+        $data= $this->Certificacion_model->valida_exon($numcertrnc2);
+       //$data = $this->input->post();
+      echo json_encode($data);
+       
+      
+      }
     public function registrar()
     {
         if (!$this->session->userdata('session')) {
@@ -12,11 +20,14 @@ class Certificacion extends CI_Controller
         $data['pais'] 		 = $this->Configuracion_model->consulta_paises();
         $data['edo_civil'] 	 = $this->Configuracion_model->consulta_edo_civil();
         $data['rif_organoente']= $this->session->userdata('rif_organoente');
+   
+        $usuario = $this->session->userdata('id_user');
         $data['inf_1'] = $this->Certificacion_model-> inf_1();
         $data['inf_2'] = $this->Certificacion_model-> inf_2();
         $data['inf_3'] = $this->Certificacion_model-> inf_3();
         $data['time']=date("Y-m-d");
         $data['bancos'] = $this->Publicaciones_model->consultar_b();
+        $data['exonerado'] = $this->Certificacion_model->consultar_exonerado($data);
 
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
@@ -41,7 +52,7 @@ class Certificacion extends CI_Controller
         $data['descripcion'] = $this->session->userdata('unidad');
         $data['rif'] = $this->session->userdata('rif');
         $usuario = $this->session->userdata('id_user');
-        $data['ver_certi'] = $this->Certificacion_model->consulta_certi();
+        $data['ver_certi'] = $this->Certificacion_model->consulta_certi_pendiente();
 		$this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
 		$this->load->view('certificacion/listar_certificado.php', $data);
@@ -918,6 +929,7 @@ class Certificacion extends CI_Controller
         $data['time']=date("d-m-Y");
        // $data =	$this->Certificacion_model->certificaciones_id($data);
         $data['inf_pdf'] =	$this->Certificacion_model->ver_pdfs($comprobante);
+        $data['ver_pdfs_2'] =	$this->Certificacion_model->ver_pdfs_2($comprobante);
         
 
         $this->load->view('templates/header.php');
@@ -949,13 +961,13 @@ class Certificacion extends CI_Controller
         $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
         $data['pais'] 		 = $this->Configuracion_model->consulta_paises();
         $data['edo_civil'] 	 = $this->Configuracion_model->consulta_edo_civil();
-       
+        $data['rif_organoente']= $this->session->userdata('rif_organoente');
         $data['inf_1'] = $this->Certificacion_model-> inf_1();
         $data['inf_2'] = $this->Certificacion_model-> inf_2();
         $data['inf_3'] = $this->Certificacion_model-> inf_3();
         $data['time']=date("Y-m-d");
         $data['bancos'] = $this->Publicaciones_model->consultar_b();
-
+        $data['exonerado'] = $this->Certificacion_model->consultar_exonerado($data);
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
         $this->load->view('certificacion/registro_pn.php', $data);
@@ -1075,11 +1087,68 @@ class Certificacion extends CI_Controller
 		echo json_encode($data);
 	}
 
-
+    public function registrar_exonerado()
+    {
+        if (!$this->session->userdata('session')) {
+            redirect('login');
+        }
+       // $data['contratista'] =	$this->Certificacion_model->llenar_contratista_exonerado();
+        $data['exonerado'] = $this->Certificacion_model->consultar_exonerado_2();
+        $usuario = $this->session->userdata('id_user');
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('tablas/confi_certificacion/add_exonerado.php', $data);
+        $this->load->view('templates/footer.php');
+    }
   
 
 
+    public function registrar_b() {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $data = array(
+            'rif' => $this->input->POST('codigo_b'),
+            'descripcion' => $this->input->POST('nombre_b'),
+            'id_usuaio' => $this->session->userdata('id_user'),
+            'fecha_creacion' => date("Y-m-d"), 
+        );
+        $data = $this->Certificacion_model->registrar_b($data);
+        echo json_encode($data);
+    }
+     //LLENAR MODAL PARA EDITAR
+     public function consulta_b() {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $data = $this->input->post();
+        $data = $this->Certificacion_model->consulta_b($data);
+        echo json_encode($data);
+    }
 
+    //EDITAR
+    public function editar_b() {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $data = $this->input->post();
+
+        $data = array(
+            'id_exonerado' => $data['id_banco'],
+            'rif' => $data['codigo_b'],
+            'descripcion' => $data['nombre_b'],
+            'id_usuaio' => $this->session->userdata('id_user')
+        );
+
+        $data = $this->Certificacion_model->editar_b($data);
+        echo json_encode($data);
+    }
+
+    //ELIMINAR
+    public function eliminar_b() {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $data = $this->input->post();
+        $data = $this->Certificacion_model->eliminar_b($data);
+        echo json_encode($data);
+    }
   
     
 }

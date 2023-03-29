@@ -231,6 +231,10 @@
                             </div>
                         </div>
                 </div>
+            
+                <?php foreach($proceso_id as $lista):?>
+                <?php if(isset(($lista['descmodif']  )))
+                {?>
                 <div class="panel-heading" style="padding: 3px 15px;">
                     <h2 style="font-size: 16px;" class="panel-title text-center"><b>Acta Constitutiva y Modificaciones Estatutarias</b>
                     </h2>
@@ -249,7 +253,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach($proceso_id as $lista):?>
+                           
                             <tr class="odd gradeX" style="text-align:center">
                                 <td><?=$lista['descmodif']?> </td>
                                 <td><?=$lista['descrm']?> </td>
@@ -259,10 +263,18 @@
                                 <td><?=$lista['tomo']?> </td>
                                 <td><?=$lista['folio']?> </td>
                             </tr>
-                            <?php endforeach;?>
+                          
                         </tbody>
                     </table>
                 </div>
+                <?php    }        else {   ?>
+                <?php   }           ?>
+
+
+                <?php endforeach;?>
+                <?php if(isset(($mercantil['domfiscal']  )))
+                {?>
+                
                 <div class="panel-heading" style="padding: 3px 15px;">
                     <h5 style="font-size: 16px;" class="panel-title text-center"><b>Información del Registro Mercantil</b></h5>
                 </div>
@@ -294,7 +306,17 @@
                         </div>
                     </div>
                 </div>
+                <?php    }        else {   ?>
+                <?php   }           ?>
+
+
+
+                <?php foreach($accionistas as $lista):?>
+                <?php if(isset(($lista['apeacc'] )))
+                {?>
+
                 <div class="panel-heading" style="padding: 3px 15px;">
+
                     <h5 style="font-size: 16px;" class="panel-title text-center"><b>Accionistas, Miembros de la Junta Directiva y Representantes Legales</b></h5>
                 </div>
                 <div class="panel-title text-center" style="line-height: 9px;">
@@ -312,7 +334,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach($accionistas as $lista):?>
+                            
                             <tr class="odd gradeX" style="text-align:center">
                                 <td><?=$lista['apeacc']?>,<?=$lista['nomacc']?> </td>
                                 <td>V-<?=$lista['cedrif']?> </td>
@@ -337,10 +359,20 @@
                                             echo "Firmas Separadas";
                                         }  ?></td>
                             </tr>
-                            <?php endforeach;?>
+                           
                         </tbody>
                     </table>
                 </div>
+                <?php    }        else {   ?>
+                <?php   }           ?>
+                <?php endforeach;?>
+
+
+
+                <?php foreach($comisarios as $lista):?>
+                    <?php if(isset(($lista['nomcom'] )))
+                {?>
+
                 <div class="panel-heading" style="padding: 3px 15px;">
                     <h5 style="font-size: 16px;" class="panel-title text-center"><b>Comisario(s) de la Empresa</b></h5>
                 </div>
@@ -357,7 +389,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach($comisarios as $lista):?>
+                               
                                     <tr class="odd gradeX" style="text-align:center">
                                         <td><?=$lista['nomcom']?>,<?=$lista['apecom']?> </td>
                                         <td>V-<?=$lista['cedcom']?> </td>
@@ -370,11 +402,18 @@
                                     <tr class="odd gradeX" style="text-align:center">
                                         <td> </td><td> </td><td> </td>
                                     </tr>
-                                <?php endforeach;?>
+                              
                             </tbody>
                         </table>
                     </div>
                 </div>
+                 <?php    }        else {   ?>
+                <?php   }           ?>
+                <?php endforeach;?>
+
+               
+               
+               
                 <div class="panel-heading" style="padding: 3px 15px;">
                     <h5 style="font-size: 16px;" class="panel-title text-center"><b>Actividades y Productos del Catálogo de Clasificación de Compras del Estado</b></h5>
                 </div>
@@ -394,9 +433,10 @@
                                         </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- <?php foreach($actividad as $lista):?> -->
+                                     <?php foreach($actividad as $lista):?>  
                                         <tr class="odd gradeX" style="text-align:center">
-                                            <!-- <td><?=$lista['segmento_id']?>|<?=$lista['desc_seg_mostrar']?> </td>
+                                       
+                                            <td><?=$lista['segmento_id']?>|<?=$lista['desc_seg_mostrar']?> </td>
                                             <td><?=$lista['anoexp']?> <?php if ($lista['tipexp'] == 'A') {
                                                       echo "AÑOS";
                                                 } else {
@@ -419,7 +459,7 @@
                                             <td><?=$lista['infoprod']?> </td>
                                             <td><?=$lista['desctiprel']?> </td>
                                         </tr>
-                                    <?php endforeach;?> -->
+                                    <?php endforeach;?>  
                                 </tbody>
                             </table>
                         </div>

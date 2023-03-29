@@ -26,7 +26,8 @@
                                 <label>Número Proceso <b style="color:red">*</b></label>
                                 <input id="numero_proceso" name="numero_proceso" value="<?=$inf_1['numero_proceso']?>"
                                     type="text" class="form-control" readonly>
-
+                                    <input id="numero_proceso2" name="numero_proceso2" value="<?=$inf_1['numero_proceso']?>."
+                                    type="text" class="form-control" readonly>
                                     <input id="estatus" name="estatus" value="ANULADO"
                                     type="hidden" class="form-control" readonly>
                                 <hr style="border-top: 1px solid rgba(0, 0, 0, 0.17);">

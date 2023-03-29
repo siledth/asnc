@@ -24,7 +24,6 @@
             $this->db_c->select('c.user_id,
                                 c.edocontratista_id,
                                 c.rifced,
-                                c.numcertrnc,
                                 c.nombre,
                                 c.dirfiscal,
                                 e.descedo,
@@ -38,8 +37,7 @@
             $this->db_c->join('public.municipios m', 'm.id = c.municipio_id');
             $this->db_c->join('public.ciudades c2', 'c2.id = c.ciudade_id');
             $this->db_c->where('c.rifced',$data['rif_b']);
-            //$query = $this->db_c->get('public.contratistas c');
-            $query = $this->db_c->get('evaluacion_desempenio.contratistas c');
+            $query = $this->db_c->get('public.contratistas c');
             $result = $query->row_array();
                 if ($result == '') {
                     $this->db->select('c.user_id,
@@ -246,11 +244,35 @@
                                        FROM evaluacion_desempenio.evaluacion as ed
                                        left join evaluacion_desempenio.contratistas c on  c.rifced = ed.rif_contrat
                                        left join evaluacion_desempenio.contratistas_nr cn on cn.rifced = ed.rif_contrat
+                                       
+                                    --    join public.planillapirmera2 cn on cn.rifced = ed.rif_contrat
                                        join public.estatus e on e.id = ed.id_estatus
-                                       where ed.id_usuario = '$usuario'");
+                                    --    where ed.id_usuario = '$usuario' //COMENTE ESTO HAY QUE HACERLO EN EL OTRO
+                                       "
+                                       );
             return $query->result_array();
 
         }
+        public function consulta_eval_user($usuario){
+        $query = $this->db->query("SELECT ed.id,
+        to_char(ed.fecha_reg_eval, 'dd-mm-yyyy') as fecha,
+        ed.rif_contrat,
+        concat(cn.nombre,'',c.nombre ) as nombre,
+        ed.calificacion,
+        ed.id_estatus,
+        e.descripcion
+        FROM evaluacion_desempenio.evaluacion as ed
+        left join evaluacion_desempenio.contratistas c on  c.rifced = ed.rif_contrat
+        left join evaluacion_desempenio.contratistas_nr cn on cn.rifced = ed.rif_contrat
+        join public.estatus e on e.id = ed.id_estatus
+        where ed.id_usuario = '$usuario'");
+return $query->result_array();
+
+}
+
+
+
+
 
         //Se consulta la Evaluación de desempeño. Tomando en cuenta que hay dos tablas de consultas de los contratistas (Solicitado de esa forma).
         public function consulta_eval_ind($id_evaluacion){

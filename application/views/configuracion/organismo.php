@@ -35,7 +35,7 @@
                             </div>
                             <div class="form-group col-4">
                                 <label>Siglas del Órgano</label>
-                                <input type="text" name="siglas" class="form-control <?php echo form_error('siglas') ? 'is-invalid' : ''; ?>" placeholder="Código" value="<?php echo set_value('siglas'); ?>">
+                                <input type="text" name="siglas" class="form-control <?php echo form_error('siglas') ? 'is-invalid' : ''; ?>" placeholder="Código" value="<?php echo set_value('siglas'); ?>" max="12">
                                 <div class="invalid-feedback">
                                     <?php echo form_error('siglas'); ?>
                                 </div>

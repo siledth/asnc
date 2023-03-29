@@ -17,8 +17,9 @@
                                 <th>Estatus de Notificación</th>
                                 <th>Acciones</th>
                             </tr>
-                        </thead>
+                        </thead> 
                         <tbody>
+                        <?php if ($rif_organoente == "G200024518") : ?>
                             <?php foreach($reportes as $data):?>
                             <tr class="odd gradeX" style="text-align:center">
                                 <td><?=$data['id']?> </td>
@@ -35,6 +36,29 @@
                                 </td>
                             </tr>
                             <?php endforeach;?>
+                            <?php else: ?>
+                     
+                     
+                            <?php foreach($reportes_user as $data):?>
+                            <tr class="odd gradeX" style="text-align:center">
+                                <td><?=$data['id']?> </td>
+                                <td><?=$data['fecha']?> </td>
+                                <td><?=$data['rif_contrat']?> </td>
+                                <td><?=$data['nombre']?> </td>
+                                <td><?=$data['calificacion']?></td>
+                                <td><?=$data['descripcion']?></td>
+                                <td class="center">
+                                    <a title="Visualizar e Imprimir la Evaluación de Desempeño" href="<?php echo base_url();?>index.php/Evaluacion_desempenio/ver_evaluacion?id=<?php echo $data['id'];?>"
+                                        class="button">
+                                        <i class="fas fa-lg fa-fw fa-eye" style="color: green;"></i>
+                                    <a/>
+                                </td>
+                            </tr>
+                            <?php endforeach;?>
+
+
+
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>

@@ -13,6 +13,7 @@ function eliminar_proy(id){
             var id_items_proy = id
             var base_url =window.location.origin+'/asnc/index.php/Programacion/eliminar_proy';
 
+            var base_url = '/index.php/Programacion/eliminar_proy';
             $.ajax({
                 url:base_url,
                 method: 'post',
@@ -55,6 +56,7 @@ function eliminar_acc(id){
             var id_items_acc = id
             var base_url =window.location.origin+'/asnc/index.php/Programacion/eliminar_acc';
 
+            var base_url = '/index.php/Programacion/eliminar_acc';
             $.ajax({
                 url:base_url,
                 method: 'post',

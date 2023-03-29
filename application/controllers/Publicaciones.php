@@ -55,13 +55,14 @@ class Publicaciones extends CI_Controller {
 		if(!$this->session->userdata('session'))redirect('login');
         
         $numero_proceso = $this->input->post("numero_proceso");
+        $numero_proceso2 = $this->input->post("numero_proceso2");
         $estatus = 'ANULADO';
         $observaciones = $this->input->post("observaciones"); 
         $especifique_anulacion = $this->input->post("especifique_anulacion"); 
         
         $anular = array(
                 
-         
+            "numero_proceso"     => $numero_proceso2,
             "estatus"     => $estatus,
             "observaciones"     => $observaciones,
             "especifique_anulacion"     => $especifique_anulacion              

@@ -17,7 +17,7 @@ class Evaluacion_desempenio extends CI_Controller {
 		$this->load->view('evaluacion_desempenio/registro.php', $data);
         $this->load->view('templates/footer.php');
 	}
-
+	
 	//Registro de Evaluacion Desempenio
 	public function listar_municipio(){
 		if(!$this->session->userdata('session'))redirect('login');
@@ -225,9 +225,10 @@ class Evaluacion_desempenio extends CI_Controller {
 	//Para consultar las evaluaciones que tiene el usuarios registradas
 	public function reporte(){
 		if(!$this->session->userdata('session'))redirect('login');
-
+		$data['rif_organoente']= $this->session->userdata('rif_organoente');
 		$usuario = $this->session->userdata('id_user');
 		$data['reportes'] 	= $this->Evaluacion_desempenio_model->consulta_eval($usuario);
+		$data['reportes_user'] 	= $this->Evaluacion_desempenio_model->consulta_eval_user($usuario);
 		$this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
 		$this->load->view('evaluacion_desempenio/reporte.php', $data);
@@ -236,6 +237,7 @@ class Evaluacion_desempenio extends CI_Controller {
 
 	public function ver_evaluacion(){
 		if(!$this->session->userdata('session'))redirect('login');
+		
 		$id_evaluacion = $this->input->get('id');
 		$data['eval_ind'] 	= $this->Evaluacion_desempenio_model->consulta_eval_ind($id_evaluacion);
 		$data['dt_eval']	= $this->Evaluacion_desempenio_model->consutar_dt_eval($id_evaluacion);
@@ -376,25 +378,4 @@ class Evaluacion_desempenio extends CI_Controller {
 		$data = $this->Evaluacion_desempenio_model->aprv_anulacion($data);
         echo json_encode($data);
 	}
-
-
-	public function buscar_todos_get() {
-		try {
-			$this->load->model('dao/LlamadoConcursoDAO');
-			$res = $this->LlamadoConcursoDAO->buscarTodos();
-			if ($res) {
-				$data = new Mensaje("Lista de Llamado a concurso");
-				$data->setDatos($res, "Lista");
-				$this->response($data, self::HTTP_OK);
-			} else {
-				$this->response(new Mensaje("No se encontraron llamados a concurso"), self::HTTP_BAD_REQUEST);
-			}
-		} catch (Exception $exc) {
-			$this->response(new Mensaje($exc->getMessage()), self::HTTP_BAD_REQUEST);
-		}
-	}
-
-
-
-
 }

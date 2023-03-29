@@ -230,15 +230,14 @@
                         <?php if (($this->session->userdata('certificacion') == 1)) : ?>
                     <li class="has-sub">
                     <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion"><i
-                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Listado de
+                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Solicitud de
                             Certificación de Privado</a>
                     </li>
                     <?php endif; ?>
                     <?php if (($this->session->userdata('certi_externo') == 1)) : ?>
                     <li class="has-sub">
                     <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion_exter"><i
-                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Listado_exter
-                            Certificación de Privado</a>
+                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Certificación de Privado</a>
                     </li>
                     <?php endif; ?>
                     <?php if (($this->session->userdata('certificacion') == 1)) : ?>
@@ -295,6 +294,11 @@
                     <span>Tablas Parametros</span>
                 </a>
                 <ul class="sub-menu">
+                <li>
+                        <a href="<?= base_url() ?>index.php/Certificacion/registrar_exonerado">
+                            - Exonerados
+                        </a>
+                    </li>
                     <li>
                         <a href="<?= base_url() ?>index.php/Fuentefinanc/index">
                             - Fuente de Financiamiento

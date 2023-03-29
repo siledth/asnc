@@ -135,7 +135,7 @@
 
                                     </div>
                                     <div class="form-group col-2">
-                                        <label>taza Bolivares<b style="color:red">*</b></label>
+                                        <label>Tasa Bolivares<b style="color:red">*</b></label>
                                         <?php foreach ($inf_14 as $data): ?>
                                         <input id="bolivar_estimado" name="bolivar_estimado" type="text"
                                             class="form-control" value="<?=$data['valor']?>" readonly>

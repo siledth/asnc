@@ -39,7 +39,7 @@
 					<div class="row">
 						<div class="form-group col-lg-6 col-md-6 col-sm-12">
 							<label for="txtNumeroProceso">Número de Proceso</label>
-							<input type="text" class="form-control" id="txtNumeroProceso" placeholder="Número de Proceso" maxlength="40" require>
+							<input type="text" class="form-control" id="txtNumeroProceso" placeholder="Número de Proceso"  require>
 							<small id="errNumeroProceso" class="form-text text-muted text-red-darker"></small>
 						</div>
 						<div class="form-group col-lg-6 col-md-6 col-sm-12">
@@ -144,7 +144,7 @@
 					<div class="row">
 						<div class="form-group col-lg-12 col-md-12 col-sm-12">
 							<label for="txtDireccion">Dirección</label>
-							<textarea class="form-control" id="txtDireccion" placeholder="Dirección" maxlength="250" require></textarea>
+							<textarea class="form-control" id="txtDireccion" placeholder="Dirección"   require></textarea>
 							<small id="errDireccion" class="form-text text-muted text-red-darker"></small>
 						</div>
 					</div>
@@ -168,7 +168,7 @@
 					</div>
 				</fieldset>
 				<fieldset class="border border-success p-10 shadow-lg">
-					<legend class="font-weight-bold">Dirección para Retiro de Pliego</legend>
+					<legend class="font-weight-bold">Acto de Recepciòn y Apertura de sobre</legend>
 					<div class="row">
 						<div class="form-group col-lg-3 col-md-6 col-sm-12">
 							<label for="txtFechaEntrega">Fecha de Entrega</label>
@@ -197,14 +197,14 @@
 					<div class="row">
 						<div class="form-group col-lg-12 col-md-12 col-sm-12">
 							<label for="txtDireccionSobre">Dirección</label>
-							<textarea class="form-control" id="txtDireccionSobre" placeholder="Dirección" maxlength="250" require></textarea>
+							<textarea class="form-control" id="txtDireccionSobre" placeholder="Dirección"  require></textarea>
 							<small id="errDireccionSobre" class="form-text text-muted text-red-darker"></small>
 						</div>
 					</div>
 					<div class="row">
 						<div class="form-group col-lg-12 col-md-12 col-sm-12">
 							<label for="txtLugarEntrega">Lugar del Acto Público</label>
-							<textarea class="form-control" id="txtLugarEntrega" placeholder="Lugar de Entrega" maxlength="250" require></textarea>
+							<textarea class="form-control" id="txtLugarEntrega" placeholder="Lugar de Entrega"  require></textarea>
 							<small id="errLugarEntrega" class="form-text text-muted text-red-darker"></small>
 						</div>
 					</div>

@@ -70,7 +70,7 @@ class Contratista extends CI_Controller
 	{
 		if(!$this->session->userdata('session'))redirect('login');
 		$data = $this->input->post();
-		$data =	$this->Contratista_model->llenar_contratista($data);
+		$data =	$this->Contratista_model->llenar_contratistas($data);
 		echo json_encode($data);
 	}
 

@@ -287,9 +287,9 @@
                 $id = $response3['id'] + 1 ;
                 $data = array(
                     'id_organoente'		    => $id,
-                    'ente_ads_a'		=> $data['id_organoente'],
+                    'id_organoenteads'		=> $data['id_organoente'],
                     'tipo_organoente'		=> 3,// 3 porque es un ente adcrito
-                    'id_organoenteads' 		=> $data['id_organoenteads'],
+                    
                     'codigo'            => $codigo,
                     'descripcion'		=> $data['ente'],
                     'cod_onapre'	 	=> $data['cod_onapre'],

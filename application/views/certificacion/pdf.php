@@ -123,27 +123,33 @@
                                     </tr>
                                     <?php if (($inf_pdf['tipo_pers'] < 2) ) : ?>
                                     <td style="text-align:center" colspan="2"> INFORMACIÓN DEL FACILITADOR(A)</td>
-                                    <tr>
-                                        <th style="text-align:right">Nombres Y Apellido</th>
-                                        <th><?=$inf_pdf['nombre_ape']?> </th>
-
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:right"> Cédula de Identidad:</th>
-                                        <th> <?=$inf_pdf['cedula']?> </th>
-
-                                    </tr>
+                                    <tr class="text-center">
+                                            <th>Nombre y Apellido</th>
+                                            <th>Cedula</th>
+                                            
+                                        </tr>
+                                        <?php foreach ($ver_pdfs_2 as $data): ?>
+                                        <tr class="text-center">
+                                            <th> <?=$data['nombre_ape']?></th>
+                                            <th> <?=$data['cedula']?></th>
+                                            
+                                        </tr>
+                                        <?php endforeach; ?>
                                     <?php endif; ?>
                                 </tbody>
-                            </table>
-                            <br><br><br>
+                            </table> 
+                              
+               
+                         
+                            
+                       
+                            <br><br><br><br><br><br>
                             <div class="col-12 text-center">
-                                <h5> <b>Neudys Nahir Inojosa Rios </b>
-                                    <h4>Directora Adjunta de la Dirección General </h4>
-                                    Según Providencias N° DG/2018/033 de fecha 28 de diciembre de 2018 y<br>
-                                    N° DG/2019/003 de fecha 15 de enero de 2019, publicadas en<br>
-                                    la Gaceta Oficial de la República Bolivariana de Venezuela N° 41.562<br>
-                                    de fecha 11 de enero de 2019 y N° 41.589 de fecha 19 de febrero de 2019
+                                <h3> <b>Anthoni Camilo Torres </b></h3>
+                                    <h4>Director General </h4>
+                                    "Resolución CCP/DGCJ N° 001/2014 de fecha 07 de enero de 2014, Publicada <br>
+                    en la Gaceta Oficial de la República Bolivariana de Venezuela <br>
+                    Nº 40.334 de fecha 15 de enero de 2014."
                                 </h5>
                             </div>
                             <div class="col-12 text-right">
@@ -154,6 +160,20 @@
 
                                 </div>
                             </div>
+                             
+                           
+                            <br><br><br>
+                            <br><br><br>
+                            <div class="col-12 mt-5">
+                            <FONT SIZE=1>Firma electrónica de datos consultados: <br>
+                XaN-cixoSyPa5Kyop8k-Ac7TzWROZ4iUzQmlhcayO9eGIi-9964 <br>
+                a132BUqtwdDIIDdT8BxYlAjIsd61Wnsqobpb01742NPUUjM2J21BhdUOcoRd3sZELb8yx5fAw+k5ch8- <br>
+                Firmado electrónico por Anthoni Camilo Torres, avalado por la autoridad certificadora Fundación Instituto 
+                de Ingeniería, adscrito a SUSCERTE <br>
+                La validez del presente certificado debe ser consultado en la dirección electrónica www.snc.gob.ve y se 
+                           exhorta a todos los Órganos y Entes del Estado responsables de las contrataciones públicas a imprimir 
+                un ejemplar a objeto de ser incorporado al expediente de la contratación o concurso a ejecutar.</FONT>
+            </div>
                         </div>
                     </div>
                 </div>

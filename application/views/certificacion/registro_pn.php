@@ -85,7 +85,7 @@
                                         <a href="#programa_taller" data-toggle="tab" class="nav-link active">
                                             <span class="d-sm-none">Tab 1</span>
                                             <span class="d-sm-block d-none">
-                                                <h6>Programa del <br> curso o <br> taller</h6><br><br>
+                                                <h6>Nombre del <br> curso o <br> taller</h6><br><br>
                                             </span>
                                         </a>
                                     </li>
@@ -154,20 +154,23 @@
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane fade active show" id="programa_taller">
-                                        <div class="row">
+                                    <div class="row">
 
-                                            <div class="form-group col-5">
-                                                <label>Objetivo: <b title="Campo Obligatorio"
-                                                        style="color:red">*</b></label>
-                                                <textarea class="form-control" name="objetivo" id="objetivo" rows="3"
-                                                    cols="70" onkeyup="mayusculas(this);"></textarea>
-                                            </div>
-                                            <div class="form-group col-5">
-                                                <label>Contenido Programático: <b title="Campo Obligatorio"
-                                                        style="color:red">*</b></label>
-                                                <textarea class="form-control" name="cont_prog" id="cont_prog" rows="3"
-                                                    cols="70" onkeyup="mayusculas(this);"></textarea>
-                                            </div>
+                                        <div class="form-group col-5">
+                                            <label><b title="Campo Obligatorio"
+                                                    style="color:red">*</b>Nombre o Denominaciòn del Curso:<b title="Ingresar Nombre o Denominaciòn del Curso"style="color:red">!</b></label>
+                                            <textarea class="form-control" name="objetivo" id="objetivo" rows="3"
+                                                cols="70" onkeyup="mayusculas(this);"></textarea>
+                                        </div>
+                                        <div class="form-group col-5">
+                                            <label> <b title="Campo Obligatorio"
+                                                    style="color:red">*</b>Contenido Programático:
+                                                    <b title="Ingresar el Contenido Programatico del Curso"
+                                                    style="color:red">!</b>
+                                                </label>
+                                            <textarea class="form-control" name="cont_prog" id="cont_prog" rows="3"
+                                                cols="70" onkeyup="mayusculas(this);"></textarea>
+                                        </div>
                                         </div>
                                     </div>
 
@@ -213,11 +216,18 @@
                                                     </div>
 
                                                     <div class="form-group col-2">
-                                                        <label>taza Bolivares<b style="color:red">*</b></label>
-                                                        <?php foreach ($inf_3 as $data): ?>
+                                                        <label>Tasa Bolivares<b style="color:red">*</b></label>
+                                                        <?php if(isset(($exonerado )))
+                                                       {?>
                                                         <input id="bolivar_estimado" name="bolivar_estimado" type="text"
-                                                            class="form-control" value="<?=$data['valor']?>" readonly>
-                                                        <?php endforeach; ?>
+                                                        class="form-control" value="0" readonly>
+                                                                                                                    
+                                                        <?php  } else { 
+                                                          
+                                                          foreach ($inf_3 as $data): ?>
+                                                            <input id="bolivar_estimado" name="bolivar_estimado" type="text"
+                                                                class="form-control" value="<?=$data['valor']?>" readonly>
+                                                            <?php endforeach;  } ?>
 
 
 
@@ -236,10 +246,45 @@
                                                     <div class="col-12">
                                                         <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
                                                     </div>
-                                                    <h5 class="text-center"><b style="color:red;">
+                                                    
+                                                            <?php if(isset(($exonerado ))){ ?>
+                                                        <div class="row">
+
+                                                                                                                
+                                                            <div class="form-group col-3">
+
+                                                            <input id="n_ref" name="n_ref" type="hidden" Value="Exonerado" class="form-control">
+                                                            </div>
+                                                            <div class="form-group col-4">
+
+                                                            
+                                                            <input id="banco_e" name="banco_e" type="hidden" Value="Exonerado" class="form-control">
+
+                                                            </div>
+
+                                                            <div class="form-group col-4">
+
+
+                                                                    <input id="banco_rec" name="banco_rec" type="hidden" Value="Exonerado" class="form-control">
+                                                            </div>
+                                                            <div class="form-group col-3">
+
+                                                            <input class="form-control" type="hidden" name="fecha_trans"
+                                                                id="fecha_trans" Value="<?=$time?>">
+                                                            </div>
+                                                            <div class="form-group col-3">                                                 
+                                                                <input id="monto_trans" name="monto_trans" type="hidden" Value="0" class="form-control">
+                                                            </div>
+
+                                                           
+
+                                                            </div>
+
+                                                            </div>
+
+                                                    <?php  } else { ?>
+                                                        <h5 class="text-center"><b style="color:red;">
                                                             Ingrese La Informacion de Pago</b> </h5>
-
-
 
                                                     <div class="form-group col-8">
                                                         <label class="col-form-label col-md-6 text-right">Numero de
@@ -294,9 +339,9 @@
                                                     </div>
 
 
-
+                                                    <?php     } ?>
                                             
-                                        </div>
+                                        
 
 
 
@@ -324,7 +369,7 @@
                                             <label>Título Obtenido <b title="Campo Obligatorio"
                                                     style="color:red">*</b></label>
                                             <input class="form-control" type="text" name="titulo" id="titulo"
-                                                placeholder="Actividad" onkeyup="mayusculas(this);">
+                                                placeholder="Nombre del titulo Obtenido" onkeyup="mayusculas(this);">
                                         </div>
                                         <div class="form-group col-4">
                                             <label>Año de Inicio (aaaa) <b title="Campo Obligatorio"
@@ -351,10 +396,7 @@
                                         <div class="col-12">
                                             <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
                                         </div>
-                                        <h5 class="text-center"><b style="color:red;">NOTA:</b> La tabla debe
-                                            tener al menos
-                                            un
-                                            registro agregado, para proceder con la solicitud.</h5>
+                                        <h5 class="text-center"><b style="color:red;">NOTA:</b>Los campos con <b style="color:red;">*</b> son obligatorios.</h5>
 
                                         <div class="col-12 text-center">
                                             <button type="button" onclick="agregar_infor_perso(this);"
@@ -435,10 +477,7 @@
                                         <div class="col-12">
                                             <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
                                         </div>
-                                        <h5 class="text-center"><b style="color:red;">NOTA:</b> La tabla debe
-                                            tener al menos
-                                            un
-                                            registro agregado, para proceder con la solicitud.</h5>
+                                        <h5 class="text-center"><b style="color:red;">NOTA:</b>Los campos con <b style="color:red;">*</b> son obligatorios.</h5>
 
                                         <div class="col-12 text-center">
                                             <button type="button" onclick="agregar_for_mat_cert(this);"
@@ -523,10 +562,7 @@
                                         <div class="col-12">
                                             <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
                                         </div>
-                                        <h6 class="text-center"><b style="color:red;">NOTA:</b> La tabla debe
-                                            tener al menos
-                                            un
-                                            registro agregado, para proceder con la solicitud.</h6>
+                                        <h5 class="text-center"><b style="color:red;">NOTA:</b>Los campos con <b style="color:red;">*</b> son obligatorios.</h5>
 
                                         <div class="col-12 text-center">
                                             <button type="button" onclick="agregar_exp_10(this);"
@@ -587,10 +623,7 @@
                                         <div class="col-12">
                                             <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
                                         </div>
-                                        <h5 class="text-center"><b style="color:red;">NOTA:</b> La tabla debe
-                                            tener al menos
-                                            un
-                                            registro agregado, para proceder con la solicitud.</h5>
+                                        <h5 class="text-center"><b style="color:red;">NOTA:</b>Los campos con <b style="color:red;">*</b> son obligatorios.</h5>
 
                                         <div class="col-12 text-center">
                                             <button type="button" onclick="agregar_ex3a(this);"
