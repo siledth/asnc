@@ -234,20 +234,6 @@ echo json_encode($data);
       'fecha'        => date('Y-m-d h:i:s'),
       
     );
-    require 'PHPMailer/PHPMailerAutoload.php';
-    $mail = new PHPMailer(true);                           // Enable verbose debug output
-
-    $mail->isSMTP();                                      // Set mailer to use SMTP
-    $mail->Host = 'smtp.gmail.com';                       // Specify main and backup SMTP servers
-    $mail->SMTPAuth = true;                               // Enable SMTP authentication
-    $mail->Username = 'soportecertificacionsnc2023@gmail.com';               // SMTP username
-    //$mail->Password = 'kefxqwunkuubkdlf';
-    $mail->Password = 'acgeeyaoekotywpm';                 // SMTP password
-    $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 587;                                    // TCP port to connect to
-    $mail->Timeout = 20;
-    $mail->setFrom('soportecertificacion2023p@gmail.com', 'Certificacion 2023');
-
     $mail->addAddress($this->input->post('email'), '');     // Add a recipient
     $mail->Subject = 'Envio de Clave de Acceso';
     $mail->Body    = 'Clave para ingresar <b>' . $clave .'</b> <br>Este Correo Fue Generado de Forma Automatica. No responder a Este Correo';
