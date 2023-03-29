@@ -552,6 +552,14 @@ class Evaluacion_desempenio extends CI_Controller {
 		$data =	$this->Evaluacion_desempenio_model->registrar_sns($exitte,$data,$data_ev,$data_repr_legal);
 		echo json_encode($data);
 	}
+
+	public function consulta_2() {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $data = $this->input->post();
+        $data = $this->Evaluacion_desempenio_model->consulta_2($data);
+        echo json_encode($data);
+    }
 	public function consultar_snc(){
 		if(!$this->session->userdata('session'))redirect('login');
 		$data['rif_organoente']= $this->session->userdata('rif_organoente');
@@ -591,7 +599,7 @@ class Evaluacion_desempenio extends CI_Controller {
             'fecha_not'    => $this->input->POST('fecha_not'),
 			'medio'       => $this->input->POST('medio'),
 			'nro_oc_os'	  => $this->input->POST('nro_oc_os'),
-			'fileimagen'	  => $this->input->POST('file_name'),
+			'fileimagen'	  => $this->input->POST('fileimagen'),
 			'id_usuario' 	  => $this->session->userdata('id_user'),
 			'snc' => 1,
         );

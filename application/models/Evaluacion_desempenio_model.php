@@ -592,7 +592,16 @@ return $query->result_array();
         }
 
 
-
+        function consulta_2($data){
+            $this->db->select('*');
+            $this->db->from('evaluacion_desempenio.evaluacion');
+            $this->db->where('id', $data['id']);
+           // $this->db->order_by("codigo_b", "Asc");
+            $query = $this->db->get();
+            if (count($query->result()) > 0) {
+                return $query->row();
+            }
+        }
         public function save_notificacion($notifiacion){
             $this->db->where('id', $notifiacion['id']);
 			$update = $this->db->update('evaluacion_desempenio.evaluacion', $notifiacion);

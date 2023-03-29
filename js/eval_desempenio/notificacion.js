@@ -22,7 +22,22 @@ function mostrar_medio(){
         $("#adjunto").hide();
     }
 }
+function modal(id){
+    var id = id;
+    //var base_url = window.location.origin+'/asnc/index.php/Certificaciones/consulta_b';
+    var base_url = '/index.php/Evaluacion_desempenio/consulta_2';
+    $.ajax({
+        url: base_url,
+        method:'post',
+        data: {id: id},
+        dataType:'json',
 
+        success: function(response){
+            $('#id').val(response['id']);
+            
+        }
+    });
+}
 function guardar_not(){
     var id = $("#id").val();
 		var fecha_not = $("#datepicker-default").val();
