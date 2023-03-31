@@ -92,6 +92,23 @@
                                 <span class="ml-1">Desempeño</span>
                             </a>
                             <ul class="sub-menu">
+                            <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
+                            <li class="has-sub">
+                                    <a href="javascript:;">
+                                        <b class="caret"></b>
+                                        SNC
+                                    </a>
+                                    <ul class="sub-menu">
+                                   
+                                        <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/registro_snc">- Registrar Evalu. SNC</a></li>
+                                      
+                                    
+                                        <li><a href="<?= base_url() ?>index.php/Evaluacion_desempenio/consultar_snc">-
+                                                Listar Eval.</a></li>
+                                       
+                                    </ul>
+                                </li>
+                                <?php endif; ?>
                                 <?php if (($this->session->userdata('menu_reg_eval_desem') == 1)) : ?>
                                 <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio">Registrar</a></li>
                                 <?php endif; ?>

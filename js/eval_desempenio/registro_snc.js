@@ -358,23 +358,23 @@ function registrar(){
     var total_claf        = $("#total_claf").val();
     var calificacion      = $("#calificacion").val();
 
-    var fecha_not       = $("#datepicker-default").val();
-    var medio           = $("#medio").val();
-    var nro_oc_os       = $("#nro_oc_os").val();
-    var fileImagen      = $("#fileImagen").val();
+    //  var fecha_not       = "20-12-2050";
+    // var medio           = $("#medio").val();
+    // var nro_oc_os       = $("#nro_oc_os").val();
+    // var fileImagen      = $("#fileImagen").val();
 
-    if (fileImagen ==0) {
-        alert("Acuse de Recibido Obligatorio");
-        return false;
-    }
-    var fileSize = $('#fileImagen')[0].files[0].size;
-    var siezekiloByte = parseInt(fileSize / 1024);
-    if (siezekiloByte >  $('#fileImagen').attr('size')) {
-        alert("Imagen muy grande");
-        return false;
-    }
+    // if (fileImagen ==0) {
+    //     alert("Acuse de Recibido Obligatorio");
+    //     return false;
+    // }
+    // var fileSize = $('#fileImagen')[0].files[0].size;
+    // var siezekiloByte = parseInt(fileSize / 1024);
+    // if (siezekiloByte >  $('#fileImagen').attr('size')) {
+    //     alert("Imagen muy grande");
+    //     return false;
+    // }
    
-    var tipo = fileImagen.split(".")[1];
+    // var tipo = fileImagen.split(".")[1];
     if (exitte == '0'){
         if (rif_cont_n == '') {
             document.getElementById("rif_cont_n").focus();
@@ -435,27 +435,20 @@ function registrar(){
         }else if (calificacion == '') {
             document.getElementById("calificacion").focus();
         }
-        else if (fecha_not == '') {
-            document.getElementById("datepicker-default").focus();
-        }else if (medio == '0') {
-            document.getElementById("medio").focus();
-        }else if (nro_oc_os == '') {
-            document.getElementById("nro_oc_os").focus();
-        }
-        else if (fileImagen == '') {
+        // else if (fecha_not == '') {
+        //     document.getElementById("datepicker-default").focus();
+        // }else if (medio == '0') {
+        //     document.getElementById("medio").focus();
+        // }else if (nro_oc_os == '') {
+        //     document.getElementById("nro_oc_os").focus();
+        // }
+        // else if (fileImagen == '') {
             
-            document.getElementById("fileImagen").focus();
-        }else if (tipo != 'pdf' && tipo != 'jpg' && tipo != 'img'&& tipo != 'png' && tipo != 'jpeg') {
-            swal("Mensaje de alerta!", "El tipo de archivo debe ser en formato pdf, jpg, img, png o jpeg.")
-            document.getElementById("fileImagen").focus();
-        }
-        else if (fileImagen == '') {
-            
-            document.getElementById("fileImagen").focus();
-        }else if (tipo != 'pdf' && tipo != 'jpg' && tipo != 'img'&& tipo != 'png' && tipo != 'jpeg') {
-            swal("Mensaje de alerta!", "El tipo de archivo debe ser en formato pdf, jpg, img, png o jpeg.")
-            document.getElementById("fileImagen").focus();
-        }
+        //     document.getElementById("fileImagen").focus();
+        // }else if (tipo != 'pdf' && tipo != 'jpg' && tipo != 'img'&& tipo != 'png' && tipo != 'jpeg') {
+        //     swal("Mensaje de alerta!", "El tipo de archivo debe ser en formato pdf, jpg, img, png o jpeg.")
+        //     document.getElementById("fileImagen").focus();
+      //  }
         else{
             var calificacion = $('#calificacion').val();
             if (calificacion == 'DEFICIENTE' || calificacion == 'SIN CALIFICACIÓN'){
@@ -474,7 +467,7 @@ function registrar(){
                         event.preventDefault();
                         var datos = new FormData($("#resgistrar_eva")[0]);
                         // var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
-                        var base_url = '/index.php/evaluacion_desempenio/registrar';
+                        var base_url = '/index.php/evaluacion_desempenio/registrar_snc';
                         $.ajax({
                             url:base_url,
                             method: 'POST',
@@ -518,7 +511,7 @@ function registrar(){
                         event.preventDefault();
                         var datos = new FormData($("#resgistrar_eva")[0]);
                         // var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
-                        var base_url = '/index.php/evaluacion_desempenio/registrar';
+                        var base_url = '/index.php/evaluacion_desempenio/registrar_snc';
                         $.ajax({
                             url:base_url,
                             method: 'POST',
@@ -581,18 +574,19 @@ function registrar(){
         }else if (calificacion == '') {
             document.getElementById("calificacion").focus();
         }
-        else if (fecha_not == '') {
-            document.getElementById("datepicker-default").focus();
-        }else if (medio == '0') {
-            document.getElementById("medio").focus();
-        }else if (nro_oc_os == '') {
-            document.getElementById("nro_oc_os").focus();
-        }else if (fileImagen == '') {
-            document.getElementById("fileImagen").focus();
-        }else if (tipo != 'pdf' && tipo != 'jpg' && tipo != 'img'&& tipo != 'png' && tipo != 'jpeg') {
-            swal("Mensaje de alerta!", "El tipo de archivo debe ser en formato pdf, jpg, img, png o jpeg.")
-            document.getElementById("fileImagen").focus();
-        }else{
+        // else if (fecha_not == '') {
+        //     document.getElementById("datepicker-default").focus();
+        // }else if (medio == '0') {
+        //     document.getElementById("medio").focus();
+        // }else if (nro_oc_os == '') {
+        //     document.getElementById("nro_oc_os").focus();
+        // }else if (fileImagen == '') {
+        //     document.getElementById("fileImagen").focus();
+        // }else if (tipo != 'pdf' && tipo != 'jpg' && tipo != 'img'&& tipo != 'png' && tipo != 'jpeg') {
+        //     swal("Mensaje de alerta!", "El tipo de archivo debe ser en formato pdf, jpg, img, png o jpeg.")
+        //     document.getElementById("fileImagen").focus();
+       // }
+        else{
             var calificacion = $('#calificacion').val();
             if (calificacion == 'DEFICIENTE' || calificacion == 'SIN CALIFICACIÓN'){
                 event.preventDefault();
@@ -610,7 +604,7 @@ function registrar(){
                         event.preventDefault();
                         var datos = new FormData($("#resgistrar_eva")[0]);
                         // var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
-                        var base_url = '/index.php/evaluacion_desempenio/registrar';
+                        var base_url = '/index.php/evaluacion_desempenio/registrar_snc';
                         $.ajax({
                             url:base_url,
                             method: 'POST',
@@ -654,7 +648,7 @@ function registrar(){
                         event.preventDefault();
                         var datos = new FormData($("#resgistrar_eva")[0]);
                     //    var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
-                        var base_url = '/index.php/evaluacion_desempenio/registrar';
+                        var base_url = '/index.php/evaluacion_desempenio/registrar_snc';
                         $.ajax({
                             url:base_url,
                             method: 'POST',
