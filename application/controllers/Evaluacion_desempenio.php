@@ -254,9 +254,9 @@ class Evaluacion_desempenio extends CI_Controller {
 		$date_r = date("d-m-Y", strtotime($fecha_r));
 		$data['fecha_reg_eval'] = $date_r;
 
-		$img = $data['eval_ind']['fileimagen'];
-		$separar  = explode(".", $img);
-		$data['tipo_img'] = $separar['1'];
+		//$img = $data['eval_ind']['fileimagen'];
+		//$separar  = explode(".", $img);
+		//$data['tipo_img'] = $separar['1'];
 
 		$calidad = $data['eval_ind']['calidad'];
 		$data['calc_cald'] = $calidad * 25;

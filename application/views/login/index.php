@@ -70,7 +70,7 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
     <div id="page-container" class="fade">
         <div class="login login-with-news-feed">
             <div class="news-feed">
-                <div class="news-image" style="background-image: url(<?= base_url() ?>Plantilla/img/2.png);"></div>
+                <div class="news-image" style="background-image: url(<?= base_url() ?>Plantilla/img/92.png);"></div>
                 <!-- <img style="background-repeat: no-repeat;" src="<?= base_url() ?>Plantilla/img/2.png" alt=""> -->
             </div>
             <div class="right-content" style="padding-top:4%">
