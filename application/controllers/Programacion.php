@@ -1102,4 +1102,21 @@ class Programacion extends CI_Controller {
         $data =	$this->Programacion_model->eliminar_acc($data);
         echo json_encode($data);
     }
+    public function consulta_general(){
+        if(!$this->session->userdata('session'))redirect('login');
+
+        $data['unidad'] = $this->session->userdata('id_unidad');
+        $data['des_unidad'] = $this->session->userdata('unidad');
+        $data['rif'] = $this->session->userdata('rif');
+        $data['codigo_onapre'] = $this->session->userdata('codigo_onapre');
+        $unidad = $this->session->userdata('id_unidad');
+
+        $data['ver_programaciones'] = $this->Programacion_model->consultar_programacio($unidad);
+        $data['fecha'] = date('yy');
+
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('programacion/consulta/consulta_an.php', $data);
+        $this->load->view('templates/footer.php');
+    }
 }

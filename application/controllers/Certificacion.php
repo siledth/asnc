@@ -1150,5 +1150,146 @@ class Certificacion extends CI_Controller
         echo json_encode($data);
     }
   
-    
+    ///////////////////////esto es facilitador
+    public function ver_facilitador(){
+        if(!$this->session->userdata('session'))
+        redirect('login');
+       
+        $usuario = $this->session->userdata('id_user');
+        $data['ver_facilitador'] = $this->Certificacion_model->consulta_facilitador($usuario);
+
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        
+          $this->load->view('certificacion/desin_instruc/desin_faci.php', $data);
+        
+        $this->load->view('templates/footer.php');
+    }
+    public function consulta_facilitadores() {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $data = $this->input->post();
+        $data = $this->Certificacion_model->consulta_facilitadores($data);
+        echo json_encode($data);
+    }
+    ///cambiar estatus facilitador desincorporar
+    public function cambiar_estatus() {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $data = $this->input->post();
+       if   (($data['status'] == 1 )  ){ 
+        $data = array(
+            'cedula' => $data['cedula'],
+            'rif_cont' => $data['rif_cont'],
+            'nombre_desin' => $data['nombre_desin'],
+            'cargo_desin' => $data['cargo_desin'],
+            'motivo' => $data['motivo'],
+            'status' => 0,
+            
+        ); 
+      } else    { 
+        $data = array(
+            'cedula' => $data['cedula'],
+            'rif_cont' => $data['rif_cont'],
+            'nombre_desin' => $data['nombre_desin'],
+            'cargo_desin' => $data['cargo_desin'],
+            'motivo' => $data['motivo'],
+            'status' => 1,
+            
+        );
+        
+            
+           }
+        
+
+        $data = $this->Certificacion_model->cambiar_estatus($data);
+        echo json_encode($data);
+    }
+
+    //////////////////Reportes
+   
+    public function fecha_vencimiento(){
+		if(!$this->session->userdata('session'))redirect('login');
+		$data['descripcion'] = $this->session->userdata('unidad');
+        $data['rif'] 		 = $this->session->userdata('rif');
+		    
+		
+		$hasta     = $this->input->post("hasta");
+		$desde     = $this->input->post("desde");
+        $data['desde'] = date('Y-m-d', strtotime($desde));
+		$data['hasta'] = date('Y-m-d', strtotime($hasta)); 
+	//	$this->form_validation->set_rules('t_pago', 't_pago', 'required|callback_select_validate');
+		$this->form_validation->set_rules('hasta', 'Fecha hasta', 'required|min_length[1]');
+		$this->form_validation->set_rules('desde', 'Fecha Desde ', 'required|min_length[1]');
+		
+		
+		if ($this->form_validation->run() == FALSE) {
+			$data['descripcion'] = $this->session->userdata('unidad');
+       		$data['rif'] 		 = $this->session->userdata('rif');
+			
+			$this->load->view('templates/header.php');
+			$this->load->view('templates/navigator.php');
+			$this->load->view('certificacion/Reporte/fecha_venci.php', $data);
+			$this->load->view('templates/footer.php');
+		
+		
+		
+		
+		} else {
+
+		
+
+			$hasta     = $this->input->post("hasta");
+			$desde     = $this->input->post("desde");
+			$data['desde'] = date('Y-m-d', strtotime($desde));
+			$data['hasta'] = date('Y-m-d', strtotime($hasta)); 
+			$data['results'] 	 =	$this->Certificacion_model->consultar_vencimiento($data);
+		
+		$this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+		$this->load->view('certificacion/Reporte/ver_vencimi.php', $data);
+        $this->load->view('templates/footer.php');
+               
+		
+		}	
+	}
+
+    public function status(){
+		if(!$this->session->userdata('session'))redirect('login');
+		$data['descripcion'] = $this->session->userdata('unidad');
+        $data['rif'] 		 = $this->session->userdata('rif');
+		$hasta     = $this->input->post("hasta");
+		$desde     = $this->input->post("desde");
+        $data['desde'] = date('Y-m-d', strtotime($desde));
+		$data['hasta'] = date('Y-m-d', strtotime($hasta)); 
+	//	$this->form_validation->set_rules('t_pago', 't_pago', 'required|callback_select_validate');
+		$this->form_validation->set_rules('hasta', 'Fecha hasta', 'required|min_length[1]');
+		$this->form_validation->set_rules('desde', 'Fecha Desde ', 'required|min_length[1]');
+		
+		
+		if ($this->form_validation->run() == FALSE) {
+			$data['descripcion'] = $this->session->userdata('unidad');
+       		$data['rif'] 		 = $this->session->userdata('rif');
+			
+			$this->load->view('templates/header.php');
+			$this->load->view('templates/navigator.php');
+			$this->load->view('certificacion/Reporte/status.php', $data);
+			$this->load->view('templates/footer.php');
+		
+		} else {
+			$hasta     = $this->input->post("hasta");
+			$desde     = $this->input->post("desde");
+			$data['desde'] = date('Y-m-d', strtotime($desde));
+			$data['hasta'] = date('Y-m-d', strtotime($hasta));
+            $data['status']=$this->input->post("status"); 
+			$data['results'] 	 =	$this->Certificacion_model->status($data);
+		
+		$this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+		$this->load->view('certificacion/Reporte/ver_status.php', $data);
+        $this->load->view('templates/footer.php');
+               
+		
+		}	
+	}
 }

@@ -81,6 +81,13 @@
                                         - Programación Anual
                                     </a>
                                 </li>
+                                <?php if (($this->session->userdata('ver_user_exter') == 1)) : ?>
+                                <li>
+                                    <a href="<?= base_url() ?>index.php/Programacion/consulta_general">
+                                        - Programación General
+                                    </a>
+                                </li>
+                                <?php endif; ?>
                             </ul>
                         </li>
                         <?php if (($this->session->userdata('menu_eval_desem') == 1)) : ?>
@@ -92,20 +99,21 @@
                                 <span class="ml-1">Desempeño</span>
                             </a>
                             <ul class="sub-menu">
-                            <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
-                            <li class="has-sub">
+                                <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
+                                <li class="has-sub">
                                     <a href="javascript:;">
                                         <b class="caret"></b>
                                         SNC
                                     </a>
                                     <ul class="sub-menu">
-                                   
-                                        <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/registro_snc">- Registrar Evalu. SNC</a></li>
-                                      
-                                    
+
+                                        <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/registro_snc">-
+                                                Registrar Evalu. SNC</a></li>
+
+
                                         <li><a href="<?= base_url() ?>index.php/Evaluacion_desempenio/consultar_snc">-
                                                 Listar Eval.</a></li>
-                                       
+
                                     </ul>
                                 </li>
                                 <?php endif; ?>
@@ -250,16 +258,44 @@
                                 class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Solicitud de
                             Certificación de Privado</a>
                     </li>
+                    <li><a href="<?= base_url() ?>index.php/certificacion/ver_facilitador"><i
+                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Facilitador</a>
+                    </li>
+                    <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion_exter"><i
+                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Listado_exter
+                            Certificación de Privado</a>
+                    </li>
                     <?php endif; ?>
                     <?php if (($this->session->userdata('certi_externo') == 1)) : ?>
                     <li class="has-sub">
                     <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion_exter"><i
                                 class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Certificación de Privado</a>
                     </li>
+                    <li><a href="<?= base_url() ?>index.php/certificacion/ver_facilitador"><i
+                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Facilitador</a>
+                    </li>
                     <?php endif; ?>
                     <?php if (($this->session->userdata('certificacion') == 1)) : ?>
-                    <li><a href="<?= base_url() ?>index.php/certificacion/Consulta_certificacion"><i
-                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Reporte </a>
+
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                            <b class="caret"></b>
+                            Reportes
+                        </a>
+                        <ul class="sub-menu">
+
+                            <li><a href="<?= base_url() ?>index.php/certificacion/Consulta_certificacion"><i
+                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> General </a>
+                            </li>
+
+                            <li><a href="<?= base_url() ?>index.php/certificacion/fecha_vencimiento"><i
+                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Fecha de vencimiento </a>
+                            </li>
+                            <li><a href="<?= base_url() ?>index.php/certificacion/status"><i
+                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Estatus </a>
+                            </li>
+
+                        </ul>
                     </li>
                     <?php endif; ?>
             </li>
@@ -311,7 +347,7 @@
                     <span>Tablas Parametros</span>
                 </a>
                 <ul class="sub-menu">
-                <li>
+                    <li>
                         <a href="<?= base_url() ?>index.php/Certificacion/registrar_exonerado">
                             - Exonerados
                         </a>

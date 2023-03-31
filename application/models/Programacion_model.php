@@ -1565,4 +1565,14 @@
             $update = $this->db->update('programacion.p_items', $data1);
             return true;
         }
+       // consulta PROGRAMACION general por el snc
+       public function consultar_programacio($unidad){
+        $this->db->select('c.id_programacion, c.unidad, c.anio, m.rif,  m.descripcion,');
+        $this->db->join('public.organoente m', 'm.codigo = c.unidad');
+       // $this->db->where('unidad', $unidad);
+        $query = $this->db->get('programacion.programacion c');
+        return $query->result_array();
+    }
+
+
 }

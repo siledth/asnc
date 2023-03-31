@@ -234,7 +234,6 @@ echo json_encode($data);
       'fecha'        => date('Y-m-d h:i:s'),
       
     );
-<<<<<<< HEAD
     require 'PHPMailer/PHPMailerAutoload.php';
     $mail = new PHPMailer(true);                           // Enable verbose debug output
 
@@ -243,8 +242,6 @@ echo json_encode($data);
     $mail->SMTPAuth = true;                               // Enable SMTP authentication
    
 
-=======
->>>>>>> 7f4a2865c1d3a05bb5851a8f692726a847471a9c
     $mail->addAddress($this->input->post('email'), '');     // Add a recipient
     $mail->Subject = 'Envio de Clave de Acceso';
     $mail->Body    = 'Clave para ingresar <b>' . $clave .'</b> <br>Este Correo Fue Generado de Forma Automatica. No responder a Este Correo';

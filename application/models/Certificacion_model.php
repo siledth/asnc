@@ -1072,9 +1072,10 @@ class Certificacion_model extends CI_model
     }
     public function ver_pdfs_2($data){
            
-        $this->db->select('m.*, b.nombre_ape, b.cedula');
+        $this->db->select('m.*, b.nombre_ape, b.cedula,b.status');
         $this->db->join('certificacion.infor_per_natu b', 'b.id = m.id', 'left');
        $this->db->where('m.id', $data);
+       $this->db->where('b.status', 1);
         $query = $this->db->get('certificacion.certificaciones m');
         return $result = $query->result_array();
     }
@@ -1475,5 +1476,54 @@ function eliminar_b($data){
     return true;
 }
 
+// esto es facilitador
+
+public function consulta_facilitador($usuario){
+    $this->db->select('c.user_soli, c.rif_cont, e.nombre_ape, e.cedula, e.rif, e.status ');
+  
+    $this->db->join('certificacion.infor_per_natu e', 'e.rif_cont = c.rif_cont');
+    $this->db->where('c.user_soli', $usuario);
+   
+    $query = $this->db->get('certificacion.certificaciones c');
+    return $result = $query->result_array();
+}
+
+function consulta_facilitadores($data){
+    $this->db->select('rif_cont,cedula,status');
+    $this->db->from('certificacion.infor_per_natu');
+    $this->db->where('cedula', $data['cedula']);
+    
+    $query = $this->db->get();
+    if (count($query->result()) > 0) {
+        return $query->row();
+    }
+}
+function cambiar_estatus($data){
+    $this->db->where('cedula', $data['cedula']);
+    $this->db->where('rif_cont', $data['rif_cont']);
+    $update = $this->db->update('certificacion.infor_per_natu', $data);
+    return true;
+}
+/////////////////////////////////reporte por vencimiento
+public function consultar_vencimiento($data){
+    $this->db->select("nro_comprobante, nombre, rif_cont, n_certif, tipo_pers, vigen_cert_desde, vigen_cert_hasta,");
+    
+    $this->db->where('vigen_cert_hasta >=', $data['desde']);
+    $this->db->where('vigen_cert_hasta <=', $data['hasta']);
+    $this->db->order_by('nro_comprobante');
+    
+    $query = $this->db->get('certificacion.certificaciones ');
+    return $query->result_array();
+}
+public function status($data){
+    $this->db->select("nro_comprobante, nombre, rif_cont, n_certif, tipo_pers, vigen_cert_desde, status,vigen_cert_hasta,fecha_status");
+    $this->db->where('status', $data['status']);
+    $this->db->where('fecha_status >=', $data['desde']);
+    $this->db->where('fecha_status <=', $data['hasta']);
+    $this->db->order_by('nro_comprobante');
+    
+    $query = $this->db->get('certificacion.certificaciones ');
+    return $query->result_array();
+}
 
 }
