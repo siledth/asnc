@@ -32,9 +32,9 @@
                         <table id="data-table-default"
                             class="table table-striped table-bordered display responsive nowrap" style="width:100%">
                             <thead class="h5 text-center">
-                                <tr>
+                                <tr><th>Denominacion Social</th>
                                     <th>Rif</th>
-                                    <th>Denominacion Social</th>
+
                                     <th>Nro comprobante</th>
                                     <th>Tipo de Persona</th>
                                     <th>Estatu</th>
@@ -45,8 +45,9 @@
                                 <?php if($results != 0){ ?>
                                 <?php foreach($results as $result):?>
                                 <tr class="odd gradeX" style="text-align:center">
+                                <td><?=$result['nombre']?></td>
                                     <td><?=$result['rif_cont']?></td>
-                                    <td><?=$result['nombre']?></td>
+                                    
                                     <td><?=$result['nro_comprobante']?> </td>
 
                                     <?php if (($result['tipo_pers'] < 2) ) : ?>

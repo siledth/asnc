@@ -38,7 +38,7 @@
 
                     <div class="col-1"></div>
                     <div class="col-10 mt-3">
-                        <h3 class="text-center">Registro de Certificaciones en espera de Revisión</h3>
+                        <h3 class="text-center">Registro de Certificaciones en espera de Revisión o Rechazado</h3>
                         <table id="data-table-default" data-order='[[ 3, "asc" ]]' class="table table-bordered table-hover">
                             <thead style="background:#e4e7e8">
                                 <tr class="text-center">

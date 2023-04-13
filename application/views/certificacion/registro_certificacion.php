@@ -12,7 +12,7 @@
                         <div class="col-4">
                             <label>N° de Comprobante del Registro Nacional de Contratistas (RNC):</label>
                             <input class="form-control" type="text" name="rif_b" id="rif_b"
-                                placeholder="1376973304354487213" value="1376973304354487213">
+                                placeholder="1376973304354487213" >
                         </div>
                         <div class="col- mt-4">
                             <button type="button" class="btn btn-default" onclick="consultar_rif();" name="button"> <i
@@ -185,17 +185,16 @@
 
                                             <div class="form-group col-5">
                                                 <label><b title="Campo Obligatorio" style="color:red">*</b>Nombre o
-                                                    Denominaciòn del Curso:<b
-                                                        title="Ingresar Nombre o Denominaciòn del Curso"
-                                                        style="color:red">!</b></label>
+                                                    Denominaciòn del Curso:
+                                                        <i style="color: red;" title="Ingresar Nombre o Denominaciòn del Curso" class="fas fa-question-circle"></i>
+                                                    </label>
                                                 <textarea class="form-control" name="objetivo" id="objetivo" rows="3"
                                                     cols="70" onkeyup="mayusculas(this);"></textarea>
                                             </div>
                                             <div class="form-group col-5">
                                                 <label> <b title="Campo Obligatorio" style="color:red">*</b>Contenido
                                                     Programático:
-                                                    <b title="Ingresar el Contenido Programatico del Curso"
-                                                        style="color:red">!</b>
+                                                    <i style="color: red;" title="Ingresar el Contenido Programatico del Curso" class="fas fa-question-circle"></i>
                                                 </label>
                                                 <textarea class="form-control" name="cont_prog" id="cont_prog" rows="3"
                                                     cols="70" onkeyup="mayusculas(this);"></textarea>
@@ -210,8 +209,9 @@
                                                 <div class="form-group col-8">
                                                     <label> <b title="Campo Obligatorio" style="color:red">*</b>Órgano o
                                                         Ente de la Comisión de Contrataciones
-                                                        <b title="Ingresar nombre de los Organos o Entes a los cuales a prestado servicio
-                                                            en los ultimos 5 años" style="color:red">!</b></label>
+                                                        <i style="color: red;" title="Ingresar nombre de los Organos o Entes a los cuales a prestado servicio
+                                                            en los ultimos 5 años" class="fas fa-question-circle"></i>
+                                                        
                                                     <input class="form-control" type="text"
                                                         name="organo_experi_empre_capa" id="organo_experi_empre_capa"
                                                         placeholder="Nombre" onkeyup="mayusculas(this);">
@@ -219,9 +219,9 @@
 
                                                 <div class="form-group col-4">
                                                     <label><b title="Campo Obligatorio"
-                                                            style="color:red">*</b>Actividad<b
-                                                            title="Ingrese en que consistio la actividad, Ejemplo: Talleres"
-                                                            style="color:red">!</b></label>
+                                                            style="color:red">*</b>Actividad
+                                                            <i style="color: red;" title="grese en que consistio la actividad, Ejemplo: Talleres" class="fas fa-question-circle"></i>
+                                                            </label>
                                                     <input class="form-control" type="text"
                                                         name="actividad_experi_empre_capa"
                                                         id="actividad_experi_empre_capa" placeholder="Actividad"
@@ -611,7 +611,7 @@
                                                 <?php     } ?>
                                             </div>
                                         </div>
-                                    </div>
+                                        </div>
                                 </div>
                                 <div class="tab-pane fade" id="infor_per_prof">
                                     <div class="panel-body">

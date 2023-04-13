@@ -261,9 +261,7 @@
                     <li><a href="<?= base_url() ?>index.php/certificacion/ver_facilitador"><i
                                 class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Facilitador</a>
                     </li>
-                    <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion_exter"><i
-                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Listado_exter
-                            Certificación de Privado</a>
+                    <li>
                     </li>
                     <?php endif; ?>
                     <?php if (($this->session->userdata('certi_externo') == 1)) : ?>

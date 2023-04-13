@@ -23,7 +23,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://pruebasistemaintegrado.snc.gob.ve';
+$config['base_url'] = 'http://sistemaintegrado.snc.gob.ve';
 //$config['base_url'] = 'http://localhost/asnc';
 /*
 |--------------------------------------------------------------------------

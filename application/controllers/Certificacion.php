@@ -187,6 +187,7 @@ class Certificacion extends CI_Controller
             "pj"     => $this->input->post("pj"),
             "sub_total"     => $this->input->post("sub_total"),
             "total_bss"     => $this->input->post("total_bss"),
+            "status"     => 1,
               
 
         );

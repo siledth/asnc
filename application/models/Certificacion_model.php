@@ -69,6 +69,7 @@ class Certificacion_model extends CI_model
         $this->db->select('*');
         $this->db->from('certificacion.certificaciones ');
         $this->db->where('status', '1');
+        
         $query = $this->db->get();
         return $result = $query->result_array();
     }
@@ -187,6 +188,7 @@ class Certificacion_model extends CI_model
                         'pj' 	            => $infor_per_natu['pj'],
                         'sub_total' 	            => $infor_per_natu['sub_total'],
                         'total_final' 	            => $infor_per_natu['total_bss'],
+                        'status' 	            => 1,
                        
                     );
                     $this->db->insert('certificacion.infor_per_natu',$data3);
