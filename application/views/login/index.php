@@ -135,13 +135,17 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                         <!-- <button type="button"
                                     onclick="location.href='<?php echo base_url() ?>index.php/User/contrato'"
                                     class="btn btn-grey btn-lg">Registrar Cuentadante</button> -->
-                        <div class="login-buttons mt-1">
+                        
+
+                    <!--     <div class="login-buttons mt-1">
                             <button type="button" class="btn btn-lg btn-block"
                                 style="background: #161635; color:#FFFFFF;" data-toggle="modal"
                                 data-target="#exampleModalCenter">
                                 Registro Certificado Formaciòn
                             </button>
-                        </div>
+                        </div> 
+                                    -->
+
 
                     </form>
                 </div>
@@ -155,7 +159,7 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Registro de Usuario Para Cargar Ceritificación
+                    <h5 class="modal-title" id="exampleModalLongTitle">REGISTRO DE USUARIO PARA CERTIFICACIÓN JURÍDICA DE PERSONAS NATURALES Y JURIDICAS
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -196,6 +200,11 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                         <button type="button" id="btn_guar_2" onclick="guardar()" class="btn btn-primary"
                             disabled>Guardar</button>
                     </div>
+                    <div class="form-group col-12 m-b-15">
+                        <h5>* Este registro es unicamente pára realizar la carga de Certificado de Persona Natural y Juridica. </h5> <br>
+                        <h5>* Para Realizar carga de llamados a concusos, evaluaciones, programación anual, consulta de contratista, por favor contactar con el Servico Nacional de Contrataciones para solicitar Usuario de Ingreso.</h5>
+                            
+                        </div>
                 </div>
             </div>
         </div>
