@@ -67,8 +67,8 @@ function guardar_not(){
             document.getElementById("fecha_not").focus();
         }else if (fileImagen == '') {
             document.getElementById("fileImagen").focus();
-        }else if (tipo != 'pdf' && tipo != 'jpg' && tipo != 'img'&& tipo != 'png' && tipo != 'jpeg') {
-            swal("Mensaje de alerta!", "El tipo de archivo debe ser en formato pdf, jpg, img, png o jpeg.")
+        }else if (tipo != 'jpg' && tipo != 'img'&& tipo != 'png' && tipo != 'jpeg') {
+            swal("Mensaje de alerta!", "El tipo de archivo debe ser en formato, jpg, img, png o jpeg.")
             document.getElementById("fileImagen").focus();
         }else {
 			event.preventDefault();
