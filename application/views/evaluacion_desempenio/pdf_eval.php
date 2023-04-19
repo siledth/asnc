@@ -374,21 +374,27 @@
                             <h5><b>Nro. de Oficio / Fax / Correo Electronico / Otro:</b></h5>
                             <h5><?=$eval_ind['nro_oc_os']?></h5>
                         </div>
+                        
+                        
+                        <?php if ($eval_ind['fileimagen'] == ''){ ?>
+                            <h5><b>Acuse de Recibido: No hay Imagen cargada</b></h5>
+                      
+                                    <?php  }else { ?>
+			 
+		           
                         <div class="form-group col-6">
                             <h5><b>Acuse de Recibido</b></h5>
-                            <?php if ($tipo_img == 'pdf'): ?>
-                            <div class="image-inner">
-                                <embed type="application/pdf" style="width: 100%; height: 300px;" src="<?=base_url()?>imagenes/<?=$eval_ind['fileimagen'] ?>">
-                            </div>
-                            <?php endif; ?>
-                            <?php if ($tipo_img != 'pdf'): ?>
+
+                            
+                             
                             <div class="image-inner">
         						<a href="<?=base_url()?>imagenes/<?=$eval_ind['fileimagen'] ?>" data-lightbox="gallery-group-1">
-        							<img style="width: 500px;" src="<?=base_url()?>imagenes/<?=$eval_ind['fileimagen'] ?>" alt="" />
+        							<img style="width: 100%; height: 250px;" src="<?=base_url()?>imagenes/<?=$eval_ind['fileimagen'] ?>" alt="" />
         						</a>
         					</div>
-                            <?php endif; ?>
+                           
                         </div>
+                        <?php   }?>
                     </div>
                 </div>
                 <?php endif; ?>

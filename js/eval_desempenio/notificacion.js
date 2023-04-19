@@ -88,35 +88,33 @@ function guardar_not(){
 					var datos = new FormData($("#resgistrar_not_2")[0]);
 					// var base_urls =window.location.origin+'/asnc/index.php/evaluacion_desempenio/resgistrar_asnc';
 					var base_urls = '/index.php/Evaluacion_desempenio/resgistrar_asnc';
-					$.ajax({
-						url: base_urls,
-						method:'post',
-						// data: {id: id,
-						// 	fecha_not: fecha_not,
-						// 	medio: medio,
-                        //     nro_oc_os: nro_oc_os,
-                        //     fileImagen: fileImagen,
-						// },
-						data: datos,
-						contentType: false,
-						processData: false,
-					   //dataType:'json',
-						success: function(response){
-							if(response != '') {
-								swal.fire({
-									title: 'Notificación Guardada',
-									type: 'success',
-									showCancelButton: false,
-									confirmButtonColor: '#3085d6',
-									confirmButtonText: 'Ok'
-								}).then((result) => {
-									if (result.value == true){
-										location.reload();
-									}
-								});
-							}
-						}
-					})
+                    // var base_url_3 = window.location.origin + "/asnc/index.php/Evaluacion_desempenio/ver_evaluacion?id=";
+                    var base_url_3 = '/index.php//Evaluacion_desempenio/ver_evaluacion?id=';
+                $.ajax({
+                    url: base_urls,
+                    method: "POST",
+                    data: datos,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        var menj = 'Identificador de Evaluación de Desempeño:';
+
+                        if (response != '') {
+                            swal.fire({
+                                title: 'Norificación  Registrada',
+                                text: menj + response,
+                                type: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Ok'
+                            }).then((result) => {
+                                if (result.value == true) {
+                                    window.location.href = base_url_3 + response;
+                                }
+                            });
+                        }
+                    },
+                })
 				}
 			});
 		}

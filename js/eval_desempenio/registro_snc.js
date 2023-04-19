@@ -1,6 +1,6 @@
-function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
+function consultar_rif() { //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
     var rif_b = $('#rif_b').val();
-    if (rif_b == ''){
+    if (rif_b == '') {
         swal({
             title: "¡ATENCION!",
             text: "El campo no puede estar vacio.",
@@ -9,31 +9,31 @@ function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
             confirmButtonColor: "#00897b",
             confirmButtonText: "CONTINUAR",
             closeOnConfirm: false
-        }, function(){
+        }, function () {
             swal("Deleted!", "Your imaginary file has been deleted.", "success");
         });
         $('#ueba').attr("disabled", true);
-    }else{
+    } else {
         $("#items").show();
-        // var base_url  = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista';
-        // var base_url2 = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
+        // var base_url = window.location.origin + '/asnc/index.php/evaluacion_desempenio/llenar_contratista';
+        // var base_url2 = window.location.origin + '/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
 
-      var base_url = '/index.php/evaluacion_desempenio/llenar_contratista';
-        var base_url2 = '/index.php/evaluacion_desempenio/llenar_contratista_rp';
+          var base_url = '/index.php/evaluacion_desempenio/llenar_contratista';
+            var base_url2 = '/index.php/evaluacion_desempenio/llenar_contratista_rp';
 
         $.ajax({
-            url:base_url,
+            url: base_url,
             method: 'post',
-            data: {rif_b: rif_b},
+            data: { rif_b: rif_b },
             dataType: 'json',
-            success: function(data){
+            success: function (data) {
                 if (data == null) {
                     $("#no_existe").show();
                     $("#existe").hide();
 
                     $('#exitte').val(0);
 
-                }else{
+                } else {
                     $("#existe").show();
                     $("#no_existe").hide();
 
@@ -50,14 +50,16 @@ function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
                     var rif_cont_nr = data['rifced'];
                     var ultprocaprob = data['ultprocaprob'];
                     $.ajax({
-                        url:base_url2,
+                        url: base_url2,
                         method: 'post',
-                        data: {ultprocaprob: ultprocaprob,
-                              rif_cont_nr: rif_cont_nr},
+                        data: {
+                            ultprocaprob: ultprocaprob,
+                            rif_cont_nr: rif_cont_nr
+                        },
                         dataType: 'json',
-                        success: function(data){
-                            $.each(data, function(index, response){
-                               $('#tabla_rep tbody').append('<tr><td>' + response['cedrif'] + '</td><td>' + response['repr'] + '</td><td>' + response['cargo'] + '</td></tr>');
+                        success: function (data) {
+                            $.each(data, function (index, response) {
+                                $('#tabla_rep tbody').append('<tr><td>' + response['cedrif'] + '</td><td>' + response['repr'] + '</td><td>' + response['cargo'] + '</td></tr>');
                             });
                         }
                     });
@@ -72,118 +74,118 @@ $("#monto").on({
         $(event.target).select();
     },
     "keyup": function (event) {
-        $(event.target).val(function (index, value ) {
+        $(event.target).val(function (index, value) {
             return value.replace(/\D/g, "")
-                        .replace(/([0-9])([0-9]{2})$/, '$1,$2')
-                        .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+                .replace(/([0-9])([0-9]{2})$/, '$1,$2')
+                .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
         });
     }
 });
 
-function hab_campo(){
-    var otro = document. getElementById('cssRadio5').checked;
+function hab_campo() {
+    var otro = document.getElementById('cssRadio5').checked;
     if (otro == true) {
         $("#hab_campo_esp").show();
-    }else {
+    } else {
         $('#hab_campo_esp').hide();
     }
 }
 
-function valideKey(evt){
-   var code = (evt.which) ? evt.which : evt.keyCode;
-    if(code==8) { // backspace.
+function valideKey(evt) {
+    var code = (evt.which) ? evt.which : evt.keyCode;
+    if (code == 8) { // backspace.
         return true;
-    }else if(code>=48 && code<=57) { // is a number.
+    } else if (code >= 48 && code <= 57) { // is a number.
         return true;
-    }else{ // other keys.
+    } else { // other keys.
         return false;
     }
 }
 
-function llenar_municipio(){
+function llenar_municipio() {
     var id_estado_n = $('#id_estado_n').val();
-    // var base_url = window.location.origin+'/asnc/index.php/evaluacion_desempenio/listar_municipio';
-   var base_url = '/index.php/evaluacion_desempenio/listar_municipio';
+    // var base_url = window.location.origin + '/asnc/index.php/evaluacion_desempenio/listar_municipio';
+       var base_url = '/index.php/evaluacion_desempenio/listar_municipio';
 
     $.ajax({
         url: base_url,
-        method:'post',
-        data: {id_estado: id_estado_n},
-        dataType:'json',
+        method: 'post',
+        data: { id_estado: id_estado_n },
+        dataType: 'json',
 
-        success: function(response){
+        success: function (response) {
             $('#id_municipio_n').find('option').not(':first').remove();
-            $.each(response, function(index, data){
-                $('#id_municipio_n').append('<option value="'+data['id']+'">'+data['descmun']+'</option>');
+            $.each(response, function (index, data) {
+                $('#id_municipio_n').append('<option value="' + data['id'] + '">' + data['descmun'] + '</option>');
             });
         }
     });
 }
 
-function llenar_parroquia(){
+function llenar_parroquia() {
     var id_municipio_n = $('#id_estado_n').val();
-    // var base_url = window.location.origin+'/asnc/index.php/evaluacion_desempenio/listar_parroquia';
+    // var base_url = window.location.origin + '/asnc/index.php/evaluacion_desempenio/listar_parroquia';
     var base_url = '/index.php/evaluacion_desempenio/listar_parroquia';
 
     $.ajax({
         url: base_url,
-        method:'post',
-        data: {id_municipio: id_municipio_n},
-        dataType:'json',
+        method: 'post',
+        data: { id_municipio: id_municipio_n },
+        dataType: 'json',
 
-        success: function(response){
+        success: function (response) {
             $('#id_parroquia_n').find('option').not(':first').remove();
-            $.each(response, function(index, data){
-                $('#id_parroquia_n').append('<option value="'+data['id']+'">'+data['descparro']+'</option>');
+            $.each(response, function (index, data) {
+                $('#id_parroquia_n').append('<option value="' + data['id'] + '">' + data['descparro'] + '</option>');
             });
         }
     });
 }
 
-function listar_ciudades(){
+function listar_ciudades() {
     var id_estado_n = $('#id_estado_n').val();
-    // var base_url = window.location.origin+'/asnc/index.php/evaluacion_desempenio/listar_ciudades';
+    // var base_url = window.location.origin + '/asnc/index.php/evaluacion_desempenio/listar_ciudades';
     var base_url = '/index.php/evaluacion_desempenio/listar_ciudades';
 
     $.ajax({
         url: base_url,
-        method:'post',
-        data: {id_estado: id_estado_n},
-        dataType:'json',
-        success: function(response){
+        method: 'post',
+        data: { id_estado: id_estado_n },
+        dataType: 'json',
+        success: function (response) {
             console.log(response);
             $('#ciudad_n').find('option').not(':first').remove();
-            $.each(response, function(index, data){
-                $('#ciudad_n').append('<option value="'+data['id']+'">'+data['descciu']+'</option>');
+            $.each(response, function (index, data) {
+                $('#ciudad_n').append('<option value="' + data['id'] + '">' + data['descciu'] + '</option>');
             });
         }
     });
 }
 
-function llenar_sub_mod(){
+function llenar_sub_mod() {
     var id_modalidad = $('#id_modalidad').val();
-    // var base_url = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_sub_modalidad';
+    // var base_url = window.location.origin + '/asnc/index.php/evaluacion_desempenio/llenar_sub_modalidad';
     var base_url = '/index.php/evaluacion_desempenio/llenar_sub_modalidad';
 
     $.ajax({
         url: base_url,
-        method:'post',
-        data: {id_modalidad: id_modalidad},
-        dataType:'json',
+        method: 'post',
+        data: { id_modalidad: id_modalidad },
+        dataType: 'json',
 
-        success: function(response){
+        success: function (response) {
             $('#id_sub_modalidad').find('option').not(':first').remove();
-            $.each(response, function(index, data){
-                $('#id_sub_modalidad').append('<option value="'+data['id']+'">'+data['descripcion']+'</option>');
+            $.each(response, function (index, data) {
+                $('#id_sub_modalidad').append('<option value="' + data['id'] + '">' + data['descripcion'] + '</option>');
             });
         }
     });
 }
 
-function evaluar(){
-    var bienes = document. getElementById('cssCheckbox1').checked;
-    var servicios = document. getElementById('cssCheckbox2').checked;
-    var obras = document. getElementById('cssCheckbox3').checked;
+function evaluar() {
+    var bienes = document.getElementById('cssCheckbox1').checked;
+    var servicios = document.getElementById('cssCheckbox2').checked;
+    var obras = document.getElementById('cssCheckbox3').checked;
 
     if (bienes == false && servicios == false && obras == false) {
         swal({
@@ -194,14 +196,14 @@ function evaluar(){
             confirmButtonColor: "#00897b",
             confirmButtonText: "CONTINUAR",
             closeOnConfirm: false
-        }, function(){
+        }, function () {
             swal("Deleted!", "Your imaginary file has been deleted.", "success");
         });
         $('#calidad').attr("disabled", true);
         $('#responsabilidad').attr("disabled", true);
         $('#conocimiento').attr("disabled", true);
         $('#oportunidad').attr("disabled", true);
-    }else {
+    } else {
         $('#calidad').attr("disabled", false);
         $('#responsabilidad').attr("disabled", false);
         $('#conocimiento').attr("disabled", false);
@@ -258,7 +260,7 @@ function evaluar(){
     }
 }
 
-function validar_fecha(){
+function validar_fecha() {
     var fecha_hasta = $('#fecha_hasta').val();
     var fecha_ntf = $('#datepicker-default').val();
 
@@ -282,7 +284,7 @@ function validar_fecha(){
             confirmButtonColor: "#00897b",
             confirmButtonText: "CONTINUAR",
             closeOnConfirm: false
-        }, function(){
+        }, function () {
             swal("Deleted!", "Your imaginary file has been deleted.", "success");
         });
         $('#registrar_eval').attr("disabled", true);
@@ -299,14 +301,14 @@ function validar_fecha(){
             confirmButtonColor: "#00897b",
             confirmButtonText: "CONTINUAR",
             closeOnConfirm: false
-        }, function(){
+        }, function () {
             swal("Deleted!", "Your imaginary file has been deleted.", "success");
         });
         $('#registrar_eval').attr("disabled", true);
         $('#medio').attr("disabled", true);
         $('#nro_oc_os').attr("disabled", true);
         $('#fileImagen').attr("disabled", true);
-    }else{
+    } else {
         $('#registrar_eval').attr("disabled", false);
         $('#medio').attr("disabled", false);
         $('#nro_oc_os').attr("disabled", false);
@@ -314,49 +316,49 @@ function validar_fecha(){
     }
 }
 
-function registrar(){
-    var exitte            = $("#exitte").val();
+function registrar() {
+    var exitte = $("#exitte").val();
 
-    var rif_cont_n        = $("#rif_cont_n").val();
-    var nombre_n          = $("#nombre_n").val();
-    var id_estado_n       = $("#id_estado_n").val();
-    var id_municipio_n    = $("#id_municipio_n").val();
-    var id_parroquia_n    = $("#id_parroquia_n").val();
-    var ciudad_n          = $("#ciudad_n").val();
+    var rif_cont_n = $("#rif_cont_n").val();
+    var nombre_n = $("#nombre_n").val();
+    var id_estado_n = $("#id_estado_n").val();
+    var id_municipio_n = $("#id_municipio_n").val();
+    var id_parroquia_n = $("#id_parroquia_n").val();
+    var ciudad_n = $("#ciudad_n").val();
 
-    var id_pais_n         = $("#id_pais_n").val();
-    var ced_rep_leg_n     = $("#ced_rep_leg_n").val();
-    var nom_rep_leg_n     = $("#nom_rep_leg_n").val();
-    var ape_rep_leg_n     = $("#ape_rep_leg_n").val();
-    var edo_civil_n       = $("#edo_civil_n").val();
-    var cargo_rep_leg_n   = $("#cargo_rep_leg_n").val();
-    var operadora_n       = $("#operadora_n").val();
-    var numero_n          = $("#numero_n").val();
+    var id_pais_n = $("#id_pais_n").val();
+    var ced_rep_leg_n = $("#ced_rep_leg_n").val();
+    var nom_rep_leg_n = $("#nom_rep_leg_n").val();
+    var ape_rep_leg_n = $("#ape_rep_leg_n").val();
+    var edo_civil_n = $("#edo_civil_n").val();
+    var cargo_rep_leg_n = $("#cargo_rep_leg_n").val();
+    var operadora_n = $("#operadora_n").val();
+    var numero_n = $("#numero_n").val();
 
-    var id_modalidad      = $("#id_modalidad").val();
-    var id_sub_modalidad  = $("#id_sub_modalidad").val();
-    var fecha_desde       = $("#fecha_desde").val();
-    var fecha_hasta       = $("#fecha_hasta").val();
+    var id_modalidad = $("#id_modalidad").val();
+    var id_sub_modalidad = $("#id_sub_modalidad").val();
+    var fecha_desde = $("#fecha_desde").val();
+    var fecha_hasta = $("#fecha_hasta").val();
     var nro_procedimiento = $("#nro_procedimiento").val();
-    var nro_cont_oc_os    = $("#nro_cont_oc_os").val();
-    var id_estado_dc      = $("#id_estado_dc").val();
-    var cssCheckbox1      = $("#cssCheckbox1").val();
-    var cssCheckbox2      = $("#cssCheckbox2").val();
-    var cssCheckbox3      = $("#cssCheckbox3").val();
+    var nro_cont_oc_os = $("#nro_cont_oc_os").val();
+    var id_estado_dc = $("#id_estado_dc").val();
+    var cssCheckbox1 = $("#cssCheckbox1").val();
+    var cssCheckbox2 = $("#cssCheckbox2").val();
+    var cssCheckbox3 = $("#cssCheckbox3").val();
     var desc_contratacion = $("#desc_contratacion").val();
-    var monto             = $("#monto").val();
-    var cssRadio1         = $("#cssRadio1").val();
-    var cssRadio2         = $("#cssRadio2").val();
-    var cssRadio3         = $("#cssRadio3").val();
-    var cssRadio4         = $("#cssRadio4").val();
+    var monto = $("#monto").val();
+    var cssRadio1 = $("#cssRadio1").val();
+    var cssRadio2 = $("#cssRadio2").val();
+    var cssRadio3 = $("#cssRadio3").val();
+    var cssRadio4 = $("#cssRadio4").val();
 
-    var calidad           = $("#calidad").val();
-    var responsabilidad   = $("#responsabilidad").val();
-    var conocimiento      = $("#conocimiento").val();
-    var oportunidad       = $("#oportunidad").val();
+    var calidad = $("#calidad").val();
+    var responsabilidad = $("#responsabilidad").val();
+    var conocimiento = $("#conocimiento").val();
+    var oportunidad = $("#oportunidad").val();
 
-    var total_claf        = $("#total_claf").val();
-    var calificacion      = $("#calificacion").val();
+    var total_claf = $("#total_claf").val();
+    var calificacion = $("#calificacion").val();
 
     //  var fecha_not       = "20-12-2050";
     // var medio           = $("#medio").val();
@@ -373,66 +375,66 @@ function registrar(){
     //     alert("Imagen muy grande");
     //     return false;
     // }
-   
+
     // var tipo = fileImagen.split(".")[1];
-    if (exitte == '0'){
+    if (exitte == '0') {
         if (rif_cont_n == '') {
             document.getElementById("rif_cont_n").focus();
-        }else if (nombre_n == '') {
+        } else if (nombre_n == '') {
             document.getElementById("nombre_n").focus();
-        }else if (id_estado_n == '0') {
+        } else if (id_estado_n == '0') {
             document.getElementById("id_estado_n").focus();
-        }else if (id_municipio_n == '0') {
+        } else if (id_municipio_n == '0') {
             document.getElementById("id_municipio_n").focus();
-        }else if (id_parroquia_n == '0') {
+        } else if (id_parroquia_n == '0') {
             document.getElementById("id_parroquia_n").focus();
-        }else if (ciudad_n == '0') {
+        } else if (ciudad_n == '0') {
             document.getElementById("ciudad_n").focus();
-        }else if (id_pais_n == '0') {
+        } else if (id_pais_n == '0') {
             document.getElementById("id_pais_n").focus();
-        }else if (ced_rep_leg_n == '') {
+        } else if (ced_rep_leg_n == '') {
             document.getElementById("ced_rep_leg_n").focus();
-        }else if (nom_rep_leg_n == '') {
+        } else if (nom_rep_leg_n == '') {
             document.getElementById("nom_rep_leg_n").focus();
-        }else if (ape_rep_leg_n == '') {
+        } else if (ape_rep_leg_n == '') {
             document.getElementById("ape_rep_leg_n").focus();
-        }else if (edo_civil_n == '0') {
+        } else if (edo_civil_n == '0') {
             document.getElementById("edo_civil_n").focus();
-        }else if (cargo_rep_leg_n == '') {
+        } else if (cargo_rep_leg_n == '') {
             document.getElementById("cargo_rep_leg_n").focus();
-        }else if (operadora_n == '0') {
+        } else if (operadora_n == '0') {
             document.getElementById("operadora_n").focus();
-        }else if (numero_n == '') {
+        } else if (numero_n == '') {
             document.getElementById("numero_n").focus();
-        }else if (id_modalidad == '0') {
+        } else if (id_modalidad == '0') {
             document.getElementById("id_modalidad").focus();
-        }else if (id_sub_modalidad == '0') {
+        } else if (id_sub_modalidad == '0') {
             document.getElementById("id_sub_modalidad").focus();
-        }else if (fecha_desde == '') {
+        } else if (fecha_desde == '') {
             document.getElementById("fecha_desde").focus();
-        }else if (fecha_hasta == '') {
+        } else if (fecha_hasta == '') {
             document.getElementById("fecha_hasta").focus();
-        }else if (nro_procedimiento == '') {
+        } else if (nro_procedimiento == '') {
             document.getElementById("nro_procedimiento").focus();
-        }else if (nro_cont_oc_os == '') {
+        } else if (nro_cont_oc_os == '') {
             document.getElementById("nro_cont_oc_os").focus();
-        }else if (id_estado_dc == '0') {
+        } else if (id_estado_dc == '0') {
             document.getElementById("id_estado_dc").focus();
-        }else if (desc_contratacion == '') {
+        } else if (desc_contratacion == '') {
             document.getElementById("desc_contratacion").focus();
-        }else if (monto == '') {
+        } else if (monto == '') {
             document.getElementById("monto").focus();
-        }else if (calidad == '3') {
+        } else if (calidad == '3') {
             document.getElementById("calidad").focus();
-        }else if (responsabilidad == '3') {
+        } else if (responsabilidad == '3') {
             document.getElementById("responsabilidad").focus();
-        }else if (conocimiento == '3') {
+        } else if (conocimiento == '3') {
             document.getElementById("conocimiento").focus();
-        }else if (oportunidad == '3') {
+        } else if (oportunidad == '3') {
             document.getElementById("oportunidad").focus();
-        }else if (total_claf == '') {
+        } else if (total_claf == '') {
             document.getElementById("total_claf").focus();
-        }else if (calificacion == '') {
+        } else if (calificacion == '') {
             document.getElementById("calificacion").focus();
         }
         // else if (fecha_not == '') {
@@ -443,15 +445,15 @@ function registrar(){
         //     document.getElementById("nro_oc_os").focus();
         // }
         // else if (fileImagen == '') {
-            
+
         //     document.getElementById("fileImagen").focus();
         // }else if (tipo != 'pdf' && tipo != 'jpg' && tipo != 'img'&& tipo != 'png' && tipo != 'jpeg') {
         //     swal("Mensaje de alerta!", "El tipo de archivo debe ser en formato pdf, jpg, img, png o jpeg.")
         //     document.getElementById("fileImagen").focus();
-      //  }
-        else{
+        //  }
+        else {
             var calificacion = $('#calificacion').val();
-            if (calificacion == 'DEFICIENTE' || calificacion == 'SIN CALIFICACIÓN'){
+            if (calificacion == 'DEFICIENTE' || calificacion == 'SIN CALIFICACIÓN') {
                 event.preventDefault();
                 swal.fire({
                     title: 'ALERTA',
@@ -466,36 +468,38 @@ function registrar(){
                     if (result.value == true) {
                         event.preventDefault();
                         var datos = new FormData($("#resgistrar_eva")[0]);
-                        // var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar_snc';
+                        // var base_url = window.location.origin + '/asnc/index.php/evaluacion_desempenio/registrar_snc';
                         var base_url = '/index.php/evaluacion_desempenio/registrar_snc';
+                        //   var base_url_3 = window.location.origin + "/asnc/index.php/Evaluacion_desempenio/ver_evaluacion?id=";
+                        var base_url_3 = '/index.php//Evaluacion_desempenio/ver_evaluacion?id=';
                         $.ajax({
-                            url:base_url,
-                            method: 'POST',
+                            url: base_url,
+                            method: "POST",
                             data: datos,
                             contentType: false,
                             processData: false,
-                            success: function(response){
-                                if(response != '') {
-                                    var menj = 'Identificador de Evaluación de Desempeño: ';
+                            success: function (response) {
+                                var menj = 'Identificador de Evaluación de Desempeño:';
+
+                                if (response != '') {
                                     swal.fire({
-                                        title: 'Registro Exitoso',
+                                        title: 'Evaluación  Registrada',
                                         text: menj + response,
                                         type: 'success',
                                         showCancelButton: false,
                                         confirmButtonColor: '#3085d6',
                                         confirmButtonText: 'Ok'
                                     }).then((result) => {
-                                        console.log(result.value);
-                                        if (result.value == true){
-                                            location.reload();
+                                        if (result.value == true) {
+                                            window.location.href = base_url_3 + response;
                                         }
                                     });
                                 }
-                            }
-                        })
+                            },
+                        });
                     }
                 });
-            }else {
+            } else {
                 event.preventDefault();
                 swal.fire({
                     title: '¿Registrar?',
@@ -510,68 +514,69 @@ function registrar(){
                     if (result.value == true) {
                         event.preventDefault();
                         var datos = new FormData($("#resgistrar_eva")[0]);
-                        // var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar_snc';
+                        // var base_url = window.location.origin + '/asnc/index.php/evaluacion_desempenio/registrar_snc';
                         var base_url = '/index.php/evaluacion_desempenio/registrar_snc';
-                        $.ajax({
-                            url:base_url,
-                            method: 'POST',
-                            data: datos,
-                            contentType: false,
-                            processData: false,
-                            success: function(response){
-                                console.log(response);
-                                if(response != '') {
-                                    console.log(response);
-                                        var menj = 'Identificador de Evaluación de Desempeño: ';
-                                    swal.fire({
-                                        title: 'Registro Exitoso',
-                                        text: menj + response,
-                                        type: 'success',
-                                        showCancelButton: false,
-                                        confirmButtonColor: '#3085d6',
-                                        confirmButtonText: 'Ok'
-                                    }).then((result) => {
-                                        if (result.value == true){
-                                            location.reload();
-                                        }
-                                    });
-                                }
+                        // var base_url_3 = window.location.origin + "/asnc/index.php/Evaluacion_desempenio/ver_evaluacion?id=";
+                    var base_url_3 = '/index.php//Evaluacion_desempenio/ver_evaluacion?id=';
+                    $.ajax({
+                        url: base_url,
+                        method: "POST",
+                        data: datos,
+                        contentType: false,
+                        processData: false,
+                        success: function (response) {
+                            var menj = 'Identificador de Evaluación de Desempeño:';
+
+                            if (response != '') {
+                                swal.fire({
+                                    title: 'Evaluación  Registrada',
+                                    text: menj + response,
+                                    type: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Ok'
+                                }).then((result) => {
+                                    if (result.value == true) {
+                                        window.location.href = base_url_3 + response;
+                                    }
+                                });
                             }
-                        })
+                        },
+                    });
                     }
                 });
             }
         }
-    }else if (exitte == '1'){
+    } else if (exitte == '1') {
         if (id_modalidad == '0') {
             document.getElementById("id_modalidad").focus();
-        }else if (id_sub_modalidad == '0') {
+        } else if (id_sub_modalidad == '0') {
             document.getElementById("id_sub_modalidad").focus();
-        }else if (fecha_desde == '') {
+        } else if (fecha_desde == '') {
             document.getElementById("fecha_desde").focus();
-        }else if (fecha_hasta == '') {
+        } else if (fecha_hasta == '') {
             document.getElementById("fecha_hasta").focus();
-        }else if (nro_procedimiento == '') {
+        } else if (nro_procedimiento == '') {
             document.getElementById("nro_procedimiento").focus();
-        }else if (nro_cont_oc_os == '') {
+        } else if (nro_cont_oc_os == '') {
             document.getElementById("nro_cont_oc_os").focus();
-        }else if (id_estado_dc == '0') {
+        } else if (id_estado_dc == '0') {
             document.getElementById("id_estado_dc").focus();
-        }else if (desc_contratacion == '') {
+        } else if (desc_contratacion == '') {
             document.getElementById("desc_contratacion").focus();
-        }else if (monto == '') {
+        } else if (monto == '') {
             document.getElementById("monto").focus();
-        }else if (calidad == '3') {
+        } else if (calidad == '3') {
             document.getElementById("calidad").focus();
-        }else if (responsabilidad == '3') {
+        } else if (responsabilidad == '3') {
             document.getElementById("responsabilidad").focus();
-        }else if (conocimiento == '3') {
+        } else if (conocimiento == '3') {
             document.getElementById("conocimiento").focus();
-        }else if (oportunidad == '3') {
+        } else if (oportunidad == '3') {
             document.getElementById("oportunidad").focus();
-        }else if (total_claf == '') {
+        } else if (total_claf == '') {
             document.getElementById("total_claf").focus();
-        }else if (calificacion == '') {
+        } else if (calificacion == '') {
             document.getElementById("calificacion").focus();
         }
         // else if (fecha_not == '') {
@@ -585,10 +590,10 @@ function registrar(){
         // }else if (tipo != 'pdf' && tipo != 'jpg' && tipo != 'img'&& tipo != 'png' && tipo != 'jpeg') {
         //     swal("Mensaje de alerta!", "El tipo de archivo debe ser en formato pdf, jpg, img, png o jpeg.")
         //     document.getElementById("fileImagen").focus();
-       // }
-        else{
+        // }
+        else {
             var calificacion = $('#calificacion').val();
-            if (calificacion == 'DEFICIENTE' || calificacion == 'SIN CALIFICACIÓN'){
+            if (calificacion == 'DEFICIENTE' || calificacion == 'SIN CALIFICACIÓN') {
                 event.preventDefault();
                 swal.fire({
                     title: 'ALERTA',
@@ -599,39 +604,42 @@ function registrar(){
                     cancelButtonColor: '#d33',
                     cancelButtonText: 'Cancelar',
                     confirmButtonText: '¡Si, guardar!'
-                }).then((result) =>{
-                    if (result.value == true){
+                }).then((result) => {
+                    if (result.value == true) {
                         event.preventDefault();
                         var datos = new FormData($("#resgistrar_eva")[0]);
-                        // var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar_snc';
+                        // var base_url = window.location.origin + '/asnc/index.php/evaluacion_desempenio/registrar_snc';
                         var base_url = '/index.php/evaluacion_desempenio/registrar_snc';
+                        // var base_url_3 = window.location.origin + "/asnc/index.php/Evaluacion_desempenio/ver_evaluacion?id=";
+                        var base_url_3 = '/index.php//Evaluacion_desempenio/ver_evaluacion?id=';
                         $.ajax({
-                            url:base_url,
-                            method: 'POST',
+                            url: base_url,
+                            method: "POST",
                             data: datos,
                             contentType: false,
                             processData: false,
-                            success: function(response){
-                                if(response != '') {
-                                    var menj = 'Identificador de Evaluación de Desempeño: ';
+                            success: function (response) {
+                                var menj = 'Identificador de Evaluación de Desempeño: ';
+
+                                if (response != '') {
                                     swal.fire({
-                                        title: 'Registro Exitoso',
+                                        title: 'Evaluación  Registrada',
                                         text: menj + response,
                                         type: 'success',
                                         showCancelButton: false,
                                         confirmButtonColor: '#3085d6',
                                         confirmButtonText: 'Ok'
                                     }).then((result) => {
-                                        if (result.value == true){
-                                            location.reload();
+                                        if (result.value == true) {
+                                            window.location.href = base_url_3 + response;
                                         }
                                     });
                                 }
-                            }
-                        })
+                            },
+                        });
                     }
                 });
-            }else{
+            } else {
                 event.preventDefault();
                 swal.fire({
                     title: '¿Registrar?',
@@ -647,35 +655,34 @@ function registrar(){
 
                         event.preventDefault();
                         var datos = new FormData($("#resgistrar_eva")[0]);
-                    //    var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar_snc';
-                       var base_url = '/index.php/evaluacion_desempenio/registrar_snc';
+                        // var base_url = window.location.origin + '/asnc/index.php/evaluacion_desempenio/registrar_snc';
+                        var base_url = '/index.php/evaluacion_desempenio/registrar_snc';
+                        // var base_url_3 = window.location.origin + "/asnc/index.php/Evaluacion_desempenio/ver_evaluacion?id=";
+                        var base_url_3 = '/index.php//Evaluacion_desempenio/ver_evaluacion?id=';
                         $.ajax({
-                            url:base_url,
-                            method: 'POST',
+                            url: base_url,
+                            method: "POST",
                             data: datos,
                             contentType: false,
                             processData: false,
-                            success: function(response){
-                                var menj = 'Identificador de Evaluación de Desempeño: ';
+                            success: function (response) {
+                                var menj = 'Identificador de Evaluación de Desempeño:';
 
-                                if(response != '') {
+                                if (response != '') {
                                     swal.fire({
-                                        title: 'Registro Exitoso',
+                                        title: 'Evaluación  Registrada',
                                         text: menj + response,
                                         type: 'success',
                                         showCancelButton: false,
                                         confirmButtonColor: '#3085d6',
                                         confirmButtonText: 'Ok'
                                     }).then((result) => {
-                                        if (result.value == true){
-                                            location.reload();
-                                            // $('#registrar_eval').attr("disabled", true)
-                                            // $('#exampleModal').modal('show');
-                                            // $('#id').val(response);
+                                        if (result.value == true) {
+                                            window.location.href = base_url_3 + response;
                                         }
                                     });
                                 }
-                            }
+                            },
                         })
                     }
                 });
