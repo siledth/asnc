@@ -38,7 +38,7 @@ function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
                     $("#existe").show();
                     $("#no_existe").hide();
 
-                    $('#exitte').val(1);
+                  
 
                     $('#rif_cont').val(data['rifced']);
                     $('#nombre').val(data['nombre']);
