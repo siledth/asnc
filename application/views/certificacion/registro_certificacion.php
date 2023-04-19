@@ -45,7 +45,7 @@
                             <div class="panel-heading">
                                 <h4 class="panel-title" style="background: #33FFFF" ><b>INFORMACIÓN DE LA PERSONA JURÍDICA</b></h4>
                             </div>
-                            <div class="panel-body" id="existe">
+                            <div class="panel-body" >
                                 <div class="row">
                                     <div class="form-group col-3">
                                         <label>N° de Comprobante Registro Único<b title="Campo Obligatorio"
@@ -81,7 +81,7 @@
                                 </div>
                             </div>
 
-                            <input type="hidden" name="exitte" id="exitte">
+                           
                             <div class="col-lg-16">
                                 <ul class="nav nav-tabs" style="background:#33FFFF">
                                     <li class="nav-items">
