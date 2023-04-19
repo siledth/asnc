@@ -471,7 +471,7 @@ function registrar() {
                         // var base_url = window.location.origin + '/asnc/index.php/evaluacion_desempenio/registrar_snc';
                         var base_url = '/index.php/evaluacion_desempenio/registrar_snc';
                         //   var base_url_3 = window.location.origin + "/asnc/index.php/Evaluacion_desempenio/ver_evaluacion?id=";
-                        var base_url_3 = '/index.php//Evaluacion_desempenio/ver_evaluacion?id=';
+                        var base_url_3 = '/index.php/Evaluacion_desempenio/ver_evaluacion?id=';
                         $.ajax({
                             url: base_url,
                             method: "POST",
@@ -517,7 +517,7 @@ function registrar() {
                         // var base_url = window.location.origin + '/asnc/index.php/evaluacion_desempenio/registrar_snc';
                         var base_url = '/index.php/evaluacion_desempenio/registrar_snc';
                         // var base_url_3 = window.location.origin + "/asnc/index.php/Evaluacion_desempenio/ver_evaluacion?id=";
-                    var base_url_3 = '/index.php//Evaluacion_desempenio/ver_evaluacion?id=';
+                    var base_url_3 = '/index.php/Evaluacion_desempenio/ver_evaluacion?id=';
                     $.ajax({
                         url: base_url,
                         method: "POST",
@@ -611,7 +611,7 @@ function registrar() {
                         // var base_url = window.location.origin + '/asnc/index.php/evaluacion_desempenio/registrar_snc';
                         var base_url = '/index.php/evaluacion_desempenio/registrar_snc';
                         // var base_url_3 = window.location.origin + "/asnc/index.php/Evaluacion_desempenio/ver_evaluacion?id=";
-                        var base_url_3 = '/index.php//Evaluacion_desempenio/ver_evaluacion?id=';
+                        var base_url_3 = '/index.php/Evaluacion_desempenio/ver_evaluacion?id=';
                         $.ajax({
                             url: base_url,
                             method: "POST",
@@ -658,7 +658,7 @@ function registrar() {
                         // var base_url = window.location.origin + '/asnc/index.php/evaluacion_desempenio/registrar_snc';
                         var base_url = '/index.php/evaluacion_desempenio/registrar_snc';
                         // var base_url_3 = window.location.origin + "/asnc/index.php/Evaluacion_desempenio/ver_evaluacion?id=";
-                        var base_url_3 = '/index.php//Evaluacion_desempenio/ver_evaluacion?id=';
+                        var base_url_3 = '/index.php/Evaluacion_desempenio/ver_evaluacion?id=';
                         $.ajax({
                             url: base_url,
                             method: "POST",
