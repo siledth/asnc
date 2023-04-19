@@ -1405,7 +1405,7 @@ class Certificacion_model extends CI_model
     //$query = $this->db_c->get('public.contratistas c');
     $query = $this->db_c->get('public.contratistas c');
     $result = $query->row_array();
-        if ($result == '') {
+        if ($result == '') { 
             $this->db->select('c.user_id,
                                  c.edocontratista_id,
                                  c.rifced,
@@ -1419,7 +1419,7 @@ class Certificacion_model extends CI_model
             $this->db->join('public.estados e', 'e.id = c.estado_id');
             $this->db->join('public.municipios m', 'm.id = c.municipio_id');
             $this->db->where('c.numcertrnc',$data['rif_b']);
-            $query = $this->db->get('public.contratistas_nr c');
+            $query = $this->db->get('evaluacion_desempenio.contratistas_nr c');
             return $result = $query->row_array();
         }else {
             return $result;
