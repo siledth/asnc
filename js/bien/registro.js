@@ -1,7 +1,7 @@
 function guardar_bien(){
     event.preventDefault();
     swal.fire({
-        title: '¿Registrar?',
+        title: '¿Desea Registrar?',
         text: '¿Esta seguro de Registrar la información ingresada para Bienes?',
         type: 'warning',
         showCancelButton: true,

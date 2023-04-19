@@ -49,7 +49,7 @@ function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
                     
                     $('#numcertrnc').val(data['numcertrnc']);
                     $('#numcertrnc2').val(data['numcertrnc']);
-
+ 
                     var rif_cont_nr = data['rifced'];
                     var ultprocaprob = data['ultprocaprob'];
                     $.ajax({

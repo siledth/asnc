@@ -43,7 +43,7 @@ function guardar(){
                          if(data == true) {
                             $("#btn_guar_2").prop('disabled', true);
                              swal.fire({
-                                 title: 'Registro Exitoso ',
+                                 title: 'Registro Exitoso. ',
                                  text: menj,
                                  type: 'success',
                                  showCancelButton: false,

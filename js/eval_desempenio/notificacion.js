@@ -71,6 +71,7 @@ function guardar_not(){
             swal("Mensaje de alerta!", "El tipo de archivo debe ser en formato, jpg, img, png o jpeg.")
             document.getElementById("fileImagen").focus();
         }else {
+            
 			event.preventDefault();
 			swal.fire({
 				title: 'Guardar Notificación?',

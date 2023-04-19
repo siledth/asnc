@@ -56,7 +56,7 @@ class Certificacion_model extends CI_model
        
         $this->db->where('user_soli', $usuario);
         $query = $this->db->get('certificacion.certificaciones');
-        return $response = $query->row_array(); // sin el foreach
+        return $response = $query->row_array(); //f sin el foreach
     }
     public function consulta_certi(){
         $this->db->select('*');

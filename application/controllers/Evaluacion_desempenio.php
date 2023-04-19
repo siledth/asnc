@@ -574,7 +574,7 @@ class Evaluacion_desempenio extends CI_Controller {
 		$this->load->view('evaluacion_desempenio/evaluacion_snc/consulta_snc.php', $data);
         $this->load->view('templates/footer.php');
 	}
-
+ 
 	public function resgistrar_asnc(){
 		if(!$this->session->userdata('session'))redirect('login');
 		$data = $this->input->post();

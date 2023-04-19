@@ -1,6 +1,6 @@
 <div class="sidebar-bg"></div>
 <div id="content" class="content">
-
+ 
     <h2>REGISTRO PARA CERTIFICACIÓN JURÍDICA DE CARÁCTER PRIVADO</h2>
     <div class="row">
         <div class="col-lg-12">
