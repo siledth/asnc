@@ -18,8 +18,8 @@ function consultar_rif() { //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
         // var base_url = window.location.origin + '/asnc/index.php/evaluacion_desempenio/llenar_contratista';
         // var base_url2 = window.location.origin + '/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
 
-          var base_url = '/index.php/evaluacion_desempenio/llenar_contratista';
-            var base_url2 = '/index.php/evaluacion_desempenio/llenar_contratista_rp';
+        var base_url = '/index.php/evaluacion_desempenio/llenar_contratista';
+        var base_url2 = '/index.php/evaluacion_desempenio/llenar_contratista_rp';
 
         $.ajax({
             url: base_url,
@@ -105,7 +105,7 @@ function valideKey(evt) {
 function llenar_municipio() {
     var id_estado_n = $('#id_estado_n').val();
     // var base_url = window.location.origin + '/asnc/index.php/evaluacion_desempenio/listar_municipio';
-       var base_url = '/index.php/evaluacion_desempenio/listar_municipio';
+    var base_url = '/index.php/evaluacion_desempenio/listar_municipio';
 
     $.ajax({
         url: base_url,
@@ -496,7 +496,7 @@ function registrar() {
                                     });
                                 }
                             },
-                        });
+                        })
                     }
                 });
             } else {
@@ -517,32 +517,32 @@ function registrar() {
                         // var base_url = window.location.origin + '/asnc/index.php/evaluacion_desempenio/registrar_snc';
                         var base_url = '/index.php/evaluacion_desempenio/registrar_snc';
                         // var base_url_3 = window.location.origin + "/asnc/index.php/Evaluacion_desempenio/ver_evaluacion?id=";
-                    var base_url_3 = '/index.php/Evaluacion_desempenio/ver_evaluacion?id=';
-                    $.ajax({
-                        url: base_url,
-                        method: "POST",
-                        data: datos,
-                        contentType: false,
-                        processData: false,
-                        success: function (response) {
-                            var menj = 'Identificador de Evaluación de Desempeño:';
+                        var base_url_3 = '/index.php/Evaluacion_desempenio/ver_evaluacion?id=';
+                        $.ajax({
+                            url: base_url,
+                            method: "POST",
+                            data: datos,
+                            contentType: false,
+                            processData: false,
+                            success: function (response) {
+                                var menj = 'Identificador de Evaluación de Desempeño:';
 
-                            if (response != '') {
-                                swal.fire({
-                                    title: 'Evaluación  Registrada',
-                                    text: menj + response,
-                                    type: 'success',
-                                    showCancelButton: false,
-                                    confirmButtonColor: '#3085d6',
-                                    confirmButtonText: 'Ok'
-                                }).then((result) => {
-                                    if (result.value == true) {
-                                        window.location.href = base_url_3 + response;
-                                    }
-                                });
-                            }
-                        },
-                    });
+                                if (response != '') {
+                                    swal.fire({
+                                        title: 'Evaluación  Registrada',
+                                        text: menj + response,
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonColor: '#3085d6',
+                                        confirmButtonText: 'Ok'
+                                    }).then((result) => {
+                                        if (result.value == true) {
+                                            window.location.href = base_url_3 + response;
+                                        }
+                                    });
+                                }
+                            },
+                        })
                     }
                 });
             }
@@ -636,7 +636,7 @@ function registrar() {
                                     });
                                 }
                             },
-                        });
+                        })
                     }
                 });
             } else {
@@ -658,7 +658,7 @@ function registrar() {
                         // var base_url = window.location.origin + '/asnc/index.php/evaluacion_desempenio/registrar_snc';
                         var base_url = '/index.php/evaluacion_desempenio/registrar_snc';
                         // var base_url_3 = window.location.origin + "/asnc/index.php/Evaluacion_desempenio/ver_evaluacion?id=";
-                        var base_url_3 = '/index.php/evaluacion_desempenio/ver_evaluacion?id=';
+                        var base_url_3 = '/index.php/Evaluacion_desempenio/ver_evaluacion?id=';
                         $.ajax({
                             url: base_url,
                             method: "POST",
@@ -666,7 +666,7 @@ function registrar() {
                             contentType: false,
                             processData: false,
                             success: function (response) {
-                                var menj = 'Identificador de Evaluación de Desempeño:';
+                                var menj = 'Identificador de Evaluación de Desempeño holasss:';
 
                                 if (response != '') {
                                     swal.fire({
@@ -684,7 +684,7 @@ function registrar() {
                                 }
                             },
                         })
-                    } 
+                    }
                 });
             }
         }
