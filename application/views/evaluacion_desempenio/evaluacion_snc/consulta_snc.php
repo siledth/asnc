@@ -93,8 +93,7 @@
                         </div>
                         <div class="form-group col-6">
                             <label>Fecha de la Notificación <b title="Campo Obligatorio" style="color:red">*</b></label>
-                            <input type="text" class="form-control" id="datepicker-default" name="fecha_not"
-                                placeholder="Seleccionar Fecha" onchange="validar_fecha();" />
+                            <input type="date" class="form-control" id="fecha_not" name="fecha_not" />
                         </div>
                         <div class="form-group col-6">
                             <label>Medio de envio de la Notificación <b title="Campo Obligatorio"
@@ -113,10 +112,9 @@
                                 placeholder="Nro. de Oficio / Fax / Correo Electronico / Otro" />
                         </div>
                         <div class="form-group col-6">
-                            <label>Acuse de Recibido <b title="Campo Obligatorio" style="color:red">*</b></label>
-                            <input type="file" name="fileImagen" id="fileImagen" width="300" height="300"
-                                class="form-control">
-                        </div>
+                                <label>Acuse de Recibido <b title="Campo Obligatorio" style="color:red">*</b></label>
+                                <input type="file" name="fileImagen" id="fileImagen" width="300" height="300" class="form-control">
+                            </div>
                     </div>
                 </form>
             </div>

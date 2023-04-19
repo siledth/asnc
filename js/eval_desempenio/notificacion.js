@@ -24,7 +24,7 @@ function mostrar_medio(){
 }
 function modal(id){
     var id = id;
-    //var base_url = window.location.origin+'/asnc/index.php/Certificaciones/consulta_b';
+    // var base_url = window.location.origin+'/asnc/index.php/Evaluacion_desempenio/consulta_2';
     var base_url = '/index.php/Evaluacion_desempenio/consulta_2';
     $.ajax({
         url: base_url,
@@ -40,13 +40,10 @@ function modal(id){
 }
 function guardar_not(){
     var id = $("#id").val();
-		var fecha_not = $("#datepicker-default").val();
-		var medio = $("#medio").val();
-        var nro_oc_os = $("#nro_oc_os").val();
-
-        var fileImagen = $("#fileImagen").val();
-
-
+	var fecha_not       = $("#fecha_not").val();
+    var medio           = $("#medio").val();
+    var nro_oc_os       = $("#nro_oc_os").val();
+    var fileImagen      = $("#fileImagen").val();
 		
         if (fileImagen ==0) {
             alert("Acuse de Recibido Obligatorio");
@@ -65,11 +62,19 @@ function guardar_not(){
 			document.getElementById("medio").focus();
 		}else if(nro_oc_os == ''){
 			document.getElementById("nro_oc_os").focus();
-		}else {
+		}
+		else if (fecha_not == '') {
+            document.getElementById("fecha_not").focus();
+        }else if (fileImagen == '') {
+            document.getElementById("fileImagen").focus();
+        }else if (tipo != 'pdf' && tipo != 'jpg' && tipo != 'img'&& tipo != 'png' && tipo != 'jpeg') {
+            swal("Mensaje de alerta!", "El tipo de archivo debe ser en formato pdf, jpg, img, png o jpeg.")
+            document.getElementById("fileImagen").focus();
+        }else {
 			event.preventDefault();
 			swal.fire({
-				title: 'Modificar?',
-				text: '¿Esta seguro de Modificar este registro?',
+				title: 'Guardar Notificación?',
+				text: '¿Esta seguro de guardar esta notificación?',
 				type: 'warning',
 				showCancelButton: true,
 				confirmButtonColor: '#3085d6',
@@ -80,22 +85,25 @@ function guardar_not(){
 				if (result.value == true) {
 					event.preventDefault();
 					var datos = new FormData($("#resgistrar_not_2")[0]);
-					
+					// var base_urls =window.location.origin+'/asnc/index.php/evaluacion_desempenio/resgistrar_asnc';
 					var base_urls = '/index.php/Evaluacion_desempenio/resgistrar_asnc';
 					$.ajax({
 						url: base_urls,
 						method:'post',
-						data: {id: id,
-							fecha_not: fecha_not,
-							medio: medio,
-                            nro_oc_os: nro_oc_os,
-                            fileImagen: fileImagen,
-						},
-					dataType:'json',
+						// data: {id: id,
+						// 	fecha_not: fecha_not,
+						// 	medio: medio,
+                        //     nro_oc_os: nro_oc_os,
+                        //     fileImagen: fileImagen,
+						// },
+						data: datos,
+						contentType: false,
+						processData: false,
+					   //dataType:'json',
 						success: function(response){
 							if(response != '') {
 								swal.fire({
-									title: 'Modificación Exitosa',
+									title: 'Notificación Guardada',
 									type: 'success',
 									showCancelButton: false,
 									confirmButtonColor: '#3085d6',

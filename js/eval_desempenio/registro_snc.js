@@ -466,7 +466,7 @@ function registrar(){
                     if (result.value == true) {
                         event.preventDefault();
                         var datos = new FormData($("#resgistrar_eva")[0]);
-                        // var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
+                        // var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar_snc';
                         var base_url = '/index.php/evaluacion_desempenio/registrar_snc';
                         $.ajax({
                             url:base_url,
@@ -510,7 +510,7 @@ function registrar(){
                     if (result.value == true) {
                         event.preventDefault();
                         var datos = new FormData($("#resgistrar_eva")[0]);
-                        // var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
+                        // var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar_snc';
                         var base_url = '/index.php/evaluacion_desempenio/registrar_snc';
                         $.ajax({
                             url:base_url,
@@ -603,7 +603,7 @@ function registrar(){
                     if (result.value == true){
                         event.preventDefault();
                         var datos = new FormData($("#resgistrar_eva")[0]);
-                        // var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
+                        // var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar_snc';
                         var base_url = '/index.php/evaluacion_desempenio/registrar_snc';
                         $.ajax({
                             url:base_url,
@@ -647,8 +647,8 @@ function registrar(){
 
                         event.preventDefault();
                         var datos = new FormData($("#resgistrar_eva")[0]);
-                    //    var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
-                        var base_url = '/index.php/evaluacion_desempenio/registrar_snc';
+                    //    var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar_snc';
+                       var base_url = '/index.php/evaluacion_desempenio/registrar_snc';
                         $.ajax({
                             url:base_url,
                             method: 'POST',

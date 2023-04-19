@@ -19,7 +19,49 @@
             $query = $this->db->get('public.medio_notf');
             return $response = $query->result_array();
         }
-//-------------------------------------------------------
+        /// este se usa cuando esta en prueba
+    // public function llenar_contratista($data){
+    //     $this->db->select('c.user_id,
+    //                         c.edocontratista_id,
+    //                         c.rifced,
+    //                         c.numcertrnc,
+    //                         c.nombre,
+    //                         c.dirfiscal,
+    //                         e.descedo,
+    //                         c.ciudade_id,
+    //                         c2.descciu,
+    //                         m.descmun,
+    //                         c.percontacto,
+    //                         c.telf1,
+    //                         c.ultprocaprob');
+    //     $this->db->join('public.estados e', 'e.id = c.estado_id');
+    //     $this->db->join('public.municipios m', 'm.id = c.municipio_id');
+    //     $this->db->join('public.ciudades c2', 'c2.id = c.ciudade_id');
+    //     $this->db->where('c.rifced',$data['rif_b']);
+    //     //$query = $this->db->get('public.contratistas c');
+    //     $query = $this->db->get('evaluacion_desempenio.contratistas c');
+    //     $result = $query->row_array();
+    //         if ($result == '') {
+    //             $this->db->select('c.user_id,
+    //                                  c.edocontratista_id,
+    //                                  c.rifced,
+    //                                  c.nombre,
+    //                                  c.dirfiscal,
+    //                                  e.descedo,
+    //                                  m.descmun,
+    //                                  c.percontacto,
+    //                                  c.telf1,
+    //                                  c.procactual');
+    //             $this->db->join('public.estados e', 'e.id = c.estado_id');
+    //             $this->db->join('public.municipios m', 'm.id = c.municipio_id');
+    //             $this->db->where('c.rifced',$data['rif_b']);
+    //             $query = $this->db->get('evaluacion_desempenio.contratistas_nr c');
+    //             return $result = $query->row_array();
+    //         }else {
+    //             return $result;
+    //         }
+    // }
+//------------------------------------------------------- esta se usa cunaod esta en produccion
         public function llenar_contratista($data){
             $this->db_c->select('c.user_id,
                                 c.edocontratista_id,
@@ -322,7 +364,8 @@ return $query->result_array();
                                  ed.mod_otro,
                                  ed.id_estatus,
                                  e5.descripcion,
-                                 ed.fecha_reg_eval');
+                                 ed.fecha_reg_eval,
+                                 ed.snc');
             $this->db->join('seguridad.usuarios u', 'u.id = ed.id_usuario');
             $this->db->join('public.organos o', 'o.codigo = u.unidad', 'left');
             $this->db->join('public.entes e4', 'e4.codigo = u.unidad', 'left');

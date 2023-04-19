@@ -268,15 +268,10 @@ class Evaluacion_desempenio extends CI_Controller {
 		$date_r = date("d-m-Y", strtotime($fecha_r));
 		$data['fecha_reg_eval'] = $date_r;
 
-
-		//$img = $data['eval_ind']['fileimagen'];
-		//$separar  = explode(".", $img);
-		//$data['tipo_img'] = $separar['1'];
-
-		// $img = $data['eval_ind']['fileimagen'];
-		// $separar  = explode(".", $img);
-		// $data['tipo_img'] = $separar['1'];
-
+		$img = $data['eval_ind']['fileimagen'];
+		$separar  = explode(".", $img);
+		$data['tipo_img'] = $separar['1'];
+	
 
 		$calidad = $data['eval_ind']['calidad'];
 		$data['calc_cald'] = $calidad * 25;
@@ -551,7 +546,7 @@ class Evaluacion_desempenio extends CI_Controller {
 			 		 	 'nro_oc_os' 			=> 1,
 		 			 	 'fileimagen' 			=> 1,
 						 'id_usuario' 			=> $this->session->userdata('id_user'),
-						 'id_estatus'			=> 2,// snc
+						 'id_estatus'			=> 1,// snc
 						 'otro' 				=> $otro,
 						 'mod_otro' 			=> $this->input->POST('mod_otro')
 		);
@@ -566,13 +561,14 @@ class Evaluacion_desempenio extends CI_Controller {
         $data = $this->Evaluacion_desempenio_model->consulta_2($data);
         echo json_encode($data);
     }
-	public function consultar_snc(){
+	public function consultar_snc(){ // consulta evaluaciones snc
 		if(!$this->session->userdata('session'))redirect('login');
 		$data['rif_organoente']= $this->session->userdata('rif_organoente');
 		$usuario = $this->session->userdata('id_user');
 		$data['reportes'] 	= $this->Evaluacion_desempenio_model->consultar_snc_evalu($usuario);
 		$data['reportes_user'] 	= $this->Evaluacion_desempenio_model->consulta_eval_user($usuario);
 		$data['med_not'] 	 = $this->Evaluacion_desempenio_model->consulta_med_notf();
+		$data['time']=date("Y-m-d");
 		$this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
 		$this->load->view('evaluacion_desempenio/evaluacion_snc/consulta_snc.php', $data);
@@ -605,7 +601,7 @@ class Evaluacion_desempenio extends CI_Controller {
             'fecha_not'    => $this->input->POST('fecha_not'),
 			'medio'       => $this->input->POST('medio'),
 			'nro_oc_os'	  => $this->input->POST('nro_oc_os'),
-			'fileimagen'	  => $this->input->POST('fileimagen'),
+			'fileimagen'  => $img['file_name'],
 			'id_usuario' 	  => $this->session->userdata('id_user'),
 			'snc' => 1,
         );
