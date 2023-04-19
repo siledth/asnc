@@ -83,7 +83,7 @@
 
                             <input type="hidden" name="exitte" id="exitte">
                             <div class="col-lg-16">
-                                <ul class="nav nav-tabs" style="background:#33FFFF">
+                                <ul class="nav nav-tabs" style="background:#6600FF ">
                                     <li class="nav-items">
                                         <a href="#programa_taller" data-toggle="tab" class="nav-link active">
                                             <span class="d-sm-none">Tab 1</span>

@@ -15,11 +15,11 @@ function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
         $('#ueba').attr("disabled", true);
     }else{
         $("#items").show();
-        // var base_url  = window.location.origin+'/asnc/index.php/certificacion/llenar_contratista';
-        // var base_url2 = window.location.origin+'/asnc/index.php/certificacion/llenar_contratista_rp';
+        var base_url  = window.location.origin+'/asnc/index.php/certificacion/llenar_contratista';
+        var base_url2 = window.location.origin+'/asnc/index.php/certificacion/llenar_contratista_rp';
 
-       var base_url = '/index.php/certificacion/llenar_contratista';
-         var base_url2 = '/index.php/certificacion/llenar_contratista_rp';
+    //    var base_url = '/index.php/certificacion/llenar_contratista';
+    //      var base_url2 = '/index.php/certificacion/llenar_contratista_rp';
 
    
 
@@ -33,7 +33,7 @@ function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
                     $("#no_existe").show();
                     $("#existe").hide();
 
-                    $('#exitte').val(0);
+                   
 
                 }else{
                     $("#existe").show();
