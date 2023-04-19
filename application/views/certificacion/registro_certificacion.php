@@ -43,7 +43,7 @@
                         method="POST" enctype="multipart/form-data">
                         <div class="panel panel-inverse">
                             <div class="panel-heading">
-                                <h4 class="panel-title" style="background: #E6B0AA" ><b>INFORMACIÓN DE LA PERSONA JURÍDICA</b></h4>
+                                <h4 class="panel-title" style="background: #33FFFF" ><b>INFORMACIÓN DE LA PERSONA JURÍDICA</b></h4>
                             </div>
                             <div class="panel-body" id="existe">
                                 <div class="row">
@@ -83,7 +83,7 @@
 
                             <input type="hidden" name="exitte" id="exitte">
                             <div class="col-lg-16">
-                                <ul class="nav nav-tabs" style="background: #F2D7D5 ">
+                                <ul class="nav nav-tabs" style="background:#33FFFF">
                                     <li class="nav-items">
                                         <a href="#programa_taller" data-toggle="tab" class="nav-link active">
                                             <span class="d-sm-none">Tab 1</span>
@@ -95,7 +95,7 @@
                                     <li class="nav-items">
                                         <a href="#experi_empre_capa" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 2</span>
-                                             <span class="d-sm-block d-none" style="font-size: 9px;">
+                                             <span class="d-sm-block d-none" style="font-size: 8px;">
                                                 Experiencia de la <br> Empresa en
                                                     Capacitación <br>en
                                                     Materias Relacionadas<br> Con Contratación <br>Pública (en los<br>
@@ -108,7 +108,7 @@
                                     <li class="nav-items">
                                         <a href="#experi_empre_cap_comisi" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 3</span>
-                                             <span class="d-sm-block d-none" style="font-size: 10px;">
+                                             <span class="d-sm-block d-none" style="font-size: 8px;">
                                                 Experiencia de la <br> Empresa en
                                                     Capacitación <br>en
                                                     Comisión de <br>Contrataciones(en los <br> últimos 3 años)
@@ -118,7 +118,7 @@
                                     <li class="nav-items">
                                         <a href="#infor_per_natu" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 4</span>
-                                             <span class="d-sm-block d-none" style="font-size: 10px;">
+                                             <span class="d-sm-block d-none" style="font-size: 8px;">
                                                 Información de la <br> persona natural <br>
                                                     (que dicta la <br>
                                                     capacitación)
@@ -128,7 +128,7 @@
                                     <li class="nav-items">
                                         <a href="#infor_per_prof" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 5</span>
-                                             <span class="d-sm-block d-none" style="font-size: 10px;">
+                                             <span class="d-sm-block d-none" style="font-size: 8px;">
                                                  Información <br>de la <br>Formación<br>
                                                     Profesional 
                                             </span>
@@ -137,7 +137,7 @@
                                     <li class="nav-items">
                                         <a href="#for_mat_contr_publ" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 6</span>
-                                             <span class="d-sm-block d-none" style="font-size: 10px;">
+                                             <span class="d-sm-block d-none" style="font-size: 8px;">
                                                  Formación en <br> Materia de
                                                     <br>Contratación <br> Pública
                                                
@@ -147,7 +147,7 @@
                                     <li class="nav-items">
                                         <a href="#exp_par_comi_10" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 7</span>
-                                             <span class="d-sm-block d-none" style="font-size: 10px;">
+                                             <span class="d-sm-block d-none" style="font-size: 8px;">
                                                Experiencia de <br>Participación en
                                                     <br> Comisiones de<br> Contrataciones <br>(en los <br>últimos 10
                                                     años)
@@ -158,7 +158,7 @@
                                     <li class="nav-items">
                                         <a href="#exp_dic_cap_3" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 8</span>
-                                             <span class="d-sm-block d-none" style="font-size: 10px;">
+                                             <span class="d-sm-block d-none" style="font-size: 8px;">
                                                 Experiencia en <br>Dictado <br>de Capacitación
                                                     <br>en Materia de Comisión <br>de Contrataciones (en <br>los últimos
                                                     3 años)
@@ -170,7 +170,7 @@
                                     <li class="nav-items">
                                         <a href="#declara" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 8</span>
-                                             <span class="d-sm-block d-none" style="font-size: 10px;">
+                                             <span class="d-sm-block d-none" style="font-size: 12px;">
                                                Declaración 
                                             </span>
                                         </a>
