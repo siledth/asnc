@@ -1,6 +1,6 @@
 <div class="sidebar-bg"></div>
 <div id="content" class="content">
- 
+
     <h2>REGISTRO PARA CERTIFICACIÓN JURÍDICA DE CARÁCTER PRIVADO</h2>
     <div class="row">
         <div class="col-lg-12">
@@ -12,7 +12,7 @@
                         <div class="col-4">
                             <label>N° de Comprobante del Registro Nacional de Contratistas (RNC):</label>
                             <input class="form-control" type="text" name="rif_b" id="rif_b"
-                                placeholder="1376973304354487213" >
+                                placeholder="1376973304354487213" value="1376973304354487213">
                         </div>
                         <div class="col- mt-4">
                             <button type="button" class="btn btn-default" onclick="consultar_rif();" name="button"> <i
@@ -25,8 +25,7 @@
         <div class="col-lg-12" style="display: none" id="items">
             <div class="panel panel-inverse">
                 <div class="panel-heading">
-                    <h4 class="panel-title text-center"><b>FICHA TÉCNICA DE CERTIFICACIÓN PARA PERSONA NATURAL Y
-                            JURÍDICA DE CARÁCTER PRIVADO</b></h4>
+                    <h4 class="panel-title text-center"><b>FICHA TÉCNICA DE CERTIFICACIÓN PARA PERSONA JURÍDICA DE CARÁCTER PRIVADO</b></h4>
                 </div>
                 <div class="panel-body" id="no_existe">
                     <div class="row">
@@ -44,7 +43,7 @@
                         method="POST" enctype="multipart/form-data">
                         <div class="panel panel-inverse">
                             <div class="panel-heading">
-                                <h4 class="panel-title"><b>INFORMACIÓN DE LA PERSONA JURÍDICA</b></h4>
+                                <h4 class="panel-title" style="background: #E6B0AA" ><b>INFORMACIÓN DE LA PERSONA JURÍDICA</b></h4>
                             </div>
                             <div class="panel-body" id="existe">
                                 <div class="row">
@@ -84,24 +83,24 @@
 
                             <input type="hidden" name="exitte" id="exitte">
                             <div class="col-lg-16">
-                                <ul class="nav nav-tabs" style="background: #A9A9A9;">
+                                <ul class="nav nav-tabs" style="background: #F2D7D5 ">
                                     <li class="nav-items">
                                         <a href="#programa_taller" data-toggle="tab" class="nav-link active">
                                             <span class="d-sm-none">Tab 1</span>
-                                            <span class="d-sm-block d-none">
-                                                <h6>Nombre del <br> curso o <br> taller</h6><br><br>
+                                            <span class="d-sm-block d-none" style="font-size: 10px;">
+                                              Nombre del <br> curso o taller
                                             </span>
                                         </a>
                                     </li>
                                     <li class="nav-items">
                                         <a href="#experi_empre_capa" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 2</span>
-                                            <span class="d-sm-block d-none">
-                                                <h6>Experiencia de la <br> Empresa en
+                                             <span class="d-sm-block d-none" style="font-size: 9px;">
+                                                Experiencia de la <br> Empresa en
                                                     Capacitación <br>en
                                                     Materias Relacionadas<br> Con Contratación <br>Pública (en los<br>
                                                     últimos
-                                                    5 años)</h6>
+                                                    5 años)
                                             </span>
                                         </a>
                                     </li>
@@ -109,61 +108,61 @@
                                     <li class="nav-items">
                                         <a href="#experi_empre_cap_comisi" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 3</span>
-                                            <span class="d-sm-block d-none">
-                                                <h6>Experiencia de la <br> Empresa en
+                                             <span class="d-sm-block d-none" style="font-size: 10px;">
+                                                Experiencia de la <br> Empresa en
                                                     Capacitación <br>en
-                                                    Comisión de <br>Contrataciones(en los <br> últimos 3 años)</h6>
+                                                    Comisión de <br>Contrataciones(en los <br> últimos 3 años)
                                             </span>
                                         </a>
                                     </li>
                                     <li class="nav-items">
                                         <a href="#infor_per_natu" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 4</span>
-                                            <span class="d-sm-block d-none">
-                                                <h6>Información de la <br> persona natural <br>
+                                             <span class="d-sm-block d-none" style="font-size: 10px;">
+                                                Información de la <br> persona natural <br>
                                                     (que dicta la <br>
-                                                    capacitación)</h6>
+                                                    capacitación)
                                             </span>
                                         </a>
                                     </li>
                                     <li class="nav-items">
                                         <a href="#infor_per_prof" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 5</span>
-                                            <span class="d-sm-block d-none">
-                                                <h6>Información <br>de la <br>Formación<br>
-                                                    Profesional</h6>
+                                             <span class="d-sm-block d-none" style="font-size: 10px;">
+                                                 Información <br>de la <br>Formación<br>
+                                                    Profesional 
                                             </span>
                                         </a>
                                     </li>
                                     <li class="nav-items">
                                         <a href="#for_mat_contr_publ" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 6</span>
-                                            <span class="d-sm-block d-none">
-                                                <h6>Formación en <br> Materia de
+                                             <span class="d-sm-block d-none" style="font-size: 10px;">
+                                                 Formación en <br> Materia de
                                                     <br>Contratación <br> Pública
-                                                </h6>
+                                               
                                             </span>
                                         </a>
                                     </li>
                                     <li class="nav-items">
                                         <a href="#exp_par_comi_10" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 7</span>
-                                            <span class="d-sm-block d-none">
-                                                <h6>Experiencia de <br>Participación en
+                                             <span class="d-sm-block d-none" style="font-size: 10px;">
+                                               Experiencia de <br>Participación en
                                                     <br> Comisiones de<br> Contrataciones <br>(en los <br>últimos 10
                                                     años)
-                                                </h6>
+                                                
                                             </span>
                                         </a>
                                     </li>
                                     <li class="nav-items">
                                         <a href="#exp_dic_cap_3" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 8</span>
-                                            <span class="d-sm-block d-none">
-                                                <h6>Experiencia en <br>Dictado <br>de Capacitación
+                                             <span class="d-sm-block d-none" style="font-size: 10px;">
+                                                Experiencia en <br>Dictado <br>de Capacitación
                                                     <br>en Materia de Comisión <br>de Contrataciones (en <br>los últimos
                                                     3 años)
-                                                </h6>
+                                               
                                             </span>
                                         </a>
                                     </li>
@@ -171,9 +170,8 @@
                                     <li class="nav-items">
                                         <a href="#declara" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 8</span>
-                                            <span class="d-sm-block d-none">
-                                                <h4>Declaración
-                                                </h4>
+                                             <span class="d-sm-block d-none" style="font-size: 10px;">
+                                               Declaración 
                                             </span>
                                         </a>
                                     </li>
@@ -186,15 +184,19 @@
                                             <div class="form-group col-5">
                                                 <label><b title="Campo Obligatorio" style="color:red">*</b>Nombre o
                                                     Denominaciòn del Curso:
-                                                        <i style="color: red;" title="Ingresar Nombre o Denominaciòn del Curso" class="fas fa-question-circle"></i>
-                                                    </label>
+                                                    <i style="color: red;"
+                                                        title="Ingresar Nombre o Denominaciòn del Curso"
+                                                        class="fas fa-question-circle"></i>
+                                                </label>
                                                 <textarea class="form-control" name="objetivo" id="objetivo" rows="3"
                                                     cols="70" onkeyup="mayusculas(this);"></textarea>
                                             </div>
                                             <div class="form-group col-5">
                                                 <label> <b title="Campo Obligatorio" style="color:red">*</b>Contenido
                                                     Programático:
-                                                    <i style="color: red;" title="Ingresar el Contenido Programatico del Curso" class="fas fa-question-circle"></i>
+                                                    <i style="color: red;"
+                                                        title="Ingresar el Contenido Programatico del Curso"
+                                                        class="fas fa-question-circle"></i>
                                                 </label>
                                                 <textarea class="form-control" name="cont_prog" id="cont_prog" rows="3"
                                                     cols="70" onkeyup="mayusculas(this);"></textarea>
@@ -211,17 +213,19 @@
                                                         Ente de la Comisión de Contrataciones
                                                         <i style="color: red;" title="Ingresar nombre de los Organos o Entes a los cuales a prestado servicio
                                                             en los ultimos 5 años" class="fas fa-question-circle"></i>
-                                                        
-                                                    <input class="form-control" type="text"
-                                                        name="organo_experi_empre_capa" id="organo_experi_empre_capa"
-                                                        placeholder="Nombre" onkeyup="mayusculas(this);">
+
+                                                        <input class="form-control" type="text"
+                                                            name="organo_experi_empre_capa"
+                                                            id="organo_experi_empre_capa" placeholder="Nombre"
+                                                            onkeyup="mayusculas(this);">
                                                 </div>
 
                                                 <div class="form-group col-4">
-                                                    <label><b title="Campo Obligatorio"
-                                                            style="color:red">*</b>Actividad
-                                                            <i style="color: red;" title="grese en que consistio la actividad, Ejemplo: Talleres" class="fas fa-question-circle"></i>
-                                                            </label>
+                                                    <label><b title="Campo Obligatorio" style="color:red">*</b>Actividad
+                                                        <i style="color: red;"
+                                                            title="grese en que consistio la actividad, Ejemplo: Talleres"
+                                                            class="fas fa-question-circle"></i>
+                                                    </label>
                                                     <input class="form-control" type="text"
                                                         name="actividad_experi_empre_capa"
                                                         id="actividad_experi_empre_capa" placeholder="Actividad"
@@ -388,17 +392,17 @@
 
                                                     <div class="form-group col-2">
                                                         <label>Tasa Bolivares<b style="color:red">*</b></label>
-                                                        <?php if(isset(($exonerado )))
-                                                       {?>
+                                                        <?php if(isset(($exonerado))) {?>
                                                         <input id="bolivar_estimado" name="bolivar_estimado" type="text"
                                                             class="form-control" value="0" readonly>
 
-                                                        <?php  } else { 
-                                                          
-                                                          foreach ($inf_1 as $data): ?>
+                                                        <?php  } else {
+
+                                                            foreach ($inf_1 as $data): ?>
                                                         <input id="bolivar_estimado" name="bolivar_estimado" type="text"
                                                             class="form-control" value="<?=$data['valor']?>" readonly>
-                                                        <?php endforeach;  } ?>
+                                                        <?php endforeach;
+                                                        } ?>
 
 
 
@@ -454,13 +458,13 @@
                                                         <label class="col-form-label col-md-6 text-right">Persona
                                                             Jurídica </label>
                                                         <div class="col-md-6">
-                                                            <?php if(isset(($exonerado ))){ ?>
+                                                            <?php if(isset(($exonerado))) { ?>
                                                             <input id="pj" name="pj" type="text" class="form-control"
                                                                 value="0" readonly>
 
 
                                                             <?php  } else {
-                                                                  foreach ($inf_3 as $data): ?>
+                                                                foreach ($inf_3 as $data): ?>
                                                             <input id="pj" name="pj" type="text"
                                                                 class="form-control text-center"
                                                                 value="<?=$data['valor']?>" readonly>
@@ -517,7 +521,7 @@
 
                                                     </div>
                                                     <!-- ////////////// aca empiesa datos bancarios-->
-                                                    <?php if(isset(($exonerado ))){ ?>
+                                                    <?php if(isset(($exonerado))) { ?>
                                                     <div class="row">
 
 
@@ -611,7 +615,7 @@
                                                 <?php     } ?>
                                             </div>
                                         </div>
-                                        </div>
+                                    </div>
                                 </div>
                                 <div class="tab-pane fade" id="infor_per_prof">
                                     <div class="panel-body">
@@ -949,30 +953,31 @@
                                                 </select>
 
                                             </div>
+                                            <div class="row text-center mt-3">
+                                                <div class="col-6">
+                                                    <button
+                                                        class="btn btn-circle waves-effect btn-lg waves-circle waves-float btn-success"
+                                                        style="background: #A93226 "
+                                                        type="button" onclick="guardar_registro();" id="btn_guar_2"
+                                                        name="button" disabled>Guardar Certificación</button>
+                                                </div>
 
+                                            </div>
                                         </div>
                                     </div>
+
+
                                 </div>
 
 
+
                             </div>
 
-
-
+                           
                         </div>
-                        <div class="row text-center mt-3">
-                            <div class="col-6">
-                                <button class="btn btn-circle waves-effect btn-lg waves-circle waves-float btn-success"
-                                    type="button" onclick="guardar_registro();" id="btn_guar_2" name="button"
-                                    disabled>Guardar Certificación</button>
-                            </div>
-                            <div class="col-6">
-                                <a class="btn btn-circle waves-effect btn-lg waves-circle waves-float btn-primary"
-                                    href="javascript:history.back()"> Volver</a>
-                            </div>
-                        </div>
+                    </form>
                 </div>
-                </form>
+
             </div>
         </div>
     </div>
