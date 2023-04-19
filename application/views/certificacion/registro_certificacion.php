@@ -43,7 +43,7 @@
                         method="POST" enctype="multipart/form-data">
                         <div class="panel panel-inverse">
                             <div class="panel-heading">
-                                <h4 class="panel-title" style="background: #33FFFF" ><b>INFORMACIÓN DE LA PERSONA JURÍDICA</b></h4>
+                                <h4 class="panel-title" style="background: #FAE5D3" ><b>INFORMACIÓN DE LA PERSONA JURÍDICA</b></h4>
                             </div>
                             <div class="panel-body" >
                                 <div class="row">
@@ -83,7 +83,7 @@
 
                            
                             <div class="col-lg-16">
-                                <ul class="nav nav-tabs" style="background:#33FFFF">
+                                <ul class="nav nav-tabs" style="background:#FAE5D3">
                                     <li class="nav-items">
                                         <a href="#programa_taller" data-toggle="tab" class="nav-link active">
                                             <span class="d-sm-none">Tab 1</span>
