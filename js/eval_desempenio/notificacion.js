@@ -88,7 +88,7 @@ function guardar_not(){
 					var datos = new FormData($("#resgistrar_not_2")[0]);
 					// var base_urls =window.location.origin+'/asnc/index.php/evaluacion_desempenio/resgistrar_asnc';
 					var base_urls = '/index.php/Evaluacion_desempenio/resgistrar_asnc';
-                    // var base_url_3 = window.location.origin + "/asnc/index.php/Evaluacion_desempenio/ver_evaluacion?id=";
+                    /// var base_url_3 = window.location.origin + "/asnc/index.php/Evaluacion_desempenio/ver_evaluacion?id="; 
                     var base_url_3 = '/index.php//Evaluacion_desempenio/ver_evaluacion?id=';
                 $.ajax({
                     url: base_urls,

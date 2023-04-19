@@ -684,7 +684,7 @@ function registrar() {
                                 }
                             },
                         })
-                    }
+                    } 
                 });
             }
         }

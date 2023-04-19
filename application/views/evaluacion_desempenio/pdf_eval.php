@@ -11,7 +11,7 @@
         display: block;
         font-size: 26pt;
     }
-}
+} 
 </style>
 <div class="sidebar-bg"></div>
 <div id="content" class="content">

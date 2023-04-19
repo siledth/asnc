@@ -613,7 +613,7 @@ class Evaluacion_desempenio extends CI_Controller {
 		$data = $this->Evaluacion_desempenio_model->save_notificacion( $notifiacion);
         echo json_encode($data);
     }
-
+ 
 
 		
 

@@ -644,7 +644,7 @@ return $query->result_array();
             if (count($query->result()) > 0) {
                 return $query->row();
             }
-        }
+        } 
         public function save_notificacion($notifiacion){
             $this->db->select('id as id');
             $this->db->where('id', $notifiacion['id']);
