@@ -12,7 +12,7 @@
                         <div class="col-4">
                             <label>N° de Comprobante del Registro Nacional de Contratistas (RNC):</label>
                             <input class="form-control" type="text" name="rif_b" id="rif_b"
-                                placeholder="1376973304354487213" value="1376973304354487213">
+                                placeholder="1376973304354487213" >
                         </div>
                         <div class="col- mt-4">
                             <button type="button" class="btn btn-default" onclick="consultar_rif();" name="button"> <i
@@ -366,13 +366,13 @@
                                                         <label>N.º. Cédula de Identidad: <b title="Campo Obligatorio"
                                                                 style="color:red">*</b></label>
                                                         <input class="form-control" type="text" name="cedula"
-                                                            id="cedula" placeholder="V6429731">
+                                                            id="cedula" placeholder="VXXXXXXX">
                                                     </div>
                                                     <div class="form-group col-4">
                                                         <label>N.º. RIF: <b title="Campo Obligatorio"
                                                                 style="color:red">*</b></label>
                                                         <input class="form-control" type="text" name="rif" id="rif"
-                                                            placeholder="V0000000000">
+                                                            placeholder="VXXXXXXXX">
 
                                                     </div>
                                                     <div class="form-group col-2">
@@ -594,10 +594,7 @@
                                                     <select style="width: 100%;" name="banco_rec" id="banco_rec"
                                                         class="default-select2 form-control ">
                                                         <option value="">SELECCIONE</option>
-                                                        <?php foreach ($bancos as $data): ?>
-                                                        <option value="<?=$data['nombre_b']?>">
-                                                            <?=$data['nombre_b']?></option>
-                                                        <?php endforeach; ?>
+                                                        <option value="BANCO DE VENEZUELA">BANCO DE VENEZUELA</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group col-3">

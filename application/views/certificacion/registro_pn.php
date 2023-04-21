@@ -192,13 +192,13 @@
                                                         <label>N.º. Cédula de Identidad: <b title="Campo Obligatorio"
                                                                 style="color:red">*</b></label>
                                                         <input class="form-control" type="text" name="cedula"
-                                                            id="cedula" placeholder="V24236852">
+                                                            id="cedula" placeholder="VXXXXXXX">
                                                     </div>
                                                     <div class="form-group col-4">
                                                         <label>N.º. RIF: <b title="Campo Obligatorio"
                                                                 style="color:red">*</b></label>
                                                         <input class="form-control" type="text" name="rif" id="rif"
-                                                            placeholder="V24236852">
+                                                            placeholder="VXXXXXXX">
                                                     </div>
                                                     <div class="form-group col-2">
                                                         <label>Alícuota IVA Estimado<b
