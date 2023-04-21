@@ -126,6 +126,9 @@
                         </div>
                         <div class="form-group mt-0  col-9">
                             <label>Contenido Programático</label>
+                            <textarea class="form-control" name="h" id="v" rows="5" cols="50"
+                                                        readonly>  <?=$inf_1['cont_prog']?></textarea>
+
                             <input value="<?=$inf_1['cont_prog']?>" type="text" class="form-control" disabled>
                         </div>
                         <?php if (($inf_1['tipo_pers'] < 2) ) : ?>
