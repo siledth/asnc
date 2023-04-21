@@ -129,7 +129,8 @@ class Certificacion extends CI_Controller
         $acepto  = $this->input->post("acepto");
         $percontacto  = $this->input->post("percontacto");
         $usuario = $this->session->userdata('id_user');
-        
+        $declara  = "Declaro que la información y datos suministrados en esta Ficha son fidedignos, por lo que autorizo la pertinencia de su verificación. Convengo que de llegar a comprobarse que se ha incurrido en inexactitud o falsedad en los datos aquí suministrados, quedará sin efecto la CERTIFICACIÓN.";
+        $acepto  = "SI";
         $fecha_solic  = date('Y-m-d');
         
         $status  = '1';//estats pendiente  

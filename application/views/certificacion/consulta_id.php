@@ -59,17 +59,17 @@
                             <input value="<?=date("d/m/Y", strtotime($inf_1['fecha_trans']));?>" type="text"
                                 class="form-control" disabled>
                         </div>
-                        <div class="form-group mt-1  col-1">
+                        <div class="form-group mt-1  col-2">
                             <label style="color:red;">Bolivares Cancelar</label>
                             <input value="<?=$inf_1['total_bss']?>" type="text" class="form-control" disabled>
                         </div>
 
-                        <div class="form-group mt-1  col-1">
+                        <div class="form-group mt-1  col-2">
                             <label style="color:red;">Monto transferido</label>
                             <input value="<?=$inf_1['monto_trans']?>" type="text" class="form-control" disabled>
                         </div>
 
-                        <div class="form-group mt-1  col-1">
+                        <div class="form-group mt-1  col-2">
                             <label style="color:red;">N° de Referencia</label>
                             <input value="<?=$inf_1['n_ref']?>" type="text" class="form-control" disabled>
                         </div>
@@ -261,7 +261,7 @@
                                     <td><?=$inf_6['certi']?></td>
                                     <td><?=$inf_6['fech_cert']?></td>
                                     <td>
-                                        <?php if ($inf_6['vigencia'] == 2)  : ?>
+                                        <?php if ($inf_6['vigencia'] < 2)  : ?>
                                         <?=$inf_6['vigencia']?>
                                         <?php endif; ?>
 

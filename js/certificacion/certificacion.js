@@ -32,17 +32,21 @@ function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
                 if (data == null) {
                     $("#no_existe").show();
                     $("#existe").hide();
-                  
+
+                    $('#exitte').val(0);
 
                 }else{
                     $("#existe").show();
                     $("#no_existe").hide();
 
-                  
+                    $('#exitte').val(1);
 
                     $('#rif_cont').val(data['rifced']);
                     $('#nombre').val(data['nombre']);
                     $('#percontacto').val(data['percontacto']);
+                    
+                    
+                    
                     $('#numcertrnc').val(data['numcertrnc']);
                     $('#numcertrnc2').val(data['numcertrnc']);
  

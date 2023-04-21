@@ -347,8 +347,7 @@ class Certificacion_model extends CI_model
         return $query->result_array();
     }
     public function certificaciones6($rif_cont){
-        $this->db->select('pf.*
-                           ');
+        $this->db->select('pf.*');
         $this->db->where('pf.rif_cont', $rif_cont );
         $query = $this->db->get('certificacion.for_mat_contr_publ pf');
         return $query->result_array();
@@ -1383,7 +1382,7 @@ class Certificacion_model extends CI_model
      
      return  $image_name;
   }
-////////////////////////////////////////////////////////////////////////////////// 
+ 
   public function llenar_contratista($data){  // esta es para consultar certificado en produccion
     $this->db_c->select('c.user_id,
                         c.edocontratista_id,
@@ -1405,7 +1404,7 @@ class Certificacion_model extends CI_model
     //$query = $this->db_c->get('public.contratistas c');
     $query = $this->db_c->get('public.contratistas c');
     $result = $query->row_array();
-        if ($result == '') { 
+        if ($result == '') {
             $this->db->select('c.user_id,
                                  c.edocontratista_id,
                                  c.rifced,
@@ -1419,13 +1418,13 @@ class Certificacion_model extends CI_model
             $this->db->join('public.estados e', 'e.id = c.estado_id');
             $this->db->join('public.municipios m', 'm.id = c.municipio_id');
             $this->db->where('c.numcertrnc',$data['rif_b']);
-            $query = $this->db->get('evaluacion_desempenio.contratistas_nr c');
+            $query = $this->db->get('public.contratistas_nr c');
             return $result = $query->row_array();
         }else {
             return $result;
         }
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 function consultar_exonerado($data){
     $this->db->select('*');
     $this->db->where('rif', $data['rif_organoente']);
