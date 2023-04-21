@@ -567,7 +567,7 @@
                                                     <label class="col-form-label col-md-6 text-right">Numero de
                                                         Cuenta </label>
                                                     <textarea class="form-control" name="h" id="v" rows="5" cols="50"
-                                                        readonly>Los pagos deben realizarse en el Banco de Venezuela a la Cuenta Corriente N° 01020552270000034827 o en el Banco del Tesoro Cuenta Corriente N° 01630903669033007177 a nombre del Servicio Nacional de Contrataciones RIF G- 200024518. No se acepta el pago con cheques.</textarea>
+                                                        readonly>Los pagos deben realizarse en el Banco de Venezuela a la Cuenta Corriente N° 01020552270000042877 a nombre del Servicio Nacional de Contrataciones RIF G-200024518. No se acepta el pago con cheques.</textarea>
                                                 </div>
                                                 <div class="form-group col-3">
                                                     <label class="col-form-label col-md-6 text-right">Numero de
