@@ -318,10 +318,7 @@
                                                         <select style="width: 100%;" name="banco_rec" id="banco_rec"
                                                             class="default-select2 form-control ">
                                                             <option value="">SELECCIONE</option>
-                                                            <?php foreach ($bancos as $data): ?>
-                                                            <option value="<?=$data['nombre_b']?>">
-                                                                <?=$data['nombre_b']?></option>
-                                                            <?php endforeach; ?>
+                                                            <option value="BANCO DE VENEZUELA">BANCO DE VENEZUELA</option>
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-3">
