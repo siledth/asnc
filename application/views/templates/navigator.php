@@ -258,10 +258,6 @@
                                 class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Solicitud de
                             Certificación de Privado</a>
                     </li>
-                    <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion_exter"><i
-                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Certificación de Privado</a>
-                    </li>
-                    
                     <li><a href="<?= base_url() ?>index.php/certificacion/ver_facilitador"><i
                                 class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Facilitador</a>
                     </li>
