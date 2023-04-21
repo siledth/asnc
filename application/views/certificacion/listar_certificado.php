@@ -5,7 +5,7 @@
             <div class="panel panel-inverse">
                 <div class="row">
                     <div class="col-1"></div>
-                    <div class="col-10 mt-4">
+                    <div class="col-12 mt-4">
                         <div class="card card-outline-danger text-center bg-white">
                             <div class="card-block">
                                 <blockquote class="card-blockquote" style="margin-bottom: -19px;">
@@ -37,7 +37,7 @@
                     </div>
 
                     <div class="col-1"></div>
-                    <div class="col-10 mt-3">
+                    <div class="col-12 mt-3">
                         <h3 class="text-center">Registro de Certificaciones en espera de Revisión o Rechazado</h3>
                         <table id="data-table-default" data-order='[[ 3, "asc" ]]' class="table table-bordered table-hover">
                             <thead style="background:#e4e7e8">
