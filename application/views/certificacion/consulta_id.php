@@ -263,7 +263,7 @@
                                     <td><?=$inf_6['fech_cert']?></td>
                                     <td>
                                         <?php if ($inf_6['vigencia'] < 2)  : ?>
-                                        <?=$inf_6['vigencia']?>
+                                            <h5 style="color:green;"> <?=$inf_6['vigencia']?>  </h5>
                                         <?php endif; ?>
 
                                         <?php if ($inf_6['vigencia'] > 2)  : ?>
