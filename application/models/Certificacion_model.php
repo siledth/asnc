@@ -1517,14 +1517,25 @@ public function consultar_vencimiento($data){
     return $query->result_array();
 }
 public function status($data){
-    $this->db->select("nro_comprobante, nombre, rif_cont, n_certif, tipo_pers, vigen_cert_desde, status,vigen_cert_hasta,fecha_status");
-    $this->db->where('status', $data['status']);
-    $this->db->where('fecha_status >=', $data['desde']);
-    $this->db->where('fecha_status <=', $data['hasta']);
-    $this->db->order_by('nro_comprobante');
-    
-    $query = $this->db->get('certificacion.certificaciones ');
-    return $query->result_array();
+    if ($data['status'] == '1') {
+        $this->db->select("nro_comprobante, nombre, rif_cont, n_certif, tipo_pers, vigen_cert_desde, status,vigen_cert_hasta,fecha_status");
+        $this->db->where('status', $data['status']);
+        $this->db->where('fecha_solic >=', $data['desde']);
+        $this->db->where('fecha_solic <=', $data['hasta']);
+        $this->db->order_by('nro_comprobante');
+
+        $query = $this->db->get('certificacion.certificaciones ');
+        return $query->result_array();
+       } else {
+        $this->db->select("nro_comprobante, nombre, rif_cont, n_certif, tipo_pers, vigen_cert_desde, status,vigen_cert_hasta,fecha_status");
+        $this->db->where('status', $data['status']);
+        $this->db->where('fecha_status >=', $data['desde']);
+        $this->db->where('fecha_status <=', $data['hasta']);
+        $this->db->order_by('nro_comprobante');
+
+        $query = $this->db->get('certificacion.certificaciones ');
+        return $query->result_array();
+    }
 }
 
 }
