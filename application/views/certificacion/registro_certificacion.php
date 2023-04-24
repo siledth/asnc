@@ -607,7 +607,7 @@
                                                     <label>Ingrese Monto de la trasferencia <b title="Campo Obligatorio"
                                                             style="color:red">*</b></label>
                                                     <input class="form-control" type="text" name="monto_trans"
-                                                        id="monto_trans">
+                                                        id="monto_trans" onkeypress="return valideKey(event);">
                                                 </div>
                                                 <?php     } ?>
                                             </div>
@@ -995,4 +995,16 @@
 function mayusculas(e) {
     e.value = e.value.toUpperCase();
 }
+$("#monto_trans").on({
+        "focus": function(event) {
+            $(event.target).select();
+        },
+        "keyup": function(event) {
+            $(event.target).val(function(index, value) {
+                return value.replace(/\D/g, "")
+                    .replace(/([0-9])([0-9]{2})$/, '$1,$2')
+                    .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+            });
+        }
+    });
 </script>
