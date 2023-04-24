@@ -96,7 +96,7 @@ $db['default'] = array(
 	'save_queries' => TRUE
 );
 
-//Base de datos solo de consulta del SNC Anterior
+//Base de datos solo de consulta del SNC Anterior 
 $db['SNCenlinea'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
