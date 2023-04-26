@@ -1,4 +1,4 @@
-<?php
+<option value="0">Seleccione</option><?php
 
 /**
  * @author Gary Diaz <garyking1982@gmail.com>

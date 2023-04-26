@@ -17,7 +17,7 @@ $route['llamadoconcurso']['get'] = 'Gestion/llamadoconcurso';
 
 //siled
 $route['certificacion1']['get'] = 'Gestion/certificacion1';// pagina de la consulta es el cotrolador /el nombre de la funcion
-// $route['publicacion']['get'] = 'Gestion/certificacion1';
+$route['llamadoxterno']['get'] = 'Gestion/llamadoxterno';
 $route['pdf']['get'] = 'Gestion/pdf';
 //******************************************************************************
 //******************************************************************************

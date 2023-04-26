@@ -64,6 +64,7 @@ class Gestion extends CI_Controller {
     }
     
   }
+  /////////////////////////////////////////////////////// cosulta externa de certificacion privada
   public function certificacion1() {
     if (!$this->session->userdata('session')) {
       $data['ver_certi'] = $this->Certificacion_model->consulta_certi_exter2();
@@ -103,5 +104,22 @@ class Gestion extends CI_Controller {
       
     
     
+  }
+  /////////////////////////////////////vista de llamado a concurso modificado
+  public function llamadoxterno() {
+    if (!$this->session->userdata('session')) {
+      $data['exonerado'] = $this->Certificacion_model->consultar_llamados_externos();
+      $this->load->view('templates/header.php');
+      $this->load->view('templates/navsinsesion.php');
+      $this->load->view('publicaciones/reporte/llamadoexterno.php', $data);
+      $this->load->view('templates/footer.php');
+    } else {
+      
+      $this->load->view('templates/header.php');
+      $this->load->view('templates/navsinsesion.php');
+      $this->load->view('publicaciones/reporte/llamadoexterno.php');
+      $this->load->view('templates/footer.php');
+    } 
+
   }
 }

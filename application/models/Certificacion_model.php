@@ -1538,4 +1538,12 @@ public function status($data){
     }
 }
 
+function consultar_llamados_externos(){
+    $this->db->select('*');
+    $this->db->from('public.llamado_concurso_view');
+   // $this->db->order_by("codigo_b", "Asc");
+    $query = $this->db->get();
+    return $query->result_array();
+}
+
 }

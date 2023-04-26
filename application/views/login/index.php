@@ -70,11 +70,10 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
     <div id="page-container" class="fade">
         <div class="login login-with-news-feed">
             <div class="news-feed">
-                <div class="news-image"
-                    style="background-image: url(<?= base_url() ?>Plantilla/img/mantenimiento.png);"></div>
+                <div class="news-image" style="background-image: url(<?= base_url() ?>Plantilla/img/92.png);"></div>
                 <!-- <img style="background-repeat: no-repeat;" src="<?= base_url() ?>Plantilla/img/2.png" alt=""> -->
             </div>
-            <!-- <div class="right-content" style="padding-top:4%">
+            <div class="right-content" style="padding-top:4%">
                 <div class="login-header">
                     <div class="brand  text-center">
                         <span class="logo">
@@ -101,7 +100,7 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                             <?php //echo $captcha_value;?>
                         </p>
 
-                        <div class="col-12 text-center">
+                        <!--  <div class="col-12 text-center">
                                 <p class="text form-group">
                                     <label for="captcha" class="captha_numbers">
                                         <?php
@@ -114,32 +113,32 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                                     <input type="hidden" id="current_captcha" name="current_captcha" value="<?php echo $captcha_value; ?>">
                                 </p>
                             </div>-->
-<!-- 
-                              <div class="login-buttons">
+
+                        <div class="login-buttons">
                             <button name="submitContact" type="submit" class="btn btn-block btn-lg button"
                                 style="background-color:darkred;color:#FFFFFF">Ingresar</button>
                         </div>
                         <hr />
 
                         <div class="login-buttons mt-0">
-                            <button type="button"
-                                onclick="location.href='<?php echo base_url() ?>index.php/llamadoconcurso'"
+                        <button type="button"
+                                onclick="location.href='<?php echo base_url() ?>index.php/llamadoxterno'"
                                 class="btn btn-grey btn-lg">Ver</button>
                             <button type="button"
-                                onclick="location.href='<?php echo base_url() ?>index.php/llamadoexterno'"
-                                class="btn btn-grey btn-lg">Ver Llamados a Concursos</button>
+                                onclick="location.href='<?php echo base_url() ?>index.php/llamadoconcurso'"
+                                class="btn btn-grey btn-lg">Ver Llamados   a   Concursos</button>
                             <button type="button"
                                 onclick="location.href='<?php echo base_url() ?>index.php/certificacion1'"
                                 class="btn btn-grey btn-lg">Ver Certificación PJ y PN Privada</button>
 
 
-                        </div> --> 
+                        </div>
 
                         <!-- <button type="button"
                                     onclick="location.href='<?php echo base_url() ?>index.php/User/contrato'"
                                     class="btn btn-grey btn-lg">Registrar Cuentadante</button> -->
-
-                        <!--
+                        
+<!--
                        <div class="login-buttons mt-1">
                             <button type="button" class="btn btn-lg btn-block"
                                 style="background: #161635; color:#FFFFFF;" data-toggle="modal"
@@ -147,7 +146,7 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                                 Registro Certificado Formaciòn
                             </button>
                         </div> -->
-
+                                    
 
 
                     </form>
@@ -162,8 +161,7 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">REGISTRO DE USUARIO PARA CERTIFICACIÓN JURÍDICA
-                        DE PERSONAS NATURALES Y JURIDICAS
+                    <h5 class="modal-title" id="exampleModalLongTitle">REGISTRO DE USUARIO PARA CERTIFICACIÓN JURÍDICA DE PERSONAS NATURALES Y JURIDICAS
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -175,9 +173,8 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                         <div class="form-group col-3 m-b-15">
                             <label>Cedula</label>
                             <input type="text" id="cedula_prop" class="form-control form-control-lg"
-                                placeholder="VXXXXXXXX" name="cedula_prop" maxlength="9" minlength="5" value="V"
-                                required />
-                            <div id="result-cedula_prop"></div>
+                                placeholder="VXXXXXXXX" name="cedula_prop" maxlength="9" minlength="5" value="V" required />
+                                <div  id="result-cedula_prop"></div>
                         </div>
                         <!-- <div class="col-2 mt-1">
                                   <button onclick=buscar(); class="btn btn-success btn-lg btn-flat"><i class="fas fa-search"></i></button>
@@ -191,14 +188,14 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                             <input type="text" id="nombre" name="nombre" class="form-control form-control-lg"
                                 placeholder="Nombre y Apellido" />
                         </div>
-
+                 
                         <div class="form-group col-5 m-b-15">
                             <label>Correo</label>
                             <input type="text" id="email" name="email" class="form-control form-control-lg"
                                 placeholder="Email" />
-                            <div id="result-email"></div>
+                            <div  id="result-email"></div>
                         </div>
-
+                    
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -206,13 +203,10 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                             disabled>Guardar</button>
                     </div>
                     <div class="form-group col-12 m-b-15">
-                        <h5>* Este registro es unicamente pára realizar la carga de Certificado de Persona Natural y
-                            Juridica. </h5> <br>
-                        <h5>* Para Realizar carga de llamados a concusos, evaluaciones, programación anual, consulta de
-                            contratista, por favor contactar con el Servico Nacional de Contrataciones para solicitar
-                            Usuario de Ingreso.</h5>
-
-                    </div>
+                        <h5>* Este registro es unicamente pára realizar la carga de Certificado de Persona Natural y Juridica. </h5> <br>
+                        <h5>* Para Realizar carga de llamados a concusos, evaluaciones, programación anual, consulta de contratista, por favor contactar con el Servico Nacional de Contrataciones para solicitar Usuario de Ingreso.</h5>
+                            
+                        </div>
                 </div>
             </div>
         </div>
@@ -317,39 +311,35 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
 
                 var email = $(this).val();
                 var dataString = 'email=' + email;
-                //  var base_url = window.location.origin + '/asnc/index.php/Login/validad_correo'
-                var base_url = '/index.php/Login/validad_correo';
+              //  var base_url = window.location.origin + '/asnc/index.php/Login/validad_correo'
+                  var base_url = '/index.php/Login/validad_correo';
                 $.ajax({
                     type: "POST",
                     url: base_url,
                     data: dataString,
                     success: function(data) {
-                        // console.log(data);
+                       // console.log(data);
                         if (data == 'null') {
-                            $('#result-email').fadeIn(1600).html(
-                                '<div class="alert alert-success"><strong>Bien!</strong> Correo disponible.</div>'
-                            );
+                            $('#result-email').fadeIn(1600).html('<div class="alert alert-success"><strong>Bien!</strong> Correo disponible.</div>');
                             $("#btn_guar_2").prop('disabled', false)
-
+                 
                         } else {
-                            $('#result-email').fadeIn(1600).html(
-                                '<div class="alert alert-danger"><strong>Correo ya Registrado!</strong> Ingrese otro Correo.</div>'
-                            );
+                            $('#result-email').fadeIn(1600).html('<div class="alert alert-danger"><strong>Correo ya Registrado!</strong> Ingrese otro Correo.</div>');
                             $("#btn_guar_2").prop('disabled', true)
-
+                          
                         }
 
 
 
 
-
+                        
                     }
                 });
             });
         });
         </script>
 
-        <script type="text/javascript">
+<script type="text/javascript">
         $(document).ready(function() {
             $('#cedula_prop').on('blur', function() {
                 // url(http://localhost/asnc/Plantilla/img/images.jpeg);
@@ -358,32 +348,28 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
 
                 var cedula_prop = $(this).val();
                 var dataString = 'cedula_prop=' + cedula_prop;
-                // var base_url = window.location.origin + '/asnc/index.php/Login/validad_cedula'
-                var base_url = '/index.php/Login/validad_cedula';
+               // var base_url = window.location.origin + '/asnc/index.php/Login/validad_cedula'
+                 var base_url = '/index.php/Login/validad_cedula';
                 $.ajax({
                     type: "POST",
                     url: base_url,
                     data: dataString,
                     success: function(data) {
-                        // console.log(data);
+                       // console.log(data);
                         if (data == 'null') {
-                            $('#result-cedula_prop').fadeIn(1600).html(
-                                '<div class="alert alert-success"><strong>Bien!</strong> Cedula disponible.</div>'
-                            );
+                            $('#result-cedula_prop').fadeIn(1600).html('<div class="alert alert-success"><strong>Bien!</strong> Cedula disponible.</div>');
                             $("#btn_guar_2").prop('disabled', false)
-
+                 
                         } else {
-                            $('#result-cedula_prop').fadeIn(1600).html(
-                                '<div class="alert alert-danger"><strong>Cedula ya Registrado!</strong> .</div>'
-                            );
+                            $('#result-cedula_prop').fadeIn(1600).html('<div class="alert alert-danger"><strong>Cedula ya Registrado!</strong> .</div>');
                             $("#btn_guar_2").prop('disabled', true)
-
+                          
                         } ///DESABILITAR BOTON UNA VEZ ENVIADA LA INFORMACION
 
 
 
 
-
+                        
                     }
                 });
             });
