@@ -36,7 +36,7 @@ function llenar_filtro() {
 }
 function modal_ver(id){
     var id_exonerado = id;
-    var base_url = window.location.origin+'/asnc/index.php/Publicaciones_model/consultar_llamados_externos';
+    var base_url = window.location.origin+'/asnc/index.php/GeneratePdfController/index';
     // var base_url = '/index.php/Certificacion/consulta_b';
     $.ajax({
         url: base_url,

@@ -121,9 +121,9 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                         <hr />
 
                         <div class="login-buttons mt-0">
-                        <!-- <button type="button"
+                        <button type="button"
                                 onclick="location.href='<?php echo base_url() ?>index.php/llamadoxterno'"
-                                class="btn btn-grey btn-lg">Ver</button> -->
+                                class="btn btn-grey btn-lg">Ver</button>
                             <button type="button"
                                 onclick="location.href='<?php echo base_url() ?>index.php/llamadoconcurso'"
                                 class="btn btn-grey btn-lg">Ver Llamados   a   Concursos</button>

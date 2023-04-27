@@ -10,7 +10,25 @@
         <div class="row" id="imp1">
             <div class="panel panel-inverse">
                 <div class="panel-body">
-                    
+                    <div class="row">
+                        <div class="form-group col-1">
+
+                        </div>
+                        <div class="col-1"></div>
+                        <div class="card card-outline-danger text-center bg-white">
+                            <div class="card-block">
+                                <blockquote class="card-blockquote" style="margin-bottom: -15px;">
+                                    <img style="width: 100%" height="100%"
+                                        src=" <?= base_url() ?>Plantilla/img/loij.png" alt="Card image">
+                                </blockquote>
+                            </div>
+                        </div>
+
+                        <div class="col-12 text-center">
+                            <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
+                            <h2> Llamados a Concurso </h2>
+                        </div>
+                    </div>
                     <div class="col-lg-12">
                         <div class="panel panel-inverse">
                             <div class="panel-heading"></div>
@@ -39,10 +57,9 @@
                                             <td><?=$data['objeto_contratacion']?> </td>
                                            
                                             <td class="center">
-                                                <a class="button">
+                                            <a href="<?= base_url() ?>index.php/GeneratePdfController/index">
                                                     <i title="Editar"
-                                                        onclick="modal_ver(<?php echo $data['numero_proceso']?>);"
-                                                        data-toggle="modal" data-target="#exampleModal"
+                                                       
                                                         class="fas fa-lg fa-fw fa-edit" style="color:green"></i>
                                                     <a />
                                                     <a class="button"><i
