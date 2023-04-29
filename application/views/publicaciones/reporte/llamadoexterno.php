@@ -4,75 +4,76 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./style.css" />
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
-    <title>Answer</title>
+    <title>llamados a concurso</title>
 </head>
 
 <body>
     <section>
         <div class="content">
 
-            <div class="col-lg-12">
-                <div class="card card-outline-danger text-center bg-white">
-                    <div class="card-block">
-                        <blockquote class="card-blockquote" style="margin-bottom: -15px;">
-                            <img style="width: 100%" height="100%" src=" <?= base_url() ?>Plantilla/img/loij.png"
-                                alt="Card image">
-                        </blockquote>
+            <div class="panel-body">
+                <div class="col-20 ml-5">
+                    <div class="card card-outline-danger text-center bg-white">
+                        <div class="card-block">
+                            <blockquote class="card-blockquote" style="margin-bottom: -15px;">
+                                <img style="width: 100%" height="100%" src=" <?= base_url() ?>Plantilla/img/loij.png"
+                                    alt="Card image">
+                            </blockquote>
+                        </div>
                     </div>
-                </div>
-                <div class="col-12 text-center">
-                    <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
-                    <h2> Llamados a Concurso </h2>
-                </div>
-                <div class="panel panel-inverse">
-                    <div class="panel-heading"></div>
-                    <div class="table-responsive">
-                        <table id="data-table-default" data-order='[[ 4, "asc" ]]'
-                            class="table table-bordered table-hover">
-                            <thead style="background:#01cdb2">
-                                <tr style="text-align:center">
-                                    <th style="color:white;">Rif</th>
-                                    <th style="color:white;">Denominación social</th>
-                                    <th style="color:white;">Número de Proceso</th>
-                                    <th style="color:white;">Fecha de Fin</th>
-                                    <th style="color:white;">Estatus</th>
-                                    <th style="color:white;">Obj. Contr</th>
-                                    <th style="color:white;">Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach($exonerado as $data):?>
-                                <tr class="odd gradeX" style="text-align:center">
-                                    <td><?=$data['rif_organoente']?> </td>
-                                    <td><?=$data['organoente']?> </td>
-                                    <td><?=$data['numero_proceso']?> </td>
-                                    <td><?=$data['fecha_fin_llamado']?> </td>
-                                    <td><?=$data['estatus']?> </td>
-                                    <td><?=$data['objeto_contratacion']?> </td>
+                    <div class="col-12 text-center">
+                        <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
+                        <h2> Llamados a Concurso </h2>
+                    </div>
+                    <div class="panel panel-inverse">
+                        <div class="panel-heading"></div>
+                        <div class="table-responsive">
+                            <table id="data-table-default" data-order='[[ 4, "asc" ]]'
+                                class="table table-bordered table-hover">
+                                <thead style="background:#01cdb2">
+                                    <tr style="text-align:center">
+                                        <th style="color:white;">Rif</th>
+                                        <th style="color:white;">Denominación social</th>
+                                        <th style="color:white;">Número de Proceso</th>
+                                        <th style="color:white;">Fecha de Fin</th>
+                                        <th style="color:white;">Estatus</th>
+                                        <th style="color:white;">Obj. Contr</th>
+                                        <th style="color:white;">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach($exonerado as $data):?>
+                                    <tr class="odd gradeX" style="text-align:center">
+                                        <td><?=$data['rif_organoente']?> </td>
+                                        <td><?=$data['organoente']?> </td>
+                                        <td><?=$data['numero_proceso']?> </td>
+                                        <td><?=date("d/m/Y", strtotime($data['fecha_fin_llamado']));?> </td>
+                                        <td><?=$data['estatus']?> </td>
+                                        <td><?=$data['objeto_contratacion']?> </td>
 
-                                    <td class="center">
-                                        <a class="button">
+                                        <td class="center">
                                             <a class="button">
-                                                <i title="Descargar"
-                                                    onclick="modal_ver('<?php echo $data['numero_proceso']?>');"
-                                                    data-toggle="modal" data-target="#exampleModal"
-                                                    class="fas fa-2x  fa-cloud-download-alt" style="color:blue"></i>
-                                                <a />
-                                                
-                                    </td>
-                                </tr>
-                                <?php endforeach;?>
-                            </tbody>
-                        </table>
+                                                <a class="button">
+                                                    <i title="Descargar"
+                                                        onclick="modal_ver('<?php echo $data['numero_proceso']?>');"
+                                                        data-toggle="modal" data-target="#exampleModal"
+                                                        class="fas fa-2x  fa-cloud-download-alt" style="color:blue"></i>
+                                                    <a />
+
+                                        </td>
+                                    </tr>
+                                    <?php endforeach;?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
+
 
             </div>
-
-
 
 
 
@@ -110,7 +111,7 @@
                                             </blockquote>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="col-12 text-center">
                                         <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
                                         <h4> Llamado a Concurso </h4>
@@ -166,7 +167,7 @@
                                             <input type="text" class="form-control" id="fecha_llamados"
                                                 name="fecha_llamados" readonly>
                                         </div> -->
-                                        <div class="form-group col-2">
+                                    <div class="form-group col-2">
                                         <label>Estatus </label>
                                         <input type="text" class="form-control" id="estatus" name="estatus" readonly>
                                     </div>
@@ -304,3 +305,10 @@
 <script src="<?=base_url()?>/js/publicaciones/llamado_externo.js"></script>
 
 </html>
+<?php if (!$this->session->userdata('session')) { ?>
+<style>
+.content {
+    margin-left: 0;
+}
+</style>
+<?php } ?>
