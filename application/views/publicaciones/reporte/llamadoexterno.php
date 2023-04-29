@@ -228,11 +228,11 @@
                                         <input type="text" class="form-control" id="hora_desde" name="hora_desde"
                                             readonly>
                                     </div>
-                                    <div class="form-group col-6">
+                                    <!-- <div class="form-group col-6">
                                         <label>Hora desde</label>
                                         <input type="text" class="form-control" id="hora_desdes" name="hora_desdes"
                                             readonly>
-                                    </div>
+                                    </div> -->
                                     <div class="form-group col-2">
                                         <label>Hora hasta</label>
                                         <input type="text" class="form-control" id="hora_hasta" name="hora_hasta"
