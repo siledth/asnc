@@ -55,8 +55,8 @@ function llenar_filtro() {
 
 function modal_ver(id) {
     var numero_proceso = id;
-    // var base_url = window.location.origin + '/asnc/index.php/Gestion/consulta_b';
-    var base_url = '/index.php/Gestion/consulta_b';
+    var base_url = window.location.origin + '/asnc/index.php/Gestion/consulta_b';
+    // var base_url = '/index.php/Gestion/consulta_b';
     $.ajax({
         url: base_url,
         method: 'post',
@@ -76,8 +76,8 @@ function modal_ver(id) {
             $('#mecanismo').val(response['mecanismo']);
             $('#objeto_contratacion').val(response['objeto_contratacion']);
             $('#dias_habiles').val(response['dias_habiles']);
-            $('#fecha_disponible_llamado').val(response['fecha_disponible_llamado']);
-            $('#fecha_fin_llamado').val(response['fecha_fin_llamado']);
+          //  $('#fecha_disponible_llamado').val(response['fecha_disponible_llamado']);
+           // $('#fecha_fin_llamado').val(response['fecha_fin_llamado']);
             $('#hora_desde').val(response['hora_desde']);
             $('#hora_hasta').val(response['hora_hasta']);
             $('#direccion').val(response['direccion']);
