@@ -51,7 +51,18 @@
                                         <td><?=$data['organoente']?> </td>
                                         <td><?=$data['numero_proceso']?> </td>
                                         <td><?=date("d/m/Y", strtotime($data['fecha_fin_llamado']));?> </td>
-                                        <td><?=$data['estatus']?> </td>
+                                        
+                                        <?php if   (($data['estatus'] == 'ANULADO' )  ): ?>
+                                        <td style="color:red;"><?=$data['estatus']?></td>
+                                        <?php elseif   ( $data['estatus'] == 'Finalizado' ): ?>
+                                            <td style="color:blue;"><?=$data['estatus']?> </td>
+
+                                        <?php else: ?>
+                                        <td style="color:green;"><?=$data['estatus']?></td>
+                                        <?php endif; ?>
+
+
+                                        
                                         <td><?=$data['objeto_contratacion']?> </td>
 
                                         <td class="center">
@@ -157,16 +168,12 @@
                                             name="denominacion_proceso" rows="6" cols="80" readonly>  </textarea>
                                     </div>
 
-                                    <div class="form-group col-2">
+                                    <div class="form-group col-4">
                                         <label>Fecha de Llamado </label>
                                         <input type="text" class="form-control" id="fecha_llamado" name="fecha_llamado"
                                             readonly>
                                     </div>
-                                    <!-- <div class="form-group col-2">
-                                            <label>Fecha de Llamado </label>
-                                            <input type="text" class="form-control" id="fecha_llamados"
-                                                name="fecha_llamados" readonly>
-                                        </div> -->
+
                                     <div class="form-group col-2">
                                         <label>Estatus </label>
                                         <input type="text" class="form-control" id="estatus" name="estatus" readonly>
@@ -216,9 +223,14 @@
                                         <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
                                         <h5> DIRECCIÓN PARA ADQUISICIÓN DE RETIRO DE PLIEGO</h5>
                                     </div>
-                                    <div class="form-group col-2">
+                                    <div class="form-group col-6">
                                         <label>Hora desde</label>
                                         <input type="text" class="form-control" id="hora_desde" name="hora_desde"
+                                            readonly>
+                                    </div>
+                                    <div class="form-group col-6">
+                                        <label>Hora desde</label>
+                                        <input type="text" class="form-control" id="hora_desdes" name="hora_desdes"
                                             readonly>
                                     </div>
                                     <div class="form-group col-2">
