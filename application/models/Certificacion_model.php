@@ -1537,13 +1537,37 @@ public function status($data){
         return $query->result_array();
     }
 }
-
+/////////////////////////////llamado a concurso externo//////////////////////////////////////////////////
 function consultar_llamados_externos(){
     $this->db->select('*');
     $this->db->from('public.llamado_concurso_view');
    // $this->db->order_by("codigo_b", "Asc");
     $query = $this->db->get();
     return $query->result_array();
+}
+
+function consulta_llamado($data){
+    $id=$data['numero_proceso'];
+    $this->db->select('c.*, m.descripcion, me.descripcion as descr, obj.descripcion as obj');
+    $this->db->join('public.modalidad m', 'm.id_modalidad = c.id_modalidad');
+    $this->db->join('public.mecanismo me', 'me.id_mecanismo = c.id_mecanismo');
+    $this->db->join('public.objeto_contratacion obj', 'obj.id_objeto_contratacion = c.id_objeto_contratacion');
+    $this->db->from('public.llamado_concurso_view c');
+    $this->db->like("numero_proceso",$id);
+   // $this->db->order_by("codigo_b", "Asc");
+    $query = $this->db->get();
+    if (count($query->result()) > 0) {
+        return $query->row();
+    }
+}
+public function consulta_llamados($data){
+    $id=$data['numero_proceso'];
+    $this->db->select('m.*');
+    $this->db->from('public.llamado_concurso_view  m');
+    $this->db->like("numero_proceso",$id);
+  $query = $this->db->get();
+    $resultado = $query->row_array();
+    return $resultado;
 }
 
 }

@@ -122,5 +122,20 @@ class Gestion extends CI_Controller {
     } 
 
   }
+
+  public function consulta_b() {
+    if (!$this->session->userdata('session')) {
+      $data = $this->input->post();
+      $data = $this->Certificacion_model->consulta_llamado($data);
+      echo json_encode($data);
+    } else {
+      
+      $data = $this->input->post();
+      $data = $this->Certificacion_model->consulta_llamado($data);
+      echo json_encode($data);
+    } 
+
+  }
+  
   
 }

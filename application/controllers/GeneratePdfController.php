@@ -4,9 +4,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class GeneratePdfController extends CI_Controller {
 
     public function index(){
+        $comprobante = $this->input->get('id');
+        $data['inf_pdf'] =	$this->Certificacion_model->consulta_llamados($comprobante);
 
         $this->load->library('pdf');
-        $html = $this->load->view('publicaciones/reporte/GenerarPdfView.php', [], true);
+
+        // $html = $this->load->view('publicaciones/reporte/GenerarPdfView.php', [], true);
+        $html = $this->load->view('publicaciones/reporte/GenerarPdfView.php', $data, TRUE);
         //$this->pdf->createPDF($html, 'mypdf', false);
 // definamos un nombre para el archivo. No es necesario agregar la extension .pdf
         $filename = 'llamado a Concurso';

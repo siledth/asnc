@@ -7,7 +7,7 @@
             Bienvenido al Sistema de Servicio Nacional de Contrataciones
         </h1> -->
         <div class="col-12 text-center mt-3">
-            <img style="width: 100%"  src="<?= base_url() ?>Plantilla/img/93.png" alt="Card image">
+            <img style="width: 70%"  src="<?= base_url() ?>Plantilla/img/93.png" alt="Card image">
         </div>
     </div>
 </div>

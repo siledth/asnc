@@ -83,7 +83,7 @@ class LlamadoConcursoDAO extends \CI_Model {
 			$this->db->where("numero_proceso", $numero_proceso);
 			return $this->db->update(self::TB_NOMBRE);
 		} else {
-			throw new \Exception('El número proceso que intenta editar, ya no exciste');
+			throw new \Exception('El número proceso que intenta editar, ya no existe');
 		}
 	}
 
@@ -93,7 +93,7 @@ class LlamadoConcursoDAO extends \CI_Model {
 			$this->db->where("numero_proceso", $numero_proceso);
 			return $this->db->delete(self::TB_NOMBRE);
 		} else {
-			throw new \Exception('El número proceso que intenta eliminar, ya no exciste');
+			throw new \Exception('El número proceso que intenta eliminar, ya no existe');
 		}
 	}
 

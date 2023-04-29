@@ -18,7 +18,7 @@
     </thead>
     <tbody>
         <tr>
-            <td>1</td>
+            <td><?=$data['rif_organoente']?></td>
             <td>PHP and MySQL for Dynamic Web Sites</td>
             <td>Larry Ullman</td>
         </tr>
