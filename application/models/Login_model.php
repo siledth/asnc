@@ -74,21 +74,17 @@ class Login_model extends CI_model
             $result = $this->db->get();
 
             if ($result->num_rows() != 1) {
-                $this->db->select('ea.id_entes,
-                                       ea.id_entes_ads,
-                                       ea.codigo,
-                                       ea.rif,
-                                       ea.desc_entes_ads as desc_organo,
-                                       ea.cod_onapre,
-                                       ea.siglas,
-                                       ea.direccion_fiscal');
+                $this->db->select('ea.id_organoente,
+                                    ea.rif,id_organoenteads, ea.tipo_organoente, ea.descripcion as desc_organo, 
+                                    ea.cod_onapre, ea.correo,  ea.codigo, ea.id_clasificacion');
                 $this->db->where('ea.codigo', $id_unidad);
-                $this->db->from('entes_ads ea');
+                $this->db->from('public.organoente ea');
                 $result = $this->db->get();
                 return $result->row_array();
             } else {
                 return $result->row_array();
             }
+            
         } else {
             return $result->row_array();
         }
@@ -100,14 +96,22 @@ class Login_model extends CI_model
         $update = $this->db->update('seguridad.usuarios', $data);
         return $update;
     }
+
+    // esto lo guarda para ussuarios de perfil 8 chacaito
     public function guardar_prp($inf_usu, $inf_prop, $if_emp)
     {
-        $this->db->select('max(e.id_entes) as id');
-        $query = $this->db->get('public.entes e');
+        $this->db->select('max(e.id_organoente) as id');
+        $query = $this->db->get('public.organoente e');
         $response3 = $query->row_array();
         $id = $response3['id'] + 1 ;
+
+        $this->db->select('max(e.id) as id1');
+        $query1 = $this->db->get('seguridad.usuarios e');
+        $response4 = $query1->row_array();
+        $id1 = $response4['id1'] + 1 ;
+
         $data = array(
-                'id'		    => $id,
+                'id'		    => $id1,
                 'nombre'		=> $inf_usu['nombre'],
                 'password'		=> $inf_usu['password'],
                 'email'		=> $inf_usu['email'],
@@ -129,8 +133,8 @@ class Login_model extends CI_model
             $id = $id;
            
             $data2 = array(
-                'id_usuario'		    => $id,
-                'id'		    => $id,
+                'id_usuario'		    => $id1,
+                'id'		    => $id1,
                 'nombrefun'		=> $inf_prop['nombrefun'],
 
                 'apellido'		=> $inf_prop['nombrefun'],
@@ -142,18 +146,32 @@ class Login_model extends CI_model
             $this->db->insert('seguridad.funcionarios', $data2);
             $id = $id;
             $data3 = array(
-                'id_entes'		    => $id,
-
-                'id_organo'		=> 0,
+                'id_organoente'		    => $id,
+                'id_organoenteads'		=> 0,
+                'tipo_organoente'		=> 0,
                 'rif'		=> $if_emp['rif'],
                 'codigo'		=> $if_emp['codigo'],
-                'desc_entes'	 	=> $if_emp['desc_entes'],
+                'descripcion'	 	=> $if_emp['desc_entes'],
                 'correo' 			=> $if_emp['correo'],
                 'usuario'          => $id,
+                'cod_onapre'          => 0,
+                'id_estado'          => 1,
+                'id_municipio'          => 1,
+                'id_parroquia'          => 1,
+                'direccion'          => 1,
+                'gaceta'          => 1,
+                'fecha_gaceta'          => $if_emp['fecha'],
+                'siglas'          => 1,
+                'pagina_web'          => 1,
+                'tel1'          => 1,
+                'tel2'          => 1,
+                'movil1'          => 1,
+                'movil2'          => 1,
                 'fecha'          => $if_emp['fecha'],
+                
             );
 
-            $this->db->insert('public.entes', $data3);   
+            $this->db->insert('public.organoente', $data3);   
             return true;      
         }
        

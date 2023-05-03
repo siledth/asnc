@@ -139,14 +139,14 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                                     onclick="location.href='<?php echo base_url() ?>index.php/User/contrato'"
                                     class="btn btn-grey btn-lg">Registrar Cuentadante</button> -->
 
-                        <!--
+                       
                        <div class="login-buttons mt-1">
                             <button type="button" class="btn btn-lg btn-block"
                                 style="background: #161635; color:#FFFFFF;" data-toggle="modal"
                                 data-target="#exampleModalCenter">
                                 Registro Certificado Formaciòn
                             </button>
-                        </div> -->
+                        </div> 
 
 
 
@@ -317,9 +317,9 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
 
                 var email = $(this).val();
                 var dataString = 'email=' + email;
-                //  var base_url = window.location.origin + '/asnc/index.php/Login/validad_correo'
-                var base_url = '/index.php/Login/validad_correo';
-                $.ajax({
+                 var base_url = window.location.origin + '/asnc/index.php/Login/validad_correo'
+                // var base_url = '/index.php/Login/validad_correo';
+                 $.ajax({
                     type: "POST",
                     url: base_url,
                     data: dataString,
@@ -358,8 +358,8 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
 
                 var cedula_prop = $(this).val();
                 var dataString = 'cedula_prop=' + cedula_prop;
-                // var base_url = window.location.origin + '/asnc/index.php/Login/validad_cedula'
-                var base_url = '/index.php/Login/validad_cedula';
+                var base_url = window.location.origin + '/asnc/index.php/Login/validad_cedula'
+                // var base_url = '/index.php/Login/validad_cedula';
                 $.ajax({
                     type: "POST",
                     url: base_url,
