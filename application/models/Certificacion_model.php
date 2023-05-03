@@ -1539,7 +1539,7 @@ public function status($data){
 }
 /////////////////////////////llamado a concurso externo//////////////////////////////////////////////////
 function consultar_llamados_externos(){
-    $this->db->select('*');
+    $this->db->select('rif_organoente,organoente,numero_proceso,fecha_fin_llamado,estatus,objeto_contratacion,fecha_disponible_llamado');
     $this->db->from('public.llamado_concurso_view');
    // $this->db->order_by("codigo_b", "Asc");
     $query = $this->db->get();

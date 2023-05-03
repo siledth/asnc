@@ -15,7 +15,7 @@
         <div class="content">
 
             <div class="panel-body">
-                <div class="col-20 ml-5">
+                <div class="col-12 ml-1">
                     <div class="card card-outline-danger text-center bg-white">
                         <div class="card-block">
                             <blockquote class="card-blockquote" style="margin-bottom: -15px;">
@@ -31,17 +31,17 @@
                     <div class="panel panel-inverse">
                         <div class="panel-heading"></div>
                         <div class="table-responsive">
-                            <table id="data-table-default" data-order='[[ 4, "asc" ]]'
+                            <table id="data-table-default" data-order='[[ 3, "desc" ]]'
                                 class="table table-bordered table-hover">
                                 <thead style="background:#01cdb2">
                                     <tr style="text-align:center">
                                         <th style="color:white;">Rif</th>
                                         <th style="color:white;">Denominación social</th>
                                         <th style="color:white;">Número de Proceso</th>
-                                        <th style="color:white;">Fecha de Fin</th>
+                                        <th style="color:white;">Fecha de disponible</th>
                                         <th style="color:white;">Estatus</th>
                                         <th style="color:white;">Obj. Contr</th>
-                                        <th style="color:white;">Acción</th>
+                                        <th style="color:white;">Descargar</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -50,7 +50,7 @@
                                         <td><?=$data['rif_organoente']?> </td>
                                         <td><?=$data['organoente']?> </td>
                                         <td><?=$data['numero_proceso']?> </td>
-                                        <td><?=date("d/m/Y", strtotime($data['fecha_fin_llamado']));?> </td>
+                                        <td><?=date("d/m/Y", strtotime($data['fecha_disponible_llamado']));?> </td>
                                         
                                         <?php if   (($data['estatus'] == 'ANULADO' )  ): ?>
                                         <td style="color:red;"><?=$data['estatus']?></td>
