@@ -216,34 +216,34 @@
                 );
                 $this->db->insert("public.organoente",$data); //colo nombre de la tabla
                 
-                $data2 = array(
-                    'id_entes'		    => $id,
-                    'id_organo'		=> $data1['id_organo'],
+                // $data2 = array(
+                //     'id_entes'		    => $id,
+                //     'id_organo'		=> $data1['id_organo'],
                    
-                    'codigo'            => $codigo,
-                    'desc_entes'		=> $data1['desc_entes'],
-                    'cod_onapre'	 	=> $data1['cod_onapre'],
-                    'siglas' 			=> $data1['siglas'],
-                    'tipo_rif'          => $data1['tipo_rif2'],
+                //     'codigo'            => $codigo,
+                //     'desc_entes'		=> $data1['desc_entes'],
+                //     'cod_onapre'	 	=> $data1['cod_onapre'],
+                //     'siglas' 			=> $data1['siglas'],
+                //     'tipo_rif'          => $data1['tipo_rif2'],
                     
-                    'rif' 				=> $data1['rif'],
-                    'id_clasificacion' 	=> $data1['id_clasificacion'],
-                    'tel1' 		        => $data1['tel_local'],
-                    'tel2' 		        => $data1['tel_local_2'],
-                    'movil1'			=> $data1['tel_movil'],
-                    'movil2' 		    => $data1['tel_movil_2'],
-                    'pagina_web' 		=> $data1['pag_web'],
-                    'correo'			=> $data1['email'],
-                    'id_estado' 		=> $data1['id_estado'],
-                    'id_municipio' 		=> $data1['id_municipio'],
-                    'id_parroquia' 		=> $data1['id_parroquia'],
-                    'direccion_fiscal' 	    => $data1['direccion_fiscal'],
-                    'gaceta'	        => $data1['gaceta_oficial'],
-                    'fecha_gaceta'		=> $data1['fecha_gaceta'],
-                    'usuario'		    => $data1['usuario']
-                );
+                //     'rif' 				=> $data1['rif'],
+                //     'id_clasificacion' 	=> $data1['id_clasificacion'],
+                //     'tel1' 		        => $data1['tel_local'],
+                //     'tel2' 		        => $data1['tel_local_2'],
+                //     'movil1'			=> $data1['tel_movil'],
+                //     'movil2' 		    => $data1['tel_movil_2'],
+                //     'pagina_web' 		=> $data1['pag_web'],
+                //     'correo'			=> $data1['email'],
+                //     'id_estado' 		=> $data1['id_estado'],
+                //     'id_municipio' 		=> $data1['id_municipio'],
+                //     'id_parroquia' 		=> $data1['id_parroquia'],
+                //     'direccion_fiscal' 	    => $data1['direccion_fiscal'],
+                //     'gaceta'	        => $data1['gaceta_oficial'],
+                //     'fecha_gaceta'		=> $data1['fecha_gaceta'],
+                //     'usuario'		    => $data1['usuario']
+                // );
                 
-                $this->db->insert('public.entes', $data2);
+                // $this->db->insert('public.entes', $data2);
                 return true;
             }
         }
