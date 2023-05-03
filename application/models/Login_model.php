@@ -188,7 +188,7 @@ class Login_model extends CI_model
         $this->db->select('codigo');
         $this->db->where('codigo ', $cedula_prop);
         //$this->db->order_by('id desc');
-        $query = $this->db->get('public.entes');
+        $query = $this->db->get('public.organoente');
         $response = $query->row_array();
         return $response;
     }

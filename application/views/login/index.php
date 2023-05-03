@@ -71,7 +71,7 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
         <div class="login login-with-news-feed">
             
             <div class="news-feed">
-                <div class="news-image" style="background-image: url(<?= base_url() ?>Plantilla/img/92.png);"></div>
+                <div class="news-image" style="background-image: url(<?= base_url() ?>Plantilla/img/91.png);"></div>
                 <!-- <img style="background-repeat: no-repeat;" src="<?= base_url() ?>Plantilla/img/2.png" alt=""> -->
             </div>
             <div class="right-content" style="padding-top:4%">
@@ -317,8 +317,8 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
 
                 var email = $(this).val();
                 var dataString = 'email=' + email;
-                 var base_url = window.location.origin + '/asnc/index.php/Login/validad_correo'
-                // var base_url = '/index.php/Login/validad_correo';
+                // var base_url = window.location.origin + '/asnc/index.php/Login/validad_correo'
+                 var base_url = '/index.php/Login/validad_correo';
                  $.ajax({
                     type: "POST",
                     url: base_url,
@@ -358,8 +358,8 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
 
                 var cedula_prop = $(this).val();
                 var dataString = 'cedula_prop=' + cedula_prop;
-                var base_url = window.location.origin + '/asnc/index.php/Login/validad_cedula'
-                // var base_url = '/index.php/Login/validad_cedula';
+               // var base_url = window.location.origin + '/asnc/index.php/Login/validad_cedula'
+                 var base_url = '/index.php/Login/validad_cedula';
                 $.ajax({
                     type: "POST",
                     url: base_url,

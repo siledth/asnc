@@ -28,14 +28,14 @@
 
                             <div class="form-group col-4">
                                 <label>Código ONAPRE</label>
-                                <input type="text" name="cod_onapre" class="form-control <?php echo form_error('cod_onapre') ? 'is-invalid':'' ; ?>" placeholder="Código" value="<?php echo set_value('cod_onapre'); ?>">
+                                <input type="text" name="cod_onapre" class="form-control <?php echo form_error('cod_onapre') ? 'is-invalid':'' ; ?>" placeholder="Código" value="<?php echo set_value('cod_onapre'); ?>" maxlength="10">
                                 <div class="invalid-feedback">
                                     <?php echo form_error('cod_onapre'); ?>
                                 </div>
                             </div>
                             <div class="form-group col-4">
                                 <label>Siglas del Ente Adscrito</label>
-                                <input type="text" name="siglas" class="form-control <?php echo form_error('siglas') ? 'is-invalid':'' ; ?>" placeholder="Código" value="<?php echo set_value('siglas'); ?>">
+                                <input type="text" name="siglas" class="form-control <?php echo form_error('siglas') ? 'is-invalid':'' ; ?>" placeholder="Siglas" value="<?php echo set_value('siglas'); ?>" maxlength="10">
                                 <div class="invalid-feedback">
                                     <?php echo form_error('siglas'); ?>
                                 </div>
@@ -51,7 +51,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-9">
-                                        <input type="number" name="rif" class="form-control <?php echo form_error('rif') ? 'is-invalid':'' ; ?>" placeholder="Código" value="<?php echo set_value('rif'); ?>">
+                                        <input type="number" name="rif" class="form-control <?php echo form_error('rif') ? 'is-invalid':'' ; ?>"  value="<?php echo set_value('rif'); ?>" maxlength="10">
                                         <div class="invalid-feedback">
                                             <?php echo form_error('rif'); ?>
                                         </div>
@@ -70,19 +70,19 @@
                             </div>
                             <div class="col-3 form-group">
 								<label>Teléfono Local</label>
-								<input type="text" class="form-control" name="tel_local" id="tel_local" placeholder="(999) 999-9999" />
+								<input type="text" class="form-control" name="tel_local" id="tel_local" placeholder="(0414)000-0000" maxlength="15"/>
 								</div>
                             <div class="col-3 form-group">
 								<label>Teléfono Local 2</label>
-								<input type="text" class="form-control" name="tel_local_2" id="tel_local_2" placeholder="(999) 999-9999" />
+								<input type="text" class="form-control" name="tel_local_2" id="tel_local_2" placeholder="(0414)000-0000" maxlength="15"/>
 								</div>
                             <div class="col-3 form-group">
 								<label>Teléfono Móvil</label>
-								<input type="text" class="form-control" name="tel_movil" id="tel_movil" placeholder="(999) 999-9999" />
+								<input type="text" class="form-control" name="tel_movil" id="tel_movil" placeholder="(0414)000-0000" maxlength="15"/>
 								</div>
                             <div class="col-3 form-group">
 								<label>Teléfono Móvil 2</label>
-								<input type="text" class="form-control" name="tel_movil_2" id="tel_movil_2" placeholder="(999) 999-9999" />
+								<input type="text" class="form-control" name="tel_movil_2" id="tel_movil_2" placeholder="(0414)000-0000" maxlength="15"/>
 							</div>
                             <div class="form-group col-6">
                                 <label>Página Web</label>
