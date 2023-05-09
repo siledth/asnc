@@ -169,3 +169,5 @@ $(document).on("click", ".print", function () {
     section.append(content);
     $(".modal-body-wrapper").append(modalBody);
 });
+
+

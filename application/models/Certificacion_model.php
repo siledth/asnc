@@ -1538,13 +1538,7 @@ public function status($data){
     }
 }
 /////////////////////////////llamado a concurso externo//////////////////////////////////////////////////
-function consultar_llamados_externos(){
-    $this->db->select('rif_organoente,organoente,numero_proceso,fecha_fin_llamado,estatus,objeto_contratacion,fecha_disponible_llamado');
-    $this->db->from('public.llamado_concurso_view');
-   // $this->db->order_by("codigo_b", "Asc");
-    $query = $this->db->get();
-    return $query->result_array();
-}
+
 
 function consulta_llamado($data){
     $id=$data['numero_proceso'];
@@ -1562,12 +1556,31 @@ function consulta_llamado($data){
 }
 public function consulta_llamados($data){
     $id=$data['numero_proceso'];
-    $this->db->select('m.*');
+    $this->db->select('m.* ');
     $this->db->from('public.llamado_concurso_view  m');
     $this->db->like("numero_proceso",$id);
   $query = $this->db->get();
     $resultado = $query->row_array();
     return $resultado;
+}
+function consultar_llamados_externos1(){
+    $this->db->select('rif_organoente,organoente,numero_proceso,estatus,objeto_contratacion,fecha_disponible_llamado ');
+    $this->db->from('public.llamado_concurso_view');
+    $this->db->order_by("fecha_disponible_llamado", "desc");
+    $query = $this->db->get();
+    return $query->result_array();
+}
+public function consultar_llamados_externos(){
+  
+    $query = $this->db->query("SELECT rif_organoente,organoente,numero_proceso,estatus,objeto_contratacion,
+    
+    to_char(fecha_disponible_llamado,'DD/MM/YYYY') as formatted_date ,fecha_disponible_llamado
+
+
+    FROM public.llamado_concurso_view "
+                               );
+    return $response = $query->result_array();
+
 }
 
 }

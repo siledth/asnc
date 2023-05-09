@@ -1,5 +1,5 @@
 /**
- * @author GaryDíaz
+
  */
 
 var llamadoConcursoFrm = {
@@ -11,6 +11,7 @@ var llamadoConcursoFrm = {
 	dias_habiles: "",
 	fecha_llamado: "",
 	fecha_disponible_llamado: "",
+	fecha_inicio_aclaratoria: "",
 	fecha_fin_aclaratoria: "",
 	fecha_tope: "",
 	fecha_fin_llamado: "",
@@ -408,6 +409,7 @@ var LlamadoConcurso = {
 			$("#errLugarEntrega").html("");
 		}
 	},
+	//////eso son los lapsos en fecha
 	calcularLapsos: function (modoEdicion = false) {
 		if (
 			dataLapsos.fechallamado !== "" &&
@@ -432,7 +434,7 @@ var LlamadoConcurso = {
 				method: "get",
 				success: function (json) {
 					lapsosFechas = json.datos;
-					llamadoConcursoFrm.fecha_disponible_llamado =
+					llamadoConcursoFrm.fecha_disponible_llamado = // se agrega nombre de la variable
 						lapsosFechas.fecha_disponible_llamado;
 					llamadoConcursoFrm.fecha_fin_aclaratoria =
 						lapsosFechas.fecha_fin_aclaratoria;
@@ -440,7 +442,7 @@ var LlamadoConcurso = {
 					llamadoConcursoFrm.fecha_fin_llamado = lapsosFechas.fecha_fin_llamado;
 					llamadoConcursoFrm.dias_habiles = lapsosFechas.dias_habiles;
 
-					$("#txtFechaInicioAclaratoria").val(lapsosFechas.fecha_llamado);
+					$("#txtFechaInicioAclaratoria").val(lapsosFechas.fecha_inicio_aclaratoria); // el input mas la variable a mostrar
 					$("#txtFechaDisponibleLlamado").val(
 						lapsosFechas.fecha_disponible_llamado
 					);

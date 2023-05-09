@@ -31,14 +31,14 @@
                     <div class="panel panel-inverse">
                         <div class="panel-heading"></div>
                         <div class="table-responsive">
-                            <table id="data-table-default" data-order='[[ 3, "desc" ]]'
+                            <table id="data-table-default" data-order='[[ 6, "desc" ]]'
                                 class="table table-bordered table-hover">
                                 <thead style="background:#01cdb2">
                                     <tr style="text-align:center">
                                         <th style="color:white;">Rif</th>
                                         <th style="color:white;">Denominación social</th>
                                         <th style="color:white;">Número de Proceso</th>
-                                        <th style="color:white;">Fecha de disponible</th>
+                                        <th style="color:white;">Fecha Disponibilidad</th>
                                         <th style="color:white;">Estatus</th>
                                         <th style="color:white;">Obj. Contr</th>
                                         <th style="color:white;">Descargar</th>
@@ -50,22 +50,24 @@
                                         <td><?=$data['rif_organoente']?> </td>
                                         <td><?=$data['organoente']?> </td>
                                         <td><?=$data['numero_proceso']?> </td>
-                                        <td><?=date("d/m/Y", strtotime($data['fecha_disponible_llamado']));?> </td>
-                                        
+                                        <td> <?=$data['formatted_date']?>
+                                        </td>
+
                                         <?php if   (($data['estatus'] == 'ANULADO' )  ): ?>
                                         <td style="color:red;"><?=$data['estatus']?></td>
                                         <?php elseif   ( $data['estatus'] == 'Finalizado' ): ?>
-                                            <td style="color:blue;"><?=$data['estatus']?> </td>
+                                        <td style="color:blue;"><?=$data['estatus']?> </td>
 
                                         <?php else: ?>
                                         <td style="color:green;"><?=$data['estatus']?></td>
                                         <?php endif; ?>
 
 
-                                        
+
                                         <td><?=$data['objeto_contratacion']?> </td>
 
                                         <td class="center">
+                                        <h6 style="color:white;"><?=$data['fecha_disponible_llamado']?> </h6>
                                             <a class="button">
                                                 <a class="button">
                                                     <i title="Descargar"
@@ -73,6 +75,8 @@
                                                         data-toggle="modal" data-target="#exampleModal"
                                                         class="fas fa-2x  fa-cloud-download-alt" style="color:blue"></i>
                                                     <a />
+
+
 
                                         </td>
                                     </tr>
@@ -208,17 +212,17 @@
                                         <input type="text" class="form-control" id="dias_habiles" name="dias_habiles"
                                             readonly>
                                     </div>
-                                    <div class="form-group col-3">
+                                    <div class="form-group col-5">
                                         <label>Fecha de Disponibilidad</label>
                                         <input type="text" class="form-control" id="fecha_disponible_llamado"
                                             name="fecha_disponible_llamado" readonly>
                                     </div>
-                                    <div class="form-group col-2">
+                                    <div class="form-group col-3">
                                         <label>Fecha Fin</label>
                                         <input type="text" class="form-control" id="fecha_fin_llamado"
                                             name="fecha_fin_llamado" readonly>
                                     </div>
-                                    <br><br><br><br><br><br><br><br><br><br><br>
+                                    <br><br><br><br><br><br>
                                     <div class="col-12 text-center">
                                         <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
                                         <h5> DIRECCIÓN PARA ADQUISICIÓN DE RETIRO DE PLIEGO</h5>
@@ -247,17 +251,17 @@
                                         <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
                                         <h5> PERÍODOS DE ACLARATORIA</h5>
                                     </div>
-                                    <div class="form-group col-3">
+                                    <div class="form-group col-4">
                                         <label>Fecha Inicio de Aclaratoria</label>
                                         <input type="text" class="form-control" id="fecha_llamados"
                                             name="fecha_llamados" readonly>
                                     </div>
-                                    <div class="form-group col-3">
+                                    <div class="form-group col-4">
                                         <label>Fecha Fin de Aclaratoria:</label>
                                         <input type="text" class="form-control" id="fecha_fin_aclaratoria"
                                             name="fecha_fin_aclaratoria" readonly>
                                     </div>
-                                    <div class="form-group col-2">
+                                    <div class="form-group col-3">
                                         <label>Fecha Tope</label>
                                         <input type="text" class="form-control" id="fecha_tope" name="fecha_tope"
                                             readonly>

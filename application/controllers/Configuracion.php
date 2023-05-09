@@ -48,56 +48,107 @@ class Configuracion extends CI_Controller {
             $separar        = explode("/", $parametros);
             $data['id_rif']  = $separar['0'];
             $data['desc_rif'] = $separar['1'];
+            $organo = $this->input->post("organo");
+            $cod_onapre = $this->input->post("cod_onapre");
+            $siglas = $this->input->post("siglas");
+            $rif = $this->input->post("rif");
+            $id_clasificacion = $this->input->post("id_clasificacion");
+            $tel_local = $this->input->post("tel_local");
+            $tel_local_2 = $this->input->post("tel_local_2");
+            $tel_movil = $this->input->post("tel_movil");
+            $tel_movil_2 = $this->input->post("tel_movil_2");
+            $pag_web = $this->input->post("pag_web");
+            $email = $this->input->post("email");
+
+
+            $this->form_validation->set_rules('organo', 'Nombre ', 'trim|required|min_length[3]|max_length[250]');
+            $this->form_validation->set_rules('cod_onapre', 'cod_onapre ', 'trim|required|min_length[3]|max_length[100]');
+            $this->form_validation->set_rules('siglas', 'siglas ', 'trim|required|min_length[3]|max_length[12]');
+            $this->form_validation->set_rules('rif', 'rif ', 'trim|required|min_length[3]|max_length[10]');
+            $this->form_validation->set_rules('id_clasificacion', 'id_clasificacion', 'trim|required|callback_select_validate');
+            $this->form_validation->set_rules('tel_local', 'tel_local ', 'trim|required|min_length[1]|max_length[20]');
+            $this->form_validation->set_rules('tel_local_2', 'tel_local_2 ', 'trim|required|min_length[1]|max_length[20]');
+            $this->form_validation->set_rules('tel_movil', 'tel_movil ', 'trim|required|min_length[1]|max_length[20]');
+            $this->form_validation->set_rules('tel_movil_2', 'tel_movil_2 ', 'trim|required|min_length[1]|max_length[20]');
+            $this->form_validation->set_rules('pag_web', 'pag_web ', 'trim|required|min_length[1]|max_length[20]');
+            $this->form_validation->set_rules('email', 'Correo eléctronico ', 'trim|required|valid_email|is_unique[organoente.correo]');
             
-        $data1 = array( // esto va a organo
-            'id_organoads' => $this->input->post("id_organoads"),
-            'descripcion' => $this->input->post("organo"),
-            'cod_onapre' => $this->input->post("cod_onapre"),
-            'siglas' => $this->input->post("siglas"),
-            'tipo_rif2' => $data['id_rif'],
-            'tipor' => $data['desc_rif'],
-            'rif' => $this->input->post("rif"),
-            'id_clasificacion' => $this->input->post("id_clasificacion"),
-            'tel_local' => $this->input->post("tel_local"),
-            'tel_local_2' => $this->input->post("tel_local_2"),
-            'tel_movil' => $this->input->post("tel_movil"),
-            'tel_movil_2' => $this->input->post("tel_movil_2"),
-            'pag_web' => $this->input->post("pag_web"),
-            'email' => $this->input->post("email"),
-            'id_estado' => $this->input->post("id_estado"),
-            'id_municipio' => $this->input->post("id_municipio"),
-            'id_parroquia' => $this->input->post("id_parroquia"),
-            'direccion_fiscal' => $this->input->post("direccion_fiscal"),
-            'gaceta_oficial' => $this->input->post("gaceta_oficial"),
-            'fecha_gaceta' => $this->input->post("fecha_gaceta"),
-            'usuario' => $this->session->userdata('id_user')
-        );
-        $data = array( //organoente tabla
-            'organo' => $this->input->post("organo"),
-            'id_organoads' => $this->input->post("id_organoads"),
-            'cod_onapre' => $this->input->post("cod_onapre"),
-            'siglas' => $this->input->post("siglas"),
-            'tipo_rif2' => $data['id_rif'],
-            'tipor' => $data['desc_rif'],
-            'rif' => $this->input->post("rif"),
-            'id_clasificacion' => $this->input->post("id_clasificacion"),
-            'tel_local' => $this->input->post("tel_local"),
-            'tel_local_2' => $this->input->post("tel_local_2"),
-            'tel_movil' => $this->input->post("tel_movil"),
-            'tel_movil_2' => $this->input->post("tel_movil_2"),
-            'pag_web' => $this->input->post("pag_web"),
-            'email' => $this->input->post("email"),
-            'id_estado' => $this->input->post("id_estado_n"),
-            'id_municipio' => $this->input->post("id_municipio_n"),
-            'id_parroquia' => $this->input->post("id_parroquia_n"),
-            'direccion_fiscal' => $this->input->post("direccion_fiscal"),
-            'gaceta_oficial' => $this->input->post("gaceta_oficial"),
-            'fecha_gaceta' => $this->input->post("fecha_gaceta"),
-            'usuario' => $this->session->userdata('id_user')
-        );
-        $data = $this->Configuracion_model->save_organismo($data1,$data);
-        $this->session->set_flashdata('sa-success2', 'Se guardo los datos correctamente');
-        redirect('configuracion/organismo');
+            $this->form_validation->set_rules('pag_web', 'pag_web ', 'trim|required|min_length[1]|max_length[20]');
+
+
+
+
+
+            if ($this->form_validation->run() == false) {
+                if(!$this->session->userdata('session')) {
+                    redirect('login');
+                }
+                $data['organismos'] = $this->Configuracion_model->consulta_organismo();
+                $data['tipo_rif'] = $this->Configuracion_model->consulta_tipo_rif();
+                $data['estados'] = $this->Configuracion_model->consulta_estados();
+                $data['clasificacion'] = $this->Configuracion_model->consulta_clasificacion();
+                
+                $titulo='Organismos';
+        
+                $this->load->view('templates/header.php');
+                $this->load->view('templates/navigator.php');
+                $this->load->view('configuracion/organismo.php', $data);
+                //$this->load->view('user/reg_cuentadante.php', $data);
+                $this->load->view('templates/footer.php');
+
+            } else {
+
+
+    $data1 = array( // esto va a organo
+        'id_organoads' => $this->input->post("id_organoads"),
+        'descripcion' => $this->input->post("organo"),
+        'cod_onapre' => $this->input->post("cod_onapre"),
+        'siglas' => $this->input->post("siglas"),
+        'tipo_rif2' => $data['id_rif'],
+        'tipor' => $data['desc_rif'],
+        'rif' => $this->input->post("rif"),
+        'id_clasificacion' => $this->input->post("id_clasificacion"),
+        'tel_local' => $this->input->post("tel_local"),
+        'tel_local_2' => $this->input->post("tel_local_2"),
+        'tel_movil' => $this->input->post("tel_movil"),
+        'tel_movil_2' => $this->input->post("tel_movil_2"),
+        'pag_web' => $this->input->post("pag_web"),
+        'email' => $this->input->post("email"),
+        'id_estado' => $this->input->post("id_estado"),
+        'id_municipio' => $this->input->post("id_municipio"),
+        'id_parroquia' => $this->input->post("id_parroquia"),
+        'direccion_fiscal' => $this->input->post("direccion_fiscal"),
+        'gaceta_oficial' => $this->input->post("gaceta_oficial"),
+        'fecha_gaceta' => $this->input->post("fecha_gaceta"),
+        'usuario' => $this->session->userdata('id_user')
+    );
+    $data = array( //organoente tabla
+        'organo' => $this->input->post("organo"),
+        'id_organoads' => $this->input->post("id_organoads"),
+        'cod_onapre' => $this->input->post("cod_onapre"),
+        'siglas' => $this->input->post("siglas"),
+        'tipo_rif2' => $data['id_rif'],
+        'tipor' => $data['desc_rif'],
+        'rif' => $this->input->post("rif"),
+        'id_clasificacion' => $this->input->post("id_clasificacion"),
+        'tel_local' => $this->input->post("tel_local"),
+        'tel_local_2' => $this->input->post("tel_local_2"),
+        'tel_movil' => $this->input->post("tel_movil"),
+        'tel_movil_2' => $this->input->post("tel_movil_2"),
+        'pag_web' => $this->input->post("pag_web"),
+        'email' => $this->input->post("email"),
+        'id_estado' => $this->input->post("id_estado_n"),
+        'id_municipio' => $this->input->post("id_municipio_n"),
+        'id_parroquia' => $this->input->post("id_parroquia_n"),
+        'direccion_fiscal' => $this->input->post("direccion_fiscal"),
+        'gaceta_oficial' => $this->input->post("gaceta_oficial"),
+        'fecha_gaceta' => $this->input->post("fecha_gaceta"),
+        'usuario' => $this->session->userdata('id_user')
+    );
+    $data = $this->Configuracion_model->save_organismo($data1, $data);
+    $this->session->set_flashdata('sa-success2', 'Se guardo los datos correctamente');
+    redirect('configuracion/organismo');
+}
     }
 
     // ENTES

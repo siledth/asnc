@@ -19,27 +19,39 @@
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-                            <div class="form-group col-4">
-                                <label>Órgano</label>
-                                <input type="text" name="organo" class="form-control <?php echo form_error('organo') ? 'is-invalid' : ''; ?>" placeholder="Nombre" value="<?php echo set_value('organo'); ?>">
+                            <div class="form-group col-6">
+                                <label>Nombre Organismo<b title="Campo Obligatorio" style="color:red">*</b></label>
+                                <input type="text" name="organo" onkeyup="mayusculas(this);"
+                                    class="form-control  <?php echo form_error('organo') ? 'is-invalid' : ''; ?>"
+                                    placeholder="Nombre completo" onKeyUp="mayus(this);"
+                                    value="<?php echo set_value('organo'); ?>">
                                 <div class="invalid-feedback">
                                     <?php echo form_error('organo'); ?>
                                 </div>
                             </div>
                             <div class="form-group col-4">
-                                <label>Código ONAPRE</label>
-                                <input type="text" name="cod_onapre" class="form-control <?php echo form_error('cod_onapre') ? 'is-invalid' : ''; ?>" placeholder="Código" value="<?php echo set_value('cod_onapre'); ?>">
+                                <label>Codigo Onapre<b title="Campo Obligatorio" style="color:red">*</b></label>
+                                <input type="text" name="cod_onapre" onkeyup="mayusculas(this);"
+                                    class="form-control  <?php echo form_error('cod_onapre') ? 'is-invalid' : ''; ?>"
+                                    placeholder="Codigo Onapre" 
+                                    value="<?php echo set_value('cod_onapre'); ?>">
                                 <div class="invalid-feedback">
                                     <?php echo form_error('cod_onapre'); ?>
                                 </div>
                             </div>
                             <div class="form-group col-4">
-                                <label>Siglas del Órgano</label>
-                                <input type="text" name="siglas" class="form-control <?php echo form_error('siglas') ? 'is-invalid' : ''; ?>" placeholder="Código" value="<?php echo set_value('siglas'); ?>" max="12">
+                                <label>Siglas del Órgano<b title="Campo Obligatorio" style="color:red">*</b></label>
+                                <input type="text" name="siglas" onkeyup="mayusculas(this);"
+                                    class="form-control  <?php echo form_error('siglas') ? 'is-invalid' : ''; ?>"
+                                    placeholder="siglas" onKeyUp="mayus(this);"
+                                    value="<?php echo set_value('siglas'); ?>">
                                 <div class="invalid-feedback">
                                     <?php echo form_error('siglas'); ?>
                                 </div>
                             </div>
+                         
+                           
+                          
                             <div class="col-4">
                                 <label>Rif del Órgano</label>
                                 <div class="row">
@@ -50,6 +62,7 @@
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
+                                    
                                     <div class="form-group col-9">
                                         <input type="number" name="rif" class="form-control <?php echo form_error('rif') ? 'is-invalid' : ''; ?>" placeholder="Código" value="<?php echo set_value('rif'); ?>">
                                         <div class="invalid-feedback">
@@ -58,46 +71,85 @@
                                     </div>
                                 </div>
                             </div>
+
+
                             <div class="col-3 form-group">
                                 <label>Clasificación</label>
-                                <select id="id_clasificacion" name="id_clasificacion" class="default-select2 form-control">
-                                    <option>Seleccione</option>
+                                <select id="id_clasificacion" name="id_clasificacion" class="default-select2 form-control <?php  echo form_error('perfil') ? 'is-invalid' : ''; ?>">
+                                <option value="none" <?php // echo set_select('perfil', 'none', true);?>>-
+                                            Seleccione -</option>
                                         <?php foreach ($clasificacion as $data): ?>
                                             <option value="<?=$data['id_clasificacion']?>"><?=$data['desc_clasificacion']?></option>
                                         <?php endforeach; ?>
                                     </select>
+                                    <div class="invalid-feedback">
+                                    <?php echo form_error('id_clasificacion'); ?>
+                                </div>
 
                             </div>
                             <div class="col-3 form-group">
-                                <label>Teléfono Local</label>
-                                <input type="text" class="form-control" name="tel_local" id="tel_local" placeholder="(999) 999-9999" />
+                                <label>Teléfono Local<b title="Campo Obligatorio" style="color:red">*</b></label>
+                                <input type="number" name="tel_local" onkeyup="mayusculas(this);"
+                                    class="form-control  <?php echo form_error('tel_local') ? 'is-invalid' : ''; ?>"
+                                    placeholder="(042XXXXXXXX)" 
+                                    value="<?php echo set_value('tel_local'); ?>">
+                                <div class="invalid-feedback">
+                                    <?php echo form_error('tel_local'); ?>
+                                </div>
                             </div>
                             <div class="col-3 form-group">
-                                <label>Teléfono Local 2</label>
-                                <input type="text" class="form-control" name="tel_local_2" id="tel_local_2" placeholder="(999) 999-9999" />
+                                <label>Teléfono Local 2<b title="Campo Obligatorio" style="color:red">*</b></label>
+                                <input type="number" name="tel_local_2" onkeyup="mayusculas(this);"
+                                    class="form-control  <?php echo form_error('tel_local_2') ? 'is-invalid' : ''; ?>"
+                                    placeholder="(042XXXXXXXX)" 
+                                    value="<?php echo set_value('tel_local_2'); ?>">
+                                <div class="invalid-feedback">
+                                    <?php echo form_error('tel_local_2'); ?>
+                                </div>
                             </div>
                             <div class="col-3 form-group">
-                                <label>Teléfono Móvil</label>
-                                <input type="text" class="form-control" name="tel_movil" id="tel_movil" placeholder="(999) 999-9999" />
+                                <label>Teléfono Móvil<b title="Campo Obligatorio" style="color:red">*</b></label>
+                                <input type="number" name="tel_movil" onkeyup="mayusculas(this);"
+                                    class="form-control  <?php echo form_error('tel_movil') ? 'is-invalid' : ''; ?>"
+                                    placeholder="(042XXXXXXXX)" 
+                                    value="<?php echo set_value('tel_movil'); ?>">
+                                <div class="invalid-feedback">
+                                    <?php echo form_error('tel_movil'); ?>
+                                </div>
                             </div>
                             <div class="col-3 form-group">
-                                <label>Teléfono Móvil 2</label>
-                                <input type="text" class="form-control" name="tel_movil_2" id="tel_movil_2" placeholder="(999) 999-9999" />
+                                <label>Teléfono Móvil 2<b title="Campo Obligatorio" style="color:red">*</b></label>
+                                <input type="number" name="tel_movil_2" onkeyup="mayusculas(this);"
+                                    class="form-control  <?php echo form_error('tel_movil_2') ? 'is-invalid' : ''; ?>"
+                                    placeholder="(042XXXXXXXX)" 
+                                    value="<?php echo set_value('tel_movil_2'); ?>">
+                                <div class="invalid-feedback">
+                                    <?php echo form_error('tel_movil_2'); ?>
+                                </div>
                             </div>
-                            <div class="form-group col-6">
-                                <label>Página Web</label>
-                                <input type="text" name="pag_web" class="form-control <?php echo form_error('pag_web') ? 'is-invalid' : ''; ?>" placeholder="Nombre" value="<?php echo set_value('pag_web'); ?>">
+                            <div class="form-group col-3">
+                                <label>Página Web<b title="Campo Obligatorio" style="color:red">*</b></label>
+                                <input type="number" name="pag_web" onkeyup="mayusculas(this);"
+                                    class="form-control  <?php echo form_error('pag_web') ? 'is-invalid' : ''; ?>"
+                                    placeholder="pagina web" 
+                                    value="<?php echo set_value('pag_web'); ?>">
                                 <div class="invalid-feedback">
                                     <?php echo form_error('pag_web'); ?>
                                 </div>
                             </div>
                             <div class="form-group col-6">
-                                <label>Correo Electronico</label>
-                                <input type="email" name="email" class="form-control <?php echo form_error('email') ? 'is-invalid' : ''; ?>" placeholder="Nombre" value="<?php echo set_value('email'); ?>">
+                                <label>Correo Electronico<b title="Campo Obligatorio" style="color:red">*</b></label>
+                                <input type="email" name="email" onkeyup="mayusculas(this);"
+                                    class="form-control  <?php echo form_error('email') ? 'is-invalid' : ''; ?>"
+                                    placeholder="ingrese correo institucional" 
+                                    value="<?php echo set_value('email'); ?>">
                                 <div class="invalid-feedback">
                                     <?php echo form_error('email'); ?>
                                 </div>
                             </div>
+                            
+                            
+                           
                         </div>
                         <div class="col-lg-12">
                             <ul class="nav nav-tabs" style="background: #080808;">

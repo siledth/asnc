@@ -171,4 +171,4 @@
 <?php if ($this->session->flashdata('sa-success2')) { ?>
     <div hidden id="sa-success2"> <?= $this->session->flashdata('sa-success2') ?> </div>
 <?php } ?>
-<script src="<?=base_url()?>/js/eval_desempenio/registro.js"></script>
+<script src="<?= base_url() ?>/js/dependientes.js"></script>
