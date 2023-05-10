@@ -129,7 +129,7 @@
                             </div>
                             <div class="form-group col-3">
                                 <label>Página Web<b title="Campo Obligatorio" style="color:red">*</b></label>
-                                <input type="number" name="pag_web" onkeyup="mayusculas(this);"
+                                <input type="text" name="pag_web" onkeyup="mayusculas(this);"
                                     class="form-control  <?php echo form_error('pag_web') ? 'is-invalid' : ''; ?>"
                                     placeholder="pagina web" 
                                     value="<?php echo set_value('pag_web'); ?>">

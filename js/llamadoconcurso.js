@@ -436,6 +436,10 @@ var LlamadoConcurso = {
 					lapsosFechas = json.datos;
 					llamadoConcursoFrm.fecha_disponible_llamado = // se agrega nombre de la variable
 						lapsosFechas.fecha_disponible_llamado;
+
+						llamadoConcursoFrm.fecha_inicio_aclaratoria =
+						lapsosFechas.fecha_inicio_aclaratoria;
+
 					llamadoConcursoFrm.fecha_fin_aclaratoria =
 						lapsosFechas.fecha_fin_aclaratoria;
 					llamadoConcursoFrm.fecha_tope = lapsosFechas.fecha_tope;
@@ -467,6 +471,9 @@ var LlamadoConcurso = {
 			dias_habiles: llamadoConcurso.dias_habiles,
 			fecha_llamado: llamadoConcurso.fecha_llamado,
 			fecha_disponible_llamado: llamadoConcurso.fecha_disponible_llamado,
+
+			fecha_inicio_aclaratoria: llamadoConcurso.fecha_inicio_aclaratoria,
+			
 			fecha_fin_aclaratoria: llamadoConcurso.fecha_fin_aclaratoria,
 			fecha_tope: llamadoConcurso.fecha_tope,
 			fecha_fin_llamado: llamadoConcurso.fecha_fin_llamado,
@@ -735,7 +742,7 @@ var LlamadoConcurso = {
     <h5 class="card-title text-center bg-dark text-light">PERÍODOS DE ACLARATORIA</h5>\n\
     <div class="row">\n\
 			<div class="col-6 col-sm-4"><div class="font-weight-bold text-vinotinto">Fecha Inicio de Aclaratoria: </div>' +
-			formatearFecha(llamadoConcurso.fecha_llamado) +
+			formatearFecha(llamadoConcurso.fecha_inicio_aclaratoria) +
 			'\n\
 			</div>\n\
 			<div class="col-6 col-sm-4"><div class="font-weight-bold text-vinotinto">Fecha Fin de Aclaratoria: </div>' +

@@ -70,11 +70,10 @@ class Configuracion extends CI_Controller {
             $this->form_validation->set_rules('tel_local_2', 'tel_local_2 ', 'trim|required|min_length[1]|max_length[20]');
             $this->form_validation->set_rules('tel_movil', 'tel_movil ', 'trim|required|min_length[1]|max_length[20]');
             $this->form_validation->set_rules('tel_movil_2', 'tel_movil_2 ', 'trim|required|min_length[1]|max_length[20]');
-            $this->form_validation->set_rules('pag_web', 'pag_web ', 'trim|required|min_length[1]|max_length[20]');
+            $this->form_validation->set_rules('pag_web', 'pag_web ', 'trim|required|min_length[3]|max_length[20]');
             $this->form_validation->set_rules('email', 'Correo eléctronico ', 'trim|required|valid_email|is_unique[organoente.correo]');
             
-            $this->form_validation->set_rules('pag_web', 'pag_web ', 'trim|required|min_length[1]|max_length[20]');
-
+            
 
 
 

@@ -253,8 +253,8 @@
                                     </div>
                                     <div class="form-group col-4">
                                         <label>Fecha Inicio de Aclaratoria</label>
-                                        <input type="text" class="form-control" id="fecha_llamados"
-                                            name="fecha_llamados" readonly>
+                                        <input type="text" class="form-control" id="fecha_inicio_aclaratoria"
+                                            name="fecha_inicio_aclaratoria" readonly>
                                     </div>
                                     <div class="form-group col-4">
                                         <label>Fecha Fin de Aclaratoria:</label>

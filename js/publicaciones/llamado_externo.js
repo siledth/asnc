@@ -55,8 +55,8 @@ function llenar_filtro() {
 
 function modal_ver(id) {
     var numero_proceso = id;
-    // var base_url = window.location.origin + '/asnc/index.php/Gestion/consulta_b';
-    var base_url = '/index.php/Gestion/consulta_b';
+     var base_url = window.location.origin + '/asnc/index.php/Gestion/consulta_b';
+    //var base_url = '/index.php/Gestion/consulta_b';
     $.ajax({
         url: base_url,
         method: 'post',
@@ -110,11 +110,11 @@ function modal_ver(id) {
             const formatFullDate3 = date3.toLocaleDateString()
             $('#fecha_fin_llamado').val(formatFullDate3);
             ////
-            var fecha4 = Date.parse(response['fecha_llamado'])
+            var fecha4 = Date.parse(response['fecha_inicio_aclaratoria'])
             const date4 = new Date(fecha4)
             date4.setMinutes(date4.getMinutes() + date4.getTimezoneOffset());
             const formatFullDate4 = date4.toLocaleDateString()
-            $('#fecha_llamados').val(formatFullDate4);
+            $('#fecha_inicio_aclaratoria').val(formatFullDate4);
             ////
             var fecha5 = Date.parse(response['fecha_fin_aclaratoria'])
             const date5 = new Date(fecha5)
