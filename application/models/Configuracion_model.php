@@ -59,7 +59,7 @@
 
 
         // Organismo
-        public function save_organismo($data,$data1){
+        public function save_organismo($data1){
             $this->db->select('codigo');
           
             $this->db->order_by('id_organoente desc');
@@ -88,28 +88,28 @@
                 $id = $response3['id'] + 1 ;
                 $data = array(
                     'id_organoente'		    => $id,
-                    'id_organoenteads'		=> $data['id_organoads'],
+                    'id_organoenteads'		=> $data1['id_organoads'],
                     'tipo_organoente'		=> 0,
                     'codigo'            => $codigo,
-                    'descripcion'		=> $data['descripcion'],
-                    'cod_onapre'	 	=> $data['cod_onapre'],
-                    'siglas' 			=> $data['siglas'],
+                    'descripcion'		=> $data1['descripcion'],
+                    'cod_onapre'	 	=> $data1['cod_onapre'],
+                    'siglas' 			=> $data1['siglas'],
                     
-                    'rif' 				=> $data['tipor'].$data['rif'],
-                    'id_clasificacion' 	=> $data['id_clasificacion'],
-                    'tel1' 		        => $data['tel_local'],
-                    'tel2' 		        => $data['tel_local_2'],
-                    'movil1'			=> $data['tel_movil'],
-                    'movil2' 		    => $data['tel_movil_2'],
-                    'pagina_web' 		=> $data['pag_web'],
-                    'correo'			=> $data['email'],
-                    'id_estado' 		=> $data['id_estado'],
-                    'id_municipio' 		=> $data['id_municipio'],
-                    'id_parroquia' 		=> $data['id_parroquia'],
-                    'direccion' 	    => $data['direccion_fiscal'],
-                    'gaceta'	        => $data['gaceta_oficial'],
-                    'fecha_gaceta'		=> $data['fecha_gaceta'],
-                    'usuario'		    => $data['usuario'],
+                    'rif' 				=> $data1['tipor'].$data1['rif'],
+                    'id_clasificacion' 	=> $data1['id_clasificacion'],
+                    'tel1' 		        => $data1['tel_local'],
+                    'tel2' 		        => $data1['tel_local_2'],
+                    'movil1'			=> $data1['tel_movil'],
+                    'movil2' 		    => $data1['tel_movil_2'],
+                    'pagina_web' 		=> $data1['pag_web'],
+                    'correo'			=> $data1['email'],
+                    'id_estado' 		=> $data1['id_estado'],
+                    'id_municipio' 		=> $data1['id_municipio'],
+                    'id_parroquia' 		=> $data1['id_parroquia'],
+                    'direccion' 	    => $data1['direccion_fiscal'],
+                    'gaceta'	        => $data1['gaceta_oficial'],
+                    'fecha_gaceta'		=> $data1['fecha_gaceta'],
+                    'usuario'		    => $data1['usuario'],
                 );
                 $this->db->insert("public.organoente",$data); //colo nombre de la tabla
                

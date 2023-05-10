@@ -15,7 +15,7 @@
                                     <option>Seleccione</option>
                                     <option value="0">Órgano Padre</option>
                                     <?php foreach ($organismos as $data): ?>
-                                        <option value="<?= $data['id_organo'] ?>"><?= $data['desc_organo'] ?></option>
+                                        <option value="<?=$data['id_organo']?>"><?= $data['desc_organo'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -24,17 +24,17 @@
                                 <input type="text" name="organo" onkeyup="mayusculas(this);"
                                     class="form-control  <?php echo form_error('organo') ? 'is-invalid' : ''; ?>"
                                     placeholder="Nombre completo" onKeyUp="mayus(this);"
-                                    value="<?php echo set_value('organo'); ?>">
+                                    value="<?php echo set_value('organo'); ?>" maxlength="250">
                                 <div class="invalid-feedback">
                                     <?php echo form_error('organo'); ?>
                                 </div>
                             </div>
                             <div class="form-group col-4">
-                                <label>Codigo Onapre<b title="Campo Obligatorio" style="color:red">*</b></label>
+                                <label>Codigo ONAPRE<b title="Campo Obligatorio" style="color:red">*</b></label>
                                 <input type="text" name="cod_onapre" onkeyup="mayusculas(this);"
                                     class="form-control  <?php echo form_error('cod_onapre') ? 'is-invalid' : ''; ?>"
                                     placeholder="Codigo Onapre" 
-                                    value="<?php echo set_value('cod_onapre'); ?>">
+                                    value="<?php echo set_value('cod_onapre');?>" maxlength="100">
                                 <div class="invalid-feedback">
                                     <?php echo form_error('cod_onapre'); ?>
                                 </div>
@@ -44,7 +44,7 @@
                                 <input type="text" name="siglas" onkeyup="mayusculas(this);"
                                     class="form-control  <?php echo form_error('siglas') ? 'is-invalid' : ''; ?>"
                                     placeholder="siglas" onKeyUp="mayus(this);"
-                                    value="<?php echo set_value('siglas'); ?>">
+                                    value="<?php echo set_value('siglas'); ?>" maxlength="12">
                                 <div class="invalid-feedback">
                                     <?php echo form_error('siglas'); ?>
                                 </div>
@@ -64,7 +64,7 @@
                                     </div>
                                     
                                     <div class="form-group col-9">
-                                        <input type="number" name="rif" class="form-control <?php echo form_error('rif') ? 'is-invalid' : ''; ?>" placeholder="Código" value="<?php echo set_value('rif'); ?>">
+                                        <input type="text" name="rif" class="form-control <?php echo form_error('rif') ? 'is-invalid' : ''; ?>" placeholder="Rif" value="<?php echo set_value('rif'); ?>" maxlength="10">
                                         <div class="invalid-feedback">
                                             <?php echo form_error('rif'); ?>
                                         </div>
@@ -92,7 +92,7 @@
                                 <input type="number" name="tel_local" onkeyup="mayusculas(this);"
                                     class="form-control  <?php echo form_error('tel_local') ? 'is-invalid' : ''; ?>"
                                     placeholder="(042XXXXXXXX)" 
-                                    value="<?php echo set_value('tel_local'); ?>">
+                                    value="<?php echo set_value('tel_local'); ?>" maxlength="20">
                                 <div class="invalid-feedback">
                                     <?php echo form_error('tel_local'); ?>
                                 </div>
@@ -102,7 +102,7 @@
                                 <input type="number" name="tel_local_2" onkeyup="mayusculas(this);"
                                     class="form-control  <?php echo form_error('tel_local_2') ? 'is-invalid' : ''; ?>"
                                     placeholder="(042XXXXXXXX)" 
-                                    value="<?php echo set_value('tel_local_2'); ?>">
+                                    value="<?php echo set_value('tel_local_2'); ?>" maxlength="20">
                                 <div class="invalid-feedback">
                                     <?php echo form_error('tel_local_2'); ?>
                                 </div>
@@ -112,7 +112,7 @@
                                 <input type="number" name="tel_movil" onkeyup="mayusculas(this);"
                                     class="form-control  <?php echo form_error('tel_movil') ? 'is-invalid' : ''; ?>"
                                     placeholder="(042XXXXXXXX)" 
-                                    value="<?php echo set_value('tel_movil'); ?>">
+                                    value="<?php echo set_value('tel_movil'); ?>" maxlength="20">
                                 <div class="invalid-feedback">
                                     <?php echo form_error('tel_movil'); ?>
                                 </div>
@@ -122,7 +122,7 @@
                                 <input type="number" name="tel_movil_2" onkeyup="mayusculas(this);"
                                     class="form-control  <?php echo form_error('tel_movil_2') ? 'is-invalid' : ''; ?>"
                                     placeholder="(042XXXXXXXX)" 
-                                    value="<?php echo set_value('tel_movil_2'); ?>">
+                                    value="<?php echo set_value('tel_movil_2'); ?>" maxlength="20">
                                 <div class="invalid-feedback">
                                     <?php echo form_error('tel_movil_2'); ?>
                                 </div>
@@ -132,7 +132,7 @@
                                 <input type="text" name="pag_web" onkeyup="mayusculas(this);"
                                     class="form-control  <?php echo form_error('pag_web') ? 'is-invalid' : ''; ?>"
                                     placeholder="pagina web" 
-                                    value="<?php echo set_value('pag_web'); ?>">
+                                    value="<?php echo set_value('pag_web'); ?>" maxlength="20">
                                 <div class="invalid-feedback">
                                     <?php echo form_error('pag_web'); ?>
                                 </div>

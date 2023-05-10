@@ -19,7 +19,7 @@ function llenar_municipio(){
 }
 function llenar_parroquia(){
     var id_municipio_n = $('#id_estado_n').val();
-//    var base_url = window.location.origin+'/asnc/index.php/evaluacion_desempenio/listar_parroquia';
+   //var base_url = window.location.origin+'/asnc/index.php/evaluacion_desempenio/listar_parroquia';
     var base_url = '/index.php/evaluacion_desempenio/listar_parroquia';
 
     $.ajax({
