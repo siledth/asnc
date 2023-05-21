@@ -60,24 +60,20 @@
 
         // Organismo
         public function save_organismo($data1){
-            $this->db->select('codigo');
-          
-            $this->db->order_by('id_organoente desc');
-            $query = $this->db->get('organoente');
-            $response = $query->row_array();
+           
 
-            $cod = $response['codigo'];
-            $separa = explode('-', $cod);
-            $letra = $separa['0'];
-            $codi = $separa['1'];
-            $codig = $codi + '00001';
-            $codigo = $letra.'-'.$codig;
+            
 
             $this->db->select('*');
           //  $this->db->where('tipo_rif', $data['tipor']);
             $this->db->where('rif', $data['rif']);
             $query2 = $this->db->get('organoente');
             $response2 = $query2->row_array();
+
+            $this->db->select('max(e.codigo) as codigo');
+            $query = $this->db->get('public.organoente e');
+            $response4 = $query->row_array();
+
 
             $this->db->select('max(e.id_organoente) as id');
             $query = $this->db->get('public.organoente e');
@@ -86,11 +82,12 @@
                 return 'false';
             }else { 
                 $id = $response3['id'] + 1 ;
+                $codigo = $response4['codigo'] + 1 ;
                 $data = array(
                     'id_organoente'		    => $id,
                     'id_organoenteads'		=> $data1['id_organoads'],
                     'tipo_organoente'		=> 0,
-                    'codigo'            => $codigo,
+                    'codigo'            => $id,
                     'descripcion'		=> $data1['descripcion'],
                     'cod_onapre'	 	=> $data1['cod_onapre'],
                     'siglas' 			=> $data1['siglas'],
