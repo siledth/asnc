@@ -189,7 +189,7 @@
                         </div>
                         <div class="form-group col 12 text-center">
                             <button type="submit" class="btn btn-primary">Guardar</button>
-                        </div>
+                        </div> 
                     </form>
                 </div>
             </div>

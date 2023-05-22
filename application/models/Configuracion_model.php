@@ -171,7 +171,7 @@
                     'id_organoente'		    => $id,
                     'id_organoenteads'		=> $data['id_organo'],
                     'tipo_organoente'		=> 2, // 2 porque es un ente 
-                    'codigo'            => $codigo,
+                    'codigo'            => $id,
                     'descripcion'		=> $data['ente'],
                     'cod_onapre'	 	=> $data['cod_onapre'],
                     'siglas' 			=> $data['siglas'],
@@ -266,9 +266,8 @@
                 $data = array(
                     'id_organoente'		    => $id,
                     'id_organoenteads'		=> $data['id_organoente'],
-                    'tipo_organoente'		=> 3,// 3 porque es un ente adcrito
-                    
-                    'codigo'            => $codigo,
+                    'tipo_organoente'		=> 3,// 3 porque es un ente adcr
+                    'codigo'            =>$id,                    
                     'descripcion'		=> $data['ente'],
                     'cod_onapre'	 	=> $data['cod_onapre'],
                     'siglas' 			=> $data['siglas'],
@@ -293,7 +292,7 @@
                 $data2 = array(
                     'id_entes_ads'		    => $id,
                     'id_entes'		    => $data1['id_organoente'],
-                    'codigo'            => $codigo,
+                    'codigo'            => $id,
                     'desc_entes_ads'	=> $data1['ente'],
                     'cod_onapre'	 	=> $data1['cod_onapre'],
                     'siglas' 			=> $data1['siglas'],

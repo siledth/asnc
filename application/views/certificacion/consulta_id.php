@@ -92,7 +92,10 @@
                         
                         <div class="form-group mt-0  col-6">
                             <label>Observación</label>
-                            <input value="<?=$inf_1['observacion']?>" type="text" class="form-control" disabled>
+                            <textarea class="form-control" name="h" id="v" rows="8" cols="50"
+                                                        readonly>  <?=$inf_1['observacion']?></textarea>
+
+                            
                         </div>
                         <div class="form-group mt-0  col-2">
                             <label>Status</label> <br>

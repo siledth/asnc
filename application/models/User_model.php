@@ -392,8 +392,7 @@ class User_model extends CI_Model
         public function consulta_organoente()
         {
             $this->db->select("id_organoente, rif, id_organoenteads, tipo_organoente, descripcion, cod_onapre, id_estado, id_municipio, id_parroquia, siglas, direccion, 
-                            gaceta, fecha_gaceta, pagina_web, 
-                            correo, tel1, tel2, movil1, movil2, usuario, fecha, codigo
+                            gaceta, fecha_gaceta, pagina_web, correo, tel1, tel2, movil1, movil2, usuario, fecha, codigo
                                 ");
             // $this->db->join('seguridad.funcionarios c', 'c.id_usuario = f.id', 'left');
             //$this->db->where('f.id_estatus >', '3');

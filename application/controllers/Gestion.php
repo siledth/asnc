@@ -123,7 +123,7 @@ class Gestion extends CI_Controller {
 
   }
 
-  public function consulta_b() {
+  public function consulta_t() {
     if (!$this->session->userdata('session')) {
       $data = $this->input->post();
       $data = $this->Certificacion_model->consulta_llamado($data);
