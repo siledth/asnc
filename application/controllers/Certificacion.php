@@ -53,6 +53,7 @@ class Certificacion extends CI_Controller
         $data['rif'] = $this->session->userdata('rif');
         $usuario = $this->session->userdata('id_user');
         $data['ver_certi'] = $this->Certificacion_model->consulta_certi_pendiente();
+        $data['bancos'] = $this->Publicaciones_model->consultar_b();
 		$this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
 		$this->load->view('certificacion/listar_certificado.php', $data);
@@ -68,6 +69,7 @@ class Certificacion extends CI_Controller
         $data['ver'] = $this->Certificacion_model->consulta_certi50($usuario);
         $data['ver3'] = $this->Certificacion_model->consulta_certi_exter50($usuario);
         $data['ver_certi'] = $this->Certificacion_model->consulta_certi_exter($usuario);
+        $data['bancos'] = $this->Publicaciones_model->consultar_b();
         $data['time']=date("Y-m-d");
 		$this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
@@ -1117,7 +1119,7 @@ class Certificacion extends CI_Controller
         $data = $this->Certificacion_model->registrar_b($data);
         echo json_encode($data);
     }
-     //LLENAR MODAL PARA EDITAR
+     //LLENAR MODAL PARA consultar exonerado
      public function consulta_b() {
         if (!$this->session->userdata('session'))
             redirect('login');
@@ -1126,7 +1128,7 @@ class Certificacion extends CI_Controller
         echo json_encode($data);
     }
 
-    //EDITAR
+    //guardar exonerado
     public function editar_b() {
         if (!$this->session->userdata('session'))
             redirect('login');
@@ -1294,4 +1296,35 @@ class Certificacion extends CI_Controller
 		
 		}	
 	}
+    /////////pagos 2 certificar
+    public function consulta_pago2() {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $data = $this->input->post();
+        $data = $this->Certificacion_model->consulta_pago_2($data);
+        echo json_encode($data);
+    }
+// guardar pago2 revision
+    public function guardar_pago2() {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $data = $this->input->post();
+
+        $data = array(
+            'id' => $data['id'],
+            'pago2' => $data['pago2'],
+            'nro_referencia2' => $data['nro_referencia2'],
+            'banco_e2' => $data['banco_e2'],
+            'banco_rec_2' => $data['banco_rec_2'],
+            'fechatrnas2' => $data['fechatrnas2'],
+            'motivo_pago_2' => $data['motivo_pago_2'],
+            'status' => 1,
+            'fecha_solic' => date('Y-m-d'),
+            'revision' => 1,
+            
+        );
+
+        $data = $this->Certificacion_model->guardar_pago_2($data);
+        echo json_encode($data);
+    }
 }

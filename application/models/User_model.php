@@ -25,7 +25,7 @@ class User_model extends CI_Model
     {
         $data1 = array('id_estatus' => '1',
                         'intentos' => '0',
-                        'password'=> '$2y$10$EP3uMIovApJpKlVr6opaS.qDA.S3AvNuyDi5MS66K5g51VZSGLzoy',
+                        'password'=> '$2y$10$T3rwxYhqdCJxft4p32W4J.KLZpOZViLs38JH2NuHGH9zBvuPExiPC',
                         'fecha_update' => date('Y-m-d h:i:s'));
         $this->db->where('id', $data['id']);
         $update = $this->db->update('seguridad.usuarios', $data1);

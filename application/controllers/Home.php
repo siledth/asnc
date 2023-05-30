@@ -8,7 +8,9 @@ class Home extends CI_Controller {
         if (!$this->session->userdata('session')) {
             redirect('login');
         }
-
+        $date=date("d-m-Y");
+        $generar = $this->Publicaciones_model->generar($date); // finalizar llamad
+       
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
         $this->load->view('home/index.php');

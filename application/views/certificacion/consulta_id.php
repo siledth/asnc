@@ -73,6 +73,44 @@
                             <label style="color:red;">N° de Referencia</label>
                             <input value="<?=$inf_1['n_ref']?>" type="text" class="form-control" disabled>
                         </div>
+                        
+                        <?php if   (($inf_1['status'] == 1 )  && $inf_1['revision'] == 1 ): ?>
+                        <div class="col-12 mt-0 text-center">
+                            <hr style="border-top: 1px solid rgba(0, 0, 0, 0.25);">
+                            <h6 style="color:red;">Pago por otra revisión</h6>
+                        </div>
+                        <div class="form-group mt-1  col-2">
+                            <label style="color:red;">Banco Emisor</label>
+                            <input value="<?=$inf_1['banco_e2']?>" type="text" class="form-control" disabled>
+                        </div>
+                        <div class="form-group mt-1  col-2">
+                            <label style="color:red;">Banco Receptor</label>
+                            <input value="<?=$inf_1['banco_rec_2']?>" type="text" class="form-control" disabled>
+                        </div>
+                      
+                        <div class="form-group mt-1  col-2">
+                            <label style="color:red;">Bolivares Trasnferidos</label>
+                            <input value="<?=$inf_1['pago2']?>" type="text" class="form-control" disabled>
+                        </div>
+                        <div class="form-group mt-1  col-2">
+                            <label style="color:red;">N° de Referencia</label>
+                            <input value="<?=$inf_1['nro_referencia2']?>" type="text" class="form-control" disabled>
+                        </div>
+                        <div class="form-group mt-1  col-4">
+                            <label style="color:red;">Fecha de la trasferencia</label>
+                            <input value="<?=date("d/m/Y", strtotime($inf_1['fechatrnas2']));?>" type="text"
+                                class="form-control" disabled>
+                        </div>
+                        <div class="form-group mt-1  col-4">
+                        <label  style="color:red;">Observación</label>
+                            <textarea class="form-control" name="h" id="v" rows="8" cols="50"
+                            readonly>  <?=$inf_1['motivo_pago_2']?></textarea>
+
+                        </div>
+                        <?php else: ?>
+                            <?php endif; ?>
+
+
                         <?php if   (($inf_1['status'] == 1 )  ): ?>
                         
                         
@@ -92,10 +130,7 @@
                         
                         <div class="form-group mt-0  col-6">
                             <label>Observación</label>
-                            <textarea class="form-control" name="h" id="v" rows="8" cols="50"
-                                                        readonly>  <?=$inf_1['observacion']?></textarea>
-
-                            
+                            <input value="<?=$inf_1['observacion']?>" type="text" class="form-control" disabled>
                         </div>
                         <div class="form-group mt-0  col-2">
                             <label>Status</label> <br>

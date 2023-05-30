@@ -1270,7 +1270,7 @@ class Certificacion_model extends CI_model
     //         }else {
     //             return $result;
     //         }
-    // }
+    //}
 //-------------------------------------------------------
     public function llenar_contratista_rp($data){
         $this->db_c->select('proceso_id,
@@ -1453,7 +1453,7 @@ function registrar_b($data){
     $this->db->insert('certificacion.exonerado',$data);
     return true;
 }
-//VER PARA EDITAR
+//VER PARA ver exonerado y editar
 function consulta_b($data){
     $this->db->select('*');
     $this->db->from('certificacion.exonerado');
@@ -1464,7 +1464,7 @@ function consulta_b($data){
         return $query->row();
     }
 }
-//EDITAR
+//EDITAR exonerado en bd
 function editar_b($data){
     $this->db->where('id_exonerado', $data['id_exonerado']);
     $update = $this->db->update('certificacion.exonerado', $data);
@@ -1581,6 +1581,22 @@ public function consultar_llamados_externos(){
                                );
     return $response = $query->result_array();
 
+}
+////////////consulta para pago 2
+function consulta_pago_2($data){
+    $this->db->select('id,rif_cont,total_bss');
+    $this->db->from('certificacion.certificaciones');
+    $this->db->where('id', $data['id']);
+    
+    $query = $this->db->get();
+    if (count($query->result()) > 0) {
+        return $query->row();
+    }
+}
+function guardar_pago_2($data){
+    $this->db->where('id', $data['id']);
+    $update = $this->db->update('certificacion.certificaciones', $data);
+    return true;
 }
 
 }

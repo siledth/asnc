@@ -423,7 +423,7 @@
 			$query = $this->db->get();
 			return $query->result_array();
 		}
-	}
+	
 
 	function consultar_llamados_externos(){
 		$this->db->select('*');
@@ -432,4 +432,27 @@
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+	public function generar($date){
+		$data1 = array('estatus' => 'Finalizado'
+                            
+                        );
+                            
+            $this->db->where('fecha_fin_llamado', $date);
+			$this->db->where('estatus', 'Iniciado');
+            $update = $this->db->update('public.llamado_concurso', $data1);
+
+            return true;
+           // return $id;
+	}
+
+	 function ver_deudas(){
+		$this->db->select('*');
+					$this->db->from('public.llamado_concurso');
+					
+					$query = $this->db->get();
+					$resultado = $query->result_array();
+		return $resultado;
+	}
+
+}
 ?>
