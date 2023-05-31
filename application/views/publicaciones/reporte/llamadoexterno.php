@@ -52,7 +52,7 @@
                                         <td><?=$data['rif_organoente']?> </td>
                                         <td><?=$data['organoente']?> </td>
                                         <td><?=$data['numero_proceso']?> </td>
-                                        <td> <?=$data['formatted_date']?>
+                                        <td> <?=date("d/m/Y", strtotime($data['formatted_date']));?>
                                         </td>
 
                                         <?php if   (($data['estatus'] == 'ANULADO' )  ): ?>
