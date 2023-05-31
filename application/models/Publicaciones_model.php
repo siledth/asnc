@@ -433,12 +433,12 @@
 		return $query->result_array();
 	}
 	public function generar($date){
-		$data1 = array('estatus' => 'Finalizado'
+		$data1 = array('estatus' => '1'
                             
                         );
                             
             $this->db->where('fecha_fin_llamado', $date);
-			$this->db->where('estatus', 'Iniciado');
+			$this->db->where('estatus', '4');
             $update = $this->db->update('public.llamado_concurso', $data1);
 
             return true;
