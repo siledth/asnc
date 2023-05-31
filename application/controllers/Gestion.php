@@ -108,16 +108,18 @@ class Gestion extends CI_Controller {
   /////////////////////////////////////vista de llamado a concurso modificado
   public function llamadoxterno() {
     if (!$this->session->userdata('session')) {
-      $data['exonerado'] = $this->Certificacion_model->consultar_llamados_externos();
+      $date=date("d-m-Y");
+      $data['exonerado'] = $this->Certificacion_model->consultar_llamados_externos($date);
       $this->load->view('templates/header.php');
       $this->load->view('templates/navsinsesion.php');
       $this->load->view('publicaciones/reporte/llamadoexterno.php', $data);
       $this->load->view('templates/footer.php');
     } else {
-      
+      $date=date("d-m-Y");
+      $data['exonerado'] = $this->Certificacion_model->consultar_llamados_externos($date);
       $this->load->view('templates/header.php');
-      $this->load->view('templates/navsinsesion.php');
-      $this->load->view('publicaciones/reporte/llamadoexterno.php');
+      $this->load->view('templates/navigator.php');
+      $this->load->view('publicaciones/reporte/llamadoexterno.php', $data);
       $this->load->view('templates/footer.php');
     } 
 
