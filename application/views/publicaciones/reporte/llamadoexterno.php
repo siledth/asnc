@@ -5,8 +5,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" /> -->
     <title>llamados a concurso</title>
 </head>
 
@@ -31,16 +31,18 @@
                     <div class="panel panel-inverse">
                         <div class="panel-heading"></div>
                         <div class="table-responsive">
-                            <table id="data-table-default" data-order='[[ 6, "desc" ]]'
+                            <table id="data-table-default" data-order='[[ 8, "desc" ]]'
                                 class="table table-bordered table-hover">
                                 <thead style="background:#01cdb2">
                                     <tr style="text-align:center">
                                         <th style="color:white;">Rif</th>
                                         <th style="color:white;">Denominación social</th>
-                                        <th style="color:white;">Número de Proceso</th>
-                                        <th style="color:white;">Fecha Disponibilidad</th>
+                                        <th style="color:white;">Num. Proceso</th>
+                                        <th style="color:white;">Fecha Disp.</th>
                                         <th style="color:white;">Estatus</th>
                                         <th style="color:white;">Obj. Contr</th>
+                                        <th style="color:white;">Den.proceso</th>
+                                        <th style="color:white;">Estado</th>
                                         <th style="color:white;">Descargar</th>
                                     </tr>
                                 </thead>
@@ -65,6 +67,8 @@
 
 
                                         <td><?=$data['objeto_contratacion']?> </td>
+                                        <td><?=$data['denominacion_proceso']?> </td>
+                                        <td><?=$data['estado']?> </td>
 
                                         <td class="center">
                                         <h6 style="color:white;"><?=$data['fecha_disponible_llamado']?> </h6>
@@ -314,9 +318,9 @@
     </section>
 </body>
 
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"
     integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous">
-</script>
+</script> -->
 
 <script src="<?=base_url()?>/js/publicaciones/llamado_externo.js"></script>
 

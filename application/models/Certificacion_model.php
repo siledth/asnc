@@ -77,7 +77,7 @@ class Certificacion_model extends CI_model
     public function consulta_certi_exter($usuario){
         $this->db->select('*');
         $this->db->from('certificacion.certificaciones ');
-       // $this->db-> where (ed.id_usuario = '$usuario'");
+        //$this->db-> where ("ed.id_usuario = '$usuario'");
         $this->db->where('user_soli', $usuario);
         $query = $this->db->get();
         return $result = $query->result_array();
@@ -1547,7 +1547,7 @@ function consulta_llamado($data){
     $this->db->join('public.mecanismo me', 'me.id_mecanismo = c.id_mecanismo');
     $this->db->join('public.objeto_contratacion obj', 'obj.id_objeto_contratacion = c.id_objeto_contratacion');
     $this->db->from('public.llamado_concurso_view c');
-    $this->db->like("numero_proceso",$id);
+    $this->db->where("numero_proceso",$id);
    // $this->db->order_by("codigo_b", "Asc");
     $query = $this->db->get();
     if (count($query->result()) > 0) {
@@ -1571,15 +1571,23 @@ function consultar_llamados_externos1(){
     return $query->result_array();
 }
 public function consultar_llamados_externos(){
+
+    $this->db->select('rif_organoente,organoente,numero_proceso,estatus,objeto_contratacion,fecha_disponible_llamado as formatted_date,fecha_disponible_llamado,denominacion_proceso,estado');
+    $this->db->from('public.llamado_concurso_view');
+    $this->db-> where ("id_llcestatus > '3'");
+    $this->db->order_by("fecha_disponible_llamado", "desc");
+    $query = $this->db->get();
+    return $query->result_array();
   
-    $query = $this->db->query("SELECT rif_organoente,organoente,numero_proceso,estatus,objeto_contratacion,
+    // $query = $this->db->query("SELECT rif_organoente,organoente,numero_proceso,estatus,objeto_contratacion,
     
-    to_char(fecha_disponible_llamado,'DD/MM/YYYY') as formatted_date ,fecha_disponible_llamado
+    // to_char(fecha_disponible_llamado,'DD/MM/YYYY') as formatted_date ,fecha_disponible_llamado,denominacion_proceso,estado
 
 
-    FROM public.llamado_concurso_view "
-                               );
-    return $response = $query->result_array();
+    // FROM public.llamado_concurso_view 
+    // where estatus= 'Iniciado' and fecha_disponible_llamado<='31-05-2023'" 
+    //                            );
+    // return $response = $query->result_array();
 
 }
 ////////////consulta para pago 2

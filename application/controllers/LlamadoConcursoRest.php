@@ -1,8 +1,6 @@
 <?php
 
-/**
- * @author Gary Diaz <garyking1982@gmail.com>
- */
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 use ASNC\Libraries\RestController;
@@ -185,7 +183,7 @@ class LlamadoConcursoRest extends RestController {
 		$this->sesionIniciada();
 		try {
 			$llamadoConcurso = $this->_post_args;
-			$llamadoConcurso['estatus'] = "Iniciado";
+			$llamadoConcurso['estatus'] = "4";//Iniciado
 			$this->load->model('dao/LlamadoConcursoDAO');
 			$rs = $this->LlamadoConcursoDAO->agregar($llamadoConcurso);
 			if ($rs) {

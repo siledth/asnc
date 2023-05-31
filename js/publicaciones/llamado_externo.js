@@ -55,7 +55,7 @@
 
 function modal_ver(id) {
     var numero_proceso = id;
-    //var base_url = window.location.origin + '/asnc/index.php/Gestion/consulta_b';
+   // var base_url = window.location.origin + '/asnc/index.php/Gestion/consulta_t';
     var base_url = '/index.php/Gestion/consulta_t';
     $.ajax({
         url: base_url,
