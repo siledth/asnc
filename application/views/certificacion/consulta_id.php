@@ -219,8 +219,8 @@
                                 <tr class="odd gradeX" style="text-align:center">
                                     <td><?=$inf_3['organo_expe']?></td>
                                     <td><?=$inf_3['actividad_exp']?></td>
-                                    <td><?=$inf_3['desde_exp']?></td>
-                                    <td><?=$inf_3['hasta_exp']?></td>
+                                    <td><?=date("d/m/Y", strtotime($inf_3['desde_exp']));?></td>
+                                    <td><?=date("d/m/Y", strtotime($inf_3['hasta_exp']));?></td>
                                 </tr>
                                 <?php endforeach;?>
                             </tbody>
@@ -257,6 +257,7 @@
                         <table id="target_req" class="table table-bordered table-hover">
                             <thead style="background:#e4e7e8;">
                                 <tr class="text-center">
+                                <th>Cedula</th>
                                     <th>Formación Académica</th>
                                     <th>Título Obtenido</th>
                                     <th>Año de Inicio</th>
@@ -267,6 +268,7 @@
                             <tbody>
                                 <?php foreach($inf_5 as $inf_5):?>
                                 <tr class="odd gradeX" style="text-align:center">
+                                <td><?=$inf_5['cedula']?></td>
                                     <td><?=$inf_5['for_academica']?></td>
                                     <td><?=$inf_5['titulo']?></td>
                                     <td><?=$inf_5['ano']?></td>
@@ -283,6 +285,7 @@
                         <table id="target_req" class="table table-bordered table-hover">
                             <thead style="background:#e4e7e8;">
                                 <tr class="text-center">
+                                <th>Cedula.</th>
                                     <th>Taller o Curso</th>
                                     <th>Institución</th>
                                     <th>Horas de Duración</th>
@@ -294,11 +297,12 @@
                             <tbody>
                                 <?php foreach($inf_6 as $inf_6):?>
                                 <tr class="odd gradeX" style="text-align:center">
+                                    <td><?=$inf_6['cedula']?></td>
                                     <td><?=$inf_6['taller']?></td>
                                     <td><?=$inf_6['institucion']?></td>
                                     <td><?=$inf_6['hor_dura']?></td>
                                     <td><?=$inf_6['certi']?></td>
-                                    <td><?=$inf_6['fech_cert']?></td>
+                                    <td><?=date("d/m/Y", strtotime($inf_6['fech_cert']));?></td>
                                     <td>
                                         <?php if ($inf_6['vigencia'] <= 2)  : ?>
                                             <h5 style="color:green;"> <?=$inf_6['vigencia']?>  </h5>
@@ -321,6 +325,7 @@
                         <table id="target_req" class="table table-bordered table-hover">
                             <thead style="background:#e4e7e8;">
                                 <tr class="text-center">
+                                   <th>Cedula.</th>
                                     <th>Órgano/Ente/Institución/Empresa</th>
                                     <th>Acto Administrativo de Designación</th>
                                     <th>N° del Acto</th>
@@ -332,10 +337,11 @@
                             <tbody>
                                 <?php foreach($inf_7 as $inf_7):?>
                                 <tr class="odd gradeX" style="text-align:center">
+                                <td><?=$inf_7['cedula']?></td>
                                     <td><?=$inf_7['organo10']?></td>
                                     <td><?=$inf_7['act_adminis_desid']?></td>
                                     <td><?=$inf_7['n_acto']?></td>
-                                    <td><?=$inf_7['fecha_act']?></td>
+                                    <td><?=date("d/m/Y", strtotime($inf_7['fecha_act']));?></td>
                                     <td><?=$inf_7['area_10']?></td>
                                     <td><?=$inf_7['dura_comi']?></td>
                                 </tr>
@@ -350,6 +356,7 @@
                         <table id="target_req" class="table table-bordered table-hover">
                             <thead style="background:#e4e7e8;">
                                 <tr class="text-center">
+                                  <th>Cedula.</th>
                                     <th>Órgano o Ente de la Comisión de Contrataciones</th>
                                     <th>Actividad.</th>
                                     <th>Desde.</th>
@@ -359,10 +366,11 @@
                             <tbody>
                                 <?php foreach($inf_8 as $inf_8):?>
                                 <tr class="odd gradeX" style="text-align:center">
+                                <td><?=$inf_8['cedula']?></td>
                                     <td><?=$inf_8['organo3']?></td>
                                     <td><?=$inf_8['actividad3']?></td>
-                                    <td><?=$inf_8['desde3']?></td>
-                                    <td><?=$inf_8['hasta3']?></td>
+                                    <td><?=date("d/m/Y", strtotime($inf_8['desde3']));?></td>
+                                    <td><?=date("d/m/Y", strtotime($inf_8['hasta3']));?></td>
                                 </tr>
                                 <?php endforeach;?>
                             </tbody>

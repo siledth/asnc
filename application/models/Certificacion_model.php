@@ -427,7 +427,7 @@ class Certificacion_model extends CI_model
 
     
     public function editarcertificacion_pj($rif_cont,$certifi,   //editar certificacion  pj
-   $experi_empre_capa, $experi_empre_cap_comisi, $infor_per_prof,$for_mat_contr_publ,$exp_par_comi_10, $exp_dic_cap_3){
+   $experi_empre_capa, $experi_empre_cap_comisi,$infor_per_natu, $infor_per_prof,$for_mat_contr_publ,$exp_par_comi_10, $exp_dic_cap_3){
         $this->db->where('rif_cont', $rif_cont);
         // $this->db->where('id_p_proyecto', $id_p_proyecto);
          $update = $this->db->update('certificacion.certificaciones', $certifi);
@@ -474,6 +474,31 @@ class Certificacion_model extends CI_model
                      );
                      $this->db->insert('certificacion.experi_empre_cap_comisi',$data2);
                  }
+                 ////persona natural
+                 $this->db->where('rif_cont', $rif_cont);
+                 // $this->db->where('id_p_acc', 0);
+                  $this->db->delete('certificacion.infor_per_natu');
+                $cant_pfft = $infor_per_natu['nombre_ape'];
+                $count_pffr = count($cant_pfft);
+
+                for ($i=0; $i < $count_pffr; $i++) {
+                    $data3 = array(
+                        'id'              => $experi_empre_cap_comisi['id'],
+                        'nro_comprobante'=> $experi_empre_capa['nro_comprobante'],
+                        'n_certif'=> $experi_empre_cap_comisi['n_certif'],
+                        'rif_cont'=> $certifi['rif_cont'],
+                        'nombre_ape'   		        => $infor_per_natu['nombre_ape'][$i],
+                        'cedula'          	=> $infor_per_natu['cedula'][$i],
+                        'rif'             => $infor_per_natu['rif'][$i],
+                        'bolivar_estimado' 	            => $infor_per_natu['bolivar_estimado'][$i],
+                        'pj' 	            => $infor_per_natu['pj'],
+                        'sub_total' 	            => $infor_per_natu['sub_total'],
+                        'total_final' 	            => $infor_per_natu['total_bss'],
+                        'status' 	            => 1,
+                       
+                    );
+                    $this->db->insert('certificacion.infor_per_natu',$data3);
+                }
 
                  $this->db->where('rif_cont', $rif_cont);
                 // $this->db->where('id_p_acc', 0);
@@ -496,7 +521,8 @@ class Certificacion_model extends CI_model
                         'ano'             => $infor_per_prof['ano'][$i],
                         'culminacion' 	 => $infor_per_prof['culminacion'][$i],
                         'curso' 	            => $infor_per_prof['curso'][$i],
-                        'nro_comprobante'=> $infor_per_prof['nro_comprobante']
+                        'nro_comprobante'=> $infor_per_prof['nro_comprobante'],
+                        'cedula'          	=> $infor_per_natu['cedula'][$i],
                         
                        
                     );
@@ -522,7 +548,8 @@ class Certificacion_model extends CI_model
                         'certi' 	 => $for_mat_contr_publ['certi'][$i],
                         'fech_cert' 	 => $for_mat_contr_publ['fech_cert'][$i],
                         'vigencia' 	   => $for_mat_contr_publ['vigencia'][$i],
-                        'nro_comprobante'=> $certifi['nro_comprobante']
+                        'nro_comprobante'=> $certifi['nro_comprobante'],
+                        'cedula'          	=> $infor_per_natu['cedula'][$i],
                         
                        
                     );
@@ -547,6 +574,7 @@ class Certificacion_model extends CI_model
                         'fecha_act' 	 => $exp_par_comi_10['fecha_act'][$i],
                         'area_10' 	 => $exp_par_comi_10['area_10'][$i],
                         'dura_comi' 	   => $exp_par_comi_10['dura_comi'][$i],
+                        'cedula'          	=> $infor_per_natu['cedula'][$i],
                               
                     );
                     $this->db->insert('certificacion.exp_par_comi_10',$data6);
@@ -569,6 +597,7 @@ class Certificacion_model extends CI_model
                         'actividad3'   => $exp_dic_cap_3['actividad3'][$i],
                         'desde3'      => $exp_dic_cap_3['desde3'][$i],
                         'hasta3' 	 => $exp_dic_cap_3['hasta3'][$i],
+                        'cedula'          	=> $infor_per_natu['cedula'][$i],
                        
                         
                        
