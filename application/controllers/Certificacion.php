@@ -271,6 +271,7 @@ class Certificacion extends CI_Controller
         $data['descripcion'] = $this->session->userdata('unidad');
         $data['rif'] = $this->session->userdata('rif');
         $data['rif_cont']       =$this->input->get('id');
+        $data['rif_organoente']= $this->session->userdata('rif_organoente');
        // $data['id_propiet'] = $separar['2'];
        $data['time']=date("Y-m-d");
         $data['inf_1'] = $this->Certificacion_model->certificaciones($data['rif_cont']);
@@ -278,8 +279,11 @@ class Certificacion extends CI_Controller
         $data['inf_11'] = $this->Certificacion_model-> inf_1();
         $data['inf_12'] = $this->Certificacion_model-> inf_2();
         $data['inf_14'] = $this->Certificacion_model-> inf_3();
-
-        //$data['inf_1'] = $this->Programacion_model->inf_1($data['matricula']);
+        $data['exonerado'] = $this->Certificacion_model->consultar_exonerado($data);
+        $data['inf_20'] = $this->Certificacion_model-> inf_1();
+        $data['inf_21'] = $this->Certificacion_model-> inf_3();
+      
+        
 		$this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
 		$this->load->view('certificacion/ver_edit_cert.php', $data);
@@ -299,6 +303,7 @@ class Certificacion extends CI_Controller
         $data['inf_12'] = $this->Certificacion_model-> inf_2();
         $data['inf_14'] = $this->Certificacion_model-> inf_35();
         $data['inf__15'] = $this->Certificacion_model-> certificaciones4($data['rif_cont']);
+        $data['exonerado'] = $this->Certificacion_model->consultar_exonerado($data);
 
         //$data['inf_1'] = $this->Programacion_model->inf_1($data['matricula']);
 		$this->load->view('templates/header.php');
@@ -547,6 +552,18 @@ class Certificacion extends CI_Controller
             "id"    =>        $id ,  
 
         );
+        $infor_per_natu = array( // registro de persona natural
+            'nombre_ape'   	 => $this->input->post('nombre_ape'),
+            'cedula'   => $this->input->post('cedula'),
+            'rif'  => $this->input->post('rif'),
+            'bolivar_estimado' 	 => $this->input->post('bolivar_estimado'),
+            "pj"     => $this->input->post("pj"),
+            "sub_total"     => $this->input->post("sub_total"),
+            "total_bss"     => $this->input->post("total_bss"),
+            "status"     => 1,
+              
+
+        );
         $infor_per_prof = array( // registro infor profesional de la persona
             "n_certif"     => $this->input->post("numcertrnc"),
             "rif_cont"     => $this->input->post("rif_cont"),
@@ -588,7 +605,7 @@ class Certificacion extends CI_Controller
                    "id"    =>        $id , 
         );
         $data = $this->Certificacion_model->editarcertificacion_pj($rif_cont,$certifi,$experi_empre_capa,
-        $experi_empre_cap_comisi,$infor_per_prof,$for_mat_contr_publ,$exp_par_comi_10, $exp_dic_cap_3);
+        $experi_empre_cap_comisi, $infor_per_natu,$infor_per_prof,$for_mat_contr_publ,$exp_par_comi_10, $exp_dic_cap_3);
                                                     
 	   if ($data) {
 		   $this->session->set_flashdata('sa-success2', 'Se guardo los datos correctamente');

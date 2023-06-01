@@ -2,7 +2,7 @@ if ($('#id').val().length != " "){//FUNCION EN DONDE SE CARGA LA TABLA DE IFF
     var rif_cont = $('#id').val();
     
 
-    // var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar';
+     //var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar';
     var base_url = '/index.php/Certificacion/ver_certi_editar';
     $.ajax({
        url:base_url,
@@ -161,7 +161,7 @@ if ($('#id').val().length != " "){//FUNCION EN DONDE SE CARGA LA TABLA DE person
 
     var rif_cont = $('#id').val();
 
-   // var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar4';
+    //var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar4';
     var base_url = '/index.php/Certificacion/ver_certi_editar4';
     $.ajax({
        url:base_url,
@@ -179,6 +179,7 @@ if ($('#id').val().length != " "){//FUNCION EN DONDE SE CARGA LA TABLA DE person
                     var increment = increment +1;
                     newRow.className='myTr';
                     newRow.innerHTML = `
+                    <td>${value.cedula}<input type="text" name="cedula[]" id="ins-type-${increment}" hidden value="${value.cedula}"></td>
                     <td>${value.for_academica}<input type="text" name="for_academica[]" id="ins-type-${increment}" hidden value="${value.for_academica}"></td>
                     <td>${value.titulo}<input type="text" name="titulo[]" id="ins-type-${increment}" hidden value="${value.titulo}"></td>
                     <td>${value.ano}<input type="text" name="ano[]" id="ins-type-${increment}" hidden value="${value.ano}"></td>
@@ -234,6 +235,7 @@ if ($('#id').val().length != " "){ //Formación en Materia de Contratación Púb
                     var increment = increment +1;
                     newRow.className='myTr';
                     newRow.innerHTML = `
+                    <td>${value.cedula}<input type="text" name="cedula[]" id="ins-type-${increment}" hidden value="${value.cedula}"></td>
                     <td>${value.taller}<input type="text" name="taller[]" id="ins-type-${increment}" hidden value="${value.taller}"></td>
                     <td>${value.institucion}<input type="text" name="institucion[]" id="ins-type-${increment}" hidden value="${value.institucion}"></td>
                     <td>${value.hor_dura}<input type="text" name="hor_dura[]" id="ins-type-${increment}" hidden value="${value.hor_dura}"></td>
@@ -289,6 +291,7 @@ if ($('#id').val().length != " "){ // Experiencia de Participación en Comisione
                     var increment = increment +1;
                     newRow.className='myTr';
                     newRow.innerHTML = `
+                    <td>${value.cedula}<input type="text" name="cedula[]" id="ins-type-${increment}" hidden value="${value.cedula}"></td>
                     <td>${value.organo10}<input type="text" name="organo10[]" id="ins-type-${increment}" hidden value="${value.organo10}"></td>
                     <td>${value.act_adminis_desid}<input type="text" name="act_adminis_desid[]" id="ins-type-${increment}" hidden value="${value.act_adminis_desid}"></td>
                     <td>${value.n_acto}<input type="text" name="n_acto[]" id="ins-type-${increment}" hidden value="${value.n_acto}"></td>
@@ -327,7 +330,7 @@ if ($('#id').val().length != " "){ // Experiencia de Participación en Comisione
 
     var rif_cont = $('#id').val();
 
-   // var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar7';
+  //  var base_url =window.location.origin+'/asnc/index.php/Certificacion/ver_certi_editar7';
    var base_url = '/index.php/Certificacion/ver_certi_editar7';
     $.ajax({
        url:base_url,
@@ -345,6 +348,7 @@ if ($('#id').val().length != " "){ // Experiencia de Participación en Comisione
                     var increment = increment +1;
                     newRow.className='myTr';
                     newRow.innerHTML = `
+                    <td>${value.cedula}<input type="text" name="cedula[]" id="ins-type-${increment}" hidden value="${value.cedula}"></td>
                     <td>${value.organo3}<input type="text" name="organo3[]" id="ins-type-${increment}" hidden value="${value.organo3}"></td>
                     <td>${value.actividad3}<input type="text" name="actividad3[]" id="ins-type-${increment}" hidden value="${value.actividad3}"></td>
                     <td>${value.desde3}<input type="text" name="desde3[]" id="ins-type-${increment}" hidden value="${value.desde3}"></td>

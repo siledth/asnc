@@ -261,6 +261,279 @@
                                             </tbody>
                                         </table>
                                     </div>
+
+                                    <div class="col-12">
+                                        <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <h6 style="color:red;"> Información de la persona natural</h6>
+                                    </div>
+                                    <div class="panel-body">
+                                            <div class="row">
+                                                <div class="row">
+                                                    <div class="form-group col-8">
+                                                        <label>Nombres y Apellidos <b title="Campo Obligatorio"
+                                                                style="color:red">*</b></label>
+                                                        <input class="form-control" type="text" name="nombre_ape"
+                                                            id="nombre_ape" placeholder="Nombre"
+                                                            onkeyup="mayusculas(this);">
+                                                    </div>
+
+                                                    <div class="form-group col-4">
+                                                        <label>N.º. Cédula de Identidad: <b title="Campo Obligatorio"
+                                                                style="color:red">*</b></label>
+                                                        <input class="form-control" type="text" name="cedula"
+                                                            id="cedula" placeholder="VXXXXXXX">
+                                                    </div>
+                                                    <div class="form-group col-4">
+                                                        <label>N.º. RIF: <b title="Campo Obligatorio"
+                                                                style="color:red">*</b></label>
+                                                        <input class="form-control" type="text" name="rif" id="rif"
+                                                            placeholder="VXXXXXXXX">
+
+                                                    </div>
+                                                    <div class="form-group col-2">
+                                                        <label>Alícuota IVA Estimado<b
+                                                                style="color:red">*</b></label><br>
+                                                        <select style="width: 100%;" name="id_alicuota_iva"
+                                                            id="id_alicuota_iva" onchange="calcular();"
+                                                            class="form-control">
+                                                            <option value="">SELECCIONE</option>
+                                                            <?php foreach ($inf_12 as $data): ?>
+                                                            <option
+                                                                value="<?=$data['desc_alicuota_iva']?>/<?=$data['desc_porcentaj']?>">
+                                                                <?=$data['desc_porcentaj']?></option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group col-2">
+                                                        <label>Tasa Bolivares<b style="color:red">*</b></label>
+                                                        <?php if(isset(($exonerado))) {?>
+                                                        <input id="bolivar_estimado" name="bolivar_estimado" type="text"
+                                                            class="form-control" value="0" readonly>
+
+                                                        <?php  } else {
+
+                                                            foreach ($inf_20 as $data): ?>
+                                                        <input id="bolivar_estimado" name="bolivar_estimado" type="text"
+                                                            class="form-control" value="<?=$data['valor']?>" readonly>
+                                                        <?php endforeach;
+                                                        } ?>
+
+
+
+                                                    </div>
+
+                                                    <div class="form-group col-1">
+                                                        <input id="iva_estimado" name="iva_estimado" type="hidden"
+                                                            class="form-control" readonly>
+                                                    </div>
+                                                    <div class="form-group col-1">
+                                                        <input id="monto_estimado" name="monto_estimado" type="hidden"
+                                                            class="form-control" readonly>
+                                                    </div>
+
+                                                    <div class="col-12">
+                                                        <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
+                                                    </div>
+                                                    <h5 class="text-center"><b style="color:red;">NOTA:</b>Los campos
+                                                        con <b style="color:red;">*</b> son obligatorios.</h5>
+
+                                                    <div class="col-12 text-center">
+                                                        <button type="button" onclick="agregar_persona(this);"
+                                                            class="btn btn-lg btn-default">
+                                                            Agregar
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="table-responsive mt-4">
+                                                        <h5 class="text-center">Lista de Requerimiento</h5>
+                                                        <h5 class="text-center"><b style="color:red;">NOTA:</b> La tabla
+                                                            debe tener
+                                                            al
+                                                            menos un
+                                                            requerimiento agregado, para proceder con la solicitud.</h5>
+                                                        <table id="target_persona"
+                                                            class="table table-bordered table-hover">
+                                                            <thead style="background:#e4e7e8;">
+                                                                <tr class="text-center">
+                                                                    <th>Nombres y Apellidos</th>
+                                                                    <th>N.º. Cédula de Identidad.</th>
+                                                                    <th>N.º. RIF</th>
+                                                                    <th>Tasa Facilitador</th>
+                                                                    <th>Monto IVA Estimado</th>
+                                                                    <th>Monto total Estimado</th>
+                                                                    <th>Acciones</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody></tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="col-6"></div>
+                                                    <div class="form-group row col-6">
+                                                        <label class="col-form-label col-md-6 text-right">Persona
+                                                            Jurídica </label>
+                                                        <div class="col-md-6">
+                                                            <?php if(isset(($exonerado))) { ?>
+                                                            <input id="pj" name="pj" type="text" class="form-control"
+                                                                value="0" readonly>
+
+
+                                                            <?php  } else {
+                                                                foreach ($inf_21 as $data): ?>
+                                                            <input id="pj" name="pj" type="text"
+                                                                class="form-control text-center"
+                                                                value="<?=$data['valor']?>" readonly>
+                                                            <?php endforeach; ?>
+
+
+
+                                                            <?php  } ?>
+                                                            <input id="total_iva" name="total_iva" type="hidden"
+                                                                class="form-control text-center" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6"></div>
+                                                    <div class="form-group row col-6">
+                                                        <label
+                                                            class="col-form-label col-md-6 text-right">Subtotal</label>
+                                                        <div class="col-md-6">
+
+                                                            <input id="sub_total" name="sub_total" type="text"
+                                                                class="form-control text-center" readonly>
+
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6"></div>
+                                                    <div class="form-group row col-6">
+                                                        <label class="col-form-label col-md-6 text-right">IVA</label>
+                                                        <div class="col-md-6">
+
+                                                            <input id="total_pj" name="total_pj" type="hidden"
+                                                                class="form-control text-center" readonly>
+
+
+                                                            <input id="total_final" name="total_final" type="text"
+                                                                class="form-control text-center" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6"></div>
+                                                    <div class="form-group row col-6">
+                                                        <label class="col-form-label col-md-6 text-right">Bolivares a
+                                                            Pagar </label>
+                                                        <div class="col-md-6">
+
+                                                            <input id="total_bs" name="total_bs" type="hidden"
+                                                                class="form-control text-center" readonly>
+
+
+
+                                                            <input id="total_bss" name="total_bss" type="text"
+                                                                class="form-control text-center" readonly>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <!-- ////////////// aca empiesa datos bancarios-->
+                                                    <?php if(isset(($exonerado))) { ?>
+                                                    <div class="row">
+
+
+                                                        <div class="form-group col-3">
+
+                                                            <input id="n_ref" name="n_ref" type="hidden"
+                                                                Value="Exonerado" class="form-control">
+                                                        </div>
+                                                        <div class="form-group col-4">
+
+
+                                                            <input id="banco_e" name="banco_e" type="hidden"
+                                                                Value="Exonerado" class="form-control">
+
+                                                        </div>
+
+                                                        <div class="form-group col-4">
+
+
+                                                            <input id="banco_rec" name="banco_rec" type="hidden"
+                                                                Value="Exonerado" class="form-control">
+                                                        </div>
+                                                        <div class="form-group col-3">
+
+                                                            <input class="form-control" type="hidden" name="fecha_trans"
+                                                                id="fecha_trans" Value="<?=$time?>">
+                                                        </div>
+                                                        <div class="form-group col-3">
+                                                            <input id="monto_trans" name="monto_trans" type="hidden"
+                                                                Value="0" class="form-control">
+                                                        </div>
+
+
+
+                                                    </div>
+
+                                                </div>
+
+                                                <?php  } else { ?>
+
+
+                                                <div class="form-group col-8">
+                                                    <label class="col-form-label col-md-6 text-right">Numero de
+                                                        Cuenta </label>
+                                                    <textarea class="form-control" name="h" id="v" rows="5" cols="50"
+                                                        readonly>Los pagos deben realizarse en el Banco de Venezuela a la Cuenta Corriente N° 01020552270000042877 a nombre del Servicio Nacional de Contrataciones RIF G-200024518. No se acepta el pago con cheques.</textarea>
+                                                </div>
+                                                <div class="form-group col-3">
+                                                    <label class="col-form-label col-md-6 text-right">Numero de
+                                                        Referencia </label>
+                                                    <input id="n_ref" name="n_ref" type="text" class="form-control">
+                                                </div>
+                                                <div class="form-group col-4">
+                                                    <label>Banco Emisor <b title="Campo Obligatorio"
+                                                            style="color:red">*</b></label>
+
+                                                    <select style="width: 100%;" name="banco_e" id="banco_e"
+                                                        class="default-select2 form-control ">
+                                                        <option value="">SELECCIONE</option>
+                                                        <?php foreach ($bancos as $data): ?>
+                                                        <option value="<?=$data['nombre_b']?>">
+                                                            <?=$data['nombre_b']?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group col-4">
+                                                    <label>Banco Receptor <b title="Campo Obligatorio"
+                                                            style="color:red">*</b></label>
+                                                    <select style="width: 100%;" name="banco_rec" id="banco_rec"
+                                                        class="default-select2 form-control ">
+                                                        <option value="">SELECCIONE</option>
+                                                        <option value="BANCO DE VENEZUELA">BANCO DE VENEZUELA</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-3">
+                                                    <label>Fecha de La trasferencia <b title="Campo Obligatorio"
+                                                            style="color:red">*</b></label>
+                                                    <input class="form-control" type="date" name="fecha_trans"
+                                                        id="fecha_trans" max="<?=$time?>">
+                                                </div>
+                                                <div class="form-group col-3">
+                                                    <label>Ingrese Monto de la trasferencia <b title="Campo Obligatorio"
+                                                            style="color:red">*</b></label>
+                                                    <input class="form-control" type="text" name="monto_trans"
+                                                        id="monto_trans" onkeypress="return valideKey(event);">
+                                                </div>
+                                                <?php     } ?>
+                                            </div>
+                                        </div>
+
+
+
+
+
                                     <div class="col-12">
                                         <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
                                     </div>
@@ -332,6 +605,7 @@
                                                         class="table table-bordered table-hover">
                                                         <thead style="background:#e4e7e8;">
                                                             <tr class="text-center">
+                                                               <th>Cedula</th>
                                                                 <th>Formación Académica</th>
                                                                 <th>Título Obtenido</th>
                                                                 <th>Año de Inicio</th>
@@ -420,6 +694,7 @@
                                                                 class="table table-bordered table-hover">
                                                                 <thead style="background:#e4e7e8;">
                                                                     <tr class="text-center">
+                                                                        <th>Cedula</th>
                                                                         <th>Taller o Curso</th>
                                                                         <th>Institución</th>
                                                                         <th>Horas de Duración</th>
@@ -508,6 +783,7 @@
                                                     <table id="target_exp_10" class="table table-bordered table-hover">
                                                         <thead style="background:#e4e7e8;">
                                                             <tr class="text-center">
+                                                                 <th>Cedula</th>
                                                                 <th>Órgano/Ente/Institución/Empresa</th>
                                                                 <th>Acto Administrativo de Designación</th>
                                                                 <th>N° del Acto</th>
@@ -576,7 +852,8 @@
                                                     <table id="target_es_3a" class="table table-bordered table-hover">
                                                         <thead style="background:#e4e7e8;">
                                                             <tr class="text-center">
-                                                                <th>Órgano o Ente de la Comisión de Contrataciones</th>
+                                                            <th>Cedula</th>    
+                                                            <th>Órgano o Ente de la Comisión de Contrataciones</th>
                                                                 <th>Actividad.</th>
                                                                 <th>Desde.</th>
                                                                 <th>Hasta</th>
