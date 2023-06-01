@@ -54,6 +54,7 @@ class Certificacion extends CI_Controller
         $usuario = $this->session->userdata('id_user');
         $data['ver_certi'] = $this->Certificacion_model->consulta_certi_pendiente();
         $data['bancos'] = $this->Publicaciones_model->consultar_b();
+        $data['time']=date("Y-m-d");
 		$this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
 		$this->load->view('certificacion/listar_certificado.php', $data);
