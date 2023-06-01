@@ -210,7 +210,8 @@ class Certificacion_model extends CI_model
                         'ano'             => $infor_per_prof['ano'][$i],
                         'culminacion' 	 => $infor_per_prof['culminacion'][$i],
                         'curso' 	            => $infor_per_prof['curso'][$i],
-                        'nro_comprobante'=> $certifi['nro_comprobante']
+                        'nro_comprobante'=> $certifi['nro_comprobante'],
+                        'cedula'          	=> $infor_per_natu['cedula'][$i],
                         
                        
                     );
@@ -234,7 +235,8 @@ class Certificacion_model extends CI_model
                         'certi' 	 => $for_mat_contr_publ['certi'][$i],
                         'fech_cert' 	 => $for_mat_contr_publ['fech_cert'][$i],
                         'vigencia' 	   => $for_mat_contr_publ['vigencia'][$i],
-                        'nro_comprobante'=> $certifi['nro_comprobante']
+                        'nro_comprobante'=> $certifi['nro_comprobante'],
+                        'cedula'          	=> $infor_per_natu['cedula'][$i],
                         
                        
                     );
@@ -258,6 +260,7 @@ class Certificacion_model extends CI_model
                         'fecha_act' 	 => $exp_par_comi_10['fecha_act'][$i],
                         'area_10' 	 => $exp_par_comi_10['area_10'][$i],
                         'dura_comi' 	   => $exp_par_comi_10['dura_comi'][$i],
+                        'cedula'          	=> $infor_per_natu['cedula'][$i],
                        
                         
                        
@@ -280,6 +283,7 @@ class Certificacion_model extends CI_model
                         'actividad3'   => $exp_dic_cap_3['actividad3'][$i],
                         'desde3'      => $exp_dic_cap_3['desde3'][$i],
                         'hasta3' 	 => $exp_dic_cap_3['hasta3'][$i],
+                        'cedula'          	=> $infor_per_natu['cedula'][$i],
                        
                         
                        
