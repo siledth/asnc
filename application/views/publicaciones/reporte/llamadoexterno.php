@@ -55,8 +55,8 @@
                                         <td> <?=date("d/m/Y", strtotime($data['formatted_date']));?>
                                         </td>
 
-                                        <?php if   (($data['estatus'] == 'ANULADO' )  ): ?>
-                                        <td style="color:red;"><?=$data['estatus']?></td>
+                                        <?php if   (($data['estatus'] == 'Prorrogado' )  ): ?>
+                                        <td style="color:yellow;"><b><?=$data['estatus']?></td>
                                         <?php elseif   ( $data['estatus'] == 'Finalizado' ): ?>
                                         <td style="color:blue;"><?=$data['estatus']?> </td>
 
@@ -211,17 +211,17 @@
                                         <input type="text" class="form-control" id="objeto_contratacion"
                                             name="objeto_contratacion" readonly>
                                     </div>
-                                    <div class="form-group col-2">
+                                    <!-- <div class="form-group col-2">
                                         <label>Días hábiles</label>
                                         <input type="text" class="form-control" id="dias_habiles" name="dias_habiles"
                                             readonly>
-                                    </div>
+                                    </div> -->
                                     <div class="form-group col-5">
                                         <label>Fecha de Disponibilidad</label>
                                         <input type="text" class="form-control" id="fecha_disponible_llamado"
                                             name="fecha_disponible_llamado" readonly>
                                     </div>
-                                    <div class="form-group col-3">
+                                    <div class="form-group col-5">
                                         <label>Fecha Fin</label>
                                         <input type="text" class="form-control" id="fecha_fin_llamado"
                                             name="fecha_fin_llamado" readonly>

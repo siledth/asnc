@@ -13,7 +13,7 @@ function desbloquear_usuario(id_fact) {
         .then((result) => {
             if (result.value == true) {
                 var id = id_fact;
-
+desbloquear_usuario
               // var base_url =window.location.origin+'/asnc/index.php/User/desbloquear_usuario';
                var base_url = '/index.php/User/desbloquear_usuario';
                     //var base_url = '/index.php//User/desbloquear_usuario';
