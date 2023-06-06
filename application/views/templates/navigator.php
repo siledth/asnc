@@ -188,8 +188,7 @@
                                 <?php endif; ?>
                                 <?php if (($this->session->userdata('anul_llamado') == 1)) : ?>
                                 <li>
-                                    <a href="<?= base_url() ?>index.php/Publicaciones/anulacion">- Anular llamado a
-                                        Consurso </a>
+                                    <a href="<?= base_url() ?>index.php/Publicaciones/anulacion">-Procesos asociados al Llamado a Concurso </a>
                                 </li>
                                 <?php endif; ?>
                                 <?php if (($this->session->userdata('ver_anul_llamado') == 1)) : ?>

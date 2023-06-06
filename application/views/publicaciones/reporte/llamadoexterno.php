@@ -56,9 +56,11 @@
                                         </td>
 
                                         <?php if   (($data['estatus'] == 'Prorrogado' )  ): ?>
-                                        <td style="color:yellow;"><b><?=$data['estatus']?></td>
-                                        <?php elseif   ( $data['estatus'] == 'Finalizado' ): ?>
-                                        <td style="color:blue;"><?=$data['estatus']?> </td>
+                                        <td style="color:#900C3F;"><b><?=$data['estatus']?></td>
+                                        <?php elseif   ( $data['estatus'] == 'Suspendido' ): ?>
+                                        <td style="color:orange;"><?=$data['estatus']?> </td>
+                                        <?php elseif   ( $data['estatus'] == 'Re-Iniciado' ): ?>
+                                        <td style="color:#355E3B;"><b><?=$data['estatus']?></b> </td>
 
                                         <?php else: ?>
                                         <td style="color:green;"><?=$data['estatus']?></td>
@@ -300,7 +302,13 @@
                                         <textarea class="form-control" id="observaciones" name="observaciones" rows="6"
                                             cols="80" readonly>  </textarea>
                                     </div>
+                                   
+                                    <div class="form-group col-12">
+                                        <label>Especificación</label>
 
+                                        <textarea class="form-control" id="especifique_anulacion" name="especifique_anulacion" rows="2"
+                                            cols="80" readonly>  </textarea>
+                                    </div>
                                 </div>
 
                             </div>

@@ -91,6 +91,7 @@ function modal_ver(id) {
             $('#lugar_entrega').val(response['lugar_entrega']);
             $('#direccion_sobre').val(response['direccion_sobre']);
             $('#observaciones').val(response['observaciones']);
+            $('#especifique_anulacion').val(response['especifique_anulacion']);
             //////////////////formatear fechas   
             var fecha = Date.parse(response['fecha_llamado'])
             const date = new Date(fecha)

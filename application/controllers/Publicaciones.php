@@ -14,6 +14,7 @@ class Publicaciones extends CI_Controller {
         $data =	$this->Publicaciones_model->consultar_numeropro($data);
         echo json_encode($data);
     }
+
     //aca anulacion de un llamdo a consulros 
 
     public function anulacion(){
@@ -158,6 +159,25 @@ class Publicaciones extends CI_Controller {
 		 }
 	}
 ///////////////SUSPENCION//////////////////////////
+public function suspension(){
+    if(!$this->session->userdata('session'))
+    redirect('login');
+    $data['descripcion'] = $this->session->userdata('unidad');
+    $data['rif'] = $this->session->userdata('rif');
+    $parametros = $this->input->get('id');
+    $data['numero_proceso']=$this->input->get('id');
+    $data['causa_prorroga'] = $this->Publicaciones_model->causa_prorroga();
+    $data['time']=date("Y-m-d");
+    $data['causa_suspencion'] = $this->Publicaciones_model->causa_suspencion();
+    $data['supuestos'] = $this->Publicaciones_model->supuestos();
+    $data['inf_1'] = $this->Publicaciones_model->inf_1($data['numero_proceso']);
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+      $this->load->view('publicaciones/suspension/suspension.php', $data);
+    
+    $this->load->view('templates/footer.php');
+}
+
     public function guardar_suspencion() {
         if (!$this->session->userdata('session'))
             redirect('login');
@@ -213,19 +233,41 @@ class Publicaciones extends CI_Controller {
         echo json_encode($data);
     }
     ///////////////////////////////terminacion manual///////////////////////
-    public function guardar_termina() {
+    public function terminado(){
+        if(!$this->session->userdata('session'))
+        redirect('login');
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $data['rif'] = $this->session->userdata('rif');
+        $parametros = $this->input->get('id');
+        $data['numero_proceso']=$this->input->get('id');
+        $data['causa_prorroga'] = $this->Publicaciones_model->causa_prorroga();
+        $data['time']=date("Y-m-d");
+        $data['causa_suspencion'] = $this->Publicaciones_model->causa_suspencion();
+        $data['supuestos'] = $this->Publicaciones_model->supuestos();
+        $data['inf_1'] = $this->Publicaciones_model->inf_1($data['numero_proceso']);
+        $data['terminar_manual'] = $this->Publicaciones_model->terminar_manual();
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+          $this->load->view('publicaciones/terminado/terminado.php', $data);
+        
+        $this->load->view('templates/footer.php');
+    }
+   
+   
+    public function guardar_terminados() {
         if (!$this->session->userdata('session'))
             redirect('login');
+            $estatus = '0';
         $data = array(
-            'numero_proceso' => $this->input->POST('numero_proceso2'),
+            'numero_proceso' => $this->input->POST('numero_proceso'),
             'fecha_cam_estatus' =>date("Y-m-d"),
-            'especifique_anulacion' => $this->input->POST('especifique_anulacion2'),
+            'especifique_anulacion' => $this->input->POST('especifique_anulacion'),
             'articulo' => $this->input->POST('causa_termino'),
-            'estatus' => 0,
+            "estatus"     => $this->input->POST('estatus'),
 
             
         );
-        $data = $this->Publicaciones_model->guardar_termino($data);
+        $data = $this->Publicaciones_model->guar_termino($data);
         echo json_encode($data);
     }
     //CRUD BANCO

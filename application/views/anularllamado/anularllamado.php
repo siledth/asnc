@@ -43,7 +43,7 @@
 
 
                                     <td class="center">
-                                        <?php if (( $ver['fecha_disponible_llamado'] > $time) && ( $ver['estatus']==4) ): ?>
+                                        <?php if (( $ver['fecha_disponible_llamado'] > $time) && ( $ver['id_llcestatus']==4) ): ?>
                                         <a href="<?php echo base_url();?>index.php/Publicaciones/anular?id=<?php echo $ver['numero_proceso'];?>"
                                             class="button">
                                             <i class="fas fa-2x fa-fw  fa-ban" style="color: red;"
@@ -52,22 +52,23 @@
 
                                             <?php endif; ?>
 
-                                            <?php if (($time <= $ver['fecha_tope']) && ( $ver['estatus'] > 3 && ( $ver['estatus'] < 7)) ): ?>
+                                            <?php if (($time <= $ver['fecha_tope']) && ( $ver['id_llcestatus'] > 3 && ( $ver['id_llcestatus'] < 7)) ): ?>
                                             <a href="<?php echo base_url();?>index.php/Publicaciones/prorroga?id=<?php echo $ver['numero_proceso'];?>"
                                                 class="button">
-                                                <i class="fa fa-2x fa-retweet" style="color: yellow;"
+                                                <i class="fa fa-2x fa-retweet" style="color: #900C3F;"
                                                     title="Prorrogar número de procedimiento"></i>
                                                 <a />
                                                 <?php endif; ?>
-                                                <?php if (($time <= $ver['fecha_fin_llamado']) && ( $ver['estatus']> 3) && ( $ver['estatus']< 7)  ): ?>
-                                                <a onclick="modal(<?php echo $ver['numero_proceso'] ?>);"
-                                                    data-toggle="modal" data-target="#exampleModal"
-                                                    style="color: white">
-                                                    <i title="Suspender número de procedimiento"
-                                                        class="fa fa-2x fa-hourglass-half" style="color: orange;"></i>
-                                                </a>
+                                                <?php if (($time <= $ver['fecha_fin_llamado']) && ( $ver['id_llcestatus']> 3) && ( $ver['id_llcestatus']< 7)  ): ?>
+                                                    <a href="<?php echo base_url();?>index.php/Publicaciones/suspension?id=<?php echo $ver['numero_proceso'];?>"
+                                                class="button">
+                                                <i class="fa fa-2x fa-hourglass-half" style="color: orange;"
+                                                    title="Suspender número de procedimiento"></i>
+                                                <a />
+                                               
+                                               
                                                 <?php endif; ?>
-                                                <?php if (( $ver['estatus']==7) ): ?>
+                                                <?php if (( $ver['id_llcestatus']==7) ): ?>
                                                     <a href="<?php echo base_url();?>index.php/Publicaciones/re_iniciar?id=<?php echo $ver['numero_proceso'];?>"
                                                 class="button">
                                                 <i class="fa fa-2x fa-history" style="color: green;"
@@ -75,14 +76,12 @@
                                                         title="Re-Iniciar número de procedimiento"></i>
                                                 <a />
                                                 <?php endif; ?>
-                                                <?php if (($time <= $ver['fecha_fin_llamado']) && ( $ver['estatus']>3)  ): ?>
-                                                <a onclick="modal(<?php echo $ver['numero_proceso']?>);"
-                                                    data-toggle="modal" data-target="#exampleModal1"
-                                                    style="color: white">
-                                                    <i class="fa fa-2x fa-window-close" style="color: blue;"
-                                                        aria-hidden="true" title="Terminar número de procedimiento"></i>
-
-                                                </a>
+                                                <?php if (($time <= $ver['fecha_fin_llamado']) && ( $ver['id_llcestatus']>3)  ): ?>
+                                                    <a href="<?php echo base_url();?>index.php/Publicaciones/terminado?id=<?php echo $ver['numero_proceso'];?>"
+                                                class="button">
+                                                <i class="fa fa-2x fa-window-close" style="color: blue;"
+                                                    title="Terminar número de procedimiento"></i>
+                                                <a />
                                                 <?php endif; ?>
 
 

@@ -1,5 +1,6 @@
 <?php
     class Publicaciones_model extends CI_model{
+		
 		public function consultar_numeropro($data){
             $this->db->select('m.*');
             $this->db->from('public.llamado_concurso m');
@@ -8,7 +9,6 @@
             $resultado = $query->row_array();
             return $resultado;
 	    }
-		
 		public function consulta_llamados($rif){
             $this->db->select('*');
             $this->db->from('public.llamado_concurso_view');
@@ -103,7 +103,11 @@
 			id_municipio, direccion, hora_desde_sobre, id_estado_sobre, id_municipio_sobre, 
 			direccion_sobre, lugar_entrega, observaciones, estatus, especifique_anulacion, fecha_inicio_aclaratoria
 			)
-			select  rif_organoente, numero_proceso, id_modalidad, id_mecanismo, id_objeto_contratacion, dias_habiles, fecha_llamado, fecha_disponible_llamado, fecha_fin_aclaratoria, fecha_tope, fecha_fin_llamado, denominacion_proceso, descripcion_contratacion, web_contratante, hora_desde, hora_hasta, id_estado, id_municipio, direccion, hora_desde_sobre, id_estado_sobre, id_municipio_sobre, direccion_sobre, lugar_entrega, observaciones, estatus, especifique_anulacion, fecha_inicio_aclaratoria
+			select  rif_organoente, numero_proceso, id_modalidad, id_mecanismo, id_objeto_contratacion, dias_habiles,
+			 fecha_llamado, fecha_disponible_llamado, fecha_fin_aclaratoria, fecha_tope, fecha_fin_llamado, denominacion_proceso, 
+			 descripcion_contratacion, web_contratante, hora_desde, hora_hasta, id_estado, id_municipio, direccion, hora_desde_sobre,
+			  id_estado_sobre, id_municipio_sobre, direccion_sobre, lugar_entrega, observaciones, estatus, 
+			  especifique_anulacion, fecha_inicio_aclaratoria
 			FROM public.llamado_concurso
 			where numero_proceso= '$numero_proceso2'" 
 									 );
@@ -128,10 +132,17 @@
         
 			 $update = $this->db->update('public.llamado_concurso', $data);
 			 //// esto guarda el historico de este cambio en el llamado
-			 $query = $this->db->query("insert into historico_llamado_concurso (rif_organoente, numero_proceso, id_modalidad, id_mecanismo, id_objeto_contratacion, dias_habiles, fecha_llamado, fecha_disponible_llamado, fecha_fin_aclaratoria, fecha_tope, fecha_fin_llamado, denominacion_proceso, descripcion_contratacion, web_contratante, hora_desde, hora_hasta, id_estado, id_municipio, direccion, hora_desde_sobre, id_estado_sobre, id_municipio_sobre, direccion_sobre, lugar_entrega, observaciones, estatus, especifique_anulacion, fecha_inicio_aclaratoria, 
+			 $query = $this->db->query("insert into historico_llamado_concurso (rif_organoente, numero_proceso, id_modalidad, id_mecanismo,
+			  id_objeto_contratacion, dias_habiles, fecha_llamado, fecha_disponible_llamado, fecha_fin_aclaratoria, fecha_tope, fecha_fin_llamado,
+			   denominacion_proceso, descripcion_contratacion, web_contratante, hora_desde, hora_hasta, id_estado, id_municipio, direccion, hora_desde_sobre, 
+			   id_estado_sobre, id_municipio_sobre, direccion_sobre, lugar_entrega, observaciones, estatus, especifique_anulacion, fecha_inicio_aclaratoria, 
 			fecha_cam_estatus, articulo, id_usuario, fecha45dias
 		   )
-		   select  rif_organoente, numero_proceso, id_modalidad, id_mecanismo, id_objeto_contratacion, dias_habiles, fecha_llamado, fecha_disponible_llamado, fecha_fin_aclaratoria, fecha_tope, fecha_fin_llamado, denominacion_proceso, descripcion_contratacion, web_contratante, hora_desde, hora_hasta, id_estado, id_municipio, direccion, hora_desde_sobre, id_estado_sobre, id_municipio_sobre, direccion_sobre, lugar_entrega, observaciones, estatus, especifique_anulacion, fecha_inicio_aclaratoria, fecha_cam_estatus, articulo, id_usuario, fecha45dias
+		   select  rif_organoente, numero_proceso, id_modalidad, id_mecanismo, id_objeto_contratacion, dias_habiles, 
+		   fecha_llamado, fecha_disponible_llamado, fecha_fin_aclaratoria, fecha_tope, fecha_fin_llamado, denominacion_proceso,
+		    descripcion_contratacion, web_contratante, hora_desde, hora_hasta, id_estado, id_municipio, direccion, 
+			hora_desde_sobre, id_estado_sobre, id_municipio_sobre, direccion_sobre, lugar_entrega, observaciones,
+			 estatus, especifique_anulacion, fecha_inicio_aclaratoria, fecha_cam_estatus, articulo, id_usuario, fecha45dias
 		   FROM public.llamado_concurso
 			where numero_proceso= '$numero_proceso'and estatus='5'" 
 									 );
@@ -200,7 +211,8 @@
             return true;
         }
 		///////////////////////terminacion
-		public function guardar_termino($data){
+
+		public function guar_termino($data){
 			$numero_proceso=$data['numero_proceso'];
 			$this->db->select('max(e.id) as id');
                  $query = $this->db->get('historico_llamado_concurso  e');
@@ -235,6 +247,8 @@
 									 );
             return true;
         }
+
+		/////////////////////////////////////////////////
 	//CRUP BANCO
 		function consultar_b(){
 			$this->db->select('*');

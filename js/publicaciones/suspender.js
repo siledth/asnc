@@ -1,24 +1,3 @@
-function modal(id) {
-    var numero_proceso = id;
-
-    var base_url =
-        window.location.origin + "/asnc/index.php/Publicaciones/consultar_numeropro";
-
-     
-
-    $.ajax({
-        url: base_url,
-        method: "post",
-        data: { numero_proceso: numero_proceso },
-        dataType: "json",
-        success: function(data) {
-            $("#numero_proceso").val(numero_proceso);
-            
-
-            
-        },
-    });
-}
 function llenar_pago() {
     var tipo_pago = $("#supuesto").val();
     if (tipo_pago > "7") {
@@ -51,9 +30,10 @@ function guardar_suspencion(){
           
             if (result.value == true) {
                 event.preventDefault();
-                var datos = new FormData($("#guardar_proc_suspencion")[0]);
-                var base_url =window.location.origin+'/asnc/index.php/publicaciones/guardar_suspencion';
-                //var base_url = '/index.php/publicaciones/guardar_suspencion';
+                var datos = new FormData($("#guardar_ba")[0]);
+               // var base_url =window.location.origin+'/asnc/index.php/publicaciones/guardar_suspencion';
+                var base_url = '/index.php/publicaciones/guardar_suspencion';
+                var base_url_2 = '/index.php/publicaciones/anulacion';
                 $.ajax({
                     url:base_url,
                     method: 'POST',
@@ -70,7 +50,7 @@ function guardar_suspencion(){
                                 confirmButtonText: 'Ok'
                             }).then((result) => {
                                 if (result.value == true){
-                                    location.reload();
+                                    window.location.href = base_url_2;
                                 }
                             });
                         }

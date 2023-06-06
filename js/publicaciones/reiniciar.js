@@ -29,10 +29,10 @@ function guardar_reinicio(){
             if (result.value == true) {
                 event.preventDefault();
                 var datos = new FormData($("#guardar_ba")[0]);
-                var base_url =window.location.origin+'/asnc/index.php/publicaciones/guardar_reinicio';
-                //var base_url = '/index.php/publicaciones/guardar_reinicio';
-                var base_url_2 =window.location.origin+'/asnc/index.php/publicaciones/anulacion';
-               // var base_url_2 = '/index.php/publicaciones/anulacion';
+                //var base_url =window.location.origin+'/asnc/index.php/publicaciones/guardar_reinicio';
+                var base_url = '/index.php/publicaciones/guardar_reinicio';
+               // var base_url_2 =window.location.origin+'/asnc/index.php/publicaciones/anulacion';
+                var base_url_2 = '/index.php/publicaciones/anulacion';
                 $.ajax({
                     url:base_url,
                     method: 'POST',
