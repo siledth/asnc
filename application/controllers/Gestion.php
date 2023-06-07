@@ -36,9 +36,10 @@ class Gestion extends CI_Controller {
 
   public function registrollamado() {
     $this->sesionIniciada();
+    $data['time']=date("Y-m-d");
     $this->load->view('templates/header.php');
     $this->load->view('templates/navigator.php');
-    $this->load->view('gestion/regllamadoconcurso.php');
+    $this->load->view('gestion/regllamadoconcurso.php', $data);
     $this->load->view('templates/footer.php');
   }
 
@@ -110,12 +111,42 @@ class Gestion extends CI_Controller {
     if (!$this->session->userdata('session')) {
       $date=date("d-m-Y");
       $data['exonerado'] = $this->Certificacion_model->consultar_llamados_externos($date);
+      $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
+      $data['objeto'] 	 = $this->Configuracion_model->objeto();
       $this->load->view('templates/header.php');
       $this->load->view('templates/navsinsesion.php');
       $this->load->view('publicaciones/reporte/llamadoexterno.php', $data);
       $this->load->view('templates/footer.php');
     } else {
       $date=date("d-m-Y");
+      $data['exonerado'] = $this->Certificacion_model->consultar_llamados_externos($date);
+      $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
+      $data['objeto'] 	 = $this->Configuracion_model->objeto();
+      $this->load->view('templates/header.php');
+      $this->load->view('templates/navigator.php');
+      $this->load->view('publicaciones/reporte/llamadoexterno.php', $data);
+      $this->load->view('templates/footer.php');
+    } 
+
+  }
+  public function llamadoxternot() {
+    if (!$this->session->userdata('session')) {
+      $date=date("d-m-Y");
+      $data['exonerado'] = $this->Certificacion_model->consultar_llamados_externos($date);
+      $data['estado']= $this->input->post("estado");
+      $data['objetos']     = $this->input->post("objeto");
+      $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
+      $objeto	 = $this->Configuracion_model->objeto();
+      $this->load->view('templates/header.php');
+      $this->load->view('templates/navsinsesion.php');
+      $this->load->view('publicaciones/reporte/llamadoexterno.php', $data, $objeto);
+      $this->load->view('templates/footer.php');
+    } else {
+      $date=date("d-m-Y");
+      $data['estado']= $this->input->post("estado");
+      $data['objetos']     = $this->input->post("objeto");
+      $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
+      $data['objeto'] 	 = $this->Configuracion_model->objeto();
       $data['exonerado'] = $this->Certificacion_model->consultar_llamados_externos($date);
       $this->load->view('templates/header.php');
       $this->load->view('templates/navigator.php');

@@ -1,8 +1,6 @@
 <option value="0">Seleccione</option><?php
 
-/**
- * @author Gary Diaz <garyking1982@gmail.com>
- */
+
 ?>
 
 <div id="content" class="content">
@@ -13,6 +11,7 @@
 				<h3 class="text-center" id="tituloForm"><i class="ion-ios-list-outline"></i> Registro de Llamado a Concurso</h3>
 				<fieldset class="border border-success p-10 shadow-lg">
 					<legend class="font-weight-bold">Datos del Organo-Ente</legend>
+					
 					<div class="row">
 						<div class="form-group col-lg-3 col-md-6 col-sm-12">
 							<label for="txtRif">RIF</label>
@@ -44,7 +43,8 @@
 						</div>
 						<div class="form-group col-lg-6 col-md-6 col-sm-12">
 							<label for="txtFechaLlamado">Fecha de Llamado</label>
-							<input type="date" class="form-control" id="txtFechaLlamado" placeholder="Fecha de llamado" require>
+							<input type="date" class="form-control" id="txtFechaLlamado" placeholder="Fecha de llamado"
+							min="<?=$time?>" require>
 							<small id="errFechaLlamado" class="form-text text-muted text-red-darker"></small>
 						</div>
 					</div>

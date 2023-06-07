@@ -48,6 +48,7 @@
                                 <input id="fecha_fin_llamado" name="fecha_fin_llamado"
                                     value="<?=$inf_1['fecha_fin_llamado']?>" type="date" class="form-control"
                                     min="<?=$inf_1['fecha_fin_llamado']?>" onchange="getSinFestivosNiFinDeSemana();">
+                                    <div id="result-finde"></div>
                             </div>
                            
                             <div class="col-4  form-group">

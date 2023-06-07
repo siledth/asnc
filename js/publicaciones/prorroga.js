@@ -29,17 +29,17 @@ function guardar_prorroga(){
                 return 0;
                 }
             if (document.guardar_ba.especifique_anulacion.value.length==0){
-                alert("No Puede dejar el campo especifique anulacion vacio, Ingrese un especifique anulacion en el menu Programa del curso o taller")
+                alert("No Puede dejar el campo Observación sobre la Prorroga  vacio, Ingrese una Observación sobre la Prorroga ")
                 document.guardar_ba.especifique_anulacion.focus()
                 return 0;
          }
             if (result.value == true) {
                 event.preventDefault();
                 var datos = new FormData($("#guardar_ba")[0]);
-               // var base_url =window.location.origin+'/asnc/index.php/publicaciones/guardar_Prorroga';
+            //    var base_url =window.location.origin+'/asnc/index.php/publicaciones/guardar_Prorroga';
+            //     var base_url_2 =window.location.origin+'/asnc/index.php/publicaciones/anulacion';
                 var base_url = '/index.php/publicaciones/guardar_Prorroga';
-                //var base_url_2 =window.location.origin+'/asnc/index.php/publicaciones/anulacion';
-               var base_url_2 = '/index.php/publicaciones/anulacion';
+                var base_url_2 = '/index.php/publicaciones/anulacion';
                 $.ajax({
                     url:base_url,
                     method: 'POST',
@@ -49,7 +49,7 @@ function guardar_prorroga(){
                     success: function(response){
                         if(response != '') {
                             swal.fire({
-                                title: 'Registro Exitoso',
+                                title: 'LLamado a concurso Prorrogado',
                                 type: 'success',
                                 showCancelButton: false,
                                 confirmButtonColor: '#3085d6',
@@ -142,7 +142,7 @@ function guardar_termino_manual(){
     }else {
         event.preventDefault();
         swal.fire({
-            title: '¿Terminar LLamado a Concurso?',
+            title: '¿Terminar manual LLamado a Concurso?',
             text: '¿Esta seguro de Guardar?',
             type: 'warning',
             showCancelButton: true,
@@ -164,9 +164,9 @@ function guardar_termino_manual(){
             if (result.value == true) {
                 event.preventDefault();
                 var datos = new FormData($("#guardar_ba")[0]);
-               // var base_url =window.location.origin+'/asnc/index.php/publicaciones/guardar_Prorroga';
+            //    var base_url =window.location.origin+'/asnc/index.php/publicaciones/guardar_terminados';
+            //     var base_url_2 =window.location.origin+'/asnc/index.php/publicaciones/anulacion';
                 var base_url = '/index.php/publicaciones/guardar_terminados';
-                //var base_url_2 =window.location.origin+'/asnc/index.php/publicaciones/anulacion';
                var base_url_2 = '/index.php/publicaciones/anulacion';
                 $.ajax({
                     url:base_url,
@@ -177,7 +177,7 @@ function guardar_termino_manual(){
                     success: function(response){
                         if(response != '') {
                             swal.fire({
-                                title: 'LLamado a concurso Terminado , Exito!',
+                                title: 'LLamado a concurso Terminado manual , Exito!',
                                 type: 'success',
                                 showCancelButton: false,
                                 confirmButtonColor: '#3085d6',

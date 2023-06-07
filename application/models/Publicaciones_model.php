@@ -118,12 +118,17 @@
 		
 		public function guardar_Prorroga($data){
 			$numero_proceso=$data['numero_proceso'];
+			$this->db->select('max(e.id) as id');
+                 $query = $this->db->get('historico_llamado_concurso  e');
+				 $this->db->where('numero_proceso', $numero_proceso);
+                 $response3 = $query->row_array();
+                 $id = $response3['id'] + 1 ;
                
 			//esto guarda el primer registro
-			$query = $this->db->query("insert into historico_llamado_concurso (rif_organoente, numero_proceso, id_modalidad, id_mecanismo, id_objeto_contratacion, dias_habiles, fecha_llamado, fecha_disponible_llamado, fecha_fin_aclaratoria, fecha_tope, fecha_fin_llamado, denominacion_proceso, descripcion_contratacion, web_contratante, hora_desde, hora_hasta, id_estado, id_municipio, direccion, hora_desde_sobre, id_estado_sobre, id_municipio_sobre, direccion_sobre, lugar_entrega, observaciones, estatus, especifique_anulacion, fecha_inicio_aclaratoria, 
+			$query = $this->db->query("insert into historico_llamado_concurso (id,rif_organoente, numero_proceso, id_modalidad, id_mecanismo, id_objeto_contratacion, dias_habiles, fecha_llamado, fecha_disponible_llamado, fecha_fin_aclaratoria, fecha_tope, fecha_fin_llamado, denominacion_proceso, descripcion_contratacion, web_contratante, hora_desde, hora_hasta, id_estado, id_municipio, direccion, hora_desde_sobre, id_estado_sobre, id_municipio_sobre, direccion_sobre, lugar_entrega, observaciones, estatus, especifique_anulacion, fecha_inicio_aclaratoria, 
 			fecha_cam_estatus, articulo, id_usuario, fecha45dias
 		   )
-		   select  rif_organoente, numero_proceso, id_modalidad, id_mecanismo, id_objeto_contratacion, dias_habiles, fecha_llamado, fecha_disponible_llamado, fecha_fin_aclaratoria, fecha_tope, fecha_fin_llamado, denominacion_proceso, descripcion_contratacion, web_contratante, hora_desde, hora_hasta, id_estado, id_municipio, direccion, hora_desde_sobre, id_estado_sobre, id_municipio_sobre, direccion_sobre, lugar_entrega, observaciones, estatus, especifique_anulacion, fecha_inicio_aclaratoria, fecha_cam_estatus, articulo, id_usuario, fecha45dias
+		   select $id, rif_organoente, numero_proceso, id_modalidad, id_mecanismo, id_objeto_contratacion, dias_habiles, fecha_llamado, fecha_disponible_llamado, fecha_fin_aclaratoria, fecha_tope, fecha_fin_llamado, denominacion_proceso, descripcion_contratacion, web_contratante, hora_desde, hora_hasta, id_estado, id_municipio, direccion, hora_desde_sobre, id_estado_sobre, id_municipio_sobre, direccion_sobre, lugar_entrega, observaciones, estatus, especifique_anulacion, fecha_inicio_aclaratoria, fecha_cam_estatus, articulo, id_usuario, fecha45dias
 		   FROM public.llamado_concurso
 			where numero_proceso= '$numero_proceso'" 
 									 );
@@ -132,13 +137,18 @@
         
 			 $update = $this->db->update('public.llamado_concurso', $data);
 			 //// esto guarda el historico de este cambio en el llamado
-			 $query = $this->db->query("insert into historico_llamado_concurso (rif_organoente, numero_proceso, id_modalidad, id_mecanismo,
+			 $this->db->select('max(e.id) as id');
+			 $query = $this->db->get('historico_llamado_concurso  e');
+			 $this->db->where('numero_proceso', $numero_proceso);
+			 $response4 = $query->row_array();
+			 $id1 = $response4['id'] + 1 ;
+			 $query = $this->db->query("insert into historico_llamado_concurso (id,rif_organoente, numero_proceso, id_modalidad, id_mecanismo,
 			  id_objeto_contratacion, dias_habiles, fecha_llamado, fecha_disponible_llamado, fecha_fin_aclaratoria, fecha_tope, fecha_fin_llamado,
 			   denominacion_proceso, descripcion_contratacion, web_contratante, hora_desde, hora_hasta, id_estado, id_municipio, direccion, hora_desde_sobre, 
 			   id_estado_sobre, id_municipio_sobre, direccion_sobre, lugar_entrega, observaciones, estatus, especifique_anulacion, fecha_inicio_aclaratoria, 
 			fecha_cam_estatus, articulo, id_usuario, fecha45dias
 		   )
-		   select  rif_organoente, numero_proceso, id_modalidad, id_mecanismo, id_objeto_contratacion, dias_habiles, 
+		   select  $id1,rif_organoente, numero_proceso, id_modalidad, id_mecanismo, id_objeto_contratacion, dias_habiles, 
 		   fecha_llamado, fecha_disponible_llamado, fecha_fin_aclaratoria, fecha_tope, fecha_fin_llamado, denominacion_proceso,
 		    descripcion_contratacion, web_contratante, hora_desde, hora_hasta, id_estado, id_municipio, direccion, 
 			hora_desde_sobre, id_estado_sobre, id_municipio_sobre, direccion_sobre, lugar_entrega, observaciones,
@@ -151,12 +161,16 @@
 		///////////////////////guardar suspencion
 		public function guardar_suspencion($data){
 			$numero_proceso=$data['numero_proceso'];
-               
+			$this->db->select('max(e.id) as id');
+			$query = $this->db->get('historico_llamado_concurso  e');
+			$this->db->where('numero_proceso', $numero_proceso);
+			$response3 = $query->row_array();
+			$id = $response3['id'] + 1 ;
 			//esto guarda el primer registro
-			$query = $this->db->query("insert into historico_llamado_concurso (rif_organoente, numero_proceso, id_modalidad, id_mecanismo, id_objeto_contratacion, dias_habiles, fecha_llamado, fecha_disponible_llamado, fecha_fin_aclaratoria, fecha_tope, fecha_fin_llamado, denominacion_proceso, descripcion_contratacion, web_contratante, hora_desde, hora_hasta, id_estado, id_municipio, direccion, hora_desde_sobre, id_estado_sobre, id_municipio_sobre, direccion_sobre, lugar_entrega, observaciones, estatus, especifique_anulacion, fecha_inicio_aclaratoria, 
+			$query = $this->db->query("insert into historico_llamado_concurso (id,rif_organoente, numero_proceso, id_modalidad, id_mecanismo, id_objeto_contratacion, dias_habiles, fecha_llamado, fecha_disponible_llamado, fecha_fin_aclaratoria, fecha_tope, fecha_fin_llamado, denominacion_proceso, descripcion_contratacion, web_contratante, hora_desde, hora_hasta, id_estado, id_municipio, direccion, hora_desde_sobre, id_estado_sobre, id_municipio_sobre, direccion_sobre, lugar_entrega, observaciones, estatus, especifique_anulacion, fecha_inicio_aclaratoria, 
 			fecha_cam_estatus, articulo, id_usuario, fecha45dias
 		   )
-		   select  rif_organoente, numero_proceso, id_modalidad, id_mecanismo, id_objeto_contratacion, dias_habiles, fecha_llamado, fecha_disponible_llamado, fecha_fin_aclaratoria, fecha_tope, fecha_fin_llamado, denominacion_proceso, descripcion_contratacion, web_contratante, hora_desde, hora_hasta, id_estado, id_municipio, direccion, hora_desde_sobre, id_estado_sobre, id_municipio_sobre, direccion_sobre, lugar_entrega, observaciones, estatus, especifique_anulacion, fecha_inicio_aclaratoria, fecha_cam_estatus, articulo, id_usuario, fecha45dias
+		   select $id, rif_organoente, numero_proceso, id_modalidad, id_mecanismo, id_objeto_contratacion, dias_habiles, fecha_llamado, fecha_disponible_llamado, fecha_fin_aclaratoria, fecha_tope, fecha_fin_llamado, denominacion_proceso, descripcion_contratacion, web_contratante, hora_desde, hora_hasta, id_estado, id_municipio, direccion, hora_desde_sobre, id_estado_sobre, id_municipio_sobre, direccion_sobre, lugar_entrega, observaciones, estatus, especifique_anulacion, fecha_inicio_aclaratoria, fecha_cam_estatus, articulo, id_usuario, fecha45dias
 		   FROM public.llamado_concurso
 			where numero_proceso= '$numero_proceso'" 
 									 );
@@ -165,10 +179,15 @@
         
 			 $update = $this->db->update('public.llamado_concurso', $data);
 			 //// esto guarda el historico de este cambio en el llamado
-			 $query = $this->db->query("insert into historico_llamado_concurso (rif_organoente, numero_proceso, id_modalidad, id_mecanismo, id_objeto_contratacion, dias_habiles, fecha_llamado, fecha_disponible_llamado, fecha_fin_aclaratoria, fecha_tope, fecha_fin_llamado, denominacion_proceso, descripcion_contratacion, web_contratante, hora_desde, hora_hasta, id_estado, id_municipio, direccion, hora_desde_sobre, id_estado_sobre, id_municipio_sobre, direccion_sobre, lugar_entrega, observaciones, estatus, especifique_anulacion, fecha_inicio_aclaratoria, 
+			 $this->db->select('max(e.id) as id');
+			 $query = $this->db->get('historico_llamado_concurso  e');
+			 $this->db->where('numero_proceso', $numero_proceso);
+			 $response4 = $query->row_array();
+			 $id1 = $response4['id'] + 1 ;
+			 $query = $this->db->query("insert into historico_llamado_concurso (id,rif_organoente, numero_proceso, id_modalidad, id_mecanismo, id_objeto_contratacion, dias_habiles, fecha_llamado, fecha_disponible_llamado, fecha_fin_aclaratoria, fecha_tope, fecha_fin_llamado, denominacion_proceso, descripcion_contratacion, web_contratante, hora_desde, hora_hasta, id_estado, id_municipio, direccion, hora_desde_sobre, id_estado_sobre, id_municipio_sobre, direccion_sobre, lugar_entrega, observaciones, estatus, especifique_anulacion, fecha_inicio_aclaratoria, 
 			fecha_cam_estatus, articulo, id_usuario, fecha45dias
 		   )
-		   select  rif_organoente, numero_proceso, id_modalidad, id_mecanismo, id_objeto_contratacion, dias_habiles, fecha_llamado, fecha_disponible_llamado, fecha_fin_aclaratoria, fecha_tope, fecha_fin_llamado, denominacion_proceso, descripcion_contratacion, web_contratante, hora_desde, hora_hasta, id_estado, id_municipio, direccion, hora_desde_sobre, id_estado_sobre, id_municipio_sobre, direccion_sobre, lugar_entrega, observaciones, estatus, especifique_anulacion, fecha_inicio_aclaratoria, fecha_cam_estatus, articulo, id_usuario, fecha45dias
+		   select  $id1, rif_organoente, numero_proceso, id_modalidad, id_mecanismo, id_objeto_contratacion, dias_habiles, fecha_llamado, fecha_disponible_llamado, fecha_fin_aclaratoria, fecha_tope, fecha_fin_llamado, denominacion_proceso, descripcion_contratacion, web_contratante, hora_desde, hora_hasta, id_estado, id_municipio, direccion, hora_desde_sobre, id_estado_sobre, id_municipio_sobre, direccion_sobre, lugar_entrega, observaciones, estatus, especifique_anulacion, fecha_inicio_aclaratoria, fecha_cam_estatus, articulo, id_usuario, fecha45dias
 		   FROM public.llamado_concurso
 			where numero_proceso= '$numero_proceso'and estatus='7'" 
 									 );
@@ -655,6 +674,90 @@
 					$query = $this->db->get();
 					$resultado = $query->result_array();
 		return $resultado;
+	}
+	public function consultar_historico_llamados_externos($data){
+
+		$this->db->select('id,rif_organoente,organoente,numero_proceso,estatus,objeto_contratacion,fecha_disponible_llamado as formatted_date,fecha_disponible_llamado,denominacion_proceso,estado');
+		$this->db->from('public.llamado_concurso_historial_view');
+		$this->db->where('rif_organoente', $data['id_unidad']);
+		$this->db->where('fecha_cam_estatus >=', $data['desde']);
+        $this->db->where('fecha_cam_estatus <=', $data['hasta']);
+	   // $this->db->where('fecha_disponible_llamado <=', $date);
+		$this->db->order_by("fecha_disponible_llamado", "desc");
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+	function consulta_llamado_statu($data){
+		$id=$data['id'];
+		$this->db->select('c.*, m.descripcion, me.descripcion as descr, obj.descripcion as obj');
+		$this->db->join('public.modalidad m', 'm.id_modalidad = c.id_modalidad');
+		$this->db->join('public.mecanismo me', 'me.id_mecanismo = c.id_mecanismo');
+		$this->db->join('public.objeto_contratacion obj', 'obj.id_objeto_contratacion = c.id_objeto_contratacion');
+		$this->db->from('public.llamado_concurso_view c');
+		$this->db->where("id",$id);
+	   // $this->db->order_by("codigo_b", "Asc");
+		$query = $this->db->get();
+		if (count($query->result()) > 0) {
+			return $query->row();
+		}
+	}
+	public function consultar_historico_llamados_externos2($data,$rif){
+		
+		if ($rif == 'G200024518')  {
+			$this->db->select('id,rif_organoente,organoente,numero_proceso,estatus,objeto_contratacion,fecha_disponible_llamado as formatted_date,fecha_disponible_llamado,denominacion_proceso,estado');
+		$this->db->from('public.llamado_concurso_historial_view');
+	   // $this->db->where('fecha_disponible_llamado <=', $date);
+		$this->db->order_by("fecha_disponible_llamado", "desc");
+		$query = $this->db->get();
+		return $query->result_array();
+		} else {
+			$this->db->select('id,rif_organoente,organoente,numero_proceso,estatus,objeto_contratacion,fecha_disponible_llamado as formatted_date,fecha_disponible_llamado,denominacion_proceso,estado');
+		$this->db->from('public.llamado_concurso_historial_view');
+		$this->db->where('rif_organoente', $rif);
+	   // $this->db->where('fecha_disponible_llamado <=', $date);
+		$this->db->order_by("fecha_disponible_llamado", "desc");
+		$query = $this->db->get();
+		return $query->result_array();# code...
+		}
+		
+		
+	}
+	
+	public function consultar_llamados_externos12($id_objeto,$date,$id_estado){
+
+		$this->db->select('rif_organoente,organoente,numero_proceso,estatus,id_estado,id_objeto_contratacion,objeto_contratacion,fecha_disponible_llamado as formatted_date,fecha_disponible_llamado,denominacion_proceso,estado');
+		$this->db->from('public.llamado_concurso_view');
+		$this->db->where ("id_llcestatus >", "3");
+		$this->db->where ("id_estado", $id_estado);
+		$this->db->where ("id_objeto_contratacion", $id_objeto);
+	   // $this->db->where('fecha_disponible_llamado <=', $date); activar esto cuando este en produccion
+		$this->db->order_by("fecha_disponible_llamado", "desc");
+		$query = $this->db->get();
+		return $query->result_array();
+	  
+	
+	}
+	/////////////////////consulta interna
+	public function consultar_llamados_internos($date,$rif){
+		if ($rif == 'G200024518')  {
+		$this->db->select('rif_organoente,organoente,numero_proceso,estatus,objeto_contratacion,fecha_disponible_llamado as formatted_date,fecha_disponible_llamado,denominacion_proceso,estado');
+		$this->db->from('public.llamado_concurso_view');
+	   // $this->db->where('fecha_disponible_llamado <=', $date);
+		$this->db->order_by("fecha_disponible_llamado", "desc");
+		$query = $this->db->get();
+		return $query->result_array();
+	} else {
+		$this->db->select('rif_organoente,organoente,numero_proceso,estatus,objeto_contratacion,fecha_disponible_llamado as formatted_date,fecha_disponible_llamado,denominacion_proceso,estado');
+		$this->db->from('public.llamado_concurso_view');
+		$this->db->where('rif_organoente', $rif);
+	   // $this->db->where('fecha_disponible_llamado <=', $date);
+		$this->db->order_by("fecha_disponible_llamado", "desc");
+		$query = $this->db->get();
+		return $query->result_array();
+
+	}
+	  
+	
 	}
 
 }

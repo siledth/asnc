@@ -5,15 +5,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" /> -->
+
     <title>llamados a concurso</title>
 </head>
 
 <body>
     <section>
         <div class="content">
-            
+
             <div class="panel-body">
                 <div class="col-12 ml-1">
                     <div class="card card-outline-danger text-center bg-white">
@@ -24,48 +23,13 @@
                             </blockquote>
                         </div>
                     </div>
-                    <div class="card card-outline-danger text-center bg-white">
-                        <div class="card-block">
-                            <blockquote class="card-blockquote" style="margin-bottom: -15px;">
-                            <div class="panel-body">
-                <form action="<?=base_url()?>index.php/Publicaciones/filtro" class="form-horizontal"
-                    data-parsley-validate="true" name="demo-form" method="POST">
-                    <div class="row">
-                        <div class="col-12">
-                            <h4 class="text-center"> <b>Parametros de Búsqueda</b></h4>
-                        </div>
-                        <div class="form-group col-3">
-                            <label>Seleccione Estado</label>
-                                <select id="id_estado" name="id_estado" class="default-select2 form-control" required>
-                                    <?php foreach ($estados as $data): ?>
-                                    <option value="<?=$data['id']?>"><?=$data['descedo']?>
-                                    <?php endforeach; ?>
-                                </select>
-                        </div>
-                        <div class="form-group col-3">
-                            <label >Seleccione Objeto contratación</label>
-                            <select id="id_objeto" name="id_objeto" class="default-select2 form-control" required>
-                                    <?php foreach ($objeto as $data): ?>
-                                    <option value="<?=$data['id_objeto_contratacion']?>"><?=$data['descripcion']?> 
-                                    <?php endforeach; ?>
-                                </select>
-                        </div>
-                        <div class="form-group col-2">
-                        <br>
-                                <button type="submit" class="btn btn-primary"><i class="ion-search"> </i>Buscar</button>
-                        </div>
-                       
-
-                    </div>
+                    <div class="col-1 mb-3">
+            <a class="btn btn-circle waves-effect  waves-circle waves-float btn-primary" href="javascript:history.back()"> Volver</a>
+        </div>
                     
-                </form>
-            </div>
-                            </blockquote>
-                        </div>
-                    </div>
                     <div class="col-12 text-center">
                         <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
-                        <h2> Llamados a Concurso </h2>
+                        <h2> Llamados a Concurso filtrado </h2>
                     </div>
                     <div class="panel panel-inverse">
                         <div class="panel-heading"></div>
@@ -86,7 +50,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach($exonerado as $data):?>
+                                    <?php foreach($historial as $data):?>
                                     <tr class="odd gradeX" style="text-align:center">
                                         <td><?=$data['rif_organoente']?> </td>
                                         <td><?=$data['organoente']?> </td>
@@ -104,9 +68,6 @@
                                         <?php else: ?>
                                         <td style="color:green;"><?=$data['estatus']?></td>
                                         <?php endif; ?>
-
-
-
                                         <td><?=$data['objeto_contratacion']?> </td>
                                         <td><?=$data['denominacion_proceso']?> </td>
                                         <td><?=$data['estado']?> </td>
@@ -120,8 +81,6 @@
                                                         data-toggle="modal" data-target="#exampleModal"
                                                         class="fas fa-2x  fa-cloud-download-alt" style="color:blue"></i>
                                                     <a />
-
-
 
                                         </td>
                                     </tr>
@@ -365,9 +324,7 @@
     </section>
 </body>
 
-<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"
-    integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous">
-</script> -->
+>
 
 <script src="<?=base_url()?>/js/publicaciones/llamado_externo.js"></script>
 

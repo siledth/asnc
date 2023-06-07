@@ -31,7 +31,8 @@ function guardar_suspencion(){
             if (result.value == true) {
                 event.preventDefault();
                 var datos = new FormData($("#guardar_ba")[0]);
-               // var base_url =window.location.origin+'/asnc/index.php/publicaciones/guardar_suspencion';
+            //     var base_url =window.location.origin+'/asnc/index.php/publicaciones/guardar_suspencion';
+            //    var base_url_2 = window.location.origin+'/asnc/index.php/publicaciones/anulacion';
                 var base_url = '/index.php/publicaciones/guardar_suspencion';
                 var base_url_2 = '/index.php/publicaciones/anulacion';
                 $.ajax({
@@ -43,7 +44,7 @@ function guardar_suspencion(){
                     success: function(response){
                         if(response != '') {
                             swal.fire({
-                                title: 'Registro Exitoso',
+                                title: 'Suspención Exitosa',
                                 type: 'success',
                                 showCancelButton: false,
                                 confirmButtonColor: '#3085d6',

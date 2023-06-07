@@ -4,6 +4,7 @@
 function getSinFestivosNiFinDeSemana(fecha, diasAdd) {
     var fecha =$("#fecha_fin_llamado").val();
     var fecha2 =$("#fecha_fin_llamado").val();
+    var fecha3 =$("#fecha_fin_llamado").val();
     var diasAdd = 1;
     var arrFecha = fecha.split('-');
     var fecha = new Date(arrFecha[0], arrFecha[1] - 1, arrFecha[2]);
@@ -39,11 +40,67 @@ function getSinFestivosNiFinDeSemana(fecha, diasAdd) {
     vigencia = fecha.getFullYear() + '-' + (fecha.getMonth() + 1).toString().padStart(2, '0') + '-' + fecha.getDate().toString().padStart(2, '0');
     $('#fecha_tope').val(vigencia);
     $('#fecha_entrega_sobre').val(fecha2)
+    $('#fecha').val(fecha3)
     
     //return vigencia;
+
+
+    var fecha4 =$("#fecha_entrega_sobre").val();
+    const fechaComoCadena = fecha4; // día lunes
+        const dias = [
+          
+          'lunes',
+          'martes',
+          'miércoles',
+          'jueves',
+          'viernes',
+          'sabado',
+          'domingo',
+        ];
+        const numeroDia = new Date(fechaComoCadena).getDay();
+        const nombreDia = dias[numeroDia];
+        $('#fecha').val(nombreDia)
+        //console.log("Nombre de día de la semana: ", nombreDia);
+        if ((nombreDia == 'domingo')) {
+            $('#result-finde').fadeIn(1600).html(
+                '<div class="alert alert-danger"><strong>No puede selecionar un finde semana,ingrese otra fecha</strong> .</div>'
+                );
+            $("#guardar").prop('disabled', true)
+
+        } else if (nombreDia == 'sabado'){
+            
+            $('#result-finde').fadeIn(1600).html(
+                '<div class="alert alert-danger"><strong>No puede selecionar un finde semana</strong> .</div>'
+                );
+            $("#guardar").prop('disabled', true)
+               
+        } 
+        else {
+            $('#result-finde').fadeIn(1600).html(
+                '<div ></div>'
+                );
+            $("#guardar").prop('disabled', false)
+        }
+       // console.log("Nombre de día de la semana: ", nombreDia);
 }
-
-
+// function getSinfindesemana() {
+//     var fecha3 =$("#fecha").val();
+// const fechaComoCadena = fecha3; // día lunes
+//     const dias = [
+      
+//       'lunes',
+//       'martes',
+//       'miércoles',
+//       'jueves',
+//       'viernes',
+//       'sábado',
+//       'domingo',
+//     ];
+//     const numeroDia = new Date(fechaComoCadena).getDay();
+//     const nombreDia = dias[numeroDia];
+//     $('#fecha').val(nombreDia)
+//     console.log("Nombre de día de la semana: ", nombreDia);
+// }
 // // Array con los días festivos de cada mes (ejemplo de muestra)
 // // Nótese que si un mes no tiene festivos debemos incluir igualmente un array vacío, (ejemplo: Noviembre)
 // const festivos = [[1, 7, 8],[27, 28],[1],[6, 9],[1],[15],[9],[17, 18, 19],[10],[12, 23],[],[25]];

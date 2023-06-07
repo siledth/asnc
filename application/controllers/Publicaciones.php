@@ -120,6 +120,7 @@ class Publicaciones extends CI_Controller {
             'hora_desde_sobre' => $this->input->POST('hora_desde_sobre'),
             'observaciones' => $this->input->POST('observaciones'),
             'especifique_anulacion' => $this->input->POST('especifique_anulacion'),
+            'fecha_cam_estatus' => date("Y-m-d"),
             'estatus' => 5,
             
         );
@@ -171,6 +172,7 @@ public function suspension(){
     $data['causa_suspencion'] = $this->Publicaciones_model->causa_suspencion();
     $data['supuestos'] = $this->Publicaciones_model->supuestos();
     $data['inf_1'] = $this->Publicaciones_model->inf_1($data['numero_proceso']);
+    
     $this->load->view('templates/header.php');
     $this->load->view('templates/navigator.php');
       $this->load->view('publicaciones/suspension/suspension.php', $data);
@@ -227,6 +229,7 @@ public function suspension(){
             'observaciones' => $this->input->POST('observaciones'),
             'especifique_anulacion' => $this->input->POST('especifique_anulacion'),
             'estatus' => 6,
+            'fecha_cam_estatus' => date("Y-m-d"),
             
         );
         $data = $this->Publicaciones_model->guardar_reinicio($data);
@@ -764,7 +767,101 @@ public function suspension(){
         $data = $this->Publicaciones_model->buscar_act_e($data);
         echo json_encode($data);
     }
+///////////////////////////////Reportes estatus llc
+public function rp_estatus(){
+    if(!$this->session->userdata('session'))redirect('login');
+    $data['final']  = $this->User_model->consulta_organoente();
+    $rif = $this->session->userdata['rif_organoente'];
+    $hasta     = $this->input->post("hasta");
+    $desde     = $this->input->post("desde");
+    $data['desde'] = date('Y-m-d', strtotime($desde));
+    $data['hasta'] = date('Y-m-d', strtotime($hasta)); 
+    $rif = $this->session->userdata['rif_organoente'];
+    $data['historial'] = $this->Publicaciones_model->consultar_historico_llamados_externos2($data,$rif);
+//	$this->form_validation->set_rules('t_pago', 't_pago', 'required|callback_select_validate');
+    $this->form_validation->set_rules('hasta', 'Fecha hasta', 'required|min_length[1]');
+    $this->form_validation->set_rules('desde', 'Fecha Desde ', 'required|min_length[1]');
+    
+    if ($this->form_validation->run() == FALSE) {
+
+            $data['descripcion'] = $this->session->userdata('unidad');
+            $data['rif'] = $this->session->userdata['rif_organoente'];
+            $data['final']  = $this->User_model->consulta_organoente();  
+            $data['historial'] = $this->Publicaciones_model->consultar_historico_llamados_externos2($data,$rif);
+            $this->load->view('templates/header.php');
+            $this->load->view('templates/navigator.php');
+            $this->load->view('publicaciones/reporte_estatusllamado/estatus_llamado.php', $data,$rif);
+            
+            $this->load->view('templates/footer.php');
+        } else {
+           
+            $date=date("d-m-Y");
+           
+            $data['descripcion'] = $this->session->userdata('unidad');
+           
+            $data['id_unidad']     = $this->input->post("id_unidad");
+    
+            $data['desde'] = date('Y-m-d', strtotime($desde));
+            $data['hasta'] = date('Y-m-d', strtotime($hasta)); 
+            $data['historial'] = $this->Publicaciones_model->consultar_historico_llamados_externos($data);
+            $this->load->view('templates/header.php');
+            $this->load->view('templates/navigator.php');
+            $this->load->view('publicaciones/reporte_estatusllamado/resul_rep_estatus.php', $data);
+            $this->load->view('templates/footer.php');
+    }
 
 }
+        public function consulta_estatu() {
+            if (!$this->session->userdata('session'))
+            redirect('login');
+            $data = $this->input->post();
+            $data = $this->Publicaciones_model->consulta_llamado_statu($data);
+            echo json_encode($data);
+            
+
+        }
+        public function filtro(){
+            if (!$this->session->userdata('session')) {
+                        $date=date("d-m-Y");
+                        $id_estado = $this->input->post("id_estado");
+                        $id_objeto = $this->input->post("id_objeto");
+                        $data['historial'] = $this->Publicaciones_model->consultar_llamados_externos12($id_objeto,$date,$id_estado);
+                        $this->load->view('templates/header.php');
+                        $this->load->view('templates/navsinsesion.php');
+                        $this->load->view('publicaciones/reporte/ver_llamado.php', $data);                        
+                        $this->load->view('templates/footer.php');
+            }
+         else {
+                    $date=date("d-m-Y");           
+                    $id_estado= $this->input->post("id_estado");
+                    $id_objeto = $this->input->post("id_objeto");
+                    $data['historial'] = $this->Publicaciones_model->consultar_llamados_externos12($id_objeto,$date,$id_estado);
+                    $this->load->view('templates/header.php');
+                    $this->load->view('templates/navsinsesion.php');
+                    $this->load->view('publicaciones/reporte/ver_llamado.php', $data);                    
+                    $this->load->view('templates/footer.php');
+        }  }
+        
+     
+        
+
+///////////////////////////consulta interna
+public function llamadointerno() {
+    if(!$this->session->userdata('session'))redirect('login');
+      $date=date("d-m-Y");
+      $rif = $this->session->userdata['rif_organoente'];
+      $data['exonerado'] = $this->Publicaciones_model->consultar_llamados_internos($date,$rif);
+      $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
+      $data['objeto'] 	 = $this->Configuracion_model->objeto();
+      $this->load->view('templates/header.php');
+      $this->load->view('templates/navigator.php');
+      $this->load->view('publicaciones/reporte/llamadointerno.php', $data);
+      $this->load->view('templates/footer.php');
+   
+
+  }
+
+    }
+
 
 ?>
