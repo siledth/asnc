@@ -1,7 +1,7 @@
 function modal_ver(id) {
     var id = id;
-    var base_url = window.location.origin + '/asnc/index.php/Publicaciones/consulta_estatu';
-   // var base_url = '/index.php/Publicaciones/consulta_estatu';
+    // var base_url = window.location.origin + '/asnc/index.php/Publicaciones/consulta_estatu';
+   var base_url = '/index.php/Publicaciones/consulta_estatu';
     $.ajax({
         url: base_url,
         method: 'post',
