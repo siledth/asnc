@@ -693,7 +693,7 @@
 		$this->db->join('public.modalidad m', 'm.id_modalidad = c.id_modalidad');
 		$this->db->join('public.mecanismo me', 'me.id_mecanismo = c.id_mecanismo');
 		$this->db->join('public.objeto_contratacion obj', 'obj.id_objeto_contratacion = c.id_objeto_contratacion');
-		$this->db->from('public.llamado_concurso_view c');
+		$this->db->from('public.llamado_concurso_historial_view c');
 		$this->db->where("id",$id);
 	   // $this->db->order_by("codigo_b", "Asc");
 		$query = $this->db->get();
