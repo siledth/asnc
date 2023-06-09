@@ -173,11 +173,31 @@
                             </a>
                             <ul class="sub-menu">
                                 <?php if (($this->session->userdata('consultar_llamado') == 1)) : ?>
-                                <li>
-                                    <a href="<?= base_url() ?>index.php/llamadoconcurso">
+
+                                    <li class="has-sub">
+                                    <a href="javascript:;">
+                                        <b class="caret"></b>
                                         - Consultar
                                     </a>
+                                    <ul class="sub-menu">
+
+                                        <li><a href="<?= base_url() ?>index.php/llamadoconcurso">-
+                                        Consultar ant</a></li>
+                                        <li><a href="<?= base_url() ?>index.php/Publicaciones/llamadointerno">-
+                                        Consultar nuevo</a></li>
+                                        <li><a href="<?= base_url() ?>index.php/Publicaciones/rp_estatus">-
+                                        Histórico Procesos asociados al Llamado a Concursoo</a></li>
+                                        <?php if (($this->session->userdata('ver_anul_llamado') == 1)) : ?>
+                                <li><a href="<?= base_url() ?>index.php/Publicaciones/anulaciones_general">-Anulaciones
+                                        General</b></a></li>
+                                <?php endif; ?>
+
+
+                                        
+
+                                    </ul>
                                 </li>
+                                
                                 <?php endif; ?>
                                 <?php if (($this->session->userdata('reg_llamado') == 1)) : ?>
                                 <li>
@@ -188,14 +208,12 @@
                                 <?php endif; ?>
                                 <?php if (($this->session->userdata('anul_llamado') == 1)) : ?>
                                 <li>
-                                    <a href="<?= base_url() ?>index.php/Publicaciones/anulacion">- Anular llamado a
-                                        Consurso </a>
+                                    <a href="<?= base_url() ?>index.php/Publicaciones/anulacion">-Procesos asociados al Llamado a Concurso </a>
                                 </li>
+                               
+                                
                                 <?php endif; ?>
-                                <?php if (($this->session->userdata('ver_anul_llamado') == 1)) : ?>
-                                <li><a href="<?= base_url() ?>index.php/Publicaciones/anulaciones_general">-Anulaciones
-                                        General</b></a></li>
-                                <?php endif; ?>
+                              
                             </ul>
                         </li>
                         <?php endif; ?>

@@ -1,66 +1,11 @@
-// function llenar_filtro() {
-//     var tipo = $("#sltTipoFiltro").val();
-//     if (tipo == "2") {
-//         $("#camposIdentificadores").show();
-//         $("#camposFechas").hide();
-//         $("#camposTextos").hide();
-//         $("#camposObjetoContratacion").hide();
-//     } else if (tipo == "3") {
-//         $("#camposFechas").show();
-//         $("#camposIdentificadores").hide();
-//         $("#camposTextos").hide();
-//         $("#camposObjetoContratacion").hide();
-//     } else if (tipo == "4") {
-//         $("#camposFechas").show();
-//         $("#camposIdentificadores").hide();
-//         $("#camposTextos").hide();
-//         $("#camposObjetoContratacion").hide();
-//     } else if (tipo == "5") {
-//         $("#camposTextos").show();
-//         $("#camposFechas").hide();
-//         $("#camposIdentificadores").hide();
-//         $("#camposObjetoContratacion").hide();
-//     } else if (tipo == "6") {
-//         $("#camposObjetoContratacion").show();
-//         $("#camposFechas").hide();
-//         $("#camposIdentificadores").hide();
-//         $("#camposTextos").hide();
-
-//     } else {
-//         $("#camposIdentificadores").hide();
-//         $("#camposFechas").hide();
-//         $("#camposTextos").hide();
-//         $("#camposObjetoContratacion").hide();
-
-//     }
-// }
-// function modal_ver(numero_proceso){
-//     var numero_proceso = numero_proceso;
-//     //var base_url = window.location.origin+'/asnc/index.php/GeneratePdfController/index';
-//         // var base_url = '/index.php/Certificacion/consulta_b';
-//     var base_url = window.location.origin+'/asnc/index.php/Gestion/consulta_b';
-//     $.ajax({
-//         url: base_url,
-//         method:'post',
-//         data: {numero_proceso: numero_proceso},
-//         dataType:'json',
-
-//         success: function(response){
-//             $('#numero_proceso').val(response['numero_proceso']);
-//             $('#rif_organoente').val(response['rif_organoente']);
-//             $('#organoente').val(response['organoente']);
-//         }
-//     });
-// }
-
 function modal_ver(id) {
-    var numero_proceso = id;
-   // var base_url = window.location.origin + '/asnc/index.php/Gestion/consulta_t';
-    var base_url = '/index.php/Gestion/consulta_t';
+    var id = id;
+    // var base_url = window.location.origin + '/asnc/index.php/Publicaciones/consulta_estatu';
+   var base_url = '/index.php/Publicaciones/consulta_estatu';
     $.ajax({
         url: base_url,
         method: 'post',
-        data: { numero_proceso: numero_proceso },
+        data: { id: id },
         dataType: 'json',
 
         success: function (response) {
@@ -170,5 +115,3 @@ $(document).on("click", ".print", function () {
     section.append(content);
     $(".modal-body-wrapper").append(modalBody);
 });
-
-

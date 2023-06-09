@@ -17,6 +17,11 @@
             $query = $this->db->get('public.estados');
              return $response = $query->result_array();
         }
+        public function objeto(){
+            $this->db->select('id_objeto_contratacion,descripcion');
+            $query = $this->db->get('public.objeto_contratacion');
+             return $response = $query->result_array();
+        }
         public function consulta_modalidad(){
             $this->db->select('*');
             $this->db->order_by('id asc');

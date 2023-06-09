@@ -1,71 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
-    <title>llamados a concurso</title>
-</head>
-
-<body>
-    <section>
-        <div class="content">
-            
-            <div class="panel-body">
-                <div class="col-12 ml-1">
-                    <div class="card card-outline-danger text-center bg-white">
-                        <div class="card-block">
-                            <blockquote class="card-blockquote" style="margin-bottom: -15px;">
-                                <img style="width: 100%" height="100%" src=" <?= base_url() ?>Plantilla/img/loij.png"
-                                    alt="Card image">
-                            </blockquote>
+<div class="sidebar-bg"></div>
+<div id="content" class="content">
+    <div class="row">
+        <div class="col-1 mb-3">
+            <a class="btn btn-circle waves-effect  waves-circle waves-float btn-primary" href="javascript:history.back()"> Volver</a>
+        </div>
+        <div class="col-1 mb-3">
+            <button class="btn btn-circle waves-effect waves-circle waves-float btn-primary" type="submit" onclick="printDiv('areaImprimir');" name="action">Imprimir</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-inverse">
+                <div class="row" id="imp1">
+                    <div class="col-1"></div>
+                    <div class="col-10 mt-4">
+                        <div class="card card-outline-danger text-center bg-white">
+                            <div class="card-block">
+                                <blockquote class="card-blockquote" style="margin-bottom: -19px;">                              
+                                    <h3 class="mt-2"> <b>Estatus de LLamados a Concurso</b></h3>
+                                    
+                                     
+                                    
+                                </blockquote>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card card-outline-danger text-center bg-white">
-                        <div class="card-block">
-                            <blockquote class="card-blockquote" style="margin-bottom: -15px;">
-                            <div class="panel-body">
-                <form action="<?=base_url()?>index.php/Publicaciones/filtro" class="form-horizontal"
-                    data-parsley-validate="true" name="demo-form" method="POST">
-                    <div class="row">
-                        <div class="col-12">
-                            <h4 class="text-center"> <b>Parametros de Búsqueda</b></h4>
-                        </div>
-                        <div class="form-group col-3">
-                            <label>Seleccione Estado</label>
-                                <select id="id_estado" name="id_estado" class="default-select2 form-control" required>
-                                    <?php foreach ($estados as $data): ?>
-                                    <option value="<?=$data['id']?>"><?=$data['descedo']?>
-                                    <?php endforeach; ?>
-                                </select>
-                        </div>
-                        <div class="form-group col-3">
-                            <label >Seleccione Objeto contratación</label>
-                            <select id="id_objeto" name="id_objeto" class="default-select2 form-control" required>
-                                    <?php foreach ($objeto as $data): ?>
-                                    <option value="<?=$data['id_objeto_contratacion']?>"><?=$data['descripcion']?> 
-                                    <?php endforeach; ?>
-                                </select>
-                        </div>
-                        <div class="form-group col-2">
-                        <br>
-                                <button type="submit" class="btn btn-primary"><i class="ion-search"> </i>Buscar</button>
-                        </div>
-                       
-
-                    </div>
-                    
-                </form>
-            </div>
-                            </blockquote>
-                        </div>
-                    </div>
-                    <div class="col-12 text-center">
-                        <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
-                        <h2> Llamados a Concurso </h2>
                     </div>
                     <div class="panel panel-inverse">
                         <div class="panel-heading"></div>
@@ -86,7 +44,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach($exonerado as $data):?>
+                                    <?php foreach($historial as $data):?>
                                     <tr class="odd gradeX" style="text-align:center">
                                         <td><?=$data['rif_organoente']?> </td>
                                         <td><?=$data['organoente']?> </td>
@@ -112,17 +70,14 @@
                                         <td><?=$data['estado']?> </td>
 
                                         <td class="center">
-                                            <h6 style="color:white;"><?=$data['fecha_disponible_llamado']?> </h6>
+                                        <h6 style="color:white;"><?=$data['fecha_disponible_llamado']?> </h6>
                                             <a class="button">
                                                 <a class="button">
                                                     <i title="Descargar"
-                                                        onclick="modal_ver('<?php echo $data['numero_proceso']?>');"
+                                                        onclick="modal_ver('<?php echo $data['id']?>');"
                                                         data-toggle="modal" data-target="#exampleModal"
                                                         class="fas fa-2x  fa-cloud-download-alt" style="color:blue"></i>
                                                     <a />
-
-
-
                                         </td>
                                     </tr>
                                     <?php endforeach;?>
@@ -131,26 +86,13 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        </div>
+    </div>
+</div>
+<script src="<?=base_url()?>/js/publicaciones/repot_estatus.js"></script>
+ <!-- Modal -->
+ <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
@@ -341,12 +283,12 @@
                                         <textarea class="form-control" id="observaciones" name="observaciones" rows="6"
                                             cols="80" readonly>  </textarea>
                                     </div>
-
+                                   
                                     <div class="form-group col-12">
                                         <label>Especificación</label>
 
-                                        <textarea class="form-control" id="especifique_anulacion"
-                                            name="especifique_anulacion" rows="2" cols="80" readonly>  </textarea>
+                                        <textarea class="form-control" id="especifique_anulacion" name="especifique_anulacion" rows="2"
+                                            cols="80" readonly>  </textarea>
                                     </div>
                                 </div>
 
@@ -361,21 +303,3 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-</body>
-
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"
-    integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous">
-</script>
-
-<script src="<?=base_url()?>/js/publicaciones/llamado_externo.js"></script>
-
-</html>
-<?php if (!$this->session->userdata('session')) { ?>
-<style>
-.content {
-    margin-left: 0;
-}
-</style>
-<?php } ?>

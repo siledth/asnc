@@ -8,6 +8,13 @@ class Publicaciones extends CI_Controller {
         parent :: __construct();
         //$this->load->model('Tablas_model');
     }
+    public function consultar_numeropro(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $data = $this->input->post();
+        $data =	$this->Publicaciones_model->consultar_numeropro($data);
+        echo json_encode($data);
+    }
+
     //aca anulacion de un llamdo a consulros 
 
     public function anulacion(){
@@ -15,7 +22,11 @@ class Publicaciones extends CI_Controller {
         $data['descripcion'] = $this->session->userdata('unidad');
         $data['rif'] = $this->session->userdata('rif');
         $rif = $this->session->userdata['rif_organoente'];
-        $data['llamados'] = $this->Publicaciones_model->consulta_anulacion($rif);
+        $data['time']=date("Y-m-d");
+        $data['llamados'] = $this->Publicaciones_model->consulta_llamados($rif);
+        $data['causa_suspencion'] = $this->Publicaciones_model->causa_suspencion();
+        $data['supuestos'] = $this->Publicaciones_model->supuestos();
+        $data['terminar_manual'] = $this->Publicaciones_model->terminar_manual();
 		$this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
 		$this->load->view('anularllamado/anularllamado.php', $data);
@@ -56,7 +67,7 @@ class Publicaciones extends CI_Controller {
         
         $numero_proceso = $this->input->post("numero_proceso");
         $numero_proceso2 = $this->input->post("numero_proceso2");
-        $estatus = 'ANULADO';
+        $estatus = '2';
         $observaciones = $this->input->post("observaciones"); 
         $especifique_anulacion = $this->input->post("especifique_anulacion"); 
         
@@ -67,7 +78,7 @@ class Publicaciones extends CI_Controller {
             "observaciones"     => $observaciones,
             "especifique_anulacion"     => $especifique_anulacion              
         ); 
-       $data = $this->Publicaciones_model->guardar_anulaciones($anular, $numero_proceso);
+       $data = $this->Publicaciones_model->guardar_anulaciones($anular, $numero_proceso,$numero_proceso2);
 	 
 	   if ($data) {
 		   $this->session->set_flashdata('sa-success2', 'Se guardo los datos correctamente');
@@ -77,6 +88,191 @@ class Publicaciones extends CI_Controller {
 			redirect('Publicaciones/anulacion');
 		 }
 	}
+
+    ////////////////////////////////////Prorroga
+    public function prorroga(){
+        if(!$this->session->userdata('session'))
+        redirect('login');
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $data['rif'] = $this->session->userdata('rif');
+        $parametros = $this->input->get('id');
+        $data['numero_proceso']=$this->input->get('id');
+        $data['causa_prorroga'] = $this->Publicaciones_model->causa_prorroga();
+        $data['time']=date("Y-m-d");
+
+        $data['inf_1'] = $this->Publicaciones_model->inf_1($data['numero_proceso']);
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+          $this->load->view('publicaciones/prorroga/prorroga.php', $data);
+        
+        $this->load->view('templates/footer.php');
+    }
+    public function guardar_Prorroga() {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $data = array(
+            'numero_proceso' => $this->input->POST('numero_proceso'),
+            'fecha_fin_llamado' => $this->input->POST('fecha_fin_llamado'),
+            'fecha_tope' => $this->input->POST('fecha_tope'),
+            'articulo' => $this->input->POST('causa_prorroga'),
+            'hora_desde' => $this->input->POST('hora_desde'),
+            'hora_hasta' => $this->input->POST('hora_hasta'),
+            'hora_desde_sobre' => $this->input->POST('hora_desde_sobre'),
+            'observaciones' => $this->input->POST('observaciones'),
+            'especifique_anulacion' => $this->input->POST('especifique_anulacion'),
+            'fecha_cam_estatus' => date("Y-m-d"),
+            'estatus' => 5,
+            
+        );
+        $data = $this->Publicaciones_model->guardar_Prorroga($data);
+        echo json_encode($data);
+    }
+    public function guardar_Prorroga12(){
+		if(!$this->session->userdata('session'))redirect('login');
+        $data['time']=date("Y-m-d");
+        $numero_proceso = $this->input->post("numero_proceso");
+      //  $numero_proceso2 = $this->input->post("numero_proceso2");
+        $estatus = '5';
+        $fecha_fin_llamado=$this->input->post("fecha_fin_llamado");
+        $fecha_tope=$this->input->post("fecha_tope");
+        $articulo=$this->input->post("articulo");
+       
+        $especifique_anulacion = $this->input->post("especifique_anulacion"); 
+        $fecha_cam_estatus=date("Y-m-d");
+        $prorroga = array(
+                
+            "numero_proceso"     => $numero_proceso,
+            "estatus"     => $estatus,
+            "fecha_fin_llamado"     => $fecha_fin_llamado,
+            "fecha_tope"     => $fecha_tope,
+            "articulo"     => $articulo,
+            "fecha_cam_estatus"     => $fecha_cam_estatus,
+            "especifique_anulacion"     => $especifique_anulacion              
+        ); 
+       $data = $this->Publicaciones_model->guardar_Prorroga1($prorroga, $numero_proceso,$numero_proceso2);
+	 
+	   if ($data) {
+		   $this->session->set_flashdata('sa-success2', 'Se guardo los datos correctamente');
+		   redirect('Publicaciones/anulacion');
+	   }else{
+			 $this->session->set_flashdata('sa-error', 'error');
+			redirect('Publicaciones/anulacion');
+		 }
+	}
+///////////////SUSPENCION//////////////////////////
+public function suspension(){
+    if(!$this->session->userdata('session'))
+    redirect('login');
+    $data['descripcion'] = $this->session->userdata('unidad');
+    $data['rif'] = $this->session->userdata('rif');
+    $parametros = $this->input->get('id');
+    $data['numero_proceso']=$this->input->get('id');
+    $data['causa_prorroga'] = $this->Publicaciones_model->causa_prorroga();
+    $data['time']=date("Y-m-d");
+    $data['causa_suspencion'] = $this->Publicaciones_model->causa_suspencion();
+    $data['supuestos'] = $this->Publicaciones_model->supuestos();
+    $data['inf_1'] = $this->Publicaciones_model->inf_1($data['numero_proceso']);
+    
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+      $this->load->view('publicaciones/suspension/suspension.php', $data);
+    
+    $this->load->view('templates/footer.php');
+}
+
+    public function guardar_suspencion() {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $data = array(
+            'numero_proceso' => $this->input->POST('numero_proceso'),
+            'fecha_cam_estatus' =>date("Y-m-d"),
+            'especifique_anulacion' => $this->input->POST('especifique_anulacion'),
+            'articulo' => $this->input->POST('supuesto'),
+            'estatus' => 7,
+
+            
+        );
+        $data = $this->Publicaciones_model->guardar_suspencion($data);
+        echo json_encode($data);
+    }
+    //////////////////////RE-iniciar////////////////////////////////
+    public function re_iniciar(){
+        if(!$this->session->userdata('session'))
+        redirect('login');
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $data['rif'] = $this->session->userdata('rif');
+        $parametros = $this->input->get('id');
+        $data['numero_proceso']=$this->input->get('id');
+        $data['causa_reiniciado'] = $this->Publicaciones_model->causa_reiniciado();
+        $data['time']=date("Y-m-d");
+
+        $data['inf_1'] = $this->Publicaciones_model->inf_1($data['numero_proceso']);
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+          $this->load->view('publicaciones/reiniciar/reiniciar.php', $data);
+        
+        $this->load->view('templates/footer.php');
+    }
+    public function guardar_reinicio() {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $data = array(
+            'numero_proceso' => $this->input->POST('numero_proceso'),
+            'fecha_fin_llamado' => $this->input->POST('fecha_fin_llamado'),
+            'fecha_tope' => $this->input->POST('fecha_tope'),
+            'articulo' => $this->input->POST('causa_prorroga'),
+            'hora_desde' => $this->input->POST('hora_desde'),
+            'hora_hasta' => $this->input->POST('hora_hasta'),
+            'hora_desde_sobre' => $this->input->POST('hora_desde_sobre'),
+            'direccion_sobre' => $this->input->POST('direccion_sobre'),
+            'lugar_entrega' => $this->input->POST('lugar_entrega'),
+            'observaciones' => $this->input->POST('observaciones'),
+            'especifique_anulacion' => $this->input->POST('especifique_anulacion'),
+            'estatus' => 6,
+            'fecha_cam_estatus' => date("Y-m-d"),
+            
+        );
+        $data = $this->Publicaciones_model->guardar_reinicio($data);
+        echo json_encode($data);
+    }
+    ///////////////////////////////terminacion manual///////////////////////
+    public function terminado(){
+        if(!$this->session->userdata('session'))
+        redirect('login');
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $data['rif'] = $this->session->userdata('rif');
+        $parametros = $this->input->get('id');
+        $data['numero_proceso']=$this->input->get('id');
+        $data['causa_prorroga'] = $this->Publicaciones_model->causa_prorroga();
+        $data['time']=date("Y-m-d");
+        $data['causa_suspencion'] = $this->Publicaciones_model->causa_suspencion();
+        $data['supuestos'] = $this->Publicaciones_model->supuestos();
+        $data['inf_1'] = $this->Publicaciones_model->inf_1($data['numero_proceso']);
+        $data['terminar_manual'] = $this->Publicaciones_model->terminar_manual();
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+          $this->load->view('publicaciones/terminado/terminado.php', $data);
+        
+        $this->load->view('templates/footer.php');
+    }
+   
+   
+    public function guardar_terminados() {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+            $estatus = '0';
+        $data = array(
+            'numero_proceso' => $this->input->POST('numero_proceso'),
+            'fecha_cam_estatus' =>date("Y-m-d"),
+            'especifique_anulacion' => $this->input->POST('especifique_anulacion'),
+            'articulo' => $this->input->POST('causa_termino'),
+            "estatus"     => $this->input->POST('estatus'),
+
+            
+        );
+        $data = $this->Publicaciones_model->guar_termino($data);
+        echo json_encode($data);
+    }
     //CRUD BANCO
     public function banco() {
         $data['bancos'] = $this->Publicaciones_model->consultar_b();
@@ -571,7 +767,101 @@ class Publicaciones extends CI_Controller {
         $data = $this->Publicaciones_model->buscar_act_e($data);
         echo json_encode($data);
     }
+///////////////////////////////Reportes estatus llc
+public function rp_estatus(){
+    if(!$this->session->userdata('session'))redirect('login');
+    $data['final']  = $this->User_model->consulta_organoente();
+    $rif = $this->session->userdata['rif_organoente'];
+    $hasta     = $this->input->post("hasta");
+    $desde     = $this->input->post("desde");
+    $data['desde'] = date('Y-m-d', strtotime($desde));
+    $data['hasta'] = date('Y-m-d', strtotime($hasta)); 
+    $rif = $this->session->userdata['rif_organoente'];
+    $data['historial'] = $this->Publicaciones_model->consultar_historico_llamados_externos2($data,$rif);
+//	$this->form_validation->set_rules('t_pago', 't_pago', 'required|callback_select_validate');
+    $this->form_validation->set_rules('hasta', 'Fecha hasta', 'required|min_length[1]');
+    $this->form_validation->set_rules('desde', 'Fecha Desde ', 'required|min_length[1]');
+    
+    if ($this->form_validation->run() == FALSE) {
+
+            $data['descripcion'] = $this->session->userdata('unidad');
+            $data['rif'] = $this->session->userdata['rif_organoente'];
+            $data['final']  = $this->User_model->consulta_organoente();  
+            $data['historial'] = $this->Publicaciones_model->consultar_historico_llamados_externos2($data,$rif);
+            $this->load->view('templates/header.php');
+            $this->load->view('templates/navigator.php');
+            $this->load->view('publicaciones/reporte_estatusllamado/estatus_llamado.php', $data,$rif);
+            
+            $this->load->view('templates/footer.php');
+        } else {
+           
+            $date=date("d-m-Y");
+           
+            $data['descripcion'] = $this->session->userdata('unidad');
+           
+            $data['id_unidad']     = $this->input->post("id_unidad");
+    
+            $data['desde'] = date('Y-m-d', strtotime($desde));
+            $data['hasta'] = date('Y-m-d', strtotime($hasta)); 
+            $data['historial'] = $this->Publicaciones_model->consultar_historico_llamados_externos($data);
+            $this->load->view('templates/header.php');
+            $this->load->view('templates/navigator.php');
+            $this->load->view('publicaciones/reporte_estatusllamado/resul_rep_estatus.php', $data);
+            $this->load->view('templates/footer.php');
+    }
 
 }
+        public function consulta_estatu() {
+            if (!$this->session->userdata('session'))
+            redirect('login');
+            $data = $this->input->post();
+            $data = $this->Publicaciones_model->consulta_llamado_statu($data);
+            echo json_encode($data);
+            
+
+        }
+        public function filtro(){
+            if (!$this->session->userdata('session')) {
+                        $date=date("d-m-Y");
+                        $id_estado = $this->input->post("id_estado");
+                        $id_objeto = $this->input->post("id_objeto");
+                        $data['historial'] = $this->Publicaciones_model->consultar_llamados_externos12($id_objeto,$date,$id_estado);
+                        $this->load->view('templates/header.php');
+                        $this->load->view('templates/navsinsesion.php');
+                        $this->load->view('publicaciones/reporte/ver_llamado.php', $data);                        
+                        $this->load->view('templates/footer.php');
+            }
+         else {
+                    $date=date("d-m-Y");           
+                    $id_estado= $this->input->post("id_estado");
+                    $id_objeto = $this->input->post("id_objeto");
+                    $data['historial'] = $this->Publicaciones_model->consultar_llamados_externos12($id_objeto,$date,$id_estado);
+                    $this->load->view('templates/header.php');
+                    $this->load->view('templates/navsinsesion.php');
+                    $this->load->view('publicaciones/reporte/ver_llamado.php', $data);                    
+                    $this->load->view('templates/footer.php');
+        }  }
+        
+     
+        
+
+///////////////////////////consulta interna
+public function llamadointerno() {
+    if(!$this->session->userdata('session'))redirect('login');
+      $date=date("d-m-Y");
+      $rif = $this->session->userdata['rif_organoente'];
+      $data['exonerado'] = $this->Publicaciones_model->consultar_llamados_internos($date,$rif);
+      $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
+      $data['objeto'] 	 = $this->Configuracion_model->objeto();
+      $this->load->view('templates/header.php');
+      $this->load->view('templates/navigator.php');
+      $this->load->view('publicaciones/reporte/llamadointerno.php', $data);
+      $this->load->view('templates/footer.php');
+   
+
+  }
+
+    }
+
 
 ?>

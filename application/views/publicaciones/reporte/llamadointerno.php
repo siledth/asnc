@@ -5,15 +5,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" /> -->
     <title>llamados a concurso</title>
 </head>
 
 <body>
     <section>
         <div class="content">
-            
+
             <div class="panel-body">
                 <div class="col-12 ml-1">
                     <div class="card card-outline-danger text-center bg-white">
@@ -21,45 +21,6 @@
                             <blockquote class="card-blockquote" style="margin-bottom: -15px;">
                                 <img style="width: 100%" height="100%" src=" <?= base_url() ?>Plantilla/img/loij.png"
                                     alt="Card image">
-                            </blockquote>
-                        </div>
-                    </div>
-                    <div class="card card-outline-danger text-center bg-white">
-                        <div class="card-block">
-                            <blockquote class="card-blockquote" style="margin-bottom: -15px;">
-                            <div class="panel-body">
-                <form action="<?=base_url()?>index.php/Publicaciones/filtro" class="form-horizontal"
-                    data-parsley-validate="true" name="demo-form" method="POST">
-                    <div class="row">
-                        <div class="col-12">
-                            <h4 class="text-center"> <b>Parametros de Búsqueda</b></h4>
-                        </div>
-                        <div class="form-group col-3">
-                            <label>Seleccione Estado</label>
-                                <select id="id_estado" name="id_estado" class="default-select2 form-control" required>
-                                    <?php foreach ($estados as $data): ?>
-                                    <option value="<?=$data['id']?>"><?=$data['descedo']?>
-                                    <?php endforeach; ?>
-                                </select>
-                        </div>
-                        <div class="form-group col-3">
-                            <label >Seleccione Objeto contratación</label>
-                            <select id="id_objeto" name="id_objeto" class="default-select2 form-control" required>
-                                    <?php foreach ($objeto as $data): ?>
-                                    <option value="<?=$data['id_objeto_contratacion']?>"><?=$data['descripcion']?> 
-                                    <?php endforeach; ?>
-                                </select>
-                        </div>
-                        <div class="form-group col-2">
-                        <br>
-                                <button type="submit" class="btn btn-primary"><i class="ion-search"> </i>Buscar</button>
-                        </div>
-                       
-
-                    </div>
-                    
-                </form>
-            </div>
                             </blockquote>
                         </div>
                     </div>
@@ -100,7 +61,14 @@
                                         <td style="color:orange;"><?=$data['estatus']?> </td>
                                         <?php elseif   ( $data['estatus'] == 'Re-Iniciado' ): ?>
                                         <td style="color:#355E3B;"><b><?=$data['estatus']?></b> </td>
-
+                                        <?php elseif   ( $data['estatus'] == 'Terminado_m' ): ?>
+                                        <td style="color:#339FFF;"><b><?=$data['estatus']?></b> </td>
+                                        <?php elseif   ( $data['estatus'] == 'Finalizado' ): ?>
+                                        <td style="color:#0E3DFC;"><b><?=$data['estatus']?></b> </td>
+                                        <?php elseif   ( $data['estatus'] == 'Terminado' ): ?>
+                                        <td style="color:#01F2FD ;"><b><?=$data['estatus']?></b> </td>
+                                        <?php elseif   ( $data['estatus'] == 'Anulado' ): ?>
+                                        <td style="color:#FD1401;"><b><?=$data['estatus']?></b> </td>
                                         <?php else: ?>
                                         <td style="color:green;"><?=$data['estatus']?></td>
                                         <?php endif; ?>
@@ -365,9 +333,9 @@
     </section>
 </body>
 
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"
     integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous">
-</script>
+</script> -->
 
 <script src="<?=base_url()?>/js/publicaciones/llamado_externo.js"></script>
 

@@ -27,8 +27,8 @@ class Login_model extends CI_model
                     return $result->row_array();
                 } else {
                     $intento = $result->row('intentos');
-                    if ($intento <= 6) {
-                        $intento = $intento + 1;
+                    if ($intento < 1) {
+                        $intento = $intento + 3;
                         $this->db->set('intentos', $intento);
                         $this->db->where('nombre', $usuario);
                         $this->db->update('seguridad.usuarios');

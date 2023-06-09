@@ -1607,8 +1607,8 @@ public function consultar_llamados_externos($date){
 
     $this->db->select('rif_organoente,organoente,numero_proceso,estatus,objeto_contratacion,fecha_disponible_llamado as formatted_date,fecha_disponible_llamado,denominacion_proceso,estado');
     $this->db->from('public.llamado_concurso_view');
-    $this->db->where ("id_llcestatus > '3'");
-    $this->db->where('fecha_disponible_llamado <=', $date);
+    $this->db->where ("id_llcestatus >", "3");
+   // $this->db->where('fecha_disponible_llamado <=', $date);
     $this->db->order_by("fecha_disponible_llamado", "desc");
     $query = $this->db->get();
     return $query->result_array();
