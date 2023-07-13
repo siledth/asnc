@@ -758,5 +758,17 @@
 	
 	}
 
+
+	public function consulta_llamado_statu_detalle($parametros){   
+		 
+		$this->db->select('c.*, m.descripcion, me.descripcion as descr, obj.descripcion as obj');
+		$this->db->join('public.modalidad m', 'm.id_modalidad = c.id_modalidad');
+		$this->db->join('public.mecanismo me', 'me.id_mecanismo = c.id_mecanismo');
+		$this->db->join('public.objeto_contratacion obj', 'obj.id_objeto_contratacion = c.id_objeto_contratacion');
+		$this->db->where("id",$parametros);
+		$query = $this->db->get('public.llamado_concurso_historial_view c');
+		return $query->result_array();
+	}
+
 }
 ?>

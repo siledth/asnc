@@ -17,7 +17,7 @@ function guardar_suspencion(){
     }else {
         event.preventDefault();
         swal.fire({
-            title: '¿Realizar Suspención?',
+            title: '¿Realizar Suspensión?',
             text: '¿Esta seguro de Guardar?',
             type: 'warning',
             showCancelButton: true,
@@ -44,7 +44,7 @@ function guardar_suspencion(){
                     success: function(response){
                         if(response != '') {
                             swal.fire({
-                                title: 'Suspención Exitosa',
+                                title: 'Suspensión Exitosa',
                                 type: 'success',
                                 showCancelButton: false,
                                 confirmButtonColor: '#3085d6',

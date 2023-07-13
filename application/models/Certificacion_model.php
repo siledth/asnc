@@ -37,9 +37,9 @@ class Certificacion_model extends CI_model
     }
    
     public function cons_nro_comprobante(){
-        $this->db->select('id,tipo_pers');
+        $this->db->select('id,id_comprobante,nro_comprobante,tipo_pers');
         $this->db->where('tipo_pers ', 1 );
-        $this->db->order_by('id desc');
+        $this->db->order_by('id_comprobante desc');
         $query = $this->db->get('certificacion.certificaciones ');
         $response = $query->row_array();
         return $response;
@@ -95,7 +95,13 @@ class Certificacion_model extends CI_model
     $infor_per_natu,$infor_per_prof,$for_mat_contr_publ,$exp_par_comi_10,$exp_dic_cap_3){
        
         $qrcode_data = $this->_generate_data_qrcode();
-       
+        $this->db->select('max(e.id_comprobante) as id_comprobante,e.tipo_pers');
+        $this->db->where('e.tipo_pers', 1);
+        $this->db->group_by('e.tipo_pers'); 
+        $query = $this->db->get('certificacion.certificaciones e');
+        $respon = $query->row_array();
+        $id_comprobante = $respon['id_comprobante'] + 1 ;
+
         $this->db->select('max(e.id) as id');
         $query = $this->db->get('certificacion.certificaciones e');
         $response3 = $query->row_array();
@@ -103,6 +109,7 @@ class Certificacion_model extends CI_model
         $certifi1 = array(
 
             'id'=> $id,
+            'id_comprobante'=> $id_comprobante,
             'nro_comprobante'=> $certifi['nro_comprobante'],
             'n_certif'=> $certifi['n_certif'],
             'rif_cont'=> $certifi['rif_cont'],
@@ -1115,9 +1122,9 @@ class Certificacion_model extends CI_model
     }
     ///////////////////////////////////////////////registro pn
     public function cons_nro_comprobantenn(){
-        $this->db->select('id,tipo_pers');
+        $this->db->select('id,id_comprobante,nro_comprobante,tipo_pers');
         $this->db->where('tipo_pers ', 2 );
-        $this->db->order_by('id desc');
+        $this->db->order_by('id_comprobante desc');
         $query = $this->db->get('certificacion.certificaciones ');
         $response = $query->row_array();
         return $response;
@@ -1125,6 +1132,13 @@ class Certificacion_model extends CI_model
     public function save_certificacion_pn($certifi, 
     $infor_per_natu,$infor_per_prof,$for_mat_contr_publ,$exp_par_comi_10,$exp_dic_cap_3){
       $qrcode_data = $this->_generate_data_qrcode();
+      $this->db->select('max(e.id_comprobante) as id_comprobante,e.tipo_pers');
+        $this->db->where('e.tipo_pers', 2);
+        $this->db->group_by('e.tipo_pers'); 
+        $query = $this->db->get('certificacion.certificaciones e');
+        $respon = $query->row_array();
+        $id_comprobante = $respon['id_comprobante'] + 1 ;
+
         $this->db->select('max(e.id) as id');
         $query = $this->db->get('certificacion.certificaciones e');
         $response3 = $query->row_array();
@@ -1132,6 +1146,7 @@ class Certificacion_model extends CI_model
         $certifi1 = array(
 
             'id'=> $id,
+            'id_comprobante'=> $id_comprobante,
             'nro_comprobante'=> $certifi['nro_comprobante'],
             'n_certif'=> $certifi['n_certif'],
             'rif_cont'=> $certifi['rif_cont'],
@@ -1608,7 +1623,7 @@ public function consultar_llamados_externos($date){
     $this->db->select('rif_organoente,organoente,numero_proceso,estatus,objeto_contratacion,fecha_disponible_llamado as formatted_date,fecha_disponible_llamado,denominacion_proceso,estado');
     $this->db->from('public.llamado_concurso_view');
     $this->db->where ("id_llcestatus >", "3");
-   // $this->db->where('fecha_disponible_llamado <=', $date);
+    $this->db->where('fecha_disponible_llamado <=', $date);
     $this->db->order_by("fecha_disponible_llamado", "desc");
     $query = $this->db->get();
     return $query->result_array();

@@ -104,17 +104,19 @@
 
                                         </tr>
                                         <?php if (($inf_pdf['tipo_pers'] < 2) ) : ?>
-                                        <td style="text-align:center" colspan="2"> INFORMACIÓN DEL FACILITADOR(A)</td>
-                                        <tr>
-                                            <th style="text-align:right">Nombres Y Apellido</th>
-                                            <th><?=$inf_pdf['nombre_ape']?> </th>
-
+                                            <td style="text-align:center" colspan="2"> INFORMACIÓN DEL FACILITADOR(A)</td>
+                                    <tr class="text-center">
+                                            <th>Nombre y Apellido</th>
+                                            <th>Cedula</th>
+                                            
                                         </tr>
-                                        <tr>
-                                            <th style="text-align:right"> Cédula de Identidad:</th>
-                                            <th> <?=$inf_pdf['cedula']?> </th>
-
+                                        <?php foreach ($ver_pdfs_2 as $data): ?>
+                                        <tr class="text-center">
+                                            <th> <?=$data['nombre_ape']?></th>
+                                            <th> <?=$data['cedula']?></th>
+                                            
                                         </tr>
+                                        <?php endforeach; ?>
                                         <?php endif; ?>
                                     </tbody>
                                 </table>
@@ -136,7 +138,7 @@
                             </div>
                         </div>
                         <br><br><br>
-                            <br><br><br>
+                            
                             <div class="col-12 mt-5">
                             <FONT SIZE=1>Firma electrónica de datos consultados: <br>
                 XaN-cixoSyPa5Kyop8k-Ac7TzWROZ4iUzQmlhcayO9eGIi-9964 <br>

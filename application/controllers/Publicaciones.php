@@ -861,7 +861,25 @@ public function llamadointerno() {
 
   }
 
+  
+
+    public function v_estatus_llamado(){
+        if(!$this->session->userdata('session'))
+        redirect('login');
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $data['rif'] = $this->session->userdata('rif');
+        $parametros = $this->input->get('id');
+        $data['id']=$this->input->get('id');
+         
+        $data['time']=date("Y-m-d");
+        $data['inf_2'] = $this->Publicaciones_model->consulta_llamado_statu_detalle($parametros);
+  
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+          $this->load->view('publicaciones/reporte_estatusllamado/est_llamado.php', $data);
+        
+        $this->load->view('templates/footer.php');
     }
-
-
+}
+    
 ?>

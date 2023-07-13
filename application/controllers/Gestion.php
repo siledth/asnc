@@ -89,7 +89,7 @@ class Gestion extends CI_Controller {
       $data['time']=date("d-m-Y");
        // $data =	$this->Certificacion_model->certificaciones_id($data);
         $data['inf_pdf'] =	$this->Certificacion_model->ver_pdfs($comprobante);
-        
+        $data['ver_pdfs_2'] =	$this->Certificacion_model->ver_pdfs_2($comprobante);
 
         $this->load->view('templates/header.php');
         $this->load->view('templates/navsinsesion.php');

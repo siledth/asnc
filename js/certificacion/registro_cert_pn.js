@@ -1,7 +1,7 @@
 $(document).ready(function() {
     //para consultar y crear el numero de nro_comprobante
-    // var base_url = window.location.origin + "/asnc/index.php/Certificacion/nro_comprobante_pn";
-       var base_url = '/index.php/Certificacion/nro_comprobante_pn';
+    //  var base_url = window.location.origin + "/asnc/index.php/Certificacion/nro_comprobante_pn";
+      var base_url = '/index.php/Certificacion/nro_comprobante_pn';
 
     $.ajax({
         url: base_url,
@@ -12,7 +12,7 @@ $(document).ready(function() {
             if (response === null) {
                 numero = "1";
             } else {
-                numero_c = response["id"];
+                numero_c = response["id_comprobante"];
                 numero = Number(numero_c) + 1;
                 
             }
