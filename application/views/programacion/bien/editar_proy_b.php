@@ -30,9 +30,9 @@
                             <div class="form-group mt-2 col-3">
                                 <label>Objeto de Contratación</label><br>
                                 <input type="hidden" id="id_obj_comercial" name="id_obj_comercial" value="<?=$inf_1['id_obj_comercial']?>">
-                                <input type="text" id="desc_objeto_contrata" name="desc_objeto_contrata" value="<?=$inf_1['desc_objeto_contrata']?>" class="form-control">
+                                <input type="text" id="desc_objeto_contrata" name="desc_objeto_contrata" value="<?=$inf_1['desc_objeto_contrata']?>" class="form-control" readonly>
                             </div>
-                            <div class="col-12">
+                            <!-- <div class="col-12">
                                 <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
                             </div>
                             <div class="col-12 text-center">
@@ -157,7 +157,7 @@
                                     </div>
                                     <div class="form-group col-2">
                                         <label>Cantd. restante a Distribuir <b style="color:red">*</b></label>
-                                        <input id="cant_total_distribuir_acc" name="cant_total_distribuir_acc"  type="text" class="form-control" disabled>
+                                        <input id="cant_total_distribuir_acc" name="cant_total_distribuir_acc"  type="text" class="form-control" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -167,7 +167,7 @@
                             </div>
                             <div class="form-group col-3">
                                 <label>Precio Total Estimado<b style="color:red">*</b></label>
-                                <input id="precio_total_acc" name="precio_total_acc" type="text" class="form-control" disabled>
+                                <input id="precio_total_acc" name="precio_total_acc" type="text" class="form-control" readonly>
                             </div>
 
                             <div class="form-group col-2">
@@ -181,34 +181,34 @@
                             </div>
                             <div class="form-group col-2">
                                 <label>Monto IVA Estimado<b style="color:red">*</b></label>
-                                <input id="iva_estimado_acc" name="iva_estimado_acc" type="text" class="form-control" disabled>
+                                <input id="iva_estimado_acc" name="iva_estimado_acc" type="text" class="form-control" readonly>
                             </div>
                             <div class="form-group col-3">
                                 <label>Monto total Estimado<b style="color:red">*</b></label>
-                                <input id="monto_estimado_acc" name="monto_estimado_acc" type="text" class="form-control" disabled>
+                                <input id="monto_estimado_acc" name="monto_estimado_acc" type="text" class="form-control" >
                             </div>
                             <div class="col-12">
                                 <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
                             </div>
                             <div class="form-group col-2">
                                 <label>Estimado I Trimestre</b></label>
-                                <input id="estimado_i_acc" name="estimado_i_acc" type="text" class="form-control" disabled>
+                                <input id="estimado_i_acc" name="estimado_i_acc" type="text" class="form-control" readonly>
                             </div>
                             <div class="form-group col-2">
                                 <label>Estimado II Trimestre</label>
-                                <input id="estimado_ii_acc" name="estimado_ii_acc" type="text" class="form-control" disabled>
+                                <input id="estimado_ii_acc" name="estimado_ii_acc" type="text" class="form-control" readonly>
                             </div>
                             <div class="form-group col-2">
                                 <label>Estimado III Trimestre</label>
-                                <input id="estimado_iii_acc" name="estimado_iii_acc" type="text" class="form-control" disabled>
+                                <input id="estimado_iii_acc" name="estimado_iii_acc" type="text" class="form-control" readonly>
                             </div>
                             <div class="form-group col-2">
                                 <label>Estimado IV Trimestre</label>
-                                <input id="estimado_iV_acc" name="estimado_iV_acc" type="text" class="form-control" disabled>
+                                <input id="estimado_iV_acc" name="estimado_iV_acc" type="text" class="form-control" readonly>
                             </div>
                             <div class="form-group col-4">
                                 <label>Estimado Total Trimestres + Iva Estimado</label>
-                                <input id="estimado_total_t_acc" name="estimado_total_t_acc" type="text" class="form-control" disabled>
+                                <input id="estimado_total_t_acc" name="estimado_total_t_acc" type="text" class="form-control" readonly>
                             </div>
                             <div class="col-12">
                                 <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
@@ -218,7 +218,7 @@
                                 <button type="button" onclick="agregar_ccnu_acc_edit(this);" class="btn btn-lg btn-default">
                                     Agregar
                                 </button>
-                            </div>
+                            </div> -->
                             <hr style="border-top: 1px solid rgba(0, 0, 0, 0.17);">
                             <div class="table-responsive mt-4">
                                 <h5 class="text-center">Lista de Requerimiento</h5>
@@ -274,11 +274,11 @@
                     <div class="form-group col-4">
                         <label>Cod. Partida Presupuestaria</label>
                         <input type="hidden" name="id_part_pres_b" id="id_part_pres_b">
-                        <input id="cod_partida_pre_b" name="cod_partida_pre_b"  class="form-control" class="form-control" disabled>
+                        <input id="cod_partida_pre_b" name="cod_partida_pre_b"  class="form-control" class="form-control" readonly>
                     </div>
                     <div class="form-group col-8">
                         <label>Partida Presupuestaria</label>
-                        <input class="form-control" name="partida_pre_b" id="partida_pre_b" class="form-control" disabled>
+                        <input class="form-control" name="partida_pre_b" id="partida_pre_b" class="form-control" readonly>
                     </div>
                     <div class="form-group col-12">
                         <label> Cambiar Partida Presupuestaria <i title="Si requiere cambiar la Partida Presupuestaria, debe seleccionarlo en el siguiente campo" class="fas fa-question-circle"></i></label>
@@ -288,7 +288,7 @@
                     </div>
                     <div class="form-group col-6">
                         <label>CCNU</label>
-                        <input type="text" class="form-control" name="ccnu_mod_b" id="ccnu_mod_b" disabled>
+                        <input type="text" class="form-control" name="ccnu_mod_b" id="ccnu_mod_b" readonly>
                         <input type="hidden" name="id_ccnu_mod_b" id="id_ccnu_mod_b">
                     </div>
 
@@ -311,7 +311,7 @@
                     </div>
                     <div class="form-group col-3">
                         <label>Unidad de Medida</label>
-                        <input type="text" class="form-control" name="unid_med_b" id="unid_med_b" disabled>
+                        <input type="text" class="form-control" name="unid_med_b" id="unid_med_b" readonly>
                         <input type="hidden" name="id_unid_med_b" id="id_unid_med_b">
                     </div>
                     <div class="form-group col-3">
@@ -345,7 +345,7 @@
                             </div>
                             <div class="form-group col-2">
                                 <label>Cantd. restante a Distribuir <b style="color:red">*</b></label>
-                                <input id="cant_total_distribuir_mod_b" name="cant_total_distribuir_mod_b" onkeyup="verif();" class="form-control"  disabled>
+                                <input id="cant_total_distribuir_mod_b" name="cant_total_distribuir_mod_b" onkeyup="verif();" class="form-control"  readonly>
                             </div>
                         </div>
                     </div>
@@ -355,14 +355,14 @@
                     </div>
                     <div class="form-group col-4">
                         <label>Precio Total Estimado<b style="color:red">*</b></label>
-                        <input id="precio_total_mod_b" name="precio_total_mod_b" type="text" class="form-control" disabled>
+                        <input id="precio_total_mod_b" name="precio_total_mod_b" type="text" class="form-control" readonly>
                     </div>
 
                     <div class="form-group col-4">
                         <label>Alícuota IVA Estimado<b style="color:red">*</b></label><br>
                         <div class="row">
                             <div class="col-5">
-                                <input type="text" class="form-control" onblur="calcular_mod_bienes();" name="ali_iva_e_b" id="ali_iva_e_b" disabled>
+                                <input type="text" class="form-control" onblur="calcular_mod_bienes();" name="ali_iva_e_b" id="ali_iva_e_b" readonly>
                             </div>
                             <div class="col-7">
                                 <select title="Para cambiar la Alicuota de IVA debe seleccionarlo en este campo." class="form-control" name="sel_id_alic_iva_b" id="sel_id_alic_iva_b"  onchange="calcular_mod_bienes();">
@@ -373,34 +373,34 @@
                     </div>
                     <div class="form-group col-6">
                         <label>Monto IVA Estimado<b style="color:red">*</b></label>
-                        <input id="iva_estimado_mod_b" name="iva_estimado_mod_b" type="text" class="form-control" disabled>
+                        <input id="iva_estimado_mod_b" name="iva_estimado_mod_b" type="text" class="form-control" readonly>
                     </div>
                     <div class="form-group col-6">
                         <label>Monto total Estimado<b style="color:red">*</b></label>
-                        <input id="monto_estimado_mod_b" name="monto_estimado_mod_b" type="text" class="form-control" disabled>
+                        <input id="monto_estimado_mod_b" name="monto_estimado_mod_b" type="text" class="form-control" readonly>
                     </div>
                     <div class="col-12">
                         <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
                     </div>
                     <div class="form-group col-2">
                         <label>Est. I Trimestre</b></label>
-                        <input id="estimado_primer" name="estimado_i" type="text" class="form-control" disabled>
+                        <input id="estimado_primer" name="estimado_i" type="text" class="form-control" readonly>
                     </div>
                     <div class="form-group col-2">
                         <label>Est. II Trimestre</label>
-                        <input id="estimado_segundo" name="estimado_ii" type="text" class="form-control" disabled>
+                        <input id="estimado_segundo" name="estimado_ii" type="text" class="form-control" readonly>
                     </div>
                     <div class="form-group col-2">
                         <label>Est. III Trimestre</label>
-                        <input id="estimado_tercer" name="estimado_iii" type="text" class="form-control" disabled>
+                        <input id="estimado_tercer" name="estimado_iii" type="text" class="form-control" readonly>
                     </div>
                     <div class="form-group col-2">
                         <label>Est. IV Trimestre</label>
-                        <input id="estimado_cuarto" name="estimado_iV" type="text" class="form-control" disabled>
+                        <input id="estimado_cuarto" name="estimado_iV" type="text" class="form-control" readonly>
                     </div>
                     <div class="form-group col-4">
                         <label>Est. Total Trimestres</label>
-                        <input id="estimado_total_t_mod" name="estimado_total_t" type="text" class="form-control" disabled>
+                        <input id="estimado_total_t_mod" name="estimado_total_t" type="text" class="form-control" readonly>
                     </div>
                 </div>
                 <div class="modal-footer">

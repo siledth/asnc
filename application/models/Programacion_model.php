@@ -22,6 +22,7 @@
             $query = $this->db->get('programacion.programacion');
             return $query->row_array();
         }
+     
 
         //Consulta los proyectos por separado de cada programación
         public function consultar_proyectos($id_programacion){
@@ -1574,5 +1575,110 @@
         return $query->result_array();
     }
 
+	function consultar_proyecto($id_p_proyecto){
 
+        $this->db->select('pi2.id_p_items,
+                               pi2.id_enlace,
+                               pi2.id_partidad_presupuestaria,
+                               pp.desc_partida_presupuestaria,
+                               pp.codigopartida_presupuestaria,
+                               pi2.id_ccnu,
+                               c2.desc_ccnu,
+                               pi2.fecha_desde,
+                               pi2.fecha_hasta,
+                               pi2.especificacion,
+                               pi2.id_unidad_medida,
+                               um.desc_unidad_medida,
+                               pi2.cantidad,
+                               pi2.costo_unitario,
+                               pi2.i,
+                               pi2.ii,
+                               pi2.iii,
+                               pi2.iv,
+                               pi2.cant_total_distribuir,
+                               pi2.precio_total,
+                               pi2.alicuota_iva,
+                               pi2.iva_estimado,
+                               pi2.monto_estimado');
+            $this->db->join('programacion.ccnu c2','c2.codigo_ccnu = pi2.id_ccnu');
+            $this->db->join('programacion.partida_presupuestaria pp','pp.id_partida_presupuestaria = pi2.id_partidad_presupuestaria');
+            $this->db->join('programacion.unidad_medida um','um.id_unidad_medida = pi2.id_unidad_medida');
+            $this->db->where('pi2.id_enlace', $id_p_proyecto);
+            $this->db->where('pi2.id_p_acc', 0);
+            $this->db->from('programacion.p_items pi2');
+            $query = $this->db->get();
+            return $query->result_array();
+    }
+    // public function inf_3_b($data){
+    //     $this->db->select('pi2.id_p_items,
+    //                        pi2.id_enlace,
+    //                        pi2.id_partidad_presupuestaria,
+    //                        pp.desc_partida_presupuestaria,
+    //                        pp.codigopartida_presupuestaria,
+    //                        pi2.id_ccnu,
+    //                        c2.desc_ccnu,
+    //                        pi2.fecha_desde,
+    //                        pi2.fecha_hasta,
+    //                        pi2.especificacion,
+    //                        pi2.id_unidad_medida,
+    //                        um.desc_unidad_medida,
+    //                        pi2.cantidad,
+    //                        pi2.costo_unitario,
+    //                        pi2.i,
+    //                        pi2.ii,
+    //                        pi2.iii,
+    //                        pi2.iv,
+    //                        pi2.cant_total_distribuir,
+    //                        pi2.precio_total,
+    //                        pi2.alicuota_iva,
+    //                        pi2.iva_estimado,
+    //                        pi2.monto_estimado');
+    //     $this->db->join('programacion.ccnu c2','c2.codigo_ccnu = pi2.id_ccnu');
+    //     $this->db->join('programacion.partida_presupuestaria pp','pp.id_partida_presupuestaria = pi2.id_partidad_presupuestaria');
+    //     $this->db->join('programacion.unidad_medida um','um.id_unidad_medida = pi2.id_unidad_medida');
+    //     $this->db->where('pi2.id_enlace', $data['id_p_proyecto']);
+    //     $this->db->where('pi2.id_p_acc', 0);
+    //     $query = $this->db->get('programacion.p_items pi2');
+  
+    function agregar_mas_item_proyecto($data,$p_ffinanciamiento){
+        $this->db->insert('programacion.p_items',$data);
+     
+        $this->db->insert('programacion.p_ffinanciamiento',$p_ffinanciamiento);
+        return true;
+    }
+    ///////////////////////////////////consultar accion centralizada bienes
+    function consultar_scc($id_p_acc_centralizada){
+
+        $this->db->select('pi2.id_p_items,
+                               pi2.id_enlace,
+                               pi2.id_partidad_presupuestaria,
+                               pp.desc_partida_presupuestaria,
+                               pp.codigopartida_presupuestaria,
+                               pi2.id_ccnu,
+                               c2.desc_ccnu,
+                               pi2.fecha_desde,
+                               pi2.fecha_hasta,
+                               pi2.especificacion,
+                               pi2.id_unidad_medida,
+                               um.desc_unidad_medida,
+                               pi2.cantidad,
+                               pi2.costo_unitario,
+                               pi2.i,
+                               pi2.ii,
+                               pi2.iii,
+                               pi2.iv,
+                               pi2.cant_total_distribuir,
+                               pi2.precio_total,
+                               pi2.alicuota_iva,
+                               pi2.iva_estimado,
+                               pi2.monto_estimado');
+            $this->db->join('programacion.ccnu c2','c2.codigo_ccnu = pi2.id_ccnu');
+            $this->db->join('programacion.partida_presupuestaria pp','pp.id_partida_presupuestaria = pi2.id_partidad_presupuestaria');
+            $this->db->join('programacion.unidad_medida um','um.id_unidad_medida = pi2.id_unidad_medida');
+            $this->db->where('pi2.id_enlace', $id_p_acc_centralizada);
+            $this->db->where('pi2.id_p_acc', 1);
+            $this->db->from('programacion.p_items pi2');
+            $query = $this->db->get();
+            return $query->result_array();
+    }
 }

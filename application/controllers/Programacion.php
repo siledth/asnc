@@ -637,8 +637,8 @@ class Programacion extends CI_Controller {
             'costo_unitario' 	     => $this->input->post('costo_unitario_acc'),
             'precio_total' 		     => $this->input->post('precio_total_acc'),
             'id_alicuota_iva' 		 => $this->input->post('id_alicuota_iva_acc'),
-            'iva_estimado' 		     => $this->input->post('iva_estimado_acc'),
-            'monto_estimado' 		 => $this->input->post('monto_estimado_acc'),
+            'iva_estimado' 		     => $this->input->post('iva_estimado'),
+            'monto_estimado' 		 => $this->input->post('monto_estimado'),
 		        );
 
             $p_ffinanciamiento = array(
@@ -1119,4 +1119,261 @@ class Programacion extends CI_Controller {
         $this->load->view('programacion/consulta/consulta_an.php', $data);
         $this->load->view('templates/footer.php');
     }
+///////////////////////////////////////agregar mas item a la carga de la programacion bienes
+public function agregar_items() {
+
+
+    $data['unidad']          = $this->session->userdata('id_unidad');
+    $data['des_unidad']      = $this->session->userdata('unidad');
+    $data['rif']             = $this->session->userdata('rif');
+    $data['codigo_onapre']   = $this->session->userdata('codigo_onapre');
+
+    $parametros              = $this->input->get('id');
+    $separar                 = explode("/", $parametros);
+    $data['id_p_proyecto']   = $separar['0'];
+    $id_obj_comercial        = $separar['1'];
+    $data['id_programacion'] = $separar['2'];
+
+    $data['programacion_anio'] = $this->Programacion_model->consultar_prog_anio($data['id_programacion'], $data['unidad']);
+    $data['anio'] = $data['programacion_anio']['anio'];
+
+    $data['inf_1'] = $this->Programacion_model->inf_1($data['id_p_proyecto']);
+
+    $data['part_pres'] = $this->Programacion_model->consulta_part_pres();
+    $data['fuente'] = $this->Programacion_model->consulta_fuente();
+    $data['act_com'] = $this->Programacion_model->consulta_act_com();
+    $data['ccnu'] = $this->Programacion_model->consulta_cnnu();
+    $data['estados'] 	= $this->Configuracion_model->consulta_estados();
+    $data['unid'] 	= $this->Programacion_model->consulta_unid();
+    $data['iva'] 	= $this->Programacion_model->consulta_iva();
+
+    $data['proyecto'] = $this->Programacion_model->consultar_proyecto($data['id_p_proyecto']);
+
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('programacion/bien/agregar_itms.php', $data);
+    $this->load->view('templates/footer.php');
+}
+
+public function agregar_mas_item_proyecto() {
+    if (!$this->session->userdata('session'))
+        redirect('login');
+        
+        $par_presupuestaria_acc = $this->input->POST('par_presupuestaria_acc');
+        $separar                 = explode("/", $par_presupuestaria_acc);
+        $id_presupuestaria        = $separar['0'];
+        $id_p_acc_centralizada   = $separar['1'];
+        
+        $id_programacion = $this->input->POST('id_programacion');
+        $separar                 = explode("/", $id_programacion);
+        $id_programacion        = $separar['0'];
+        $id_programacion2   = $separar['1'];
+        
+        
+        
+        $id_unidad_medida_acc = $this->input->POST('id_unidad_medida_acc');
+        $separar                 = explode("/", $id_unidad_medida_acc);
+        $id_unidad_medida_acc1        = $separar['0'];
+        $id_p_acc_centralizada   = $separar['1'];
+
+        $id_alicuota_iva_acc = $this->input->POST('id_alicuota_iva_acc');
+        $separar                 = explode("/", $id_alicuota_iva_acc);
+        $id_alicuota_iva_acc1       = $separar['0'];
+        $id_alicuota_iva_acc2   = $separar['1'];
+
+        $id_ccnu_acc = $this->input->POST('id_ccnu_acc');
+        $separar                 = explode("/", $id_ccnu_acc);
+        $id_ccnu_acc1        = $separar['0'];
+        $id_ccnu_acc2   = $separar['1'];
+
+        $id_estado = $this->input->POST('id_estado');
+        $separar                 = explode("/", $id_estado);
+        $id_estado1       = $separar['0'];
+        $id_estado2   = $separar['1'];
+
+        $fuente_financiamiento_acc = $this->input->POST('fuente_financiamiento_acc');
+        $separar                 = explode("/", $fuente_financiamiento_acc);
+        $fuente_financiamiento_acc1       = $separar['0'];
+        $fuente_financiamiento_acc2   = $separar['1'];
+
+        $par_presupuestaria_acc = $this->input->POST('par_presupuestaria_acc');
+        $separar                 = explode("/", $par_presupuestaria_acc);
+        $par_presupuestaria_acc1       = $separar['0'];
+        $par_presupuestaria_acc2   = $separar['1'];
+
+   $data = array(
+
+   
+         'id_enlace'=> $id_programacion2,
+         'id_p_acc'=> '0',
+         'id_tip_obra'=> '0',
+         'id_alcance_obra'=> '0',
+         'id_obj_obra'=> '0',
+         'fecha_desde'=> date('Y-m-d'),
+         'fecha_hasta'=> date('Y-m-d'),
+        'id_partidad_presupuestaria'  => $id_presupuestaria,
+        'id_ccnu' 		         => $id_ccnu_acc1,
+        'especificacion' 		 => $this->input->post('especificacion_acc'),
+        'id_unidad_medida' 		 => $id_unidad_medida_acc1,
+        'cantidad' 		 => $this->input->post('cantidad_acc'),
+        'i' 		             => $this->input->post('I_acc'),
+        'ii' 		             => $this->input->post('II_acc'),
+        'iii' 		             => $this->input->post('III_acc'),
+        'iv' 		             => $this->input->post('IV_acc'),
+        'cant_total_distribuir' 		             => $this->input->post('cant_total_distribuir_acc'),
+        'precio_total' 		     => $this->input->post('precio_total_acc'),
+        'alicuota_iva' 		 => $id_alicuota_iva_acc1,
+        'iva_estimado' 		     => $this->input->post('iva_estimado_acc'),
+        'costo_unitario' 		 => $this->input->post('costo_unitario_acc'),
+        'monto_estimado' 		 => $this->input->post('monto_estimado_acc'),
+        'est_trim_1' 		 => $this->input->post('estimado_i_acc'),
+        'est_trim_2' 		 => $this->input->post('estimado_ii_acc'),
+        'est_trim_3' 		 => $this->input->post('estimado_iii_acc'),
+        'est_trim_4' 		 => $this->input->post('estimado_iV_acc'),
+        'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t_acc'),
+      
+
+    );
+  
+    $p_ffinanciamiento = array(
+        'id_estado'   		        => $this->input->post('id_estado_acc'),
+        'id_partidad_presupuestaria' 	=> $par_presupuestaria_acc1,
+        'id_fuente_financiamiento'  => $fuente_financiamiento_acc1,
+        'porcentaje' 	            => $this->input->post('porcentaje_acc'),
+        'id_enlace'=> $id_programacion2,
+        'id_p_acc'=> '1',
+    );
+
+    $data = $this->Programacion_model->agregar_mas_item_proyecto($data,$p_ffinanciamiento);
+    echo json_encode($data);
+}
+
+///////////////////////////////////////agregar item a accion centralizada bienes
+
+public function agregar_items_accioncentralizada_bienes() {
+    $data['unidad'] = $this->session->userdata('id_unidad');
+    $data['des_unidad'] = $this->session->userdata('unidad');
+    $data['rif'] = $this->session->userdata('rif');
+    $data['codigo_onapre'] = $this->session->userdata('codigo_onapre');
+
+    $parametros         = $this->input->get('id');
+    $separar        = explode("/", $parametros);
+    $data['id_p_acc_centralizada']  = $separar['0'];
+    $id_obj_comercial = $separar['1'];
+    $data['id_programacion'] = $separar['2'];
+    $data['accion'] = $this->Programacion_model->consultar_scc($data['id_p_acc_centralizada']);
+    $data['part_pres'] = $this->Programacion_model->consulta_part_pres();
+    $data['fuente'] = $this->Programacion_model->consulta_fuente();
+    $data['act_com'] = $this->Programacion_model->consulta_act_com();
+    $data['ccnu'] = $this->Programacion_model->consulta_cnnu();
+    $data['estados'] 	= $this->Configuracion_model->consulta_estados();
+    $data['unid'] 	= $this->Programacion_model->consulta_unid();
+    $data['iva'] 	= $this->Programacion_model->consulta_iva();
+
+    $data['act_com2'] = $this->Programacion_model->consulta_act_com2();
+    $data['acc_cent'] = $this->Programacion_model->accion_centralizada();
+
+    $data['inf_1_acc'] = $this->Programacion_model->inf_1_acc($data['id_p_acc_centralizada']);
+
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('programacion/bien/agregar_itm_acc.php', $data);
+    $this->load->view('templates/footer.php');
+}
+
+
+public function Guardar_mas_item_acc() {
+    if (!$this->session->userdata('session'))
+        redirect('login');
+        
+        $par_presupuestaria_acc = $this->input->POST('par_presupuestaria_acc');
+        $separar                 = explode("/", $par_presupuestaria_acc);
+        $id_presupuestaria        = $separar['0'];
+        $id_p_acc_centralizada   = $separar['1'];
+        
+        $id_programacion = $this->input->POST('id_programacion');
+        $separar                 = explode("/", $id_programacion);
+        $id_programacion        = $separar['0'];
+        $id_programacion2   = $separar['1'];
+        
+        
+        
+        $id_unidad_medida_acc = $this->input->POST('id_unidad_medida_acc');
+        $separar                 = explode("/", $id_unidad_medida_acc);
+        $id_unidad_medida_acc1        = $separar['0'];
+        $id_p_acc_centralizada   = $separar['1'];
+
+        $id_alicuota_iva_acc = $this->input->POST('id_alicuota_iva_acc');
+        $separar                 = explode("/", $id_alicuota_iva_acc);
+        $id_alicuota_iva_acc1       = $separar['0'];
+        $id_alicuota_iva_acc2   = $separar['1'];
+
+        $id_ccnu_acc = $this->input->POST('id_ccnu_acc');
+        $separar                 = explode("/", $id_ccnu_acc);
+        $id_ccnu_acc1        = $separar['0'];
+        $id_ccnu_acc2   = $separar['1'];
+
+        $id_estado = $this->input->POST('id_estado');
+        $separar                 = explode("/", $id_estado);
+        $id_estado1       = $separar['0'];
+        $id_estado2   = $separar['1'];
+
+        $fuente_financiamiento_acc = $this->input->POST('fuente_financiamiento_acc');
+        $separar                 = explode("/", $fuente_financiamiento_acc);
+        $fuente_financiamiento_acc1       = $separar['0'];
+        $fuente_financiamiento_acc2   = $separar['1'];
+
+        $par_presupuestaria_acc = $this->input->POST('par_presupuestaria_acc');
+        $separar                 = explode("/", $par_presupuestaria_acc);
+        $par_presupuestaria_acc1       = $separar['0'];
+        $par_presupuestaria_acc2   = $separar['1'];
+
+   $data = array(
+
+   
+         'id_enlace'=> $this->input->post('id_programacion'),
+         'id_p_acc'=> 1,
+         'id_tip_obra'=> '0',
+         'id_alcance_obra'=> '0',
+         'id_obj_obra'=> '0',
+         'fecha_desde'=> date('Y-m-d'),
+         'fecha_hasta'=> date('Y-m-d'),
+        'id_partidad_presupuestaria'  => $par_presupuestaria_acc1,
+        'id_ccnu' 		         => $id_ccnu_acc1,
+        'especificacion' 		 => $this->input->post('especificacion_acc'),
+        'id_unidad_medida' 		 => $id_unidad_medida_acc1,
+        'cantidad' 		 => $this->input->post('cantidad_acc'),
+        'i' 		             => $this->input->post('I_acc'),
+        'ii' 		             => $this->input->post('II_acc'),
+        'iii' 		             => $this->input->post('III_acc'),
+        'iv' 		             => $this->input->post('IV_acc'),
+        'cant_total_distribuir' 		             => $this->input->post('cant_total_distribuir_acc'),
+        'precio_total' 		     => $this->input->post('precio_total_acc'),
+        'alicuota_iva' 		 => $id_alicuota_iva_acc1,
+        'iva_estimado' 		     => $this->input->post('iva_estimado_acc'),
+        'costo_unitario' 		 => $this->input->post('costo_unitario_acc'),
+        'monto_estimado' 		 => $this->input->post('monto_estimado_acc'),
+        'est_trim_1' 		 => $this->input->post('estimado_i_acc'),
+        'est_trim_2' 		 => $this->input->post('estimado_ii_acc'),
+        'est_trim_3' 		 => $this->input->post('estimado_iii_acc'),
+        'est_trim_4' 		 => $this->input->post('estimado_iV_acc'),
+        'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t_acc'),
+      
+
+    );
+  
+    $p_ffinanciamiento = array(
+        'id_estado'   		        => $this->input->post('id_estado_acc'),
+        'id_partidad_presupuestaria' 	=> $par_presupuestaria_acc1,
+        'id_fuente_financiamiento'  => $fuente_financiamiento_acc1,
+        'porcentaje' 	            => $this->input->post('porcentaje_acc'),
+        'id_enlace'=> $this->input->post('id_programacion'),
+        'id_p_acc'=> '0',
+    );
+
+    $data = $this->Programacion_model->agregar_mas_item_proyecto($data,$p_ffinanciamiento);
+    echo json_encode($data);
+}
+
+
 }

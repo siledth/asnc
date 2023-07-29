@@ -139,10 +139,10 @@ if ($('#id_programacion').val().length != " "){//FUNCION EN DONDE SE CARGA LA TA
 function editar_modal_b(id){
     var id_items_proy = id
 
-    //var base_url =window.location.origin+'/asnc/index.php/Programacion/cons_items_proy_b';
-    //var base_url1 =window.location.origin+'/asnc/index.php/Programacion/llenar_par_pre_mod';
-    //var base_url2 =window.location.origin+'/asnc/index.php/Programacion/llenar_uni_med_mod';
-    //var base_url3 =window.location.origin+'/asnc/index.php/Programacion/llenar_alic_iva_mod';
+    // var base_url =window.location.origin+'/asnc/index.php/Programacion/cons_items_proy_b';
+    // var base_url1 =window.location.origin+'/asnc/index.php/Programacion/llenar_par_pre_mod';
+    // var base_url2 =window.location.origin+'/asnc/index.php/Programacion/llenar_uni_med_mod';
+    // var base_url3 =window.location.origin+'/asnc/index.php/Programacion/llenar_alic_iva_mod';
 
     var base_url = '/index.php/Programacion/cons_items_proy_b';
     var base_url1 = '/index.php/Programacion/llenar_par_pre_mod';
@@ -268,7 +268,7 @@ function buscar_ccnnu_m_b(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
     var ccnu_b_m = $('#ccnu_b_m_b').val();
 
     //console.log(ccnu_b_m);
-    //var base_url =window.location.origin+'/asnc/index.php/Programacion/llenar_selc_ccnu_m';
+   // var base_url =window.location.origin+'/asnc/index.php/Programacion/llenar_selc_ccnu_m';
     var base_url = '/index.php/Programacion/llenar_selc_ccnu_m';
     $.ajax({
         url:base_url,
@@ -392,7 +392,7 @@ function guardar_tabla_b(){
     event.preventDefault();
 
     swal.fire({
-        title: '¿Seguro que desea guardar el registro? Se editara en la Base de Datos',
+        title: '¿Seguro que desea guardar el registro? Se editara en la Base de Datos Proyecto',
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -430,8 +430,8 @@ function guardar_tabla_b(){
             var monto_iva_e = $('#iva_estimado_mod_b').val();
             var monto_tot_est = $('#monto_estimado_mod_b').val();
 
-            //var base_url =window.location.origin+'/asnc/index.php/Programacion/editar_fila_ip_b';
-            var base_url = '/index.php/Programacion/editar_fila_ip_b';
+          // var base_url =window.location.origin+'/asnc/index.php/Programacion/editar_fila_ip_b';
+           var base_url = '/index.php/Programacion/editar_fila_ip_b';
 
             $.ajax({
                 url:base_url,

@@ -70,9 +70,13 @@
                                             class="button">
                                             <i class="fas fa-lg fa-fw fa-eye" style="color: green;"></i>
                                         <a/>
-                                        <a href="<?php echo base_url();?>index.php/programacion/editar_proy?id=<?php echo $ver_proyecto['id_p_proyecto'];?>/<?php echo $ver_proyecto['id_obj_comercial'];?>/<?php echo $ver_proyecto['id_programacion'];?>"
+                                        <!-- <a href="<?php echo base_url();?>index.php/programacion/editar_proy?id=<?php echo $ver_proyecto['id_p_proyecto'];?>/<?php echo $ver_proyecto['id_obj_comercial'];?>/<?php echo $ver_proyecto['id_programacion'];?>"
                                             class="button">
                                             <i class="fas fa-lg fa-fw fa-edit"></i>
+                                        <a /> -->
+                                        <a href="<?php echo base_url();?>index.php/programacion/agregar_items?id=<?php echo $ver_proyecto['id_p_proyecto'];?>/<?php echo $ver_proyecto['id_obj_comercial'];?>/<?php echo $ver_proyecto['id_programacion'];?>"
+                                            class="button">
+                                            <i class="fas fa-lg fa-fw fa-edit"> </i>
                                         <a />
                                         <a onclick="eliminar_proy(<?php echo $ver_proyecto['id_p_proyecto'];?>);" class="button"><i class="fas fa-lg fa-fw  fa-trash-alt" style="color:red"></i><a/>
                                     </td>
@@ -104,7 +108,11 @@
                                             class="button">
                                             <i class="fas fa-lg fa-fw fa-eye" style="color: green;"></i>
                                         <a/>
-                                        <a href="<?php echo base_url();?>index.php/programacion/editar_acc?id=<?php echo $ver_acc_centralizad['id_p_acc_centralizada'];?>/<?php echo $ver_acc_centralizad['id_obj_comercial'];?>/<?php echo $ver_acc_centralizad['id_programacion'];?>"
+                                        <!-- <a href="<?php echo base_url();?>index.php/programacion/editar_acc?id=<?php echo $ver_acc_centralizad['id_p_acc_centralizada'];?>/<?php echo $ver_acc_centralizad['id_obj_comercial'];?>/<?php echo $ver_acc_centralizad['id_programacion'];?>"
+                                            class="button">
+                                            <i class="fas fa-lg fa-fw  fa-edit"></i>
+                                        <a /> -->
+                                        <a href="<?php echo base_url();?>index.php/programacion/agregar_items_accioncentralizada_bienes?id=<?php echo $ver_acc_centralizad['id_p_acc_centralizada'];?>/<?php echo $ver_acc_centralizad['id_obj_comercial'];?>/<?php echo $ver_acc_centralizad['id_programacion'];?>"
                                             class="button">
                                             <i class="fas fa-lg fa-fw  fa-edit"></i>
                                         <a />

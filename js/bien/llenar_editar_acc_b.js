@@ -64,7 +64,7 @@ if ($('#id_programacion_acc_b').val().length != " "){//FUNCION EN DONDE SE CARGA
     var id_p_programacion = separar['0'];
     var id_p_acc_centralizada = separar['1'];
 
-    //var base_url =window.location.origin+'/asnc/index.php/Programacion/ver_acc_editar_items_b';
+   //var base_url =window.location.origin+'/asnc/index.php/Programacion/ver_acc_editar_items_b';
     var base_url = '/index.php/Programacion/ver_acc_editar_items_b';
     $.ajax({
        url:base_url,
