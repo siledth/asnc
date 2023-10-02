@@ -854,7 +854,7 @@ public function llamadointerno() {
       $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
       $data['objeto'] 	 = $this->Configuracion_model->objeto();
       $this->load->view('templates/header.php');
-      $this->load->view('templates/navigator.php');
+    //   $this->load->view('templates/navigator.php'); quite esto para poder imprimir bien
       $this->load->view('publicaciones/reporte/llamadointerno.php', $data);
       $this->load->view('templates/footer.php');
    

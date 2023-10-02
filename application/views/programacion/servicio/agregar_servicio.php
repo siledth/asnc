@@ -172,7 +172,7 @@
                                 <select  id="id_unidad_medida" name="id_unidad_medida" class="form-control">
                                     <option value="">SELECCIONE</option>
                                     <?php foreach ($unid as $data): ?>
-                                        <option value="<?=$data['id_unidad_medida']?>/<?=$data['desc_unidad_medida']?>"><?=$data['desc_unidad_medida']?></option>
+                                        <option value="<?=$data['id_unidad_medida']?>"><?=$data['desc_unidad_medida']?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -182,23 +182,23 @@
                                     <div class="row mt-3">
                                         <div class="form-group col-2">
                                             <label>I<b style="color:red">*</b></label>
-                                            <input id="I" name="I" type="text" onblur="calculo();" value="0" class="form-control" onkeypress="return valideKey(event);" disabled>
+                                            <input id="I" name="I" type="text" onblur="calculo();" value="0" class="form-control" onkeypress="return valideKey(event);" readonly>
                                         </div>
                                         <div class="form-group col-2">
                                             <label>II<b style="color:red">*</b></label>
-                                            <input id="II" name="II" type="text" onblur="calculo();" value="0" class="form-control"  onkeypress="return valideKey(event);" disabled>
+                                            <input id="II" name="II" type="text" onblur="calculo();" value="0" class="form-control"  onkeypress="return valideKey(event);" readonly>
                                         </div>
                                         <div class="form-group col-2">
                                             <label>III<b style="color:red">*</b></label>
-                                            <input id="III" name="III" type="text" onblur="calculo();" value="0" class="form-control"  onkeypress="return valideKey(event);" disabled>
+                                            <input id="III" name="III" type="text" onblur="calculo();" value="0" class="form-control"  onkeypress="return valideKey(event);" readonly>
                                         </div>
                                         <div class="form-group col-2">
                                             <label>IV<b style="color:red">*</b></label>
-                                            <input id="IV" name="IV" type="text" onblur="calculo();" value="0" class="form-control"  onkeypress="return valideKey(event);" disabled>
+                                            <input id="IV" name="IV" type="text" onblur="calculo();" value="0" class="form-control"  onkeypress="return valideKey(event);" readonly>
                                         </div>
                                         <div class="form-group col-4">
                                             <label>Cantd. Total Distribuir <b style="color:red">*</b></label>
-                                            <input id="cant_total_distribuir" value="100" onblur="calculo();" name="cant_total_distribuir" type="number" class="form-control" disabled>
+                                            <input id="cant_total_distribuir" value="100" onblur="calculo();" name="cant_total_distribuir" type="number" class="form-control" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -218,34 +218,34 @@
                             </div>
                             <div class="form-group col-3">
                                 <label>Monto IVA Estimado<b style="color:red">*</b></label>
-                                <input id="iva_estimado" name="iva_estimado" type="text" class="form-control" disabled>
+                                <input id="iva_estimado" name="iva_estimado" type="text" class="form-control" readonly>
                             </div>
                             <div class="form-group col-3">
                                 <label>Monto total Estimado<b style="color:red">*</b></label>
-                                <input id="monto_estimado" name="monto_estimado"  type="text" class="form-control" disabled>
+                                <input id="monto_estimado" name="monto_estimado"  type="text" class="form-control" readonly>
                             </div>
                             <div class="col-12">
                                 <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
                             </div>
                             <div class="form-group col-2">
                                 <label>Estimado I Trimestre</b></label>
-                                <input id="estimado_i" name="estimado_i" type="text" class="form-control" disabled>
+                                <input id="estimado_i" name="estimado_i" type="text" class="form-control" readonly>
                             </div>
                             <div class="form-group col-2">
                                 <label>Estimado II Trimestre</label>
-                                <input id="estimado_ii" name="estimado_ii" type="text" class="form-control" disabled>
+                                <input id="estimado_ii" name="estimado_ii" type="text" class="form-control" readonly>
                             </div>
                             <div class="form-group col-2">
                                 <label>Estimado III Trimestre</label>
-                                <input id="estimado_iii" name="estimado_iii" type="text" class="form-control" disabled>
+                                <input id="estimado_iii" name="estimado_iii" type="text" class="form-control" readonly>
                             </div>
                             <div class="form-group col-2">
                                 <label>Estimado IV Trimestre</label>
-                                <input id="estimado_iV" name="estimado_iV" type="text" class="form-control" disabled>
+                                <input id="estimado_iV" name="estimado_iV" type="text" class="form-control" readonly>
                             </div>
                             <div class="form-group col-4">
                                 <label>Estimado Total Trimestres</label>
-                                <input id="estimado_total_t" name="estimado_total_t" type="text" class="form-control" disabled>
+                                <input id="estimado_total_t" name="estimado_total_t" type="text" class="form-control" readonly>
                             </div>
                             <div class="col-12">
                                 <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
@@ -289,7 +289,7 @@
                             <!--////////////////////////////SEGUNDA PARTE DE LA CARGA -->
                             <div class="col-12 row text-center mt-3">
 															<div class="col-6">
-  															<button class="btn btn-circle waves-effect btn-lg waves-circle waves-float btn-success" type="button" id="btn_guar_1" onclick="reg_servicio();" disabled>Guardar</button>
+  															<button class="btn btn-circle waves-effect btn-lg waves-circle waves-float btn-success" type="button" id="btn_guar_1" onclick="reg_servicio();" readonly>Guardar</button>
 															</div>
 															<div class="col-6">
 																<a class="btn btn-circle waves-effect btn-lg waves-circle waves-float btn-primary" href="javascript:history.back()"> Volver</a>

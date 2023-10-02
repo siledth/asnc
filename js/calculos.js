@@ -1,4 +1,4 @@
-
+//esto modifica las creaciones
 function cant_total(){
 
     var cant_total = $('#cant_total_distribuir').val();
@@ -111,3 +111,16 @@ function calculo(){
             $('#estimado_total_t').val(estimado_total_t);
     }
 }
+
+$("#precio_total").on({
+    "focus": function (event) {
+        $(event.target).select();
+    },
+    "keyup": function (event) {
+        $(event.target).val(function (index, value ) {
+            return value.replace(/\D/g, "")
+                        .replace(/([0-9])([0-9]{2})$/, '$1,$2')
+                        .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+        });
+    }
+});

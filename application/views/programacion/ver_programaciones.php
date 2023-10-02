@@ -45,10 +45,11 @@
                                             class="button">
                                             <i class="fas fa-lg fa-fw fa-edit" title="Cargar información de la programación"></i>
                                         <a/>
-                                        <a href="<?php echo base_url();?>index.php/programacion/nueva_prog?id=<?php echo $lista['id_programacion'];?>"
-                                            class="button">
-                                            <i class="fas fa-lg fa-fw fa-upload" style="color: green;" title="Enviar Programación"></i>
-                                        <a/>
+                                        <?php if ($lista['estatus'] == 0): ?>
+                                                            <a title="Enviar" onclick="enviar(<?php echo $lista['id_programacion'];?>);" class="button">
+                                                                <i class="fas fa-lg fa-fw fa-upload" style="color: green;"></i>
+                                                            <a/>
+                                                        <?php endif; ?>
                                     </td>
                                 </tr>
                                 <?php endforeach;?>
@@ -102,3 +103,4 @@
     }
 </script>
 <script src="<?=base_url()?>/js/programacion.js"></script>
+<script src="<?=base_url()?>/js/programacion/enviar.js"></script>

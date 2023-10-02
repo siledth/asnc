@@ -13,7 +13,6 @@
 <body>
     <section>
         <div class="content">
-
             <div class="panel-body">
                 <div class="col-12 ml-1">
                     <div class="card card-outline-danger text-center bg-white">
@@ -24,6 +23,10 @@
                             </blockquote>
                         </div>
                     </div>
+                    <div class="col-6">
+                                <a class="btn btn-circle waves-effect btn-lg waves-circle waves-float btn-primary"
+                                    href="javascript:history.back()"> Regresar</a>
+                            </div>
                     <div class="col-12 text-center">
                         <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
                         <h2> Llamados a Concurso </h2>

@@ -64,6 +64,7 @@
 	<link href="<?= base_url() ?>Plantilla/admin/assets/plugins/jquery-simplecolorpicker/jquery.simplecolorpicker-glyphicons.css" rel="stylesheet" />
 	<link href="<?= base_url() ?>/css/asnc.css?<?= time() ?>" rel="stylesheet" />
 	
+	
 
 
 	<!-- ================== END PAGE LEVEL STYLE ================== -->

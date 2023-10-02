@@ -61,6 +61,12 @@ function agregar_ccnu_accToCartTable(cells){
    	var al_iva2 = al_iva.split("/")[1];
    	var ica_est  = $("#iva_estimado").val();
    	var mo_est  = $("#monto_estimado").val();
+	   var estimado_i  = $("#estimado_i").val();
+	   var estimado_ii  = $("#estimado_ii").val();
+	   var estimado_iii  = $("#estimado_iii").val();
+	   var estimado_iV  = $("#estimado_iV").val();
+	   var estimado_total_t  = $("#estimado_total_t").val();
+
 	if (pp == 0 || ccnu1 == '0' || esp == ''  || id_unid == '0' || can == '' || cos == '' || al_iva == '0'){
 
 		if (pp== 0) {
@@ -110,6 +116,11 @@ function agregar_ccnu_accToCartTable(cells){
 		<td>${al_iva1}<input type="text" hidden name="id_alicuota_iva[]" id="ins-pres-${increment}" value="${al_iva1}"></td>
 		<td>${ica_est}<input type="text" hidden name="iva_estimado[]" id="ins-pres-${increment}" value="${ica_est}"></td>
 		<td>${mo_est}<input type="text" hidden name="monto_estimado[]" id="ins-pres-${increment}" value="${mo_est}"></td>
+		<td>${estimado_i}<input type="text" hidden name="estimado_i[]" id="ins-pres-${increment}" value="${estimado_i}"></td>
+		<td>${estimado_ii}<input type="text" hidden name="estimado_ii[]" id="ins-pres-${increment}" value="${estimado_ii}"></td>
+		<td>${estimado_iii}<input type="text" hidden name="estimado_iii[]" id="ins-pres-${increment}" value="${estimado_iii}"></td>
+		<td>${estimado_iV}<input type="text" hidden name="estimado_iV[]" id="ins-pres-${increment}" value="${estimado_iV}"></td>
+		<td>${estimado_total_t}<input type="text" hidden name="estimado_total_t[]" id="ins-pres-${increment}" value="${estimado_total_t}"></td>
 		`;
 
 		var cellremove_proy_accBtn = createCell();
@@ -136,6 +147,7 @@ function agregar_ccnu_accToCartTable(cells){
 		$("#estimado_iiI").val('');
 		$("#estimado_iV").val('');
 		$("#estimado_total_t").val('');
+		
 
 		$("#btn_guar_2").prop('disabled', false);
 	}
