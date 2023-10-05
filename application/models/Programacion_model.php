@@ -23,7 +23,46 @@
             return $query->row_array();
         }
      
+        function nuevo_registro_acc_py($acc,$proy){
+            $this->db->select('max(e.id_p_proyecto) as id1');
+            $query1 = $this->db->get('programacion.p_proyecto e');
+            $response4 = $query1->row_array();
+            $id1 = $response4['id1'] + 1 ; 
+            if ($acc['acc_cargar'] == '1') {
 
+
+            $data1 = array(
+                'id_p_proyecto'		    => $id1,
+                'id_programacion' => $proy['id_programacion'],
+                'nombre_proyecto' => $proy['nombre_proyecto'],
+                'id_obj_comercial' => $proy['id_obj_comercial'],
+                'estatus' => 1
+
+                
+               
+            );    
+              $query=$this->db->insert('programacion.p_proyecto',$data1);
+            }elseif ($acc['acc_cargar'] == '2') { 
+                $this->db->select('max(e.id_p_acc_centralizada) as id2');
+                $query2 = $this->db->get('programacion.p_acc_centralizada e');
+                $response5 = $query2->row_array();
+                $id2 = $response5['id2'] + 1 ; 
+                
+                $data2 = array(
+                'id_p_acc_centralizada'		    => $id2,
+                'id_programacion' => $acc['id_programacion'],
+                'id_accion_centralizada' => $acc['id_p_acc_centralizada'],
+                'id_obj_comercial' => $acc['id_obj_comercial'],
+                'estatus' => 1
+                
+               
+            );    
+            $query=$this->db->insert('programacion.p_acc_centralizada',$data2);
+        }
+
+            
+            return true;
+        }
         //Consulta los proyectos por separado de cada programación
         public function consultar_proyectos($id_programacion){
             $this->db->select('pp.id_p_proyecto,
@@ -190,6 +229,10 @@
                 }
                 return true;
             }elseif ($acc_cargar == '2') {
+                $this->db->select('max(e.id_p_items) as id1');
+                $query1 = $this->db->get('programacion.p_items e');
+                $response4 = $query1->row_array();
+                $id1 = $response4['id1'] + 1 ;
                 $quers =$this->db->insert('programacion.p_acc_centralizada',$p_acc_centralizada);
                 if ($quers) {
                     $id = $this->db->insert_id();
@@ -318,6 +361,10 @@
                 }
                 return true;
             }elseif ($acc_cargar == '2') {
+                $this->db->select('max(e.id_p_items) as id1');
+                $query1 = $this->db->get('programacion.p_items e');
+                $response4 = $query1->row_array();
+                $id1 = $response4['id1'] + 1 ;
                 $quers =$this->db->insert('programacion.p_acc_centralizada',$p_acc_centralizada);
                 if ($quers) {
                     $id = $this->db->insert_id();
@@ -451,6 +498,10 @@
                 }
                 return true;
             }elseif ($acc_cargar == '2') {
+                $this->db->select('max(e.id_p_items) as id1');
+                $query1 = $this->db->get('programacion.p_items e');
+                $response4 = $query1->row_array();
+                $id1 = $response4['id1'] + 1 ;
                 $quers =$this->db->insert('programacion.p_acc_centralizada',$p_acc_centralizada);
                 if ($quers) {
                     $id = $this->db->insert_id();
@@ -532,15 +583,22 @@
                         	   pf.id_partidad_presupuestaria,
                         	   pp.desc_partida_presupuestaria,
                                pp.codigopartida_presupuestaria,
-                        	   pf.id_estado,
+                        	
                         	   pf.id_fuente_financiamiento,
                         	   ff.desc_fuente_financiamiento,
-                        	   pf.porcentaje ');
+                               sum(pf.porcentaje) as porcentaje');
             $this->db->join('programacion.partida_presupuestaria pp','pp.id_partida_presupuestaria = pf.id_partidad_presupuestaria');
             $this->db->join('programacion.fuente_financiamiento ff','ff.id_fuente_financiamiento = pf.id_fuente_financiamiento');
             $this->db->where('pf.id_enlace', $id_p_proyecto);
             $this->db->where('pf.id_p_acc', 0);
-            $query = $this->db->get('programacion.p_ffinanciamiento pf');
+            $this->db->group_by('pf.id_enlace,
+            pf.id_partidad_presupuestaria,
+            pp.desc_partida_presupuestaria,
+            pp.codigopartida_presupuestaria,
+        
+            pf.id_fuente_financiamiento,
+            ff.desc_fuente_financiamiento');
+            $query = $this->db->get('programacion.p_ffinanciamientototal pf');
             return $query->result_array();
         }
 
@@ -991,6 +1049,17 @@
             $this->db->select('id_comp_resp_social,desc_comp_resp_social');
             // $this->db->where('pi2.id !=', $data['id']);
             $query = $this->db->get('programacion.comp_resp_social');
+            return $query->result_array();
+        }
+        public function consultar_acc14($data){
+            $this->db->select('*');
+            // $this->db->where('pi2.id !=', $data['id']);
+            $query = $this->db->get('programacion.accion_centralizada');
+            return $query->result_array();
+        }
+        public function consultar_obto($data){
+            $this->db->select('id_objeto_contrata, desc_objeto_contrata');
+            $query = $this->db->get('programacion.objeto_contrata');
             return $query->result_array();
         }
         public function llenar_trimestre($data){
@@ -3800,4 +3869,3 @@ public function rendir($id_programacion){
     return $query->result_array();
 }
 }
-

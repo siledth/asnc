@@ -67,13 +67,13 @@ function modal(id) {
         var base_url5 =window.location.origin+'/asnc/index.php/Programacion/llenar_tipo_doc_contrata';
         var base_url6 =window.location.origin+'/asnc/index.php/Programacion/llenar_comp_resp_social'; 
         var base_url7 =window.location.origin+'/asnc/index.php/Programacion/llenar_trimestre';       
-        //var base_url = '/index.php/Programacion/consultar_item_modal_bienes';
-        //var base_url2 = '/index.php/Programacion/llenar_uni_med_mod';
-        //var base_url3 = '/index.php/Programacion/llenar_alic_iva_mod';
-        //var base_url4 = '/index.php/Programacion/consultar_contratista';
-         //var base_url5 = '/index.php/Programacion/llenar_tipo_doc_contrata';
-         //var base_url6 = '/index.php/Programacion/llenar_comp_resp_social';
-         //var base_url7 = '/index.php/Programacion/llenar_trimestre';
+        // var base_url = '/index.php/Programacion/consultar_item_modal_servicio';
+        // var base_url2 = '/index.php/Programacion/llenar_modalidad';
+        // var base_url3 = '/index.php/Programacion/llenar_alic_iva_mod';
+        // var base_url4 = '/index.php/Programacion/consultar_contratista';
+        //  var base_url5 = '/index.php/Programacion/llenar_tipo_doc_contrata';
+        //  var base_url6 = '/index.php/Programacion/llenar_comp_resp_social';
+        //  var base_url7 = '/index.php/Programacion/llenar_trimestre';
 
     $.ajax({
         url: base_url,
@@ -103,6 +103,9 @@ function modal(id) {
             $('#id_unid_med_b').val(data['id_unidad_medida']);
             $('#unid_med_b').val(data['desc_unidad_medida']);
             $('#rendido').val(data['descripcion_trimestre']);
+            $('#rendidoa').val(data['trimestre']);
+
+            
             $('#cantidad_mod_b').val(data['cantidad']);
             $('#primero_b').val(data['i']);
             $('#segundo_b').val(data['ii']);
@@ -397,7 +400,10 @@ function calculos_rendi_servicio(){
 
     //////////////Guardar rendicion servicio
 function guardar_proc_pago(){
+    var rendido  = $("#rendidoa").val();
+    var llenar_trimestre  = $("#llenar_trimestre").val();
 
+    
     event.preventDefault();
     swal
         .fire({
@@ -411,6 +417,9 @@ function guardar_proc_pago(){
             confirmButtonText: "¡Si, guardar!",
         })
         .then((result) => {
+           if (llenar_trimestre == rendido) {
+            alert("El trimestre Seleccionado ya fue rendido.")
+            }
         //     if (document.guardar_proc_pag.dolar.value.length==0){
         //         alert("No Puede dejar el campo Valor Dolar vacio, Ingrese un Monto")
         //         document.guardar_proc_pag.dolar.focus()
@@ -430,7 +439,7 @@ function guardar_proc_pago(){
                 event.preventDefault();
                 var datos = new FormData($("#guardar_proc_pag")[0]);
                             var base_url =window.location.origin+'/asnc/index.php/Programacion/guardar_rendi_servicio_acc';
-                //            // var base_url = '/index.php/Programacion/guardar_rendi_servicio_acc';
+                          //var base_url = '/index.php/Programacion/guardar_rendi_servicio_acc';
                 
                 $.ajax({
                     url: base_url,
@@ -475,13 +484,13 @@ function modal_obras(id) {
         var base_url5 =window.location.origin+'/asnc/index.php/Programacion/llenar_tipo_doc_contrata';
         var base_url6 =window.location.origin+'/asnc/index.php/Programacion/llenar_comp_resp_social'; 
         var base_url7 =window.location.origin+'/asnc/index.php/Programacion/llenar_trimestre';       
-        //var base_url = '/index.php/Programacion/consultar_item_modal_bienes';
-        //var base_url2 = '/index.php/Programacion/llenar_uni_med_mod';
-        //var base_url3 = '/index.php/Programacion/llenar_alic_iva_mod';
-        //var base_url4 = '/index.php/Programacion/consultar_contratista';
-         //var base_url5 = '/index.php/Programacion/llenar_tipo_doc_contrata';
-         //var base_url6 = '/index.php/Programacion/llenar_comp_resp_social';
-         //var base_url7 = '/index.php/Programacion/llenar_trimestre';
+        // var base_url = '/index.php/Programacion/consultar_item_modal_servicio';
+        // var base_url2 = '/index.php/Programacion/llenar_modalidad';
+        // var base_url3 = '/index.php/Programacion/llenar_alic_iva_mod';
+        // var base_url4 = '/index.php/Programacion/consultar_contratista';
+        //  var base_url5 = '/index.php/Programacion/llenar_tipo_doc_contrata';
+        //  var base_url6 = '/index.php/Programacion/llenar_comp_resp_social';
+        //  var base_url7 = '/index.php/Programacion/llenar_trimestre';
 
     $.ajax({
         url: base_url,
@@ -515,6 +524,8 @@ function modal_obras(id) {
             $('#id_unid_med_b3').val(data['id_unidad_medida']);
             $('#unid_med_b3').val(data['desc_unidad_medida']);
             $('#rendido3').val(data['descripcion_trimestre']);
+            $('#rendid3').val(data['trimestre']);
+            
             $('#cantidad_mod_b3').val(data['cantidad']);
             $('#primero_b3').val(data['i']);
             $('#segundo_b3').val(data['ii']);
@@ -675,7 +686,8 @@ function buscar_rif3(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
 }
  //////////////Guardar rendicion obras
  function rendirobras(){
-
+    var rendido  = $("#rendid3").val();
+    var llenar_trimestre  = $("#llenar_trimestre3").val();
     event.preventDefault();
     swal
         .fire({
@@ -689,7 +701,15 @@ function buscar_rif3(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
             confirmButtonText: "¡Si, guardar!",
         })
         .then((result) => {
-        //     if (document.guardar_proc_pag.dolar.value.length==0){
+            if (document.rendirobra3.llenar_trimestre3.selectedIndex==0){
+                alert("Debe seleccionar un Trimestre.")
+                document.rendirobra3.llenar_trimestre3.focus()
+                return 0;
+         }
+            if (llenar_trimestre == rendido) {
+                alert("El trimestre Seleccionado ya fue rendido.")
+                }
+            //     if (document.guardar_proc_pag.dolar.value.length==0){
         //         alert("No Puede dejar el campo Valor Dolar vacio, Ingrese un Monto")
         //         document.guardar_proc_pag.dolar.focus()
         //         return 0;
@@ -699,16 +719,12 @@ function buscar_rif3(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
         //         document.guardar_proc_pag.cantidad_pagar_otra.focus()
         //         return 0;
         //  }  
-            	if (document.rendirobra3.llenar_trimestre3.selectedIndex==0){
-            alert("Debe seleccionar un Trimestre.")
-            document.rendirobra3.llenar_trimestre3.focus()
-            return 0;
-     }
+            	
             if (result.value == true) {
                 event.preventDefault();
                 var datos = new FormData($("#rendirobra3")[0]);
                             var base_url =window.location.origin+'/asnc/index.php/Programacion/guardar_rendi_obra_acc';
-                //            // var base_url = '/index.php/Programacion/guardar_rendi_obra_acc';
+                // var base_url = '/index.php/Programacion/guardar_rendi_obra_acc';
                 
                 $.ajax({
                     url: base_url,
@@ -930,13 +946,13 @@ function calculos_rendi_obritas(){
             var base_url5 =window.location.origin+'/asnc/index.php/Programacion/llenar_tipo_doc_contrata';
             var base_url6 =window.location.origin+'/asnc/index.php/Programacion/llenar_comp_resp_social'; 
             var base_url7 =window.location.origin+'/asnc/index.php/Programacion/llenar_trimestre';       
-            //var base_url = '/index.php/Programacion/consultar_item_modal_bienes';
-            //var base_url2 = '/index.php/Programacion/llenar_uni_med_mod';
-            //var base_url3 = '/index.php/Programacion/llenar_alic_iva_mod';
-            //var base_url4 = '/index.php/Programacion/consultar_contratista';
-             //var base_url5 = '/index.php/Programacion/llenar_tipo_doc_contrata';
-             //var base_url6 = '/index.php/Programacion/llenar_comp_resp_social';
-             //var base_url7 = '/index.php/Programacion/llenar_trimestre';
+            // var base_url = '/index.php/Programacion/consultar_item_modal_servicio';
+            // var base_url2 = '/index.php/Programacion/llenar_modalidad';
+            // var base_url3 = '/index.php/Programacion/llenar_alic_iva_mod';
+            // var base_url4 = '/index.php/Programacion/consultar_contratista';
+            //  var base_url5 = '/index.php/Programacion/llenar_tipo_doc_contrata';
+            //  var base_url6 = '/index.php/Programacion/llenar_comp_resp_social';
+            //  var base_url7 = '/index.php/Programacion/llenar_trimestre';
     
         $.ajax({
             url: base_url,
@@ -1105,11 +1121,10 @@ function calculos_rendi_obritas(){
             },
         });
     }
-    function calculos_rendi_bieness(){
-
-     
-            //Remplazar decimales para caculos
-            var cantidades = $('#cantidad_mod_b5').val();
+    function calculos_rendi_bienessacc(){
+        var trimestres7 = $('#llenar_trimestre5').val();
+        if (trimestres7=='1') {
+            var cantidades = $('#primero_b5').val();
             var cantidad1 = cantidades.replace('.', "");
             var cantidad2 = cantidad1.replace('.', "");
             var cantidad3 = cantidad2.replace('.', "");
@@ -1136,47 +1151,324 @@ function calculos_rendi_obritas(){
             var subt_rend_ejecu4 = subt_rend_ejecu3.replace('.', "");
             var subt_rend_ejecu5 = subt_rend_ejecu4.replace('.', "");
             var subt_rend_ejecus = subt_rend_ejecu5.replace(',', ".");
-      //calculo de Iva Estimado
-      var id_alicuota_iva = $('#selc_iva_re').val();
-      var separar = id_alicuota_iva.split("/");
-      var porcentaje = separar['0'];
-      var monto_iva_estimado = subt_rend_ejecus*porcentaje;
-      var iva_estimado = parseFloat(monto_iva_estimado).toFixed(2);
-      var iva_estimado2 = Intl.NumberFormat("de-DE").format(iva_estimado);
-      $('#iva_estimado_red5').val(iva_estimado2);
-
+            //calculo de Iva Estimado
+            var id_alicuota_iva = $('#selc_iva_re').val();
+            var separar = id_alicuota_iva.split("/");
+            var porcentaje = separar['0'];
+            var monto_iva_estimado = subt_rend_ejecus*porcentaje;
+            var iva_estimado = parseFloat(monto_iva_estimado).toFixed(2);
+            var iva_estimado2 = Intl.NumberFormat("de-DE").format(iva_estimado);
+            $('#iva_estimado_red5').val(iva_estimado2);
+        
               
-      var iva_estimado_red5 = $('#iva_estimado_red5').val();
+            var iva_estimado_red5 = $('#iva_estimado_red5').val();
             var iva_estimado_red51 = iva_estimado_red5.replace('.', "");
             var iva_estimado_red52= iva_estimado_red51.replace('.', "");
             var iva_estimado_red53 = iva_estimado_red52.replace('.', "");
             var subt_rend_ejecu54 = iva_estimado_red53.replace('.', "");
             var iva_estimado_red56 = subt_rend_ejecu54.replace(',', ".");
            
-      
-    
             //Calculo Monto Total Estimado
                 var monto_total_est = Number(subt_rend_ejecus) + Number(iva_estimado_red56);
                 var monto_total_estimado = Intl.NumberFormat("de-DE").format(monto_total_est);
                 $('#total_rendi5').val(monto_total_estimado);
         
-        var subt_rend_ejecu2 = $('#subt_rend_ejecu').val();
-        var news1 = subt_rend_ejecu2.replace('.', "");
-        var news6 = news1.replace('.', "");
-        var news7 = news6.replace('.', "");
-        var news8 = news7.replace('.', "");
-        var subt_rend_ejecu = news8.replace(',', ".");
+            var subt_rend_ejecu2 = $('#subt_rend_ejecu').val();
+            var news1 = subt_rend_ejecu2.replace('.', "");
+            var news6 = news1.replace('.', "");
+            var news7 = news6.replace('.', "");
+            var news8 = news7.replace('.', "");
+            var subt_rend_ejecu = news8.replace(',', ".");
         
-        var paridad_rendi5 = $('#paridad_rendi5').val();
-        var new1 = paridad_rendi5.replace('.', "");
-        var new6 = new1.replace('.', "");
-        var new7 = new6.replace('.', "");
-        var new8 = new7.replace('.', "");
-        var paridad_rendi55 = new8.replace(',', ".");
+            var paridad_rendi5 = $('#paridad_rendi5').val();
+            var new1 = paridad_rendi5.replace('.', "");
+            var new6 = new1.replace('.', "");
+            var new7 = new6.replace('.', "");
+            var new8 = new7.replace('.', "");
+            var paridad_rendi55 = new8.replace(',', ".");
             var subtotal_rendi_facturas = subt_rend_ejecu/paridad_rendi55;
             var subtotal_rendi_factura2 = parseFloat(subtotal_rendi_facturas).toFixed(2);
             var subtotal_rendi_factura3 = Intl.NumberFormat("de-DE").format(subtotal_rendi_factura2);
             $('#subtotal_rendi5').val(subtotal_rendi_factura3);
+        
+        }
+        if (trimestres7=='2') {
+            var cantidades = $('#primero_b5').val();
+            var cantidad1 = cantidades.replace('.', "");
+            var cantidad2 = cantidad1.replace('.', "");
+            var cantidad3 = cantidad2.replace('.', "");
+            var cantidad4 = cantidad3.replace('.', "");
+            var cantidad = cantidad4.replace(',', ".");
+            //Remplazar decimales para caculos
+            var costos = $('#costo_unitario_remd').val();
+            var costos1 = costos.replace('.', "");
+            var costos2 = costos1.replace('.', "");
+            var costos3 = costos2.replace('.', "");
+            var costos4 = costos3.replace('.', "");
+            var costos_un = costos4.replace(',', ".");
+            
+            
+            
+            var subtotales = Number(cantidad) * Number(costos_un);
+            var subtotales1 = Intl.NumberFormat("de-DE").format(subtotales);
+            $('#subt_rend_ejecu').val(subtotales1);
+           
+           
+            var subt_rend_ejecu = $('#subt_rend_ejecu').val();
+            var subt_rend_ejecu2 = subt_rend_ejecu.replace('.', "");
+            var subt_rend_ejecu3= subt_rend_ejecu2.replace('.', "");
+            var subt_rend_ejecu4 = subt_rend_ejecu3.replace('.', "");
+            var subt_rend_ejecu5 = subt_rend_ejecu4.replace('.', "");
+            var subt_rend_ejecus = subt_rend_ejecu5.replace(',', ".");
+            //calculo de Iva Estimado
+            var id_alicuota_iva = $('#selc_iva_re').val();
+            var separar = id_alicuota_iva.split("/");
+            var porcentaje = separar['0'];
+            var monto_iva_estimado = subt_rend_ejecus*porcentaje;
+            var iva_estimado = parseFloat(monto_iva_estimado).toFixed(2);
+            var iva_estimado2 = Intl.NumberFormat("de-DE").format(iva_estimado);
+            $('#iva_estimado_red5').val(iva_estimado2);
+        
+              
+            var iva_estimado_red5 = $('#iva_estimado_red5').val();
+            var iva_estimado_red51 = iva_estimado_red5.replace('.', "");
+            var iva_estimado_red52= iva_estimado_red51.replace('.', "");
+            var iva_estimado_red53 = iva_estimado_red52.replace('.', "");
+            var subt_rend_ejecu54 = iva_estimado_red53.replace('.', "");
+            var iva_estimado_red56 = subt_rend_ejecu54.replace(',', ".");
+           
+            //Calculo Monto Total Estimado
+                var monto_total_est = Number(subt_rend_ejecus) + Number(iva_estimado_red56);
+                var monto_total_estimado = Intl.NumberFormat("de-DE").format(monto_total_est);
+                $('#total_rendi5').val(monto_total_estimado);
+        
+            var subt_rend_ejecu2 = $('#subt_rend_ejecu').val();
+            var news1 = subt_rend_ejecu2.replace('.', "");
+            var news6 = news1.replace('.', "");
+            var news7 = news6.replace('.', "");
+            var news8 = news7.replace('.', "");
+            var subt_rend_ejecu = news8.replace(',', ".");
+        
+            var paridad_rendi5 = $('#paridad_rendi5').val();
+            var new1 = paridad_rendi5.replace('.', "");
+            var new6 = new1.replace('.', "");
+            var new7 = new6.replace('.', "");
+            var new8 = new7.replace('.', "");
+            var paridad_rendi55 = new8.replace(',', ".");
+            var subtotal_rendi_facturas = subt_rend_ejecu/paridad_rendi55;
+            var subtotal_rendi_factura2 = parseFloat(subtotal_rendi_facturas).toFixed(2);
+            var subtotal_rendi_factura3 = Intl.NumberFormat("de-DE").format(subtotal_rendi_factura2);
+            $('#subtotal_rendi5').val(subtotal_rendi_factura3);
+        
+        }
+        if (trimestres7=='3') {
+            var cantidades = $('#primero_b5').val();
+            var cantidad1 = cantidades.replace('.', "");
+            var cantidad2 = cantidad1.replace('.', "");
+            var cantidad3 = cantidad2.replace('.', "");
+            var cantidad4 = cantidad3.replace('.', "");
+            var cantidad = cantidad4.replace(',', ".");
+            //Remplazar decimales para caculos
+            var costos = $('#costo_unitario_remd').val();
+            var costos1 = costos.replace('.', "");
+            var costos2 = costos1.replace('.', "");
+            var costos3 = costos2.replace('.', "");
+            var costos4 = costos3.replace('.', "");
+            var costos_un = costos4.replace(',', ".");
+            
+            
+            
+            var subtotales = Number(cantidad) * Number(costos_un);
+            var subtotales1 = Intl.NumberFormat("de-DE").format(subtotales);
+            $('#subt_rend_ejecu').val(subtotales1);
+           
+           
+            var subt_rend_ejecu = $('#subt_rend_ejecu').val();
+            var subt_rend_ejecu2 = subt_rend_ejecu.replace('.', "");
+            var subt_rend_ejecu3= subt_rend_ejecu2.replace('.', "");
+            var subt_rend_ejecu4 = subt_rend_ejecu3.replace('.', "");
+            var subt_rend_ejecu5 = subt_rend_ejecu4.replace('.', "");
+            var subt_rend_ejecus = subt_rend_ejecu5.replace(',', ".");
+            //calculo de Iva Estimado
+            var id_alicuota_iva = $('#selc_iva_re').val();
+            var separar = id_alicuota_iva.split("/");
+            var porcentaje = separar['0'];
+            var monto_iva_estimado = subt_rend_ejecus*porcentaje;
+            var iva_estimado = parseFloat(monto_iva_estimado).toFixed(2);
+            var iva_estimado2 = Intl.NumberFormat("de-DE").format(iva_estimado);
+            $('#iva_estimado_red5').val(iva_estimado2);
+        
+              
+            var iva_estimado_red5 = $('#iva_estimado_red5').val();
+            var iva_estimado_red51 = iva_estimado_red5.replace('.', "");
+            var iva_estimado_red52= iva_estimado_red51.replace('.', "");
+            var iva_estimado_red53 = iva_estimado_red52.replace('.', "");
+            var subt_rend_ejecu54 = iva_estimado_red53.replace('.', "");
+            var iva_estimado_red56 = subt_rend_ejecu54.replace(',', ".");
+           
+            //Calculo Monto Total Estimado
+                var monto_total_est = Number(subt_rend_ejecus) + Number(iva_estimado_red56);
+                var monto_total_estimado = Intl.NumberFormat("de-DE").format(monto_total_est);
+                $('#total_rendi5').val(monto_total_estimado);
+        
+            var subt_rend_ejecu2 = $('#subt_rend_ejecu').val();
+            var news1 = subt_rend_ejecu2.replace('.', "");
+            var news6 = news1.replace('.', "");
+            var news7 = news6.replace('.', "");
+            var news8 = news7.replace('.', "");
+            var subt_rend_ejecu = news8.replace(',', ".");
+        
+            var paridad_rendi5 = $('#paridad_rendi5').val();
+            var new1 = paridad_rendi5.replace('.', "");
+            var new6 = new1.replace('.', "");
+            var new7 = new6.replace('.', "");
+            var new8 = new7.replace('.', "");
+            var paridad_rendi55 = new8.replace(',', ".");
+            var subtotal_rendi_facturas = subt_rend_ejecu/paridad_rendi55;
+            var subtotal_rendi_factura2 = parseFloat(subtotal_rendi_facturas).toFixed(2);
+            var subtotal_rendi_factura3 = Intl.NumberFormat("de-DE").format(subtotal_rendi_factura2);
+            $('#subtotal_rendi5').val(subtotal_rendi_factura3);
+        
+        }
+        if (trimestres7=='4') {
+            var cantidades = $('#primero_b5').val();
+            var cantidad1 = cantidades.replace('.', "");
+            var cantidad2 = cantidad1.replace('.', "");
+            var cantidad3 = cantidad2.replace('.', "");
+            var cantidad4 = cantidad3.replace('.', "");
+            var cantidad = cantidad4.replace(',', ".");
+            //Remplazar decimales para caculos
+            var costos = $('#costo_unitario_remd').val();
+            var costos1 = costos.replace('.', "");
+            var costos2 = costos1.replace('.', "");
+            var costos3 = costos2.replace('.', "");
+            var costos4 = costos3.replace('.', "");
+            var costos_un = costos4.replace(',', ".");
+            
+            
+            
+            var subtotales = Number(cantidad) * Number(costos_un);
+            var subtotales1 = Intl.NumberFormat("de-DE").format(subtotales);
+            $('#subt_rend_ejecu').val(subtotales1);
+           
+           
+            var subt_rend_ejecu = $('#subt_rend_ejecu').val();
+            var subt_rend_ejecu2 = subt_rend_ejecu.replace('.', "");
+            var subt_rend_ejecu3= subt_rend_ejecu2.replace('.', "");
+            var subt_rend_ejecu4 = subt_rend_ejecu3.replace('.', "");
+            var subt_rend_ejecu5 = subt_rend_ejecu4.replace('.', "");
+            var subt_rend_ejecus = subt_rend_ejecu5.replace(',', ".");
+            //calculo de Iva Estimado
+            var id_alicuota_iva = $('#selc_iva_re').val();
+            var separar = id_alicuota_iva.split("/");
+            var porcentaje = separar['0'];
+            var monto_iva_estimado = subt_rend_ejecus*porcentaje;
+            var iva_estimado = parseFloat(monto_iva_estimado).toFixed(2);
+            var iva_estimado2 = Intl.NumberFormat("de-DE").format(iva_estimado);
+            $('#iva_estimado_red5').val(iva_estimado2);
+        
+              
+            var iva_estimado_red5 = $('#iva_estimado_red5').val();
+            var iva_estimado_red51 = iva_estimado_red5.replace('.', "");
+            var iva_estimado_red52= iva_estimado_red51.replace('.', "");
+            var iva_estimado_red53 = iva_estimado_red52.replace('.', "");
+            var subt_rend_ejecu54 = iva_estimado_red53.replace('.', "");
+            var iva_estimado_red56 = subt_rend_ejecu54.replace(',', ".");
+           
+            //Calculo Monto Total Estimado
+                var monto_total_est = Number(subt_rend_ejecus) + Number(iva_estimado_red56);
+                var monto_total_estimado = Intl.NumberFormat("de-DE").format(monto_total_est);
+                $('#total_rendi5').val(monto_total_estimado);
+        
+            var subt_rend_ejecu2 = $('#subt_rend_ejecu').val();
+            var news1 = subt_rend_ejecu2.replace('.', "");
+            var news6 = news1.replace('.', "");
+            var news7 = news6.replace('.', "");
+            var news8 = news7.replace('.', "");
+            var subt_rend_ejecu = news8.replace(',', ".");
+        
+            var paridad_rendi5 = $('#paridad_rendi5').val();
+            var new1 = paridad_rendi5.replace('.', "");
+            var new6 = new1.replace('.', "");
+            var new7 = new6.replace('.', "");
+            var new8 = new7.replace('.', "");
+            var paridad_rendi55 = new8.replace(',', ".");
+            var subtotal_rendi_facturas = subt_rend_ejecu/paridad_rendi55;
+            var subtotal_rendi_factura2 = parseFloat(subtotal_rendi_facturas).toFixed(2);
+            var subtotal_rendi_factura3 = Intl.NumberFormat("de-DE").format(subtotal_rendi_factura2);
+            $('#subtotal_rendi5').val(subtotal_rendi_factura3);
+        
+        }
+     
+    //         //Remplazar decimales para caculos
+    //         var cantidades = $('#cantidad_mod_b5').val();
+    //         var cantidad1 = cantidades.replace('.', "");
+    //         var cantidad2 = cantidad1.replace('.', "");
+    //         var cantidad3 = cantidad2.replace('.', "");
+    //         var cantidad4 = cantidad3.replace('.', "");
+    //         var cantidad = cantidad4.replace(',', ".");
+    //         //Remplazar decimales para caculos
+    //         var costos = $('#costo_unitario_remd').val();
+    //         var costos1 = costos.replace('.', "");
+    //         var costos2 = costos1.replace('.', "");
+    //         var costos3 = costos2.replace('.', "");
+    //         var costos4 = costos3.replace('.', "");
+    //         var costos_un = costos4.replace(',', ".");
+            
+            
+            
+    //         var subtotales = Number(cantidad) * Number(costos_un);
+    //         var subtotales1 = Intl.NumberFormat("de-DE").format(subtotales);
+    //         $('#subt_rend_ejecu').val(subtotales1);
+           
+           
+    //         var subt_rend_ejecu = $('#subt_rend_ejecu').val();
+    //         var subt_rend_ejecu2 = subt_rend_ejecu.replace('.', "");
+    //         var subt_rend_ejecu3= subt_rend_ejecu2.replace('.', "");
+    //         var subt_rend_ejecu4 = subt_rend_ejecu3.replace('.', "");
+    //         var subt_rend_ejecu5 = subt_rend_ejecu4.replace('.', "");
+    //         var subt_rend_ejecus = subt_rend_ejecu5.replace(',', ".");
+    //   //calculo de Iva Estimado
+    //   var id_alicuota_iva = $('#selc_iva_re').val();
+    //   var separar = id_alicuota_iva.split("/");
+    //   var porcentaje = separar['0'];
+    //   var monto_iva_estimado = subt_rend_ejecus*porcentaje;
+    //   var iva_estimado = parseFloat(monto_iva_estimado).toFixed(2);
+    //   var iva_estimado2 = Intl.NumberFormat("de-DE").format(iva_estimado);
+    //   $('#iva_estimado_red5').val(iva_estimado2);
+
+              
+    //   var iva_estimado_red5 = $('#iva_estimado_red5').val();
+    //         var iva_estimado_red51 = iva_estimado_red5.replace('.', "");
+    //         var iva_estimado_red52= iva_estimado_red51.replace('.', "");
+    //         var iva_estimado_red53 = iva_estimado_red52.replace('.', "");
+    //         var subt_rend_ejecu54 = iva_estimado_red53.replace('.', "");
+    //         var iva_estimado_red56 = subt_rend_ejecu54.replace(',', ".");
+           
+      
+    
+    //         //Calculo Monto Total Estimado
+    //             var monto_total_est = Number(subt_rend_ejecus) + Number(iva_estimado_red56);
+    //             var monto_total_estimado = Intl.NumberFormat("de-DE").format(monto_total_est);
+    //             $('#total_rendi5').val(monto_total_estimado);
+        
+    //     var subt_rend_ejecu2 = $('#subt_rend_ejecu').val();
+    //     var news1 = subt_rend_ejecu2.replace('.', "");
+    //     var news6 = news1.replace('.', "");
+    //     var news7 = news6.replace('.', "");
+    //     var news8 = news7.replace('.', "");
+    //     var subt_rend_ejecu = news8.replace(',', ".");
+        
+    //     var paridad_rendi5 = $('#paridad_rendi5').val();
+    //     var new1 = paridad_rendi5.replace('.', "");
+    //     var new6 = new1.replace('.', "");
+    //     var new7 = new6.replace('.', "");
+    //     var new8 = new7.replace('.', "");
+    //     var paridad_rendi55 = new8.replace(',', ".");
+    //         var subtotal_rendi_facturas = subt_rend_ejecu/paridad_rendi55;
+    //         var subtotal_rendi_factura2 = parseFloat(subtotal_rendi_facturas).toFixed(2);
+    //         var subtotal_rendi_factura3 = Intl.NumberFormat("de-DE").format(subtotal_rendi_factura2);
+    //         $('#subtotal_rendi5').val(subtotal_rendi_factura3);
 
 
 
@@ -1222,7 +1514,7 @@ function calculos_rendi_obritas(){
         
             //console.log(ccnu_b_m);
             var base_url =window.location.origin+'/asnc/index.php/Programacion/consultar_contratista';
-           // var base_url = '/index.php/Programacion/consultar_contratista';
+           //var base_url = '/index.php/Programacion/consultar_contratista';
             $.ajax({
                 url:base_url,
                 method: 'post',
@@ -1344,7 +1636,7 @@ function calculos_rendi_obritas(){
                     event.preventDefault();
                     var datos = new FormData($("#rendi_bienes1")[0]);
                                 var base_url =window.location.origin+'/asnc/index.php/Programacion/guardar_rendi_bienes_acc';
-                    //            // var base_url = '/index.php/Programacion/guardar_rendi_bienes_acc';
+                    // var base_url = '/index.php/Programacion/guardar_rendi_bienes_acc';
                     
                     $.ajax({
                         url: base_url,
@@ -1388,13 +1680,13 @@ function modal_bienespy(id) {
         var base_url5 =window.location.origin+'/asnc/index.php/Programacion/llenar_tipo_doc_contrata';
         var base_url6 =window.location.origin+'/asnc/index.php/Programacion/llenar_comp_resp_social'; 
         var base_url7 =window.location.origin+'/asnc/index.php/Programacion/llenar_trimestre';       
-        //var base_url = '/index.php/Programacion/consultar_item_modal_bienes';
-        //var base_url2 = '/index.php/Programacion/llenar_uni_med_mod';
-        //var base_url3 = '/index.php/Programacion/llenar_alic_iva_mod';
-        //var base_url4 = '/index.php/Programacion/consultar_contratista';
-         //var base_url5 = '/index.php/Programacion/llenar_tipo_doc_contrata';
-         //var base_url6 = '/index.php/Programacion/llenar_comp_resp_social';
-         //var base_url7 = '/index.php/Programacion/llenar_trimestre';
+        // var base_url = '/index.php/Programacion/consultar_item_modal_PY_bienes';
+        // var base_url2 = '/index.php/Programacion/llenar_modalidad';
+        // var base_url3 = '/index.php/Programacion/llenar_alic_iva_mod';
+        // var base_url4 = '/index.php/Programacion/consultar_contratista';
+        //  var base_url5 = '/index.php/Programacion/llenar_tipo_doc_contrata';
+        //  var base_url6 = '/index.php/Programacion/llenar_comp_resp_social';
+        //  var base_url7 = '/index.php/Programacion/llenar_trimestre';
 
     $.ajax({
         url: base_url,
@@ -1406,7 +1698,9 @@ function modal_bienespy(id) {
             $("#id_p_items7").val(id_p_items);
             $("#nombre_proyecto7").val(data["nombre_proyecto"]);
             $("#id_enlace7").val(data["id_enlace"]);
-          
+            
+            $('#rendido3').val(data['trimestre']);
+
             $("#id_obj_comercial7").val(data["id_obj_comercial"]);
             $("#desc_objeto_contrata7").val(data["desc_objeto_contrata"]);
             
@@ -1877,8 +2171,8 @@ function buscar_rif7(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
     var ccnu_b_m = $('#rif_7').val();
 
     //console.log(ccnu_b_m);
-    var base_url =window.location.origin+'/asnc/index.php/Programacion/consultar_contratista';
-   // var base_url = '/index.php/Programacion/consultar_contratista';
+   // var base_url =window.location.origin+'/asnc/index.php/Programacion/consultar_contratista';
+    var base_url = '/index.php/Programacion/consultar_contratista';
     $.ajax({
         url:base_url,
         method: 'post',
@@ -1999,8 +2293,8 @@ $("#base_imponible_rendi7").on({
             if (result.value == true) {
                 event.preventDefault();
                 var datos = new FormData($("#rendi_bienespy")[0]);
-                            var base_url =window.location.origin+'/asnc/index.php/Programacion/guardar_rendi_bienes_py';
-                //            // var base_url = '/index.php/Programacion/guardar_rendi_bienes_py';
+                       //     var base_url =window.location.origin+'/asnc/index.php/Programacion/guardar_rendi_bienes_py';
+                 var base_url = '/index.php/Programacion/guardar_rendi_bienes_py';
                 
                 $.ajax({
                     url: base_url,
@@ -2109,20 +2403,20 @@ $("#total_pago_rendi8").on({
 //////////////////////////////////modal servicio proyecto
 function modal_servi_py(id) {
     var id_p_items = id;
-        var base_url =window.location.origin+'/asnc/index.php/Programacion/consultar_item_modal_PY_bienes';
-        var base_url2 =window.location.origin+'/asnc/index.php/Programacion/llenar_modalidad';
-        var base_url3 =window.location.origin+'/asnc/index.php/Programacion/llenar_alic_iva_mod';
-        var base_url4 =window.location.origin+'/asnc/index.php/Programacion/consultar_contratista';
-        var base_url5 =window.location.origin+'/asnc/index.php/Programacion/llenar_tipo_doc_contrata';
-        var base_url6 =window.location.origin+'/asnc/index.php/Programacion/llenar_comp_resp_social'; 
-        var base_url7 =window.location.origin+'/asnc/index.php/Programacion/llenar_trimestre';       
-        //var base_url = '/index.php/Programacion/consultar_item_modal_bienes';
-        //var base_url2 = '/index.php/Programacion/llenar_uni_med_mod';
-        //var base_url3 = '/index.php/Programacion/llenar_alic_iva_mod';
-        //var base_url4 = '/index.php/Programacion/consultar_contratista';
-         //var base_url5 = '/index.php/Programacion/llenar_tipo_doc_contrata';
-         //var base_url6 = '/index.php/Programacion/llenar_comp_resp_social';
-         //var base_url7 = '/index.php/Programacion/llenar_trimestre';
+        // var base_url =window.location.origin+'/asnc/index.php/Programacion/consultar_item_modal_PY_bienes';
+        // var base_url2 =window.location.origin+'/asnc/index.php/Programacion/llenar_modalidad';
+        // var base_url3 =window.location.origin+'/asnc/index.php/Programacion/llenar_alic_iva_mod';
+        // var base_url4 =window.location.origin+'/asnc/index.php/Programacion/consultar_contratista';
+        // var base_url5 =window.location.origin+'/asnc/index.php/Programacion/llenar_tipo_doc_contrata';
+        // var base_url6 =window.location.origin+'/asnc/index.php/Programacion/llenar_comp_resp_social'; 
+        // var base_url7 =window.location.origin+'/asnc/index.php/Programacion/llenar_trimestre';       
+        var base_url = '/index.php/Programacion/consultar_item_modal_PY_bienes';
+        var base_url2 = '/index.php/Programacion/llenar_modalidad';
+        var base_url3 = '/index.php/Programacion/llenar_alic_iva_mod';
+        var base_url4 = '/index.php/Programacion/consultar_contratista';
+         var base_url5 = '/index.php/Programacion/llenar_tipo_doc_contrata';
+         var base_url6 = '/index.php/Programacion/llenar_comp_resp_social';
+         var base_url7 = '/index.php/Programacion/llenar_trimestre';
 
     $.ajax({
         url: base_url,
@@ -2401,8 +2695,8 @@ function calculos_rendi_servicio_py(){
         var ccnu_b_m = $('#rif_nombre8').val();
     
         //console.log(ccnu_b_m);
-        var base_url =window.location.origin+'/asnc/index.php/Programacion/consultar_contratista';
-       // var base_url = '/index.php/Programacion/consultar_contratista';
+      //  var base_url =window.location.origin+'/asnc/index.php/Programacion/consultar_contratista';
+        var base_url = '/index.php/Programacion/consultar_contratista';
         $.ajax({
             url:base_url,
             method: 'post',
@@ -2465,8 +2759,8 @@ function guardar_rendi_servicio_py(){
             if (result.value == true) {
                 event.preventDefault();
                 var datos = new FormData($("#serviciopy")[0]);
-                            var base_url =window.location.origin+'/asnc/index.php/Programacion/guardar_rendi_servicio_py';
-                //            // var base_url = '/index.php/Programacion/guardar_rendi_servicio_py';
+                        //    var base_url =window.location.origin+'/asnc/index.php/Programacion/guardar_rendi_servicio_py';
+                 var base_url = '/index.php/Programacion/guardar_rendi_servicio_py';
                 
                 $.ajax({
                     url: base_url,
@@ -2502,20 +2796,20 @@ function guardar_rendi_servicio_py(){
 //////modal obras PY //////////////////////////////////////////////////////////////////////
 function modal_obraspy(id) {
     var id_p_items = id;
-        var base_url =window.location.origin+'/asnc/index.php/Programacion/consultar_item_modal_PY_bienes';
-        var base_url2 =window.location.origin+'/asnc/index.php/Programacion/llenar_modalidad';
-        var base_url3 =window.location.origin+'/asnc/index.php/Programacion/llenar_alic_iva_mod';
-        var base_url4 =window.location.origin+'/asnc/index.php/Programacion/consultar_contratista';
-        var base_url5 =window.location.origin+'/asnc/index.php/Programacion/llenar_tipo_doc_contrata';
-        var base_url6 =window.location.origin+'/asnc/index.php/Programacion/llenar_comp_resp_social'; 
-        var base_url7 =window.location.origin+'/asnc/index.php/Programacion/llenar_trimestre';       
-        //var base_url = '/index.php/Programacion/consultar_item_modal_PY_bienes';
-        //var base_url2 = '/index.php/Programacion/llenar_uni_med_mod';
-        //var base_url3 = '/index.php/Programacion/llenar_alic_iva_mod';
-        //var base_url4 = '/index.php/Programacion/consultar_contratista';
-         //var base_url5 = '/index.php/Programacion/llenar_tipo_doc_contrata';
-         //var base_url6 = '/index.php/Programacion/llenar_comp_resp_social';
-         //var base_url7 = '/index.php/Programacion/llenar_trimestre';
+        // var base_url =window.location.origin+'/asnc/index.php/Programacion/consultar_item_modal_PY_bienes';
+        // var base_url2 =window.location.origin+'/asnc/index.php/Programacion/llenar_modalidad';
+        // var base_url3 =window.location.origin+'/asnc/index.php/Programacion/llenar_alic_iva_mod';
+        // var base_url4 =window.location.origin+'/asnc/index.php/Programacion/consultar_contratista';
+        // var base_url5 =window.location.origin+'/asnc/index.php/Programacion/llenar_tipo_doc_contrata';
+        // var base_url6 =window.location.origin+'/asnc/index.php/Programacion/llenar_comp_resp_social'; 
+        // var base_url7 =window.location.origin+'/asnc/index.php/Programacion/llenar_trimestre';       
+        var base_url = '/index.php/Programacion/consultar_item_modal_PY_bienes';
+        var base_url2 = '/index.php/Programacion/llenar_modalidad';
+        var base_url3 = '/index.php/Programacion/llenar_alic_iva_mod';
+        var base_url4 = '/index.php/Programacion/consultar_contratista';
+         var base_url5 = '/index.php/Programacion/llenar_tipo_doc_contrata';
+         var base_url6 = '/index.php/Programacion/llenar_comp_resp_social';
+         var base_url7 = '/index.php/Programacion/llenar_trimestre';
 
     $.ajax({
         url: base_url,
@@ -2692,8 +2986,8 @@ function buscar_rif9(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
     var ccnu_b_m = $('#rif_nombre9').val();
 
     //console.log(ccnu_b_m);
-    var base_url =window.location.origin+'/asnc/index.php/Programacion/consultar_contratista';
-   // var base_url = '/index.php/Programacion/consultar_contratista';
+    //var base_url =window.location.origin+'/asnc/index.php/Programacion/consultar_contratista';
+    var base_url = '/index.php/Programacion/consultar_contratista';
     $.ajax({
         url:base_url,
         method: 'post',
@@ -2741,8 +3035,8 @@ function buscar_rif9(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
             if (result.value == true) {
                 event.preventDefault();
                 var datos = new FormData($("#obrapy1")[0]);
-                            var base_url =window.location.origin+'/asnc/index.php/Programacion/guardar_rendi_obr_py';
-                //            // var base_url = '/index.php/Programacion/guardar_rendi_obr_py';
+                       //     var base_url =window.location.origin+'/asnc/index.php/Programacion/guardar_rendi_obr_py';
+                 var base_url = '/index.php/Programacion/guardar_rendi_obr_py';
                 
                 $.ajax({
                     url: base_url,

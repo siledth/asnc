@@ -167,6 +167,7 @@
                         <div class="col-12">
                             <label style="color:red;">Ya ha rendido el Trimestre : <b style="color:red">*</b></label>
                             <input class="form-control" type="text" name="rendido" id="rendido" readonly>
+                            <input class="form-control" type="hidden" name="rendidoa" id="rendidoa" readonly>
 
                         </div>
                         <div class="col-12">
@@ -491,6 +492,7 @@
                         <div class="col-12">
                             <label style="color:red;">Ya ha rendido el Trimestre : <b style="color:red">*</b></label>
                             <input class="form-control" type="text" name="rendido3" id="rendido3" readonly>
+                            <input class="form-control" type="text" name="rendid3" id="rendid3" readonly>
 
                         </div>
                         <div class="col-12">

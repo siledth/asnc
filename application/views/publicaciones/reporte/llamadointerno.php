@@ -309,7 +309,7 @@
                                     <div class="form-group col-12">
                                         <label>Observaciones</label>
 
-                                        <textarea class="form-control" id="observaciones" name="observaciones" rows="6"
+                                        <textarea class="form-control" id="observaciones" name="observaciones" rows="10"
                                             cols="80" readonly>  </textarea>
                                     </div>
 

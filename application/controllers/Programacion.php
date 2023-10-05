@@ -60,6 +60,30 @@ class Programacion extends CI_Controller {
         $this->load->view('programacion/nueva_prog.php', $data);
         $this->load->view('templates/footer.php');
     }
+//////////////nuevo guardado de proyecto o accion centralizada
+public function nuevo_registro_acc_py() {
+    if (!$this->session->userdata('session'))
+        redirect('login');
+    $acc = array(
+        'id_programacion' => $this->input->POST('id_programacion1'),
+        'acc_cargar' => $this->input->POST('acc_cargar'),
+        'id_p_acc_centralizada' => $this->input->POST('selec_acc'),
+        'id_obj_comercial' => $this->input->POST('selec_obj'),
+       
+    );
+    $proy = array(
+        'id_programacion' => $this->input->POST('id_programacion1'),
+        'acc_cargar' => $this->input->POST('acc_cargar'),
+        'nombre_proyecto' => $this->input->POST('nombre_proyecto'),
+        'id_obj_comercial' => $this->input->POST('selec_obj'), 
+    );
+   
+
+    $data = $this->Programacion_model->nuevo_registro_acc_py($acc,$proy);
+    echo json_encode($data);
+}
+
+
 
     // Anterior
     public function add(){
@@ -791,6 +815,18 @@ class Programacion extends CI_Controller {
         $data =	$this->Programacion_model->llenar_comp_resp_social($data);
         echo json_encode($data);
     }
+    public function consultar_acc14(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $data = $this->input->post();
+        $data =	$this->Programacion_model->consultar_acc14($data);
+        echo json_encode($data);
+    }
+    public function consultar_obto(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $data = $this->input->post();
+        $data =	$this->Programacion_model->consultar_obto($data);
+        echo json_encode($data);
+    }
     public function llenar_trimestre(){
         if(!$this->session->userdata('session'))redirect('login');
         $data = $this->input->post();
@@ -803,6 +839,7 @@ class Programacion extends CI_Controller {
         $data =	$this->Evaluacion_desempenio_model->consultar_contratista($data);
         echo json_encode($data);
     }
+    
     public function llenar_alic_iva_mod(){
   		if(!$this->session->userdata('session'))redirect('login');
   		$data = $this->input->post();
