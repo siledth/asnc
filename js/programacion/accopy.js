@@ -1,28 +1,28 @@
-function control(){
-    var acc_cargar_acc = $('#cambiar').val();
+    function control(){
+        var acc_cargar_acc = $('#cambiar').val();
 
-    if (acc_cargar_acc === '1') {
-        $("#acc_acc").hide();
-        $("#proyecto_acc").show();
-    }else if (acc_cargar_acc === '2') {
-        $("#proyecto_acc").hide();
-        $("#acc_acc").show();
+        if (acc_cargar_acc === '1') {
+            $("#acc_acc").hide();
+            $("#proyecto_acc").show();
+        }else if (acc_cargar_acc === '2') {
+            $("#proyecto_acc").hide();
+            $("#acc_acc").show();
+        }
     }
-}
 
-function llenar_() {
-    var tipo_pago = $("#acc_cargar").val();
-    if (tipo_pago == "2") {
-        $("#acc_s").show();
-        $("#campos").hide();
-    } else {
-        $("#campos").show();
-        $("#acc_s").hide();
+    function llenar_() {
+        var tipo_pago = $("#acc_cargar").val();
+        if (tipo_pago == "2") {
+            $("#acc_s").show();
+            $("#campos").hide();
+        } else {
+            $("#campos").show();
+            $("#acc_s").hide();
+        }
     }
-}
 
 
-function bienes(id) {
+    function bienes(id) {
     var id_programacion = id;
     
         var base_url6 =window.location.origin+'/asnc/index.php/Programacion/consultar_acc14'; 
@@ -120,8 +120,7 @@ function bienes(id) {
     
         var base_url6 =window.location.origin+'/asnc/index.php/Programacion/consultar_acc14'; 
         //  var base_url6 = '/index.php/Programacion/consultar_acc14';
-        var base_url7 =window.location.origin+'/asnc/index.php/Programacion/consultar_obto'; 
-        //  var base_url7 = '/index.php/Programacion/consultar_obto';
+       
         var rifced = 1;       
         $("#id_programacion1").val(id_programacion);
         $.ajax({ 
