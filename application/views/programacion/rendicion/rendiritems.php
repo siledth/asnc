@@ -27,6 +27,9 @@
                                     type="button" class="btn btn-lg btn-default" name="button">
                                     Ver items Rendidos 1 er trimestre
                                 </button>
+                                <a class="btn btn-success" href="<?php echo base_url();?>index.php/Programacion/hojaEnBlanco" target="_blank">
+        Generar hoja en blanco
+      </a>
                             </div>
                         </div>
                     </div>

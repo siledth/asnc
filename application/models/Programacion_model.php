@@ -3868,4 +3868,68 @@ public function rendir($id_programacion){
     $query = $this->db->get('programacion.rendidicion pac');
     return $query->result_array();
 }
+
+function getEmployees($postData=null){
+
+    $response = array();
+
+    ## Read value
+    $draw = $postData['draw'];
+    $start = $postData['start'];
+    $rowperpage = $postData['length']; // Rows display per page
+    $columnIndex = $postData['order'][0]['column']; // Column index
+    $columnName = $postData['columns'][$columnIndex]['data']; // Column name
+    $columnSortOrder = $postData['order'][0]['dir']; // asc or desc
+    $searchValue = $postData['search']['value']; // Search value
+
+    ## Search 
+    $searchQuery = "";
+    if($searchValue != ''){
+       $searchQuery = " ( rif_organoente like '%".$searchValue."%' or codigopartida_presupuestaria like '%".$searchValue."%' or especificacion like'%".$searchValue."%' ) ";
+    }
+
+    ## Total number of records without filtering
+    $this->db->select('count(*) as allcount');
+    $records = $this->db->get('programacion.rendidicion')->result();
+    $totalRecords = $records[0]->allcount;
+
+    ## Total number of record with filtering
+    $this->db->select('count(*) as allcount');
+    if($searchQuery != '')
+       $this->db->where($searchQuery);
+    $records = $this->db->get('programacion.rendidicion')->result();
+    $totalRecordwithFilter = $records[0]->allcount;
+
+    ## Fetch records
+    $this->db->select('*');
+    if($searchQuery != '')
+       $this->db->where($searchQuery);
+    $this->db->order_by($columnName, $columnSortOrder);
+    $this->db->limit($rowperpage, $start);
+    $records = $this->db->get('programacion.rendidicion')->result();
+
+    $data = array();
+
+    foreach($records as $record ){
+
+       $data[] = array( 
+          "rif_organoente"=>$record->rif_organoente,
+          "codigopartida_presupuestaria"=>$record->codigopartida_presupuestaria,
+          "codigo_ccnu"=>$record->codigo_ccnu,
+          "precio_total"=>$record->precio_total,
+          "especificacion"=>$record->especificacion
+       ); 
+    }
+
+    ## Response
+    $response = array(
+       "draw" => intval($draw),
+       "iTotalRecords" => $totalRecords,
+       "iTotalDisplayRecords" => $totalRecordwithFilter,
+       "aaData" => $data
+    );
+
+    return $response; 
+  }
+
 }

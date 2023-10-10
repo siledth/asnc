@@ -4128,4 +4128,15 @@ public function ver_rendicion_realizadas(){ //////////visualiza las rendiciones 
     $this->load->view('programacion/rendicion/reporte1.php', $data);
     $this->load->view('templates/footer.php');
 }
+
+public function empList(){
+     
+    // POST data
+    $postData = $this->input->post();
+
+    // Get data
+    $data = $this->Programacion_model->getEmployees($postData);
+
+    echo json_encode($data);
+ }
 }
