@@ -1,5 +1,5 @@
 <div class="sidebar-bg"></div>
-<div id="content" class="content">
+<div id="content" class="content"> 
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-inverse">
@@ -27,9 +27,7 @@
                                     type="button" class="btn btn-lg btn-default" name="button">
                                     Ver items Rendidos 1 er trimestre
                                 </button>
-                                <a class="btn btn-success" href="<?php echo base_url();?>index.php/Programacion/hojaEnBlanco" target="_blank">
-        Generar hoja en blanco
-      </a>
+                   
                             </div>
                         </div>
                     </div>
