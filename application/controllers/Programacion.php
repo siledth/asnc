@@ -4124,7 +4124,7 @@ public function ver_rendicion_realizadas(){ //////////visualiza las rendiciones 
     $data['rendir'] = $this->Programacion_model->rendir($data['id_programacion']);
 
     $this->load->view('templates/header.php');
-
+        $this->load->view('templates/navigator.php');
     $this->load->view('programacion/rendicion/reporte1.php', $data);
     $this->load->view('templates/footer.php');
 }

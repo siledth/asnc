@@ -17,41 +17,42 @@
                 </div>
             </div>
         </div>
-        <div class="col-10 mt-4">
+        <div class="col-12 mt-4">
         <div class="panel panel-inverse">
             <div class="panel-heading"></div>
             <div class="table-responsive">
-                <!-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%"> -->
-                <table id="data-table-default" data-order='[[ 0, "desc" ]]' class="table table-bordered table-hover">
+                <!-- <table id="example" class="table table-striped table-bordered table-responsive nowrap" style="width:100%"> -->
+                <table id="data-table-buttons" data-order='[[ 0, "desc" ]]' class="table table-bordered">
                     <thead style="background:#01cdb2">
                         <tr style="text-align:center">
                             <th style="color:white;" colspan="5">Información General</th>
                             <th style="color:white;" colspan="2">Fecha estimada de Ejecución </th>
-                            <th style="color:white;" colspan="4">Distribución Porcentual de la Ejecución Trimestral
-                            </th>
+                            <th style="color:white;" colspan="4">Distribución Porcentual de la Ejecución Trimestral</th>
                             <th style="color:white;" colspan="5">Costos Estimados</th>
                             <th style="color:white;" colspan="23">Rendición</th>
-                   
-
                         </tr>
 
                         <tr style="text-align:center">
-                            <th style="color:white;">ID</th>
-                            <th style="color:white;">Partida Pres.</th>
-                            <th style="color:white;">CCNU</th>
-                            <th style="color:white;">Esp.</th>
-                            <th style="color:white;">Unid. Medida</th>
-                            <th style="color:white;">Fecha Desde</th>
-                            <th style="color:white;">Fecha Hasta</th>
-                            <th style="color:white;">% a Ejecutar I</th>
-                            <th style="color:white;"> % a Ejecutar II</th>
-                            <th style="color:white;">% a Ejecutar III</th>
-                            <th style="color:white;">% a Ejecutar IV</th>
-                            <th style="color:white;">Costo Unit.</th>
-                            <th style="color:white;">Precio Total</th>
-                            <th style="color:white;">IVA </th>
-                            <th style="color:white;">Monto Iva Est.</th>
-                            <th style="color:white;">Monto Total Est.</th>
+                            <th style="color:white; width: 55px">ID</th>
+                            <th style="color:white; width: 55px">Partida Pres.</th>
+                            <th style="color:white; width: 80px">CCNU</th>
+                            <th style="color:white; width: 80px">Esp.</th>
+                            <th style="color:white; width: 40px">Unid. Medida</th>
+
+                            <th style="color:white; width: 40px">Fecha Desde</th>
+                            <th style="color:white; width: 40px">Fecha Hasta</th>
+
+                            <th style="color:white; width: 25px">% a Ejecutar I</th>
+                            <th style="color:white; width: 25px" > % a Ejecutar II</th>
+                            <th style="color:white; width: 25px">% a Ejecutar III</th>
+                            <th style="color:white; width: 25px">% a Ejecutar IV</th>
+
+                            <th style="color:white; width: 40px">Costo Unit.</th>
+                            <th style="color:white; width: 40px">Precio Total</th>
+                            <th style="color:white; width: 40px">IVA </th>
+                            <th style="color:white; width: 40px">Monto Iva Est.</th>
+                            <th style="color:white; width: 40px">Monto Total Est.</th>
+
                             <th style="color:white;">cost.U rend_ejecu</th>
                             <th style="color:white;">precio_rend_ejecu</th>
                             <th style="color:white;">selc_iva_rendi</th>
@@ -119,14 +120,12 @@
                             <td><?=$data['paridad_rendi_factura']?> </td>
                             <td><?=$data['subtotal_rendi_factura']?> </td>
                             <td><?=$data['fecha_pago_rendi']?> </td>                       
-                            
                         </tr>
                         <?php endforeach;?>
                     </tbody>
                 </table>
             </div>
         </div>
-
         </div>
     </div>
 </div>

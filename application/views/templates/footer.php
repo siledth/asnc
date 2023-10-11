@@ -37,6 +37,18 @@
 
 <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/DataTables/media/js/jquery.dataTables.js"></script>
 <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/DataTables/media/js/dataTables.bootstrap.min.js"></script>
+
+
+  <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/DataTables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+	<script src="<?= base_url() ?>Plantilla/admin/assets/plugins/DataTables/extensions/Buttons/js/buttons.bootstrap.min.js"></script>
+	<script src="<?= base_url() ?>Plantilla/admin/assets/plugins/DataTables/extensions/Buttons/js/buttons.flash.min.js"></script>
+	<script src="<?= base_url() ?>Plantilla/admin/assets/plugins/DataTables/extensions/Buttons/js/jszip.min.js"></script>
+	<script src="<?= base_url() ?>Plantilla/admin/assets/plugins/DataTables/extensions/Buttons/js/pdfmake.min.js"></script>
+	<script src="<?= base_url() ?>Plantilla/admin/assets/plugins/DataTables/extensions/Buttons/js/vfs_fonts.min.js"></script>
+	<script src="<?= base_url() ?>Plantilla/admin/assets/plugins/DataTables/extensions/Buttons/js/buttons.html5.min.js"></script>
+	<script src="<?= base_url() ?>Plantilla/admin/assets/plugins/DataTables/extensions/Buttons/js/buttons.print.min.js"></script>
+  <script src="<?= base_url() ?>Plantilla/admin/assets/js/demo/table-manage-buttons.demo.min.js"></script>
+
 <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
 <script src="<?= base_url() ?>Plantilla/admin/assets/js/demo/table-manage-default.demo.min.js"></script>
 
@@ -61,7 +73,11 @@
 <script>
   $(document).ready(function() {
     App.init();
+    TableManageButtons.init();
     TableManageDefault.init();
+
+    
+
     TableManageAutofill.init();
     FormPlugins.init();
     Gallery.init();
