@@ -2,7 +2,7 @@ function desbloquear_usuario(id_fact) {
     event.preventDefault();
     swal
         .fire({
-            title: "¿Seguro que desea desbloquear el usuario selecionada?",
+            title: "¿Seguro que desea desbloquear el usuario selecionado?",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -13,7 +13,7 @@ function desbloquear_usuario(id_fact) {
         .then((result) => {
             if (result.value == true) {
                 var id = id_fact;
-desbloquear_usuario
+         //desbloquear_usuario
               // var base_url =window.location.origin+'/asnc/index.php/User/desbloquear_usuario';
                var base_url = '/index.php/User/desbloquear_usuario';
                     //var base_url = '/index.php//User/desbloquear_usuario';
@@ -45,7 +45,54 @@ desbloquear_usuario
             }
         });
     }
-
+//bloquear inhabilitar usuario
+    function bloquear_usuario(id_fact) {
+        event.preventDefault();
+        swal
+            .fire({
+                title: "¿Seguro que desea inhabilitar el usuario selecionado?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                cancelButtonText: "Cancelar",
+                confirmButtonText: "¡Si, Inhabilitar!",
+            })
+            .then((result) => {
+                if (result.value == true) {
+                    var id = id_fact;
+             //desbloquear_usuario
+                  // var base_url =window.location.origin+'/asnc/index.php/User/desbloquear_usuario';
+                   var base_url = '/index.php/User/bloquear_usuario1';
+                        //var base_url = '/index.php//User/desbloquear_usuario';
+                    $.ajax({
+                        url: base_url,
+                        method: "post",
+                        data: {
+                            id: id,
+                        },
+                        dataType: "json",
+                        success: function(response) {
+                            if (response == 1) {
+                                swal
+                                    .fire({
+                                        title: "Proceso Exitoso",
+                                        type: "success",
+                                        showCancelButton: false,
+                                        confirmButtonColor: "#3085d6",
+                                        confirmButtonText: "Ok",
+                                    })
+                                    .then((result) => {
+                                        if (result.value == true) {
+                                            location.reload();
+                                        }
+                                    });
+                            }
+                        },
+                    });
+                }
+            });
+        }
     function modal(id) {
         var id = id;
        var base_url = '/index.php/User/consultar_user';

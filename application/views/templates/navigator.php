@@ -501,6 +501,8 @@
             <?php if (($this->session->userdata('ver_user') == 1)) : ?>
             <li class="has-sub">
                 <a href="javascript:;">
+                <b class="caret"></b>
+
                     <span>Usuarios</span>
                 </a>
                 <ul class="sub-menu">
@@ -521,6 +523,13 @@
                     <?php if (($this->session->userdata('ver_user_desb') == 1)) : ?>
                     <li>
                         <a href="<?= base_url() ?>index.php/user/bloquear_usuario">
+                            <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Inhabilitar Usuarios
+                        </a>
+                    </li>
+                    <?php endif; ?>
+                    <?php if (($this->session->userdata('ver_user_desb') == 1)) : ?>
+                    <li>
+                        <a href="<?= base_url() ?>index.php/user/desblo_usuario">
                             <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Desbloqueo de Usuarios
                         </a>
                     </li>

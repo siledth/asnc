@@ -61,11 +61,11 @@
                                     <form action="" method="post" id="update_form">
                                         <input type="hidden" id="edit_record_id" name="edit_record_id" value="">
                                         <div class="form-group">
-                                            <label for="">INGRESE LA CANTIDAD EXPRESADA EN DECIMALES</label>
+                                            <label for="">Ingrese el Nuevo Codigo</label>
                                             <input type="text" class="form-control" id="edit_codigopartida_presupuestaria" >
                                         </div>
                                         <div class="form-group">
-                                            <label for="">INGRESE LA CANTIDAD EXPRESADA EN PORCENTAJE</label>
+                                            <label for="">Ingrese la Descripción</label>
                                             <input type="text" class="form-control" id="edit_desc_partida_presupuestaria">
                                         </div>
 
@@ -112,6 +112,7 @@
                         var desc_partida_presupuestaria = $("#desc_partida_presupuestaria").val();
                         var codigopartida_presupuestaria = $("#codigopartida_presupuestaria").val();
                         var id_usuario = 1; //esto debo arreglar
+                        
                         //var fecha = '12/15/2020'; //esto debo arreglar
                         //alert(desc_partida_presupuestaria + '' + codigopartida_presupuestaria);
                         if (desc_partida_presupuestaria == "" || codigopartida_presupuestaria == "") {

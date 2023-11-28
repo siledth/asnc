@@ -381,8 +381,8 @@ class User extends CI_Controller
             }
         }*/
 
-    //usuario desbloquear y bloquear usuarios
-    public function bloquear_usuario()
+    //usuario desbloquear usuarios
+    public function desblo_usuario()
     {
         if(!$this->session->userdata('session')) {
             redirect('login');
@@ -397,6 +397,7 @@ class User extends CI_Controller
         $this->load->view('user/bloqueo_user.php', $data);
         $this->load->view('templates/footer.php');
     }
+    
     public function desbloquear_usuario()
     {
         if(!$this->session->userdata('session')) {
@@ -408,7 +409,32 @@ class User extends CI_Controller
     }
     //ver listado de usuarios
 
+///////////////////////////bloqueo usuario
+    public function bloquear_usuario()
+    {
+        if(!$this->session->userdata('session')) {
+            redirect('login');
+        }
+        //$data['descripcion'] = $this->session->userdata('unidad');
+        //$data['rif'] = $this->session->userdata('rif');
+        $data['time']=date("d-m-Y");
+        $data['usuarios'] 	= $this->User_model->consulta_usuariost();
 
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('user/bloquser.php', $data);
+        $this->load->view('templates/footer.php');
+    }
+    public function bloquear_usuario1()
+    {
+        if(!$this->session->userdata('session')) {
+            redirect('login');
+        }
+        $data = $this->input->post();
+        $data = $this->User_model->blo_usuario($data);
+        echo json_encode($data);
+    }
+    /////////////////////////////////////////////
     public function modif_usuarios() // listado de usuarios internos solo snc
     {if(!$this->session->userdata('session')) {
         redirect('login');

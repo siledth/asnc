@@ -11,7 +11,7 @@ class Evaluacion_desempenio extends CI_Controller {
 		$data['operadora'] 	 = $this->Evaluacion_desempenio_model->consulta_operadora();
 		$data['modalidades'] = $this->Evaluacion_desempenio_model->consulta_modalidades();
 		$data['med_not'] 	 = $this->Evaluacion_desempenio_model->consulta_med_notf();
-
+		$data['time']=date("Y-m-d");
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
 		$this->load->view('evaluacion_desempenio/registro.php', $data);

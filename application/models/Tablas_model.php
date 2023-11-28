@@ -71,7 +71,23 @@ class Tablas_model extends CI_Model {
     }
 
     public function savepartidap($data) {
-        return $this->db->insert('programacion.partida_presupuestaria', $data);
+        $this->db->select('max(e.id_partida_presupuestaria) as id1');
+        $query1 = $this->db->get('programacion.partida_presupuestaria e');
+        $response4 = $query1->row_array();
+        $id1 = $response4['id1'] + 1 ;
+
+        $data3 = array(
+            'id_partida_presupuestaria'    => $id1,
+            'codigopartida_presupuestaria'   		        => $data['codigopartida_presupuestaria'],
+            'desc_partida_presupuestaria' => $data['desc_partida_presupuestaria'],
+            'desc_partida_presupuestaria' => $data['desc_partida_presupuestaria'],
+            'id_usuario' => $data['id_usuario'],
+            
+                );
+                $this->db->insert('programacion.partida_presupuestaria', $data3);
+                return true;  
+
+       // return $this->db->insert('programacion.partida_presupuestaria', $data);
     }
 
     public function delete_partidap($id) {

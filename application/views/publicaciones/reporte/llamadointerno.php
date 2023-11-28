@@ -24,6 +24,17 @@
                             </blockquote>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <a class="btn btn-circle waves-effect btn-lg waves-circle waves-float btn-primary"
+                                href="javascript:history.back()"> Volver</a>
+                        </div>
+                        
+                    </div>
+                    <div class="col-12">
+                        <br>
+                        <h3 class="text-center">_________________________________________________</h3>
+                    </div>
                     <div class="col-12 text-center">
                         <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
                         <h2> Llamados a Concurso </h2>
@@ -82,12 +93,16 @@
                                         <td class="center">
                                             <h6 style="color:white;"><?=$data['fecha_disponible_llamado']?> </h6>
                                             <a class="button">
-                                                <a class="button">
+                                                <!-- <a class="button">
                                                     <i title="Descargar"
                                                         onclick="modal_ver('<?php echo $data['numero_proceso']?>');"
                                                         data-toggle="modal" data-target="#exampleModal"
                                                         class="fas fa-2x  fa-cloud-download-alt" style="color:blue"></i>
-                                                    <a />
+                                                    <a /> -->
+                                                    <button
+                                                        onclick="location.href='<?php echo base_url()?>index.php/Publicaciones/Llamado?id=<?php echo $data['numero_proceso'];?>'"
+                                                        type="button" class="fas fa-2x  fa-cloud-download-alt" style="color:blue" name="button"> 
+                                                    </button>
 
 
 
@@ -306,7 +321,7 @@
                                     <div class="form-group col-12">
                                         <label>Observaciones</label>
 
-                                        <textarea class="form-control" id="observaciones" name="observaciones" rows="6"
+                                        <textarea class="form-control" id="observaciones" name="observaciones" rows="12"
                                             cols="80" readonly>  </textarea>
                                     </div>
 

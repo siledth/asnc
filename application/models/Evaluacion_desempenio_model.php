@@ -283,10 +283,13 @@
                                        concat(cn.nombre,'',c.nombre ) as nombre,
                                        ed.calificacion,
                                        ed.id_estatus,
-                                       e.descripcion
+                                       e.descripcion,ed.id_usuario, p.rif_organoente, r.descripcion as contratante
                                        FROM evaluacion_desempenio.evaluacion as ed
                                        left join evaluacion_desempenio.contratistas c on  c.rifced = ed.rif_contrat
                                        left join evaluacion_desempenio.contratistas_nr cn on cn.rifced = ed.rif_contrat
+                                        left join seguridad.usuarios p on  p.id = ed.id_usuario
+                                        left join public.organoente r on  r.rif = p.rif_organoente
+
                                        
                                     --    join public.planillapirmera2 cn on cn.rifced = ed.rif_contrat
                                        join public.estatus e on e.id = ed.id_estatus
@@ -305,10 +308,13 @@
         concat(cn.nombre,'',c.nombre ) as nombre,
         ed.calificacion,
         ed.id_estatus,
-        e.descripcion
+        e.descripcion, ed.id_usuario, p.rif_organoente, r.descripcion as contratante
         FROM evaluacion_desempenio.evaluacion as ed
         left join evaluacion_desempenio.contratistas c on  c.rifced = ed.rif_contrat
         left join evaluacion_desempenio.contratistas_nr cn on cn.rifced = ed.rif_contrat
+        left join seguridad.usuarios p on  p.id = ed.id_usuario
+        left join public.organoente r on  r.rif = p.rif_organoente
+
         join public.estatus e on e.id = ed.id_estatus
         where ed.id_usuario = '$usuario'");
 return $query->result_array();
