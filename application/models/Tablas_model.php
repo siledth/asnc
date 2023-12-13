@@ -63,6 +63,49 @@ class Tablas_model extends CI_Model {
     }
 
     //_________________PARTIDA PRESUPUESTARIA _________________________________________________
+    function consultar_partida1(){
+        $this->db->select('*');
+        $this->db->from('programacion.partida_presupuestaria');
+       // $this->db->order_by("codigo_b", "Asc");
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    function registrar_b($data){
+        $this->db->select('max(e.id_partida_presupuestaria) as id1');
+        $query1 = $this->db->get('programacion.partida_presupuestaria e');
+        $response4 = $query1->row_array();
+        $id1 = $response4['id1'] + 1 ;
+
+        $data3 = array(
+            'id_partida_presupuestaria'    => $id1,
+            'codigopartida_presupuestaria'   		        => $data['codigopartida_presupuestaria'],
+            'desc_partida_presupuestaria' => $data['desc_partida_presupuestaria'],
+            'id_usuario' => $data['id_usuario'],
+            'fecha' => $data['fecha']
+
+            
+                );
+                $this->db->insert('programacion.partida_presupuestaria', $data3);
+        return true;
+    }
+  
+    function consulta_b($data){
+        $this->db->select('*');
+        $this->db->from('programacion.partida_presupuestaria');
+        $this->db->where('id_partida_presupuestaria', $data['id_exonerado']);
+       // $this->db->order_by("codigo_b", "Asc");
+        $query = $this->db->get();
+        if (count($query->result()) > 0) {
+            return $query->row();
+        }
+    }
+
+    function editar_b($data){
+        $this->db->where('id_partida_presupuestaria', $data['id_partida_presupuestaria']);
+        $update = $this->db->update('programacion.partida_presupuestaria', $data);
+        return true;
+    }
+
     public function get_partidap() {
         $query = $this->db->get('programacion.partida_presupuestaria');
         // if (count($query->result()) > 0) {

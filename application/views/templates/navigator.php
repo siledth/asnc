@@ -379,7 +379,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?= base_url() ?>index.php/Fuentefinanc/partidap">
+                        <a href="<?= base_url() ?>index.php/Fuentefinanc/registrar_pa">
                             - Partida Presupuestaria
                         </a>
                     </li>

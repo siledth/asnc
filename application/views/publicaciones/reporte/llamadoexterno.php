@@ -114,12 +114,16 @@
                                         <td class="center">
                                             <h6 style="color:white;"><?=$data['fecha_disponible_llamado']?> </h6>
                                             <a class="button">
-                                                <a class="button">
+                                                <!-- <a class="button">
                                                     <i title="Descargar"
                                                         onclick="modal_ver('<?php echo $data['numero_proceso']?>');"
                                                         data-toggle="modal" data-target="#exampleModal"
                                                         class="fas fa-2x  fa-cloud-download-alt" style="color:blue"></i>
-                                                    <a />
+                                                    <a /> -->
+                                                    <button
+                                                        onclick="location.href='<?php echo base_url()?>index.php/Publicaciones/Llamado?id=<?php echo $data['numero_proceso'];?>'"
+                                                        type="button" class="fas fa-2x  fa-cloud-download-alt" style="color:blue" name="button"> 
+                                                    </button>
 
 
 

@@ -691,6 +691,43 @@
             return true;
            // return $id;
 	}
+	public function generar1(){
+		$query = $this->db->query("UPDATE llamado_concurso SET numero_proceso=rtrim(numero_proceso)");
+
+		// $data1 = array('estatus' => '1');		    
+        //     $this->db->where('fecha_fin_llamado', $date);
+		// 	$this->db->where('estatus >', '3');
+		// 	$this->db->where('estatus <', '7');
+        //     $update = $this->db->update('public.llamado_concurso', $data1);
+
+            return true;
+           // return $id;
+	}
+	public function generar2(){
+		$query = $this->db->query("UPDATE llamado_concurso SET numero_proceso=trim(numero_proceso);");
+
+		// $data1 = array('estatus' => '1');		    
+        //     $this->db->where('fecha_fin_llamado', $date);
+		// 	$this->db->where('estatus >', '3');
+		// 	$this->db->where('estatus <', '7');
+        //     $update = $this->db->update('public.llamado_concurso', $data1);
+
+            return true;
+           // return $id;
+	}
+	public function generar3(){
+		$query = $this->db->query("UPDATE llamado_concurso SET numero_proceso=SUBSTRING(numero_proceso,2) WHERE LEFT(numero_proceso,1)=' '");
+
+		// $data1 = array('estatus' => '1');		    
+        //     $this->db->where('fecha_fin_llamado', $date);
+		// 	$this->db->where('estatus >', '3');
+		// 	$this->db->where('estatus <', '7');
+        //     $update = $this->db->update('public.llamado_concurso', $data1);
+
+            return true;
+           // return $id;
+	}
+
 
 	 function ver_deudas(){
 		$this->db->select('*');

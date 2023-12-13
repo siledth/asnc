@@ -853,6 +853,10 @@ public function llamadointerno() {
       $data['exonerado'] = $this->Publicaciones_model->consultar_llamados_internos($date,$rif);
       $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
       $data['objeto'] 	 = $this->Configuracion_model->objeto();
+      $generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
+      $generar3 = $this->Publicaciones_model->generar2(); // finalizar llamad
+      $generar4 = $this->Publicaciones_model->generar3(); // finalizar llamad
+
       $this->load->view('templates/header.php');
       $this->load->view('templates/navigator.php');
       $this->load->view('publicaciones/reporte/llamadointerno.php', $data);
@@ -903,7 +907,181 @@ public function llamadointerno() {
               $pdf->Cell(100,10,'Pagina Web',0,1,'C'); 
               $pdf->SetFont('Arial','',10);
               $pdf->Cell(60,10, $d->siglas,0,0,'C');
-              $pdf->Cell(100,10, $d->web_contratante,0,1,'C');
+             // $pdf->Cell(85,10,'Pagina Web:',0,0,'C'); 
+             // $pdf->SetFont('Arial','',8);                  
+                 $pdf->MultiCell(100,5, utf8_decode($d->web_contratante), 0, 'L');
+             // $pdf->Cell(100,10, $d->web_contratante,0,1,'C');
+              $pdf->Cell(195,10,'____________________________________________________________________________________________________',0,1,'C');
+           $pdf->SetFont('Arial','B',12);
+           $pdf->Cell(195,10,'Llamados a Concurso',0,1,'C');               
+              $pdf->Cell(80,10,'Numero de Proceso:',0,0,'C'); 
+           $pdf->SetFont('Arial','B',10);
+              $pdf->Cell(48,10, $d->numero_proceso,0,1,'C');
+           $pdf->SetFont('Arial','B',12);
+              $pdf->Cell(85,10,'Denominacion del proceso:',0,0,'C'); 
+           $pdf->SetFont('Arial','',8);                  
+              $pdf->MultiCell(100,5, utf8_decode($d->denominacion_proceso), 0, 'L');
+              $pdf->SetFont('Arial','B',12);
+             
+              $pdf->Cell(80,10,'Fecha de Llamado:',0,0,'C');
+              $pdf->Cell(60,10,'Estatus:',0,1,'C'); 
+
+          $pdf->SetFont('Arial','',10);
+                 $pdf->Cell(80,10, date("d/m/Y", strtotime($d->fecha_llamado)),0,0,'C');
+                 $pdf->Cell(60,10, $d->estatus,0,1,'C');
+          $pdf->SetFont('Arial','B',12);
+                 $pdf->Cell(90,10,utf8_decode('Descripcion de Contratación:'),0,1,'C'); 
+           $pdf->SetFont('Arial','',8);                  
+                 $pdf->MultiCell(180,5, utf8_decode($d->descripcion_contratacion), 0);
+          $pdf->SetFont('Arial','B',12);
+          $pdf->Cell(195,10,'_______________________________________________________________________________________',0,1,'C');
+                 $pdf->Cell(195,5,'Lapsos',0,1,'C'); 
+                 $pdf->SetFont('Arial','B',12);
+             
+              $pdf->Cell(60,5,'Modalidad:',0,0,'C');
+              $pdf->Cell(60,5,'Mecanismo:',0,0,'C');
+              $pdf->Cell(60,5,utf8_decode('Objeto de Contratación:'),0,1,'C'); 
+
+
+          $pdf->SetFont('Arial','',10);
+                 $pdf->Cell(60,10, utf8_decode($d->modalidad),0,0,'C');
+                 $pdf->Cell(60,10, utf8_decode($d->mecanismo),0,0,'C');   
+                 $pdf->Cell(60,10, $d->objeto_contratacion,0,1,'C');        
+          
+          $pdf->SetFont('Arial','B',12);
+             
+                 $pdf->Cell(100,10,'Fecha de disponibilidad:',0,0,'C');
+                 $pdf->Cell(60,10,'Fecha Fin:',0,1,'C');   
+
+          $pdf->SetFont('Arial','',10);
+                    $pdf->Cell(100,5, date("d/m/Y", strtotime($d->fecha_disponible_llamado)),0,0,'C');
+                    $pdf->Cell(60,5, date("d/m/Y", strtotime($d->fecha_fin_llamado)),0,1,'C');   
+          $pdf->SetFont('Arial','B',12);
+                  $pdf->Cell(195,10,'_______________________________________________________________________________________',0,1,'C');
+                  $pdf->Cell(195,10,utf8_decode('Dirección Para Adquisición de Retiro de Pliego'),0,1,'C'); 
+          $pdf->SetFont('Arial','B',12);
+                  $pdf->Cell(100,5,'Hora desde:',0,0,'C');
+                  $pdf->Cell(60,5,'Hora hasta:',0,1,'C');   
+           $pdf->SetFont('Arial','',10);
+                     $pdf->Cell(100,5, $d->hora_desde,0,0,'C');
+                     $pdf->Cell(60,5, $d->hora_hasta,0,1,'C');
+          $pdf->SetFont('Arial','B',12);
+                     $pdf->Cell(60,5,utf8_decode('Dirección:'),0,0,'C'); 
+          $pdf->SetFont('Arial','',8);        
+                     $pdf->MultiCell(130,5, utf8_decode($d->direccion), 0, 'L');
+          $pdf->SetFont('Arial','B',12);
+          $pdf->Cell(195,10,'_______________________________________________________________________________________',0,1,'C');
+                      $pdf->Cell(195,10,utf8_decode('Períodos de Aclaratoria'),0,1,'C'); 
+          $pdf->SetFont('Arial','B',12);
+                         $pdf->Cell(80,5,'Fecha Inicio de Aclaratoria:',0,0,'C');
+                         $pdf->Cell(40,5,'Fecha Fin de Aclaratoria:',0,0,'C');
+                         $pdf->Cell(55,5,'Fecha Tope:',0,1,'C'); 
+          $pdf->SetFont('Arial','',10);
+                        $pdf->Cell(60,5, date("d/m/Y", strtotime($d->fecha_inicio_aclaratoria)),0,0,'C');
+                        $pdf->Cell(60,5, date("d/m/Y", strtotime($d->fecha_fin_aclaratoria)),0,0,'C');   
+                        $pdf->Cell(60,5, date("d/m/Y", strtotime($d->fecha_tope)),0,1,'C');        
+          $pdf->SetFont('Arial','B',12);
+                      $pdf->Cell(195,5,'_______________________________________________________________________________________',0,1,'C');
+                      $pdf->Cell(195,10,utf8_decode('Apertura de Sobres'),0,1,'C'); 
+          $pdf->SetFont('Arial','B',12);
+                            $pdf->Cell(100,5,'Fecha de Entrega:',0,0,'C');
+                            $pdf->Cell(60,5,'Hora Desde:',0,1,'C');   
+          $pdf->SetFont('Arial','',10);
+                               $pdf->Cell(100,8, date("d/m/Y", strtotime($d->fecha_fin_llamado)),0,0,'C');
+                               $pdf->Cell(60,8, $d->hora_desde_sobre,0,1,'C');
+          $pdf->SetFont('Arial','B',12);
+                               $pdf->Cell(60,5,'Lugar de Entrega:',0,0,'C'); 
+          $pdf->SetFont('Arial','',10);        
+                               $pdf->MultiCell(130,5, utf8_decode($d->lugar_entrega), 0, 'L');
+          $pdf->SetFont('Arial','B',12);
+                               $pdf->Cell(60,5,utf8_decode('Dirección:'),0,0,'C'); 
+          $pdf->SetFont('Arial','',10);        
+                               $pdf->MultiCell(130,5, utf8_decode($d->direccion_sobre), 0, 'L');
+                               $pdf->SetFont('Arial','B',12);
+                               $pdf->Cell(60,5,utf8_decode('Observaciones:'),0,0,'C'); 
+          $pdf->SetFont('Arial','',10);        
+                               $pdf->MultiCell(130,5, utf8_decode($d->observaciones), 0, 'L');
+
+                              
+          $pdf->Ln(10);
+         $curdate = date('d-m-Y H:i:s');
+                               $pdf->SetFont('Arial','B',12);
+                               $pdf->Cell(60,10,utf8_decode('Fecha de Impresión:'),0,0,'C'); 
+                               $pdf->Cell(30,10, $curdate,0,1,'C');
+                               $pdf->SetX(-15);
+                              // Arial italic 8
+                              $pdf->SetFont('Arial','I',8);
+                              // Número de página
+                              $pdf->Cell(0,10,'Pagina '.$pdf->PageNo().'/{nb}',0,0,'C');
+          }
+         // $pdf->Ln(10);
+        
+          // $curdate = date('d-m-Y H:i:s');
+          // $pdf->SetFont('Arial','B',12);
+          // $pdf->Cell(60,10,utf8_decode('Fecha de Impresión:'),0,0,'C'); 
+          // $pdf->Cell(30,10, $curdate,0,1,'C');
+     //  $pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');            
+// Posición: a 1,5 cm del final
+          // $pdf->SetX(-15);
+          // // Arial italic 8
+          // $pdf->SetFont('Arial','I',8);
+          // // Número de página
+          // $pdf->Cell(0,10,'Pagina '.$pdf->PageNo().'/{nb}',0,0,'C');
+         // $pdf->SetX(10);
+          ///$pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');
+ // $this->SetFont('Arial','I',8); 
+  //$pdf->Cell(0,10,'Servicio Nacional de Contrataciones','T',1,'C');
+  //$pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');
+          $pdf->Output('llamado_concurso '.$curdate.'.pdf', 'D');
+         // $this->load->view('headfoot/header', $datos);
+  }
+  public function Llamado_1() //hacer un pdf externo
+  {
+    //  $data['ver_programaciones'] = $this->Programacion_model->consultar_reprogramacion($unidad);
+       //Se agrega la clase desde thirdparty para usar FPDF
+       require_once APPPATH.'third_party/fpdf/fpdf.php';
+     //  $unidad
+       
+       $pdf = new FPDF();
+       $pdf->AliasNbPages();
+       $pdf->AddPage('P','A4',0);
+       $pdf->SetMargins(8,8,8,8);
+       $pdf->SetFont('Arial','B',12);
+       //$pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');            
+       $pdf->Image(base_url().'imagenes/logosnc.png',10,6,50);
+       $pdf->Ln(10);
+       
+       $pdf->Cell(195,5,'LLamado a Concurso',0,1,'C');
+       
+       $pdf->Image(base_url().'imagenes/logosnc.png',140,6,50);
+       $pdf->SetFont('Arial','I',8);
+
+       $pdf->Cell(350,4,'Pagina '.$pdf->PageNo().'/{nb}',0,1,'C');
+       $pdf->SetFont('Arial','B',12);
+
+       $pdf->Cell(195,3,'____________________________________________________________________________',0,1,'C');
+       $pdf->Cell(195,10,'Datos del Organo o Ente',0,1,'C');
+
+          $data1 = $this->input->get('id');
+          $data = $this->Publicaciones_model->consulta_llamado($data1);
+          foreach($data as $d){
+              
+              $pdf->Cell(60,10,'Rif:',0,0,'C'); 
+              $pdf->Cell(100,10,'Denominacion social:',0,1,'C');                  
+              $pdf->SetFont('Arial','',10);
+              $pdf->Cell(60,10, $d->rif_organoente,0,0,'C');
+              $pdf->Cell(100,10, utf8_decode($d->organoente),0,1,'C');
+              
+              $pdf->SetFont('Arial','B',12);
+              $pdf->Cell(60,10,'Siglas:',0,0,'C'); 
+             
+              $pdf->SetFont('Arial','',10);
+              $pdf->Cell(60,10, $d->siglas,0,0,'C');
+            
+              $pdf->Cell(85,10,'Pagina Web:',0,0,'C'); 
+              $pdf->SetFont('Arial','',8);                  
+                 $pdf->MultiCell(100,5, utf8_decode($d->web_contratante), 0, 'L');
+                 $pdf->SetFont('Arial','B',12);
               $pdf->Cell(195,10,'____________________________________________________________________________________________________',0,1,'C');
            $pdf->SetFont('Arial','B',12);
            $pdf->Cell(195,10,'Llamados a Concurso',0,1,'C');               

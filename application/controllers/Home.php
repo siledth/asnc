@@ -10,6 +10,8 @@ class Home extends CI_Controller {
         }
         $date=date("d-m-Y");
         $generar = $this->Publicaciones_model->generar($date); // finalizar llamad
+        $generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
+
        
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
