@@ -25,7 +25,7 @@ function guardar_acc_servicio(){
     var par_presupuestaria_acc = $("#par_presupuestaria_acc").val();
     var id_estado_acc = $("#id_estado_acc").val();
     var fuente_financiamiento_acc = $("#fuente_financiamiento_acc").val();
-    var porcentaje_acc = $("#porcentaje_acc").val();
+    //var porcentaje_acc = $("#porcentaje_acc").val();
     var id_ccnu_acc = $("#id_ccnu_acc").val();
     var especificacion_acc = $("#especificacion_acc").val();
     var id_unidad_medida_acc = $("#id_unidad_medida_acc").val();
@@ -53,10 +53,7 @@ function guardar_acc_servicio(){
     }
     else if(fuente_financiamiento_acc == ''){
     document.getElementById("fuente_financiamiento_acc").focus();
-    }else if(porcentaje_acc == ''){
-        document.getElementById("porcentaje_acc").focus();
-    }else if(porcentaje_acc == ''){
-            document.getElementById("porcentaje_acc").focus();
+    
     }else if(id_ccnu_acc == ''){
         document.getElementById("id_ccnu_acc").focus();
     }else if(especificacion_acc == ''){

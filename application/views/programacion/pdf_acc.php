@@ -33,14 +33,14 @@
                             <div class="col-12 text-center">
                                 <h4 style="color:red;">Información Items Fuente Financiamiento (IFF)</h4>
                             </div>
-                            <table id="target_ff" class="table table-bordered table-hover">
+                            <table id="data-table-buttons" class="table table-bordered table-hover">
                                 <thead style="background:#e4e7e8;">
                                     <tr class="text-center">
                                         <th>Código Part. Presupuestaria</th>
                                         <th>Partida Presupuestaria</th>
                                       
                                         <th>Fuente de Financiamiento</th>
-                                        <th>%</th>
+                                         
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -50,7 +50,7 @@
                                             <td><?=$inf_2['desc_partida_presupuestaria']?></td>
                                           
                                             <td><?=$inf_2['desc_fuente_financiamiento']?></td>
-                                            <td><?=$inf_2['porcentaje']?></td>
+                                          
                                         </tr>
                                     <?php endforeach;?>
                                 </tbody>
@@ -61,7 +61,7 @@
                             <div class="col-12 mt-2 text-center">
                                 <h4 style="color:red;">Información Items Productos (IP)</h4>
                             </div>
-                            <table id="target_req" class="table table-bordered table-hover">
+                            <table id="data-table-default" class="table table-bordered table-hover">
                                 <thead style="background:#e4e7e8;">
                                     <tr class="text-center">
                                         <th>Partida Pres.</th>

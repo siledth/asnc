@@ -1,5 +1,5 @@
 <div class="sidebar-bg"></div>
-<div id="content" class="content"> 
+<div id="content" class="content">
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-inverse">
@@ -27,7 +27,6 @@
                                     type="button" class="btn btn-lg btn-default" name="button">
                                     Ver items Rendidos 1 er trimestre
                                 </button>
-                   
                             </div>
                         </div>
                     </div>
@@ -168,7 +167,6 @@
                         <div class="col-12">
                             <label style="color:red;">Ya ha rendido el Trimestre : <b style="color:red">*</b></label>
                             <input class="form-control" type="text" name="rendido" id="rendido" readonly>
-                            <input class="form-control" type="hidden" name="rendidoa" id="rendidoa" readonly>
 
                         </div>
                         <div class="col-12">
@@ -493,7 +491,6 @@
                         <div class="col-12">
                             <label style="color:red;">Ya ha rendido el Trimestre : <b style="color:red">*</b></label>
                             <input class="form-control" type="text" name="rendido3" id="rendido3" readonly>
-                            <input class="form-control" type="text" name="rendid3" id="rendid3" readonly>
 
                         </div>
                         <div class="col-12">
@@ -835,7 +832,7 @@
                     <div class="row">
                         <div class="col-12">
                             <label style="color:red;">Ya ha rendido el Trimestre : <b style="color:red">*</b></label>
-                            <input class="form-control" type="text" name="rendido" id="rendido" readonly>
+                            <input class="form-control" type="text" name="rendido5" id="rendido5" readonly>
 
                         </div>
                         <div class="col-12">
@@ -843,7 +840,7 @@
                             <label style="color:red;">Seleccione Trimestre (Obligatorio).leer <b
                                     style="color:red">*</b></label><i style="color: red;"
                                 title="Seleccione un Trimestre." class="fas fa-question-circle"></i>
-                            <select class="form-control" name="llenar_trimestre5" id="llenar_trimestre5">
+                            <select class="form-control" name="llenar_trimestre5" id="llenar_trimestre5" onblur="calculos_rendi_bienessacc();">
                                 <option value="0">Seleccione</option>
                             </select>
                         </div>
@@ -979,7 +976,7 @@
                                 <div class="form-group col-2">
                                     <label>Costo Unitario</label>
                                     <input id="costo_unitario_remd" name="costo_unitario_remd"
-                                        onkeypress="return valideKey(event);" onblur="calculos_rendi_bieness();"
+                                        onkeypress="return valideKey(event);" onblur="calculos_rendi_bienessacc();"
                                         class="form-control">
                                 </div>
                                 <div class="form-group col-2">
@@ -991,7 +988,7 @@
                                 <div class="form-group col-2">
                                     <label>ALÍCUOTA IVA <br><br></label>
                                     <select class="form-control" name="selc_iva_re" id="selc_iva_re"
-                                        onchange="calculos_rendi_bieness();">
+                                        onchange="calculos_rendi_bienessacc();">
                                         <option value="s">Seleccione</option>
                                     </select>
                                 </div>
@@ -1008,7 +1005,7 @@
                                 <div class="form-group col-2">
                                     <label>Paridad US$ <b style="color:red">*</b> <br><br></label>
                                     <input id="paridad_rendi5" name="paridad_rendi5"
-                                        onkeypress="return valideKey(event);" onblur="calculos_rendi_bieness();"
+                                        onkeypress="return valideKey(event);" onblur="calculos_rendi_bienessacc();"
                                         class="form-control">
                                 </div>
                                 <div class="form-group col-2">
@@ -1088,21 +1085,21 @@
                                 <div class="form-group col-2">
                                     <label>BASE IMPONIBLE <br><br></label>
                                     <input type="text" class="form-control" onkeypress="return valideKey(event);"
-                                        onblur="calculos_rendi_bieness();" name="base_imponible_rendi5"
+                                        onblur="calculos_rendi_bienessacc();" name="base_imponible_rendi5"
                                         id="base_imponible_rendi5">
                                 </div>
 
                                 <div class="form-group col-2">
                                     <label>ALÍCUOTA IVA <br><br></label>
                                     <select class="form-control" name="selc_iva_rendi55" id="selc_iva_rendi55"
-                                        onchange="calculos_rendi_bieness();">
+                                        onchange="calculos_rendi_bienessacc();">
                                         <option value="s">Seleccione</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-2">
                                     <label>MONTO FACTURA</label>
                                     <input type="text" class="form-control" onkeypress="return valideKey(event);"
-                                        onblur="calculos_rendi_bieness();" name="monto_factura_rend5"
+                                        onblur="calculos_rendi_bienessacc();" name="monto_factura_rend5"
                                         id="monto_factura_rend5">
                                 </div>
                                 <div class="form-group col-2">
@@ -1112,7 +1109,7 @@
                                 <div class="form-group col-2">
                                     <label>Paridad US$ <b style="color:red">*</b> <br><br></label>
                                     <input id="paridad_rendi_factura5" name="paridad_rendi_factura5"
-                                        onkeypress="return valideKey(event);" onblur="calculos_rendi_bieness();"
+                                        onkeypress="return valideKey(event);" onblur="calculos_rendi_bienessacc();"
                                         class="form-control">
                                 </div>
                                 <div class="form-group col-2">

@@ -24,7 +24,7 @@
 
                     </div>
                     <div class="col-6 text-center mt-1">
-                        <h3 class="text-center">Disponibles para Reprogramación</h3>
+                        <h3 class="text-center">Disponibles para Modificación</h3>
                         <table id="data-table-autofill" class="table table-hover">
                             <thead style="background:#e4e7e8">
                                 <tr class="text-center">
@@ -41,10 +41,10 @@
                                             class="button">
                                             <i class="fas fa-lg fa-fw fa-eye" title="Cargar información de la re-programación"></i>
                                         <a/>
-                                        <a href="<?php echo base_url();?>index.php/programacion/certi_progra?id=<?php echo $lista['id_programacion'];?>"
+                                        <!-- <a href="<?php echo base_url();?>index.php/programacion/certi_progra?id=<?php echo $lista['id_programacion'];?>"
                                             class="button">
                                             <i class="fas fa-lg fa-fw fa-eye" style="color: green;" title="Cargar información de la re-programación"></i>
-                                        <a/>
+                                        <a/> -->
                                         <a title="Imprimir" onclick="enviarreprogramacion(<?php echo $lista['id_programacion'];?>);" class="button">
                                                                 <i class="fas fa-lg fa-fw fa-upload" style="color: green;"></i>
                                                             <a/>

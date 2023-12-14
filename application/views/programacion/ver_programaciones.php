@@ -61,11 +61,11 @@
                                                     <i class="fas fa-print fa-lg" title="Imprimir"
                                                         style="color: black;"></i>
                                                     <a />
-                                                    <a href="<?php echo base_url();?>index.php/programacion/certi_progra?id=<?php echo $lista['id_programacion'];?>"
+                                                    <!-- <a href="<?php echo base_url();?>index.php/programacion/certi_progra?id=<?php echo $lista['id_programacion'];?>"
                                                         class="button">
                                                         <i class="fas fa-lg fa-fw fa-eye" style="color: green;"
                                                             title="Cargar información de la re-programación"></i>
-                                                        <a />
+                                                        <a /> -->
                                                         <button
                                                             onclick="location.href='<?php echo base_url()?>index.php/programacion/comprobante_programacion?id=<?php echo $lista['id_programacion'];?>'"
                                                             type="button" class="fas fa-2x  fa-cloud-download-alt"

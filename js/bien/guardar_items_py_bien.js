@@ -33,10 +33,10 @@ function guardar_py_bien(){
     }
     else if(fuente_financiamiento_acc == ''){
     document.getElementById("fuente_financiamiento_acc").focus();
-    }else if(porcentaje_acc == ''){
-        document.getElementById("porcentaje_acc").focus();
-    }else if(porcentaje_acc == ''){
-            document.getElementById("porcentaje_acc").focus();
+    // }else if(porcentaje_acc == ''){
+    //     document.getElementById("porcentaje_acc").focus();
+    // 
+
     }else if(id_ccnu_acc == ''){
         document.getElementById("id_ccnu_acc").focus();
     }else if(especificacion_acc == ''){

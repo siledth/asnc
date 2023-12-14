@@ -1765,7 +1765,7 @@ public function Guardar_mas_item_bienes_py() {
         'id_estado'   		        => $this->input->post('id_estado_acc'),
         'id_partidad_presupuestaria' 	=> $par_presupuestaria_acc1,
         'id_fuente_financiamiento'  => $fuente_financiamiento_acc1,
-        'porcentaje' 	            => $this->input->post('porcentaje_acc'),
+        'porcentaje' 	            => 0,
         'id_enlace'=> $this->input->post('id_programacion'),
         'id_p_acc'=> '0',//indica q es un proyecto
     );
@@ -2140,7 +2140,7 @@ public function editar_item_servicio_py(){
             redirect('login');
         }
         $data = $this->input->post();
-
+        
         $des_unidad = $this->session->userdata('unidad');
         $codigo_onapre = $this->session->userdata('codigo_onapre');
         $rif = $this->session->userdata('rif');
@@ -2149,12 +2149,14 @@ public function editar_item_servicio_py(){
         $data2 = $this->Programacion_model->consulta_total_objeto_acc($id_programacion);
         
         $data3 = $this->Programacion_model->consulta_total_acc($id_programacion);
-        
+       
         $data4 = $this->Programacion_model->consulta_total_objeto_py($id_programacion);
         
         $data5 = $this->Programacion_model->consulta_total_PYT($id_programacion); 
+        
         $data = $this->Programacion_model->enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $data3, $data4, $data5);
-        echo json_encode($data);
+        print_r($data);die;
+        //echo json_encode($data);
     }
 
 
@@ -3285,7 +3287,7 @@ public function Guardar_mas_item_py_servicio() {
         'id_estado'   		        => $this->input->post('id_estado_acc'),
         'id_partidad_presupuestaria' 	=> $par_presupuestaria_acc1,
         'id_fuente_financiamiento'  => $fuente_financiamiento_acc1,
-        'porcentaje' 	            => $this->input->post('porcentaje_acc'),
+        'porcentaje' 	            => 0,
         'id_enlace'=> $this->input->post('id_programacion'),
         'id_p_acc'=> '0',//proyecto
     );
@@ -4432,7 +4434,7 @@ public function certi_progra(){
 }
 
 public function comprobante_programacion() //hacer un pdf de comprobante programacion final
- {
+ { //programacion
   //  $data['ver_programaciones'] = $this->Programacion_model->consultar_reprogramacion($unidad);
    //Se agrega la clase desde thirdparty para usar FPDF
    require_once APPPATH.'third_party/fpdf/fpdf.php';
@@ -4473,9 +4475,9 @@ public function comprobante_programacion() //hacer un pdf de comprobante program
    $pdf->Ln(5);
    $pdf->SetFont('Arial','',12);
 
-   $pdf->MultiCell(200,5, utf8_decode('El Servicio Nacional de Contrataciones (SNC), hace de su conocimiento que fue recibida la
-   Modificación de la Programación Anual correspondiente al Ejercicio Fiscal 2023, de
-   conformidad a lo establecido en el Articulo 38, numeral 2 del DCRVFLCP.'), 0, 'L');
+   $pdf->MultiCell(200,5, utf8_decode('El Servicio Nacional de Contrataciones (SNC), hace de su conocimiento que fue recibida la carga
+   de la Programación Anual correspondiente al Ejercicio Fiscal 2023, de conformidad a lo
+   establecido en el Articulo 38, numeral 1 del DCRVFLCP.'), 0, 'L');
    $pdf->Ln(1);
    $pdf->SetFont('Arial','B',10);
 
@@ -4487,14 +4489,18 @@ public function comprobante_programacion() //hacer un pdf de comprobante program
     Artículo 38. Los contratantes sujetos al presente Decreto con Rango, Valor y Fuerza de Ley, están
     en la obligación de remitir al Servicio Nacional de Contrataciones:
    '), 0, 'L');
-   $pdf->Cell(50,10,'',0,'L');
+//    $pdf->Cell(50,10,'',0,'L');
 
-   $pdf->MultiCell(200,5, utf8_decode(' . . . Omissis'), 0, 'L');
+//    $pdf->MultiCell(200,5, utf8_decode(' . . . Omissis'), 0, 'L');
    $pdf->Cell(20,10,'',0,'L');
-   $pdf->MultiCell(200,5, utf8_decode('2. Cualquier modificación a la programación de la adquisición de bienes, prestación de
-   servicios y ejecución de obras, deberá ser notificada al Servicio Nacional de Contrataciones
-   dentro de los quince días siguientes, contados a partir de la aprobación de la misma.
+
+   $pdf->MultiCell(200,5, utf8_decode('1. La programación de la adquisición de bienes, prestación de servicios y ejecución de
+   obras a contratar para el próximo ejercicio fiscal cuya remisión se hará en el último
+   trimestre del año; salvo aquellas contrataciones que por razones de seguridad de Estado,
+   estén calificadas como tales. (...Omissis ... )
    '), 0, 'L');
+   $pdf->SetFont('Arial','B',10);
+
    $pdf->Cell(50,5,'ACTIVIDAD',0,0,'C'); 
    $pdf->Cell(80,5, utf8_decode('ACCIÒN CENTRALIZADA. Bs.'),0,0,'C');      
    $pdf->Cell(35,5,'% ',0,1,'C'); 
@@ -4532,7 +4538,7 @@ public function comprobante_programacion() //hacer un pdf de comprobante program
         }
     }
      
-     $pdf->SetFont('Arial','B',12);
+     $pdf->SetFont('Arial','B',10);
      $pdf->Cell(50,5,'ACTIVIDAD',0,0,'C'); 
      $pdf->Cell(80,5,'PROYECTO Bs. ',0,0,'C'); 
      $pdf->Cell(35,5,'% ',0,1,'C');
@@ -4550,7 +4556,7 @@ public function comprobante_programacion() //hacer un pdf de comprobante program
             $data5 = $this->Programacion_model->consulta_total_PYT($id_programacion);
                 if($data5 != ''){
                     foreach($data5 as $d5){                
-                        $pdf->SetFont('Arial','B',12);
+                        $pdf->SetFont('Arial','',10);
                         $dq = $d4->precio_total / $d5->precio_total_py * 100;
                         
                         $pdf->Cell(95,5, number_format($dq, 2, ",", "."),0,1,'C');
@@ -4606,7 +4612,7 @@ public function comprobante_programacion() //hacer un pdf de comprobante program
                           // Arial italic 8
                           $pdf->SetFont('Arial','I',8);
                           // Número de página
-                          $pdf->Cell(0,10,'Pagina '.$pdf->PageNo().'/{nb}',0,0,'C');
+                        //   $pdf->Cell(0,10,'Pagina '.$pdf->PageNo().'/{nb}',0,0,'C');
       
      // $pdf->Ln(10);
     
@@ -4631,7 +4637,7 @@ public function Llamado_1() //hacer un pdf de comprobante programacion final
    $pdf->Ln(10);
    
    $pdf->Cell(195,5,'COMPROBANTE DE CUMPLIMIENTO',0,1,'C');
-   $pdf->Cell(195,5,'ARTÍCULO 38 NUMERAL 2 del',0,1,'C'); 
+   $pdf->Cell(195,5,'ARTICULO 38 NUMERAL 2 del',0,1,'C'); 
    $pdf->Cell(195,5,'Decreto con Rango Valor y Fuerza de Ley de Contrataciones Publicas ',0,1,'C');
    $pdf->Cell(195,5,'(DCRVFLCP)',0,1,'C');
 
@@ -4835,7 +4841,7 @@ public function comprobante_rendicion() //hacer un pdf de comprobante rendidicon
    $pdf->MultiCell(100,5, 'I', 0, 'L');
    $pdf->Cell(60,5,utf8_decode('Fecha de Registro:'),0,'L');
    $pdf->MultiCell(100,5, 'fecha', 0, 'L');
-   $pdf->Ln(5);
+   $pdf->Ln(2);
    $pdf->SetFont('Arial','',12);
 
    $pdf->MultiCell(200,5, utf8_decode('El Servicio Nacional de Contrataciones (SNC), hace de su conocimiento que fue recibida la carga
@@ -4902,7 +4908,7 @@ public function comprobante_rendicion() //hacer un pdf de comprobante rendidicon
         $pdf->Cell(175,10, number_format($d3->precio_total, 2, ",", "."),0,1,'C');
        
        }
-     $pdf->SetFont('Arial','B',12);
+     $pdf->SetFont('Arial','B',10);
      $pdf->Cell(50,5,'ACTIVIDAD',0,0,'C'); 
      $pdf->Cell(80,5,'PROYECTO Bs. ',0,0,'C'); 
      $pdf->Cell(35,5,'% ',0,1,'C');
@@ -4918,7 +4924,7 @@ public function comprobante_rendicion() //hacer un pdf de comprobante rendidicon
                 $id_programacion = $this->input->get('id');
                 $data5 = $this->Programacion_model->consulta_total_PYT($id_programacion);
                 foreach($data5 as $d5){                
-                $pdf->SetFont('Arial','B',12);
+                $pdf->SetFont('Arial','',10);
                 $dq = $d4->precio_total / $d5->precio_total_py * 100;
                 
                 $pdf->Cell(95,5, number_format($dq, 2, ",", "."),0,1,'C');
@@ -4936,7 +4942,7 @@ public function comprobante_rendicion() //hacer un pdf de comprobante rendidicon
       }
 
     $pdf->SetFont('Arial','I',8);
-    $pdf->Ln(2);
+    $pdf->Ln(1);
     $pdf->SetFont('Arial','B',12);
     $pdf->Cell(60,5,utf8_decode(''),0,0,'C'); 
 
@@ -4972,7 +4978,7 @@ public function comprobante_rendicion() //hacer un pdf de comprobante rendidicon
                           // Arial italic 8
                           $pdf->SetFont('Arial','I',8);
                           // Número de página
-                          $pdf->Cell(0,10,'Pagina '.$pdf->PageNo().'/{nb}',0,0,'C');
+                        //   $pdf->Cell(0,10,'Pagina '.$pdf->PageNo().'/{nb}',0,0,'C');
       
      // $pdf->Ln(10);
     

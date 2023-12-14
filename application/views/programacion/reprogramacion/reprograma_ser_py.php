@@ -1,6 +1,6 @@
 <div class="sidebar-bg"></div>
 <div id="content" class="content">
-    <h2>Reprogramación "Proyecto-Servicio"</h2>
+    <h2>Modificación "Proyecto-Servicio"</h2>
     <div class="row">
 
         <div class="col-10 mt-4">
@@ -89,8 +89,7 @@
                                 </select>
                             </div>
                             <div class="form-group col-3">
-                                <label>Porcentaje<b style="color:red">*</b></label>
-                                <input id="porcentaje_acc" name="porcentaje_acc" type="text" class="form-control">
+                                <input id="porcentaje_acc" name="porcentaje_acc"  type="hidden"  value="0" class="form-control">
                             </div>
 
                             <div class="col-12">
@@ -280,7 +279,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Reprogramar Servicio-proyecto</h4>
+                    <h4 class="modal-title">Modificar Servicio-proyecto</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">

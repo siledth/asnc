@@ -34,7 +34,7 @@
                                                  
                             <th style="color:white; width: 55px">Fuente Financiamiento</th> 
 
-                            <th style="color:white; width: 80px">Porcentaje</th>
+                        
                             <th style="color:white; width: 80px">Estado</th>
                             <th style="color:white; width: 55px">CCNU</th>   
                             <th style="color:white; width: 80px">Esp.</th>
@@ -65,7 +65,7 @@
                             <td><?=$data['codigopartida_presupuestaria']?>/<?=$data['desc_partida_presupuestaria']?> </td>                          
                                               
                             <td><?=$data['desc_fuente_financiamiento']?> </td>
-                            <td><?=$data['porcentaje']?> </td>
+                           
 
                             <td><?=$data['id_estado']?> </td>
                             <td><?=$data['codigo_ccnu']?>/<?=$data['desc_ccnu']?></td>      

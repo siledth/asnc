@@ -76,7 +76,7 @@
 
                     <div class="col-1"></div>
                     <div class="col-10 mt-3">
-                        <h3 class="text-center">Tabla Referente a Proyectos para Reprogramar</h3>
+                        <h3 class="text-center">Tabla Referente a Proyectos para Modificar</h3>
                         <table id="data-table-default" class="table table-bordered table-hover">
                             <thead style="background:#e4e7e8">
                                 <tr class="text-center">

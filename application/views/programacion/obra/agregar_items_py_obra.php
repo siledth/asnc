@@ -89,8 +89,8 @@
                                 </select>
                             </div>
                             <div class="form-group col-3">
-                                <label>Porcentaje<b style="color:red">*</b></label>
-                                <input id="porcentaje_acc" name="porcentaje_acc" type="text" class="form-control">
+                               
+                                <input id="porcentaje_acc" name="porcentaje_acc" value="0" type="hidden" class="form-control">
                             </div>
 
                             <div class="col-12">

@@ -90,10 +90,10 @@
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-                            <div class="form-group col-3">
+                            <!-- <div class="form-group col-3">
                                 <label>Porcentaje<b style="color:red">*</b></label>
-                                <input id="porcentaje_acc" name="porcentaje_acc" type="text" class="form-control">
-                            </div>
+                                <input id=" " name="porcentaje_acc" type="text" class="form-control">
+                            </div> -->
 
                             <div class="col-12">
                                 <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
