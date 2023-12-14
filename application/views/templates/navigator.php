@@ -83,7 +83,7 @@
                                 </li>
                                 <li>
                                     <a href="<?= base_url() ?>index.php/programacion/reprogramar">
-                                        - Re-Programación Anual
+                                        - Modificaciòn-Programación Anual
                                     </a>
                                 </li>
                                 <li>

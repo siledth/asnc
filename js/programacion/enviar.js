@@ -13,8 +13,8 @@ function enviar(id_programacion) {
         .then((result) => {
             if (result.value == true) {
                 var id = id_programacion;
-               var base_url =window.location.origin+'/asnc/index.php/Programacion/enviar_snc';
-              // var base_url = '/index.php/Programacion/enviar_snc';
+             //  var base_url =window.location.origin+'/asnc/index.php/Programacion/enviar_snc';
+               var base_url = '/index.php/Programacion/enviar_snc';
                    
                 $.ajax({
                     url: base_url,

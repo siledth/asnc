@@ -98,9 +98,9 @@ function eliminar_items_servi(id){
     }).then((result) => {
         if (result.value == true) {
             var id_p_items = id
-            var base_url =window.location.origin+'/asnc/index.php/Programacion/eliminar_items_serv';
+           // var base_url =window.location.origin+'/asnc/index.php/Programacion/eliminar_items_serv';
 
-            //var base_url = '/index.php/Programacion/eliminar_items_serv';
+            var base_url = '/index.php/Programacion/eliminar_items_serv';
             $.ajax({
                 url:base_url,
                 method: 'post',
@@ -143,9 +143,9 @@ function eliminar_items_bienes(id){
     }).then((result) => {
         if (result.value == true) {
             var id_p_items = id
-            var base_url =window.location.origin+'/asnc/index.php/Programacion/eliminar_items_bienes';
+           // var base_url =window.location.origin+'/asnc/index.php/Programacion/eliminar_items_bienes';
 
-            //var base_url = '/index.php/Programacion/eliminar_items_bienes';
+            var base_url = '/index.php/Programacion/eliminar_items_bienes';
             $.ajax({
                 url:base_url,
                 method: 'post',

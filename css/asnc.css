@@ -32,3 +32,6 @@ hr {
   body {
 	background: rgb(212, 243, 224);
   }
+  .sinborde {
+	border: 0;
+  }

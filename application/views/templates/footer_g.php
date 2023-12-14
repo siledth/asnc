@@ -10,6 +10,9 @@
 <script src="<?=base_url()?>Plantilla/admin/assets/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
 <script src="<?=base_url()?>Plantilla/admin/assets/js/demo/table-manage-default.demo.min.js"></script>
 
+<script src="<?= base_url() ?>Plantilla/admin/assets/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="<?= base_url() ?>Plantilla/admin/assets/plugins/sweetalert/jquery.sweet-alert.custom.js"></script
+
 <script src="<?=base_url()?>Plantilla/admin/assets/plugins/DataTables/extensions/AutoFill/js/dataTables.autoFill.min.js"></script>
 <script src="<?=base_url()?>Plantilla/admin/assets/plugins/DataTables/extensions/AutoFill/js/autoFill.bootstrap.min.js"></script>
 <script src="<?=base_url()?>Plantilla/admin/assets/js/demo/table-manage-autofill.demo.min.js"></script>

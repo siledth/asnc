@@ -56,8 +56,8 @@ function guardar_py_bien(){
             if (result.value == true) {
                 event.preventDefault();
                 var datos = new FormData($("#guardar_tcu")[0]);
-                var base_url =window.location.origin+'/asnc/index.php/Programacion/Guardar_mas_item_bienes_py';
-                //var base_url = '/index.php/Programacion/Guardar_mas_item_bienes_py';
+               // var base_url =window.location.origin+'/asnc/index.php/Programacion/Guardar_mas_item_bienes_py';
+                var base_url = '/index.php/Programacion/Guardar_mas_item_bienes_py';
                 $.ajax({
                     url:base_url,
                     method: 'POST',
@@ -158,8 +158,8 @@ function guardar_py_reprogramabien(){
             if (result.value == true) {
                 event.preventDefault();
                 var datos = new FormData($("#guardar_tcu")[0]);
-                var base_url =window.location.origin+'/asnc/index.php/Programacion/Guardar_reprogramacion_item_bienes_py';
-                //var base_url = '/index.php/Programacion/Guardar_reprogramacion_item_bienes_py';
+                //var base_url =window.location.origin+'/asnc/index.php/Programacion/Guardar_reprogramacion_item_bienes_py';
+                var base_url = '/index.php/Programacion/Guardar_reprogramacion_item_bienes_py';
                 $.ajax({
                     url:base_url,
                     method: 'POST',
@@ -186,3 +186,16 @@ function guardar_py_reprogramabien(){
         });
     }
 }
+
+$("#porcentaje_acc").on({
+    "focus": function (event) {
+        $(event.target).select();
+    },
+    "keyup": function (event) {
+        $(event.target).val(function (index, value ) {
+            return value.replace(/\D/g, "")
+                        .replace(/([0-9])([0-9]{2})$/, '$1,$2')
+                        .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+        });
+    }
+});

@@ -1,8 +1,8 @@
 function buscar_ccnnu(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
     var ccnu_b = $('#ccnu_b').val();
 //esto llena ccnu de cargar nuevos items servicio
-    var base_url =window.location.origin+'/asnc/index.php/Programacion/llenar_selc_ccnu_m';
-   // var base_url = '/index.php/Programacion/llenar_selc_ccnu_m';
+    //var base_url =window.location.origin+'/asnc/index.php/Programacion/llenar_selc_ccnu_m';
+   var base_url = '/index.php/Programacion/llenar_selc_ccnu_m';
     $.ajax({
         url:base_url,
         method: 'post',
@@ -76,8 +76,8 @@ function guardar_acc_servicio(){
             if (result.value == true) {
                 event.preventDefault();
                 var datos = new FormData($("#guardar_tcu")[0]);
-                var base_url =window.location.origin+'/asnc/index.php/Programacion/Guardar_mas_item_py_servicio';
-                //var base_url = '/index.php/Programacion/Guardar_mas_item_py_servicio';
+                //var base_url =window.location.origin+'/asnc/index.php/Programacion/Guardar_mas_item_py_servicio';
+                var base_url = '/index.php/Programacion/Guardar_mas_item_py_servicio';
                 $.ajax({
                     url:base_url,
                     method: 'POST',
@@ -139,7 +139,7 @@ function Guardar_mas_item_acc_servicio2(){
     var costo_unitario_acc = $("#costo_unitario_acc").val();
     var precio_total_acc = $("#precio_total_acc").val();
     var id_alicuota_iva_acc = $("#id_alicuota_iva_acc").val();
-    var iva_estimado_acc = $("#iva_estimado_acc").val();
+    var iva_estimado_acc = $("#iva_estimado").val();
     var monto_estimado_acc = $("#monto_estimado_acc").val();
     var estimado_i_acc = $("#estimado_i_acc").val();
     var estimado_ii_acc = $("#estimado_ii_acc").val();
@@ -178,8 +178,8 @@ function Guardar_mas_item_acc_servicio2(){
             if (result.value == true) {
                 event.preventDefault();
                 var datos = new FormData($("#guardar_tcu")[0]);
-                var base_url =window.location.origin+'/asnc/index.php/Programacion/Guardar_mas_item_acc_servicio2';
-                //var base_url = '/index.php/Programacion/Guardar_mas_item_acc_servicio';
+               // var base_url =window.location.origin+'/asnc/index.php/Programacion/Guardar_mas_item_acc_servicio2';
+                var base_url = '/index.php/Programacion/Guardar_mas_item_acc_servicio';
                 $.ajax({
                     url:base_url,
                     method: 'POST',

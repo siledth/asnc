@@ -2,13 +2,14 @@
 //llenar el modal para editar items un bien
 function modal(id) {
     var id_p_items = id;
-        var base_url =window.location.origin+'/asnc/index.php/Programacion/consultar_item_modal_bienes';
-        var base_url2 =window.location.origin+'/asnc/index.php/Programacion/llenar_uni_med_mod';
-        var base_url3 =window.location.origin+'/asnc/index.php/Programacion/llenar_alic_iva_mod';
+        // var base_url =window.location.origin+'/asnc/index.php/Programacion/consultar_item_modal_bienes';
+        // var base_url2 =window.location.origin+'/asnc/index.php/Programacion/llenar_uni_med_mod';
+        // var base_url3 =window.location.origin+'/asnc/index.php/Programacion/llenar_alic_iva_mod';
 
-        //var base_url = '/index.php/Programacion/consultar_item_modal_bienes';
-        //var base_url2 = '/index.php/Programacion/llenar_uni_med_mod';
-        //var base_url3 = '/index.php/Programacion/llenar_alic_iva_mod';
+        var base_url = '/index.php/Programacion/consultar_item_modal_bienes';
+        var base_url2 = '/index.php/Programacion/llenar_uni_med_mod';
+        var base_url3 = '/index.php/Programacion/llenar_alic_iva_mod';
+        var base_url7 = '/index.php/Programacion/llenar_ff_';
     $.ajax({
         url: base_url,
         method: "post",
@@ -23,6 +24,9 @@ function modal(id) {
             $("#especificacion").val(data["especificacion"]);
             $('#id_unid_med_b').val(data['id_unidad_medida']);
             $('#unid_med_b').val(data['desc_unidad_medida']);
+
+            $('#id_ff_b').val(data['id_fuente_financiamiento']);
+            $('#ff_b').val(data['desc_fuente_financiamiento']);
 
             $('#cantidad_mod_b').val(data['cantidad']);
             $('#primero_b').val(data['i']);
@@ -45,7 +49,19 @@ function modal(id) {
             
            
 
-
+// llena el select de ff
+            var id_fuente_financiamiento = data['id_ff_b'];
+            $.ajax({
+                url:base_url7,
+                method: 'post',
+                data: {id_fuente_financiamiento: id_fuente_financiamiento},
+                dataType: 'json',
+                success: function(data){
+                    $.each(data, function(index, data){
+                        $('#camb_ff_b1').append('<option value="'+data['id_fuente_financiamiento']+'">'+data['desc_fuente_financiamiento']+'</option>');
+                    });
+                }
+            })
 
 
 // llena el select de unidad de medida
@@ -146,8 +162,8 @@ function guardar_tabla_b1(){
             var est_trim_4 = $('#estimado_cuarto').val();
             var estimado_total_t_acc = $('#estimado_total_t_mod').val();
 
-            var base_url =window.location.origin+'/asnc/index.php/Programacion/editar_fila_ip_b';
-            //var base_url = '/index.php/Programacion/editar_fila_ip_b';
+          //  var base_url =window.location.origin+'/asnc/index.php/Programacion/editar_fila_ip_b';
+            var base_url = '/index.php/Programacion/editar_fila_ip_b';
 
             $.ajax({
                 url:base_url,
@@ -250,8 +266,10 @@ function guardar_tabla_b12(){
             var est_trim_4 = $('#estimado_cuarto').val();
             var estimado_total_t_acc = $('#estimado_total_t_mod').val();
 
-            var base_url =window.location.origin+'/asnc/index.php/Programacion/reprogramar_fila_ip_bien_proyecto';
-            //var base_url = '/index.php/Programacion/reprogramar_fila_ip_bien_proyecto';
+
+
+            //var base_url =window.location.origin+'/asnc/index.php/Programacion/reprogramar_fila_ip_bien_proyecto';
+            var base_url = '/index.php/Programacion/reprogramar_fila_ip_bien_proyecto';
 
             $.ajax({
                 url:base_url,
@@ -306,7 +324,7 @@ function guardar_tabla_b12(){
     });
 }
 
-
+//////////////////////guarda la informacion del modar bienes acc reprogrmar modal
 function guardar_reprogramacion_bienes_acc(){
     event.preventDefault();
 
@@ -333,6 +351,9 @@ function guardar_reprogramacion_bienes_acc(){
             var unid_med = $('#id_unid_med_b').val();
             var sel_camb_unid_medi = $('#camb_unid_medi_b').val();
 
+            var ff = $('#id_ff_b').val();
+            var sel_camb_ff1 = $('#camb_ff_b1').val();
+
             var cantidad = $('#cantidad_mod_b').val();
             var primero = $('#primero_b').val();
             var segundo = $('#segundo_b').val();
@@ -353,9 +374,11 @@ function guardar_reprogramacion_bienes_acc(){
             var est_trim_3 = $('#estimado_tercer').val();
             var est_trim_4 = $('#estimado_cuarto').val();
             var estimado_total_t_acc = $('#estimado_total_t_mod').val();
+            var observaciones = $('#observaciones2').val();
 
-            var base_url =window.location.origin+'/asnc/index.php/Programacion/reprogramar_items_acc_bienes';
-            //var base_url = '/index.php/Programacion/reprogramar_items_acc_bienes';
+
+          //  var base_url =window.location.origin+'/asnc/index.php/Programacion/reprogramar_items_acc_bienes';
+            var base_url = '/index.php/Programacion/reprogramar_items_acc_bienes';
 
             $.ajax({
                 url:base_url,
@@ -380,13 +403,17 @@ function guardar_reprogramacion_bienes_acc(){
                     prec_t: prec_t,
                     ali_iva_e: ali_iva_e,
                     sel_id_alic_iva:sel_id_alic_iva,
+                    ff: ff,
+                    sel_camb_ff1: sel_camb_ff1,
+                    
                     monto_iva_e: monto_iva_e,
                     monto_tot_est: monto_tot_est,
                     est_trim_1: est_trim_1,
                     est_trim_2: est_trim_2,
                     est_trim_3: est_trim_3,
                     est_trim_4: est_trim_4,
-                    estimado_total_t_acc: estimado_total_t_acc
+                    estimado_total_t_acc: estimado_total_t_acc,
+                    observaciones:observaciones,
 
                 },
                 dataType: 'json',
@@ -411,23 +438,30 @@ function guardar_reprogramacion_bienes_acc(){
 }
 
 
-/// bienes accion centralizada rendir
+/// bienes accion centralizada reprogramar
 
 function guardar_acc_bien_rendi(){
+    var id_programacion3 = $("#id_programacion2").val();
     var par_presupuestaria_acc = $("#par_presupuestaria_acc").val();
     var id_estado_acc = $("#id_estado_acc").val();
     var fuente_financiamiento_acc = $("#fuente_financiamiento_acc").val();
     var porcentaje_acc = $("#porcentaje_acc").val();
     var id_ccnu_acc = $("#id_ccnu_acc").val();
     var especificacion_acc = $("#especificacion_acc").val();
+    var fecha_desde = $("#fecha_desde").val();
+    var fecha_hasta = $("#fecha_hasta").val();
+
     var id_unidad_medida_acc = $("#id_unidad_medida_acc").val();
+    
     var cantidad_acc = $("#cantidad_acc").val();
-    var I_acc = $("#I_acc").val();
-    var II_acc = $("#II_acc").val();
-    var III_acc = $("#III_acc").val();
-    var IV_acc = $("#IV_acc").val();
+
+    //var cantidad_acc = $("#cant_total_distribuir").val();
+    var I = $("#I").val();
+    var II = $("#II").val();
+    var III = $("#III").val();
+    var IV = $("#IV").val();
     var costo_unitario_acc = $("#costo_unitario_acc").val();
-    var precio_total_acc = $("#precio_total_acc").val();
+    var precio_total = $("#precio_total").val();
     var id_alicuota_iva_acc = $("#id_alicuota_iva_acc").val();
     var iva_estimado_acc = $("#iva_estimado_acc").val();
     var monto_estimado_acc = $("#monto_estimado_acc").val();
@@ -436,23 +470,57 @@ function guardar_acc_bien_rendi(){
     var estimado_iii_acc = $("#estimado_iii_acc").val();
     var estimado_iV_acc = $("#estimado_iV_acc").val();
     var estimado_total_t_acc = $("#estimado_total_t_acc").val();
+    var observaciones = $("#observaciones").val();
 
 
-    if (par_presupuestaria_acc == '') {
+    if (observaciones == '') {
+        alert("Debe ingresar una observación de la reprogramación")
+        document.getElementById("observaciones").focus();
+    }
+    else if($("#par_presupuestaria_acc option:selected").val() == 0) {
+        alert("Debe Seleccionar una Partida Presupuestaria");
         document.getElementById("par_presupuestaria_acc").focus();
+        return false;
     }else if(id_estado_acc == ''){
+        alert("Debe ingresar un estado")
         document.getElementById("id_estado_acc").focus();
     }
-    else if(fuente_financiamiento_acc == ''){
-    document.getElementById("fuente_financiamiento_acc").focus();
-    }else if(porcentaje_acc == ''){
+    else if($("#fuente_financiamiento_acc option:selected").val() == 0) {
+        alert("Debe Seleccionar una Fuente Financiamiento");
+        document.getElementById("fuente_financiamiento_acc").focus();
+        return false;
+    }
+    else if(porcentaje_acc == ''){
+        alert("el campo porcentaje no puede quedar vacio")
+
         document.getElementById("porcentaje_acc").focus();
-    }else if(porcentaje_acc == ''){
-            document.getElementById("porcentaje_acc").focus();
-    }else if(id_ccnu_acc == ''){
+    }else if($("#id_ccnu_acc option:selected").val() == 0) {
+        alert("Debe Seleccionar un CCNU");
         document.getElementById("id_ccnu_acc").focus();
-    }else if(especificacion_acc == ''){
+        return false;
+    }
+    else if(especificacion_acc == ''){
+        alert("Debe ingresar una especificación")
+
         document.getElementById("especificacion_acc").focus();
+    }else if($("#id_unidad_medida_acc option:selected").val() == 0) {
+        alert("Debe Seleccionar una unidad de medida");
+        document.getElementById("id_unidad_medida_acc").focus();
+        return false;
+    }
+    else if(cantidad_acc == ''){
+        alert("Debe ingresar una cantidad (Obligatorio)")
+
+        document.getElementById("Cantidad").focus();
+    }
+    else if(costo_unitario_acc == ''){
+        alert("Debe ingresar un Costo Unitario (Obligatorio)")
+
+        document.getElementById("costo_unitario_acc").focus();
+    } else if($("#id_alicuota_iva_acc option:selected").val() == 0) {
+        alert("Debe Seleccionar un iva ");
+        document.getElementById("id_alicuota_iva_acc").focus();
+        return false;
     }else{
         event.preventDefault();
         swal.fire({
@@ -468,8 +536,8 @@ function guardar_acc_bien_rendi(){
             if (result.value == true) {
                 event.preventDefault();
                 var datos = new FormData($("#guardar_tcu")[0]);
-                var base_url =window.location.origin+'/asnc/index.php/Programacion/Guar_reprogramar_mas_item_acc';
-                //var base_url = '/index.php/Programacion/Guar_reprogramar_mas_item_acc';
+              //  var base_url =window.location.origin+'/asnc/index.php/Programacion/Guar_reprogramar_mas_item_acc';
+                var base_url = '/index.php/Programacion/Guar_reprogramar_mas_item_acc';
                 $.ajax({
                     url:base_url,
                     method: 'POST',

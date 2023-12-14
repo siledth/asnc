@@ -38,8 +38,7 @@
                                     <thead style="background:#e4e7e8;">
                                         <tr class="text-center">
                                             <th>Código Part. Presupuestaria</th>
-                                            <th>Partida Presupuestaria</th>
-                                         
+                                            <th>Partida Presupuestaria</th>                                         
                                             <th>Fuente de Financiamiento</th>
                                             <th>%</th>
                                         </tr>

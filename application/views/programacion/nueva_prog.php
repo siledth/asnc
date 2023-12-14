@@ -22,26 +22,14 @@
                     <div class="col-12 text-center">
                         <div class="row">
                             <div class="col-4">
-                              CREAR NUEVO  <a onclick="bienes(<?php echo $id_programacion ?>);" data-toggle="modal"
+                            CREAR NUEVA ACCIÓN CENTRALIZADA O PROYECTO <a onclick="bienes(<?php echo $id_programacion ?>);" data-toggle="modal"
                                     data-target="#bienes" style="color: white" > 
                                     <i title="Crear" class="fas fa-clipboard" title="Crear" style='font-size:48px;color:red'></i>
                                 </a>                              
                                   
                             </div>
-                            <div class="col-4">
-                                <button
-                                    onclick="location.href='<?php echo base_url()?>index.php/Programacion/agregar_servicio?id=<?php echo $id_programacion;?>'"
-                                    type="button" class="btn btn-lg btn-default" name="button">
-                                    Agregar Información de Servicio
-                                </button>
-                            </div>
-                            <div class="col-4">
-                                <button
-                                    onclick="location.href='<?php echo base_url()?>index.php/Programacion/agregar_obra?id=<?php echo $id_programacion;?>'"
-                                    type="button" class="btn btn-lg btn-default" name="button">
-                                    Agregar Información de Obra
-                                </button>
-                            </div>
+                           
+                           
                             <!-- <div class="col-4">
                                 <button onclick="location.href='<?php echo base_url()?>index.php/Programacion/add?id=<?php echo $id_programacion;?>'" type="button" class="btn btn-lg btn-default"  name="button">
                                     Agregar Información de todas
@@ -49,17 +37,40 @@
                             </div> -->
                         </div>
 
-                        <br>
-                        <h3 class="text-center">Totales Por partida Presupuestario</h3>
-                        <a onclick="bienes(<?php echo $id_programacion ?>);" data-toggle="modal"
-                                    data-target="#bienes" style="color: white" > 
-                                    <i title="Crear" class="fas fa-fax" title="Crear" style='font-size:48px;color:black'></i>
-                                </a>       
+                            
                         <!-- <button onclick="location.href='<?php echo base_url()?>index.php/Programacion/pdf_compl?id=<?php echo $id_programacion;?>'" type="button" class="btn btn-lg mt-2 mb-2 btn-default"  name="button">
                             Ver PDF con Información Completa
                         </button> -->
                     </div>
+                    <hr style="border-top: 1px solid rgba(0, 0, 0, 0.17);">
+                        <div class="col-11" style="margin-left: 40px;">
+                            <div class="table-responsive mt-3">
+                                <div class="col-12 text-center">
+                                    <h4 style="color:red;">Totales Por partida Presupuestaria</h4>
+                                </div>
+                                <table id="data-table-default" class="table table-bordered table-hover">
+                                    <thead style="background:#e4e7e8;">
+                                        <tr class="text-center">
+                                            <th>Código Part. Presupuestaria</th>
+                                            <th>Partida Presupuestaria</th>                                         
+                                                <th>Total Sin iva</th>
+                                                <th>Total con iva</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach($totalespartida as $totalespartida):?>
+                                            <tr class="odd gradeX" style="text-align:center">
+                                                <td ><?=$totalespartida['codigopartida_presupuestaria']?></td>
+                                                <td><?=$totalespartida['desc_partida_presupuestaria']?></td>
+                                                <td><?=number_format($totalespartida['precio_total'], 2, ',', '.')?></td>
+                                                <td><?=number_format($totalespartida['monto_estimado'], 2, ',', '.')?></td>
 
+                                            </tr>
+                                        <?php endforeach;?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     <div class="col-1"></div>
                     <div class="col-10 mt-3">
                         <h3 class="text-center">Tabla Referente a Proyectos Registrados</h3>
@@ -124,10 +135,7 @@
                                             class="button">
                                             <i class="fas fa-lg fa-fw fa-eye" style="color: green;"></i>
                                             <a />
-                                            <a href="<?php echo base_url();?>index.php/programacion/editar_acc?id=<?php echo $ver_acc_centralizad['id_p_acc_centralizada'];?>/<?php echo $ver_acc_centralizad['id_obj_comercial'];?>/<?php echo $ver_acc_centralizad['id_programacion'];?>"
-                                                class="button">
-                                                <i class="fas fa-lg fa-fw  fa-edit">viejo</i>
-                                                <a />
+                                           
                                                 <?php //if ($ver_acc_centralizad['estatus'] == 1) : descomentar en produccion
                                             ?>
                                                 <a href="<?php echo base_url();?>index.php/programacion/agregar_items_accioncentralizada_bienes?id=<?php echo $ver_acc_centralizad['id_p_acc_centralizada'];?>/<?php echo $ver_acc_centralizad['id_obj_comercial'];?>/<?php echo $ver_acc_centralizad['id_programacion'];?>"
@@ -161,7 +169,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Crear Bien </h5>
+                <h5 class="modal-title" id="exampleModalLabel">Crear Un Bien, Un Servicio o Una Obra </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -170,12 +178,9 @@
                 <form class="form-horizontal" id="save" name="save" data-parsley-validate="true" method="POST"
                     enctype="multipart/form-data">
                     <div class="row">
-
-                        <div class="card card-outline-green">
-                            <h5 class="mt-3 text-center"><b>Seleccione si desea Cargar Un Bien , Un Servicio o Una
-                                    Obra</b></h5>
-                            <div class="row ">
-
+                        <div class="card card-outline-green col-12">
+                            <h5 class="mt-3 text-center"><b>Seleccione si desea Cargar Un Bien, Un Servicio o Una Obra</b></h5>
+                            <div class="row">
                                 <div class="col-6 mt-3">
                                     <label>Acción a Cargar</label>
                                     <input id="id_programacion1" name="id_programacion1" type="hidden"

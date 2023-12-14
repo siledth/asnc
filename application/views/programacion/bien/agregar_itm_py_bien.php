@@ -47,6 +47,8 @@
                         <div class="row">
                             <input type="hidden" id="id_programacion" name="id_programacion"
                                 value="<?=$id_p_proyecto?>">
+                                <input type="hidden" id="id_proyectoii" name="id_proyectoii"
+                            value="<?=$id_programacion?>">
                             <div class="col-12 text-center">
                                 <h4 style="color:red;">Información Items Fuente Financiamiento (IFF)</h4>
                             </div>

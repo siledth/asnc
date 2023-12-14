@@ -25,10 +25,10 @@
     function bienes(id) {
     var id_programacion = id;
     
-        var base_url6 =window.location.origin+'/asnc/index.php/Programacion/consultar_acc14'; 
-        //  var base_url6 = '/index.php/Programacion/consultar_acc14';
-        var base_url7 =window.location.origin+'/asnc/index.php/Programacion/consultar_obto'; 
-        //  var base_url7 = '/index.php/Programacion/consultar_obto';
+      //  var base_url6 =window.location.origin+'/asnc/index.php/Programacion/consultar_acc14'; 
+          var base_url6 = '/index.php/Programacion/consultar_acc14';
+        //var base_url7 =window.location.origin+'/asnc/index.php/Programacion/consultar_obto'; 
+          var base_url7 = '/index.php/Programacion/consultar_obto';
         var rifced = 1;       
         $("#id_programacion1").val(id_programacion);
         
@@ -81,8 +81,8 @@
                 if (result.value == true) {
                     event.preventDefault();
                     var datos = new FormData($("#save")[0]);
-                                var base_url =window.location.origin+'/asnc/index.php/Programacion/nuevo_registro_acc_py';
-                    // var base_url = '/index.php/Programacion/nuevo_registro_acc_py';
+                           //     var base_url =window.location.origin+'/asnc/index.php/Programacion/nuevo_registro_acc_py';
+                     var base_url = '/index.php/Programacion/nuevo_registro_acc_py';
                     
                     $.ajax({
                         url: base_url,
@@ -115,25 +115,25 @@
         
     }
         ////////////////cal partida presupuestaria
-    function bienes(id) {
-        var id_programacion = id;
+    // function bienes(id) {
+    //     var id_programacion = id;
     
-        var base_url6 =window.location.origin+'/asnc/index.php/Programacion/consultar_acc14'; 
-        //  var base_url6 = '/index.php/Programacion/consultar_acc14';
+    //    // var base_url6 =window.location.origin+'/asnc/index.php/Programacion/consultar_acc14'; 
+    //       var base_url6 = '/index.php/Programacion/consultar_acc14';
        
-        var rifced = 1;       
-        $("#id_programacion1").val(id_programacion);
-        $.ajax({ 
-        url: base_url,
-        method: "post",
-        data: { id_p_items: id_p_items },
-        dataType: "json",
-        success: function(data) {
-            $('#id_items_b9').val(id);
-            $("#id_p_items9").val(id_p_items);
+    //     var rifced = 1;       
+    //     $("#id_programacion1").val(id_programacion);
+    //     $.ajax({ 
+    //     url: base_url6,
+    //     method: "post",
+    //     data: { id_p_items: id_p_items },
+    //     dataType: "json",
+    //     success: function(data) {
+    //         $('#id_items_b9').val(id);
+    //         $("#id_p_items9").val(id_p_items);
         
-            $("#id_enlace9").val(data["id_enlace"]); }
+    //         $("#id_enlace9").val(data["id_enlace"]); }
         
        
-        });
-    }
+    //     });
+    // }

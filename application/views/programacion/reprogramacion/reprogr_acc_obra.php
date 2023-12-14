@@ -43,10 +43,19 @@
                     <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
                 </div>
 
-                <form class="form-horizontal" id="guardar_tcu" data-parsley-validate="true" method="POST"
+                <form class="form-horizontal" id="guardar_tcu1" data-parsley-validate="true" method="POST"
                     enctype="multipart/form-data">
                     <div class="panel-body">
                         <div class="row">
+                        <div class="form-group mt-2 col-6">
+                                <label style="color: red;">Debe Ingresar una Observación</label> Leer<i style="color: red;"
+                                    title="Debe ingresar una Observación, para reprogramar"
+                                    class="fas fa-question-circle"></i><br>
+                                <textarea class="form-control" rows="2" name="observaciones"
+                                    id="observaciones"></textarea>
+                            </div>
+                        <input type="hidden" id="id_programacion3" name="id_programacion3"
+                                value="<?=$id_programacion?>">
                             <input type="hidden" id="id_programacion" name="id_programacion"
                                 value="<?=$id_p_acc_centralizada?>">
                             <div class="col-12 text-center">
@@ -344,7 +353,7 @@
                 <div class="modal-body">
                     <div class="row">
                         
-                        <input type="text" class="form-control" name="id_items_b" id="id_items_b">
+                        <input type="hidden" class="form-control" name="id_items_b" id="id_items_b">
                         <div class="form-group col-8">
                             <label>ID - ITEMS</label>
                             <input class="form-control" type="text" name="id_p_items" id="id_p_items" readonly>
@@ -357,7 +366,19 @@
                                 <input id="desc_partida_presupuestaria" name="desc_partida_presupuestaria" class="form-control"
                                 class="form-control" readonly>
                         </div>
-                        
+                        <div class="form-group col-6">
+                            <label>Fuente Financiamiento</label>
+                            <input type="text" class="form-control" name="ff_b" id="ff_b" readonly>
+                            <input type="hidden" name="id_ff_b" id="id_ff_b" readonly>
+                        </div>
+                        <div class="form-group col-6">
+                            <label> Cambiar Fuente Financiamiento <i style="color:red"
+                                    title="Si quiere cambiar la Fuente de Financiamiento, debe seleccionarla en este campo"
+                                    class="fas fa-question-circle">leer</i></label>
+                            <select class="form-control" name="camb_ff_b1" id="camb_ff_b1">
+                                <option value="0">Seleccione</option>
+                            </select>
+                        </div>
                         <!-- <div class="form-group col-12">
                             <label> Cambiar Partida Presupuestaria <i
                                     title="Si requiere cambiar la Partida Presupuestaria, debe seleccionarlo en el siguiente campo"
@@ -528,6 +549,13 @@
                             <input id="estimado_total_t_mod" name="estimado_total_t" type="text" class="form-control"
                                 readonly>
                         </div>
+                        <div class="form-group mt-2 col-6">
+                                <label style="color: red;">Debe Ingresar una Observación (Obligatorio)</label> Leer<i style="color: red;"
+                                    title="Debe ingresar una Observación, para reprogramar"
+                                    class="fas fa-question-circle"></i><br>
+                                <textarea class="form-control" rows="2" name="observaciones2"
+                                    id="observaciones2"></textarea>
+                            </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" onclick="guardar_tabla_obra_acc();"

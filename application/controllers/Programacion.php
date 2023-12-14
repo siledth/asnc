@@ -21,7 +21,15 @@ class Programacion extends CI_Controller {
         $this->load->view('programacion/ver_programaciones.php', $data);
         $this->load->view('templates/footer.php');
     }
+    public function validadanio(){ //validar existencia js
+        $des_unidad= $this->session->userdata('id_unidad');
 
+        $anio = $this->input->post('anio');
+        $data= $this->Programacion_model->valida_anio($anio, $des_unidad);
+       //$data = $this->input->post();
+      echo json_encode($data);
+       
+    }
     //----Agregar año de programacion----
     public function agg_programacion_anio(){
         if(!$this->session->userdata('session'))redirect('login');
@@ -54,12 +62,15 @@ class Programacion extends CI_Controller {
         //Traer todo los proyectos y acc registradas por el id_programación de cada unidad
         $data['ver_proyectos'] = $this->Programacion_model->consultar_proyectos($data['id_programacion']);
         $data['ver_acc_centralizada'] = $this->Programacion_model->consultar_acc_centralizada($data['id_programacion']);
+        $data['totalespartida'] = $this->Programacion_model->total_por_partidas($data['id_programacion']);
+
 
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
         $this->load->view('programacion/nueva_prog.php', $data);
         $this->load->view('templates/footer.php');
     }
+   
 //////////////nuevo guardado de proyecto o accion centralizada
 public function nuevo_registro_acc_py() {
     if (!$this->session->userdata('session'))
@@ -795,6 +806,12 @@ public function nuevo_registro_acc_py() {
   		$data =	$this->Programacion_model->llenar_uni_med_mod($data);
   		echo json_encode($data);
   	}
+      public function llenar_ff_(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $data = $this->input->post();
+        $data =	$this->Programacion_model->llenar_ff_($data);
+        echo json_encode($data);
+    }
       public function llenar_modalidad(){
         if(!$this->session->userdata('session'))redirect('login');
         $data = $this->input->post();
@@ -1539,6 +1556,9 @@ public function Guardar_mas_item_acc() {
         'est_trim_3' 		 => $this->input->post('estimado_iii_acc'),
         'est_trim_4' 		 => $this->input->post('estimado_iV_acc'),
         'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t_acc'),
+        'estatus_rendi' => 0,//estatus inical del id_items
+        'id_proyecto' 		 => $this->input->post('id_proyectoii'),//para calcular total de partida pp
+
       
 
     );
@@ -1555,7 +1575,7 @@ public function Guardar_mas_item_acc() {
     $data = $this->Programacion_model->agregar_mas_item_proyecto($data,$p_ffinanciamiento);
     echo json_encode($data);
 }
-/////////////////GUARDA MAS ITEMS BIENES acc
+/////////////////agreagar mnas GUARDA MAS ITEMS BIENES acc reprogramado
 
 public function Guar_reprogramar_mas_item_acc() {
     if (!$this->session->userdata('session'))
@@ -1636,6 +1656,9 @@ public function Guar_reprogramar_mas_item_acc() {
         'estatus_rendi' 		 => 0,
         'reprogramado' 		 => 1,
         'fecha_reprogramacion' 		 => date('Y-m-d'),
+        'id_proyecto' 		 => $this->input->post('id_programacion3'),
+        'observaciones' 		 => $this->input->post('observaciones'),
+
 
 
       
@@ -1731,6 +1754,9 @@ public function Guardar_mas_item_bienes_py() {
         'est_trim_3' 		 => $this->input->post('estimado_iii_acc'),
         'est_trim_4' 		 => $this->input->post('estimado_iV_acc'),
         'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t_acc'),
+        'estatus_rendi' => 0,//estatus inical del id_items
+        'id_proyecto' 		 => $this->input->post('id_proyectoii'),//para calcular total de partida pp
+
       
 
     );
@@ -1910,8 +1936,8 @@ public function editar_item_servicio_py(){
             
             $id_programacion = $this->input->POST('id_programacion');
             $separar                 = explode("/", $id_programacion);
-            $id_programacion        = $separar['0'];
-            $id_programacion2   = $separar['1'];
+            $id_programacion        = $separar['0'];//este
+            $id_programacion2   = $separar['1'];//
     
             $id_programacion3 = $this->input->post("id_programacion2");//id_programacion     
             
@@ -1976,8 +2002,9 @@ public function editar_item_servicio_py(){
             'est_trim_4' 		 => $this->input->post('estimado_iV'),
             'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t'),
             "estatus_rendi"    => 0,// estatus de la rendicion
-            "reprogramado"    => 1,// fue reprogramado
-            "fecha_reprogramacion"    => date("Y-m-d")
+            'id_proyecto' 		 => $this->input->post('id_proyectoii'),//para calcular total de partida pp
+
+          
     
         );
       
@@ -2086,6 +2113,9 @@ public function editar_item_servicio_py(){
             'est_trim_3' 		 => $this->input->post('estimado_iii'),
             'est_trim_4' 		 => $this->input->post('estimado_iV'),
             'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t'),
+            'estatus_rendi' => 0,//estatus inical del id_items
+            'id_proyecto' 		 => $this->input->post('id_proyectoii'),//para calcular total de partida pp
+
           
     
         );
@@ -2110,14 +2140,26 @@ public function editar_item_servicio_py(){
             redirect('login');
         }
         $data = $this->input->post();
-        $data = $this->Programacion_model->enviar_snc($data);
+
+        $des_unidad = $this->session->userdata('unidad');
+        $codigo_onapre = $this->session->userdata('codigo_onapre');
+        $rif = $this->session->userdata('rif');
+        $id_programacion = $data['id'];
+        
+        $data2 = $this->Programacion_model->consulta_total_objeto_acc($id_programacion);
+        
+        $data3 = $this->Programacion_model->consulta_total_acc($id_programacion);
+        
+        $data4 = $this->Programacion_model->consulta_total_objeto_py($id_programacion);
+        
+        $data5 = $this->Programacion_model->consulta_total_PYT($id_programacion); 
+        $data = $this->Programacion_model->enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $data3, $data4, $data5);
         echo json_encode($data);
     }
 
 
     /////////////////enviar Reprogramacion al snc, cambia el status
-    public function enviar_snc_reprogramacion()
-    {
+    public function enviar_snc_reprogramacion(){
         if(!$this->session->userdata('session')) {
             redirect('login');
         }
@@ -2164,6 +2206,7 @@ public function editar_item_servicio_py(){
             //Traer todo los proyectos y acc registradas por el id_programación de cada unidad
             $data['ver_proyectos'] = $this->Programacion_model->consultar_proyectos($data['id_programacion']);
             $data['ver_acc_centralizada'] = $this->Programacion_model->consultar_acc_centralizada($data['id_programacion']);
+            $data['totalespartida'] = $this->Programacion_model->total_por_partidas($data['id_programacion']);
     
             $this->load->view('templates/header.php');
             $this->load->view('templates/navigator.php');
@@ -2245,7 +2288,7 @@ public function editar_item_servicio_py(){
             $this->load->view('templates/navigator.php');
             $this->load->view('programacion/reprogramacion/reprogramar_bien_acc.php', $data);
             $this->load->view('templates/footer.php');
-        }
+            }
                     elseif ($id_obj_comercial == '3') {
                         //OBRA
                         $data['part_pres'] = $this->Programacion_model->consulta_part_pres();
@@ -2381,7 +2424,6 @@ public function editar_item_servicio_py(){
              }
         }
 
-
         public function Guardar_mas_item_acc_servicio2() {
             if (!$this->session->userdata('session'))
                 redirect('login');
@@ -2395,6 +2437,7 @@ public function editar_item_servicio_py(){
                 $separar                 = explode("/", $id_programacion);
                 $id_programacion        = $separar['0'];
                 $id_programacion2   = $separar['1'];
+                $id_programacion4   = $separar['2'];
         
                 $id_programacion3 = 30;//id_programacion     
                 
@@ -2431,7 +2474,7 @@ public function editar_item_servicio_py(){
            $data = array(
         
            
-                 'id_enlace'=> $this->input->post('id_programacion'),
+                 'id_enlace'=> $this->input->post('id_programacion'),//
                  'id_p_acc'=> 1,
                  'id_tip_obra'=> '0',
                  'id_alcance_obra'=> '0',
@@ -2460,7 +2503,11 @@ public function editar_item_servicio_py(){
                 'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t'),
                 'estatus_rendi' 		 => 0,
                 'reprogramado' 		 =>1,
-                'fecha_reprogramacion' 		 =>date('Y-m-d')
+                'fecha_reprogramacion' 		 =>date('Y-m-d'),
+                'id_proyecto' 		 => $this->input->post('id_programacion3'),
+                'observaciones' 		 => $this->input->post('observaciones'),
+
+                
               
         
             );
@@ -2484,23 +2531,62 @@ public function editar_item_servicio_py(){
             echo json_encode($data);
         }
 
-        public function hojaEnBlanco()
+        // public function hojaEnBlanco() //hacer un pdf
+        // {
+        //   //  $data['ver_programaciones'] = $this->Programacion_model->consultar_reprogramacion($unidad);
+        //      //Se agrega la clase desde thirdparty para usar FPDF
+        //      require_once APPPATH.'third_party/fpdf/fpdf.php';
+                
+        //      $pdf = new FPDF();
+        //      $pdf->AddPage('P','A4',0);
+        //      $pdf->SetFont('Arial','B',12);
+        //      $pdf->Cell(0,0,'Hola mundo FPDF desde Codeigniter',0,1,'C');
+        //      $pdf->Output('result.pdf', 'D');
+        //     $data['ver_programaciones'] = $this->Programacion_model->consultar_reprogramacion($unidad);
+
+        // }
+
+        public function Llamado() //hacer un pdf
         {
+          //  $data['ver_programaciones'] = $this->Programacion_model->consultar_reprogramacion($unidad);
              //Se agrega la clase desde thirdparty para usar FPDF
              require_once APPPATH.'third_party/fpdf/fpdf.php';
-                
+           //  $unidad
+             
              $pdf = new FPDF();
              $pdf->AddPage('P','A4',0);
-             $pdf->SetFont('Arial','B',16);
-             $pdf->Cell(0,0,'Hola mundo FPDF desde Codeigniter',0,1,'C');
-             $pdf->Output('result.pdf', 'D');
+             $pdf->SetFont('Arial','B',12);
+            // $pdf->Cell(0,0,'Hola mundo FPDF desde Codeigniter',0,1,'C');
+             $pdf->Cell(195,10,'LLamado',0,1,'C');
+             $pdf->Cell(65,10,'descripcion',1,0,'C');
 
+
+                $data1 = $this->input->get('id');
+                $data = $this->Programacion_model->pdf_rendir($data1);
+                foreach($data as $d){
+                    $pdf->SetFont('Arial','',10);
+                    
+                    $pdf->Cell(65,10, $d->rif_organoente,1,0,'C');
+                
+                // $slno = $slno+1;
+                }
+                $curdate = date('d-m-Y His');
+                $pdf->Output('product_report'.$curdate.'.pdf', 'I');
         }
+
+
+        // public function reporte432() {
+        //     $html = $this->load->view('programacion/rendicion/rendiciones.php');
+        //     $this->load->library('third_party/dompdf');
+        //     $this->pdf_dompdf->load_html(preg_replace('/>\s+</', '><', $html));
+        //     $this->pdf_dompdf->render();
+        //     $this->pdf_dompdf->stream("reporte.pdf", array("Attachment" => 0));
+        // }
 
 
 ///////////////////////////////////rendiciones solo se deben de ver aquellas que puedan ser rendidas osea en estatus 2  o estatus 3
         public function rendiciones(){
-            if(!$this->session->userdata('session'))redirect('login');
+            if(!$this->session->userdata('session'))redirect('login');                                                  
     
             $data['unidad'] = $this->session->userdata('id_unidad');
             $data['des_unidad'] = $this->session->userdata('unidad');
@@ -2530,8 +2616,9 @@ public function editar_item_servicio_py(){
             $data['anio'] = $data['programacion_anio']['anio'];
     
             //Traer todo los proyectos y acc registradas por el id_programación de cada unidad
-            $data['ver_proyectos'] = $this->Programacion_model->consultar_proyectos55($data['id_programacion']);
+            $data['ver_proyectos'] = $this->Programacion_model->consultar_proyectos555($data['id_programacion']);
             $data['ver_acc_centralizada'] = $this->Programacion_model->consultar_acc_centralizada5($data['id_programacion']);
+            $data['totalespartida'] = $this->Programacion_model->total_por_partidas($data['id_programacion']);
     
             $this->load->view('templates/header.php');
             $this->load->view('templates/navigator.php');
@@ -2678,7 +2765,7 @@ public function editar_item_servicio_py(){
             $this->load->view('templates/navigator.php');
             $this->load->view('programacion/bien/agregar_itm_acc.php', $data);
             $this->load->view('templates/footer.php');
-        }
+            }
                     elseif ($id_obj_comercial == '3') {
                         //OBRA
                         $data['part_pres'] = $this->Programacion_model->consulta_part_pres();
@@ -2760,6 +2847,8 @@ public function guardar_rendi_servicio_acc() {
         'iii' => $this->input->POST('tercero_b'),
         'iv' => $this->input->POST('cuarto_b'),
         'cant_total_distribuir' => 0,
+        'costo_unitario' => $this->input->POST('precio_total_mod_b'),
+       
         'precio_total' => $this->input->POST('precio_total_mod_b'),
         'alicuota_iva' => $this->input->POST('ali_iva_e_b'),
         'iva_estimado' => $this->input->POST('iva_estimado_mod_b'),
@@ -2769,6 +2858,8 @@ public function guardar_rendi_servicio_acc() {
         'est_trim_3' => $this->input->POST('estimado_iii'),
         'est_trim_4' => $this->input->POST('estimado_iV'),
         'estimado_total_t_acc' => $this->input->POST('estimado_total_t'),
+
+        'cantidad_ejecu' => $this->input->POST('cantidad0'),
         'costo_unitario_rend_ejecu' => $this->input->POST('precio_rend_ejecu'),
         'precio_rend_ejecu' => $this->input->POST('precio_rend_ejecu'),
         'selc_iva_rendi' => $this->input->POST('selc_iva_rendi'),
@@ -2777,7 +2868,11 @@ public function guardar_rendi_servicio_acc() {
         'paridad_rendi' => $this->input->POST('paridad_rendi'),
         'subtotal_rendi' => $this->input->POST('subtotal_rendi'),
         'id_modalida_rendi' => $this->input->POST('modalida_rendi'),
+        'supuestos_procedimiento' => $this->input->POST('id_sub_modalidad0'),
+        
         'sel_rif_nombre' => $this->input->POST('sel_rif_nombre'),
+        'nombre_contratista' => $this->input->POST('nombre_conta_0'),
+
         'num_contrato' => $this->input->POST('num_contrato'),
         'fecha_contrato' => $this->input->POST('fecha_contrato'),
         'selc_tipo_doc_contrata' => $this->input->POST('selc_tipo_doc_contrata'),
@@ -2799,6 +2894,11 @@ public function guardar_rendi_servicio_acc() {
         'fecha30dias_notificacion' => date("Y-m-d"),
         'trimestre' => $this->input->POST('llenar_trimestre'),
         'snc' => 0,
+       // 'id_tipo_pago' => $this->input->POST('id_tipo_pago0'),//cuando sea 1 no guardar el rif de contratista, cuando sea 2 guardar razon social en 
+        'facturacion5' => $this->input->POST('facturacion0'),
+        'razon_social_no_rnc' => $this->input->POST('razon_social50'),
+        'rif_contr_no_rnc' => $this->input->POST('rif_50'),
+
     );
     $id_p_itemss = array(
               'estatus_rendi' 	=> $this->input->POST('llenar_trimestre'),//trimestre que rindio     
@@ -2844,6 +2944,8 @@ public function guardar_rendi_obra_acc() {
         'iii' => $this->input->POST('tercero_b3'),
         'iv' => $this->input->POST('cuarto_b3'),
         'cant_total_distribuir' => 0,
+        'costo_unitario' => $this->input->POST('precio_total_mod_b3'),
+
         'precio_total' => $this->input->POST('precio_total_mod_b3'),
         'alicuota_iva' => $this->input->POST('ali_iva_e_b3'),
         'iva_estimado' => $this->input->POST('iva_estimado_mod_b3'),
@@ -2853,6 +2955,8 @@ public function guardar_rendi_obra_acc() {
         'est_trim_3' => $this->input->POST('estimado_iii3'),
         'est_trim_4' => $this->input->POST('estimado_iV3'),
         'estimado_total_t_acc' => $this->input->POST('estimado_total_t3'),
+        'cantidad_ejecu' => $this->input->POST('cantidad3'),
+
         'costo_unitario_rend_ejecu' => $this->input->POST('precio_rend_ejecu3'),
         'precio_rend_ejecu' => $this->input->POST('precio_rend_ejecu3'),
         'selc_iva_rendi' => $this->input->POST('selc_iva_rendi3'),
@@ -2861,7 +2965,11 @@ public function guardar_rendi_obra_acc() {
         'paridad_rendi' => $this->input->POST('paridad_rendi3'),
         'subtotal_rendi' => $this->input->POST('subtotal_rendi3'),
         'id_modalida_rendi' => $this->input->POST('modalida_rendi3'),
+        'supuestos_procedimiento' => $this->input->POST('id_sub_modalidad3'),
+
         'sel_rif_nombre' => $this->input->POST('sel_rif_nombre3'),
+        'nombre_contratista' => $this->input->POST('nombre_conta_3'),
+
         'num_contrato' => $this->input->POST('num_contrato3'),
         'fecha_contrato' => $this->input->POST('fecha_contrato3'),
         'selc_tipo_doc_contrata' => $this->input->POST('selc_tipo_doc_contrata3'),
@@ -2883,6 +2991,11 @@ public function guardar_rendi_obra_acc() {
         'fecha30dias_notificacion' => date("Y-m-d"),
         'trimestre' => $this->input->POST('llenar_trimestre3'),
         'snc' => 0,
+        //'id_tipo_pago' => $this->input->POST('id_tipo_pago3'),//cuando sea 1 no guardar el rif de contratista, cuando sea 2 guardar razon social en 
+        'facturacion5' => $this->input->POST('facturacion3'),
+        'razon_social_no_rnc' => $this->input->POST('razon_social3'),
+        'rif_contr_no_rnc' => $this->input->POST('rif_3'),
+
     );
     $id_p_itemss = array(
               'estatus_rendi' 	=> $this->input->POST('llenar_trimestre3'),//trimestre que rindio     
@@ -2939,6 +3052,7 @@ public function guardar_rendi_bienes_acc() {
         'est_trim_3' => $this->input->POST('estimado_iii5'),
         'est_trim_4' => $this->input->POST('estimado_iV5'),
         'estimado_total_t_acc' => $this->input->POST('estimado_total_t5'),
+        'cantidad_ejecu' => $this->input->POST('cantidad_rendi5'),
 
         'costo_unitario_rend_ejecu' => $this->input->POST('costo_unitario_remd'),
         'precio_rend_ejecu' => $this->input->POST('subt_rend_ejecu'),
@@ -2948,7 +3062,11 @@ public function guardar_rendi_bienes_acc() {
         'paridad_rendi' => $this->input->POST('paridad_rendi5'),
         'subtotal_rendi' => $this->input->POST('subtotal_rendi5'),
         'id_modalida_rendi' => $this->input->POST('modalida_rendi5'),
+        'supuestos_procedimiento' => $this->input->POST('id_sub_modalidad5'),
+
         'sel_rif_nombre' => $this->input->POST('sel_rif_nombre5'),
+        'nombre_contratista' => $this->input->POST('nombre_conta_5'),
+
         'num_contrato' => $this->input->POST('num_contrato5'),
         'fecha_contrato' => $this->input->POST('fecha_contrato5'),
         'selc_tipo_doc_contrata' => $this->input->POST('selc_tipo_doc_contrata5'),
@@ -2969,7 +3087,12 @@ public function guardar_rendi_bienes_acc() {
         'id_usuario' => $this->session->userdata('id_user'),
         'fecha30dias_notificacion' => date("Y-m-d"),
         'trimestre' => $this->input->POST('llenar_trimestre5'),
+        'razon_social_no_rnc' => $this->input->POST('razon_social'),
+        'rif_contr_no_rnc' => $this->input->POST('rif_55'),
         'snc' => 0,
+        'id_tipo_pago' => $this->input->POST('id_tipo_pago'),//cuando sea 1 no guardar el rif de contratista, cuando sea 2 guardar razon social en 
+        'facturacion5' => $this->input->POST('facturacion5'),
+
     );
     $id_p_itemss = array(
               'estatus_rendi' 	=> $this->input->POST('llenar_trimestre5'),//trimestre que rindio     
@@ -3084,8 +3207,8 @@ public function Guardar_mas_item_py_servicio() {
         
         $id_programacion = $this->input->POST('id_programacion');
         $separar                 = explode("/", $id_programacion);
-        $id_programacion        = $separar['0'];
-        $id_programacion2   = $separar['1'];
+        $id_programacion0        = $separar['0'];//
+        $id_programacion2   = $separar['1'];//este
 
         $id_programacion3 = $this->input->post("id_programacion2");//id_programacion     
         
@@ -3150,6 +3273,9 @@ public function Guardar_mas_item_py_servicio() {
         'est_trim_4' 		 => $this->input->post('estimado_iV'),
         'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t'),
         'estatus_rendi' => 0,//estatus inical del id_items
+        'id_proyecto' 		 => $this->input->post('id_proyectoii'),//para calcular total de partida pp
+
+        
 
       
 
@@ -3245,6 +3371,8 @@ public function Guardar_mas_item_py_obras() {
         'est_trim_4' 		 => $this->input->post('estimado_iV'),
         'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t'),
         'estatus_rendi' => 0,//estatus inical del id_items
+        'id_proyecto' 		 => $this->input->post('id_proyectoii'),//para calcular total de partida pp
+
 
       
 
@@ -3275,6 +3403,13 @@ public function reprogramar_fila_acc_obra(){
     if(!$this->session->userdata('session'))redirect('login');
     $data = $this->input->post();
     $data =	$this->Programacion_model->reprogramar_fila_acc_obra($data);
+    echo json_encode($data);
+}
+//////////reprogramar servicio items esta reprograma una accion centralizada de un 
+public function reprogramar_fila_acc_serv(){
+    if(!$this->session->userdata('session'))redirect('login');
+    $data = $this->input->post();
+    $data =	$this->Programacion_model->reprogramar_fila_acc_serv($data);
     echo json_encode($data);
 }
 
@@ -3449,6 +3584,12 @@ public function reprogramar_fila_acc_obra(){
         'est_trim_3' 		 => $this->input->post('estimado_iii'),
         'est_trim_4' 		 => $this->input->post('estimado_iV'),
         'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t'),
+        'id_proyecto' 		 => $this->input->post('id_programacion3'),
+        'observaciones' 		 => $this->input->post('observaciones'),
+
+        
+
+
       
 
     );
@@ -3638,6 +3779,9 @@ public function Guardar_reprogramacion_item_bienes_py() {
         'est_trim_3' 		 => $this->input->post('estimado_iii_acc'),
         'est_trim_4' 		 => $this->input->post('estimado_iV_acc'),
         'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t_acc'),
+        'id_proyecto' 		 => $this->input->post('id_programacion3'),
+
+        
       
 
     );
@@ -3745,6 +3889,8 @@ public function Repro_modal_py_servicios(){
         'est_trim_3' 		 => $this->input->post('estimado_iii'),
         'est_trim_4' 		 => $this->input->post('estimado_iV'),
         'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t'),
+        'id_proyecto' 		 => $this->input->post('id_programacion3'),
+
       
 
     );
@@ -3838,6 +3984,8 @@ public function Repro_modal_py_servicios(){
         'est_trim_3' 		 => $this->input->post('estimado_iii'),
         'est_trim_4' 		 => $this->input->post('estimado_iV'),
         'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t'),
+        'id_proyecto' 		 => $this->input->post('id_programacion3'),
+
       
 
     );
@@ -3901,6 +4049,7 @@ public function guardar_rendi_bienes_py() {
         'est_trim_3' => $this->input->POST('estimado_iii7'),
         'est_trim_4' => $this->input->POST('estimado_iV7'),
         'estimado_total_t_acc' => $this->input->POST('estimado_total_t7'),
+        'cantidad_ejecu' => $this->input->POST('cantidad_rendi7'),
 
         'costo_unitario_rend_ejecu' => $this->input->POST('costo_unitario_remd7'),
         'precio_rend_ejecu' => $this->input->POST('subt_rend_ejecu7'),
@@ -3910,7 +4059,11 @@ public function guardar_rendi_bienes_py() {
         'paridad_rendi' => $this->input->POST('paridad_rendi7'),
         'subtotal_rendi' => $this->input->POST('subtotal_rendi7'),
         'id_modalida_rendi' => $this->input->POST('modalida_rendi7'),
+        'supuestos_procedimiento' => $this->input->POST('id_sub_modalidad7'),
+
         'sel_rif_nombre' => $this->input->POST('sel_rif_nombre7'),
+        'nombre_contratista' => $this->input->POST('nombre_conta_7'),
+
         'num_contrato' => $this->input->POST('num_contrato7'),
         'fecha_contrato' => $this->input->POST('fecha_contrato7'),
         'selc_tipo_doc_contrata' => $this->input->POST('selc_tipo_doc_contrata7'),
@@ -3932,6 +4085,11 @@ public function guardar_rendi_bienes_py() {
         'fecha30dias_notificacion' => date("Y-m-d"),
         'trimestre' => $this->input->POST('llenar_trimestre7'),
         'snc' => 0,
+        'razon_social_no_rnc' => $this->input->POST('razon_social7'),
+        'rif_contr_no_rnc' => $this->input->POST('rif_7'),
+        'facturacion5' => $this->input->POST('facturacion7'),
+
+
     );
     $id_p_itemss = array(
               'estatus_rendi' 	=> $this->input->POST('llenar_trimestre7'),//trimestre que rindio     
@@ -4116,6 +4274,7 @@ public function ver_rendicion_realizadas(){ //////////visualiza las rendiciones 
     $data['codigo_onapre'] = $this->session->userdata('codigo_onapre');
 
     $data['id_programacion'] = $this->input->get('id');
+    
     $data['programacion_anio'] = $this->Programacion_model->consultar_prog_anio($data['id_programacion'], $data['unidad']);
     $data['anio'] = $data['programacion_anio']['anio'];
 
@@ -4124,19 +4283,735 @@ public function ver_rendicion_realizadas(){ //////////visualiza las rendiciones 
     $data['rendir'] = $this->Programacion_model->rendir($data['id_programacion']);
 
     $this->load->view('templates/header.php');
-        $this->load->view('templates/navigator.php');
+    $this->load->view('templates/navigator.php');
     $this->load->view('programacion/rendicion/reporte1.php', $data);
     $this->load->view('templates/footer.php');
 }
+public function ver_programacion_final(){ //////////visualiza la programacion realizada
+    if(!$this->session->userdata('session'))redirect('login');
 
-public function empList(){
-     
-    // POST data
-    $postData = $this->input->post();
+    $data['unidad'] = $this->session->userdata('id_unidad');
+    $data['des_unidad'] = $this->session->userdata('unidad');
+    $data['rif'] = $this->session->userdata('rif');
+    $data['codigo_onapre'] = $this->session->userdata('codigo_onapre');
 
-    // Get data
-    $data = $this->Programacion_model->getEmployees($postData);
+    $data['id_programacion'] = $this->input->get('id');
+    $data['programacion_anio'] = $this->Programacion_model->consultar_prog_anio($data['id_programacion'], $data['unidad']);
+    $data['anio'] = $data['programacion_anio']['anio'];
 
+ 
+
+    $data['programacion_final'] = $this->Programacion_model->Consultar_programacion_final($data['id_programacion']);
+
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('programacion/reportess/reporter_programacion.php', $data);
+    $this->load->view('templates/footer.php');
+}
+
+public function reporte_plan(){
+    if(!$this->session->userdata('session'))redirect('login');
+    //Información traido por el session de usuario para mostrar inf
+    $data['unidad'] = $this->session->userdata('id_unidad');
+    $data['des_unidad'] = $this->session->userdata('unidad');
+    $data['rif'] = $this->session->userdata('rif');
+    $data['codigo_onapre'] = $this->session->userdata('codigo_onapre');
+    $unidad = $this->session->userdata('id_unidad');
+    $data['id_programacion'] = $this->input->get('id');
+
+    $data['programacion_anio'] = $this->Programacion_model->consultar_prog_anio($data['id_programacion'], $unidad);
+    $data['anio'] = $data['programacion_anio']['anio'];
+
+    //Traer todo los proyectos y acc registradas por el id_programación de cada unidad
+    $data['ver_proyectos'] = $this->Programacion_model->consultar_proyectos($data['id_programacion']);
+    $data['ver_acc_centralizada'] = $this->Programacion_model->consultar_item_modal_bienes($data['id_programacion']);
+    $data['totalespartida'] = $this->Programacion_model->total_por_partidas($data['id_programacion']);
+
+
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('programacion/nueva_prog.php', $data);
+    $this->load->view('templates/footer.php');
+}
+public function consultar_item_rendir2(){
+    if(!$this->session->userdata('session'))redirect('login');
+    //Información traido por el session de usuario para mostrar inf
+    $data['unidad'] = $this->session->userdata('id_unidad');
+    $data['des_unidad'] = $this->session->userdata('unidad');
+    $data['rif'] = $this->session->userdata('rif');
+    $data['codigo_onapre'] = $this->session->userdata('codigo_onapre');
+    $unidad = $this->session->userdata('id_unidad');
+    $data['id_programacion'] = $this->input->get('id');
+
+    $data['programacion_anio'] = $this->Programacion_model->consultar_prog_anio($data['id_programacion'], $unidad);
+    $data['anio'] = $data['programacion_anio']['anio'];
+    $data['totalespartidas'] = $this->Programacion_model->total_por_partidas($data['id_programacion']);
+    
+
+    //Traer todo los proyectos y acc registradas por el id_programación de cada unidad
+    $data['ver_proyectos'] = $this->Programacion_model->consultar_proyectos555($data['id_programacion']);
+    $data['ver_acc_centralizada'] = $this->Programacion_model->consultar_acc_centralizada5($data['id_programacion']);
+    $data['totalespartidattt'] = $this->Programacion_model->total_por_partidas_primero($data['id_programacion']);
+    //$data['mat'] = $this->Programacion_model->consulta_items($data['id_programacion']);
+
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('programacion/rendicion/rendie2.php', $data);
+    $this->load->view('templates/footer.php');
+}
+
+public function consultar_item_rendir_primero(){
+    if(!$this->session->userdata('session'))redirect('login');
+    //Información traido por el session de usuario para mostrar inf
+    $data['unidad'] = $this->session->userdata('id_unidad');
+    $data['des_unidad'] = $this->session->userdata('unidad');
+    $data['rif'] = $this->session->userdata('rif');
+    $data['codigo_onapre'] = $this->session->userdata('codigo_onapre');
+    $unidad = $this->session->userdata('id_unidad');
+    $data['id_programacion'] = $this->input->get('id');
+    
+   
+    
+
+    $data['programacion_anio'] = $this->Programacion_model->consultar_prog_anio($data['id_programacion'], $unidad);
+    $data['anio'] = $data['programacion_anio']['anio'];
+
+    //Traer todo los proyectos y acc registradas por el id_programación de cada unidad
+    $data['ver_proyectos'] = $this->Programacion_model->consultar_proyectos_primero($data['id_programacion']);
+    $data['ver_acc_centralizada'] = $this->Programacion_model->consultar_acc_centralizada_pimertimetre1($data['id_programacion']);
+    $data['totalespartida'] = $this->Programacion_model->total_por_partidas($data['id_programacion']);
+    $data['mat'] = $this->Programacion_model->consulta_items($data['id_programacion']);
+
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('programacion/rendicion/rendir_primero.php', $data);
+    $this->load->view('templates/footer.php');
+}
+public function listar_info(){
+    if(!$this->session->userdata('session'))redirect('login');
+    $data = $this->input->post();
+    $data = $this->Programacion_model->listar_info($data);
     echo json_encode($data);
- }
+}
+
+public function certi_progra(){
+    if(!$this->session->userdata('session'))redirect('login');
+    //Información traido por el session de usuario para mostrar inf
+    $data['unidad'] = $this->session->userdata('id_unidad');
+    $data['des_unidad'] = $this->session->userdata('unidad');
+    $data['rif'] = $this->session->userdata('rif');
+    $data['codigo_onapre'] = $this->session->userdata('codigo_onapre');
+    $unidad = $this->session->userdata('id_unidad');
+    $data['id_programacion'] = $this->input->get('id');
+    $id_programacion=$this->input->get('id');
+    $data['programacion_anio'] = $this->Programacion_model->consultar_prog_anio($data['id_programacion'], $unidad);
+    $data['anio'] = $data['programacion_anio']['anio'];
+
+    //Traer todo los proyectos y acc registradas por el id_programación de cada unidad
+    $data['ver_proyectos'] = $this->Programacion_model->consultar_proyectos($data['id_programacion']);
+    $data['ver_acc_centralizada'] = $this->Programacion_model->consultar_acc_todo($data['id_programacion']);
+    $data['totalespartida'] = $this->Programacion_model->total_por_partidas($data['id_programacion']);
+    
+    $data['totales'] = $this->Programacion_model->consultar_acc_todo1($data['id_programacion']);
+    $data['toal_objeto'] = $this->Programacion_model->consulta_total_objeto_acc2($id_programacion);
+    $data['toal_objeto1'] = $this->Programacion_model->consulta_total_objeto_acc2($id_programacion);
+    $data['toal_objeto2'] = $this->Programacion_model->consulta_total_objeto_acc2($id_programacion);
+
+
+    $data['total_acc']  = $this->Programacion_model->consulta_total_acc($id_programacion);
+    $data['sueldo'] =0;
+    $data['proyecto'] =0;
+
+    $data['total_py1'] = $this->Programacion_model->consulta_total_objeto_py1($id_programacion);
+
+
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('programacion/cer_pro/cer_prog.php', $data);
+    $this->load->view('templates/footer.php');
+}
+
+public function comprobante_programacion() //hacer un pdf de comprobante programacion final
+ {
+  //  $data['ver_programaciones'] = $this->Programacion_model->consultar_reprogramacion($unidad);
+   //Se agrega la clase desde thirdparty para usar FPDF
+   require_once APPPATH.'third_party/fpdf/fpdf.php';
+ //  $unidad
+   
+   $pdf = new FPDF();
+   $pdf->AliasNbPages();
+   $pdf->AddPage('P','A4',0);
+   $pdf->SetMargins(8,8,8,8);
+   $pdf->SetFont('Arial','B',12);
+   //$pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');            
+   //$pdf->Image(base_url().'imagenes/logosnc.png',10,6,50);
+   $pdf->Ln(10);
+   
+   $pdf->Cell(195,5,'COMPROBANTE DE CUMPLIMIENTO',0,1,'C');
+   $pdf->Cell(195,5,'ARTICULO 38 NUMERAL 1 del',0,1,'C'); 
+   $pdf->Cell(195,5,'Decreto con Rango Valor y Fuerza de Ley de Contrataciones Publicas ',0,1,'C');
+   $pdf->Cell(195,5,'(DCRVFLCP)',0,1,'C');
+
+   $pdf->SetFont('Arial','I',8);
+
+   $pdf->Cell(350,4,'Pagina '.$pdf->PageNo().'/{nb}',0,1,'C');
+   $pdf->SetFont('Arial','B',12);
+   $da = $this->session->userdata('rif');
+   $des_unidad= $this->session->userdata('unidad');
+   $pdf->Cell(195,3,'____________________________________________________________________________',0,1,'C');
+   $pdf->Cell(60,5,'Organo / Ente / Adscrito:',0,'C');
+   $pdf->MultiCell(100,5, utf8_decode($des_unidad), 0, 'L');
+   $pdf->Cell(60,5,'Rif:',0,'L');
+   $pdf->MultiCell(100,5, utf8_decode($da), 0, 'L');
+   $codigo_onapre = $this->session->userdata('codigo_onapre');
+   $pdf->Cell(60,5,utf8_decode('Código ONAPRE:'),0,'L');
+   $pdf->MultiCell(100,5, utf8_decode($codigo_onapre), 0, 'L');
+   $pdf->Cell(60,5,utf8_decode('Ejercicio Fiscal:'),0,'L');
+   $pdf->MultiCell(100,5, '2023', 0, 'L');
+   $pdf->Cell(60,5,utf8_decode('Fecha de Registro:'),0,'L');
+   $pdf->MultiCell(100,5, 'fecha', 0, 'L');
+   $pdf->Ln(5);
+   $pdf->SetFont('Arial','',12);
+
+   $pdf->MultiCell(200,5, utf8_decode('El Servicio Nacional de Contrataciones (SNC), hace de su conocimiento que fue recibida la
+   Modificación de la Programación Anual correspondiente al Ejercicio Fiscal 2023, de
+   conformidad a lo establecido en el Articulo 38, numeral 2 del DCRVFLCP.'), 0, 'L');
+   $pdf->Ln(1);
+   $pdf->SetFont('Arial','B',10);
+
+   $pdf->Cell(90,10,'',0,'L');
+   $pdf->MultiCell(200,5, utf8_decode('    Información de la Programación y de las Contrataciones'), 0, 'L');
+   $pdf->Cell(20,10,'',0,'L');
+
+   $pdf->MultiCell(200,5, utf8_decode('    
+    Artículo 38. Los contratantes sujetos al presente Decreto con Rango, Valor y Fuerza de Ley, están
+    en la obligación de remitir al Servicio Nacional de Contrataciones:
+   '), 0, 'L');
+   $pdf->Cell(50,10,'',0,'L');
+
+   $pdf->MultiCell(200,5, utf8_decode(' . . . Omissis'), 0, 'L');
+   $pdf->Cell(20,10,'',0,'L');
+   $pdf->MultiCell(200,5, utf8_decode('2. Cualquier modificación a la programación de la adquisición de bienes, prestación de
+   servicios y ejecución de obras, deberá ser notificada al Servicio Nacional de Contrataciones
+   dentro de los quince días siguientes, contados a partir de la aprobación de la misma.
+   '), 0, 'L');
+   $pdf->Cell(50,5,'ACTIVIDAD',0,0,'C'); 
+   $pdf->Cell(80,5, utf8_decode('ACCIÒN CENTRALIZADA. Bs.'),0,0,'C');      
+   $pdf->Cell(35,5,'% ',0,1,'C'); 
+ 
+
+
+   $id_programacion = $this->input->get('id');
+   
+   $data = $this->Programacion_model->consulta_total_objeto_acc($id_programacion);
+   if($data != ''){
+    foreach($data as $d){    
+        $pdf->SetFont('Arial','',10);
+        
+       $pdf->Cell(60,5, $d->desc_objeto_contrata,0,0,'C');
+       $pdf->Cell(40,5, number_format($d->precio_total, 2, ",", "."),0,0,'R');
+ 
+       $id_programacion = $this->input->get('id');
+       $data3 = $this->Programacion_model->consulta_total_acc($id_programacion);
+       foreach($data3 as $d3){                
+           $pdf->SetFont('Arial','',10);
+             $ds = $d->precio_total / $d3->precio_total * 100;
+          $pdf->Cell(90,5, number_format($ds, 2, ",", "."),0,1,'C');
+         }
+     } 
+   }
+    
+    $id_programacion = $this->input->get('id');
+    $data3 = $this->Programacion_model->consulta_total_acc($id_programacion);
+    if($data3 != ''){
+        foreach($data3 as $d3){                
+            $pdf->SetFont('Arial','B',12);
+         
+            $pdf->Cell(175,10, number_format($d3->precio_total, 2, ",", "."),0,1,'C');
+           
+        }
+    }
+     
+     $pdf->SetFont('Arial','B',12);
+     $pdf->Cell(50,5,'ACTIVIDAD',0,0,'C'); 
+     $pdf->Cell(80,5,'PROYECTO Bs. ',0,0,'C'); 
+     $pdf->Cell(35,5,'% ',0,1,'C');
+
+    $data4 = $this->Programacion_model->consulta_total_objeto_py($id_programacion);
+        if($data4 != ''){
+            foreach($data4 as $d4){    
+            $pdf->SetFont('Arial','',10);
+            
+            $pdf->Cell(50,5, $d4->desc_objeto_contrata,0,0,'C');
+            $pdf->Cell(48,5, number_format($d4->precio_total, 2, ",", "."),0,0,'R');
+            $id_programacion = $this->input->get('id');
+            
+            $id_programacion = $this->input->get('id');
+            $data5 = $this->Programacion_model->consulta_total_PYT($id_programacion);
+                if($data5 != ''){
+                    foreach($data5 as $d5){                
+                        $pdf->SetFont('Arial','B',12);
+                        $dq = $d4->precio_total / $d5->precio_total_py * 100;
+                        
+                        $pdf->Cell(95,5, number_format($dq, 2, ",", "."),0,1,'C');
+                    }
+                }
+        }
+     }
+        
+    $id_programacion = $this->input->get('id');
+    
+    $data5 = $this->Programacion_model->consulta_total_PYT($id_programacion);   
+        if($data5 != ''){ 
+            foreach($data5 as $d5){ 
+            $pdf->SetFont('Arial','B',12);
+            $pdf->Cell(175,10, number_format($d5->precio_total_py, 2, ",", "."),0,1,'C');
+        }}          
+       
+   
+        $pdf->SetFont('Arial','I',8);
+    $pdf->Ln(2);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(60,5,utf8_decode(''),0,0,'C'); 
+
+    $pdf->MultiCell(200,5, utf8_decode('ANTHONI CAMILO TORRES
+    Director General'), 0);      
+    $pdf->Cell(50,5,utf8_decode(''),0,0,'C'); 
+    $pdf->SetFont('Arial','B',8);
+
+    $pdf->MultiCell(200,5, utf8_decode('Resolución CCP/ DGCJ Nº 001/2014 del 07 de Enero'), 0);
+    $pdf->Cell(50,5,utf8_decode(''),0,0,'C'); 
+   
+    $pdf->MultiCell(200,5, utf8_decode('de 2014, publicada en Gaceta Oficial de la República'), 0);
+    $pdf->Cell(40,5,utf8_decode(''),0,0,'C'); 
+
+    $pdf->MultiCell(200,5, utf8_decode('Bolivariana de Venezuela N° 40.334 de fecha 15 de Enero de 2014'), 0);
+    
+  
+    
+                          
+      $pdf->Ln(10);
+     $curdate = date('d-m-Y H:i:s');
+                           $pdf->SetFont('Arial','B',10);
+                           $pdf->Cell(100,5,utf8_decode(''),0,0,'C'); 
+
+                           $pdf->Cell(60,10,utf8_decode('Fecha de Emisión:'),0,0,'C'); 
+                           $pdf->Cell(30,10, $curdate,0,1,'C');
+                           $pdf->Cell(40,5,utf8_decode(''),0,0,'C'); 
+                           $pdf->SetFont('Arial','',6);
+                           $pdf->MultiCell(200,5, utf8_decode('Av. Lecuna, Parque Central, Torre Oeste, Piso 6, Caracas, Venezuela / Telf. (0212) 508.55.14 / 55.15 RIF. G-20002451-81/3'), 0);
+                           
+                          
+                           $pdf->SetX(-15);
+                          // Arial italic 8
+                          $pdf->SetFont('Arial','I',8);
+                          // Número de página
+                          $pdf->Cell(0,10,'Pagina '.$pdf->PageNo().'/{nb}',0,0,'C');
+      
+     // $pdf->Ln(10);
+    
+    
+     
+      $pdf->Output('Comprobanteproyecto '.$curdate.'.pdf', 'D');
+     // $this->load->view('headfoot/header', $datos);
+}
+public function Llamado_1() //hacer un pdf de comprobante programacion final
+ {
+   require_once APPPATH.'third_party/fpdf/fpdf.php';
+
+    //  $data['ver_programaciones'] = $this->Programacion_model->consultar_reprogramacion($unidad);
+   //Se agrega la clase desde thirdparty para usar FPDF
+   $pdf = new FPDF();
+   $pdf->AliasNbPages();
+   $pdf->AddPage('P','A4',0);
+   $pdf->SetMargins(8,8,8,8);
+   $pdf->SetFont('Arial','B',12);
+   //$pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');            
+   //$pdf->Image(base_url().'imagenes/logosnc.png',10,6,50);
+   $pdf->Ln(10);
+   
+   $pdf->Cell(195,5,'COMPROBANTE DE CUMPLIMIENTO',0,1,'C');
+   $pdf->Cell(195,5,'ARTÍCULO 38 NUMERAL 2 del',0,1,'C'); 
+   $pdf->Cell(195,5,'Decreto con Rango Valor y Fuerza de Ley de Contrataciones Publicas ',0,1,'C');
+   $pdf->Cell(195,5,'(DCRVFLCP)',0,1,'C');
+
+  // $pdf->Image(base_url().'imagenes/logosnc.png',140,6,50);
+   $pdf->SetFont('Arial','I',8);
+
+   $pdf->Cell(350,4,'Pagina '.$pdf->PageNo().'/{nb}',0,1,'C');
+   $pdf->SetFont('Arial','B',12);
+   $da = $this->session->userdata('rif');
+   $des_unidad= $this->session->userdata('unidad');
+   $pdf->Cell(195,3,'____________________________________________________________________________',0,1,'C');
+   $pdf->Cell(60,5,'Organo / Ente / Adscrito:',0,'C');
+   $pdf->MultiCell(100,5, utf8_decode($des_unidad), 0, 'L');
+   $pdf->Cell(60,5,'Rif:',0,'L');
+   $pdf->MultiCell(100,5, utf8_decode($da), 0, 'L');
+   $codigo_onapre = $this->session->userdata('codigo_onapre');
+   $pdf->Cell(60,5,utf8_decode('Código ONAPRE:'),0,'L');
+   $pdf->MultiCell(100,5, utf8_decode($codigo_onapre), 0, 'L');
+   $pdf->Cell(60,5,utf8_decode('Ejercicio Fiscal:'),0,'L');
+   $pdf->MultiCell(100,5, '2023', 0, 'L');
+   $pdf->Cell(60,5,utf8_decode('Fecha de Registro:'),0,'L');
+   $pdf->MultiCell(100,5, 'fecha', 0, 'L');
+   $pdf->Ln(5);
+   $pdf->SetFont('Arial','',12);
+
+   $pdf->MultiCell(200,5, utf8_decode('El Servicio Nacional de Contrataciones (SNC), hace de su conocimiento que fue recibida la
+   Modificación de la Programación Anual correspondiente al Ejercicio Fiscal 2023, de
+   conformidad a lo establecido en el Articulo 38, numeral 2 del DCRVFLCP.'), 0, 'L');
+   $pdf->Ln(1);
+   $pdf->SetFont('Arial','B',10);
+
+   $pdf->Cell(90,10,'',0,'L');
+   $pdf->MultiCell(200,5, utf8_decode('    Información de la Programación y de las Contrataciones'), 0, 'L');
+   $pdf->Cell(20,10,'',0,'L');
+
+   $pdf->MultiCell(200,5, utf8_decode('    
+   Artículo 38. Los contratantes sujetos al presente Decreto con Rango, Valor y Fuerza de Ley, están
+   en la obligación de remitir al Servicio Nacional de Contrataciones:
+   '), 0, 'L');
+   $pdf->Cell(50,10,'',0,'L');
+
+   $pdf->MultiCell(200,5, utf8_decode(' . . . Omissis'), 0, 'L');
+   $pdf->Cell(20,10,'',0,'L');
+   $pdf->MultiCell(200,5, utf8_decode('2. Cualquier modificación a la programación de la adquisición de bienes, prestación de
+   servicios y ejecución de obras, deberá ser notificada al Servicio Nacional de Contrataciones
+   dentro de los quince días siguientes, contados a partir de la aprobación de la misma.
+   '), 0, 'L');
+   $pdf->Cell(50,5,'ACTIVIDAD',0,0,'C'); 
+   $pdf->Cell(80,5, utf8_decode('ACCIÒN CENTRALIZADA. Bs.'),0,0,'C');      
+   $pdf->Cell(35,5,'% ',0,1,'C'); 
+ 
+
+
+   $id_programacion = $this->input->get('id');
+   $data = $this->Programacion_model->consulta_total_objeto_acc($id_programacion);
+   if($data != ''){
+    foreach($data as $d){    
+        $pdf->SetFont('Arial','',10);
+        
+       $pdf->Cell(60,5, $d->desc_objeto_contrata,0,0,'C');
+       $pdf->Cell(40,5, number_format($d->precio_total, 2, ",", "."),0,0,'R');
+ 
+       $id_programacion = $this->input->get('id');
+       $data3 = $this->Programacion_model->consulta_total_acc($id_programacion);
+       foreach($data3 as $d3){                
+           $pdf->SetFont('Arial','',10);
+             $ds = $d->precio_total / $d3->precio_total * 100;
+          $pdf->Cell(90,5, number_format($ds, 2, ",", "."),0,1,'C');
+         }
+      }
+   }
+   
+     
+
+     $id_programacion = $this->input->get('id');
+     $data3 = $this->Programacion_model->consulta_total_acc($id_programacion);
+     foreach($data3 as $d3){                
+        $pdf->SetFont('Arial','B',12);
+     
+        $pdf->Cell(175,10, number_format($d3->precio_total, 2, ",", "."),0,1,'C');
+       
+       }
+     $pdf->SetFont('Arial','B',12);
+     $pdf->Cell(50,5,'ACTIVIDAD',0,0,'C'); 
+     $pdf->Cell(80,5,'PROYECTO Bs. ',0,0,'C'); 
+     $pdf->Cell(35,5,'% ',0,1,'C');
+     $data4 = $this->Programacion_model->consulta_total_objeto_py($id_programacion);
+     if($data4 != ''){
+        foreach($data4 as $d4){    
+            $pdf->SetFont('Arial','',10);
+            
+            $pdf->Cell(50,5, $d4->desc_objeto_contrata,0,0,'C');
+            $pdf->Cell(48,5, number_format($d4->precio_total, 2, ",", "."),0,0,'R');
+            $id_programacion = $this->input->get('id');
+            
+            $id_programacion = $this->input->get('id');
+            $data5 = $this->Programacion_model->consulta_total_PYT($id_programacion);
+            foreach($data5 as $d5){                
+                $pdf->SetFont('Arial','B',12);
+                $dq = $d4->precio_total / $d5->precio_total_py * 100;
+                
+                $pdf->Cell(95,5, number_format($dq, 2, ",", "."),0,1,'C');
+            }
+        }
+     }
+        
+    $id_programacion = $this->input->get('id');
+    $data5 = $this->Programacion_model->consulta_total_PYT($id_programacion);
+    if($data5 != ''){
+        foreach($data5 as $d5){                
+            $pdf->SetFont('Arial','B',12);
+            $pdf->Cell(175,10, number_format($d5->precio_total_py, 2, ",", "."),0,1,'C');
+        }
+    }
+   
+    $pdf->SetFont('Arial','I',8);
+    $pdf->Ln(2);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(60,5,utf8_decode(''),0,0,'C'); 
+
+    $pdf->MultiCell(200,5, utf8_decode('ANTHONI CAMILO TORRES
+    Director General'), 0);      
+    $pdf->Cell(50,5,utf8_decode(''),0,0,'C'); 
+    $pdf->SetFont('Arial','B',8);
+
+    $pdf->MultiCell(200,5, utf8_decode('Resolución CCP/ DGCJ Nº 001/2014 del 07 de Enero'), 0);
+    $pdf->Cell(50,5,utf8_decode(''),0,0,'C'); 
+   
+    $pdf->MultiCell(200,5, utf8_decode('de 2014, publicada en Gaceta Oficial de la República'), 0);
+    $pdf->Cell(40,5,utf8_decode(''),0,0,'C'); 
+
+    $pdf->MultiCell(200,5, utf8_decode('Bolivariana de Venezuela N° 40.334 de fecha 15 de Enero de 2014'), 0);
+    
+  
+    
+                          
+      $pdf->Ln(10);
+     $curdate = date('d-m-Y H:i:s');
+                           $pdf->SetFont('Arial','B',10);
+                           $pdf->Cell(100,5,utf8_decode(''),0,0,'C'); 
+
+                           $pdf->Cell(60,10,utf8_decode('Fecha de Emisión:'),0,0,'C'); 
+                           $pdf->Cell(30,10, $curdate,0,1,'C');
+                           $pdf->Cell(40,5,utf8_decode(''),0,0,'C'); 
+                           $pdf->SetFont('Arial','',6);
+                           $pdf->MultiCell(200,5, utf8_decode('Av. Lecuna, Parque Central, Torre Oeste, Piso 6, Caracas, Venezuela / Telf. (0212) 508.55.14 / 55.15 RIF. G-20002451-81/3'), 0);
+                           
+                          
+                           $pdf->SetX(-15);
+                          // Arial italic 8
+                          $pdf->SetFont('Arial','I',8);
+                          // Número de página
+                          $pdf->Cell(0,10,'Pagina '.$pdf->PageNo().'/{nb}',0,0,'C');
+      
+     // $pdf->Ln(10);
+    
+      $pdf->Output('modifiacion_programacion '.$curdate.'.pdf', 'D');
+     // $this->load->view('headfoot/header', $datos);
+}
+public function comprobante_rendicion() //hacer un pdf de comprobante rendidicon final
+  { 
+   require_once APPPATH.'third_party/fpdf/fpdf.php';
+
+  //  $data['ver_programaciones'] = $this->Programacion_model->consultar_reprogramacion($unidad);
+   //Se agrega la clase desde thirdparty para usar FPDF
+   $pdf = new FPDF();
+   $pdf->AliasNbPages();
+   $pdf->AddPage('P','A4',0);
+   $pdf->SetMargins(8,8,8,8);
+   $pdf->SetFont('Arial','B',12);
+   //$pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');            
+   //$pdf->Image(base_url().'imagenes/logosnc.png',10,6,50);
+   $pdf->Ln(10);
+   
+   $pdf->Cell(195,5,'COMPROBANTE DE CUMPLIMIENTO',0,1,'C');
+   $pdf->Cell(195,5,'ARTÍCULO 38 NUMERAL 3',0,1,'C'); 
+   $pdf->Cell(195,5,'Decreto con Rango Valor y Fuerza de Ley de Contrataciones Publicas ',0,1,'C');
+   $pdf->Cell(195,5,'(DCRVFLCP)',0,1,'C');
+
+
+
+   
+  // $pdf->Image(base_url().'imagenes/logosnc.png',140,6,50);
+   $pdf->SetFont('Arial','I',8);
+
+   $pdf->Cell(350,4,'Pagina '.$pdf->PageNo().'/{nb}',0,1,'C');
+   $pdf->SetFont('Arial','B',12);
+   $da = $this->session->userdata('rif');
+   $des_unidad= $this->session->userdata('unidad');
+   $pdf->Cell(195,3,'____________________________________________________________________________',0,1,'C');
+   $pdf->Cell(60,5,'Organo / Ente / Adscrito:',0,'C');
+   $pdf->MultiCell(100,5, utf8_decode($des_unidad), 0, 'L');
+   $pdf->Cell(60,5,'Rif:',0,'L');
+   $pdf->MultiCell(100,5, utf8_decode($da), 0, 'L');
+   $codigo_onapre = $this->session->userdata('codigo_onapre');
+   $pdf->Cell(60,5,utf8_decode('Código ONAPRE:'),0,'L');
+   $pdf->MultiCell(100,5, utf8_decode($codigo_onapre), 0, 'L');
+   $pdf->Cell(60,5,utf8_decode('Ejercicio Fiscal:'),0,'L');
+   $pdf->MultiCell(100,5, '2023', 0, 'L');
+   $pdf->Cell(60,5,utf8_decode('Trimestre:'),0,'L');
+   $pdf->MultiCell(100,5, 'I', 0, 'L');
+   $pdf->Cell(60,5,utf8_decode('Fecha de Registro:'),0,'L');
+   $pdf->MultiCell(100,5, 'fecha', 0, 'L');
+   $pdf->Ln(5);
+   $pdf->SetFont('Arial','',12);
+
+   $pdf->MultiCell(200,5, utf8_decode('El Servicio Nacional de Contrataciones (SNC), hace de su conocimiento que fue recibida la carga
+   de la Rendición de la Programación Anual correspondiente al I Trimestre Ejercicio Fiscal 2023, de
+   conformidad a lo establecido en el Articulo 38, numeral 3 del Decreto con Rango, Valor y
+   Fuerza de Ley de Contrataciones Publicas, (DRVFLCP).'), 0, 'L');
+   $pdf->Ln(1);
+   $pdf->SetFont('Arial','B',10);
+
+   $pdf->Cell(90,10,'',0,'L');
+   $pdf->MultiCell(200,5, utf8_decode('    Información de la Programación y de las Contrataciones'), 0, 'L');
+   $pdf->Cell(20,10,'',0,'L');
+
+   $pdf->MultiCell(200,5, utf8_decode('    
+   Artículo 38. Los contratantes sujetos al presente Decreto con Rango, Valor y Fuerza de Ley, están
+   en la obligación de remitir al Servicio Nacional de Contrataciones:
+   '), 0, 'L');
+   $pdf->Cell(50,10,'',0,'L');
+
+   $pdf->MultiCell(200,5, utf8_decode(' . . . Omissis'), 0, 'L');
+   $pdf->Cell(20,10,'',0,'L');
+   $pdf->MultiCell(200,5, utf8_decode('3. Deberán rendir la información de las contrataciones realizadas en ejecución del presente
+   Decreto con Rango, Valor y Fuerza de Ley, dentro de los primeros quince días continuos
+   siguientes al vencimiento de cada trimestre.
+   '), 0, 'L');
+   $pdf->SetFont('Arial','',10);
+
+   $pdf->Cell(20,10,'',0,'L');
+   $pdf->MultiCell(200,5, utf8_decode('El Servicio Nacional de Contrataciones establecerá los mecanismos y parámetros para la rendición
+   de la información a que se refiere el presente artículo.
+   '), 0, 'L');
+   $pdf->SetFont('Arial','B',10);
+
+
+   $pdf->Cell(50,5,'ACTIVIDAD',0,0,'C'); 
+   $pdf->Cell(80,5, utf8_decode('ACCIÒN CENTRALIZADA. Bs.'),0,0,'C');      
+   $pdf->Cell(35,5,'% ',0,1,'C'); 
+ 
+
+
+   $id_programacion = $this->input->get('id');
+   $data = $this->Programacion_model->consulta_total_objeto_acc($id_programacion);
+   foreach($data as $d){    
+       $pdf->SetFont('Arial','',10);
+       
+      $pdf->Cell(60,5, $d->desc_objeto_contrata,0,0,'C');
+      $pdf->Cell(40,5, number_format($d->precio_total, 2, ",", "."),0,0,'R');
+
+      $id_programacion = $this->input->get('id');
+      $data3 = $this->Programacion_model->consulta_total_acc($id_programacion);
+      foreach($data3 as $d3){                
+          $pdf->SetFont('Arial','',10);
+            $ds = $d->precio_total / $d3->precio_total * 100;
+         $pdf->Cell(90,5, number_format($ds, 2, ",", "."),0,1,'C');
+        }
+     }
+     
+
+     $id_programacion = $this->input->get('id');
+     $data3 = $this->Programacion_model->consulta_total_acc($id_programacion);
+     foreach($data3 as $d3){                
+        $pdf->SetFont('Arial','B',12);
+     
+        $pdf->Cell(175,10, number_format($d3->precio_total, 2, ",", "."),0,1,'C');
+       
+       }
+     $pdf->SetFont('Arial','B',12);
+     $pdf->Cell(50,5,'ACTIVIDAD',0,0,'C'); 
+     $pdf->Cell(80,5,'PROYECTO Bs. ',0,0,'C'); 
+     $pdf->Cell(35,5,'% ',0,1,'C');
+     $data4 = $this->Programacion_model->consulta_total_objeto_py($id_programacion);
+        if($data4 != ''){
+            foreach($data4 as $d4){    
+                $pdf->SetFont('Arial','',10);
+                
+                $pdf->Cell(50,5, $d4->desc_objeto_contrata,0,0,'C');
+                $pdf->Cell(48,5, number_format($d4->precio_total, 2, ",", "."),0,0,'R');
+                $id_programacion = $this->input->get('id');
+                
+                $id_programacion = $this->input->get('id');
+                $data5 = $this->Programacion_model->consulta_total_PYT($id_programacion);
+                foreach($data5 as $d5){                
+                $pdf->SetFont('Arial','B',12);
+                $dq = $d4->precio_total / $d5->precio_total_py * 100;
+                
+                $pdf->Cell(95,5, number_format($dq, 2, ",", "."),0,1,'C');
+            }
+        }
+        
+    }
+   $id_programacion = $this->input->get('id');
+      $data5 = $this->Programacion_model->consulta_total_PYT($id_programacion);
+      if($data5 != ''){
+        foreach($data5 as $d5){                
+            $pdf->SetFont('Arial','B',12);
+            $pdf->Cell(175,10, number_format($d5->precio_total_py, 2, ",", "."),0,1,'C');
+        }
+      }
+
+    $pdf->SetFont('Arial','I',8);
+    $pdf->Ln(2);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(60,5,utf8_decode(''),0,0,'C'); 
+
+    $pdf->MultiCell(200,5, utf8_decode('ANTHONI CAMILO TORRES
+    Director General'), 0);      
+    $pdf->Cell(50,5,utf8_decode(''),0,0,'C'); 
+    $pdf->SetFont('Arial','B',8);
+
+    $pdf->MultiCell(200,5, utf8_decode('Resolución CCP/ DGCJ Nº 001/2014 del 07 de Enero'), 0);
+    $pdf->Cell(50,5,utf8_decode(''),0,0,'C'); 
+   
+    $pdf->MultiCell(200,5, utf8_decode('de 2014, publicada en Gaceta Oficial de la República'), 0);
+    $pdf->Cell(40,5,utf8_decode(''),0,0,'C'); 
+
+    $pdf->MultiCell(200,5, utf8_decode('Bolivariana de Venezuela N° 40.334 de fecha 15 de Enero de 2014'), 0);
+    
+  
+    
+                          
+      $pdf->Ln(10);
+     $curdate = date('d-m-Y H:i:s');
+                           $pdf->SetFont('Arial','B',10);
+                           $pdf->Cell(100,5,utf8_decode(''),0,0,'C'); 
+
+                           $pdf->Cell(60,10,utf8_decode('Fecha de Emisión:'),0,0,'C'); 
+                           $pdf->Cell(30,10, $curdate,0,1,'C');
+                           $pdf->Cell(40,5,utf8_decode(''),0,0,'C'); 
+                           $pdf->SetFont('Arial','',6);
+                           $pdf->MultiCell(200,5, utf8_decode('Av. Lecuna, Parque Central, Torre Oeste, Piso 6, Caracas, Venezuela / Telf. (0212) 508.55.14 / 55.15 RIF. G-20002451-81/3'), 0);
+                           
+                          
+                           $pdf->SetX(-15);
+                          // Arial italic 8
+                          $pdf->SetFont('Arial','I',8);
+                          // Número de página
+                          $pdf->Cell(0,10,'Pagina '.$pdf->PageNo().'/{nb}',0,0,'C');
+      
+     // $pdf->Ln(10);
+    
+      $pdf->Output('ewndicion_programacion '.$curdate.'.pdf', 'I');
+     // $this->load->view('headfoot/header', $datos);
+}
+
+public function guardar_comprobante_totales() {
+    if (!$this->session->userdata('session'))
+        redirect('login');
+        
+        $id_programacion = $this->input->POST('id_programacion');
+        $rif = $this->input->POST('rif');
+        
+        $data = array(
+
+   
+        'id_programacion' => $id_programacion, 
+        'rif'             => $rif,    
+        'objeto_acc' 	  => $this->input->post('objeto_acc'),
+        'totales_acc'     => $this->input->post('totales_acc'),
+        'porcentaje_acc'  => $this->input->post('porcentaje_acc'),
+        'total_acc' 	  => $this->input->post('total_acc'),
+
+        'precio_py' 	  => $this->input->post('precio_py'),
+        'porcenta_py' 	  => $this->input->post('porcenta_py'),
+        'total_py' 		  => $this->input->post('total_py'),
+
+        
+        'fecha1'=> date('Y-m-d'),
+        //'fecha_hasta'=> date('Y-m-d'),
+      
+
+
+
+      
+
+    );
+    $data = $this->Programacion_model->save_certificado($data);
+    echo json_encode($data);
+}
 }

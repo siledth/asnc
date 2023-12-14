@@ -38,7 +38,7 @@
                                     <tr class="text-center">
                                         <th>Código Part. Presupuestaria</th>
                                         <th>Partida Presupuestaria</th>
-                                        <th>Estado</th>
+                                       
                                         <th>Fuente de Financiamiento</th>
                                         <th>%</th>
                                     </tr>
@@ -48,7 +48,7 @@
                                         <tr class="odd gradeX" style="text-align:center">
                                             <td ><?=$inf_2['codigopartida_presupuestaria']?></td>
                                             <td><?=$inf_2['desc_partida_presupuestaria']?></td>
-                                            <td><?=$inf_2['id_estado']?></td>
+                                            
                                             <td><?=$inf_2['desc_fuente_financiamiento']?></td>
                                             <td><?=$inf_2['porcentaje']?></td>
                                         </tr>

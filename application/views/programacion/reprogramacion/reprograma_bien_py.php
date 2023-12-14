@@ -45,6 +45,8 @@
                     enctype="multipart/form-data">
                     <div class="panel-body">
                         <div class="row">
+                        <input type="hidden" id="id_programacion3" name="id_programacion3"
+                                value="<?=$id_programacion?>">
                             <input type="hidden" id="id_programacion" name="id_programacion"
                                 value="<?=$id_p_proyecto?>">
                             <div class="col-12 text-center">
