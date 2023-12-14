@@ -8,7 +8,7 @@ function agregar_ff(button) {
 function remove_ff() {
 	var row = this.parentNode.parentNode;
     document.querySelector('#target_ff tbody').removeChild(row);
-	$('#fuente_financiamiento').prop('selectedIndex',0);
+	$('#fuente_financiamiento1').prop('selectedIndex',0);
 	var par = $("#porcentaje").val('0');
 }
 
@@ -60,7 +60,7 @@ function agregar_ffToCartTable(cells){
 		document.querySelector('#target_ff tbody').appendChild(newRow);
 
 		var par = $("#porcentaje").val('');
-		$("#fuente_financiamiento").val($("#fuente_financiamiento").data("default-value"));
+		// $("#fuente_financiamiento").val($("#fuente_financiamiento").data("default-value"));
 
 	}
 }

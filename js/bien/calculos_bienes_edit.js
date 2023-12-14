@@ -1,7 +1,7 @@
 function buscar_ccnnu(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
     var ccnu_b = $('#ccnu_b').val();
-
-    //var base_url =window.location.origin+'/asnc/index.php/Programacion/llenar_selc_ccnu_m';
+//esto llena ccnu de cargar nuevos items bienes
+  //  var base_url =window.location.origin+'/asnc/index.php/Programacion/llenar_selc_ccnu_m';
     var base_url = '/index.php/Programacion/llenar_selc_ccnu_m';
     $.ajax({
         url:base_url,
@@ -176,4 +176,17 @@ $(document).ready(function(){
             });
         }
     });
+});
+
+$("#porcentaje_acc").on({
+    "focus": function (event) {
+        $(event.target).select();
+    },
+    "keyup": function (event) {
+        $(event.target).val(function (index, value ) {
+            return value.replace(/\D/g, "")
+                        .replace(/([0-9])([0-9]{2})$/, '$1,$2')
+                        .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+        });
+    }
 });

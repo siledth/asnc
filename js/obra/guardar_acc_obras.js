@@ -1,19 +1,20 @@
+/// MAS ITEMS Obra  accion centralizada
 
-/// bienes accion centralizada
-
-function guardar_acc_bien(){
+function guardar_acc_servicio(){
     var par_presupuestaria_acc = $("#par_presupuestaria_acc").val();
     var id_estado_acc = $("#id_estado_acc").val();
     var fuente_financiamiento_acc = $("#fuente_financiamiento_acc").val();
     var porcentaje_acc = $("#porcentaje_acc").val();
-    var id_ccnu_acc = $("#id_ccnu_acc").val();
+    var id_tip_obra = $("#id_tip_obra").val();
+    var id_alcance_obra = $("#id_alcance_obra").val();
+    var id_alcance_obra = $("#id_alcance_obra").val();
     var especificacion_acc = $("#especificacion_acc").val();
     var id_unidad_medida_acc = $("#id_unidad_medida_acc").val();
-    var cantidad_acc = $("#cantidad_acc").val();
-    var I_acc = $("#I_acc").val();
-    var II_acc = $("#II_acc").val();
-    var III_acc = $("#III_acc").val();
-    var IV_acc = $("#IV_acc").val();
+    var cantidad_acc = $("#cant_total_distribuir").val();
+    var I = $("#I").val();
+    var II = $("#II").val();
+    var III = $("#III").val();
+    var IV = $("#IV").val();
     var costo_unitario_acc = $("#costo_unitario_acc").val();
     var precio_total_acc = $("#precio_total_acc").val();
     var id_alicuota_iva_acc = $("#id_alicuota_iva_acc").val();
@@ -37,8 +38,8 @@ function guardar_acc_bien(){
         document.getElementById("porcentaje_acc").focus();
     }else if(porcentaje_acc == ''){
             document.getElementById("porcentaje_acc").focus();
-    }else if(id_ccnu_acc == ''){
-        document.getElementById("id_ccnu_acc").focus();
+    }else if(id_tip_obra == ''){
+        document.getElementById("id_tip_obra").focus();
     }else if(especificacion_acc == ''){
         document.getElementById("especificacion_acc").focus();
     }else{
@@ -56,8 +57,8 @@ function guardar_acc_bien(){
             if (result.value == true) {
                 event.preventDefault();
                 var datos = new FormData($("#guardar_tcu")[0]);
-               // var base_url =window.location.origin+'/asnc/index.php/Programacion/Guardar_mas_item_acc';
-                var base_url = '/index.php/Programacion/Guardar_mas_item_acc';
+                //var base_url =window.location.origin+'/asnc/index.php/Programacion/Guardar_mas_item_acc_obra';
+                var base_url = '/index.php/Programacion/Guardar_mas_item_acc_obra';
                 $.ajax({
                     url:base_url,
                     method: 'POST',

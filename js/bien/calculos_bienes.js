@@ -1,7 +1,7 @@
 function buscar_ccnu(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
     var ccnu_b = $('#ccnu_b').val();
-
-    //var base_url =window.location.origin+'/asnc/index.php/Programacion/llenar_selc_ccnu_m';
+//esto lo cambie
+   // var base_url =window.location.origin+'/asnc/index.php/Programacion/llenar_selc_ccnu_m';
     var base_url = '/index.php/Programacion/llenar_selc_ccnu_m';
     $.ajax({
         url:base_url,

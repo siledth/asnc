@@ -28,7 +28,7 @@
 						<h4 class="panel-title">Calificaciones</h4>
 					</div>
 					<div class="panel-body">
-						<div>
+						<div id="grafico" style="display:none">
 							<canvas id="miGrafico"></canvas>
 						</div>
 					</div>

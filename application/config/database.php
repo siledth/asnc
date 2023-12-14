@@ -96,7 +96,6 @@ $db['default'] = array(
 	'save_queries' => TRUE
 );
 
-//Base de datos solo de consulta del SNC Anterior
 $db['SNCenlinea'] = array(
   	'dsn'	=> '',
   	'hostname' => '10.10.10.147',
@@ -119,4 +118,3 @@ $db['SNCenlinea'] = array(
   	'failover' => array(),
   	'save_queries' => TRUE
   );
- 

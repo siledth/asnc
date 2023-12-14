@@ -822,6 +822,36 @@
 	
 	}
 
+	/////fpdf consulta 
+	function consulta_llamado($data1){
+		$query1 = $this->db->query("SELECT  TRIM(BOTH FROM ' $data1  '),
+        TRIM(' $data1  ' ");
+		//$id=$data['numero_proceso'];
+		$query = $this->db->query("SELECT c.rif_organoente, c.numero_proceso, c.id_modalidad, 
+		c.id_mecanismo, c.id_objeto_contratacion, c.dias_habiles, 
+		c.fecha_llamado, c.fecha_disponible_llamado, c.fecha_fin_aclaratoria, 
+		c.fecha_tope, c.fecha_fin_llamado, 
+		c.denominacion_proceso, c.descripcion_contratacion, 
+		c.web_contratante, c.hora_desde, c.hora_hasta, 
+		c.id_estado, c.id_municipio, c.direccion, 
+		c.hora_desde_sobre, c.id_estado_sobre, c.id_municipio_sobre, 
+		c.direccion_sobre, c.lugar_entrega, c.observaciones, 
+		c.especifique_anulacion, c.idestatus, c.fecha_inicio_aclaratoria, 
+		c.mecanismo, c.modalidad, c.objeto_contratacion, c.estado, c.municipio,
+		 c.organoente, c.siglas, c.estado_sobre, c.municipio_sobre, 
+		 c.id_llcestatus, c.estatus, m.descripcion as descr, obj.descripcion as obj
+         FROM public.llamado_concurso_view c 
+		 left join public.modalidad m on m.id_modalidad = c.id_modalidad
+		 left join public.mecanismo  cn on cn.id_mecanismo = c.id_mecanismo
+		 join public.objeto_contratacion obj on obj.id_objeto_contratacion = c.id_objeto_contratacion	    
+		 where numero_proceso = '$data1'");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
 
 	public function consulta_llamado_statu_detalle($parametros){   
 		 
@@ -833,6 +863,7 @@
 		$query = $this->db->get('public.llamado_concurso_historial_view c');
 		return $query->result_array();
 	}
+
 
 }
 ?>

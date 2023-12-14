@@ -664,9 +664,55 @@ return $query->result_array();
             return $id; 
         }
 
-        
+        public function consultar_contratista($data){
+            $this->db->select('rifced,nombre');
+            $this->db->like('rifced', $data['ccnu_b_m']);
+            $query = $this->db->get('evaluacion_desempenio.contratistas');
+            return $query->result_array();
+        } 
 
-
+       
+    // public function consultar_contratista($data){
+    //     $this->db->select('c.user_id,
+    //                         c.edocontratista_id,
+    //                         c.rifced,
+    //                         c.numcertrnc,
+    //                         c.nombre,
+    //                         c.dirfiscal,
+    //                         e.descedo,
+    //                         c.ciudade_id,
+    //                         c2.descciu,
+    //                         m.descmun,
+    //                         c.percontacto,
+    //                         c.telf1,
+    //                         c.ultprocaprob');
+    //     $this->db->join('public.estados e', 'e.id = c.estado_id');
+    //     $this->db->join('public.municipios m', 'm.id = c.municipio_id');
+    //     $this->db->join('public.ciudades c2', 'c2.id = c.ciudade_id');
+    //     //$this->db->where('c.rifced',$data['rif_b']);
+    //     //$query = $this->db->get('public.contratistas c');
+    //     $query = $this->db->get('evaluacion_desempenio.contratistas c');
+    //     $result = $query->row_array();
+    //         if ($result == '') {
+    //             $this->db->select('c.user_id,
+    //                                  c.edocontratista_id,
+    //                                  c.rifced,
+    //                                  c.nombre,
+    //                                  c.dirfiscal,
+    //                                  e.descedo,
+    //                                  m.descmun,
+    //                                  c.percontacto,
+    //                                  c.telf1,
+    //                                  c.procactual');
+    //             $this->db->join('public.estados e', 'e.id = c.estado_id');
+    //             $this->db->join('public.municipios m', 'm.id = c.municipio_id');
+    //             //$this->db->where('c.rifced',$data['rif_b']);
+    //             $query = $this->db->get('evaluacion_desempenio.contratistas_nr c');
+    //             return $result = $query->row_array();
+    //         }else {
+    //             return $result;
+    //         }
+    // }
 
     }
 

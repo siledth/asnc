@@ -81,6 +81,16 @@
                                         - Programación Anual
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="<?= base_url() ?>index.php/programacion/reprogramar">
+                                        - Modificaciòn-Programación Anual
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?= base_url() ?>index.php/programacion/rendiciones">
+                                        - Rendición
+                                    </a>
+                                </li>
                                 <?php if (($this->session->userdata('ver_user_exter') == 1)) : ?>
                                 <li>
                                     <a href="<?= base_url() ?>index.php/Programacion/consulta_general">
