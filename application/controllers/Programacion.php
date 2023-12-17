@@ -1531,6 +1531,7 @@ public function Guardar_mas_item_acc() {
    
          'id_enlace'=> $this->input->post('id_programacion'),
          'id_p_acc'=> 1,
+         'id_obj_comercial'=> $this->input->post('id_obj_comercial'), 
          'id_tip_obra'=> '0',
          'id_alcance_obra'=> '0',
          'id_obj_obra'=> '0',
@@ -1979,6 +1980,8 @@ public function editar_item_servicio_py(){
              'id_tip_obra'=> '0',
              'id_alcance_obra'=> '0',
              'id_obj_obra'=> '0',
+             'id_obj_comercial'=> $this->input->post('id_obj_comercial'),
+
              'fecha_desde'=> $this->input->post('start'),
              'fecha_hasta'=> $this->input->post('end'),
             'id_partidad_presupuestaria'  => $par_presupuestaria_acc1,
@@ -2088,6 +2091,8 @@ public function editar_item_servicio_py(){
        
              'id_enlace'=> $this->input->post('id_programacion'),
              'id_p_acc'=> 1,
+             'id_obj_comercial'=> $this->input->post('id_obj_comercial'),
+
              'id_tip_obra'=> $this->input->post('id_tip_obra'),
              'id_alcance_obra'=> $this->input->post('id_alcance_obra'),
              'id_obj_obra'=> $this->input->post('id_obj_obra'),

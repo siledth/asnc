@@ -34,8 +34,7 @@
 
                 <div class="form-group mt-2 col-3">
                     <label>Objeto de Contratación</label><br>
-                    <input type="hidden" id="id_obj_comercial" name="id_obj_comercial"
-                        value="<?=$inf_1_acc['id_obj_comercial']?>">
+                 
                     <input type="text" id="desc_objeto_contrata" name="desc_objeto_contrata"
                         value="<?=$inf_1_acc['desc_objeto_contrata']?>" class="form-control" readonly>
                 </div>
@@ -47,6 +46,8 @@
                     enctype="multipart/form-data">
                     <div class="panel-body">
                         <div class="row">
+                        <input type="hidden" id="id_obj_comercial" name="id_obj_comercial"
+                        value="<?=$inf_1_acc['id_obj_comercial']?>">
                             <input type="hidden" id="id_programacion" name="id_programacion"
                                 value="<?=$id_p_acc_centralizada?>">
                                 <input type="hidden" id="id_proyectoii" name="id_proyectoii"

@@ -2324,6 +2324,8 @@
             'id_p_items'		    => $id1,
             'id_enlace' => $data['id_enlace'],
             'id_p_acc' => $data['id_p_acc'],
+
+            'id_obj_comercial' => $data['id_obj_comercial'],
             'id_tip_obra' => $data['id_tip_obra'],
             'id_alcance_obra' => $data['id_alcance_obra'],
             'id_obj_obra'=>  $data['id_obj_obra'],
@@ -2447,6 +2449,8 @@ function agregar_mas_item_servicio($data,$p_ffinanciamiento){
     $data1 = array(
         'id_p_items'		    => $id1,
         'id_enlace' => $data['id_enlace'],
+        'id_obj_comercial' => $data['id_obj_comercial'],
+
         'id_p_acc' => $data['id_p_acc'],
         'id_tip_obra' => $data['id_tip_obra'],
         'id_alcance_obra' => $data['id_alcance_obra'],
@@ -2629,6 +2633,7 @@ function agregar_mas_item_obras($data,$p_ffinanciamiento){
     $data1 = array(
         'id_p_items'		    => $id1,
         'id_enlace' => $data['id_enlace'],
+        'id_obj_comercial' => $data['id_obj_comercial'],
         'id_p_acc' => $data['id_p_acc'],
         'id_tip_obra' => $data['id_tip_obra'],
         'id_alcance_obra' => $data['id_alcance_obra'],
@@ -4731,20 +4736,20 @@ function consulta_total_objeto_acc2($id_programacion){
     return $query->result_array();
 
 }
-function consulta_total_objeto_acc($data1){
+function consulta_total_objeto_acc($data1){ //da totales agrupados por bienes, servicio, obras
     
-$query = $this->db->query("SELECT  pac.id_enlace, pac.id_p_acc,pac.id_proyecto,
-    i.id_obj_comercial,ob.desc_objeto_contrata,
+$query = $this->db->query("SELECT  pac.id_p_acc,pac.id_proyecto,
+    pac.id_obj_comercial,ob.desc_objeto_contrata,
    sum(to_number(pac.monto_estimado,'999999999999D99')) as precio_total
 
      FROM programacion.p_items pac 
     --  left join public.modalidad m on m.id_modalidad = c.id_modalidad
-    join programacion.p_acc_centralizada i on i.id_p_acc_centralizada = pac.id_enlace	
-     join programacion.objeto_contrata ob on ob.id_objeto_contrata = i.id_obj_comercial	
+   -- join programacion.p_acc_centralizada i on i.id_p_acc_centralizada = pac.id_enlace	
+     join programacion.objeto_contrata ob on ob.id_objeto_contrata = pac.id_obj_comercial	
         
      where pac.id_proyecto = '$data1' and pac.id_p_acc ='1'
-     group by pac.id_enlace, pac.id_p_acc,pac.id_proyecto,
-    i.id_obj_comercial,ob.desc_objeto_contrata ");
+     group by pac.id_p_acc,pac.id_proyecto,
+    pac.id_obj_comercial,ob.desc_objeto_contrata ");
     if($query->num_rows()>0){
         return $query->result();
     }
