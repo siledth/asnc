@@ -109,6 +109,9 @@ class Gestion extends CI_Controller {
   /////////////////////////////////////vista de llamado a concurso modificado
   public function llamadoxterno() {
     if (!$this->session->userdata('session')) {
+      $generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
+      $generar3 = $this->Publicaciones_model->generar2(); // finalizar llamad
+      $generar4 = $this->Publicaciones_model->generar3(); // finalizar llamad
       $date=date("d-m-Y");
       $data['exonerado'] = $this->Certificacion_model->consultar_llamados_externos($date);
       $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
@@ -118,6 +121,9 @@ class Gestion extends CI_Controller {
       $this->load->view('publicaciones/reporte/llamadoexterno.php', $data);
       $this->load->view('templates/footer.php');
     } else {
+      $generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
+      $generar3 = $this->Publicaciones_model->generar2(); // finalizar llamad
+      $generar4 = $this->Publicaciones_model->generar3(); // finalizar llamad
       $date=date("d-m-Y");
       $data['exonerado'] = $this->Certificacion_model->consultar_llamados_externos($date);
       $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
@@ -131,6 +137,9 @@ class Gestion extends CI_Controller {
   }
   public function llamadoxternot() {
     if (!$this->session->userdata('session')) {
+      $generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
+      $generar3 = $this->Publicaciones_model->generar2(); // finalizar llamad
+      $generar4 = $this->Publicaciones_model->generar3(); // finalizar llamad
       $date=date("d-m-Y");
       $data['exonerado'] = $this->Certificacion_model->consultar_llamados_externos($date);
       $data['estado']= $this->input->post("estado");
@@ -142,6 +151,9 @@ class Gestion extends CI_Controller {
       $this->load->view('publicaciones/reporte/llamadoexterno.php', $data, $objeto);
       $this->load->view('templates/footer.php');
     } else {
+      $generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
+      $generar3 = $this->Publicaciones_model->generar2(); // finalizar llamad
+      $generar4 = $this->Publicaciones_model->generar3(); // finalizar llamad
       $date=date("d-m-Y");
       $data['estado']= $this->input->post("estado");
       $data['objetos']     = $this->input->post("objeto");

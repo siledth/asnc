@@ -65,7 +65,7 @@
                             </div>
                             <div class="row" id='campos' style="display: none;">
                                 <div class="form-group col-3">
-                                    <label>Ingrese una Observación sobre la Suspención</label>
+                                    <label>Ingrese una Observación sobre la Suspensión</label>
                                     <textarea name="especifique_anulacion" id="especifique_anulacion" rows="5"
                                         cols="100"></textarea>
                                 </div>

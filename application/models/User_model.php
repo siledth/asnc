@@ -21,11 +21,38 @@ class User_model extends CI_Model
         return $result = $query->result_array();
 
     }
+   
+    public function consulta_usuariost()
+    {
+        $this->db->select("f.id,
+                        f.nombre,
+                        f.id_estatus,
+                        f.intentos,
+                        c.nombrefun,
+                        c.apellido
+                       ");
+        $this->db->join('seguridad.funcionarios c', 'c.id_usuario = f.id', 'left');
+       // $this->db->where('f.id_estatus >', '3');
+        $query = $this->db->get('seguridad.usuarios f');
+        return $result = $query->result_array();
+
+    }
     public function desblo_usuario($data)
     {
         $data1 = array('id_estatus' => '1',
                         'intentos' => '0',
                         'password'=> '$2y$10$T3rwxYhqdCJxft4p32W4J.KLZpOZViLs38JH2NuHGH9zBvuPExiPC',
+                        'fecha_update' => date('Y-m-d h:i:s'));
+        $this->db->where('id', $data['id']);
+        $update = $this->db->update('seguridad.usuarios', $data1);
+        return true;
+    }
+    /////////////bloque o inhabilitacion usuario
+    public function blo_usuario($data)
+    {
+        $data1 = array('id_estatus' => '4',
+                        'intentos' => '3',
+                        //'password'=> '$2y$10$T3rwxYhqdCJxft4p32W4J.KLZpOZViLs38JH2NuHGH9zBvuPExiPC',
                         'fecha_update' => date('Y-m-d h:i:s'));
         $this->db->where('id', $data['id']);
         $update = $this->db->update('seguridad.usuarios', $data1);

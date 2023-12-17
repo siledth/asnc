@@ -11,8 +11,10 @@
                             <tr class="text-center">
                                 <th>ID</th>
                                 <th>Fecha Reg. Evaluación</th>
+                                <th>Rif de Contratante:</th>
+                                <th>Razón Social Contratante</th>                              
                                 <th>Rif contratista</th>
-                                <th>Denominación Razón Social</th>
+                                <th>Razón Social contratista</th>
                                 <th>Calificación</th>
                                 <th>Estatus de Notificación</th>
                                 <th>Acciones</th>
@@ -24,6 +26,8 @@
                             <tr class="odd gradeX" style="text-align:center">
                                 <td><?=$data['id']?> </td>
                                 <td><?=$data['fecha']?> </td>
+                                <td><?=$data['rif_organoente']?> </td>
+                                <td><?=$data['contratante']?> </td>                                
                                 <td><?=$data['rif_contrat']?> </td>
                                 <td><?=$data['nombre']?> </td>
                                 <td><?=$data['calificacion']?></td>
@@ -43,6 +47,9 @@
                             <tr class="odd gradeX" style="text-align:center">
                                 <td><?=$data['id']?> </td>
                                 <td><?=$data['fecha']?> </td>
+                                <td><?=$data['rif_organoente']?> </td>
+                                <td><?=$data['contratante']?> </td>
+
                                 <td><?=$data['rif_contrat']?> </td>
                                 <td><?=$data['nombre']?> </td>
                                 <td><?=$data['calificacion']?></td>

@@ -202,6 +202,56 @@ class Fuentefinanc extends CI_Controller
 	}
 
 	//_________________________________________________________________________________________________________________________________
+	public function registrar_pa()
+    {
+        if (!$this->session->userdata('session')) {
+            redirect('login');
+        }
+       // $data['contratista'] =	$this->Certificacion_model->llenar_contratista_exonerado();
+        $data['exonerado'] = $this->Tablas_model->consultar_partida1();
+        $usuario = $this->session->userdata('id_user');
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('tablas/part_presup.php', $data);
+        $this->load->view('templates/footer.php');
+    }
+	public function registrar_b() {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $data = array(
+            'codigopartida_presupuestaria' => $this->input->POST('codigo_b'),
+            'desc_partida_presupuestaria' => $this->input->POST('nombre_b'),
+            'id_usuario' => $this->session->userdata('id_user'),
+            'fecha' => date("Y-m-d"), 
+        );
+        $data = $this->Tablas_model->registrar_b($data);
+        echo json_encode($data);
+    }
+	public function consulta_b() {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $data = $this->input->post();
+        $data = $this->Tablas_model->consulta_b($data);
+        echo json_encode($data);
+    }
+	public function editar_b() {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $data = $this->input->post();
+
+        $data = array(
+            'id_partida_presupuestaria' => $data['id_banco'],
+            'codigopartida_presupuestaria' => $data['codigo_b'],
+            'desc_partida_presupuestaria' => $data['nombre_b'],
+            'id_usuario' => $this->session->userdata('id_user'),
+			'fecha' => date("Y-m-d"), 
+        );
+
+        $data = $this->Tablas_model->editar_b($data);
+        echo json_encode($data);
+    }
+
+
 	public function partidap()
 	{
 		$this->load->view('templates/header.php');
