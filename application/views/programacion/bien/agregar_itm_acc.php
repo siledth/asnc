@@ -205,7 +205,7 @@
                             <div class="form-group col-3">
                                 <label>Monto total Estimado<b style="color:red">*</b></label>
                                 <input id="monto_estimado_acc" name="monto_estimado_acc" type="text"
-                                    class="form-control">
+                                    class="form-control" readonly>
                             </div>
                             <div class="col-12">
                                 <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
