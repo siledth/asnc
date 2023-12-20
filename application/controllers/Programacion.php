@@ -1531,7 +1531,7 @@ public function Guardar_mas_item_acc() {
    
          'id_enlace'=> $this->input->post('id_programacion'),
          'id_p_acc'=> 1,
-         'id_obj_comercial'=> $this->input->post('id_obj_comercial'), 
+         'id_obj_comercial'=> $this->input->post('id_obj_comercial1'), 
          'id_tip_obra'=> '0',
          'id_alcance_obra'=> '0',
          'id_obj_obra'=> '0',
@@ -1729,6 +1729,8 @@ public function Guardar_mas_item_bienes_py() {
 
    
          'id_enlace'=> $this->input->post('id_programacion'),
+         'id_obj_comercial'=> $this->input->post('id_obj_comercial1'),
+
          'id_p_acc'=> 0,///indica que es un proyecto
          'id_tip_obra'=> '0',
          'id_alcance_obra'=> '0',
@@ -3255,6 +3257,8 @@ public function Guardar_mas_item_py_servicio() {
          'id_enlace'=> $this->input->post('id_programacion'),
          'id_p_acc'=> 0, // 0 es un proyecto
          'id_tip_obra'=> '0',
+         'id_obj_comercial'=> $this->input->post('id_obj_comercial1'),
+
          'id_alcance_obra'=> '0',
          'id_obj_obra'=> '0',
          'fecha_desde'=> $this->input->post('start'),
@@ -3351,6 +3355,7 @@ public function Guardar_mas_item_py_obras() {
 
    
          'id_enlace'=> $this->input->post('id_programacion'),
+         'id_obj_comercial'=> $this->input->post('id_obj_comercial1'),
          'id_p_acc'=> 0, // 0 es un proyecto
          'id_tip_obra'=> $this->input->post('id_tip_obra'),
          'id_alcance_obra'=> $this->input->post('id_alcance_obra'),
