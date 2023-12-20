@@ -4501,28 +4501,17 @@ public function comprobante_programacion() //hacer un pdf de comprobante program
   // $pdf->MultiCell(100,5, 'fecha', 0, 'L');
    $pdf->Ln(5);
    $pdf->SetFont('Arial','',12);
-   $id_programacion = $this->input->get('id');
-    
-   $dat5 = $this->Programacion_model->anio_programacion($id_programacion);   
-       if($dat5 != ''){ 
-           foreach($dat5 as $dt5){ 
        
-           $pdf->MultiCell(100,5, $dt5->anio, 0, 'L');
-          // $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt5->fecha)), 0, 'L');
-          
-       }}
-       
-   $pdf->MultiCell(200,5, utf8_decode('El Servicio Nacional de Contrataciones (SNC), hace de su conocimiento que fue recibida la carga
-   de la Programación Anual correspondiente') , 0, 'L');
+   $pdf->MultiCell(200,5, utf8_decode('El Servicio Nacional de Contrataciones (SNC), hace de su conocimiento que fue recibida la carga') , 0, 'L');
 
-   $pdf->Cell(60,5,utf8_decode('al Ejercicio Fiscal'),0,'L');
+   $pdf->Cell(60,5,utf8_decode('de la Programación Anual correspondienteal Ejercicio Fiscal'),0,'L');
    $id_programacion = $this->input->get('id');
     
    $dat7 = $this->Programacion_model->anio_programacion($id_programacion);   
        if($dat7 != ''){ 
            foreach($dat7 as $dt7){ 
        
-           $pdf->MultiCell(100,5, $dt7->anio, 0, 'L');
+           $pdf->MultiCell(100,5, $dt7->anio, 0, 'C');
           // $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt5->fecha)), 0, 'L');
           
        }}
@@ -5071,4 +5060,4 @@ public function guardar_comprobante_totales() {
     echo json_encode($data);
 }
 }
-//se actualizo6
+//se actualizo8
