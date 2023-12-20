@@ -5071,4 +5071,4 @@ public function guardar_comprobante_totales() {
     echo json_encode($data);
 }
 }
-//se actualizo4
+//se actualizo6
