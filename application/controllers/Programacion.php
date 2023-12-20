@@ -4511,7 +4511,7 @@ public function comprobante_programacion() //hacer un pdf de comprobante program
        if($dat7 != ''){ 
            foreach($dat7 as $dt7){ 
        
-           $pdf->MultiCell(100,5, $dt7->anio, 0, 'C');
+           $pdf->MultiCell(180,5, $dt7->anio, 0, 'C');
           // $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt5->fecha)), 0, 'L');
           
        }}
