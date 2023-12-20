@@ -4489,7 +4489,16 @@ public function comprobante_programacion() //hacer un pdf de comprobante program
        }}
 
    $pdf->Cell(60,5,utf8_decode('Fecha de Registro:'),0,'L');
-   $pdf->MultiCell(100,5, 'fecha', 0, 'L');
+   $id_programacion = $this->input->get('id');
+    
+   $dat6 = $this->Programacion_model->anio_programacion($id_programacion);   
+       if($dat6 != ''){ 
+           foreach($dat6 as $dt6){ 
+       
+           $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt6->fecha)), 0, 'L');
+          
+       }}
+  // $pdf->MultiCell(100,5, 'fecha', 0, 'L');
    $pdf->Ln(5);
    $pdf->SetFont('Arial','',12);
 
@@ -5039,4 +5048,4 @@ public function guardar_comprobante_totales() {
     echo json_encode($data);
 }
 }
-//se actualizo2
+//se actualizo3
