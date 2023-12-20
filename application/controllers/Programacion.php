@@ -4506,7 +4506,7 @@ public function comprobante_programacion() //hacer un pdf de comprobante program
 
    $pdf->Cell(60,5,utf8_decode('de la Programación Anual correspondienteal Ejercicio Fiscal'),0,'L');
    $id_programacion = $this->input->get('id');
-    
+   $pdf->SetFont('Arial','B',12);
    $dat7 = $this->Programacion_model->anio_programacion($id_programacion);   
        if($dat7 != ''){ 
            foreach($dat7 as $dt7){ 
@@ -4515,8 +4515,10 @@ public function comprobante_programacion() //hacer un pdf de comprobante program
           // $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt5->fecha)), 0, 'L');
           
        }}
+   $pdf->MultiCell(50,5, 'de conformidad a lo establecido', 0, 'C');
 
-   $pdf->MultiCell(200,5, utf8_decode('de conformidad a lo establecido en el Articulo 38, numeral 1 del DCRVFLCP.'), 0, 'L');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(200,5, utf8_decode(' en el Articulo 38, numeral 1 del DCRVFLCP.'), 0, 'L');
    $pdf->Ln(1);
    $pdf->SetFont('Arial','B',10);
 
