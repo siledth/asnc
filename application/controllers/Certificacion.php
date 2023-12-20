@@ -506,7 +506,12 @@ class Certificacion extends CI_Controller
         $tipo_pers  = $this->input->post("tipo_pers");
         $id  = $this->input->post("id_");
         
-        
+        $fecha_trans1 = $fecha_trans;
+        if ($fecha_trans1 == '') {
+            $fecha_trans2 = $fecha_solic;
+        }else {
+            $fecha_trans2 = $fecha_trans;
+        }
 
        
 
@@ -521,7 +526,7 @@ class Certificacion extends CI_Controller
             "n_ref"         =>    $n_ref   ,
             "banco_e"       =>     $banco_e , 
             "banco_rec"     =>    $banco_rec,  
-            "fecha_trans"   =>     $fecha_trans  ,
+            "fecha_trans"   =>     $fecha_trans2  ,
             "monto_trans"   =>     $monto_trans ,  
         
             "fecha_solic"   =>   date("Y-m-d"),  
@@ -588,6 +593,7 @@ class Certificacion extends CI_Controller
                     
                                 ) ;   
        $exp_par_comi_10 = array( // registro infor profesional de la persona
+        'cedul10'   	 => $this->input->post('cedul10'),
           'organo10'   	 => $this->input->post('organo10'),
            'act_adminis_desid'   => $this->input->post('act_adminis_desid'),
            'n_acto'  => $this->input->post('n_acto'),

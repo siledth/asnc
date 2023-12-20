@@ -291,7 +291,7 @@ if ($('#id').val().length != " "){ // Experiencia de Participación en Comisione
                     var increment = increment +1;
                     newRow.className='myTr';
                     newRow.innerHTML = `
-                    <td>${value.cedula}<input type="text" name="cedula[]" id="ins-type-${increment}" hidden value="${value.cedula}"></td>
+                    <td>${value.cedula}<input type="text" name="cedul10[]" id="ins-type-${increment}" hidden value="${value.cedula}"></td>
                     <td>${value.organo10}<input type="text" name="organo10[]" id="ins-type-${increment}" hidden value="${value.organo10}"></td>
                     <td>${value.act_adminis_desid}<input type="text" name="act_adminis_desid[]" id="ins-type-${increment}" hidden value="${value.act_adminis_desid}"></td>
                     <td>${value.n_acto}<input type="text" name="n_acto[]" id="ins-type-${increment}" hidden value="${value.n_acto}"></td>
