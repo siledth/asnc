@@ -4484,6 +4484,7 @@ public function comprobante_programacion() //hacer un pdf de comprobante program
            foreach($dat5 as $dt5){ 
        
            $pdf->MultiCell(100,5, $dt5->anio, 0, 'L');
+           $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt5->fecha)), 0, 'L');
           
        }}
 
@@ -5038,4 +5039,4 @@ public function guardar_comprobante_totales() {
     echo json_encode($data);
 }
 }
-//se actualizo
+//se actualizo2
