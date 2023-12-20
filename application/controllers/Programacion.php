@@ -4516,6 +4516,7 @@ public function comprobante_programacion() //hacer un pdf de comprobante program
           // $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt5->fecha)), 0, 'L');
           
        }}
+   $pdf->Cell(20,10,'',0,'L');
        
    $pdf->SetFont('Arial','',12);
    $pdf->MultiCell(200,5, utf8_decode('de conformidad a lo establecido en el Articulo 38, numeral 1 del DCRVFLCP.'), 0, 'L');
