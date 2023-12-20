@@ -4474,7 +4474,19 @@ public function comprobante_programacion() //hacer un pdf de comprobante program
    $pdf->Cell(60,5,utf8_decode('Código ONAPRE:'),0,'L');
    $pdf->MultiCell(100,5, utf8_decode($codigo_onapre), 0, 'L');
    $pdf->Cell(60,5,utf8_decode('Ejercicio Fiscal:'),0,'L');
-   $pdf->MultiCell(100,5, '2023', 0, 'L');
+
+  // $pdf->MultiCell(100,5, '2023', 0, 'L');
+
+   $id_programacion = $this->input->get('id');
+    
+   $dat5 = $this->Programacion_model->anio_programacion($id_programacion);   
+       if($dat5 != ''){ 
+           foreach($dat5 as $dt5){ 
+       
+           $pdf->MultiCell(100,5, $dt5->anio, 0, 'L');
+          
+       }}
+
    $pdf->Cell(60,5,utf8_decode('Fecha de Registro:'),0,'L');
    $pdf->MultiCell(100,5, 'fecha', 0, 'L');
    $pdf->Ln(5);

@@ -4812,6 +4812,22 @@ function consulta_total_PYT($data1){
         return NULL;
     }
 }
+function anio_programacion($data1){
+    //$id=$data['numero_proceso'];
+    $query = $this->db->query("SELECT  pac.id_programacion, pac.fecha, pac.anio
+
+     FROM programacion.programacion pac 
+    --  left join public.modalidad m on m.id_modalidad = c.id_modalidad
+    --  left join public.mecanismo  cn on cn.id_mecanismo = c.id_mecanismo
+    --  join public.objeto_contratacion obj on obj.id_objeto_contratacion = c.id_objeto_contratacion	    
+     where pac.id_programacion = '$data1'");
+    if($query->num_rows()>0){
+        return $query->result();
+    }
+    else{
+        return NULL;
+    }
+}
 // function consulta_llamado($data1){
 //     //$id=$data['numero_proceso'];
 //     $query = $this->db->query("SELECT c.rif_organoente, c.numero_proceso, c.id_modalidad, 
