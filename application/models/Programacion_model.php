@@ -2864,6 +2864,7 @@ function Guardar_mas_item_py_servicio($data,$p_ffinanciamiento){
     $data1 = array(
         'id_p_items'		    => $id1,
         'id_enlace' => $data['id_enlace'],
+        'id_obj_comercial' => $data['id_obj_comercial'],
         'id_p_acc' => $data['id_p_acc'],
         'id_tip_obra' => $data['id_tip_obra'],
         'id_alcance_obra' => $data['id_alcance_obra'],
@@ -2924,6 +2925,8 @@ function Guardar_mas_item_py_obras($data,$p_ffinanciamiento){
     $data1 = array(
         'id_p_items'		    => $id1,
         'id_enlace' => $data['id_enlace'],
+        'id_obj_comercial' => $data['id_obj_comercial'],
+
         'id_p_acc' => $data['id_p_acc'],
         'id_tip_obra' => $data['id_tip_obra'],
         'id_alcance_obra' => $data['id_alcance_obra'],
