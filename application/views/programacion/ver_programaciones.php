@@ -111,7 +111,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">cerrar</button>
                     <button type="button" id="btn_guar_2" onclick="registrar_anio();"
-                        class="btn btn-primary">Guardar</button>
+                        class="btn btn-primary" disabled>Guardar</button>
                 </div>
             </form>
         </div>
