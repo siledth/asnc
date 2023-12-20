@@ -823,7 +823,7 @@
 	}
 
 	/////fpdf consulta 
-	function consulta_llamado($data1){
+	function consulta_llamado1($data1){
 		$query1 = $this->db->query("SELECT  TRIM(BOTH FROM ' $data1  '),
         TRIM(' $data1  ' ");
 		//$id=$data['numero_proceso'];
