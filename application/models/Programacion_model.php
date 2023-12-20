@@ -2847,8 +2847,9 @@ public function enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $da
        $this->db->insert('programacion.inf_enviada',$resulta);
 
         $data1 = array('estatus' => '2',// se puede reprogramar y rendir 
-                        'id_usuario' => '0',
-                        'fecha' => date('Y-m-d h:i:s'));
+                        'id_usuario' => $this->session->userdata('id_user'),
+                    //    'fecha' => date('Y-m-d h:i:s')
+                    );
         $this->db->where('id_programacion', $data['id']);
         $update = $this->db->update('programacion.programacion', $data1);
         return true;
