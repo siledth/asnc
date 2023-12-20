@@ -4503,6 +4503,7 @@ public function comprobante_programacion() //hacer un pdf de comprobante program
    $pdf->SetFont('Arial','',12);
        
    $pdf->MultiCell(200,5, utf8_decode('El Servicio Nacional de Contrataciones (SNC), hace de su conocimiento que fue recibida la carga') , 0, 'L');
+   $pdf->Cell(40,10,'',0,'L');
 
    $pdf->Cell(60,5,utf8_decode('de la Programación Anual correspondienteal Ejercicio Fiscal'),0,'L');
    $id_programacion = $this->input->get('id');
@@ -4515,10 +4516,9 @@ public function comprobante_programacion() //hacer un pdf de comprobante program
           // $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt5->fecha)), 0, 'L');
           
        }}
-   $pdf->MultiCell(50,5, 'de conformidad a lo establecido', 0, 'C');
-
+       
    $pdf->SetFont('Arial','',12);
-   $pdf->MultiCell(200,5, utf8_decode(' en el Articulo 38, numeral 1 del DCRVFLCP.'), 0, 'L');
+   $pdf->MultiCell(200,5, utf8_decode('de conformidad a lo establecido en el Articulo 38, numeral 1 del DCRVFLCP.'), 0, 'L');
    $pdf->Ln(1);
    $pdf->SetFont('Arial','B',10);
 
