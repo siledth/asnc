@@ -438,7 +438,7 @@ function guardar_reprogramacion_bienes_acc(){
 }
 
 
-/// bienes accion centralizada reprogramar
+/// bienes accion centralizada reprogramar agregar mas items
 
 function guardar_acc_bien_rendi(){
     var id_programacion3 = $("#id_programacion2").val();
@@ -474,7 +474,7 @@ function guardar_acc_bien_rendi(){
 
 
     if (observaciones == '') {
-        alert("Debe ingresar una observación de la reprogramación")
+        alert("Debe ingresar una observación de la reprogramación...")
         document.getElementById("observaciones").focus();
     }
     else if($("#par_presupuestaria_acc option:selected").val() == 0) {

@@ -317,11 +317,11 @@
                                             style="color: darkgreen;"></i>
                                     </a> -->
 
-                                    <a href="<?php echo base_url();?>index.php/programacion/editar_item_servicio_acc?id=<?php echo $data['id_p_items'];?>/<?php echo $data['id_p_items'];?>"
+                                    <!-- <a href="<?php echo base_url();?>index.php/programacion/editar_item_servicio_acc?id=<?php echo $data['id_p_items'];?>/<?php echo $data['id_p_items'];?>"
                                             class="button">
                                             <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
                                             style="color: darkgreen;"></i>
-                                        <a /> 
+                                        <a />  -->
                                         <a onclick="eliminar_items_servi(<?php echo $data['id_p_items'];?>);"
                                          class="button"><i class="fas fa-lg fa-fw  fa-trash-alt" style="color:red"></i><a />
                                    
