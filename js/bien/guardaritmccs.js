@@ -10,6 +10,8 @@ function guardar_acc_bien(){
     var especificacion_acc = $("#especificacion_acc").val();
     var id_unidad_medida_acc = $("#id_unidad_medida_acc").val();
     var cantidad_acc = $("#cantidad_acc").val();
+    var cant_total_distribuir_acc = $("#cantidad_acc").val();
+
     var I_acc = $("#I_acc").val();
     var II_acc = $("#II_acc").val();
     var III_acc = $("#III_acc").val();
@@ -26,21 +28,52 @@ function guardar_acc_bien(){
     var estimado_total_t_acc = $("#estimado_total_t_acc").val();
 
 
-    if (par_presupuestaria_acc == '') {
+    if ($("#par_presupuestaria_acc option:selected").val() == 0) {
+        alert("Debe Seleccionar una Partida Presupuestaria");
         document.getElementById("par_presupuestaria_acc").focus();
+        return false;
     }else if(id_estado_acc == ''){
+        alert("Debe ingresar un estado")
         document.getElementById("id_estado_acc").focus();
     }
-    else if(fuente_financiamiento_acc == ''){
-    document.getElementById("fuente_financiamiento_acc").focus();
-    }else if(porcentaje_acc == ''){
+    else if($("#fuente_financiamiento_acc option:selected").val() == 0) {
+        alert("Debe Seleccionar una Fuente Financiamiento");
+        document.getElementById("fuente_financiamiento_acc").focus();
+        return false;
+    }
+    else if(porcentaje_acc == ''){
+        alert("el campo porcentaje no puede quedar vacio")
+
         document.getElementById("porcentaje_acc").focus();
-    }else if(porcentaje_acc == ''){
-            document.getElementById("porcentaje_acc").focus();
-    }else if(id_ccnu_acc == ''){
+    }else if($("#id_ccnu_acc option:selected").val() == 0) {
+        alert("Debe Seleccionar un CCNU");
         document.getElementById("id_ccnu_acc").focus();
-    }else if(especificacion_acc == ''){
+        return false;
+    }
+    else if(especificacion_acc == ''){
+        alert("Debe ingresar una especificación")
         document.getElementById("especificacion_acc").focus();
+    }else if($("#id_unidad_medida_acc option:selected").val() == 0) {
+        alert("Debe Seleccionar una unidad de medida");
+        document.getElementById("id_unidad_medida_acc").focus();
+        return false;
+    }
+    else if(cantidad_acc == ''){
+        alert("Debe ingresar una Cantidad (obligatotio)")
+        document.getElementById("cantidad_acc").focus();
+    }
+    // else if(cant_total_distribuir_acc >= '1'){
+    //     alert("la cantidad restante a Distribuir debe ser igual a cero (obligatotio)")
+    //     document.getElementById("cant_total_distribuir_acc").focus();
+    // }
+    else if(costo_unitario_acc == ''){
+        alert("Debe ingresar un Costo Unitario (Obligatorio)")
+
+        document.getElementById("costo_unitario_acc").focus();
+    } else if($("#id_alicuota_iva_acc option:selected").val() == 0) {
+        alert("Debe Seleccionar un iva ");
+        document.getElementById("id_alicuota_iva_acc").focus();
+        return false;
     }else{
         event.preventDefault();
         swal.fire({

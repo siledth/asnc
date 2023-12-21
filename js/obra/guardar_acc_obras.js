@@ -16,7 +16,8 @@ function guardar_acc_servicio(){
     var III = $("#III").val();
     var IV = $("#IV").val();
     var costo_unitario_acc = $("#costo_unitario_acc").val();
-    var precio_total_acc = $("#precio_total_acc").val();
+    var precio_total = $("#precio_total").val();
+
     var id_alicuota_iva_acc = $("#id_alicuota_iva_acc").val();
     var iva_estimado_acc = $("#iva_estimado_acc").val();
     var monto_estimado_acc = $("#monto_estimado_acc").val();
@@ -27,21 +28,45 @@ function guardar_acc_servicio(){
     var estimado_total_t_acc = $("#estimado_total_t_acc").val();
 
 
-    if (par_presupuestaria_acc == '') {
+    if ($("#par_presupuestaria_acc option:selected").val() == 0) {
+        alert("Debe Seleccionar una Partida Presupuestaria");
         document.getElementById("par_presupuestaria_acc").focus();
+        return false;
     }else if(id_estado_acc == ''){
+        alert("Debe ingresar un estado")
         document.getElementById("id_estado_acc").focus();
     }
-    else if(fuente_financiamiento_acc == ''){
-    document.getElementById("fuente_financiamiento_acc").focus();
-    }else if(porcentaje_acc == ''){
+    else if($("#fuente_financiamiento_acc option:selected").val() == 0) {
+        alert("Debe Seleccionar una Fuente Financiamiento");
+        document.getElementById("fuente_financiamiento_acc").focus();
+        return false;
+    }
+    else if(porcentaje_acc == ''){
+        alert("el campo porcentaje no puede quedar vacio")
+
         document.getElementById("porcentaje_acc").focus();
-    }else if(porcentaje_acc == ''){
-            document.getElementById("porcentaje_acc").focus();
-    }else if(id_tip_obra == ''){
-        document.getElementById("id_tip_obra").focus();
-    }else if(especificacion_acc == ''){
+    }else if($("#id_ccnu_acc option:selected").val() == 0) {
+        alert("Debe Seleccionar un CCNU");
+        document.getElementById("id_ccnu_acc").focus();
+        return false;
+    }
+    else if(especificacion_acc == ''){
+        alert("Debe ingresar una especificación")
+
         document.getElementById("especificacion_acc").focus();
+    }else if($("#id_unidad_medida_acc option:selected").val() == 0) {
+        alert("Debe Seleccionar una unidad de medida");
+        document.getElementById("id_unidad_medida_acc").focus();
+        return false;
+    }
+    else if(precio_total == ''){
+        alert("Debe ingresar Un precio (Obligatorio)")
+        document.getElementById("precio_total").focus();
+    }
+     else if($("#id_alicuota_iva option:selected").val() == 0) {
+        alert("Debe Seleccionar un iva ");
+        document.getElementById("id_alicuota_iva").focus();
+        return false;
     }else{
         event.preventDefault();
         swal.fire({

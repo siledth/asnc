@@ -489,8 +489,8 @@
             </div>
         </div>
     </div>
-<!-- /////////////////////////////editar items de bienes -->
-    <script src="<?=base_url()?>/js/bien/modal_editar_items_bienes.js"></script>
+<!-- /////////////////////////////editar items de bienes este-->
+    <script src="<?=base_url()?>/js/bien/modal_editar_items_bienes.js"></script> 
     <!-- /////////////////////////////editar items de bienes -->
     <script src="<?=base_url()?>/js/bien/llenar_editar_proy_b.js"></script>
     <script src="<?=base_url()?>/js/bien/agregar_acc_centralizada_edit.js"></script>
