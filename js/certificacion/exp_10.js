@@ -8,6 +8,7 @@ function agregar_exp_10(button) {
 function remove_proy_acc() { 
 	var row = this.parentNode.parentNode;
     document.querySelector('#target_exp_10 tbody').removeChild(row);
+	$("#cedul10").val($("#cedul10").data("default-value"));
 	$("#organo10").val($("#organo10").data("default-value"));
 	$("#act_adminis_desid").val($("#act_adminis_desid").data("default-value"));
     $("#n_acto").val($("#n_acto").data("default-value"));
@@ -20,6 +21,8 @@ function remove_proy_acc() {
 }
 
 function agregar_exp_10ToCartTable(cells){
+	var cedul10 = $("#cedul10").val();
+
 	var organo10 = $("#organo10").val();
 	var act_adminis_desid = $("#act_adminis_desid").val();
  	var n_acto = $("#n_acto").val();
@@ -28,10 +31,13 @@ function agregar_exp_10ToCartTable(cells){
 	var fecha_act = $("#fecha_act").val();
 
      	
-	if (organo10 == '' || act_adminis_desid == '' || n_acto == ''  || area_10 == '' || dura_comi == ''
+	if (cedul10 == '' ||organo10 == '' || act_adminis_desid == '' || n_acto == ''  || area_10 == '' || dura_comi == ''
 	|| fecha_act == ''){
 
-		if (organo10== '') {
+		if (cedul10== '') {
+			document.getElementById("cedul10").focus();
+		}
+		else if (organo10 =='') {
 			document.getElementById("organo10").focus();
 		}
 		else if (act_adminis_desid =='') {
@@ -56,6 +62,7 @@ function agregar_exp_10ToCartTable(cells){
 		var increment = increment +1;
 		newRow.className='myTr';
 		newRow.innerHTML = `
+		<td>${cedul10}<input type="text" name="cedul10[]" id="ins-type-${increment}" hidden value="${cedul10}"></td>
 		<td>${organo10}<input type="text" name="organo10[]" id="ins-type-${increment}" hidden value="${organo10}"></td>
 		<td>${act_adminis_desid}<input type="text" name="act_adminis_desid[]" id="ins-subtype-${increment}" hidden value="${act_adminis_desid}"></td>
 		<td>${n_acto}<input type="text" hidden name="n_acto[]" id="ins-pres-${increment}" value="${n_acto}"></td>

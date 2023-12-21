@@ -716,6 +716,13 @@
                                         <h4 style="color:red;">  Experiencia de Participación en Comisiones de Contrataciones (en los últimos 10 años)</h4>
                                     </div>
                                             <div class="row">
+                                            
+                                                <div class="form-group col-8">
+                                                    <label> Cedula <b
+                                                            title="Campo Obligatorio" style="color:red">*</b></label>
+                                                    <input class="form-control" type="text" name="cedul10"
+                                                        id="cedul10" placeholder="cedula de identidad">
+                                                </div>
                                                 <div class="form-group col-8">
                                                     <label> Órgano o Ente de la Comisión de Contrataciones <b
                                                             title="Campo Obligatorio" style="color:red">*</b></label>
@@ -783,7 +790,7 @@
                                                     <table id="target_exp_10" class="table table-bordered table-hover">
                                                         <thead style="background:#e4e7e8;">
                                                             <tr class="text-center">
-                                                                 <th>Cedula</th>
+                                                                <th>Cedula</th>
                                                                 <th>Órgano/Ente/Institución/Empresa</th>
                                                                 <th>Acto Administrativo de Designación</th>
                                                                 <th>N° del Acto</th>

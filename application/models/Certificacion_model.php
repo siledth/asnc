@@ -585,7 +585,10 @@ class Certificacion_model extends CI_model
                         'fecha_act' 	 => $exp_par_comi_10['fecha_act'][$i],
                         'area_10' 	 => $exp_par_comi_10['area_10'][$i],
                         'dura_comi' 	   => $exp_par_comi_10['dura_comi'][$i],
-                        'cedula'          	=> $infor_per_natu['cedula'][$i],
+                        //'cedula'          	=> $infor_per_natu['cedula'][$i],
+                        'cedula'   		=> $exp_par_comi_10['cedul10'][$i],
+                       
+
                               
                     );
                     $this->db->insert('certificacion.exp_par_comi_10',$data6);
