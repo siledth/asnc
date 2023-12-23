@@ -74,7 +74,7 @@
                     <div class="col-1"></div>
                     <div class="col-10 mt-3">
                         <h3 class="text-center">Tabla Referente a Proyectos Registrados</h3>
-                        <table  class="table table-hover">
+                        <table class="table-primary">
 
                         <!-- <table id="data-table-default" class="table table-bordered table-hover"> -->
                             <thead style="background:#e4e7e8">
