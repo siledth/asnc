@@ -48,7 +48,7 @@
                                 <div class="col-12 text-center">
                                     <h4 style="color:red;">Totales Por partida Presupuestaria</h4>
                                 </div>
-                                <table id="data-table-default" class="table table-bordered table-hover">
+                                <table id="data-table" class="table table-bordered table-hover">
                                     <thead style="background:#e4e7e8;">
                                         <tr class="text-center">
                                             <th>Código Part. Presupuestaria</th>
