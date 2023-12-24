@@ -4590,7 +4590,7 @@ public function comprobante_programacion() //hacer un pdf de comprobante program
      $pdf->Cell(80,5,'PROYECTO Bs. ',0,0,'C'); 
      $pdf->Cell(35,5,'% ',0,1,'C');
 
-    $data4 = $this->Programacion_model->consulta_total_objeto_py($id_programacion);
+    $data4 = $this->Programacion_model->consulta_total_objeto_py2($id_programacion);
         if($data4 != ''){
             foreach($data4 as $d4){    
             $pdf->SetFont('Arial','',10);
