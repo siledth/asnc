@@ -171,48 +171,51 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                 </div>
                 <div class="modal-body">
                     <div class="row">
-
-                        <div class="form-group col-3 m-b-15">
+                    <div align="center">
+                    <img style="width: 60%" height="100%"
+                                        src=" <?= base_url() ?>Plantilla/img/2024.jpeg" alt="Card image">
+                                        </div>
+                        <!-- <div class="form-group col-3 m-b-15">
                             <label>Cedula</label>
                             <input type="text" id="cedula_prop" class="form-control form-control-lg"
                                 placeholder="VXXXXXXXX" name="cedula_prop" maxlength="9" minlength="5" value="V"
                                 required />
                             <div id="result-cedula_prop"></div>
-                        </div>
+                        </div> -->
                         <!-- <div class="col-2 mt-1">
                                   <button onclick=buscar(); class="btn btn-success btn-lg btn-flat"><i class="fas fa-search"></i></button>
                                  </div> -->
-                        <div class="col-7">
+                        <!-- <div class="col-7">
                             <h4 class="mt-3" style="display:none; color:crimson" id="mensaj" name="mensaj">Por favor
                                 llenar sus datos</h4>
-                        </div>
-                        <div class="form-group col-6 m-b-15">
+                        </div> -->
+                        <!-- <div class="form-group col-6 m-b-15">
                             <label>Nombre y Apellido</label>
                             <input type="text" id="nombre" name="nombre" class="form-control form-control-lg"
                                 placeholder="Nombre y Apellido" />
-                        </div>
+                        </div> -->
 
-                        <div class="form-group col-5 m-b-15">
+                        <!-- <div class="form-group col-5 m-b-15">
                             <label>Correo</label>
                             <input type="text" id="email" name="email" class="form-control form-control-lg"
                                 placeholder="Email" />
                             <div id="result-email"></div>
-                        </div>
+                        </div> -->
 
                     </div>
-                    <div class="modal-footer">
+                    <!-- <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                         <button type="button" id="btn_guar_2" onclick="guardar()" class="btn btn-primary"
                             disabled>Guardar</button>
-                    </div>
-                    <div class="form-group col-12 m-b-15">
+                    </div> -->
+                    <!-- <div class="form-group col-12 m-b-15">
                         <h5>* Este registro es unicamente pára realizar la carga de Certificado de Persona Natural y
                             Juridica. </h5> <br>
                         <h5>* Para Realizar carga de llamados a concusos, evaluaciones, programación anual, consulta de
                             contratista, por favor contactar con el Servico Nacional de Contrataciones para solicitar
                             Usuario de Ingreso.</h5>
 
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

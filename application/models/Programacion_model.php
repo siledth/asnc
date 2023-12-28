@@ -2699,7 +2699,7 @@ public function enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $da
     //ACC 1
     if($data2 != ''){
         foreach($data2 as $d2){
-            if ($d2->id_obj_comercial != '' && $d2->id_obj_comercial == '1') {
+            if ($d2->id_obj_comercial != '' && $d2->id_obj_comercial == '3') {
                 $id_obj_comr_obra_a = $d2->id_obj_comercial;
                 $precio_total_obra_a = number_format($d2->precio_total, 2, ",", ".");
                 
@@ -2712,7 +2712,7 @@ public function enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $da
                 $porcentaje_obra_a = 0;
             }
     
-            if ($d2->id_obj_comercial != '' && $d2->id_obj_comercial == 2) {
+            if ($d2->id_obj_comercial != '' && $d2->id_obj_comercial == 1) {
                 $id_obj_comr_bien_a = $d2->id_obj_comercial;
                 $precio_total_bien_a = number_format($d2->precio_total, 2, ",", ".");
     
@@ -2725,7 +2725,7 @@ public function enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $da
                 $porcentaje_bien_a = 0;
             }
 
-            if ($d2->id_obj_comercial != '' && $d2->id_obj_comercial == 3) {
+            if ($d2->id_obj_comercial != '' && $d2->id_obj_comercial == 2) {
                 $id_obj_comr_serv_a = $d2->id_obj_comercial;
                 $precio_total_serv_a = number_format($d2->precio_total, 2, ",", ".");
     
@@ -2759,7 +2759,7 @@ public function enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $da
     //PROYECTO 0
     if($data4 != ''){
         foreach($data4 as $d){ 
-            if ($d->id_obj_comercial != '' && $d->id_obj_comercial == 1) {
+            if ($d->id_obj_comercial != '' && $d->id_obj_comercial == 3) {
                 $id_obj_comr_obra_p = $d->id_obj_comercial;
                 $precio_total_obra_p = number_format($d->precio_total, 2, ",", ".");
     
@@ -2772,7 +2772,7 @@ public function enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $da
                 $porcentaje_obra_p = 0;
             }
     
-            if ($d->id_obj_comercial != '' && $d->id_obj_comercial == 2) {
+            if ($d->id_obj_comercial != '' && $d->id_obj_comercial == 1) {
                 $id_obj_comr_bien_p = $d->id_obj_comercial;
                 $precio_total_bien_p = number_format($d->precio_total, 2, ",", ".");
     
@@ -2785,7 +2785,7 @@ public function enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $da
                 $porcentaje_bien_p = 0;
             }
 
-            if ($d->id_obj_comercial != '' && $d->id_obj_comercial == 3) {
+            if ($d->id_obj_comercial != '' && $d->id_obj_comercial == 2) {
                 $id_obj_comr_serv_p = $d->id_obj_comercial;
                 $precio_total_serv_p = number_format($d->precio_total, 2, ",", ".");
     
