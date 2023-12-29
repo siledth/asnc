@@ -120,6 +120,8 @@
                         <table id="data-table-autofill" class="table table-hover">
                             <thead style="background:#e4e7e8">
                                 <tr class="text-center">
+                                <th>id</th>
+
                                     <th>Acción Centralizada</th>
                                     <th>Objeto de Contratación</th>
                                     <th>Acciones</th>
@@ -128,6 +130,9 @@
                             <tbody>
                                 <?php foreach($ver_acc_centralizada as $ver_acc_centralizad):?>
                                 <tr class="odd gradeX" style="text-align:center">
+                                
+                                <td><?=$ver_acc_centralizad['id_p_acc_centralizada']?> </td>
+
                                     <td><?=$ver_acc_centralizad['desc_accion_centralizada']?> </td>
                                     <td><?=$ver_acc_centralizad['desc_objeto_contrata']?> </td>
                                     <td class="center">
