@@ -2696,46 +2696,45 @@ public function enviar_snc_reprogramacion($data)
 }
 /////////////cambia el status de la reprogramacion enviar al snc
 public function enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $data3, $data4, $data5){
+   
     //ACC 1
+    $id_obj_comr_obra_a = 0;
+    $precio_total_obra_a = 0;
+    $porcentaje_obra_a = 0;
+    $id_obj_comr_bien_a = 0;
+    $precio_total_bien_a = 0;
+    $porcentaje_bien_a = 0;
+    $id_obj_comr_serv_a = 0;
+    $precio_total_serv_a = 0;
+    $porcentaje_serv_a = 0;
+
     if($data2 != ''){
         foreach($data2 as $d2){
-            if ($d2->id_obj_comercial != '' && $d2->id_obj_comercial == '3') {
+            if($d2->id_obj_comercial != '' && $d2->id_obj_comercial == '3'){
                 $id_obj_comr_obra_a = $d2->id_obj_comercial;
                 $precio_total_obra_a = number_format($d2->precio_total, 2, ",", ".");
                 
-                foreach($data3 as $d3){          
+                foreach($data3 as $d3){   
                     $porcentaje_obra_a = $d2->precio_total / $d3->precio_total * 100;
                 }
-            }else{
-                $id_obj_comr_obra_a = 0;
-                $precio_total_obra_a = 0;
-                $porcentaje_obra_a = 0;
             }
     
-            if ($d2->id_obj_comercial != '' && $d2->id_obj_comercial == 1) {
+            else if($d2->id_obj_comercial != '' && $d2->id_obj_comercial == 1) {
                 $id_obj_comr_bien_a = $d2->id_obj_comercial;
                 $precio_total_bien_a = number_format($d2->precio_total, 2, ",", ".");
     
-                foreach($data3 as $d3){          
+                foreach($data3 as $d3){      
                     $porcentaje_bien_a = $d2->precio_total / $d3->precio_total * 100;
                 }
-            }else{
-                $id_obj_comr_bien_a = 0;
-                $precio_total_bien_a = 0;
-                $porcentaje_bien_a = 0;
             }
 
-            if ($d2->id_obj_comercial != '' && $d2->id_obj_comercial == 2) {
+            else if ($d2->id_obj_comercial != '' && $d2->id_obj_comercial == 2) {
                 $id_obj_comr_serv_a = $d2->id_obj_comercial;
                 $precio_total_serv_a = number_format($d2->precio_total, 2, ",", ".");
     
                 foreach($data3 as $d3){          
                     $porcentaje_serv_a = $d2->precio_total / $d3->precio_total * 100;
                 }
-            }else{
-                $id_obj_comr_serv_a = 0;
-                $precio_total_serv_a = 0;
-                $porcentaje_serv_a = 0;
             }
         }
     
@@ -2757,45 +2756,44 @@ public function enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $da
     }
     
     //PROYECTO 0
+
+    $id_obj_comr_obra_p = 0;
+    $precio_total_obra_p = 0;
+    $porcentaje_obra_p = 0;
+    $id_obj_comr_bien_p = 0;
+    $precio_total_bien_p = 0;
+    $porcentaje_bien_p = 0; 
+    $id_obj_comr_serv_p = 0;
+    $precio_total_serv_p = 0;
+    $porcentaje_serv_p = 0;
+    
     if($data4 != ''){
         foreach($data4 as $d){ 
             if ($d->id_obj_comercial != '' && $d->id_obj_comercial == 3) {
                 $id_obj_comr_obra_p = $d->id_obj_comercial;
                 $precio_total_obra_p = number_format($d->precio_total, 2, ",", ".");
     
-                foreach($data3 as $d3){          
-                    $porcentaje_obra_p = $d->precio_total / $d3->precio_total * 100;
+                foreach($data5 as $d3){          
+                    $porcentaje_obra_p = $d->precio_total / $d3->precio_total_py * 100;
                 }
-            }else{
-                $id_obj_comr_obra_p = 0;
-                $precio_total_obra_p = 0;
-                $porcentaje_obra_p = 0;
             }
     
-            if ($d->id_obj_comercial != '' && $d->id_obj_comercial == 1) {
+            else if ($d->id_obj_comercial != '' && $d->id_obj_comercial == 1) {
                 $id_obj_comr_bien_p = $d->id_obj_comercial;
                 $precio_total_bien_p = number_format($d->precio_total, 2, ",", ".");
     
-                foreach($data3 as $d3){          
-                    $porcentaje_bien_p = $d->precio_total / $d3->precio_total * 100;
+                foreach($data5 as $d3){          
+                    $porcentaje_bien_p = $d->precio_total / $d3->precio_total_py * 100;
                 }
-            }else{
-                $id_obj_comr_bien_p = 0;
-                $precio_total_bien_p = 0;
-                $porcentaje_bien_p = 0;
             }
 
-            if ($d->id_obj_comercial != '' && $d->id_obj_comercial == 2) {
+            else if ($d->id_obj_comercial != '' && $d->id_obj_comercial == 2) {
                 $id_obj_comr_serv_p = $d->id_obj_comercial;
                 $precio_total_serv_p = number_format($d->precio_total, 2, ",", ".");
     
-                foreach($data3 as $d3){          
-                    $porcentaje_serv_p = $d->precio_total / $d3->precio_total * 100;
+                foreach($data5 as $d3){          
+                    $porcentaje_serv_p = $d->precio_total / $d3->precio_total_py * 100;
                 }
-            }else{
-                $id_obj_comr_serv_p = 0;
-                $precio_total_serv_p = 0;
-                $porcentaje_serv_p = 0;
             }
         }
     
@@ -2843,7 +2841,7 @@ public function enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $da
                     'total_acc'             => $total_acc,
                     'id_usuario'            => $this->session->userdata('id_user'),
         );
-
+        //print_r($resulta);die;
        $this->db->insert('programacion.inf_enviada',$resulta);
 
         $data1 = array('estatus' => '2',// se puede reprogramar y rendir 
@@ -4625,7 +4623,11 @@ public function listar_info($data){
     return $query->row_array();
 }
 public function Consultar_programacion_final($id_programacion){
-    $this->db->select('pac.*,cc.codigopartida_presupuestaria,cc.desc_partida_presupuestaria,
+    $this->db->select('pac.id_p_items, pac.id_proyecto, pac.id_obj_comercial , pac.id_enlace, pac.id_p_acc, 
+    pac.id_partidad_presupuestaria, pac.id_ccnu,
+    pac.id_tip_obra, pac.id_alcance_obra, pac.id_obj_obra, pac.fecha_desde, pac.fecha_hasta, pac.especificacion, pac.id_unidad_medida, 
+    pac.cantidad, pac.i, pac.ii, pac.iii, pac.iv, pac.costo_unitario, pac.precio_total, pac.alicuota_iva, pac.iva_estimado, pac.monto_estimado,    
+    cc.codigopartida_presupuestaria,cc.desc_partida_presupuestaria,
                         ti.codigo_ccnu, ti.desc_ccnu,ff.id_fuente_financiamiento,ff.porcentaje,ff.id_estado,
                          f.desc_fuente_financiamiento, un.desc_unidad_medida
     
@@ -4634,10 +4636,7 @@ public function Consultar_programacion_final($id_programacion){
      $this->db->join('programacion.ccnu ti','ti.codigo_ccnu = pac.id_ccnu', 'left');
      $this->db->join('programacion.p_ffinanciamiento ff','ff.id_p_items = pac.id_p_items', 'left');  
      $this->db->join('programacion.fuente_financiamiento f','f.id_fuente_financiamiento = ff.id_fuente_financiamiento', 'left');
-     $this->db->join('programacion.unidad_medida un','un.id_unidad_medida = pac.id_unidad_medida', 'left');  
-     
-
-
+     $this->db->join('programacion.unidad_medida un','un.id_unidad_medida = pac.id_unidad_medida', 'left');     
     
     $this->db->where('pac.id_proyecto', $id_programacion);
     $query = $this->db->get('programacion.p_items pac');
