@@ -4950,4 +4950,18 @@ public function save_certificado($data){ //por hacer
     $query = $this->db->get('programacion.inf_enviada');
     return $query->result_array();
 }
+function read_sending_p2($data1){
+    $query = $this->db->query("SELECT  pac.id_programacion, pac.des_unidad, pac.rif, pac.codigo_onapre
+
+    FROM programacion.inf_enviada pac 
+    where pac.id_programacion = '$data1'");
+    if($query->num_rows()>0){
+        return $query->result();
+    }
+    else{
+        return NULL;
+    }
+}
+
+
 }
