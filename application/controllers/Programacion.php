@@ -2153,6 +2153,7 @@ public function editar_item_servicio_py(){
         $rif = $this->session->userdata('rif');
         $id_programacion = $data['id'];
         
+        
         $data2 = $this->Programacion_model->consulta_total_objeto_acc($id_programacion);
         
         $data3 = $this->Programacion_model->consulta_total_acc($id_programacion);
@@ -5067,5 +5068,19 @@ public function guardar_comprobante_totales() {
     $data = $this->Programacion_model->save_certificado($data);
     echo json_encode($data);
 }
+public function sending_p(){
+    if(!$this->session->userdata('session'))redirect('login');
+
+   
+
+    $data['read'] = $this->Programacion_model->read_sending_p();
+    $data['fecha'] = date('yy');
+
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('programacion/sending/sendig_pr.php', $data);
+    $this->load->view('templates/footer.php');
+}
+
 }
 //se actualizo8

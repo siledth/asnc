@@ -6,10 +6,7 @@
             <div class="card card-outline-danger text-center bg-white">
                 <div class="card-block">
                     <blockquote class="card-blockquote" style="margin-bottom: -19px;">
-                        <p class="f-s-18 text-inverse f-w-600">Nombre Órgano / Ente: <?=$des_unidad?>.</p>
-                        <p class="f-s-16">RIF.: <?=$rif?> <br>
-                            Código ONAPRE: <?=$codigo_onapre?> <br>
-                            <input type="hidden" value="<?=$id_programacion?>"> 
+                     
 
 
                             <!-- <input type="hidden" name="fecha_est" id="fecha_est" value=""> -->

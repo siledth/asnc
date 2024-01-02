@@ -2696,7 +2696,11 @@ public function enviar_snc_reprogramacion($data)
 }
 /////////////cambia el status de la reprogramacion enviar al snc
 public function enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $data3, $data4, $data5){
-   
+    $this->db->select('anio');
+    $this->db->where('id_programacion', $data['id']);
+                $query1 = $this->db->get('programacion.programacion');                
+                $response4 = $query1->row_array();
+                $id1 = $response4['anio'] + 0 ;
     //ACC 1
     $id_obj_comr_obra_a = 0;
     $precio_total_obra_a = 0;
@@ -2816,6 +2820,7 @@ public function enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $da
     $resulta = array('id_programacion'      => $data['id'],
                     'des_unidad'            => $des_unidad,
                     'codigo_onapre'         => $codigo_onapre,
+                    
                     'rif'                   => $rif,
                     'id_p_acc_proy'         => 0,
                     'id_obj_comr_obra'      => $id_obj_comr_obra_p,
@@ -2840,13 +2845,15 @@ public function enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $da
                     'porcentaje_serv_a'     => $porcentaje_serv_a,
                     'total_acc'             => $total_acc,
                     'id_usuario'            => $this->session->userdata('id_user'),
+                    'anio'            => $id1,
+
         );
         //print_r($resulta);die;
        $this->db->insert('programacion.inf_enviada',$resulta);
 
         $data1 = array('estatus' => '2',// se puede reprogramar y rendir 
                         'id_usuario' => $this->session->userdata('id_user'),
-                    //    'fecha' => date('Y-m-d h:i:s')
+                        'date_sending' => date('Y-m-d h:i:s')
                     );
         $this->db->where('id_programacion', $data['id']);
         $update = $this->db->update('programacion.programacion', $data1);
@@ -4938,4 +4945,9 @@ public function save_certificado($data){ //por hacer
         return true;
     
    }
+   public function read_sending_p(){
+    $this->db->select('id_ainf_enviada, id_programacion, anio,des_unidad,rif');
+    $query = $this->db->get('programacion.inf_enviada');
+    return $query->result_array();
+}
 }

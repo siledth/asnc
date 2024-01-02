@@ -81,6 +81,13 @@
                                         - Programación Anual
                                     </a>
                                 </li>
+                                <?php if (($this->session->userdata('ver_parametro') == 1)) : ?>
+                                    <li>
+                                    <a href="<?= base_url() ?>index.php/Programacion/sending_p">
+                                        - Consulta Programación Enviada
+                                    </a>
+                                </li>
+                                <?php endif; ?>
                                 <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
                                 <li>
                                     <a href="<?= base_url() ?>index.php/programacion/reprogramar">
@@ -95,12 +102,15 @@
                                 <?php endif; ?>
 
                                 <?php if (($this->session->userdata('ver_user_exter') == 1)) : ?>
-                                <li>
+                                <!-- <li>
                                     <a href="<?= base_url() ?>index.php/Programacion/consulta_general">
                                         - Programación General
                                     </a>
-                                </li>
+                                </li> -->
                                 <?php endif; ?>
+
+                              
+
                             </ul>
                         </li>
                         <?php if (($this->session->userdata('menu_eval_desem') == 1)) : ?>
