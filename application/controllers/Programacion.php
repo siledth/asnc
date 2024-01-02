@@ -4303,14 +4303,14 @@ public function ver_rendicion_realizadas(){ //////////visualiza las rendiciones 
 public function ver_programacion_final(){ //////////visualiza la programacion realizada
     if(!$this->session->userdata('session'))redirect('login');
 
-    $data['unidad'] = $this->session->userdata('id_unidad');
-    $data['des_unidad'] = $this->session->userdata('unidad');
-    $data['rif'] = $this->session->userdata('rif');
-    $data['codigo_onapre'] = $this->session->userdata('codigo_onapre');
+    // $data['unidad'] = $this->session->userdata('id_unidad');
+    // $data['des_unidad'] = $this->session->userdata('unidad');
+    // $data['rif'] = $this->session->userdata('rif');
+    // $data['codigo_onapre'] = $this->session->userdata('codigo_onapre');
 
-    $data['id_programacion'] = $this->input->get('id');
-    $data['programacion_anio'] = $this->Programacion_model->consultar_prog_anio($data['id_programacion'], $data['unidad']);
-    $data['anio'] = $data['programacion_anio']['anio'];
+     $data['id_programacion'] = $this->input->get('id');
+    // $data['programacion_anio'] = $this->Programacion_model->consultar_prog_anio($data['id_programacion'], $data['unidad']);
+    // $data['anio'] = $data['programacion_anio']['anio'];
 
  
 
