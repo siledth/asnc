@@ -4921,7 +4921,7 @@ public function read_send() //hacer un pdf de comprobante programacion final
     
     
      
-      $pdf->Output('Comprobanteproyecto '.$curdate.'.pdf', 'I');
+      $pdf->Output('Comprobanteproyecto '.$curdate.'.pdf', 'D');
      // $this->load->view('headfoot/header', $datos);
 }
 public function Llamado_1() //hacer un pdf de comprobante programacion final
