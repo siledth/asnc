@@ -2150,7 +2150,7 @@ public function editar_item_servicio_py(){
         
         $des_unidad = $this->session->userdata('unidad');
         $codigo_onapre = $this->session->userdata('codigo_onapre');
-        $rif = $this->session->userdata('rif');
+        $rif = $this->session->userdata('rif_organoente');
         $id_programacion = $data['id'];
         
         
