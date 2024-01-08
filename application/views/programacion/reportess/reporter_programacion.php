@@ -38,6 +38,7 @@
                             <th style="color:white; width: 40px">Unid. Medida</th>
                             <th style="color:white; width: 40px">Fecha Desde</th>
                             <th style="color:white; width: 40px">Fecha Hasta</th>
+                            <th style="color:white; width: 40px">Cantidad</th>
                             <th style="color:white; width: 25px">% a Ejecutar I</th>
                             <th style="color:white; width: 25px" > % a Ejecutar II</th>
                             <th style="color:white; width: 25px">% a Ejecutar III</th>
@@ -70,6 +71,8 @@
                             <td><?=$data['desc_unidad_medida']?> </td>
                             <td><?=date("d/m/Y", strtotime($data['fecha_desde']));?> </td>
                             <td><?=date("d/m/Y", strtotime($data['fecha_hasta']));?> </td>
+                            <td><?=$data['Cantidad']?> </td>
+
                             <td><?=$data['i']?> </td>
                             <td><?=$data['ii']?> </td>
                             <td><?=$data['iii']?> </td>
