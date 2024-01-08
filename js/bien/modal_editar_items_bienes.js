@@ -329,13 +329,13 @@ function guardar_reprogramacion_bienes_acc(){
     event.preventDefault();
 
     swal.fire({
-        title: '¿Seguro que desea guardar la Reprogramación?',
+        title: '¿Seguro que desea guardar la Modificación de programación?',
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         cancelButtonText: 'Cancelar',
-        confirmButtonText: '¡Si, Reprogramar!'
+        confirmButtonText: '¡Si, Guardar!'
     }).then((result) => {
         if (result.value == true) {
             var id_items_proy = $('#id_items_b').val();
@@ -420,7 +420,7 @@ function guardar_reprogramacion_bienes_acc(){
                 success: function(response){
                     if(response == 1) {
                         swal.fire({
-                            title: 'Se Reprogramo la información con exito.',
+                            title: 'Se Modifico la información con exito.',
                             type: 'success',
                             showCancelButton: false,
                             confirmButtonColor: '#3085d6',

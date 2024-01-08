@@ -4383,9 +4383,7 @@ public function consultar_item_rendir_primero(){
     $unidad = $this->session->userdata('id_unidad');
     $data['id_programacion'] = $this->input->get('id');
     
-   
-    
-
+  
     $data['programacion_anio'] = $this->Programacion_model->consultar_prog_anio($data['id_programacion'], $unidad);
     $data['anio'] = $data['programacion_anio']['anio'];
 
@@ -5323,6 +5321,35 @@ public function guardar_comprobante_totales() {
     $data = $this->Programacion_model->save_certificado($data);
     echo json_encode($data);
 }
+
+public function surrender(){
+    if(!$this->session->userdata('session'))redirect('login');
+    //Información traido por el session de usuario para mostrar inf
+    $data['unidad'] = $this->session->userdata('id_unidad');
+    $data['des_unidad'] = $this->session->userdata('unidad');
+    $data['rif'] = $this->session->userdata('rif');
+    $data['codigo_onapre'] = $this->session->userdata('codigo_onapre');
+    $unidad = $this->session->userdata('id_unidad');
+    $data['id_programacion'] = $this->input->get('id');
+    
+   
+    $data['mat'] = $this->Programacion_model->consulta_itemsr($data['id_programacion']);
+  //  print_r( $data['mat']);die;
+
+    $data['programacion_anio'] = $this->Programacion_model->consultar_prog_anio($data['id_programacion'], $unidad);
+    $data['anio'] = $data['programacion_anio']['anio'];
+
+    //Traer todo los proyectos y acc registradas por el id_programación de cada unidad
+    $data['ver_proyectos'] = $this->Programacion_model->consultar_proyectos_primero($data['id_programacion']);
+    $data['ver_acc_centralizada'] = $this->Programacion_model->consultar_acc_centralizada_pimertimetre1($data['id_programacion']);
+    $data['totalespartida'] = $this->Programacion_model->total_por_partidas($data['id_programacion']);
+   // $data['mat'] = $this->Programacion_model->consulta_items($data['id_programacion']);
+
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('programacion/rendicion/surrender.php', $data);
+    $this->load->view('templates/footer.php');
+}
 public function sending_p(){
     if(!$this->session->userdata('session'))redirect('login');
 
@@ -5336,6 +5363,13 @@ public function sending_p(){
     $this->load->view('programacion/sending/sendig_pr.php', $data);
     $this->load->view('templates/footer.php');
 }
+public function tolist_info(){
+    if(!$this->session->userdata('session'))redirect('login');
+    $data = $this->input->post();
+    $data = $this->Programacion_model->tolist_info($data);
+    echo json_encode($data);
+}
+
 
 }
 //se actualizo8

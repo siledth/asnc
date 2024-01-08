@@ -4962,6 +4962,74 @@ function read_sending_p2($data1){
         return NULL;
     }
 }
+/////consutar item
+public function consulta_itemsr($id_programacion){
+    $this->db->select('id_ccnu, id_proyecto,desc_ccnu,id_p_items');
+    $this->db->from('programacion.tolist_itms');
+    $this->db->where('id_proyecto', $id_programacion);
+    $query = $this->db->get();
+    return $result = $query->result_array();
+}
+
+public function tolist_info($data){
+                $this->db->select('m.id_p_items,
+                m.id_enlace,
+                m.id_partidad_presupuestaria,
+                m.id_ccnu,
+                m.id_tip_obra, m.id_alcance_obra, m.id_obj_obra,
+                m.especificacion,
+                m.id_unidad_medida,
+                m.cantidad,
+                m.i,
+                m.ii,
+                m.iii,
+                m.iv,
+                m.cant_total_distribuir,
+                m.costo_unitario, m.precio_total, m.alicuota_iva, m.iva_estimado, m.monto_estimado,
+                m.est_trim_1, m.est_trim_2, m.est_trim_3, m.est_trim_4, m.estimado_total_t_acc,
+                m.fecha_desde,
+                m.fecha_hasta,
+                pp.codigopartida_presupuestaria,
+                pp.desc_partida_presupuestaria,
+                cc.codigo_ccnu,
+                cc.desc_ccnu,
+                un.desc_unidad_medida,
+                pcc.id_accion_centralizada,
+                pcc.id_obj_comercial,
+                pcc.id_programacion,
+                ff.id_estado,
+                ff.id_fuente_financiamiento,
+                ff.porcentaje,
+                fr.desc_fuente_financiamiento,
+                ac.desc_accion_centralizada,
+                ob.desc_objeto_contrata,
+                re.trimestre,
+                tr.descripcion_trimestre,
+                tpo.descripcion_tip_obr,
+                al.descripcion_alcance_obra,
+                obj.descripcion_obj_obra
+                '							
+            );
+      $this->db->join('programacion.partida_presupuestaria pp','pp.id_partida_presupuestaria = m.id_partidad_presupuestaria', 'left');
+      $this->db->join('programacion.ccnu cc','cc.codigo_ccnu = m.id_ccnu', 'left');
+      $this->db->join('programacion.unidad_medida un','un.id_unidad_medida = m.id_unidad_medida', 'left');
+      $this->db->join('programacion.p_acc_centralizada pcc','pcc.id_p_acc_centralizada = m.id_enlace', 'left');
+                
+      $this->db->join('programacion.p_ffinanciamiento ff','ff.id_p_items = m.id_p_items', 'left');
+      $this->db->join('programacion.fuente_financiamiento fr','fr.id_fuente_financiamiento = ff.id_fuente_financiamiento', 'left');
+                
+      $this->db->join('programacion.accion_centralizada ac','ac.id_accion_centralizada = pcc.id_accion_centralizada', 'left');
+                
+      $this->db->join('programacion.objeto_contrata ob','ob.id_objeto_contrata = pcc.id_obj_comercial', 'left');
+      $this->db->join('programacion.rendidicion re','re.id_p_items = m.id_p_items', 'left');
+      $this->db->join('programacion.trimestre tr','tr.id_trimestre = re.trimestre', 'left');        
+      $this->db->join('programacion.tip_obra tpo','tpo.id_tip_obra = m.id_tip_obra', 'left');
+      $this->db->join('programacion.alcance_obra al','al.id_alcance_obra = m.id_alcance_obra', 'left');
+      $this->db->join('programacion.obj_obra obj','obj.id_obj_obra = m.id_obj_obra', 'left');
 
 
+   $this->db->where('m.id_p_items', $data['id_p_items']);
+    $query = $this->db->get('programacion.p_items m');
+    return $query->row_array();
+}
 }

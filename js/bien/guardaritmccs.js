@@ -10,7 +10,7 @@ function guardar_acc_bien(){
     var especificacion_acc = $("#especificacion_acc").val();
     var id_unidad_medida_acc = $("#id_unidad_medida_acc").val();
     var cantidad_acc = $("#cantidad_acc").val();
-    var cant_total_distribuir_acc = $("#cantidad_acc").val();
+    var cant_total_distribuir_acc = $("#cant_total_distribuir_acc").val();
 
     var I_acc = $("#I_acc").val();
     var II_acc = $("#II_acc").val();
@@ -62,10 +62,11 @@ function guardar_acc_bien(){
         alert("Debe ingresar una Cantidad (obligatotio)")
         document.getElementById("cantidad_acc").focus();
     }
-    // else if(cant_total_distribuir_acc >= '1'){
-    //     alert("la cantidad restante a Distribuir debe ser igual a cero (obligatotio)")
-    //     document.getElementById("cant_total_distribuir_acc").focus();
-    // }
+  
+    else if(cant_total_distribuir_acc > '1'){
+        alert("la cantidad a Distribuir debe ser igual a cero (obligatotio) (Debe distribuir la cantidad ingresada en los campos de trimestres I,II,III,IV segun su programación)")
+        document.getElementById("cant_total_distribuir_acc").focus();
+    }
     else if(costo_unitario_acc == ''){
         alert("Debe ingresar un Costo Unitario (Obligatorio)")
 

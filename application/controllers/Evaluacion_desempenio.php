@@ -269,10 +269,11 @@ class Evaluacion_desempenio extends CI_Controller {
 		$data['fecha_reg_eval'] = $date_r;
 
        
-			// $img = $data['eval_ind']['fileimagen'];
-			// $separar  = explode(".", $img);
-			// $data['tipo_img'] = $separar['1'];
+			$img = $data['eval_ind']['fileimagen'];
+			$separar  = explode(".", $img);
+			$data['tipo_img'] = $separar['1'];
 			
+		//print_r($data['eval_ind']);die;
 		 
 		
 	

@@ -31,6 +31,14 @@
                             </div>
                             <div class="col-4">
                                 <button
+                                    onclick="location.href='<?php echo base_url()?>index.php/programacion/surrender?id=<?php echo $id_programacion;?>'"
+                                    type="button" class="btn btn-lg btn-default" name="button">
+                                    Rendir prueba
+                                </button>
+
+                            </div>
+                            <div class="col-4">
+                                <button
                                     onclick="location.href='<?php echo base_url()?>index.php/Programacion/ver_rendicion_realizadas?id=<?php echo $id_programacion;?>'"
                                     type="button" class="btn btn-lg btn-default" name="button">
                                     Ver items Rendidos 1 er trimestres

@@ -157,10 +157,12 @@
                             </div>
                             <div class="col-12">
                                 <div class="card card-outline-danger">
-                                    <h5 class="mt-3 text-center"><b>Distribución Porcentual de la Ejecución
-                                            Trimestral</b> <i style="color: red;"
+                                <h5 class="mt-3 text-center"><b>Distribución de la cantidad de la Ejecución
+                                        Trimestral</b><b style="color:red">*Leer</b><i style="color: red;"
                                             title="Para ingresar los datos correspondientes a cada trimestre, debe ingresar un Rango de Fecha."
-                                            class="fas fa-question-circle"></i></h5>
+                                            class="fas fa-question-circle"></i> </h5> <br>
+                                            <h6 class="mt-1 text-center">Debe distribuir el porcentaje de ejecución trimestral en los campos de trimestres I,II,III,IV segun su programación</h6>
+                                            <h6 class=" text-right">Cantidad a distribuir debe ser igual a Cero (0)</h6>
                                     <div class="row mt-3">
                                         <div class="form-group col-2">
                                             <label>I<b style="color:red">*</b></label>

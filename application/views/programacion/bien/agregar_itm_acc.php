@@ -141,44 +141,50 @@
                             </div>
                             <div class="card card-outline-danger">
                                 <h5 class="mt-3 text-center"><b>Distribución de la cantidad de la Ejecución
-                                        Trimestral</b></h5>
+                                        Trimestral</b><b style="color:red">*Leer</b><i style="color: red;"
+                                            title="Debe distribuir la cantidad ingrersada por trimestre"
+                                            class="fas fa-question-circle"></i> </h5> <br>
+                                            <h6 class="mt-1 text-center">Debe distribuir la cantidad ingresada en los campos de trimestres I,II,III,IV segun su programación</h6>
+                                            <h6 class=" text-right">Cantidad a distribuir debe ser igual a Cero (0)</h6>
+
                                 <div class="row mt-2">
                                     <div class="form-group col-2">
-                                        <label>Cantidad<b style="color:red">*</b></label>
+                                        <label>Ingresar Cantidad<b style="color:red">*</b></label>
                                         <input id="cantidad_acc" name="cantidad_acc" onblur="calcular_bienes();"
-                                            type="text" class="form-control">
+                                            type="text" class="form-control" onkeypress="return valideKey(event);">
                                     </div>
                                     <div class="form-group col-2">
                                         <label>I<b style="color:red">*</b></label>
                                         <input id="I_acc" name="I_acc" type="text" onblur="calcular_bienes();" value="0"
-                                            class="form-control" style="width: 100%;">
+                                            class="form-control" style="width: 100%;" onkeypress="return valideKey(event);">
                                     </div>
                                     <div class="form-group col-2">
                                         <label>II<b style="color:red">*</b></label>
                                         <input id="II_acc" name="II_acc" type="text" onblur="calcular_bienes();"
-                                            value="0" class="form-control" style="width: 100%;">
+                                            value="0" class="form-control" style="width: 100%;" onkeypress="return valideKey(event);">
                                     </div>
                                     <div class="form-group col-2">
                                         <label>III<b style="color:red">*</b></label>
                                         <input id="III_acc" name="III_acc" type="text" onblur="calcular_bienes();"
-                                            value="0" class="form-control" style="width: 100%;">
+                                            value="0" class="form-control" style="width: 100%;" onkeypress="return valideKey(event);">
                                     </div>
                                     <div class="form-group col-2">
                                         <label>IV<b style="color:red">*</b></label>
                                         <input id="IV_acc" name="IV_acc" type="text" onblur="calcular_bienes();"
-                                            value="0" class="form-control" style="width: 100%;">
+                                            value="0" class="form-control" style="width: 100%;" onkeypress="return valideKey(event);">
                                     </div>
                                     <div class="form-group col-2">
-                                        <label>Cantd. restante a Distribuir <b style="color:red">*</b></label>
-                                        <input id="cant_total_distribuir_acc" name="cant_total_distribuir_acc"
-                                            type="text" class="form-control" readonly>
+                                        <label>Cantd. a Distribuir <b style="color:red">*</b><i style="color: red;" title="Restara con los valores ingresados en los campos de trimestres, debe dar un Valor de Cero(0)."
+                                        class="fas fa-question-circle"></i></label>
+                                        <input id="cant_total_distribuir_acc"  name="cant_total_distribuir_acc" 
+                                            type="text" class="form-control" readonly >
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group col-2">
                                 <label>Costo Unitario <b style="color:red">*</b></label>
                                 <input id="costo_unitario_acc" name="costo_unitario_acc" onblur="calcular_bienes();"
-                                    type="text" class="form-control">
+                                    type="text" class="form-control" onkeypress="return valideKey(event);">
                             </div>
                             <div class="form-group col-3">
                                 <label>Precio Total Estimado<b style="color:red">*</b></label>
@@ -316,17 +322,17 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Modal para editar Items de Bienes</h4>
+                    <h4 class="modal-title">Editar Items de Bienes</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         
-                        <input type="text" class="form-control" name="id_items_b" id="id_items_b">
-                        <div class="form-group col-8">
+                        <input type="hidden" class="form-control" name="id_items_b" id="id_items_b">
+                        <div class="form-group col-3">
                             <label>ID - ITEMS</label>
                             <input class="form-control" type="text" name="id_p_items" id="id_p_items" readonly>
                         </div>
-                        <div class="form-group col-4">
+                        <div class="form-group col-9">
                             <label>Cod. Partida Presupuestaria</label>
                             <input type="hidden" name="id_part_pres_b" id="id_part_pres_b">
                             <input id="codigopartida_presupuestaria" name="codigopartida_presupuestaria" class="form-control"
@@ -372,10 +378,11 @@
                             <label>Especificación</label>
                             <input type="text" class="form-control" name="especificacion" id="especificacion">
                         </div>
+                        
                         <div class="form-group col-3">
                             <label>Unidad de Medida</label>
                             <input type="text" class="form-control" name="unid_med_b" id="unid_med_b" disabled>
-                            <input type="text" name="id_unid_med_b" id="id_unid_med_b">
+                            <input type="hidden" name="id_unid_med_b" id="id_unid_med_b">
                         </div>
                         <div class="form-group col-3">
                             <label> Cambiar Unid. Medida <i
@@ -496,19 +503,7 @@
     <script src="<?=base_url()?>/js/bien/modal_editar_items_bienes.js"></script>
     <!-- /////////////////////////////editar items de bienes -->
     <script src="<?=base_url()?>/js/bien/llenar_editar_proy_b.js"></script>
-    <script src="<?=base_url()?>/js/bien/agregar_acc_centralizada_edit.js"></script>
-    <script src="<?=base_url()?>/js/bien/agregar_acc_centralizada_ff.js"></script>
     <script src="<?=base_url()?>/js/bien/calculos_bienes_edit.js"></script>
-
 
     <script src="<?=base_url()?>/js/bien/guardaritmccs.js"></script>
-
-
-    <!-- <script src="<?=base_url()?>/js/bien/llenar_editar_acc_b.js"></script> -->
-    <script src="<?=base_url()?>/js/bien/agregar_acc_centralizada_edit.js"></script>
-    <script src="<?=base_url()?>/js/bien/agregar_acc_centralizada_ff.js"></script>
-
-    <script src="<?=base_url()?>/js/bien/calculos_bienes_edit.js"></script>
-
-
     <script src="<?=base_url()?>/js/eliminar.js"></script>
