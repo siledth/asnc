@@ -71,7 +71,7 @@
                             <td><?=$data['desc_unidad_medida']?> </td>
                             <td><?=date("d/m/Y", strtotime($data['fecha_desde']));?> </td>
                             <td><?=date("d/m/Y", strtotime($data['fecha_hasta']));?> </td>
-                            <td><?=$data['Cantidad']?> </td>
+                            <td><?=$data['cantidad']?> </td>
 
                             <td><?=$data['i']?> </td>
                             <td><?=$data['ii']?> </td>
