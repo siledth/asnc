@@ -73,7 +73,13 @@
                             <td><?=$data['desc_unidad_medida']?> </td>
                             <td><?=date("d/m/Y", strtotime($data['fecha_desde']));?> </td>
                             <td><?=date("d/m/Y", strtotime($data['fecha_hasta']));?> </td>
-                            <td><?=$data['cantidad']?> </td>
+                            <?php if ($data['desc_objeto_contrata'] == 1) : ?>
+                                <td><?=$data['cantidad']?> </td>
+
+                                    <?php else: ?>
+                                    <td>1</td>
+                                    <?php endif; ?>  
+                           
 
                             <td><?=$data['i']?> </td>
                             <td><?=$data['ii']?> </td>
