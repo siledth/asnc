@@ -330,8 +330,8 @@ return $query->result_array();
             $this->db->select('ed.id,
                                 ed.id_usuario,
                                 u.unidad,
-                                concat(tr.desc_rif,\'\',o.rif,\'\',tr2.desc_rif,\'\',e4.rif,\'\',tr3.desc_rif,\'\',ea.rif) as rif_organo,
-                                concat(o.desc_organo,\'\',e4.desc_entes,\'\',ea.desc_entes_ads) as organo,
+                                concat(tr.desc_rif,\'\',o.rif,\'\',tr2.desc_rif,\'\',e4.rif,\'\',tr3.desc_rif,\'\',ea.rif\'\',en.rif) as rif_organo,
+                                concat(o.desc_organo,\'\',e4.desc_entes,\'\',ea.desc_entes_ads,\'\'en.descripcion) as organo,
                                  ed.rif_contrat,
                                  concat(cn.nombre,\'\',c.nombre) as nom_comer,
                                  concat(e2.descedo,\'\', e3.descedo) as est_contratista,
@@ -373,6 +373,7 @@ return $query->result_array();
                                  ed.fecha_reg_eval,
                                  ed.snc');
             $this->db->join('seguridad.usuarios u', 'u.id = ed.id_usuario');
+            $this->db->join('public.organoente en', 'en.codigo = u.unidad', 'left');
             $this->db->join('public.organos o', 'o.codigo = u.unidad', 'left');
             $this->db->join('public.entes e4', 'e4.codigo = u.unidad', 'left');
             $this->db->join('public.entes_ads ea', 'ea.codigo = u.unidad', 'left');

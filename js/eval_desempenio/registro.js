@@ -446,14 +446,14 @@ function registrar(){
             
             document.getElementById("fileImagen").focus();
         }else if (tipo != 'pdf' && tipo != 'jpg' && tipo != 'img'&& tipo != 'png' && tipo != 'jpeg') {
-            swal("Mensaje de alerta!", "El tipo de archivo debe ser en formato pdf, jpg, img, png o jpeg.")
+            swal("Mensaje de alerta!", "El tipo de archivo debe ser en formato pdf, jpg, png ")
             document.getElementById("fileImagen").focus();
         }
         else if (fileImagen == '') {
             
             document.getElementById("fileImagen").focus();
         }else if (tipo != 'pdf' && tipo != 'jpg' && tipo != 'img'&& tipo != 'png' && tipo != 'jpeg') {
-            swal("Mensaje de alerta!", "El tipo de archivo debe ser en formato pdf, jpg, img, png o jpeg.")
+            swal("Mensaje de alerta!", "El tipo de archivo debe ser en formato pdf, jpg, png")
             document.getElementById("fileImagen").focus();
         }
         else{
