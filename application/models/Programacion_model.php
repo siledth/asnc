@@ -4630,20 +4630,22 @@ public function listar_info($data){
     return $query->row_array();
 }
 public function Consultar_programacion_final($id_programacion){
-    $this->db->select('pac.id_p_items, pac.id_proyecto, pac.id_obj_comercial , pac.id_enlace, pac.id_p_acc, 
+    $this->db->select('pac.id_p_items, pac.id_proyecto, pac.id_obj_comercial  , pac.id_enlace, pac.id_p_acc, 
     pac.id_partidad_presupuestaria, pac.id_ccnu,
     pac.id_tip_obra, pac.id_alcance_obra, pac.id_obj_obra, pac.fecha_desde, pac.fecha_hasta, pac.especificacion, pac.id_unidad_medida, 
     pac.cantidad, pac.i, pac.ii, pac.iii, pac.iv, pac.costo_unitario, pac.precio_total, pac.alicuota_iva, pac.iva_estimado, pac.monto_estimado,    
     cc.codigopartida_presupuestaria,cc.desc_partida_presupuestaria,
                         ti.codigo_ccnu, ti.desc_ccnu,ff.id_fuente_financiamiento,ff.porcentaje,ff.id_estado,
-                         f.desc_fuente_financiamiento, un.desc_unidad_medida
+                         f.desc_fuente_financiamiento, un.desc_unidad_medida, obj.desc_objeto_contrata
     
     ');
      $this->db->join('programacion.partida_presupuestaria cc','cc.id_partida_presupuestaria = pac.id_partidad_presupuestaria', 'left');
      $this->db->join('programacion.ccnu ti','ti.codigo_ccnu = pac.id_ccnu', 'left');
      $this->db->join('programacion.p_ffinanciamiento ff','ff.id_p_items = pac.id_p_items', 'left');  
      $this->db->join('programacion.fuente_financiamiento f','f.id_fuente_financiamiento = ff.id_fuente_financiamiento', 'left');
-     $this->db->join('programacion.unidad_medida un','un.id_unidad_medida = pac.id_unidad_medida', 'left');     
+     $this->db->join('programacion.unidad_medida un','un.id_unidad_medida = pac.id_unidad_medida', 'left');
+     $this->db->join('programacion.objeto_contrata obj','obj.id_objeto_contrata = pac.id_obj_comercial', 'left');     
+
     
     $this->db->where('pac.id_proyecto', $id_programacion);
     $query = $this->db->get('programacion.p_items pac');

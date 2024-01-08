@@ -48,6 +48,8 @@
                             <th style="color:white; width: 40px">IVA </th>
                             <th style="color:white; width: 40px">Monto Iva Est.</th>
                             <th style="color:white; width: 40px">Monto Total Est.</th>
+                            <th style="color:white; width: 40px">Objeto de Contratación</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -88,6 +90,8 @@
                                     <?php endif; ?>    
                             <td><?=$data['iva_estimado']?> </td>
                             <td><?=$data['monto_estimado']?> </td>
+                            <td><?=$data['desc_objeto_contrata']?> </td>
+
                                                 
                         </tr>
                         <?php endforeach;?>
