@@ -81,7 +81,7 @@
                                         - Programación Anual
                                     </a>
                                 </li>
-                                <?php if (($this->session->userdata('ver_parametro') == 1)) : ?>
+                                <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
                                     <li>
                                     <a href="<?= base_url() ?>index.php/Programacion/sending_p">
                                         - Consulta Programación Enviada
