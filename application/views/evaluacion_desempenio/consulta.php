@@ -18,7 +18,7 @@
 	            </div>
 	        </div>
 			<div class="col-12">
-				<h4 class="text-center" id="mensaje" style="display:none"> <b style="color:red">Nota:</b>Por favor espere mientras se genera la información Completa</h4>
+				<!-- <h4 class="text-center" id="mensaje" style="display:none"> <b style="color:red">Nota:</b>Por favor espere mientras se genera la información Completa</h4> -->
 			</div>
 
 			<div class="col-3"></div>
