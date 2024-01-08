@@ -374,9 +374,7 @@ return $query->result_array();
                                  ed.snc');
             $this->db->join('seguridad.usuarios u', 'u.id = ed.id_usuario');
             $this->db->join('public.organoente en', 'en.codigo = u.unidad', 'left');
-            $this->db->join('public.tipo_rif tr', 'tr.id_rif = o.tipo_rif', 'left');
-            $this->db->join('public.tipo_rif tr2', 'tr2.id_rif = e4.tipo_rif', 'left');
-            $this->db->join('public.tipo_rif tr3', 'tr3.id_rif = ea.tipo_rif', 'left');
+           
 
             $this->db->join('evaluacion_desempenio.contratistas_nr cn', 'cn.rifced = ed.rif_contrat', 'left');
             $this->db->join('evaluacion_desempenio.contratistas c', 'c.rifced = ed.rif_contrat', 'left');
