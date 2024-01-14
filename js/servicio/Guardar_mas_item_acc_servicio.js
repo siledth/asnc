@@ -240,7 +240,7 @@ function Guardar_mas_item_acc_servicio2(){
     else{
         event.preventDefault();
         swal.fire({
-            title: '¿Guardar Nueva Infomación Reprogramación.?',
+            title: '¿Guardar Nueva Infomación Modificación.?',
             text: '¿Esta seguro de agregar esta información?',
             type: 'warning',
             showCancelButton: true,
@@ -263,7 +263,7 @@ function Guardar_mas_item_acc_servicio2(){
                     success: function(response){
                         if(response != '') {
                             swal.fire({
-                                title: 'Reprogramación Exitoso',
+                                title: 'Modificación Exitoso',
                                 type: 'success',
                                 showCancelButton: false,
                                 confirmButtonColor: '#3085d6',

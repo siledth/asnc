@@ -374,6 +374,11 @@
                                     <i class="fas fa-lg fa-fw m-r-10 fa-city"></i>Entes Adscritos
                                 </a>
                             </li>
+                            <li>
+                                <a href="<?= base_url() ?>index.php/configuracion/list">
+                                    <i class="fas fa-lg fa-fw m-r-10 fa-city"></i>Listado
+                                </a>
+                            </li>
                     </li>
                 </ul>
             </li>

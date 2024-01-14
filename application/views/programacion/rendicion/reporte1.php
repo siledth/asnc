@@ -98,12 +98,12 @@
                             <td><?=$data['iva_estimado']?> </td>
                             <td><?=$data['monto_estimado']?> </td>
                             <td><?=$data['costo_unitario_rend_ejecu']?> </td>
-                            <td><?=$data['precio_rend_ejecu']?> </td>
+                            <td><?=$data['subtotal_rend_ejecu']?> </td>
                             <td><?=$data['selc_iva_rendi']?> </td>
                             <td><?=$data['iva_estimado_rend']?> </td>
                             <td><?=$data['total_rendi']?> </td>
                             <td><?=$data['paridad_rendi']?> </td>
-                            <td><?=$data['subtotal_rendi']?> </td>
+                            <td><?=$data['subtotal_rendiusdt']?> </td>
                             <td><?=$data['id_modalida_rendi']?> </td>
                             <td><?=$data['sel_rif_nombre']?> </td>
                             <td><?=$data['num_contrato']?> </td>

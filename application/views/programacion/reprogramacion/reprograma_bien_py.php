@@ -1,6 +1,6 @@
 <div class="sidebar-bg"></div>
 <div id="content" class="content">
-    <h2>Reprograma Bienes-Proyecto</h2>
+    <h2>Modificación Bienes-Proyecto</h2>
     <div class="row">
 
         <div class="col-10 mt-4">
@@ -45,6 +45,8 @@
                     enctype="multipart/form-data">
                     <div class="panel-body">
                         <div class="row">
+                        <input type="hidden" id="id_obj_comercial" name="id_obj_comercial"
+                        value="<?=$inf_1_acc['id_obj_comercial']?>">
                         <input type="hidden" id="id_programacion3" name="id_programacion3"
                                 value="<?=$id_programacion?>">
                             <input type="hidden" id="id_programacion" name="id_programacion"

@@ -524,7 +524,7 @@ function guardar_acc_bien_rendi(){
     }else{
         event.preventDefault();
         swal.fire({
-            title: '¿Guardar Nueva Reprogramación?',
+            title: '¿Guardar Nueva Modificación?',
             text: '¿Esta seguro de agregar esta información?',
             type: 'warning',
             showCancelButton: true,
@@ -547,7 +547,7 @@ function guardar_acc_bien_rendi(){
                     success: function(response){
                         if(response != '') {
                             swal.fire({
-                                title: 'Reprogramación Exitoso',
+                                title: 'Modificación Exitoso',
                                 type: 'success',
                                 showCancelButton: false,
                                 confirmButtonColor: '#3085d6',

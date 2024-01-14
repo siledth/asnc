@@ -32,7 +32,6 @@ function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
                     $("#existe").hide();
 
                     $('#exitte').val(0);
-
                 }else{
                     $("#existe").show();
                     $("#no_existe").hide();

@@ -1658,6 +1658,7 @@ public function Guar_reprogramar_mas_item_acc() {
         'reprogramado' 		 => 1,
         'fecha_reprogramacion' 		 => date('Y-m-d'),
         'id_proyecto' 		 => $this->input->post('id_programacion3'),
+        'id_obj_comercial' 		 => $this->input->post('id_obj_comercial'),        
         'observaciones' 		 => $this->input->post('observaciones'),
 
 
@@ -2495,7 +2496,7 @@ public function editar_item_servicio_py(){
                 'id_ccnu' 		         => $id_ccnu_acc1,
                 'especificacion' 		 => $this->input->post('especificacion_acc'),
                 'id_unidad_medida' 		 => $id_unidad_medida_acc1,
-                'cantidad' 		 => 0,
+                'cantidad' 		 => 1,
                 'i' 		             => $this->input->post('I'),
                 'ii' 		             => $this->input->post('II'),
                 'iii' 		             => $this->input->post('III'),
@@ -2515,6 +2516,7 @@ public function editar_item_servicio_py(){
                 'reprogramado' 		 =>1,
                 'fecha_reprogramacion' 		 =>date('Y-m-d'),
                 'id_proyecto' 		 => $this->input->post('id_programacion3'),
+                'id_obj_comercial' 		 => $this->input->post('id_obj_comercial'),
                 'observaciones' 		 => $this->input->post('observaciones'),
 
                 
@@ -3015,7 +3017,7 @@ public function guardar_rendi_obra_acc() {
     $data = $this->Programacion_model->guardar_rendi_servicio_acc($data,$id_p_itemss);
     echo json_encode($data);
 }
-/////////Guardar Rendicion bienes acc
+/////////Guardar Rendicion Accion centralizada
 public function guardar_rendi_bienes_acc() {
     if (!$this->session->userdata('session'))
         redirect('login');
@@ -3024,7 +3026,8 @@ public function guardar_rendi_bienes_acc() {
         'id_programacion' => $this->input->POST('id_programacion5'),
         'id_enlace' => $this->input->POST('id_enlace5'),
         'id_p_acc' => 1,//es una acc
-        'id_proyecto' => 0,//es un proyecto
+        'id_proyecto' => 0,//como no trae proyecto lo guardo como 0
+        'nombre_proyecto' => 0,//como no trae proyecto lo guardo como 0
         'codigopartida_presupuestaria' => $this->input->POST('codigopartida_presupuestaria5'),
         'id_p_items' => $this->input->POST('id_p_items5'),
         'desc_partida_presupuestaria' => $this->input->POST('desc_partida_presupuestaria5'),
@@ -3036,21 +3039,24 @@ public function guardar_rendi_bienes_acc() {
         'desc_objeto_contrata' => $this->input->POST('desc_objeto_contrata5'),
         'estado' => $this->input->POST('id_estado5'),
         'id_fuente_financiamiento' => $this->input->POST('id_fuente_financiamiento5'),
-        'porcentaje' => $this->input->POST('porcentaje5'),
+       
         'desc_fuente_financiamiento' => $this->input->POST('desc_fuente_financiamiento5'),
-        'id_tip_obra' => 0,
-        'id_alcance_obra' => 0,
-        'id_obj_obra' => 0,
-        'fecha_desde' => date("Y-m-d"),
-        'fecha_hasta' => date("Y-m-d"),
+        'id_tip_obra' => $this->input->POST('id_tip_obra'),
+        'id_alcance_obra' => $this->input->POST('id_alcance_obra'),
+        'id_obj_obra' =>$this->input->POST('id_obj_obra'),
+        'fecha_desde' =>$this->input->POST('fecha_desde'),
+        'fecha_hasta' =>$this->input->POST('fecha_hasta'),
         'especificacion' => $this->input->POST('especificacion5'),
         'id_unidad_medida' => $this->input->POST('id_unid_med_b5'),
+        'fecha_desde' =>$this->input->POST('fecha_desde'),
+        'fecha_hasta' =>$this->input->POST('fecha_hasta'),
         'cantidad' => $this->input->POST('cantidad_mod_b5'),
         'i' => $this->input->POST('primero_b5'),
         'ii' => $this->input->POST('segundo_b5'),
         'iii' => $this->input->POST('tercero_b5'),
         'iv' => $this->input->POST('cuarto_b5'),
         'cant_total_distribuir' => 0,
+
         'costo_unitario' => $this->input->POST('costo_unitario_mod_b5'),
        
         'precio_total' => $this->input->POST('precio_total_mod_b5'),
@@ -3065,12 +3071,12 @@ public function guardar_rendi_bienes_acc() {
         'cantidad_ejecu' => $this->input->POST('cantidad_rendi5'),
 
         'costo_unitario_rend_ejecu' => $this->input->POST('costo_unitario_remd'),
-        'precio_rend_ejecu' => $this->input->POST('subt_rend_ejecu'),
-        'selc_iva_rendi' => $this->input->POST('selc_iva_re'),
+        'subtotal_rend_ejecu' => $this->input->POST('subt_rend_ejecu'),
+        'selc_iva_rendi' => $this->input->POST('selc_iva_ret'),
         'iva_estimado_rend' => $this->input->POST('iva_estimado_red5'),
         'total_rendi' => $this->input->POST('total_rendi5'),
         'paridad_rendi' => $this->input->POST('paridad_rendi5'),
-        'subtotal_rendi' => $this->input->POST('subtotal_rendi5'),
+        'subtotal_rendiusdt' => $this->input->POST('subtotal_rendi5'),
         'id_modalida_rendi' => $this->input->POST('modalida_rendi5'),
         'supuestos_procedimiento' => $this->input->POST('id_sub_modalidad5'),
 
@@ -3106,6 +3112,105 @@ public function guardar_rendi_bienes_acc() {
     );
     $id_p_itemss = array(
               'estatus_rendi' 	=> $this->input->POST('llenar_trimestre5'),//trimestre que rindio     
+    );
+   
+
+    $data = $this->Programacion_model->guardar_rendi_servicio_acc($data,$id_p_itemss);
+    echo json_encode($data);
+}
+/////////Guardar Rendicion Proyecto
+public function save_rendi_pry() {
+    if (!$this->session->userdata('session'))
+        redirect('login');
+    $data = array(
+        'rif_organoente' => $this->session->userdata('rif_organoente'),
+        'id_programacion' => $this->input->POST('id_proyecto7'),
+        'id_enlace' => $this->input->POST('id_enlace7'),
+        'id_p_acc' => 0,//es un proyecto
+        'nombre_proyecto' => $this->input->POST('nombre_proyecto7'),
+        'id_proyecto' => $this->input->POST('id_enlace7'),
+        
+        'codigopartida_presupuestaria' => $this->input->POST('codigopartida_presupuestaria7'),
+        'id_p_items' => $this->input->POST('id_p_items7'),
+        'desc_partida_presupuestaria' => $this->input->POST('desc_partida_presupuestaria7'),
+        'codigo_ccnu' => $this->input->POST('codigo_ccnu7'),
+        'desc_ccnu' => $this->input->POST('desc_ccnu7'),
+        'id_accion_centralizada' => 0,// como es un proyecto lo guardo en cero
+        'desc_accion_centralizada' => 0,// como es un proyecto lo coloco en cero
+        'id_obj_comercial' => $this->input->POST('id_obj_comercial7'),
+        'desc_objeto_contrata' => $this->input->POST('desc_objeto_contrata7'),
+        'estado' => $this->input->POST('id_estado7'),
+        'id_fuente_financiamiento' => $this->input->POST('id_fuente_financiamiento7'),
+        
+        'desc_fuente_financiamiento' => $this->input->POST('desc_fuente_financiamiento7'),
+        'id_tip_obra' => $this->input->POST('id_tip_obra7'),
+        'id_alcance_obra' => $this->input->POST('id_alcance_obra7'),
+        'id_obj_obra' =>$this->input->POST('id_obj_obra7'),
+        'fecha_desde' =>$this->input->POST('fecha_desde7'),
+        'fecha_hasta' =>$this->input->POST('fecha_hasta7'),
+        'especificacion' => $this->input->POST('especificacion7'),
+        'id_unidad_medida' => $this->input->POST('id_unid_med_b7'),
+        'cantidad' => $this->input->POST('cantidad_mod_b7'),
+        'i' => $this->input->POST('primero_b7'),
+        'ii' => $this->input->POST('segundo_b7'),
+        'iii' => $this->input->POST('tercero_b7'),
+        'iv' => $this->input->POST('cuarto_b7'),
+        'cant_total_distribuir' => 0,
+        'costo_unitario' => $this->input->POST('costo_unitario_mod_b7'),
+       
+        'precio_total' => $this->input->POST('precio_total_mod_b7'),
+        'alicuota_iva' => $this->input->POST('ali_iva_e_b7'),
+        'iva_estimado' => $this->input->POST('iva_estimado_mod_b7'),
+        'monto_estimado' => $this->input->POST('monto_estimado_mod_b7'),
+        'est_trim_1' => $this->input->POST('estimado_i7'),
+        'est_trim_2' => $this->input->POST('estimado_ii7'),
+        'est_trim_3' => $this->input->POST('estimado_iii7'),
+        'est_trim_4' => $this->input->POST('estimado_iV7'),
+        'estimado_total_t_acc' => $this->input->POST('estimado_total_t7'),
+        'cantidad_ejecu' => $this->input->POST('cantidad_rendi7'),
+
+        'costo_unitario_rend_ejecu' => $this->input->POST('costo_unitario_remd7'),
+        'subtotal_rend_ejecu' => $this->input->POST('subt_rend_ejecu7'),
+        'selc_iva_rendi' => $this->input->POST('selc_iva_ret7'),
+        'iva_estimado_rend' => $this->input->POST('iva_estimado_red7'),
+        'total_rendi' => $this->input->POST('total_rendi7'),
+        'paridad_rendi' => $this->input->POST('paridad_rendi7'),
+        'subtotal_rendiusdt' => $this->input->POST('subtotal_rendi7'),
+        'id_modalida_rendi' => $this->input->POST('modalida_rendi7'),
+        'supuestos_procedimiento' => $this->input->POST('id_sub_modalidad7'),
+
+        'sel_rif_nombre' => $this->input->POST('sel_rif_nombre7'),
+        'nombre_contratista' => $this->input->POST('nombre_conta_7'),
+
+        'num_contrato' => $this->input->POST('num_contrato7'),
+        'fecha_contrato' => $this->input->POST('fecha_contrato7'),
+        'selc_tipo_doc_contrata' => $this->input->POST('selc_tipo_doc_contrata7'),
+        'selc_com_res_social' => $this->input->POST('selc_com_res_social7'),
+        'monto3_rendim' => $this->input->POST('monto3_rendibines7'),
+        'nfactura_rendi' => $this->input->POST('nfactura_rendi7'),
+        'datefactura_rendi' => $this->input->POST('datefactura_rendi7'),
+        'base_imponible_rendi' => $this->input->POST('base_imponible_rendi7'),
+        'selc_iva_rendi2' => $this->input->POST('selc_iva_rendi7'),
+        'monto_factura_rend' => $this->input->POST('monto_factura_rend7'),
+        'total_pago_rendi' => $this->input->POST('total_pago_rendi7'),        
+        'paridad_rendi_factura' => $this->input->POST('paridad_rendi_factura7'),
+        'subtotal_rendi_factura' => $this->input->POST('subtotal_rendi_factura7'),
+        'fecha_pago_rendi' => $this->input->POST('fecha_pago_rendi7'),
+        'estatus' => 4,
+        'fecha_rendicion' => date("Y-m-d"), 
+        'fecha_cam_estatus' => date("Y-m-d"), 
+        'id_usuario' => $this->session->userdata('id_user'),
+        'fecha30dias_notificacion' => date("Y-m-d"),
+        'trimestre' => $this->input->POST('llenar_trimestre7'),
+        'razon_social_no_rnc' => $this->input->POST('razon_social7'),
+        'rif_contr_no_rnc' => $this->input->POST('rif_7'),
+        'snc' => 0,//esto sera para el comproba
+        'id_tipo_pago' => $this->input->POST('id_tipo_pago7'),//cuando sea 1 no guardar el rif de contratista, cuando sea 2 guardar razon social en 
+        'facturacion5' => $this->input->POST('facturacion7'),
+
+    );
+    $id_p_itemss = array(
+              'estatus_rendi' 	=> $this->input->POST('llenar_trimestre7'),//trimestre que rindio     
     );
    
 
@@ -3598,6 +3703,7 @@ public function reprogramar_fila_acc_serv(){
         'est_trim_4' 		 => $this->input->post('estimado_iV'),
         'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t'),
         'id_proyecto' 		 => $this->input->post('id_programacion3'),
+        'id_obj_comercial' 		 => $this->input->post('id_obj_comercial'),
         'observaciones' 		 => $this->input->post('observaciones'),
 
         
@@ -3793,7 +3899,8 @@ public function Guardar_reprogramacion_item_bienes_py() {
         'est_trim_4' 		 => $this->input->post('estimado_iV_acc'),
         'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t_acc'),
         'id_proyecto' 		 => $this->input->post('id_programacion3'),
-
+        'id_obj_comercial' 		 => $this->input->post('id_obj_comercial'),
+        
         
       
 
@@ -3886,7 +3993,7 @@ public function Repro_modal_py_servicios(){
         'id_ccnu' 		         => 0,
         'especificacion' 		 => $this->input->post('especificacion_acc'),
         'id_unidad_medida' 		 => $id_unidad_medida_acc1,
-        'cantidad' 		 => 0,
+        'cantidad' 		 => 1,
         'i' 		             => $this->input->post('I'),
         'ii' 		             => $this->input->post('II'),
         'iii' 		             => $this->input->post('III'),
@@ -3903,6 +4010,7 @@ public function Repro_modal_py_servicios(){
         'est_trim_4' 		 => $this->input->post('estimado_iV'),
         'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t'),
         'id_proyecto' 		 => $this->input->post('id_programacion3'),
+        'id_obj_comercial' 		 => $this->input->post('id_obj_comercial'),
 
       
 
@@ -3978,10 +4086,10 @@ public function Repro_modal_py_servicios(){
          'fecha_desde'=> $this->input->post('start'),
          'fecha_hasta'=> $this->input->post('end'),
         'id_partidad_presupuestaria'  => $par_presupuestaria_acc1,
-        'id_ccnu' 		         => 0,
+        'id_ccnu' 		         => $id_ccnu_acc1,
         'especificacion' 		 => $this->input->post('especificacion_acc'),
         'id_unidad_medida' 		 => $id_unidad_medida_acc1,
-        'cantidad' 		 => 0,
+        'cantidad' 		 => 1,
         'i' 		             => $this->input->post('I'),
         'ii' 		             => $this->input->post('II'),
         'iii' 		             => $this->input->post('III'),
@@ -3998,6 +4106,8 @@ public function Repro_modal_py_servicios(){
         'est_trim_4' 		 => $this->input->post('estimado_iV'),
         'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t'),
         'id_proyecto' 		 => $this->input->post('id_programacion3'),
+        'id_obj_comercial' 		 => $this->input->post('id_obj_comercial'),
+
 
       
 
@@ -5335,13 +5445,15 @@ public function surrender(){
    
     $data['mat'] = $this->Programacion_model->consulta_itemsr($data['id_programacion']);
   //  print_r( $data['mat']);die;
+    $data['py'] = $this->Programacion_model->consulta_itemsr_py($data['id_programacion']);
 
     $data['programacion_anio'] = $this->Programacion_model->consultar_prog_anio($data['id_programacion'], $unidad);
     $data['anio'] = $data['programacion_anio']['anio'];
+    $data['rendir'] = $this->Programacion_model->rendir($data['id_programacion']);
 
     //Traer todo los proyectos y acc registradas por el id_programación de cada unidad
-    $data['ver_proyectos'] = $this->Programacion_model->consultar_proyectos_primero($data['id_programacion']);
-    $data['ver_acc_centralizada'] = $this->Programacion_model->consultar_acc_centralizada_pimertimetre1($data['id_programacion']);
+   // $data['ver_proyectos'] = $this->Programacion_model->consultar_proyectos_primero($data['id_programacion']);
+   // $data['rendicion'] = $this->Programacion_model->consultar_acc_centralizada_pimertimetre1($data['id_programacion']);
     $data['totalespartida'] = $this->Programacion_model->total_por_partidas($data['id_programacion']);
    // $data['mat'] = $this->Programacion_model->consulta_items($data['id_programacion']);
 
@@ -5367,6 +5479,12 @@ public function tolist_info(){
     if(!$this->session->userdata('session'))redirect('login');
     $data = $this->input->post();
     $data = $this->Programacion_model->tolist_info($data);
+    echo json_encode($data);
+}
+public function tolist_info_py(){
+    if(!$this->session->userdata('session'))redirect('login');
+    $data = $this->input->post();
+    $data = $this->Programacion_model->tolist_info_py($data);
     echo json_encode($data);
 }
 

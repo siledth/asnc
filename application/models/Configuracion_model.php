@@ -91,7 +91,7 @@
                 $data = array(
                     'id_organoente'		    => $id,
                     'id_organoenteads'		=> $data1['id_organoads'],
-                    'tipo_organoente'		=> 0,
+                    'tipo_organoente'		=> 0,//es un organo
                     'codigo'            => $id,
                     'descripcion'		=> $data1['descripcion'],
                     'cod_onapre'	 	=> $data1['cod_onapre'],
@@ -112,6 +112,8 @@
                     'gaceta'	        => $data1['gaceta_oficial'],
                     'fecha_gaceta'		=> $data1['fecha_gaceta'],
                     'usuario'		    => $data1['usuario'],
+                    'certificaciones'		    => 0,
+
                 );
                 $this->db->insert("public.organoente",$data); //colo nombre de la tabla
                
@@ -193,6 +195,8 @@
                     'gaceta'	        => $data['gaceta_oficial'],
                     'fecha_gaceta'		=> $data['fecha_gaceta'],
                     'usuario'		    => $data['usuario'],
+                    'certificaciones'		    => 0,
+
                 );
                 $this->db->insert("public.organoente",$data); //colo nombre de la tabla
                 
@@ -288,6 +292,9 @@
                     'gaceta'	        => $data['gaceta_oficial'],
                     'fecha_gaceta'		=> $data['fecha_gaceta'],
                     'usuario'		    => $data['usuario'],
+                    'certificaciones'		    => 0,
+
+
                 );
                 $this->db->insert("public.organoente",$data); //colo nombre de la tabla
                 
@@ -319,5 +326,106 @@
                 return true;
             }
         }
+        function consultar_lis(){
+            $this->db->select(' orn.id_organoente, orn.rif,
+            orn.descripcion');
+                // $this->db->join('p.ccnu c2','c2.codigo_ccnu = pi2.id_ccnu');
+                // $this->db->join('programacion.partida_presupuestaria pp','pp.id_partida_presupuestaria = pi2.id_partidad_presupuestaria');
+                // $this->db->join('programacion.unidad_medida um','um.id_unidad_medida = pi2.id_unidad_medida');
+                // $this->db->join('programacion.p_acc_centralizada p','p.id_p_acc_centralizada = pi2.id_enlace');// esto viara cuando sea un proyecto consultar tabla proyecto
+                // $this->db->where('pi2.id_enlace', $id_p_acc_centralizada);
+                 $this->db->where('orn.certificaciones', 0);
+                $this->db->from('public.organoente orn');
+                $query = $this->db->get();
+                return $query->result_array();
+        }
+         	///////////////////////////////consultar items para modal editar bienes
+	public function read_list($data){
+		$this->db->select(' orn.id_organoente, orn.rif, orn.id_organoenteads, orn.tipo_organoente, 
+        orn.descripcion, orn.cod_onapre, orn.id_estado, orn.id_municipio, orn.id_parroquia, 
+        orn.siglas, orn.direccion, orn.gaceta, orn.fecha_gaceta, orn.pagina_web, orn.correo, orn.tel1, orn.tel2,
+         orn.movil1, orn.movil2, orn.usuario, orn.fecha, orn.codigo, orn.id_clasificacion, edo.descedo, mun.descmun , prq.descparro                       
+                              '
+						);
+		$this->db->from('public.organoente orn');
+       $this->db->join('public.estados edo','edo.id = orn.id_estado', 'left');
+       $this->db->join('public.municipios mun','mun.id = orn.id_municipio', 'left');
+       $this->db->join('public.parroquias prq','prq.id = orn.id_parroquia', 'left');
+
+
+      	$this->db->where('orn.id_organoente', $data['id_organoente']);
+		// $this->db->order_by('mc.id_p_items desc');
+		$query = $this->db->get();
+		$resultado = $query->row_array();
+		return $resultado;
+	}
+
+    public function llenar_edo($data){
+        $this->db->select('pi2.id, pi2.descedo');
+        $this->db->where('pi2.id !=', $data['id_estado']);
+        $query = $this->db->get('public.estados pi2');
+        return $query->result_array();
     }
+   
+    public function llenar_munic($data){
+        $this->db->select('pi2.id, pi2.estado_id,  pi2.descmun');
+        $this->db->where('pi2.estado_id =', $data['id_edos']);
+        $query = $this->db->get('public.municipios pi2');
+        return $result = $query->result_array();
+    }
+    public function llenar_parroq($data){
+        $this->db->select('pi2.id, pi2.estado_id, pi2.descparro');
+        $this->db->where('pi2.estado_id =', $data['id_edos']);
+        $query = $this->db->get('public.parroquias pi2');
+        return $result = $query->result_array();
+    }
+    public function save_modif_org1($data){
+
+        $this->db->where('id_organoente', $data['id_organoente']);
+    
+        $pp_s = $data['cambio_edo'];
+        if ($pp_s == 0) {
+            $id_estado = $data['id_estado'];
+        }else {
+            $id_estado = $data['cambio_edo'];
+        }
+    
+        $ccnu_s = $data['camb_muni'];
+        if ($ccnu_s == 0) {
+            $id_municipio = $data['id_municipio'];
+        }else {
+            $id_municipio = $data['camb_muni'];
+        }
+        $alcance = $data['camb_parrq'];
+        if ($alcance == 0) {
+            $id_parroquia = $data['id_parroquia'];
+        }else {
+            $id_parroquia = $data['camb_parrq'];
+        }  
+       
+    
+        $data1 = array(
+            'descripcion'        => $data['descripcion'],
+            'cod_onapre'         => $data['cod_onapre'],
+            'correo'         => $data['correo'],
+            'siglas'             => $data['siglas'],
+            'pagina_web'         => $data['pagina_web'],
+            'id_estado'          => $id_estado,
+            'id_municipio'          => $id_municipio,
+            'id_parroquia'          => $id_parroquia,
+            'direccion'         => $data['direccion'],
+            'tel1'         => $data['tel1'],
+            'tel2'         => $data['tel2'],
+            'movil1'         => $data['movil1'],
+            'movil2'         => $data['movil2'],
+            'gaceta'         => $data['gaceta'],      
+           
+    
+    
+        );
+        $update = $this->db->update('public.organoente', $data1);
+        return true;
+    }
+    }
+   
 ?>

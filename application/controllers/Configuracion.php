@@ -287,5 +287,51 @@ class Configuracion extends CI_Controller {
         $this->session->set_flashdata('sa-success2', 'Se guardo los datos correctamente');
         redirect('configuracion/entes_adscritos');
     }
+    public function list() {
+        $data['unidad'] = $this->session->userdata('id_unidad');
+        $data['des_unidad'] = $this->session->userdata('unidad');
+        $data['rif'] = $this->session->userdata('rif');
+      
+
+        $data['list'] = $this->Configuracion_model->consultar_lis();
+
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('configuracion/list.php', $data);
+        $this->load->view('templates/footer.php');
+    }
+
+    //////mostrar datos en el modal para editar listados organosentes/////////////////////
+public function read_list(){
+    if(!$this->session->userdata('session'))redirect('login');
+    $data = $this->input->post();
+    $data =	$this->Configuracion_model->read_list($data);
+    echo json_encode($data);
+}
+public function llenar_edo(){
+    if(!$this->session->userdata('session'))redirect('login');
+    $data = $this->input->post();
+    $data =	$this->Configuracion_model->llenar_edo($data);
+    echo json_encode($data);
+}
+public function llenar_munic(){
+    if(!$this->session->userdata('session'))redirect('login');
+    $data = $this->input->post();
+    $data =	$this->Configuracion_model->llenar_munic($data);
+    echo json_encode($data);
+}
+public function llenar_parroq(){
+    if(!$this->session->userdata('session'))redirect('login');
+    $data = $this->input->post();
+    $data =	$this->Configuracion_model->llenar_parroq($data);
+    echo json_encode($data);
+}
+public function save_modif_org1(){
+    if(!$this->session->userdata('session'))redirect('login');
+    $data = $this->input->post();
+    $data =	$this->Configuracion_model->save_modif_org1($data);
+    echo json_encode($data);
+}
+
 
 }

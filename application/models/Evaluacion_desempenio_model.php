@@ -63,44 +63,179 @@
     // }
 //------------------------------------------------------- esta se usa cunaod esta en produccion
         public function llenar_contratista($data){
-            $this->db_c->select('c.user_id,
+            $this->db->select('c.user_id,
                                 c.edocontratista_id,
                                 c.rifced,
                                 c.nombre,
                                 c.dirfiscal,
                                 e.descedo,
-                                c.ciudade_id,
-                                c2.descciu,
                                 m.descmun,
                                 c.percontacto,
                                 c.telf1,
-                                c.ultprocaprob');
-            $this->db_c->join('public.estados e', 'e.id = c.estado_id');
-            $this->db_c->join('public.municipios m', 'm.id = c.municipio_id');
-            $this->db_c->join('public.ciudades c2', 'c2.id = c.ciudade_id');
-            $this->db_c->where('c.rifced',$data['rif_b']);
-            $query = $this->db_c->get('public.contratistas c');
-            $result = $query->row_array();
-                if ($result == '') {
-                    $this->db->select('c.user_id,
-                                	     c.edocontratista_id,
-                                	     c.rifced,
-                                	     c.nombre,
-                                	     c.dirfiscal,
-                                	     e.descedo,
-                                	     m.descmun,
-                                	     c.percontacto,
-                                	     c.telf1,
-                                         c.procactual');
+                                c.procactual');
                     $this->db->join('public.estados e', 'e.id = c.estado_id');
                     $this->db->join('public.municipios m', 'm.id = c.municipio_id');
                     $this->db->where('c.rifced',$data['rif_b']);
                     $query = $this->db->get('evaluacion_desempenio.contratistas_nr c');
-                    return $result = $query->row_array();
+                    $result = $query->row_array();
+
+                if ($result == '') {
+                    $this->db_c->select('c.user_id,
+                                        c.edocontratista_id,
+                                        c.objcontratista_id,
+                                        c.nivelfinanciero_id,
+                                        c.racoficina_id,
+                                        c.tipocontratista,
+                                        c.estado_id,
+                                        e.descedo,
+                                        c.ciudade_id,
+                                        c2.descciu,
+                                        c.municipio_id,
+                                        m.descmun,
+                                        c.parroquia_id,
+                                        c.rifced,
+                                        c.nombre,
+                                        c.tipopersona,
+                                        c.dencomerciale_id,
+                                        c.ultprocaprob,
+                                        c.procactual,
+                                        c.dirfiscal,
+                                        c.percontacto,
+                                        c.telf1,
+                                        c.fecactsusc_at,
+                                        c.fecvencsusc_at,
+                                        c.fecinscrnc_at,
+                                        c.fecvencrnc_at,
+                                        c.numcertrnc,
+                                        c.numcontrol_certrnc,
+                                        c.contimp_certrnc,
+                                        c.contimp_copiarnc,
+                                        c.codedocont,
+                                        c.loginant,
+                                        c.fecvencrechazo_at,
+                                        c.recibido
+                                        ');
+                    $this->db_c->join('public.estados e', 'e.id = c.estado_id');
+                    $this->db_c->join('public.municipios m', 'm.id = c.municipio_id');
+                    $this->db_c->join('public.ciudades c2', 'c2.id = c.ciudade_id');
+                    $this->db_c->where('c.rifced',$data['rif_b']);
+                    $query = $this->db_c->get('public.contratistas c');
+                    $result = $query->row_array();
+
+                    $data_eval = array(
+                        'user_id' 		     => $this->session->userdata('id_user'),
+                        'edocontratista_id'  => $result['edocontratista_id'],
+                        'objcontratista_id'  => $result['objcontratista_id'],
+                        'nivelfinanciero_id' => $result['nivelfinanciero_id'],
+                        'racoficina_id' 	 => $result['racoficina_id'],
+                        'tipocontratista' 	 => $result['tipocontratista'],
+                        'estado_id' 		 => $result['estado_id'],
+                        'ciudade_id'         => $result['ciudade_id'],
+                        'municipio_id'       => $result['municipio_id'],
+                        'parroquia_id'       => $result['parroquia_id'],
+
+                        'rifced' 	         => $result['rifced'],
+                        'nombre' 	         => $result['nombre'],
+                        'tipopersona'        => $result['tipopersona'],
+                        'dencomerciale_id'   => $result['dencomerciale_id'],
+                        'ultprocaprob'       => $result['ultprocaprob'],
+                        'procactual'         => $result['procactual'],
+                        'dirfiscal'          => $result['dirfiscal'],
+                        'percontacto'        => $result['percontacto'],
+                        'telf1'              => $result['telf1'],
+                        'fecactsusc_at'      => $result['fecactsusc_at'],
+                        'fecvencsusc_at'     => $result['fecvencsusc_at'],
+                        'fecinscrnc_at'      => $result['fecinscrnc_at'],
+                        'fecvencrnc_at'      => $result['fecvencrnc_at'],
+                        'numcertrnc'         => $result['numcertrnc'],
+                        'numcontrol_certrnc' => $result['numcontrol_certrnc'],
+                        'contimp_certrnc'    => $result['contimp_certrnc'],
+                        'contimp_copiarnc'   => $result['contimp_copiarnc'],
+                        'codedocont'         => $result['codedocont'],
+                        'loginant'           => $result['loginant'],
+                        'fecvencrechazo_at'  => $result['fecvencrechazo_at'],
+                        'recibido'           => $result['recibido']    
+                    );
+
+                    $quers =$this->db->insert('evaluacion_desempenio.contratistas_nr', $data_eval);
+                    
+                    $this->db_c->select('*');
+                    $this->db_c->where('proceso_id', $result['ultprocaprob']);
+                    $querye = $this->db_c->get('public.accionistas');
+                    $resultadoo = $querye->result_array();
+                    
+                    $count_prog = count($resultadoo);
+                        for ($i=0; $i < $count_prog; $i++) {
+                        /*foreach ($resultadoo as $key => $value) {*/
+                        
+                            if ($resultadoo[$i]['edocivil'] == 'S'){
+                                $civil = 1;
+                            }
+                            elseif ($resultadoo[$i]['edocivil'] == 'C') {
+                                $civil = 2;
+                            }
+                            elseif ($resultadoo[$i]['edocivil'] == 'D') {
+                                $civil = 3;
+                            }elseif ($resultadoo[$i]['edocivil'] == 'V') {
+                                $civil = 4;
+                            }else {
+                                $civil = 0;
+                            }
+
+                            $data1 = array(
+                                'rif_contratista' => $result['rifced'],
+                                'paise_id'        => $resultadoo[$i]['paise_id'],
+                                'apeacc'          => $resultadoo[$i]['apeacc'],
+                                'nomacc'          => $resultadoo[$i]['nomacc'],
+                                'tipo'            => $resultadoo[$i]['tipo'],
+                                'cedrif'          => $resultadoo[$i]['cedrif'],
+                                'edocivil'        => $civil,
+                                'acc'             => $resultadoo[$i]['acc'],
+                                'jd'              => $resultadoo[$i]['jd'],
+                                'rl'              => $resultadoo[$i]['rl'],
+                                'porcacc'         => $resultadoo[$i]['porcacc'],
+                                'cargo'           => $resultadoo[$i]['cargo'],
+                                'tipobl'          => $resultadoo[$i]['tipobl'],
+                                'id_operadora'    => 0,
+                                'telf'            => '000-000',
+                                'correo'          => 'No Aplica',
+                                'modif'           => $resultadoo[$i]['modif']
+                            );
+
+                            $this->db->insert('evaluacion_desempenio.accionistas_nr',$data1);
+                        /*}*/
+                        
+                    }                 
+
+                    return $result;
                 }else {
                     return $result;
                 }
+
+                
         }
+////para consultar solo rif y nombre  para
+public function llenar_contratista_2($data){
+    $this->db_c->select('
+                        c.rifced,
+                        c.nombre,
+                        c.ultprocaprob
+                       ');
+    $this->db_c->where('c.rifced',$data['rif_b']);
+    $query = $this->db_c->get('public.contratistas c');
+    $result = $query->row_array();
+        if ($result == '') {
+            $this->db->select('  c.rifced,
+                                 c.nombre
+                                ');
+            
+            $this->db->where('c.rifced',$data['rif_b']);
+            $query = $this->db->get('evaluacion_desempenio.contratistas_nr c');
+            return $result = $query->row_array();
+        }else {
+            return $result;
+        }
+}
 //-------------------------------------------------------
         public function llenar_contratista_rp($data){
             $this->db_c->select('proceso_id,
@@ -278,19 +413,20 @@
             // return $response = $query->result_array();
 
             $query = $this->db->query("SELECT ed.id,
-                                	   to_char(ed.fecha_reg_eval, 'dd-mm-yyyy') as fecha,
-                                       ed.rif_contrat,
-                                       concat(cn.nombre,'',c.nombre ) as nombre,
-                                       ed.calificacion,
-                                       ed.id_estatus,
-                                       e.descripcion,ed.id_usuario, p.rif_organoente, r.descripcion as contratante
-                                       FROM evaluacion_desempenio.evaluacion as ed
-                                       left join evaluacion_desempenio.contratistas c on  c.rifced = ed.rif_contrat
-                                       left join evaluacion_desempenio.contratistas_nr cn on cn.rifced = ed.rif_contrat
+                                              to_char(ed.fecha_reg_eval, 'dd-mm-yyyy') as fecha,
+                                              ed.rif_contrat,
+                                              concat(cn.nombre,'',c.nombre ) as nombre,
+                                              ed.calificacion,
+                                              ed.id_estatus,
+                                              e.descripcion,
+                                              ed.id_usuario, 
+                                              p.rif_organoente, 
+                                              r.descripcion as contratante
+                                        FROM evaluacion_desempenio.evaluacion as ed
+                                        left join evaluacion_desempenio.contratistas c on  c.rifced = ed.rif_contrat
+                                        left join evaluacion_desempenio.contratistas_nr cn on cn.rifced = ed.rif_contrat
                                         left join seguridad.usuarios p on  p.id = ed.id_usuario
                                         left join public.organoente r on  r.rif = p.rif_organoente
-
-                                       
                                     --    join public.planillapirmera2 cn on cn.rifced = ed.rif_contrat
                                        join public.estatus e on e.id = ed.id_estatus
                                     --    where ed.id_usuario = '$usuario' //COMENTE ESTO HAY QUE HACERLO EN EL OTRO
@@ -301,6 +437,7 @@
             return $query->result_array();
 
         }
+
         public function consulta_eval_user($usuario){
         $query = $this->db->query("SELECT ed.id,
         to_char(ed.fecha_reg_eval, 'dd-mm-yyyy') as fecha,

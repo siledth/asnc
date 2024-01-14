@@ -34,8 +34,7 @@
 
                 <div class="form-group mt-2 col-3">
                     <label>Objeto de Contratación</label><br>
-                    <input type="hidden" id="id_obj_comercial" name="id_obj_comercial"
-                        value="<?=$inf_1_acc['id_obj_comercial']?>">
+                    
                     <input type="text" id="desc_objeto_contrata" name="desc_objeto_contrata"
                         value="<?=$inf_1_acc['desc_objeto_contrata']?>" class="form-control" readonly>
                 </div>
@@ -48,6 +47,8 @@
                     <div class="panel-body">
                         <div class="row">
                         <div class="form-group mt-2 col-6">
+                        <input type="hidden" id="id_obj_comercial" name="id_obj_comercial"
+                        value="<?=$inf_1_acc['id_obj_comercial']?>">
                                 <label style="color: red;">Debe Ingresar una Observación</label> Leer<i style="color: red;"
                                     title="Debe ingresar una Observación, para reprogramar"
                                     class="fas fa-question-circle"></i><br>

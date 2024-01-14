@@ -11,7 +11,7 @@
                         <p class="f-s-16">RIF.: <?=$rif?> <br>
                             Código ONAPRE: <?=$codigo_onapre?> <br>
                             Año: <b><?=$anio?></b></p>
-                        <input type="text" id="id_programacion" name="id_programacion"
+                        <input type="hidden" id="id_programacion" name="id_programacion"
                             value="<?=$id_programacion?>/<?=$id_p_proyecto?>">
                     </blockquote>
                 </div>
@@ -43,6 +43,8 @@
                     enctype="multipart/form-data">
                     <div class="panel-body">
                         <div class="row">
+                        <input type="hidden" id="id_obj_comercial" name="id_obj_comercial"
+                        value="<?=$inf_1['id_obj_comercial']?>">
                         <input type="hidden" id="id_programacion3" name="id_programacion3"
                                 value="<?=$id_programacion?>">
                             <input type="hidden" id="id_programacion" name="id_programacion"
@@ -94,6 +96,33 @@
 
                             <div class="col-12">
                                 <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
+                            </div>
+                            <div class="col-12 mt-2 text-center">
+                                <h4 style="color:red;">Información Items Productos (IP)</h4>
+                            </div>
+                            <div class="form-group col-12">
+                                <label>Ingresar CCNU <b style="color:red">*</b> <i style="color: red;"
+                                        title="Para llenar el campo de CCNU debe ingresar una palabra clave, esto le ayudara con la busqueda"
+                                        class="fas fa-question-circle"></i></label>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label>Leer<i style="color: red;"
+                                                title="Debe ingresar una palabra para realizar la busqueda."
+                                                class="fas fa-question-circle"></i></label>
+                                        <input title="Debe ingresar una palabra para realizar la busqueda" type="text"
+                                            class="form-control" onKeyUp="this.value=this.value.toUpperCase();"
+                                            name="ccnu_b" id="ccnu_b" onblur="buscar_ccnnu();">
+                                    </div>
+
+                                    <div class="col-8">
+                                        <label>Leer<i style="color: red;"
+                                                title="Depende de la palabra ingresada en el campo anterior, se Mostrara las opciones."
+                                                class="fas fa-question-circle"></i></label>
+                                        <select class="form-control" name="id_ccnu_acc" id="id_ccnu_acc">
+                                            <option value="0">Seleccione</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>                        
                             <div class="form-group col-6">
                                 <label>Especificación <b style="color:red">*</b> <i style="color: red;" title="Ingrese Especificación de CCNU seleccionada, de no existir , elegir no codificado y colocar detalle en la especificación."

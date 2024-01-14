@@ -161,7 +161,7 @@
                             </div>
                         </div>
 				    </div>
-                    <input type="hidden" name="exitte" id="exitte">
+                    <input type="text" name="exitte" id="exitte">
     				<div class="panel-heading">
     					<h4 class="panel-title"><b>Modalidad de la Contratación</b></h4>
     				</div>

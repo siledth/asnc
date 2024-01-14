@@ -62,6 +62,22 @@ class Evaluacion_desempenio extends CI_Controller {
 		echo json_encode($data);
 	}
 
+	//Consulta si existe el contrastis2 para la rendicion se consulta la bd de rnc
+	public function llenar_contratista_2(){
+		if(!$this->session->userdata('session'))redirect('login');
+		$data = $this->input->post();
+		$data =	$this->Evaluacion_desempenio_model->llenar_contratista_2($data);
+		echo json_encode($data);
+	}
+
+	public function llenar_contratista_rp_2(){
+		if(!$this->session->userdata('session'))redirect('login');
+		$data = $this->input->post();
+		$data =	$this->Evaluacion_desempenio_model->llenar_contratista_rp_2($data);
+		echo json_encode($data);
+	}
+/////////////////
+
 	public function llenar_contratista_rp(){
 		if(!$this->session->userdata('session'))redirect('login');
 		$data = $this->input->post();
@@ -242,6 +258,7 @@ class Evaluacion_desempenio extends CI_Controller {
 		$data['rif_organoente']= $this->session->userdata('rif_organoente');
 		$usuario = $this->session->userdata('id_user');
 		$data['reportes'] 	= $this->Evaluacion_desempenio_model->consulta_eval($usuario);
+		//print_r($data['reportes']);die;
 		$data['reportes_user'] 	= $this->Evaluacion_desempenio_model->consulta_eval_user($usuario);
 		$this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');

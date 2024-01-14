@@ -3,11 +3,8 @@ $('#matricular').on('select2:select', function (e) {
    
         var base_url = '/index.php/Programacion/tolist_info';
         var base_url2 = '/index.php/Programacion/llenar_modalidad';
-    
-        var base_url4 = '/index.php/Programacion/consultar_contratista';
-         var base_url5 = '/index.php/Programacion/llenar_tipo_doc_contrata';
+     
          
-         var base_url7 = '/index.php/Programacion/llenar_trimestre';
 
     
     $.ajax({
@@ -17,7 +14,9 @@ $('#matricular').on('select2:select', function (e) {
         dataType: "json",
 
         success: function(response) {
-            $("#nombre_a").val(response["desc_ccnu"]);
+            $("#desc_ccnu5").val(response["desc_ccnu"]);
+            $("#codigo_ccnu5").val(response["codigo_ccnu"]);
+
             $("#id_p_items5").val(id_p_items);
             $("#id_accion_centralizada5").val(response["id_accion_centralizada"]);
             $("#id_enlace5").val(response["id_enlace"]);
@@ -50,18 +49,16 @@ $('#matricular').on('select2:select', function (e) {
             $('#estimado_tercer5').val(response['est_trim_3']);
             $('#estimado_cuarto5').val(response['est_trim_4']);
             $('#estimado_total_t_mod5').val(response['estimado_total_t_acc']);
+            $("#id_tip_obra").val(response["id_tip_obra"]);
+            $("#id_alcance_obra").val(response["id_alcance_obra"]);
+            $("#id_obj_obra").val(response["id_obj_obra"]);
+            $("#descripcion_tip_obr").val(response["descripcion_tip_obr"]);
+            $("#descripcion_alcance_obra").val(response["descripcion_alcance_obra"]);
+            $("#descripcion_obj_obra").val(response["descripcion_obj_obra"]);
+            $('#fecha_desde').val(response['fecha_desde']);
+            $('#fecha_hasta').val(response['fecha_hasta']);
 
-            $.ajax({
-                url:base_url7,
-                method: 'post',
-                data: {rifced: rifced},
-                dataType: 'json',
-                success: function(data){
-                    $.each(data, function(index, data){
-                        $('#llenar_trimestre5').append('<option value="'+data['id_trimestre']+'">'+data['descripcion_trimestre']+'</option>');
-                    });
-                }
-            })
+            
 
            
           
@@ -89,7 +86,7 @@ function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
         // var base_url  = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista';
         // var base_url2 = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
 
-      var base_url = '/index.php/evaluacion_desempenio/llenar_contratista';
+      var base_url = '/index.php/evaluacion_desempenio/llenar_contratista_2';
         var base_url2 = '/index.php/evaluacion_desempenio/llenar_contratista_rp';
 
         $.ajax({
@@ -341,6 +338,7 @@ function llenar() {
     }
     function llenar_sub_mod5(){
         var id_modalidad = $('#modalida_rendi5').val();
+        
         // var base_url = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_sub_modalidad';
         var base_url = '/index.php/evaluacion_desempenio/llenar_sub_modalidad';
     
@@ -457,3 +455,158 @@ function llenar() {
             });
         }
     });
+    $("#total_rendi5").on({
+        "focus": function (event) {
+            $(event.target).select();
+        },
+        "keyup": function (event) {
+            $(event.target).val(function (index, value ) {
+                return value.replace(/\D/g, "")
+                            .replace(/([0-9])([0-9]{2})$/, '$1,$2')
+                            .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+            });
+        }
+    });
+    $("#monto_estimado_mod_b5").on({
+        "focus": function (event) {
+            $(event.target).select();
+        },
+        "keyup": function (event) {
+            $(event.target).val(function (index, value ) {
+                return value.replace(/\D/g, "")
+                            .replace(/([0-9])([0-9]{2})$/, '$1,$2')
+                            .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+            });
+        }
+    });
+   
+ //////////////Guardar rendicion bienes acc
+ function rendi_bienes(){
+    var totalAmountRendered   = parseFloat(document.rendi_bienes1.total_rendi5.value);
+    var totalAmountProgrammed  = parseFloat(document.rendi_bienes1.monto_estimado_mod_b5.value);
+    
+    //  console.log(total_rendido);
+    
+    //  console.log(totalprogrmado);
+    event.preventDefault();
+    swal
+        .fire({
+            title: "¿Registrar?",
+            text: "¿Esta seguro de registrar rendición , si desea Modificar , solicitar modificación al snc ",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "¡Si, guardar!",
+        })
+        .then((result) => {
+                          
+                if (isNaN(totalAmountRendered) || isNaN(totalAmountProgrammed)) {
+                  alert('Invalid input. Please enter valid numbers for both the rendered and programmed amounts.');
+                  console.log('total amount rendered:', totalAmountRendered);
+                  console.log('total amount programmed:', totalAmountProgrammed);
+                  document.rendi_bienes1.total_rendi5.focus();
+                  return 0;
+                }
+              
+                if (totalAmountRendered > totalAmountProgrammed) {
+                  alert('El Total Contratado es mayor al Monto total Estimado Ingresado en la Programación anual,no se puede rendir, debe  ir a Programación -Modificación de una programación, luego vuelva a rendición y intente de nuevo');
+                  console.log('rendido:', totalAmountRendered);
+                  console.log('programad:', totalAmountProgrammed);
+                  document.rendi_bienes1.total_rendi5.focus();
+                  return 0;
+                }
+              
+                // Continue with the rest of the validation logic
+              
+              
+                // Continue with the rest of the validation logic
+              
+        //     if (document.guardar_proc_pag.dolar.value.length==0){
+        //         alert("No Puede dejar el campo Valor Dolar vacio, Ingrese un Monto")
+        //         document.guardar_proc_pag.dolar.focus()
+        //         return 0;
+        //  } 
+        //     if (document.guardar_proc_pag.cantidad_pagar_otra.value.length==0){
+        //         alert("No Puede dejar el campo la Cantidad a pagar $ vacio, Ingrese un Monto")
+        //         document.guardar_proc_pag.cantidad_pagar_otra.focus()
+        //         return 0;
+        //  }  
+        if (document.rendi_bienes1.modalida_rendi5.selectedIndex==0){
+            alert("Debe seleccionar un PROCEDIMIENTO DE CONTRATACIÓN.")
+            document.rendi_bienes1.modalida_rendi5.focus()
+            return 0;
+     }
+        if (document.rendi_bienes1.selc_tipo_doc_contrata5.selectedIndex==0){
+            alert("Debe seleccionar un TIPO DOCUMENTO CONTRATACIÓN.")
+            document.rendi_bienes1.selc_tipo_doc_contrata5.focus()
+            return 0;
+     }
+        if (document.rendi_bienes1.facturacion5.selectedIndex==0){
+            alert("Debe seleccionar una opción ¿Desea Registrar Facturación y Pago?.")
+            document.rendi_bienes1.facturacion5.focus()
+            return 0;
+     }
+   
+                if (document.rendi_bienes1.llenar_trimestre5.selectedIndex==0){
+            alert("Debe seleccionar un Trimestre.")
+            document.rendi_bienes1.llenar_trimestre5.focus()
+            return 0;
+     }
+            if (result.value == true) {
+                event.preventDefault();
+                var datos = new FormData($("#rendi_bienes1")[0]);
+                //            var base_url =window.location.origin+'/asnc/index.php/Programacion/guardar_rendi_bienes_acc';
+                var base_url = '/index.php/Programacion/guardar_rendi_bienes_acc';
+                
+                $.ajax({
+                    url: base_url,
+                    method: "POST",
+                    data: datos,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        var menj = 'Rendido';
+                       
+                       if (response != '') {
+                        swal.fire({
+                            title: 'Registro Exitoso ',
+                            text: menj ,
+                            type: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Ok'
+                        }).then((result) => {
+                            if (result.value == true){
+                                location.reload();
+                            }
+                        });
+                        }
+                        
+                    },
+                });
+            }
+        });
+    
+}
+
+function validar(input) {
+    var totalprogrmado  = $("#monto_estimado_mod_b5").val();
+    var total_rendido  = $("#total_rendi5").val();
+
+    
+    var errorMsg = document.getElementById("errorMsg");
+   
+    if (input.value.length > totalprogrmado) {
+      
+       errorMsg.style.color = "red";
+       errorMsg.innerHTML = "El texto ingresado no puede superar total programado.";
+       $("#rendi_bienes").prop('disabled', true)
+
+    } else {
+       errorMsg.innerHTML = "";
+       $("#rendi_bienes").prop('disabled', false)
+
+    }
+   }

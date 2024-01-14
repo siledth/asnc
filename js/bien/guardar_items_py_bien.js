@@ -201,7 +201,7 @@ function guardar_py_reprogramabien(){
                     success: function(response){
                         if(response != '') {
                             swal.fire({
-                                title: 'Reprogramación Exitoso',
+                                title: 'Exitoso',
                                 type: 'success',
                                 showCancelButton: false,
                                 confirmButtonColor: '#3085d6',

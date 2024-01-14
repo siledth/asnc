@@ -847,7 +847,7 @@ function guardar_acc_obra_reprograma(){
     }else{
         event.preventDefault();
         swal.fire({
-            title: '¿Guardar Reprogramación?',
+            title: '¿Guardar Modificación?',
             text: '¿Esta seguro de agregar esta información?',
             type: 'warning',
             showCancelButton: true,
@@ -1048,7 +1048,7 @@ function Guardar_repro_obra_proyecto(){
     }else{
         event.preventDefault();
         swal.fire({
-            title: '¿Guardar Reprogramación?',
+            title: '¿Guardar Modificación?',
             text: '¿Esta seguro de agregar esta información?',
             type: 'warning',
             showCancelButton: true,
@@ -1131,7 +1131,7 @@ function Guardar_repro_servicio_proyectos(){
     }else{
         event.preventDefault();
         swal.fire({
-            title: '¿Guardar Reprogramación?',
+            title: '¿Guardar Modificación?',
             text: '¿Esta seguro de agregar esta información?',
             type: 'warning',
             showCancelButton: true,
