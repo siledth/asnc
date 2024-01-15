@@ -319,7 +319,7 @@
                                 <div class="form-group col-2">
                                     <label>Costo Unitario</label>
                                     <input id="costo_unitario_remd" name="costo_unitario_remd"
-                                        onkeypress="return valideKey(event);" onblur="calculos_rendi_bienessacc();"
+                                        onkeypress="return valideKey(event);" onblur="calculos_rendi_bienessacc();validarmayor();"
                                         class="form-control">
                                 </div>
                                 <div class="form-group col-2">
@@ -532,13 +532,7 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-
                     </div>
-
-
                 </form>
             </div>
             <div class="modal-footer">
@@ -773,7 +767,7 @@
                                 <div class="form-group col-2">
                                     <label>Costo Unitario</label>
                                     <input id="costo_unitario_remd7" name="costo_unitario_remd7"
-                                        onkeypress="return valideKey(event);" onblur="calculos_rendi_py();"
+                                        onkeypress="return valideKey(event);" onblur="calculos_rendi_py();validarmayorpy();"
                                         class="form-control">
                                 </div>
                                 <div class="form-group col-2">

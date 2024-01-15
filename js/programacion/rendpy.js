@@ -478,14 +478,31 @@ function llenar7() {
             });
         }
     });
+ //////////////validar mayor
+ function validarmayorpy(){
+    /*var totalAmountRendered   = parseFloat(document.rendi_bienes1.total_rendi5.value);
+    var totalAmountProgrammed  = parseFloat(document.rendi_bienes1.monto_estimado_mod_b5.value);*/
 
+    var num1 = document.rendir_py.total_rendi7.value;
+    var num2 = document.rendir_py.monto_estimado_mod_b7.value;
+    var newstr = num1.replace('.', "");
+    var newstr2 = num2.replace('.', "");
+
+    console.log(newstr);
+    console.log(newstr2);
+
+    if (parseFloat(newstr) > parseFloat(newstr2)) {
+        alert('El Total Contratado es mayor al Monto total Estimado Ingresado en la Programación anual,no puede continuar con la rendiciòn, debe  ir a Programación -Modificación de una programación, luego vuelva a rendición y intente de nuevo');
+        //document.rendi_bienes1.total_rendi5.value = "";
+       $("#rendi_py1").prop('disabled', true)   
+        } else {
+            alert('Bien. Puede continuar con la Rendiciòn');
+       
+       $("#rendi_py1").prop('disabled', false)
+
+    }
+};
     function rendi_py1(){
-        var totalprogrmado  = document.getElementById("monto_estimado_mod_b7").value;
-        var total_rendido  = document.getElementById("total_rendi7").value;
-        
-        //  console.log(total_rendido);
-        
-        //  console.log(totalprogrmado);
         event.preventDefault();
         swal
             .fire({
@@ -500,24 +517,7 @@ function llenar7() {
             })
             .then((result) => {
       
-                if (total_rendido  > totalprogrmado) {
-                    alert("El Total Contratado es mayor al Monto total Estimado Ingresado en la Programación anual,no se puede rendir, debe  ir a Programación -Modificación de una programación, luego vuelva a rendición y intente de nuevo")
-                    console.log("total rendido",total_rendido);               
-                    console.log("total programado",totalprogrmado);
-                        
-                    document.rendir_py.total_rendi5.focus()
-                    return 0;
-                    }
-            //     if (document.guardar_proc_pag.dolar.value.length==0){
-            //         alert("No Puede dejar el campo Valor Dolar vacio, Ingrese un Monto")
-            //         document.guardar_proc_pag.dolar.focus()
-            //         return 0;
-            //  } 
-            //     if (document.guardar_proc_pag.cantidad_pagar_otra.value.length==0){
-            //         alert("No Puede dejar el campo la Cantidad a pagar $ vacio, Ingrese un Monto")
-            //         document.guardar_proc_pag.cantidad_pagar_otra.focus()
-            //         return 0;
-            //  }  
+         
             if (document.rendir_py.modalida_rendi7.selectedIndex==0){
                 alert("Debe seleccionar un PROCEDIMIENTO DE CONTRATACIÓN.")
                 document.rendir_py.modalida_rendi7.focus()

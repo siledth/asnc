@@ -480,11 +480,44 @@ function llenar() {
         }
     });
    
- //////////////Guardar rendicion bienes acc
+ //////////////validar mayor
+function validarmayor(){
+    /*var totalAmountRendered   = parseFloat(document.rendi_bienes1.total_rendi5.value);
+    var totalAmountProgrammed  = parseFloat(document.rendi_bienes1.monto_estimado_mod_b5.value);*/
+
+    var num1 = document.rendi_bienes1.total_rendi5.value;
+    var num2 = document.rendi_bienes1.monto_estimado_mod_b5.value;
+    var newstr = num1.replace('.', "");
+    var newstr2 = num2.replace('.', "");
+
+    console.log(newstr);
+    console.log(newstr2);
+
+    if (parseFloat(newstr) > parseFloat(newstr2)) {
+        alert('El Total Contratado es mayor al Monto total Estimado Ingresado en la Programación anual,no puede continuar con la rendiciòn, debe  ir a Programación -Modificación de una programación, luego vuelva a rendición y intente de nuevo');
+        //document.rendi_bienes1.total_rendi5.value = "";
+       $("#rendi_bienes").prop('disabled', true)   
+        } else {
+            alert('Bien. Puede continuar con la Rendiciòn');
+       
+       $("#rendi_bienes").prop('disabled', false)
+
+    }
+};
+
+
  function rendi_bienes(){
-    var totalAmountRendered   = parseFloat(document.rendi_bienes1.total_rendi5.value);
-    var totalAmountProgrammed  = parseFloat(document.rendi_bienes1.monto_estimado_mod_b5.value);
+    // var totalAmountRendered   = parseFloat(document.rendi_bienes1.total_rendi5.value);
+    // var totalAmountProgrammed  = parseFloat(document.rendi_bienes1.monto_estimado_mod_b5.value);
     
+    // if (totalAmountRendered > totalAmountProgrammed) {
+    //     alert('El Total Contratado es mayor al Monto total Estimado Ingresado en la Programación anual,no se puede rendir, debe  ir a Programación -Modificación de una programación, luego vuelva a rendición y intente de nuevo');
+    //     console.log('rendido:', totalAmountRendered);
+    //     console.log('programad:', totalAmountProgrammed);
+    //     document.rendi_bienes1.total_rendi5.focus();
+    //     return 0;
+    //   }
+
     //  console.log(total_rendido);
     
     //  console.log(totalprogrmado);
@@ -502,22 +535,13 @@ function llenar() {
         })
         .then((result) => {
                           
-                if (isNaN(totalAmountRendered) || isNaN(totalAmountProgrammed)) {
-                  alert('Invalid input. Please enter valid numbers for both the rendered and programmed amounts.');
-                  console.log('total amount rendered:', totalAmountRendered);
-                  console.log('total amount programmed:', totalAmountProgrammed);
-                  document.rendi_bienes1.total_rendi5.focus();
-                  return 0;
-                }
-              
-                if (totalAmountRendered > totalAmountProgrammed) {
-                  alert('El Total Contratado es mayor al Monto total Estimado Ingresado en la Programación anual,no se puede rendir, debe  ir a Programación -Modificación de una programación, luego vuelva a rendición y intente de nuevo');
-                  console.log('rendido:', totalAmountRendered);
-                  console.log('programad:', totalAmountProgrammed);
-                  document.rendi_bienes1.total_rendi5.focus();
-                  return 0;
-                }
-              
+                // if (isNaN(totalAmountRendered) || isNaN(totalAmountProgrammed)) {
+                //   alert('Invalid input. Please enter valid numbers for both the rendered and programmed amounts.');
+                //   console.log('total amount rendered:', totalAmountRendered);
+                //   console.log('total amount programmed:', totalAmountProgrammed);
+                //   document.rendi_bienes1.total_rendi5.focus();
+                //   return 0;
+                // }            
                 // Continue with the rest of the validation logic
               
               
