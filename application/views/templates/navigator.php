@@ -88,7 +88,7 @@
                                     </a>
                                 </li>
                                 <?php endif; ?>
-                                <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
+                                
                                 <li>
                                     <a href="<?= base_url() ?>index.php/programacion/reprogramar">
                                         - Modificaciòn-Programación Anual
@@ -99,7 +99,7 @@
                                         - Rendición
                                     </a>
                                 </li>
-                                <?php endif; ?>
+                               
 
                                 <?php if (($this->session->userdata('ver_user_exter') == 1)) : ?>
                                 <!-- <li>

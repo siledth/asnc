@@ -22,27 +22,27 @@
                     <div class="col-12 text-center">
                         <div class="row">
                             <div class="col-4">
-                                <button
+                                <!-- <button
                                     onclick="location.href='<?php echo base_url()?>index.php/programacion/consultar_item_rendir_primero?id=<?php echo $id_programacion;?>'"
                                     type="button" class="btn btn-lg btn-default" name="button">
                                     Rendir Primer Trimestre
-                                </button>
+                                </button> -->
 
                             </div>
                             <div class="col-4">
                                 <button
                                     onclick="location.href='<?php echo base_url()?>index.php/programacion/surrender?id=<?php echo $id_programacion;?>'"
                                     type="button" class="btn btn-lg btn-default" name="button">
-                                    Rendir prueba
+                                    Realizar Rendiciones
                                 </button>
 
                             </div>
                             <div class="col-4">
-                                <button
+                                <!-- <button
                                     onclick="location.href='<?php echo base_url()?>index.php/Programacion/ver_rendicion_realizadas?id=<?php echo $id_programacion;?>'"
                                     type="button" class="btn btn-lg btn-default" name="button">
                                     Ver items Rendidos 1 er trimestres
-                                </button>
+                                </button> -->
 
                             </div>
 

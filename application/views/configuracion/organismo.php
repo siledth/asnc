@@ -64,7 +64,7 @@
                                     </div>
                                     
                                     <div class="form-group col-9">
-                                        <input type="text" name="rif" class="form-control <?php echo form_error('rif') ? 'is-invalid' : ''; ?>" placeholder="Rif" value="<?php echo set_value('rif'); ?>" maxlength="10">
+                                        <input type="text" name="rif" class="form-control <?php echo form_error('rif') ? 'is-invalid' : ''; ?>" placeholder="Rif" value="<?php echo set_value('rif'); ?>" maxlength="9">
                                         <div class="invalid-feedback">
                                             <?php echo form_error('rif'); ?>
                                         </div>

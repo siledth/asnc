@@ -64,7 +64,7 @@ class Configuracion extends CI_Controller {
             $this->form_validation->set_rules('organo', 'Nombre ', 'trim|required|min_length[3]|max_length[250]');
              $this->form_validation->set_rules('cod_onapre', 'codigo onapre ', 'trim|required|min_length[1]|max_length[100]');
              $this->form_validation->set_rules('siglas', 'siglas ', 'trim|required|min_length[1]|max_length[12]');
-             $this->form_validation->set_rules('rif', 'rif ', 'trim|required|min_length[3]|max_length[10]');
+             $this->form_validation->set_rules('rif', 'rif ', 'trim|required|min_length[9]|max_length[9]');
             // $this->form_validation->set_rules('id_clasificacion', 'id_clasificacion', 'trim|required|callback_select_validate');
              $this->form_validation->set_rules('tel_local', 'telefono local ', 'trim|required|min_length[1]|max_length[20]');
              $this->form_validation->set_rules('tel_local_2', 'telefono local 2 ', 'trim|required|min_length[1]|max_length[20]');
