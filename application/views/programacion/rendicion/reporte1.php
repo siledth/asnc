@@ -41,6 +41,8 @@
 
                             <th style="color:white; width: 40px">Fecha Desde</th>
                             <th style="color:white; width: 40px">Fecha Hasta</th>
+                            <th style="color:white; width: 40px">Cantidad.Prog</th>
+
 
                             <th style="color:white; width: 25px">% a Ejecutar I</th>
                             <th style="color:white; width: 25px" > % a Ejecutar II</th>
@@ -52,6 +54,7 @@
                             <th style="color:white; width: 40px">IVA </th>
                             <th style="color:white; width: 40px">Monto Iva Est.</th>
                             <th style="color:white; width: 40px">Monto Total Est.</th>
+                            <th style="color:white;">Cantidad.Ejecu</th>
 
                             <th style="color:white;">cost.U rend_ejecu</th>
                             <th style="color:white;">precio_rend_ejecu</th>
@@ -88,6 +91,8 @@
                             <td><?=$data['id_unidad_medida']?> </td>
                             <td><?=$data['fecha_desde']?> </td>
                             <td><?=$data['fecha_hasta']?> </td>
+                            <td><?=$data['cantidad']?> </td>
+
                             <td><?=$data['i']?> </td>
                             <td><?=$data['ii']?> </td>
                             <td><?=$data['iii']?> </td>
@@ -97,6 +102,8 @@
                             <td><?=$data['alicuota_iva']?> </td>
                             <td><?=$data['iva_estimado']?> </td>
                             <td><?=$data['monto_estimado']?> </td>
+                            <td><?=$data['cantidad_ejecu']?> </td>
+
                             <td><?=$data['costo_unitario_rend_ejecu']?> </td>
                             <td><?=$data['subtotal_rend_ejecu']?> </td>
                             <td><?=$data['selc_iva_rendi']?> </td>
