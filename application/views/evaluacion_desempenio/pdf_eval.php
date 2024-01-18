@@ -376,7 +376,14 @@
                         </div>
                         
                         
-                        <?php if ($eval_ind['fileimagen'] == ''){ ?>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <?php if ($eval_ind['fileimagen'] == 'N'){ ?>
                             <h5><b>Acuse de Recibido: No hay Imagen cargada</b></h5>
                       
                                     <?php  }else { ?>
@@ -398,12 +405,9 @@
                             <?php endif; ?>
                         </div>
                         <?php   }?>
-                    </div>
-                </div>
-                <?php endif; ?>
-            </div>
-        </div>
     </div>
+    <?php endif; ?>
+
 </div>
 <script>
 function printContents(imp1) {

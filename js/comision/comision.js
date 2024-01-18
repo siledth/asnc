@@ -1,0 +1,533 @@
+
+//TODO MAYUSCULA
+function may(e){
+	e.value = e.value.toUpperCase();
+}
+//SOLO NÚMEROS
+function valideKey(evt){
+	var code = (evt.which) ? evt.which : evt.keyCode;
+	if(code==8) { // backspace.
+		return true;
+	}else if(code>=48 && code<=57) { // is a number.
+		return true;
+	}else{ // other keys.
+		return false;
+	}
+}
+
+//CRUD BANCO
+	//GUARDAR comision
+	function guardar_b(){
+		//var codigo_b = $("#tipo_comi").val();
+		var observacion = $("#observacion").val();
+
+		if(observacion == ''){
+			document.getElementById("observacion").focus();
+		}else {
+			event.preventDefault();
+			swal.fire({
+				title: '¿Registrar?',
+				text: '¿Esta seguro de Guardar?',
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				cancelButtonText: 'Cancelar',
+				confirmButtonText: '¡Si, guardar!'
+			}).then((result) => {
+				if (result.value == true) {
+					event.preventDefault();
+					var datos = new FormData($("#guardar_ba")[0]);
+					//var base_url =window.location.origin+'/asnc/index.php/Certificaciones/registrar_b';
+					var base_url = '/index.php/Comision_contrata/logger_commission';
+					$.ajax({
+						url:base_url,
+						method: 'POST',
+						data: datos,
+						contentType: false,
+						processData: false,
+						success: function(response){
+							if(response != '') {
+								swal.fire({
+									title: 'Registro Exitoso',
+									type: 'success',
+									showCancelButton: false,
+									confirmButtonColor: '#3085d6',
+									confirmButtonText: 'Ok'
+								}).then((result) => {
+									if (result.value == true){
+										location.reload();
+									}
+								});
+							}
+						}
+					})
+				}
+			});
+		}
+	}
+	//BUSCAR BANCO PARA EDITAR
+	function modal_ver(id){
+		var id_exonerado = id;
+		//var base_url = window.location.origin+'/asnc/index.php/Certificaciones/consulta_b';
+		var base_url = '/index.php/Certificacion/consulta_b';
+		$.ajax({
+			url: base_url,
+			method:'post',
+			data: {id_exonerado: id_exonerado},
+			dataType:'json',
+
+			success: function(response){
+				$('#id').val(response['id_exonerado']);
+				$('#cod_banco_edit').val(response['rif']);
+				$('#nombre_banco_edit').val(response['descripcion']);
+			}
+		});
+	}
+	//EDITAR BANCO
+	function editar_b(){
+		var id_banco = $("#id").val();
+		var codigo_b = $("#cod_banco_edit").val();
+		var nombre_b = $("#nombre_banco_edit").val();
+
+		var datos = new FormData($("#editar")[0]);
+		if (codigo_b == '') {
+			document.getElementById("codigo_b").focus();
+		}else if(nombre_b == ''){
+			document.getElementById("nombre_b").focus();
+		}else {
+			event.preventDefault();
+			swal.fire({
+				title: 'Modificar?',
+				text: '¿Esta seguro de Modificar este registro?',
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				cancelButtonText: 'Cancelar',
+				confirmButtonText: '¡Si, guardar!'
+			}).then((result) => {
+				if (result.value == true) {
+					event.preventDefault();
+					var datos = new FormData($("#editar")[0]);
+					//var base_urls =window.location.origin+'/asnc/index.php/Certificaciones/editar_b';
+					var base_urls = '/index.php/Certificacion/editar_b';
+					$.ajax({
+						url: base_urls,
+						method:'post',
+						data: {id_banco: id_banco,
+							codigo_b: codigo_b,
+							nombre_b: nombre_b
+						},
+					dataType:'json',
+						success: function(response){
+							if(response != '') {
+								swal.fire({
+									title: 'Modificación Exitosa',
+									type: 'success',
+									showCancelButton: false,
+									confirmButtonColor: '#3085d6',
+									confirmButtonText: 'Ok'
+								}).then((result) => {
+									if (result.value == true){
+										location.reload();
+									}
+								});
+							}
+						}
+					})
+				}
+			});
+		}
+	}
+	//ELIMINAR
+	function eliminar_b(id){
+		event.preventDefault();
+		swal.fire({
+			title: '¿Seguro que desea Deshabilitar el Contratista?',
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			cancelButtonText: 'Cancelar',
+			confirmButtonText: '¡Si, guardar!'
+		}).then((result) => {
+			if (result.value == true) {
+				var id_exonerado = id
+				//var base_url =window.location.origin+'/asnc/index.php/Certificaciones/eliminar_b';
+				var base_url = '/index.php/Certificacion/eliminar_b';
+
+				$.ajax({
+					url:base_url,
+					method: 'post',
+					data:{
+						id_exonerado: id_exonerado
+					},
+					dataType: 'json',
+					success: function(response){
+						if(response == 1) {
+							swal.fire({
+								title: 'Deshabilitar Exitosa',
+								type: 'success',
+								showCancelButton: false,
+								confirmButtonColor: '#3085d6',
+								confirmButtonText: 'Ok'
+							}).then((result) => {
+								if (result.value == true) {
+									location.reload();
+								}
+							});
+						}
+					}
+				})
+			}
+		});
+	}
+
+    function ver_obs() {
+        var tipo_pago = $("#tipo_comi").val();
+        if (tipo_pago == "2") {
+            $("#campos").show();
+        } else {
+            $("#campos").hide();
+        }
+    }
+    ////miembros
+    function modal(id) {
+        var id_comision = id;          
+        var base_url = '/index.php/Comision_contrata/check_comision';    
+        $.ajax({
+            url: base_url,
+            method: "post",
+            data: { id_comision: id_comision },
+            dataType: "json",
+            success: function(data) {
+                $("#id_comision").val(id_comision);
+                $("#rif_organoente2").val(data["rif_organoente"]);
+              
+    
+            },
+            
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        swal.fire({
+                            title: 'Error',
+                            type: 'error',
+                            text: 'ocurrio un error, por favor vuelva a intentar.'
+                        });
+                    }
+        });
+    }
+
+    // function save_miembros(){
+    //     var cedula = $("#cedula").val();
+    //     var nombre = $("#nombre").val();
+    //     var apellido = $("#apellido").val();
+
+    //     event.preventDefault();
+    //     swal
+    //         .fire({
+    //             title: "¿Registrar?",
+    //             text: "¿Esta seguro de registrar  ",
+    //             type: "warning",
+    //             showCancelButton: true,
+    //             confirmButtonColor: "#3085d6",
+    //             cancelButtonColor: "#d33",
+    //             cancelButtonText: "Cancelar",
+    //             confirmButtonText: "¡Si, guardar!",
+    //         })
+    //         .then((result) => {
+    //             // if ($("#tipo_comi option:selected").val() == 0) {
+    //             //     alert("seleccione Tipo de Comisión");
+    //             //     document.getElementById("tipo_comi").focus();
+    //             //     return false;
+    //             // }
+    //             //   if(cedula == ''){
+    //             //     alert("el campo cedula no puede quedar vacio")            
+    //             //     document.getElementById("cedula").focus();
+    //             //     return false;
+    //             // }
+    //             //  if(nombre == ''){
+    //             //     alert("el campo nombre no puede quedar vacio")            
+    //             //     document.getElementById("nombre").focus();
+    //             //     return false;
+    //             // }
+    //             // if(apellido == ''){
+    //             //     alert("el campo apellido no puede quedar vacio")            
+    //             //     document.getElementById("apellido").focus();
+    //             //     return false;
+    //             // }
+    //             // if ($("#tipo_area option:selected").val() == 0) {
+    //             //     alert("Seleccione Área");
+    //             //     document.getElementById("tipo_area").focus();
+    //             //     return false;
+    //             // }
+    //             // if ($("#tp_miembro option:selected").val() == 0) {
+    //             //     alert("Seleccione Tipo Integrante");
+    //             //     document.getElementById("tp_miembro").focus();
+    //             //     return false;
+    //             // }
+    //             // if ($("#datedsg").val() === "") {
+    //             //     alert("debe ingresar Fecha de Designación .");
+    //             //     event.preventDefault();
+    //             //   }
+    //             //   if ($("#acto").val() === "") {
+    //             //     alert("debe ingresar Acto Administrativo de Designación .");
+    //             //     event.preventDefault();
+    //             //   }
+    //             //   if ($("#nacto").val() === "") {
+    //             //     alert("debe ingresar Número Acto .");
+    //             //     event.preventDefault();
+    //             //   }
+    //             //   if ($("#facto").val() === "") {
+    //             //     alert("debe ingresar Fecha Acto .");
+    //             //     event.preventDefault();
+    //             //   }
+    //             //   if ($("#correo").val() === "") {
+    //             //     alert("debe ingresar Dirección de Correo Electrónico .");
+    //             //     event.preventDefault();
+    //             //   }
+    //             //   if ($("#telf").val() === "") {
+    //             //     alert("debe ingresar Teléfono .");
+    //             //     event.preventDefault();
+    //             //   }
+           
+    //             if (result.value == true) {
+    //                 event.preventDefault();
+    //                 var datos = new FormData($("#miembros")[0]);
+    //                 var base_url = '/index.php/Comision_contrata/save_miembros';
+                    
+    //                 $.ajax({
+    //                     url: base_url,
+    //                     method: "POST",
+    //                     data: datos,
+    //                     contentType: false,
+    //                     processData: false,
+    //                     success: function(response) {
+    //                         var menj = 'Rendido';
+                           
+    //                        if (response != '') {
+    //                         swal.fire({
+    //                             title: 'Registro Exitoso ',
+    //                             text: menj ,
+    //                             type: 'success',
+    //                             showCancelButton: false,
+    //                             confirmButtonColor: '#3085d6',
+    //                             confirmButtonText: 'Ok'
+    //                         }).then((result) => {
+    //                             if (result.value == true){
+    //                                 location.reload();
+    //                             }
+    //                         });
+    //                         }
+                            
+    //                     },
+    //                 });
+    //             }
+    //         });
+        
+    // }
+    function save_miembros1(){
+        event.preventDefault();
+    
+        swal.fire({
+            title: '¿Guardar',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: '¡Si!'
+        }).then((result) => {
+            if (result.value == true) {
+                var id_comision = $('#id_comision').val();
+                var rif_organoente = $('#rif_organoente2').val();
+                var tipo_comision = $('#tipo_comi').val();
+                var cedula= $('#cedula').val();
+                var nombre = $('#nombre').val();
+                var apellido = $('#apellido').val();
+                var id_area_miembro = $('#tipo_area').val();
+                var id_tp_miembro = $('#tp_miembro').val();
+                var fecha_desig = $('#datedsg').val();
+                var acto_adm = $('#acto').val();
+                var num_acto = $('#nacto').val();
+                var fecha_acto = $('#facto').val();
+                var correo = $('#correo').val();
+                var telf = $('#telf').val();
+                var obj_comision = $('#observacion1').val();
+                if ($("#tipo_comi option:selected").val() == 0) {
+                    alert("seleccione Tipo de Comisión");
+                    document.getElementById("tipo_comi").focus();
+                    return false;
+                }
+                  if(cedula == ''){
+                    alert("el campo cedula no puede quedar vacio")            
+                    document.getElementById("cedula").focus();
+                    return false;
+                }
+                 if(nombre == ''){
+                    alert("el campo nombre no puede quedar vacio")            
+                    document.getElementById("nombre").focus();
+                    return false;
+                }
+                if(apellido == ''){
+                    alert("el campo apellido no puede quedar vacio")            
+                    document.getElementById("apellido").focus();
+                    return false;
+                }
+                if ($("#tipo_area option:selected").val() == 0) {
+                    alert("Seleccione Área");
+                    document.getElementById("tipo_area").focus();
+                    return false;
+                }
+                if ($("#tp_miembro option:selected").val() == 0) {
+                    alert("Seleccione Tipo Integrante");
+                    document.getElementById("tp_miembro").focus();
+                    return false;
+                }
+                if ($("#datedsg").val() === "") {
+                    alert("debe ingresar Fecha de Designación .");
+                    event.preventDefault();
+                  }
+                  if ($("#acto").val() === "") {
+                    alert("debe ingresar Acto Administrativo de Designación .");
+                    event.preventDefault();
+                  }
+                  if ($("#nacto").val() === "") {
+                    alert("debe ingresar Número Acto .");
+                    event.preventDefault();
+                  }
+                  if ($("#facto").val() === "") {
+                    alert("debe ingresar Fecha Acto .");
+                    event.preventDefault();
+                  }
+                  if ($("#correo").val() === "") {
+                    alert("debe ingresar Dirección de Correo Electrónico .");
+                    event.preventDefault();
+                  }
+                  if ($("#telf").val() === "") {
+                    alert("debe ingresar Teléfono .");
+                    event.preventDefault();
+                  }
+
+                var base_url = '/index.php/Comision_contrata/save1';
+    
+                $.ajax({
+                    url:base_url,
+                    method: 'post',
+                    data:{
+                         id_comision: id_comision,                        
+                        rif_organoente: rif_organoente,
+                        tipo_comision: tipo_comision,
+                        cedula: cedula,
+                        nombre: nombre,
+                        apellido: apellido,
+                        id_area_miembro: id_area_miembro,
+                        id_tp_miembro: id_tp_miembro,
+                        fecha_desig: fecha_desig,
+                        acto_adm: acto_adm,
+                        num_acto: num_acto,
+                        fecha_acto: fecha_acto,
+                        correo: correo,
+                        telf: telf,  
+                        obj_comision: obj_comision ,         
+
+    
+                    },
+                    
+                    dataType: 'json',
+                    success: function(response){
+                        if(response == 1) {
+                            swal.fire({
+                                title: 'Guardado.',
+                                type: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Ok'
+                            }).then((result) => {
+                                if (result.value == true) {
+                                    location.reload();
+                                }
+                            });
+                        }
+                       
+                    } ,
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        swal.fire({
+                            title: 'Error',
+                            type: 'error',
+                            text: 'ocurrio un error, por favor vuelva a intentar.'
+                        });
+                    }
+                    
+                }) 
+            }
+        });
+    }
+    //academico
+    function modalacademico(id) {
+        var id_comision = id;          
+        var base_url = '/index.php/Comision_contrata/check_comision';  
+        var base_url2 = '/index.php/Comision_contrata/check_miembros';
+
+        $.ajax({
+            url: base_url,
+            method: "post",
+            data: { id_comision: id_comision },
+            dataType: "json",
+            success: function(data) {
+                $("#id_comision3").val(id_comision);
+                $("#rif_organoente3").val(data["rif_organoente"]);
+               // llena el select de ff
+              
+               var id_comision3 = data['id_comision'];
+               $.ajax({
+                   url:base_url2,
+                   method: 'post',
+                   data: {id_comision3: id_comision3},
+                   dataType: 'json',
+                   success: function(data){
+                       $.each(data, function(index, data){
+                           $('#id_miembro4').append('<option value="'+data['id_miembros']+'">'+data['cedula']+'</option>');
+                       });
+                   }
+               }) 
+    
+            },
+            
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        swal.fire({
+                            title: 'Error',
+                            type: 'error',
+                            text: 'ocurrio un error, por favor vuelva a intentar.'
+                        });
+                    }
+      
+      
+      
+      
+      
+                });
+               
+    }
+
+    $('#id_miembro4').on('select2:select', function (e) {
+        var id_miembro = e.params.data['id'];
+       
+            var base_url = '/index.php/Comision_contrata/check_miembros1';                                      
+           
+        $.ajax({
+            url: base_url,
+            method: "post",
+            data: { id_miembro: id_miembro },
+            dataType: "json",
+    
+            success: function(response) {
+                $("#cedula_miem").val(response["cedula"]);
+                $("#name").val(response["nombre"]);
+                $("#apellido_m").val(response["apellido"]);                
+                $("#id_miembro_m").val(id_miembro);
+                
+           
+            },
+        });
+    });

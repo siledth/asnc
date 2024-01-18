@@ -25,7 +25,7 @@
                                 <button
                                     onclick="location.href='<?php echo base_url()?>index.php/Programacion/ver_rendicion_realizadas?id=<?php echo $id_programacion;?>'"
                                     type="button" class="btn btn-lg btn-default" name="button">
-                                    Ver items Rendidos 1 er trimestres
+                                    Ver items Rendidos 
                                 </button>
                                 <input type="hidden" id="id_programacion" name="id_programacion"
                                     value="<?=$id_programacion?>">

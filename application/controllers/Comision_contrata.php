@@ -1,0 +1,88 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Comision_contrata extends CI_Controller
+{
+    public function logger_type_c()
+    {
+        if (!$this->session->userdata('session')) {
+            redirect('login');
+        }
+        $rif_organoente = $this->session->userdata('rif_organoente');
+
+        $data['rif_organoente'] 		 = $this->session->userdata('rif_organoente');
+        $data['comisiones'] = $this->Comision_contrata_model->check_logger_commission($rif_organoente);
+        $usuario = $this->session->userdata('id_user');
+        $data['tp_contrata'] = $this->Comision_contrata_model->check_tipo_com();
+        $data['area'] = $this->Comision_contrata_model->check_areas();
+        $data['tipo'] = $this->Comision_contrata_model->check_tipo();
+
+    //$data['mat'] = $this->Programacion_model->consulta_itemsr($data['id_programacion']);
+        
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('comision_contrata/reg_tip_contrata.php', $data);
+        $this->load->view('templates/footer.php');
+    }
+    public function logger_commission() {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $data = array(
+            'rif_organoente' => $this->input->POST('rif_organoente'),
+            'observacion' => $this->input->POST('observacion'),
+            'id_usuario' => $this->session->userdata('id_user'),
+            'fecha_creacion' => date("Y-m-d"), 
+            'snc' => 1, 
+            'id_status' => 1,  
+            'fecha_cambi_statu' => date("Y-m-d")
+
+        );
+        $data = $this->Comision_contrata_model->logger_commission($data);
+        echo json_encode($data);
+    }
+
+    public function check_comision(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $data = $this->input->post();
+        $data =	$this->Comision_contrata_model->check_comision($data);
+        echo json_encode($data);
+    }
+    public function save() {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $data = array(
+            'rif_organoente' => $this->session->userdata('rif_organoente'),
+        'id_comision' => $this->input->POST('llenar_trimestre5'),
+
+             
+  
+          
+        );
+        
+        print_r($data);die;
+    
+            $data = $this->Comision_contrata_model->save_miembros($data);
+
+        echo json_encode($data);
+    }
+  
+
+    public function save1(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $data = $this->input->post();
+        $data =	$this->Comision_contrata_model->save_miembros($data);
+        echo json_encode($data);
+    }
+    public function check_miembros(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $data = $this->input->post();
+        $data =	$this->Comision_contrata_model->check_miembros($data);
+        echo json_encode($data);
+    }
+    public function check_miembros1(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $data = $this->input->post();
+        $data =	$this->Comision_contrata_model->check_miembros1($data);
+        echo json_encode($data);
+    }
+}

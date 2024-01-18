@@ -58,6 +58,8 @@
             <ul class="nav">
                 <li class="nav-header">Navegador</li>
                 <?php if (($this->session->userdata('menu_rnce') == 1)) : ?>
+
+
                 <li class="has-sub">
                     <a href="javascript:;">
                         <b class="caret"></b>
@@ -68,7 +70,24 @@
 
                     <ul class="sub-menu">
                         <?php if (($this->session->userdata('menu_progr') == 1)) : ?>
+
                         <li class="has-sub">
+                        <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
+                            <a href="javascript:;">
+                                <b class="caret"></b>
+                                <span>Comisión de comtrataciones</span>
+                            </a>
+                            <ul class="sub-menu">
+
+                                <li><a href="<?= base_url() ?>index.php/Comision_contrata/logger_type_c">-
+                                       Registrar comisión</a></li>
+
+
+                                <li><a href="<?= base_url() ?>index.php/Comision_contrata/consultar_snc">-
+                                        Cerfificar Comisión</a></li>
+
+                            </ul>
+                            <?php endif; ?>
 
                             <a href="javascript:;">
                                 <b class="caret"></b>
@@ -82,13 +101,13 @@
                                     </a>
                                 </li>
                                 <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
-                                    <li>
+                                <li>
                                     <a href="<?= base_url() ?>index.php/Programacion/sending_p">
                                         - Consulta Programación Enviada
                                     </a>
                                 </li>
                                 <?php endif; ?>
-                                
+
                                 <li>
                                     <a href="<?= base_url() ?>index.php/programacion/reprogramar">
                                         - Modificaciòn-Programación Anual
@@ -99,7 +118,7 @@
                                         - Rendición
                                     </a>
                                 </li>
-                               
+
 
                                 <?php if (($this->session->userdata('ver_user_exter') == 1)) : ?>
                                 <!-- <li>
@@ -109,7 +128,7 @@
                                 </li> -->
                                 <?php endif; ?>
 
-                              
+
 
                             </ul>
                         </li>
@@ -197,7 +216,7 @@
                             <ul class="sub-menu">
                                 <?php if (($this->session->userdata('consultar_llamado') == 1)) : ?>
 
-                                    <li class="has-sub">
+                                <li class="has-sub">
                                     <a href="javascript:;">
                                         <b class="caret"></b>
                                         - Consultar
@@ -205,22 +224,22 @@
                                     <ul class="sub-menu">
 
                                         <li><a href="<?= base_url() ?>index.php/llamadoconcurso">-
-                                        Consultar ant</a></li>
+                                                Consultar ant</a></li>
                                         <li><a href="<?= base_url() ?>index.php/Publicaciones/llamadointerno">-
-                                        Consultar nuevo</a></li>
+                                                Consultar nuevo</a></li>
                                         <li><a href="<?= base_url() ?>index.php/Publicaciones/rp_estatus">-
-                                        Histórico Procesos asociados al Llamado a Concursoo</a></li>
+                                                Histórico Procesos asociados al Llamado a Concursoo</a></li>
                                         <?php if (($this->session->userdata('ver_anul_llamado') == 1)) : ?>
-                                <li><a href="<?= base_url() ?>index.php/Publicaciones/anulaciones_general">-Anulaciones
-                                        General</b></a></li>
-                                <?php endif; ?>
+                                        <li><a href="<?= base_url() ?>index.php/Publicaciones/anulaciones_general">-Anulaciones
+                                                General</b></a></li>
+                                        <?php endif; ?>
 
 
-                                        
+
 
                                     </ul>
                                 </li>
-                                
+
                                 <?php endif; ?>
                                 <?php if (($this->session->userdata('reg_llamado') == 1)) : ?>
                                 <li>
@@ -231,12 +250,13 @@
                                 <?php endif; ?>
                                 <?php if (($this->session->userdata('anul_llamado') == 1)) : ?>
                                 <li>
-                                    <a href="<?= base_url() ?>index.php/Publicaciones/anulacion">-Procesos asociados al Llamado a Concurso </a>
+                                    <a href="<?= base_url() ?>index.php/Publicaciones/anulacion">-Procesos asociados al
+                                        Llamado a Concurso </a>
                                 </li>
-                               
-                                
+
+
                                 <?php endif; ?>
-                              
+
                             </ul>
                         </li>
                         <?php endif; ?>
@@ -529,7 +549,7 @@
             <?php if (($this->session->userdata('ver_user') == 1)) : ?>
             <li class="has-sub">
                 <a href="javascript:;">
-                <b class="caret"></b>
+                    <b class="caret"></b>
 
                     <span>Usuarios</span>
                 </a>

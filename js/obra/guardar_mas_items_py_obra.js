@@ -299,59 +299,59 @@ function modal(id) {
             $('#estimado_cuarto').val(data['est_trim_4']);
             $('#estimado_total_t_mod').val(data['estimado_total_t_acc']);
             
-// llena el select de ff
-var id_fuente_financiamiento = data['id_ff_b'];
-$.ajax({
-    url:base_url7,
-    method: 'post',
-    data: {id_fuente_financiamiento: id_fuente_financiamiento},
-    dataType: 'json',
-    success: function(data){
-        $.each(data, function(index, data){
-            $('#camb_ff_b1').append('<option value="'+data['id_fuente_financiamiento']+'">'+data['desc_fuente_financiamiento']+'</option>');
-        });
-    }
-})            
-    // llena el select de objto obra
-var id_unid_med = data['id_tip_obra'];
-$.ajax({
-    url:base_url6,
-    method: 'post',
-    data: {id_unid_med: id_unid_med},
-    dataType: 'json',
-    success: function(data){
-        $.each(data, function(index, data){
-            $('#camb_id_obj_obra').append('<option value="'+data['id_obj_obra']+'">'+data['descripcion_obj_obra']+'</option>');
-        });
-    }
-})   
-            // llena el select de alcance obra
-var id_unid_med = data['id_tip_obra'];
-$.ajax({
-    url:base_url5,
-    method: 'post',
-    data: {id_unid_med: id_unid_med},
-    dataType: 'json',
-    success: function(data){
-        $.each(data, function(index, data){
-            $('#camb_id_alcance_obra').append('<option value="'+data['id_alcance_obra']+'">'+data['descripcion_alcance_obra']+'</option>');
-        });
-    }
-})       
+                    // llena el select de ff
+                    var id_fuente_financiamiento = data['id_ff_b'];
+                    $.ajax({
+                        url:base_url7,
+                        method: 'post',
+                        data: {id_fuente_financiamiento: id_fuente_financiamiento},
+                        dataType: 'json',
+                        success: function(data){
+                            $.each(data, function(index, data){
+                                $('#camb_ff_b1').append('<option value="'+data['id_fuente_financiamiento']+'">'+data['desc_fuente_financiamiento']+'</option>');
+                            });
+                        }
+                    })            
+                        // llena el select de objto obra
+                    var id_unid_med = data['id_tip_obra'];
+                    $.ajax({
+                        url:base_url6,
+                        method: 'post',
+                        data: {id_unid_med: id_unid_med},
+                        dataType: 'json',
+                        success: function(data){
+                            $.each(data, function(index, data){
+                                $('#camb_id_obj_obra').append('<option value="'+data['id_obj_obra']+'">'+data['descripcion_obj_obra']+'</option>');
+                            });
+                        }
+                    })   
+                     // llena el select de alcance obra
+                var id_unid_med = data['id_tip_obra'];
+                $.ajax({
+                    url:base_url5,
+                    method: 'post',
+                    data: {id_unid_med: id_unid_med},
+                    dataType: 'json',
+                    success: function(data){
+                        $.each(data, function(index, data){
+                            $('#camb_id_alcance_obra').append('<option value="'+data['id_alcance_obra']+'">'+data['descripcion_alcance_obra']+'</option>');
+                        });
+                    }
+                })       
 
-// llena el select de tipo obra
-var id_unid_med = data['id_tip_obra'];
-$.ajax({
-    url:base_url4,
-    method: 'post',
-    data: {id_unid_med: id_unid_med},
-    dataType: 'json',
-    success: function(data){
-        $.each(data, function(index, data){
-            $('#camb_tipo_obra').append('<option value="'+data['id_tip_obra']+'">'+data['descripcion_tip_obr']+'</option>');
-        });
-    }
-})
+                // llena el select de tipo obra
+                var id_unid_med = data['id_tip_obra'];
+                $.ajax({
+                    url:base_url4,
+                    method: 'post',
+                    data: {id_unid_med: id_unid_med},
+                    dataType: 'json',
+                    success: function(data){
+                        $.each(data, function(index, data){
+                            $('#camb_tipo_obra').append('<option value="'+data['id_tip_obra']+'">'+data['descripcion_tip_obr']+'</option>');
+                        });
+                    }
+                })
 
 
 // llena el select de unidad de medida

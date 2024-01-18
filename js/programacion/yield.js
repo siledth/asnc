@@ -608,7 +608,13 @@ function validarmayor(){
                         });
                         }
                         
-                    },
+                    },error: function(jqXHR, textStatus, errorThrown) {
+                        swal.fire({
+                            title: 'Error',
+                            type: 'error',
+                            text: 'ocurrio un error, por favor vuelva a intentar.'
+                        });
+                    }
                 });
             }
         });

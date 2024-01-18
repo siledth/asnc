@@ -78,7 +78,7 @@
                     $this->db->where('c.rifced',$data['rif_b']);
                     $query = $this->db->get('evaluacion_desempenio.contratistas_nr c');
                     $result = $query->row_array();
-
+        
                 if ($result == '') {
                     $this->db_c->select('c.user_id,
                                         c.edocontratista_id,
@@ -115,98 +115,98 @@
                                         c.fecvencrechazo_at,
                                         c.recibido
                                         ');
-                    $this->db_c->join('public.estados e', 'e.id = c.estado_id');
-                    $this->db_c->join('public.municipios m', 'm.id = c.municipio_id');
-                    $this->db_c->join('public.ciudades c2', 'c2.id = c.ciudade_id');
+                    $this->db_c->join('public.estados e', 'e.id = c.estado_id', 'left');
+                    $this->db_c->join('public.municipios m', 'm.id = c.municipio_id', 'left');
+                    $this->db_c->join('public.ciudades c2', 'c2.id = c.ciudade_id', 'left');
                     $this->db_c->where('c.rifced',$data['rif_b']);
                     $query = $this->db_c->get('public.contratistas c');
                     $result = $query->row_array();
 
-                    $data_eval = array(
-                        'user_id' 		     => $this->session->userdata('id_user'),
-                        'edocontratista_id'  => $result['edocontratista_id'],
-                        'objcontratista_id'  => $result['objcontratista_id'],
-                        'nivelfinanciero_id' => $result['nivelfinanciero_id'],
-                        'racoficina_id' 	 => $result['racoficina_id'],
-                        'tipocontratista' 	 => $result['tipocontratista'],
-                        'estado_id' 		 => $result['estado_id'],
-                        'ciudade_id'         => $result['ciudade_id'],
-                        'municipio_id'       => $result['municipio_id'],
-                        'parroquia_id'       => $result['parroquia_id'],
-
-                        'rifced' 	         => $result['rifced'],
-                        'nombre' 	         => $result['nombre'],
-                        'tipopersona'        => $result['tipopersona'],
-                        'dencomerciale_id'   => $result['dencomerciale_id'],
-                        'ultprocaprob'       => $result['ultprocaprob'],
-                        'procactual'         => $result['procactual'],
-                        'dirfiscal'          => $result['dirfiscal'],
-                        'percontacto'        => $result['percontacto'],
-                        'telf1'              => $result['telf1'],
-                        'fecactsusc_at'      => $result['fecactsusc_at'],
-                        'fecvencsusc_at'     => $result['fecvencsusc_at'],
-                        'fecinscrnc_at'      => $result['fecinscrnc_at'],
-                        'fecvencrnc_at'      => $result['fecvencrnc_at'],
-                        'numcertrnc'         => $result['numcertrnc'],
-                        'numcontrol_certrnc' => $result['numcontrol_certrnc'],
-                        'contimp_certrnc'    => $result['contimp_certrnc'],
-                        'contimp_copiarnc'   => $result['contimp_copiarnc'],
-                        'codedocont'         => $result['codedocont'],
-                        'loginant'           => $result['loginant'],
-                        'fecvencrechazo_at'  => $result['fecvencrechazo_at'],
-                        'recibido'           => $result['recibido']    
-                    );
-
-                    $quers =$this->db->insert('evaluacion_desempenio.contratistas_nr', $data_eval);
-                    
-                    $this->db_c->select('*');
-                    $this->db_c->where('proceso_id', $result['ultprocaprob']);
-                    $querye = $this->db_c->get('public.accionistas');
-                    $resultadoo = $querye->result_array();
-                    
-                    $count_prog = count($resultadoo);
-                        for ($i=0; $i < $count_prog; $i++) {
-                        /*foreach ($resultadoo as $key => $value) {*/
+                    if ($result != '') {
+                        $data_eval = array(
+                            'user_id' 		     => $this->session->userdata('id_user'),
+                            'edocontratista_id'  => $result['edocontratista_id'],
+                            'objcontratista_id'  => $result['objcontratista_id'],
+                            'nivelfinanciero_id' => $result['nivelfinanciero_id'],
+                            'racoficina_id' 	 => $result['racoficina_id'],
+                            'tipocontratista' 	 => $result['tipocontratista'],
+                            'estado_id' 		 => $result['estado_id'],
+                            'ciudade_id'         => $result['ciudade_id'],
+                            'municipio_id'       => $result['municipio_id'],
+                            'parroquia_id'       => $result['parroquia_id'],
+    
+                            'rifced' 	         => $result['rifced'],
+                            'nombre' 	         => $result['nombre'],
+                            'tipopersona'        => $result['tipopersona'],
+                            'dencomerciale_id'   => $result['dencomerciale_id'],
+                            'ultprocaprob'       => $result['ultprocaprob'],
+                            'procactual'         => $result['procactual'],
+                            'dirfiscal'          => $result['dirfiscal'],
+                            'percontacto'        => $result['percontacto'],
+                            'telf1'              => $result['telf1'],
+                            'fecactsusc_at'      => $result['fecactsusc_at'],
+                            'fecvencsusc_at'     => $result['fecvencsusc_at'],
+                            'fecinscrnc_at'      => $result['fecinscrnc_at'],
+                            'fecvencrnc_at'      => $result['fecvencrnc_at'],
+                            'numcertrnc'         => $result['numcertrnc'],
+                            'numcontrol_certrnc' => $result['numcontrol_certrnc'],
+                            'contimp_certrnc'    => $result['contimp_certrnc'],
+                            'contimp_copiarnc'   => $result['contimp_copiarnc'],
+                            'codedocont'         => $result['codedocont'],
+                            'loginant'           => $result['loginant'],
+                            'fecvencrechazo_at'  => $result['fecvencrechazo_at'],
+                            'recibido'           => $result['recibido']    
+                        );
+    
+                        $quers =$this->db->insert('evaluacion_desempenio.contratistas_nr', $data_eval);
                         
-                            if ($resultadoo[$i]['edocivil'] == 'S'){
-                                $civil = 1;
-                            }
-                            elseif ($resultadoo[$i]['edocivil'] == 'C') {
-                                $civil = 2;
-                            }
-                            elseif ($resultadoo[$i]['edocivil'] == 'D') {
-                                $civil = 3;
-                            }elseif ($resultadoo[$i]['edocivil'] == 'V') {
-                                $civil = 4;
-                            }else {
-                                $civil = 0;
-                            }
-
-                            $data1 = array(
-                                'rif_contratista' => $result['rifced'],
-                                'paise_id'        => $resultadoo[$i]['paise_id'],
-                                'apeacc'          => $resultadoo[$i]['apeacc'],
-                                'nomacc'          => $resultadoo[$i]['nomacc'],
-                                'tipo'            => $resultadoo[$i]['tipo'],
-                                'cedrif'          => $resultadoo[$i]['cedrif'],
-                                'edocivil'        => $civil,
-                                'acc'             => $resultadoo[$i]['acc'],
-                                'jd'              => $resultadoo[$i]['jd'],
-                                'rl'              => $resultadoo[$i]['rl'],
-                                'porcacc'         => $resultadoo[$i]['porcacc'],
-                                'cargo'           => $resultadoo[$i]['cargo'],
-                                'tipobl'          => $resultadoo[$i]['tipobl'],
-                                'id_operadora'    => 0,
-                                'telf'            => '000-000',
-                                'correo'          => 'No Aplica',
-                                'modif'           => $resultadoo[$i]['modif']
-                            );
-
-                            $this->db->insert('evaluacion_desempenio.accionistas_nr',$data1);
-                        /*}*/
+                        $this->db_c->select('*');
+                        $this->db_c->where('proceso_id', $result['ultprocaprob']);
+                        $querye = $this->db_c->get('public.accionistas');
+                        $resultadoo = $querye->result_array();
                         
-                    }                 
-
+                        $count_prog = count($resultadoo);
+                            for ($i=0; $i < $count_prog; $i++) {
+                            /*foreach ($resultadoo as $key => $value) {*/
+                            
+                                if ($resultadoo[$i]['edocivil'] == 'S'){
+                                    $civil = 1;
+                                }
+                                elseif ($resultadoo[$i]['edocivil'] == 'C') {
+                                    $civil = 2;
+                                }
+                                elseif ($resultadoo[$i]['edocivil'] == 'D') {
+                                    $civil = 3;
+                                }elseif ($resultadoo[$i]['edocivil'] == 'V') {
+                                    $civil = 4;
+                                }else {
+                                    $civil = 0;
+                                }
+    
+                                $data1 = array(
+                                    'rif_contratista' => $result['rifced'],
+                                    'paise_id'        => $resultadoo[$i]['paise_id'],
+                                    'apeacc'          => $resultadoo[$i]['apeacc'],
+                                    'nomacc'          => $resultadoo[$i]['nomacc'],
+                                    'tipo'            => $resultadoo[$i]['tipo'],
+                                    'cedrif'          => $resultadoo[$i]['cedrif'],
+                                    'edocivil'        => $civil,
+                                    'acc'             => $resultadoo[$i]['acc'],
+                                    'jd'              => $resultadoo[$i]['jd'],
+                                    'rl'              => $resultadoo[$i]['rl'],
+                                    'porcacc'         => $resultadoo[$i]['porcacc'],
+                                    'cargo'           => $resultadoo[$i]['cargo'],
+                                    'tipobl'          => $resultadoo[$i]['tipobl'],
+                                    'id_operadora'    => 0,
+                                    'telf'            => '000-000',
+                                    'correo'          => 'No Aplica',
+                                    'modif'           => $resultadoo[$i]['modif']
+                                );
+    
+                                $this->db->insert('evaluacion_desempenio.accionistas_nr',$data1);
+                            /*}*/
+                        }              
+                    }
                     return $result;
                 }else {
                     return $result;

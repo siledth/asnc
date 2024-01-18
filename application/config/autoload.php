@@ -142,5 +142,7 @@ $autoload['model'] = array(
     'Contratista_model',
     'Publicaciones_model',
     'Certificacion_model',
+    'Comision_contrata_model',
+
    
 );
