@@ -4976,19 +4976,19 @@ function read_sending_p2($data1){
         return NULL;
     }
 }
-/////consutar item llena el select para el modal de rendicion ccnu acc
+/////consutar item llena el select para el modal de rendicion especificacion acc
 public function consulta_itemsr($id_programacion){
-    $this->db->select('id_ccnu, id_proyecto,desc_ccnu,id_p_items,id_p_acc');
-    $this->db->from('programacion.tolist_itms');
+    $this->db->select('especificacion,id_proyecto,id_p_items,id_p_acc');
+    $this->db->from('programacion.list_itms2');
     $this->db->where('id_p_acc', 1);//acc
     $this->db->where('id_proyecto', $id_programacion);
     $query = $this->db->get();
     return $result = $query->result_array();
 }
-/////consutar item llena el select para el modal de rendicion ccnu proyecto
+/////consutar item llena el select para el modal de rendicion especificacion proyecto
 public function consulta_itemsr_py($id_programacion){
-    $this->db->select('id_ccnu, id_proyecto,desc_ccnu,id_p_items,id_p_acc');
-    $this->db->from('programacion.tolist_itms');
+    $this->db->select('especificacion,id_proyecto,id_p_items,id_p_acc');
+    $this->db->from('programacion.list_itms2');
     $this->db->where('id_p_acc', 0);//acc
     $this->db->where('id_proyecto', $id_programacion);
     $query = $this->db->get();

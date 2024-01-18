@@ -130,13 +130,13 @@
                         </div>
 
                         <div class="form-group col-7">
-                            <label>Seleccione CCNU <b title="Campo Obligatorio" style="color:red">*</b></label>
+                            <label>Seleccione  <b title="Campo Obligatorio" style="color:red">*</b></label>
                             <select style="width: 100%;" onclick="trae_inf();" id="matricular" name="matricular"
                                 class="form-control" data-show-subtext="true" data-live-search="true">
                                 <option value="0">Seleccione</option>
                                 <?php foreach ($mat as $data) : ?>
                                 <option value="<?= $data['id_p_items']?>">
-                                    <?= $data['id_ccnu']?> / <?= $data['desc_ccnu']?></option>
+                                 <?= $data['especificacion']?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -581,13 +581,13 @@
                         </div>
 
                         <div class="form-group col-7">
-                            <label>Seleccione CCNU <b title="Campo Obligatorio" style="color:red">*</b></label>
+                            <label>Seleccione <b title="Campo Obligatorio" style="color:red">*</b></label>
                             <select style="width: 100%;" onclick="trae_inf();" id="ccnu" name="ccnu"
                                 class="form-control" data-show-subtext="true" data-live-search="true">
                                 <option value="0">Seleccione</option>
                                 <?php foreach ($py as $data) : ?>
                                 <option value="<?= $data['id_p_items']?>">
-                                    <?= $data['id_ccnu']?> / <?= $data['desc_ccnu']?></option>
+                                    <?= $data['especificacion']?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
