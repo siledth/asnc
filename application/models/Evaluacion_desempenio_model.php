@@ -510,9 +510,7 @@ return $query->result_array();
                                  ed.fecha_reg_eval,
                                  ed.snc');
             $this->db->join('seguridad.usuarios u', 'u.id = ed.id_usuario');
-            $this->db->join('public.organoente en', 'en.codigo = u.unidad', 'left');
-           
-
+            $this->db->join('public.organoente en', 'en.codigo = u.unidad', 'left');      
             $this->db->join('evaluacion_desempenio.contratistas_nr cn', 'cn.rifced = ed.rif_contrat', 'left');
             $this->db->join('evaluacion_desempenio.contratistas c', 'c.rifced = ed.rif_contrat', 'left');
             $this->db->join('public.estados e', 'e.id = ed.id_estado_contrato');
