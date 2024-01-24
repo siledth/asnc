@@ -567,6 +567,11 @@
                             <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Registros Usuarios
                         </a>
                     </li>
+                    <li>
+                        <a href="<?= base_url() ?>index.php/user/create_user">
+                            <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Registro
+                        </a>
+                    </li>
                     <?php endif; ?>
                     <?php if (($this->session->userdata('ver_user_desb') == 1)) : ?>
                     <li>

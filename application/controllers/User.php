@@ -113,12 +113,31 @@ class User extends CI_Controller
           // $data['enteads'] = $this->User_model->consultar_enteads();
           $data['ver_perfil'] = $this->User_model->consultar_perfiles();
           $data['final']  = $this->User_model->consulta_organoente();
-
+ 
           $this->load->view('templates/header.php');
           $this->load->view('templates/navigator.php');
           $this->load->view('user/usuarioexterno.php', $data);
           $this->load->view('templates/footer.php');
       }
+      public function create_user() {
+        $data['unidad'] = $this->session->userdata('id_unidad');
+        $data['des_unidad'] = $this->session->userdata('unidad');
+        $rif_organoente = $this->session->userdata('rif_organoente');
+
+        $data['list'] = $this->Configuracion_model->consultar_lis();
+      
+
+        $data['rif_organoente'] 		 = $this->session->userdata('rif_organoente');
+        $data['comisiones'] = $this->Comision_contrata_model->check_logger_commission($rif_organoente);
+        $usuario = $this->session->userdata('id_user');
+        $data['tp_contrata'] = $this->Comision_contrata_model->check_tipo_com();
+        $data['area'] = $this->Comision_contrata_model->check_areas();
+        $data['tipo'] = $this->Comision_contrata_model->check_tipo();
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('user/c_us.php', $data);
+        $this->load->view('templates/footer.php');
+    }  
         public function chk_password_expression($str)
         {
             if(!$this->session->userdata('session')) {
