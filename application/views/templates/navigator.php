@@ -380,12 +380,14 @@
                         <ul class="sub-menu">
                             <li class="has-sub">
                             <li>
-                                <a href="<?= base_url() ?>index.php/configuracion/organismo">
-                                    <i class="fas fa-lg fa-fw m-r-10 fa-landmark"></i>Organismos
+                                <a href="<?= base_url() ?>index.php/configuracion/orga">
+                                    <i class="fas fa-lg fa-fw m-r-10 fa-landmark"></i>Organo
                                 </a>
                             </li>
+                           
+                           
                             <li>
-                                <a href="<?= base_url() ?>index.php/configuracion/entes">
+                                <a href="<?= base_url() ?>index.php/configuracion/ent">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-building"></i>Entes
                                 </a>
                             </li>
@@ -562,14 +564,14 @@
                         </li> -->
 
 
-                    <li>
+                    <!-- <li>
                         <a href="<?= base_url() ?>index.php/user/int">
                             <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Registros Usuarios
                         </a>
-                    </li>
+                    </li> -->
                     <li>
                         <a href="<?= base_url() ?>index.php/user/create_user">
-                            <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Registro
+                            <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Registro Usuarios
                         </a>
                     </li>
                     <?php endif; ?>

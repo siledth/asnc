@@ -122,22 +122,78 @@ class User extends CI_Controller
       public function create_user() {
         $data['unidad'] = $this->session->userdata('id_unidad');
         $data['des_unidad'] = $this->session->userdata('unidad');
+        $data['ver_perfil'] = $this->User_model->consultar_perfiles();
+        $data['final']  = $this->User_model->consulta_organoente();
         $rif_organoente = $this->session->userdata('rif_organoente');
 
         $data['list'] = $this->Configuracion_model->consultar_lis();
       
 
         $data['rif_organoente'] 		 = $this->session->userdata('rif_organoente');
-        $data['comisiones'] = $this->Comision_contrata_model->check_logger_commission($rif_organoente);
         $usuario = $this->session->userdata('id_user');
-        $data['tp_contrata'] = $this->Comision_contrata_model->check_tipo_com();
-        $data['area'] = $this->Comision_contrata_model->check_areas();
-        $data['tipo'] = $this->Comision_contrata_model->check_tipo();
+    
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
         $this->load->view('user/c_us.php', $data);
         $this->load->view('templates/footer.php');
-    }  
+    } 
+    public function save_user_c() { //ultimo
+        if (!$this->session->userdata('session'))
+            redirect('login');
+            $parametros = $this->input->post('id_unidad');
+            $separar        = explode("/", $parametros);
+            $codigo= $separar['0'];
+            $rif= $separar['1'];
+
+            $password = $this->input->post('password');
+
+            $clave = password_hash(
+                base64_encode(
+                    hash('sha256', $password, true)
+                ),
+                PASSWORD_DEFAULT
+            );
+
+        $data = array(
+            'nombre' => $this->input->POST('usuario'),
+            'password' => $clave,
+            'email' => $this->input->POST('email'),
+            'perfil' => $this->input->POST('perfil'),
+            'foto' => '1',
+            'foto' => 2,
+            'estado' => 1,
+            'ultimo_login' => date("Y-m-d"),
+            'fecha' => date("Y-m-d"),
+            'intentos' => 0,
+            'unidad' => $codigo,
+            'id_estatus'=>1,
+            'fecha_update' => date("Y-m-d"),
+            'rif_organoente' =>$rif,
+            'id_usuario_c' =>$this->session->userdata('id_user')
+        );
+        //print_r($data);die;
+
+        $data2 = array(
+            'nombrefun' => $this->input->POST('nombrefun'),
+            'apellido' => $this->input->POST('apellido'),
+            'tipo_ced' => 'V',
+            'cedula' => $this->input->POST('cedula'),
+            'cargo' => $this->input->POST('cargo'),
+            'tele_1' => $this->input->POST('tele_1'),
+            'tele_2' => $this->input->POST('tele_2'),
+            'oficina' => $this->input->POST('oficina'),
+            'fecha_designacion' => $this->input->POST('fecha_designacion'),
+            'numero_gaceta' => $this->input->POST('numero_gaceta'),
+            'email' => $this->input->POST('email'),
+            'tipo_funcionario' => 3,
+            'unidad' => $codigo,
+            'fecha' => date("Y-m-d"),
+            'obser' => $this->input->POST('obser'),
+            "id_usuario" => null
+        );
+        $data = $this->User_model->save_user_c($data,$data2);
+        echo json_encode($data);
+    } 
         public function chk_password_expression($str)
         {
             if(!$this->session->userdata('session')) {
@@ -659,5 +715,26 @@ public function modi_usua()
         $this->load->view('templates/navigator.php');
         $this->load->view('user/ver_peril.php', $data);
         $this->load->view('templates/footer.php');
+    }
+
+    public function validad_cedula(){
+        $cedula = $this->input->post('cedula');
+        $data= $this->User_model->valida_ced($cedula);
+       //$data = $this->input->post();
+      echo json_encode($data);
+       
+      
+      }
+      public function validad_correo(){
+        $email = $this->input->post('email');
+        $data= $this->User_model->valida_correo($email);
+       //$data = $this->input->post();
+    echo json_encode($data);    
+    }
+    public function validad_users(){
+        $usuario = $this->input->post('usuario');
+        $data= $this->User_model->validad_users($usuario);
+       //$data = $this->input->post();
+    echo json_encode($data);    
     }
 }

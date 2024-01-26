@@ -236,19 +236,6 @@ class User_model extends CI_Model
                         $this->db->insert('seguridad.funcionarios', $data3);
                         return true;    
                  }
-                
-
-
-
-            // $this->db->insert("seguridad.usuarios", $data1);
-            // //la funcion  insert_id(); me guarda el id del ultimo registo
-            // $identificador = $this->db->insert_id();
-            // if ($identificador != 0) {
-            //     $datos2['id_usuario'] = $identificador;
-            //     $this->db->insert('seguridad.funcionarios', $datos2);
-            //     return true;
-            // }
-
         }
         public function get_usuario()
         {
@@ -489,4 +476,81 @@ class User_model extends CI_Model
              $resultado = $query->row_array();
              return $resultado;
          }
+         public function save_user_c($data, $data2)
+        {  
+            $this->db->select('max(e.id) as id1');
+            $query1 = $this->db->get('seguridad.usuarios e');
+            $response4 = $query1->row_array();
+            $id1 = $response4['id1'] + 1 ;
+           
+            $data1 = array(
+                'id'		    => $id1,
+                'nombre'		=> $data['nombre'],
+                'password'		=> $data['password'],
+                'email'		    => $data['email'],
+                'perfil'        => $data['perfil'],
+                'foto'          => 1,
+                'estado'        => 1,
+                'ultimo_login'  => $data['ultimo_login'],
+                'fecha'		    => $data['fecha'],
+                'intentos'	 	=> $data['intentos'],
+                'unidad' 		=> $data['unidad'],
+                'id_estatus' 	=> $data['id_estatus'],
+                'fecha_update' 	=> $data['fecha_update'],               
+                'rif_organoente' => $data['rif_organoente'],
+                'id_usuario_c' => $data['id_usuario_c']
+
+
+            );
+            $quers =$this->db->insert("seguridad.usuarios", $data1);
+            if ($quers) {
+                $id = $id;
+
+                $data3 = array(
+                    'id_usuario'    => $id1,
+                    'id'		    => $id1,
+                    'nombrefun'		=> $data2['nombrefun'],
+                    'apellido'		=> $data2['apellido'],
+                    'tipo_cedula'	=> $data2['tipo_cedula'],
+                    'cedula'	 	=> $data2['cedula'],
+                    'tele_1'	 	=> $data2['tele_1'],
+                    'tele_2'	 	=> $data2['tele_2'],
+                    'cargo'	 	    => $data2['cargo'],
+                    'oficina'	 	=> $data2['oficina'],
+                    'obser'	 	=> $data2['obser'],
+                    'fecha_designacion'	 	=> $data2['fecha_designacion'],
+                    'numero_gaceta'	 	=> $data2['numero_gaceta'],
+                    'email'	 	=> $data2['email'],
+                    'tipo_funcionario'	 	=> $data2['tipo_funcionario'],
+                    'unidad'	 	=> $data2['unidad']
+                        );
+                        $this->db->insert('seguridad.funcionarios', $data3);
+                        return true;    
+                 }
+        }
+    
+        public function valida_ced($cedula){
+            $this->db->select('cedula');
+            $this->db->where('cedula', $cedula);
+            //$this->db->order_by('id desc');
+            $query = $this->db->get('seguridad.funcionarios');
+            $response = $query->row_array();
+            return $response;
+        }
+        public function valida_correo($email){
+            $this->db->select('email');
+            $this->db->where('email ', $email);
+            //$this->db->order_by('id desc');
+            $query = $this->db->get('seguridad.usuarios');
+            $response = $query->row_array();
+            return $response;
+        }
+        public function validad_users($usuario){
+            $this->db->select('nombre');
+            $this->db->where('nombre ', $usuario);
+            //$this->db->order_by('id desc');
+            $query = $this->db->get('seguridad.usuarios');
+            $response = $query->row_array();
+            return $response;
+        }
 }
