@@ -378,6 +378,7 @@ function registrar(){
 
     if (siezekiloByte > maxSize) {
         alert("Tamaño del archivo es máximo de 1 megabyte (MB), Intente de Nuevo");
+       //$("#registrar_eval").prop('disabled', true)
         return false;
     }
    

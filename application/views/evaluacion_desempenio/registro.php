@@ -397,7 +397,7 @@
                         </div>
                     </div>
                     <div class="form-group col 12 text-center">
-                        <button type="button" onclick="registrar();" id="registrar_eval" name="registrar_eval" class="btn btn-primary mb-3">Registrar Evaluación</button>
+                        <button type="button" onclick="registrar();" id="registrar_eval" name="registrar_eval" class="my-button">Registrar Evaluación</button>
                     </div>
                 </div>
             </form>
