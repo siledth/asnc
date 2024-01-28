@@ -527,6 +527,33 @@ return $query->result_array();
             $query = $this->db->get('evaluacion_desempenio.evaluacion ed');
             return $response = $query->row_array();
         }
+        public function consulta_eval_ind_img($id_evaluacion){
+            $this->db->select('ed.id,
+                                    ed.notf_cont,
+                                    ed.fecha_not,
+                                    ed.medio,
+                                    ed.nro_oc_os,
+                                    ed.fileimagen,
+                                    ed.otro,
+                                    ed.mod_otro,
+                                    ed.id_estatus,
+                                 ed.snc');
+            $this->db->where('ed.id', $id_evaluacion);
+            $query = $this->db->get('evaluacion_desempenio.evaluacion ed');
+            return $response = $query->row_array();
+        }
+        public function get_imagen($nombre_archivo) {
+            $this->db->select('fileimagen, id');
+            $this->db->from('evaluacion_desempenio.evaluacion');
+            $this->db->where('fileimagen', $nombre_archivo);
+            $query = $this->db->get();
+    
+            if ($query->num_rows() > 0) {
+                return $query->row_array();
+            } else {
+                return false;
+            }
+        }
 
         public function consutar_dt_eval($id_evaluacion){
             $this->db->select('*');

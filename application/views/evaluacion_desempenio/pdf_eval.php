@@ -375,39 +375,15 @@
                             <h5><?=$eval_ind['nro_oc_os']?></h5>
                         </div>
                         
-                        
-                        
+                      
+                        </div>
+                         
                     </div>
                 </div>
+                <?php endif; ?>
             </div>
         </div>
-
-
-        <?php if ($eval_ind['fileimagen'] == 'N'){ ?>
-                            <h5><b>Acuse de Recibido: No hay Imagen cargada</b></h5>
-                      
-                                    <?php  }else { ?>
-			 
-		           
-                                        <div class="form-group col-6">
-                            <h5><b>Acuse de Recibido</b></h5>
-                            <?php if ($tipo_img == 'pdf'): ?>
-                            <div class="image-inner">
-                                <embed type="application/pdf" style="width: 100%; height: 300px;" src="<?=base_url()?>imagenes/<?=$eval_ind['fileimagen'] ?>">
-                            </div>
-                            <?php endif; ?>
-                            <?php if ($tipo_img != 'pdf'): ?>
-                            <div class="image-inner">
-        						<a href="<?=base_url()?>imagenes/<?=$eval_ind['fileimagen'] ?>" data-lightbox="gallery-group-1">
-        							<img style="width: 500px;" src="<?=base_url()?>imagenes/<?=$eval_ind['fileimagen'] ?>" alt="" />
-        						</a>
-        					</div>
-                            <?php endif; ?>
-                        </div>
-                        <?php   }?>
     </div>
-    <?php endif; ?>
-
 </div>
 <script>
 function printContents(imp1) {

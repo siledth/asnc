@@ -312,6 +312,44 @@ class Evaluacion_desempenio extends CI_Controller {
 		$this->load->view('evaluacion_desempenio/pdf_eval.php', $data);
         $this->load->view('templates/footer.php');
 	}
+	public function ver_evaluacion_img(){
+		if(!$this->session->userdata('session'))redirect('login');
+		
+		$id_evaluacion = $this->input->get('id');
+		$data['eval_ind'] 	= $this->Evaluacion_desempenio_model->consulta_eval_ind_img($id_evaluacion);
+		//$data['dt_eval']	= $this->Evaluacion_desempenio_model->consutar_dt_eval($id_evaluacion);
+
+		
+    
+			$img = $data['eval_ind']['fileimagen'];
+			if($img =='N') {
+				$data['eval_ind']['fileimagen'];
+			} else {
+
+			$separar  = explode(".", $img);
+			$data['tipo_img'] = $separar['1'];
+			}
+			
+		//print_r($data['eval_ind']);die;
+
+		$this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+		$this->load->view('evaluacion_desempenio/img_eval.php', $data);
+        $this->load->view('templates/footer.php');
+	}
+	public function descargar($nombre_archivo) {
+        $this->load->helper('download');
+        $this->load->model('Evaluacion_desempenio_model');
+
+        $archivo = $this->Evaluacion_desempenio_model->get_imagen($nombre_archivo);
+
+        if ($archivo) {
+            force_download($archivo['id'], file_get_contents(base_url() . 'imagenes/' . $archivo['fileimagen']));
+        } else {
+            show_404();
+        }
+    }
+
 
 	//Para La Consulta de Gráficos
 	public function consulta(){
