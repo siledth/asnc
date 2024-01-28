@@ -366,10 +366,18 @@ function registrar(){
         alert("Acuse de Recibido Obligatorio");
         return false;
     }
+    // var fileSize = $('#fileImagen')[0].files[0].size;
+    // var siezekiloByte = parseInt(fileSize / 1024);
+    // if (siezekiloByte >  $('#fileImagen').attr('size')) {
+    //     alert("Archivo muy grande");
+    //     return false;
+    // }
     var fileSize = $('#fileImagen')[0].files[0].size;
     var siezekiloByte = parseInt(fileSize / 1024);
-    if (siezekiloByte >  $('#fileImagen').attr('size')) {
-        alert("Imagen muy grande");
+    var maxSize = parseInt($('#fileImagen').data('size'));
+
+    if (siezekiloByte > maxSize) {
+        alert("Tamaño del archivo es máximo de 1 megabyte (MB), Intente de Nuevo");
         return false;
     }
    
