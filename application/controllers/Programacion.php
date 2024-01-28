@@ -5960,8 +5960,8 @@ public function read_send_upd() //hacer un pdf de comprobante de programacion mo
     
     
      
-      $pdf->Output('Comprobanteproyectomodifica '.$curdate.'.pdf', 'I');
+      $pdf->Output('Comprobanteproyectomodifica '.$curdate.'.pdf', 'D');
      // $this->load->view('headfoot/header', $datos);
 }
 }
-//se actualizo8
+ 
