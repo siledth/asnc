@@ -113,6 +113,13 @@
                                         - Modificaciòn-Programación Anual
                                     </a>
                                 </li>
+                                <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
+                                <li>
+                                    <a href="<?= base_url() ?>index.php/Programacion/sending_upd">
+                                        - Consulta Modificaciones Enviada
+                                    </a>
+                                </li>
+                                <?php endif; ?>
                                 <li>
                                     <a href="<?= base_url() ?>index.php/programacion/rendiciones">
                                         - Rendición

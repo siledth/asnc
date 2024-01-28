@@ -238,7 +238,7 @@ function enviar(id_programacion) {
         event.preventDefault();
         swal
             .fire({
-                title: "¿Seguro que desea enviar la Reprogramación seleccionada?, una vez enviada al snc, para realizar cambios deberá ir a la opción de Re-Programación",
+                title: "¿Seguro que desea enviar al SNC la Modificación seleccionada?.",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
@@ -249,8 +249,8 @@ function enviar(id_programacion) {
             .then((result) => {
                 if (result.value == true) {
                     var id = id_programacion;
-                   var base_url =window.location.origin+'/asnc/index.php/Programacion/enviar_snc_reprogramacion';
-                  // var base_url = '/index.php/Programacion/enviar_snc_reprogramacion';
+                  // var base_url =window.location.origin+'/asnc/index.php/Programacion/enviar_snc_reprogramacion';
+                   var base_url = '/index.php/Programacion/enviar_snc_reprogramacion';
                        
                     $.ajax({
                         url: base_url,

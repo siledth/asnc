@@ -45,13 +45,16 @@
                                             class="button">
                                             <i class="fas fa-lg fa-fw fa-eye" style="color: green;" title="Cargar información de la re-programación"></i>
                                         <a/> -->
-                                        <a title="Imprimir" onclick="enviarreprogramacion(<?php echo $lista['id_programacion'];?>);" class="button">
+                                        <a title="Enviar Modificación" onclick="enviarreprogramacion(<?php echo $lista['id_programacion'];?>);" class="button">
                                                                 <i class="fas fa-lg fa-fw fa-upload" style="color: green;"></i>
                                                             <a/>
+                                                            <?php if ($lista['modificado'] != 0) : ?>
                                                  <button
                                                         onclick="location.href='<?php echo base_url()?>index.php/programacion/Llamado_1?id=<?php echo $lista['id_programacion'];?>'"
                                                         type="button" class="fas fa-2x  fa-cloud-download-alt" style="color:blue" name="button"> 
-                                                    </button>                 
+                                                    </button>     
+                                                    <?php endif; ?>
+
                                                        
                                     </td>
                                 </tr>

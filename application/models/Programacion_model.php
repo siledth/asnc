@@ -2685,18 +2685,182 @@ function agregar_mas_item_obras($data,$p_ffinanciamiento){
      }
    
 }
-
-/////////////cambia el status de la programacion
-public function enviar_snc_reprogramacion($data)
-{
-    $data1 = array('estatus' => '3',// se puede reprogramar y rendir 
-                    'id_usuario' => '0',
-                    'fecha' => date('Y-m-d h:i:s'));
+//guarda el estatus de la modificacion de la proframacion
+public function enviar_snc_reprogramacion($data, $des_unidad, $codigo_onapre, $rif, $data2, $data3, $data4, $data5){
+    $this->db->select('anio');
     $this->db->where('id_programacion', $data['id']);
-    $update = $this->db->update('programacion.programacion', $data1);
-    return true;
+                $query1 = $this->db->get('programacion.programacion');                
+                $response4 = $query1->row_array();
+                $id1 = $response4['anio'] + 0 ;
+    //ACC 1
+    $id_obj_comr_obra_a = 0;
+    $precio_total_obra_a = 0;
+    $porcentaje_obra_a = 0;
+    $id_obj_comr_bien_a = 0;
+    $precio_total_bien_a = 0;
+    $porcentaje_bien_a = 0;
+    $id_obj_comr_serv_a = 0;
+    $precio_total_serv_a = 0;
+    $porcentaje_serv_a = 0;
+
+    if($data2 != ''){
+        foreach($data2 as $d2){
+            if($d2->id_obj_comercial != '' && $d2->id_obj_comercial == '3'){
+                $id_obj_comr_obra_a = $d2->id_obj_comercial;
+                $precio_total_obra_a = number_format($d2->precio_total, 2, ",", ".");
+                
+                foreach($data3 as $d3){   
+                    $porcentaje_obra_a = $d2->precio_total / $d3->precio_total * 100;
+                }
+            }
+    
+            else if($d2->id_obj_comercial != '' && $d2->id_obj_comercial == 1) {
+                $id_obj_comr_bien_a = $d2->id_obj_comercial;
+                $precio_total_bien_a = number_format($d2->precio_total, 2, ",", ".");
+    
+                foreach($data3 as $d3){      
+                    $porcentaje_bien_a = $d2->precio_total / $d3->precio_total * 100;
+                }
+            }
+
+            else if ($d2->id_obj_comercial != '' && $d2->id_obj_comercial == 2) {
+                $id_obj_comr_serv_a = $d2->id_obj_comercial;
+                $precio_total_serv_a = number_format($d2->precio_total, 2, ",", ".");
+    
+                foreach($data3 as $d3){          
+                    $porcentaje_serv_a = $d2->precio_total / $d3->precio_total * 100;
+                }
+            }
+        }
+    
+        foreach($data3 as $total_ass){
+            $total_acc = $total_ass->precio_total;
+        }
+    }else{
+        $id_obj_comr_obra_a = 0;
+        $precio_total_obra_a = 0;
+        $porcentaje_obra_a = 0;
+        $id_obj_comr_bien_a = 0;
+        $precio_total_bien_a = 0;
+        $porcentaje_bien_a = 0;
+        $id_obj_comr_serv_ac = 0;
+        $precio_total_serv_a = 0;
+        $porcentaje_serv_a = 0;
+        $total_acc = 0;
+        
+    }
+    
+    //PROYECTO 0
+
+    $id_obj_comr_obra_p = 0;
+    $precio_total_obra_p = 0;
+    $porcentaje_obra_p = 0;
+    $id_obj_comr_bien_p = 0;
+    $precio_total_bien_p = 0;
+    $porcentaje_bien_p = 0; 
+    $id_obj_comr_serv_p = 0;
+    $precio_total_serv_p = 0;
+    $porcentaje_serv_p = 0;
+    
+    if($data4 != ''){
+        foreach($data4 as $d){ 
+            if ($d->id_obj_comercial != '' && $d->id_obj_comercial == 3) {
+                $id_obj_comr_obra_p = $d->id_obj_comercial;
+                $precio_total_obra_p = number_format($d->precio_total, 2, ",", ".");
+    
+                foreach($data5 as $d3){          
+                    $porcentaje_obra_p = $d->precio_total / $d3->precio_total_py * 100;
+                }
+            }
+    
+            else if ($d->id_obj_comercial != '' && $d->id_obj_comercial == 1) {
+                $id_obj_comr_bien_p = $d->id_obj_comercial;
+                $precio_total_bien_p = number_format($d->precio_total, 2, ",", ".");
+    
+                foreach($data5 as $d3){          
+                    $porcentaje_bien_p = $d->precio_total / $d3->precio_total_py * 100;
+                }
+            }
+
+            else if ($d->id_obj_comercial != '' && $d->id_obj_comercial == 2) {
+                $id_obj_comr_serv_p = $d->id_obj_comercial;
+                $precio_total_serv_p = number_format($d->precio_total, 2, ",", ".");
+    
+                foreach($data5 as $d3){          
+                    $porcentaje_serv_p = $d->precio_total / $d3->precio_total_py * 100;
+                }
+            }
+        }
+    
+        foreach($data5 as $total_ass){
+            $total_proy = $total_ass->precio_total_py;
+        }    
+    }else{
+        $id_obj_comr_obra_p = 0;
+        $precio_total_obra_p = 0;
+        $porcentaje_obra_p = 0;
+        $id_obj_comr_bien_p = 0;
+        $precio_total_bien_p = 0;
+        $porcentaje_bien_p = 0;
+        $id_obj_comr_serv_p = 0;
+        $precio_total_serv_p = 0;
+        $porcentaje_serv_p = 0;
+        $total_proy = 0;
+    }
+
+    $resulta = array('id_programacion'      => $data['id'],
+                    'des_unidad'            => $des_unidad,
+                    'codigo_onapre'         => $codigo_onapre,
+                    
+                    'rif'                   => $rif,
+                    'id_p_acc_proy'         => 0,
+                    'id_obj_comr_obra'      => $id_obj_comr_obra_p,
+                    'precio_total_obra'     => $precio_total_obra_p,
+                    'porcentaje_obra'       => $porcentaje_obra_p,
+                    'id_obj_comr_bien'      => $id_obj_comr_bien_p,
+                    'precio_total_bien'     => $precio_total_bien_p,
+                    'porcentaje_bien'       => $porcentaje_bien_p,
+                    'id_obj_comr_serv'      => $id_obj_comr_serv_p,
+                    'precio_total_serv'     => $precio_total_serv_p,
+                    'porcentaje_serv'       => $porcentaje_serv_p,
+                    'total_proy'            => $total_proy,
+                    'id_p_acc'              => 1,
+                    'id_obj_comr_obra_a'    => $id_obj_comr_obra_a,
+                    'precio_total_obra_a'   => $precio_total_obra_a,
+                    'porcentaje_obra_a'     => $porcentaje_obra_a,
+                    'id_obj_comr_bien_a'    => $id_obj_comr_bien_a,
+                    'precio_total_bien_a'   => $precio_total_bien_a,
+                    'porcentaje_bien_a'     => $porcentaje_bien_a,
+                    'id_obj_comr_serv_a'    => $id_obj_comr_serv_a,
+                    'precio_total_serv_a'   => $precio_total_serv_a,
+                    'porcentaje_serv_a'     => $porcentaje_serv_a,
+                    'total_acc'             => $total_acc,
+                    'id_usuario'            => $this->session->userdata('id_user'),
+                    'anio'            => $id1,
+
+        );
+        //print_r($resulta);die;
+       $this->db->insert('programacion.inf_modif',$resulta);
+
+        $data1 = array('modificado' => '2',// se puede Modificar y rendir 
+                        //'id_usuario' => $this->session->userdata('id_user'),
+                        'fecha_modifi' => date('Y-m-d h:i:s')
+                    );
+        $this->db->where('id_programacion', $data['id']);
+        $update = $this->db->update('programacion.programacion', $data1);
+        return true;
 }
-/////////////cambia el status de la reprogramacion enviar al snc
+/////////////cambia el status de la programacion
+// public function enviar_snc_reprogramacion($data)
+// {
+//     $data1 = array('estatus' => '3',// se puede reprogramar y rendir 
+//                     'id_usuario' => '0',
+//                     'fecha' => date('Y-m-d h:i:s'));
+//     $this->db->where('id_programacion', $data['id']);
+//     $update = $this->db->update('programacion.programacion', $data1);
+//     return true;
+// }
+/////////////cambia el status de la programacion enviar al snc
 public function enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $data3, $data4, $data5){
     $this->db->select('anio');
     $this->db->where('id_programacion', $data['id']);
@@ -4781,6 +4945,19 @@ $query = $this->db->query("SELECT  pac.id_p_acc,pac.id_proyecto,
         return NULL;
     }
 }
+function consulta_total_objeto_acc3($data1){ //da totales agrupados por bienes, servicio, obras
+    
+    $query = $this->db->query("SELECT pac.* ,to_number(pac.porcentaje_bien_a,'999999999999D99')as porcentaje_bien_a1  
+         FROM programacion.inf_enviada pac                   
+         where pac.id_programacion = '$data1' 
+         ");
+        if($query->num_rows()>0){
+            return $query->result();
+        }
+        else{
+            return NULL;
+        }
+    }
 function consulta_total_objeto_py2($data1){ //da totales agrupados por bienes, servicio, obras
     
     $query = $this->db->query("SELECT  pac.id_p_acc,pac.id_proyecto,
@@ -4859,7 +5036,7 @@ function consulta_total_PYT($data1){
 }
 function anio_programacion($data1){
     //$id=$data['numero_proceso'];
-    $query = $this->db->query("SELECT  pac.id_programacion, pac.fecha, pac.anio
+    $query = $this->db->query("SELECT  pac.id_programacion, pac.fecha, pac.anio,pac.fecha_modifi
 
      FROM programacion.programacion pac 
     --  left join public.modalidad m on m.id_modalidad = c.id_modalidad
@@ -4959,11 +5136,11 @@ public function save_certificado($data){ //por hacer
         return true;
     
    }
-   public function read_sending_p(){
-    $this->db->select('id_ainf_enviada, id_programacion, anio,des_unidad,rif');
-    $query = $this->db->get('programacion.inf_enviada');
-    return $query->result_array();
-}
+    public function read_sending_p(){
+        $this->db->select('id_ainf_enviada, id_programacion, anio,des_unidad,rif');
+        $query = $this->db->get('programacion.inf_enviada');
+        return $query->result_array();
+    }
 function read_sending_p2($data1){
     $query = $this->db->query("SELECT  pac.id_programacion, pac.des_unidad, pac.rif, pac.codigo_onapre
 
@@ -5099,25 +5276,58 @@ public function tolist_info_py($data){
     obc.desc_objeto_contrata
 
     '							
-);
-$this->db->join('programacion.partida_presupuestaria pp','pp.id_partida_presupuestaria = m.id_partidad_presupuestaria', 'left');
-$this->db->join('programacion.ccnu cc','cc.codigo_ccnu = m.id_ccnu', 'left');
-$this->db->join('programacion.unidad_medida un','un.id_unidad_medida = m.id_unidad_medida', 'left');
-$this->db->join('programacion.p_proyecto py','py.id_p_proyecto = m.id_enlace', 'left');
+    );
+    $this->db->join('programacion.partida_presupuestaria pp','pp.id_partida_presupuestaria = m.id_partidad_presupuestaria', 'left');
+    $this->db->join('programacion.ccnu cc','cc.codigo_ccnu = m.id_ccnu', 'left');
+    $this->db->join('programacion.unidad_medida un','un.id_unidad_medida = m.id_unidad_medida', 'left');
+    $this->db->join('programacion.p_proyecto py','py.id_p_proyecto = m.id_enlace', 'left');
 
-$this->db->join('programacion.objeto_contrata obc','obc.id_objeto_contrata = py.id_obj_comercial', 'left');
-            
-$this->db->join('programacion.p_ffinanciamiento ff','ff.id_p_items = m.id_p_items', 'left');
-$this->db->join('programacion.fuente_financiamiento fr','fr.id_fuente_financiamiento = ff.id_fuente_financiamiento', 'left');                
+    $this->db->join('programacion.objeto_contrata obc','obc.id_objeto_contrata = py.id_obj_comercial', 'left');
+                
+    $this->db->join('programacion.p_ffinanciamiento ff','ff.id_p_items = m.id_p_items', 'left');
+    $this->db->join('programacion.fuente_financiamiento fr','fr.id_fuente_financiamiento = ff.id_fuente_financiamiento', 'left');                
 
-$this->db->join('programacion.rendidicion re','re.id_p_items = m.id_p_items', 'left');
-$this->db->join('programacion.trimestre tr','tr.id_trimestre = re.trimestre', 'left');        
-$this->db->join('programacion.tip_obra tpo','tpo.id_tip_obra = m.id_tip_obra', 'left');
-$this->db->join('programacion.alcance_obra al','al.id_alcance_obra = m.id_alcance_obra', 'left');
-$this->db->join('programacion.obj_obra obj','obj.id_obj_obra = m.id_obj_obra', 'left');
-$this->db->where('m.id_p_acc =', 0);
-$this->db->where('m.id_p_items', $data['id_p_items']);
-$query = $this->db->get('programacion.p_items m');
-return $query->row_array();
-}
+    $this->db->join('programacion.rendidicion re','re.id_p_items = m.id_p_items', 'left');
+    $this->db->join('programacion.trimestre tr','tr.id_trimestre = re.trimestre', 'left');        
+    $this->db->join('programacion.tip_obra tpo','tpo.id_tip_obra = m.id_tip_obra', 'left');
+    $this->db->join('programacion.alcance_obra al','al.id_alcance_obra = m.id_alcance_obra', 'left');
+    $this->db->join('programacion.obj_obra obj','obj.id_obj_obra = m.id_obj_obra', 'left');
+    $this->db->where('m.id_p_acc =', 0);
+    $this->db->where('m.id_p_items', $data['id_p_items']);
+    $query = $this->db->get('programacion.p_items m');
+    return $query->row_array();
+    }
+
+
+    public function read_sending_upd(){
+        $this->db->select('id_ainf_enviada, id_programacion, anio,des_unidad,rif, fecha');
+        $query = $this->db->get('programacion.inf_modif');
+        return $query->result_array();
+    }
+    function read_sending_upd2($data1){
+        $query = $this->db->query("SELECT pac.id_ainf_enviada ,pac.id_programacion,pac.rif, pac.des_unidad, pac.rif, pac.codigo_onapre,
+                                    pac.fecha, pac.anio
+    
+        FROM programacion.inf_modif pac 
+        where pac.id_ainf_enviada = '$data1'");
+        if($query->num_rows()>0){
+            return $query->result();
+        }
+        else{
+            return NULL;
+        }
+    }
+    function read_sending_upd3($data1){ //da totales agrupados por bienes, servicio, obras
+    
+        $query = $this->db->query("SELECT pac.*   
+             FROM programacion.inf_modif pac                   
+             where  pac.id_ainf_enviada = '$data1' 
+             ");
+            if($query->num_rows()>0){
+                return $query->result();
+            }
+            else{
+                return NULL;
+            }
+        }
 }
