@@ -82,13 +82,13 @@
 
                             </div>
                             <div class="form-group col-2">
-                                <label>Fecha de Designación <b title="Campo Obligatorio" style="color:red">*</b></label>
+                                <label>Fecha de Designación/fecha solicitud <b title="Campo Obligatorio" style="color:red">*</b></label>
                                 <input type="date" id="fecha_designacion" name="fecha_designacion"
                                     class="form-control" />
 
                             </div>
                             <div class="form-group col-4">
-                                <label>Número de la Gaceta o la Resolución: <b title="Campo Obligatorio"
+                                <label>Número de la Gaceta o la Resolución/número de oficion Solicitud: <b title="Campo Obligatorio"
                                         style="color:red">*</b></label>
                                 <input type="text" id="numero_gaceta" name="numero_gaceta" placeholder="Número gaceta"
                                     onkeyup="mayusculas(this);" maxlength="50" class="form-control" />

@@ -27,7 +27,7 @@ class Configuracion extends CI_Controller {
     public function organismo() {
         if (!$this->session->userdata('session'))
             redirect('login');
-        $data['organismos'] = $this->Configuracion_model->consulta_organismo();
+        $data['organismos'] = $this->Configuracion_model->consulta_organo();
         $data['tipo_rif'] = $this->Configuracion_model->consulta_tipo_rif();
         $data['estados'] = $this->Configuracion_model->consulta_estados();
         $data['clasificacion'] = $this->Configuracion_model->consulta_clasificacion();
@@ -82,7 +82,7 @@ class Configuracion extends CI_Controller {
                 if(!$this->session->userdata('session')) {
                     redirect('login');
                 }
-                $data['organismos'] = $this->Configuracion_model->consulta_organismo();
+                $data['organismos'] = $this->Configuracion_model->consulta_organo();
                 $data['tipo_rif'] = $this->Configuracion_model->consulta_tipo_rif();
                 $data['estados'] = $this->Configuracion_model->consulta_estados();
                 $data['clasificacion'] = $this->Configuracion_model->consulta_clasificacion();
@@ -335,7 +335,7 @@ public function save_modif_org1(){
 public function orga() { //nuevo
     if (!$this->session->userdata('session'))
         redirect('login');
-    $data['organismos'] = $this->Configuracion_model->consulta_organismo();
+    $data['organismos'] = $this->Configuracion_model->consulta_organo();
     $data['tipo_rif'] = $this->Configuracion_model->consulta_tipo_rif();
     $data['estados'] = $this->Configuracion_model->consulta_estados();
     $data['clasificacion'] = $this->Configuracion_model->consulta_clasificacion();
@@ -436,6 +436,55 @@ public function orga() { //nuevo
       //  print_r($data1);die;
 
         $data = $this->Configuracion_model->save_ente($data1);
+        echo json_encode($data);
+    } 
+    // ENTES ADSCRITOS
+    public function entes_adscrito() {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+            $data['entes'] = $this->Configuracion_model->consulta_organo();
+       // $data['entes'] = $this->Configuracion_model->consulta_entes();
+        $data['tipo_rif'] = $this->Configuracion_model->consulta_tipo_rif();
+        $data['estados'] = $this->Configuracion_model->consulta_estados();
+        $data['clasificacion'] = $this->Configuracion_model->consulta_clasificacion();
+
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('configuracion/entes_adscrito.php', $data);
+        $this->load->view('templates/footer.php');
+    }
+    public function save_eng_ads() { //ultimo
+        if (!$this->session->userdata('session'))
+            redirect('login');
+            $parametros = $this->input->post('tipo_rif');
+            $separar        = explode("/", $parametros);
+            $data['id_rif']  = $separar['0'];
+            $data['desc_rif'] = $separar['1'];
+            $data1 = array( // 
+                'id_organoenteads' => $this->input->post("id_ente"),
+                'descripcion' => $this->input->post("ente"),
+                'cod_onapre' => $this->input->post("cod_onapre"),
+                'siglas' => $this->input->post("siglas"),
+                'tipor' => $data['desc_rif'],
+                'rif' => $this->input->post("rif"),
+                'id_clasificacion' => $this->input->post("id_clasificacion"),
+                'tel_local' => $this->input->post("tel_local"),
+                'tel_local_2' => $this->input->post("tel_local_2"),
+                'tel_movil' => $this->input->post("tel_movil"),
+                'tel_movil_2' => $this->input->post("tel_movil_2"),
+                'pag_web' => $this->input->post("pag_web"),
+                'email' => $this->input->post("email"),
+                'id_estado' => $this->input->post("id_estado_n"),
+                'id_municipio' => $this->input->post("id_municipio_n"),
+                'id_parroquia' => $this->input->post("id_parroquia_n"),
+                'direccion_fiscal' => $this->input->post("direccion_fiscal"),
+                'gaceta_oficial' => $this->input->post("gaceta_oficial"),
+                'fecha_gaceta' => $this->input->post("fecha_gaceta"),
+                'usuario' => $this->session->userdata('id_user')
+            );
+      //  print_r($data1);die;
+
+        $data = $this->Configuracion_model->save_eng_ads($data1);
         echo json_encode($data);
     } 
 }

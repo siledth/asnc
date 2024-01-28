@@ -398,8 +398,9 @@
                                     <i class="fas fa-lg fa-fw m-r-10 fa-building"></i>Entes
                                 </a>
                             </li>
+                           
                             <li>
-                                <a href="<?= base_url() ?>index.php/configuracion/entes_adscritos">
+                                <a href="<?= base_url() ?>index.php/configuracion/entes_adscrito">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-city"></i>Entes Adscritos
                                 </a>
                             </li>

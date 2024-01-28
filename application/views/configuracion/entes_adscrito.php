@@ -1,6 +1,6 @@
 <div class="sidebar-bg"></div>
 <div id="content" class="content">
-    <h2>Registros Entes del Estado</h2>
+    <h2>Registros Entes adscritos del Estado</h2>
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-inverse" data-sortable-id="form-validation-1">
@@ -9,15 +9,15 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="form-group col-4">
-                                <label>Razon Social del Ente</label>
+                                <label>Razon Social Ente Adscrito</label>
                                 <input type="text" id="ente" name="ente" class="form-control" placeholder="Nombre">
                             </div>
                             <div class="form-group col-4">
 
-                                <label>Organo Perteneciente</label>
-                                <select id="id_organo" name="id_organo" class="default-select2 form-control">
+                                <label>Adscrito a Ente </label>
+                                <select id="id_ente" name="id_ente" class="default-select2 form-control">
                                 <option value="0" >-Seleccione -</option>   
-                                <?php foreach ($organismos as $data): ?>
+                                <?php foreach ($entes as $data): ?>
                                     <option value="<?=$data['id_organo']?>"><?=$data['desc_organo']?></option>
                                     <?php endforeach; ?>
                                 </select>
@@ -29,12 +29,12 @@
 
                             </div>
                             <div class="form-group col-4">
-                                <label>Siglas del Órgano<b title="Campo Obligatorio" style="color:red">*</b></label>
+                                <label>Siglas del Ente Adscrito<b title="Campo Obligatorio" style="color:red">*</b></label>
                                 <input type="text" name="siglas" onkeyup="mayusculas(this);" class="form-control "
                                     placeholder="siglas" maxlength="12">
                             </div>
                             <div class="col-3">
-                                <label>Rif del Ente</label>
+                                <label>Rif del Ente Adscrito</label>
                                 <div class="row">
                                     <div class="col-4">
                                         <select id="tipo_rif" name="tipo_rif" class="default-select2 form-control">
@@ -142,7 +142,7 @@
                             </div>
                         </div>
                         <div class="form-group col 12 text-center">
-                            <button type="button" onclick="guardar_b();" id="guardar_organo" name="guardar_organo"
+                            <button type="button" onclick="guardar_ente_adscrito();" id="guardar_organo" name="guardar_organo"
                                 class="my-button">Guardar</button>
                         </div>
                         </from>

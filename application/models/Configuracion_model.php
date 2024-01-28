@@ -123,14 +123,16 @@
         }
 
         // ENTES
-        public function consulta_organismo(){
-            $this->db->select('id_organo, desc_organo');
-            $query = $this->db->get('organos');
-            return $result = $query->result_array();
-        }
+        // public function consulta_organismo(){
+        //     $this->db->select('id_organo, desc_organo');
+        //     $query = $this->db->get('organos');
+        //     return $result = $query->result_array();
+        // }
         public function consulta_organo(){ //para inscribir un organo aun ente
-            $this->db->select('id_organoente, descripcion,id_organoenteads');
-            $query = $this->db->get('organoente');
+          
+            $this->db->select('id_organoente as id_organo, descripcion as desc_organo,id_organoenteads,certificaciones');
+            $this->db->where('certificaciones', '0');            
+            $query = $this->db->get('public.organoente');  
             return $result = $query->result_array();
         }
         
@@ -404,6 +406,67 @@
         $query = $this->db->get('public.organoente');
         $response = $query->row_array();
         return $response;
+    }
+    public function save_eng_ads($data1){
+
+        // $this->db->select('codigo');
+        // $this->db->where('id_organoente', $data1['id_organo']);
+        // $this->db->order_by('id_organoente desc');
+        // $query = $this->db->get('organoente');
+        // $response = $query->row_array();
+
+        // $cod = $response['codigo'];
+        // $separa = explode('-', $cod);
+        // $letra = $separa['0'];
+        // $codi = $separa['1'];
+        // $codig = $codi + '00001';
+        // $codigo = $letra.'-'.$codig;
+
+        $this->db->select('*');
+        //$this->db->where('tipo_rif', $data['tipo_rif']);
+        $this->db->where('rif', $data1['rif']);
+        $query2 = $this->db->get('organoente');
+        $response2 = $query2->row_array();
+        
+        $this->db->select('max(e.id_organoente) as id');
+        $query = $this->db->get('public.organoente e');
+        $response3 = $query->row_array();
+
+        if ($response2) {
+            return 'false';
+        }else {
+            $id = $response3['id'] + 1 ;
+            $data = array(
+                'id_organoente'		    => $id,
+                'id_organoenteads'		=> $data1['id_organoenteads'],
+                'tipo_organoente'		=> 3, // 3 porque es un ente adscrito
+                'codigo'            => $id,
+                'descripcion'		=> $data1['descripcion'],
+                'cod_onapre'	 	=> $data1['cod_onapre'],
+                'siglas' 			=> $data1['siglas'],                    
+                'rif' 				=> $data1['tipor'].$data1['rif'],
+                'id_clasificacion' 	=> $data1['id_clasificacion'],
+                'tel1' 		        => $data1['tel_local'],
+                'tel2' 		        => $data1['tel_local_2'],
+                'movil1'			=> $data1['tel_movil'],
+                'movil2' 		    => $data1['tel_movil_2'],
+                'pagina_web' 		=> $data1['pag_web'],
+                'correo'			=> $data1['email'],
+                'id_estado' 		=> $data1['id_estado'],
+                'id_municipio' 		=> $data1['id_municipio'],
+                'id_parroquia' 		=> $data1['id_parroquia'],
+                'direccion' 	    => $data1['direccion_fiscal'],
+                'gaceta'	        => $data1['gaceta_oficial'],
+                'fecha_gaceta'		=> $data1['fecha_gaceta'],
+                'usuario'		    => $data1['usuario'],
+                'certificaciones'		    => 0,
+
+            );
+   // print_r($data);die;
+
+            $this->db->insert("public.organoente",$data);
+            return true;
+        }
     }
 }
 ?>
