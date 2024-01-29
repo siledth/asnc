@@ -433,7 +433,7 @@ public function orga() { //nuevo
                 'fecha_gaceta' => $this->input->post("fecha_gaceta"),
                 'usuario' => $this->session->userdata('id_user')
             );
-      //  print_r($data1);die;
+       //print_r($data1);die;
 
         $data = $this->Configuracion_model->save_ente($data1);
         echo json_encode($data);
