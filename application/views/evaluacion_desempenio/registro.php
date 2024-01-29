@@ -392,7 +392,7 @@
                             <div class="form-group col-6">
                                 <label>Acuse de Recibido <b title="Campo Obligatorio" style="color:red">*</b></label>
                                 <input type="file" name="fileImagen" id="fileImagen" width="300" height="300" data-size="1000" class="form-control">
-                                <h6 style="color:red"> Debe adjuntar la Evaluación realizada al Contratista</h6>
+                                <!-- <h6 style="color:red"> Debe adjuntar la Evaluación realizada al Contratista</h6> -->
                             </div>
                         </div>
                     </div>
