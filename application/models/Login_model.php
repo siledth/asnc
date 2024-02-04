@@ -10,7 +10,6 @@ class Login_model extends CI_model
         c.menu_noregi_eval_desem, c.menu_llamado, c.consultar_llamado, c.reg_llamado, anul_llamado, 
         c.ver_anul_llamado, c.ver_rnc, c.ver_conf, c.ver_parametro, 
         c.ver_conf_publ, c.ver_user, c.ver_user_exter, c.ver_user_desb, c.ver_user_lista, c.ver_user_perfil, c.menu_anulacion, c.menu_repor_evalu, c.certificacion, c.certi_externo, c.menu_certi');
-
         $this->db->from('seguridad.usuarios f');
         $this->db->join('seguridad.perfil c', 'c.id_perfil = f.perfil', 'left');
         $this->db->where('nombre', $usuario);
@@ -47,7 +46,76 @@ class Login_model extends CI_model
             return 'FALSE';
         }
     }
+    function existe($id_user) {  
+        $this->db->select('user_id');
+        $this->db->where('user_id', $id_user);
+       // $this->db->where('login_time',date('Y-m-d'));
+        $query = $this->db->get('seguridad.user_sessions');
+        $response = $query->row_array();
+        return $response ;
 
+
+        // $query = $ci->db->get_where('user_sessions', array(
+        //   'user_id' => $user_id,
+        //   'login_time >' => date('Y-m-d H:i:s', strtotime('-10 minutes'))
+        // ));
+      
+        // return $query->num_rows() > 0;
+      }
+      public function save_session($data_session)
+{
+    // Verificar si ya existe un registro con el 'user_id' proporcionado
+    $this->db->where('user_id', $data_session['user_id']);
+    $query = $this->db->get('seguridad.user_sessions');
+
+    if ($query->num_rows() > 0) {
+        // Si ya existe un registro con el 'user_id', actualizar el registro existente
+        $this->session->set_flashdata('message', 'El usuario ya tiene una sesión activa.');
+        $this->session->set_flashdata('message_type', 'danger');
+        return 'OPEN';
+
+    } else {
+        // Si no existe un registro con el 'user_id', insertar un nuevo registro
+        $this->db->select('max(e.id) as id1');
+        $query1 = $this->db->get('seguridad.user_sessions e');
+        $response4 = $query1->row_array();
+        $id1 = $response4['id1'] + 1;
+
+        $data1 = array(
+            'id'		    => $id1,
+            'user_id'		=> $data_session['user_id'],
+            'session_id'		=> $data_session['session_id'],
+            'login_time'		    => $data_session['login_time'],
+        );    
+        $this->db->insert("seguridad.user_sessions", $data1);
+    }
+}
+
+      public function save_session1($data_session)
+        {  
+            $this->db->select('max(e.id) as id1');
+            $query1 = $this->db->get('seguridad.user_sessions e');
+            $response4 = $query1->row_array();
+            $id1 = $response4['id1'] + 1 ;
+           
+            $data1 = array(
+                'id'		    => $id1,
+                'user_id'		=> $data_session['user_id'],
+                'session_id'		=> $data_session['session_id'],
+                'login_time'		    => $data_session['login_time'],
+            );    
+            $quers =$this->db->insert("seguridad.user_sessions", $data1);
+
+        }
+
+
+
+        public function delesesion1($data)
+        { 
+            $this->db->where('user_id', $data['user_id']);
+            $query = $this->db->delete('seguridad.user_sessions');
+            return true;
+        }
     public function consultar_organo($id_unidad)
     {
         $this->db->select('ea.id_organoente,

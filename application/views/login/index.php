@@ -69,7 +69,7 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
     <div id="page-loader" class="fade show"><span class="spinner"></span></div>
     <div id="page-container" class="fade">
         <div class="login login-with-news-feed">
-            
+
             <div class="news-feed">
                 <div class="news-image" style="background-image: url(<?= base_url() ?>Plantilla/img/91.png);"></div>
                 <!-- <img style="background-repeat: no-repeat;" src="<?= base_url() ?>Plantilla/img/2.png" alt=""> -->
@@ -91,6 +91,8 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                         <div class="form-group m-b-15">
                             <input type="text" id="bloquear" class="form-control form-control-lg" autocomplete=off
                                 placeholder="Usuario" name="usuario" required />
+                            <div id="result-usuario"></div>
+
                         </div>
                         <div class="form-group m-b-15">
                             <input type="password" id="bloquear1" onpaste="return false;" onCopy="return false"
@@ -116,7 +118,7 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                             </div>-->
 
                         <div class="login-buttons">
-                            <button name="submitContact" type="submit" class="btn btn-block btn-lg button"
+                            <button name="submitContact" id="ssesion" onclick="save()"  type="submit" class="btn btn-block btn-lg button"
                                 style="background-color:darkred;color:#FFFFFF">Ingresar</button>
                         </div>
                         <hr />
@@ -139,14 +141,14 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                                     onclick="location.href='<?php echo base_url() ?>index.php/User/contrato'"
                                     class="btn btn-grey btn-lg">Registrar Cuentadante</button> -->
 
-                       
+
                         <div class="login-buttons mt-1">
                             <button type="button" class="btn btn-lg btn-block"
                                 style="background: #161635; color:#FFFFFF;" data-toggle="modal"
                                 data-target="#exampleModalCenter">
                                 Registro Certificado Formaciòn
                             </button>
-                        </div>  
+                        </div>
 
 
 
@@ -171,10 +173,10 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                    <div align="center">
-                    <img style="width: 60%" height="100%"
-                                        src=" <?= base_url() ?>Plantilla/img/2024.jpeg" alt="Card image">
-                                        </div>
+                        <div align="center">
+                            <img style="width: 60%" height="100%" src=" <?= base_url() ?>Plantilla/img/2024.jpeg"
+                                alt="Card image">
+                        </div>
                         <!-- <div class="form-group col-3 m-b-15">
                             <label>Cedula</label>
                             <input type="text" id="cedula_prop" class="form-control form-control-lg"
@@ -219,35 +221,43 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                 </div>
             </div>
         </div>
-
-        <?php if ($this->session->flashdata('sa-error')) { ?>
-        <div hidden id="sa-error"> <?= $this->session->flashdata('sa-error') ?> </div>
-        <?php } ?>
-        <?php if ($this->session->flashdata('sa-error2')) { ?>
-        <div hidden id="sa-error2"> <?= $this->session->flashdata('sa-error2') ?> </div>
-        <?php } ?>
-        <?php if ($this->session->flashdata('fallido')) { ?>
-        <div hidden id="fallido"> <?= $this->session->flashdata('fallido') ?> </div>
-        <?php } ?>
-
-        <!-- ================== BEGIN BASE JS ================== -->
-        <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/jquery/jquery-3.3.1.min.js"></script>
-        <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
-        <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/bootstrap/4.1.3/js/bootstrap.bundle.min.js">
-        </script>
-        <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-        <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/js-cookie/js.cookie.js"></script>
-        <script src="<?= base_url() ?>Plantilla/admin/assets/js/theme/apple.min.js"></script>
-        <script src="<?= base_url() ?>Plantilla/admin/assets/js/apps.min.js"></script>
-        <script src="<?= base_url() ?>js/login/consultas.js"></script>
+    </div>
 
 
-        <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/sweetalert/sweetalert.min.js"></script>
-        <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/sweetalert/jquery.sweet-alert.custom.js"></script>
-        <!-- ================== END BASE JS ================== -->
+    <?php if ($this->session->flashdata('sa-error')) { ?>
+    <div hidden id="sa-error"> <?= $this->session->flashdata('sa-error') ?> </div>
+    <?php } ?>
+    <?php if ($this->session->flashdata('sa-error2')) { ?>
+    <div hidden id="sa-error2"> <?= $this->session->flashdata('sa-error2') ?> </div>
+    <?php } ?>
+    <?php if ($this->session->flashdata('fallido')) { ?>
+    <div hidden id="fallido"> <?= $this->session->flashdata('fallido') ?> </div>
+    <?php } ?>
+    <?php 
+    if ($this->session->flashdata('alert')) {
+    echo '<script>alert("' . $this->session->flashdata('alert') . '");</script>';
+}
+?>
 
-        <script>
-        /*  $(document).ready(function () {
+
+    <!-- ================== BEGIN BASE JS ================== -->
+    <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/jquery/jquery-3.3.1.min.js"></script>
+    <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/bootstrap/4.1.3/js/bootstrap.bundle.min.js">
+    </script>
+    <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/js-cookie/js.cookie.js"></script>
+    <script src="<?= base_url() ?>Plantilla/admin/assets/js/theme/apple.min.js"></script>
+    <script src="<?= base_url() ?>Plantilla/admin/assets/js/apps.min.js"></script>
+    <script src="<?= base_url() ?>js/login/consultas.js"></script>
+
+
+    <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/sweetalert/jquery.sweet-alert.custom.js"></script>
+    <!-- ================== END BASE JS ================== -->
+
+    <script>
+    /*  $(document).ready(function () {
                 $('.button').attr("disabled", true);
                 $('.captha_numbers a').on('click', function () {
                     var data = $(this).attr('data');
@@ -259,139 +269,141 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                     return false;
                 });
             });/*
-        </script>
+    </script>
 
-        <script>
-        $(document).ready(function() {
-            $("#bloquear").on('paste', function(e) {
-                e.preventDefault();
-                alert('Esta acción está deshabilitada');
-            });
-
-            $("#bloquear").on('copy', function(e) {
-                e.preventDefault();
-                alert('Esta acción está deshabilitada');
-            });
+    <script>
+    $(document).ready(function() {
+        $("#bloquear").on('paste', function(e) {
+            e.preventDefault();
+            alert('Esta acción está deshabilitada');
         });
-        </script>
-        <script>
-        $(document).ready(function() {
-            $("#bloquear1").on('paste', function(e) {
-                e.preventDefault();
-                alert('Esta acción está deshabilitada');
-            });
 
-            $("#bloquear1").on('copy', function(e) {
-                e.preventDefault();
-                alert('Esta acción está deshabilitada');
-            });
+        $("#bloquear").on('copy', function(e) {
+            e.preventDefault();
+            alert('Esta acción está deshabilitada');
         });
-        </script>
-        <script>
-        $(document).ready(function() {
-            App.init();
+    });
+    </script>
+    <script>
+    $(document).ready(function() {
+        $("#bloquear1").on('paste', function(e) {
+            e.preventDefault();
+            alert('Esta acción está deshabilitada');
         });
-        </script>
-        <script>
-        (function(i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function() {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date();
-            a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-        ga('create', 'UA-53034621-1', 'auto');
-        ga('send', 'pageview');
-        </script>
+        $("#bloquear1").on('copy', function(e) {
+            e.preventDefault();
+            alert('Esta acción está deshabilitada');
+        });
+    });
+    </script>
+    <script>
+    $(document).ready(function() {
+        App.init();
+    });
+    </script>
+    <script>
+    (function(i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function() {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-
-
-        <script type="text/javascript">
-        $(document).ready(function() {
-            $('#email').on('blur', function() {
-                // url(http://localhost/asnc/Plantilla/img/images.jpeg);
-                $('#result-email').html('<img src="http://localhost/asnc/Plantilla/img/5.gif"/>')
-                    .fadeOut(1000);
-
-                var email = $(this).val();
-                var dataString = 'email=' + email;
-                // var base_url = window.location.origin + '/asnc/index.php/Login/validad_correo'
-                 var base_url = '/index.php/Login/validad_correo';
-                 $.ajax({
-                    type: "POST",
-                    url: base_url,
-                    data: dataString,
-                    success: function(data) {
-                        // console.log(data);
-                        if (data == 'null') {
-                            $('#result-email').fadeIn(1600).html(
-                                '<div class="alert alert-success"><strong>Bien!</strong> Correo disponible.</div>'
-                                );
-                            $("#btn_guar_2").prop('disabled', false)
-
-                        } else {
-                            $('#result-email').fadeIn(1600).html(
-                                '<div class="alert alert-danger"><strong>Correo ya Registrado!</strong> Ingrese otro Correo.</div>'
-                                );
-                            $("#btn_guar_2").prop('disabled', true)
-
-                        }
+    ga('create', 'UA-53034621-1', 'auto');
+    ga('send', 'pageview');
+    </script>
 
 
 
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#email').on('blur', function() {
+            // url(http://localhost/asnc/Plantilla/img/images.jpeg);
+            $('#result-email').html('<img src="http://localhost/asnc/Plantilla/img/5.gif"/>')
+                .fadeOut(1000);
 
+            var email = $(this).val();
+            var dataString = 'email=' + email;
+            // var base_url = window.location.origin + '/asnc/index.php/Login/validad_correo'
+            var base_url = '/index.php/Login/validad_correo';
+            $.ajax({
+                type: "POST",
+                url: base_url,
+                data: dataString,
+                success: function(data) {
+                    // console.log(data);
+                    if (data == 'null') {
+                        $('#result-email').fadeIn(1600).html(
+                            '<div class="alert alert-success"><strong>Bien!</strong> Correo disponible.</div>'
+                        );
+                        $("#btn_guar_2").prop('disabled', false)
+
+                    } else {
+                        $('#result-email').fadeIn(1600).html(
+                            '<div class="alert alert-danger"><strong>Correo ya Registrado!</strong> Ingrese otro Correo.</div>'
+                        );
+                        $("#btn_guar_2").prop('disabled', true)
 
                     }
-                });
+
+
+
+
+
+                }
             });
         });
-        </script>
+    });
+    </script>
 
-        <script type="text/javascript">
-        $(document).ready(function() {
-            $('#cedula_prop').on('blur', function() {
-                // url(http://localhost/asnc/Plantilla/img/images.jpeg);
-                $('#result-cedula_prop').html('<img src="http://localhost/asnc/Plantilla/img/5.gif"/>')
-                    .fadeOut(1000);
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#cedula_prop').on('blur', function() {
+            // url(http://localhost/asnc/Plantilla/img/images.jpeg);
+            $('#result-cedula_prop').html('<img src="http://localhost/asnc/Plantilla/img/5.gif"/>')
+                .fadeOut(1000);
 
-                var cedula_prop = $(this).val();
-                var dataString = 'cedula_prop=' + cedula_prop;
-               // var base_url = window.location.origin + '/asnc/index.php/Login/validad_cedula'
-                 var base_url = '/index.php/Login/validad_cedula';
-                $.ajax({
-                    type: "POST",
-                    url: base_url,
-                    data: dataString,
-                    success: function(data) {
-                        // console.log(data);
-                        if (data == 'null') {
-                            $('#result-cedula_prop').fadeIn(1600).html(
-                                '<div class="alert alert-success"><strong>Bien!</strong> Cedula disponible.</div>'
-                                );
-                            $("#btn_guar_2").prop('disabled', false)
+            var cedula_prop = $(this).val();
+            var dataString = 'cedula_prop=' + cedula_prop;
+            // var base_url = window.location.origin + '/asnc/index.php/Login/validad_cedula'
+            var base_url = '/index.php/Login/validad_cedula';
+            $.ajax({
+                type: "POST",
+                url: base_url,
+                data: dataString,
+                success: function(data) {
+                    // console.log(data);
+                    if (data == 'null') {
+                        $('#result-cedula_prop').fadeIn(1600).html(
+                            '<div class="alert alert-success"><strong>Bien!</strong> Cedula disponible.</div>'
+                        );
+                        $("#btn_guar_2").prop('disabled', false)
 
-                        } else {
-                            $('#result-cedula_prop').fadeIn(1600).html(
-                                '<div class="alert alert-danger"><strong>Cedula ya Registrado!</strong> .</div>'
-                                );
-                            $("#btn_guar_2").prop('disabled', true)
+                    } else {
+                        $('#result-cedula_prop').fadeIn(1600).html(
+                            '<div class="alert alert-danger"><strong>Cedula ya Registrado!</strong> .</div>'
+                        );
+                        $("#btn_guar_2").prop('disabled', true)
 
-                        } ///DESABILITAR BOTON UNA VEZ ENVIADA LA INFORMACION
-
-
-
+                    } ///DESABILITAR BOTON UNA VEZ ENVIADA LA INFORMACION
 
 
-                    }
-                });
+
+
+
+                }
             });
         });
-        </script>
+    });
+    </script>
+
+
 </body>
 
 </html>

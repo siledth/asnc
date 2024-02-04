@@ -553,4 +553,17 @@ class User_model extends CI_Model
             $response = $query->row_array();
             return $response;
         }
+        function red_ssses(){
+            $this->db->select('s.id, s.user_id,login_time,c.nombre');
+             $this->db->join('seguridad.usuarios c', 'c.id = s.user_id');
+            $this->db->from('seguridad.user_sessions s');
+           // $this->db->order_by("codigo_b", "Asc");
+            $query = $this->db->get();
+            return $query->result_array();
+        }
+        function delet_sse($data){
+            $this->db->where('user_id', $data['user_id']);
+            $query = $this->db->delete('seguridad.user_sessions');
+            return true;
+        }
 }

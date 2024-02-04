@@ -28,19 +28,9 @@ class Login extends CI_Controller {
       redirect('login', 'refres');
     } else {
       $inf = ['id_unidad' => $data['unidad']];
-      $id_unidad =$inf['id_unidad'];
 
-      $id_user =  $ssesion['id'];
-      $ssesion = ['id' => $data['id']];
-      $id_user =  $ssesion['id'];
-      
-      $data5 = $this->login_model->existe($id_user);
-     
+      $id_unidad = $inf['id_unidad'];
       $data2 = $this->login_model->consultar_organo($id_unidad);
-      if ($data5 == TRUE) {
-        $this->session->set_flashdata('alert','El Usuario Tiene una Sesión Abierta.');
-        redirect('login');
-      } else{      
       if ($data2) {
         $user_data = [
           'id_user' => $data['id'],
@@ -84,57 +74,30 @@ class Login extends CI_Controller {
         ];
 
         $this->session->set_userdata($user_data);
-        $data_session = array(
 
-          'login_time' => date('Y-m-d H:i:s'),
-          'user_id' =>$id_user,
-          'session_id' => $id_user,
-      );
-      $data = $this->login_model->save_session($data_session);
-      echo json_encode($data);
         redirect('home');
       } else {
         echo "<script>alert('usuario o Clave Errorena! Por favor intente de nuevo.');</script>";
         redirect('login');
       }
-    } 
     }
     // else{
     // 	echo "<script>alert('usuario o Clave Errorena! Por favor intente de nuevo.');</script>";
     //     redirect('login/index');
     // }
   }
-  
+
   public function logout() {
-   
-    $data = array(
-      'user_id' => $this->session->userdata('id_user'),
-      'ultimo_login' 	=> date('Y-m-d H:i:s') 
-  );
-  $data = $this->login_model->delesesion1($data);
-  echo json_encode($data);
-  if ($data == TRUE) {
     $this->session->sess_destroy();
     redirect('login');
-  
-  } else{      
-   
-    $this->session->set_flashdata('alert','algo paso');
-    redirect('login');
   }
-}
   
-  public function validad_ssesion(){
-    $usuario = $this->input->post('usuario');
-    $data= $this->login_model->existe($usuario);
-   //$data = $this->input->post();
-    echo json_encode($data);
-      } 
+  
   public function validad_correo(){
     $email = $this->input->post('email');
     $data= $this->login_model->valida_correo($email);
    //$data = $this->input->post();
-    echo json_encode($data);
+echo json_encode($data);
 // echo json_encode($email);
 // if (json_encode($data) == 'null') {
 //   echo '<div class="alert alert-success"><strong>Bien!</strong> Correo disponible.</div>';

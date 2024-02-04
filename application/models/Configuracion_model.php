@@ -130,7 +130,7 @@
         // }
         public function consulta_organo(){ //para inscribir un organo aun ente
           
-            $this->db->select('id_organoente as id_organo, descripcion as desc_organo,id_organoenteads,certificaciones');
+            $this->db->select('id_organoente as id_organo, rif, descripcion as desc_organo,id_organoenteads,certificaciones');
             $this->db->where('certificaciones', '0');            
             $query = $this->db->get('public.organoente');  
             return $result = $query->result_array();
@@ -465,6 +465,65 @@
    // print_r($data);die;
 
             $this->db->insert("public.organoente",$data);
+            return true;
+        }
+    }
+    public function save_filiar($data1){       
+        $this->db->select('max(e.filiar) as filiar1');
+        $this->db->where('e.tipo_organoente', 4);
+        //$this->db->group_by("e.filiar,e.tipo_organoente");
+        $query = $this->db->get('public.organoente e');
+        $response4 = $query->row_array();
+
+        $this->db->select('max(e.id_organoente) as id');
+        $query = $this->db->get('public.organoente e');
+        $response3 = $query->row_array();
+        $this->db->select('rif');
+        $this->db->where('rif', 'G20007867');
+        $query6 = $this->db->get('organoente');
+        $response2 = $query6->row_array();
+        if ($response2) {
+            return 'false';
+        }else { 
+           
+            $filiar1=$response4['filiar1'] + 1;
+            $filiar2 = sprintf('F%09d', $filiar1);
+           // $filiar2 = 'F' . (string)$filiar1;
+           // print_r($filiar2);die;
+            $id = $response3['id'] + 1 ;
+            $data = array(
+                'id_organoente'		    => $id,
+                'id_organoenteads'		=> $data1['id_organoads'],
+                'tipo_organoente'		=> 4,//es un filiar
+                'codigo'            => $id,
+                'descripcion'		=> $data1['descripcion'],
+                'cod_onapre'	 	=> $data1['cod_onapre'],
+                'siglas' 			=> $data1['siglas'],                    
+                'rif' 				=> $filiar2,
+                'id_clasificacion' 	=> $data1['id_clasificacion'],
+                'tel1' 		        => $data1['tel_local'],
+                'tel2' 		        => $data1['tel_local_2'],
+                'movil1'			=> $data1['tel_movil'],
+                'movil2' 		    => $data1['tel_movil_2'],
+                'pagina_web' 		=> $data1['pag_web'],
+                'correo'			=> $data1['email'],
+                'id_estado' 		=> $data1['id_estado'],
+                'id_municipio' 		=> $data1['id_municipio'],
+                'id_parroquia' 		=> $data1['id_parroquia'],
+                'direccion' 	    => $data1['direccion_fiscal'],
+                'gaceta'	        => $data1['gaceta_oficial'],
+                'fecha_gaceta'		=> $data1['fecha_gaceta'],
+                'usuario'		    => $data1['usuario'],
+                'certificaciones'		    => 0,
+                'filiar'		    => $filiar1,
+            );
+          // print_r($data);die;
+
+            $this->db->insert("public.organoente",$data); //colo nombre de la tabla
+           
+
+
+
             return true;
         }
     }

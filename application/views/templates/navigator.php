@@ -230,8 +230,8 @@
                                     </a>
                                     <ul class="sub-menu">
 
-                                        <li><a href="<?= base_url() ?>index.php/llamadoconcurso">-
-                                                Consultar ant</a></li>
+                                        <!-- <li><a href="<?= base_url() ?>index.php/llamadoconcurso">-
+                                                Consultar ant</a></li> -->
                                         <li><a href="<?= base_url() ?>index.php/Publicaciones/llamadointerno">-
                                                 Consultar nuevo</a></li>
                                         <li><a href="<?= base_url() ?>index.php/Publicaciones/rp_estatus">-
@@ -402,6 +402,11 @@
                             <li>
                                 <a href="<?= base_url() ?>index.php/configuracion/entes_adscrito">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-city"></i>Entes Adscritos
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= base_url() ?>index.php/configuracion/filiares">
+                                    <i class="fas fa-lg fa-fw m-r-10 fa-city"></i>Filiares
                                 </a>
                             </li>
                             <li>
@@ -615,6 +620,13 @@
                     <li>
                         <a href="<?= base_url() ?>index.php/user/perfil_">
                             <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Perfiles
+                        </a>
+                    </li>
+                    <?php endif; ?>
+                    <?php if (($this->session->userdata('ver_user_perfil') == 1)) : ?>
+                    <li>
+                        <a href="<?= base_url() ?>index.php/User/see_ses">
+                            <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Sesiones Abiertas
                         </a>
                     </li>
                     <?php endif; ?>

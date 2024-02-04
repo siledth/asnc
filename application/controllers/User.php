@@ -737,4 +737,23 @@ public function modi_usua()
        //$data = $this->input->post();
     echo json_encode($data);    
     }
+    public function see_ses()
+    {
+        if (!$this->session->userdata('session')) {
+            redirect('login');
+        }
+        $data['sseesion'] = $this->User_model->red_ssses();
+        $usuario = $this->session->userdata('id_user');
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('user/ses_open.php', $data);
+        $this->load->view('templates/footer.php');
+    }
+    public function delet_sse() {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $data = $this->input->post();
+        $data = $this->User_model->delet_sse($data);
+        echo json_encode($data);
+    }
 }

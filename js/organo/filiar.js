@@ -1,25 +1,16 @@
+function displaySelectedOption() {
+    const selectElement = document.getElementById("id_organoads");
+    const inputElement = document.getElementById("selectedValue");
+  
+    inputElement.value = selectElement.value;
+  }
 
-function validateMaxLength(input) {
-    var maxLength = 20;
-    var errorMsg = document.getElementById("errorMsg");
-   
-    if (input.value.length > maxLength) {
-       input.value = input.value.slice(0, maxLength);
-       errorMsg.style.color = "red";
-       errorMsg.innerHTML = "El texto ingresado no puede superar los 20 caracteres.";
-       $("#guardar_organo").prop('disabled', true)
 
-    } else {
-       errorMsg.innerHTML = "";
-       $("#guardar_organo").prop('disabled', false)
-
-    }
-   }
-function guardar_b(){
+function guardar_filiar(){
     var organo = $("#organo").val();
     var cod_onapre = $("#cod_onapre").val();
     var siglas = $("#siglas").val();
-    var rif = $("#rif").val();
+   // var rif = $("#rif").val();
     var tel_local = $("#tel_local").val();
     var tel_local_2 = $("#tel_local_2").val();
     var tel_movil = $("#tel_movil").val();
@@ -80,11 +71,11 @@ function guardar_b(){
                 document.getElementById("siglas").focus();
                 return false;
             }
-            if(rif == ''){
-                alert("Debe ingresar Rif")
-                document.getElementById("rif").focus();
-                return false;
-            }
+            // if(rif == ''){
+            //     alert("Debe ingresar Rif")
+            //     document.getElementById("rif").focus();
+            //     return false;
+            // }
             if(tel_local == ''){
                 alert("Debe ingresar Telèfono")
                 document.getElementById("tel_local").focus();
@@ -134,7 +125,7 @@ function guardar_b(){
                 event.preventDefault();
                 var datos = new FormData($("#guardar_ba")[0]);
                 //            var base_url =window.location.origin+'/asnc/index.php/Programacion/guardar_rendi_bienes_acc';
-                var base_url = '/index.php/Configuracion/save_org_';
+                var base_url = '/index.php/Configuracion/save_filiar_';
                 
                 $.ajax({
                     url: base_url,
