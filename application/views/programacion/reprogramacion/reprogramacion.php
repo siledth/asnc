@@ -50,7 +50,7 @@
                                                             <a/>
                                                             <?php if ($lista['modificado'] != 0) : ?>
                                                  <button
-                                                        onclick="location.href='<?php echo base_url()?>index.php/programacion/Llamado_1?id=<?php echo $lista['id_programacion'];?>'"
+                                                        onclick="location.href='<?php echo base_url()?>index.php/programacion/modificacion_ley?id=<?php echo $lista['id_programacion'];?>'"
                                                         type="button" class="fas fa-2x  fa-cloud-download-alt" style="color:blue" name="button"> 
                                                     </button>     
                                                     <?php endif; ?>

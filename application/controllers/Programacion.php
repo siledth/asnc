@@ -5254,7 +5254,7 @@ public function read_send() //hacer un pdf de comprobante programacion final par
       $pdf->Output('Comprobanteproyecto '.$curdate.'.pdf', 'D');
      // $this->load->view('headfoot/header', $datos);
 }
-public function Llamado_1() //hacer un pdf de comprobante programacion final
+public function modificacion_ley() //pdf segun ley
  {
    require_once APPPATH.'third_party/fpdf/fpdf.php';
 
@@ -5352,8 +5352,8 @@ public function Llamado_1() //hacer un pdf de comprobante programacion final
    $pdf->Cell(35,5,'% ',0,1,'C'); 
  
 
-
    $id_programacion = $this->input->get('id');
+   
    $data = $this->Programacion_model->consulta_total_objeto_acc($id_programacion);
    if($data != ''){
     foreach($data as $d){    
@@ -5369,26 +5369,28 @@ public function Llamado_1() //hacer un pdf de comprobante programacion final
              $ds = $d->precio_total / $d3->precio_total * 100;
           $pdf->Cell(90,5, number_format($ds, 2, ",", "."),0,1,'C');
          }
-      }
+     } 
    }
-   
+    
+    $id_programacion = $this->input->get('id');
+    $data3 = $this->Programacion_model->consulta_total_acc($id_programacion);
+    if($data3 != ''){
+        foreach($data3 as $d3){                
+            $pdf->SetFont('Arial','B',12);
+         
+            $pdf->Cell(175,10, number_format($d3->precio_total, 2, ",", "."),0,1,'C');
+           
+        }
+    }
      
-
-     $id_programacion = $this->input->get('id');
-     $data3 = $this->Programacion_model->consulta_total_acc($id_programacion);
-     foreach($data3 as $d3){                
-        $pdf->SetFont('Arial','B',10);
-     
-        $pdf->Cell(175,10, number_format($d3->precio_total, 2, ",", "."),0,1,'C');
-       
-       }
      $pdf->SetFont('Arial','B',10);
      $pdf->Cell(50,5,'ACTIVIDAD',0,0,'C'); 
      $pdf->Cell(80,5,'PROYECTO Bs. ',0,0,'C'); 
      $pdf->Cell(35,5,'% ',0,1,'C');
-     $data4 = $this->Programacion_model->consulta_total_objeto_py2($id_programacion);
-     if($data4 != ''){
-        foreach($data4 as $d4){    
+
+    $data4 = $this->Programacion_model->consulta_total_objeto_py2($id_programacion);
+        if($data4 != ''){
+            foreach($data4 as $d4){    
             $pdf->SetFont('Arial','',10);
             
             $pdf->Cell(50,5, $d4->desc_objeto_contrata,0,0,'C');
@@ -5397,23 +5399,25 @@ public function Llamado_1() //hacer un pdf de comprobante programacion final
             
             $id_programacion = $this->input->get('id');
             $data5 = $this->Programacion_model->consulta_total_PYT($id_programacion);
-            foreach($data5 as $d5){                
-                $pdf->SetFont('Arial','',10);
-                $dq = $d4->precio_total / $d5->precio_total_py * 100;
-                
-                $pdf->Cell(95,5, number_format($dq, 2, ",", "."),0,1,'C');
-            }
+                if($data5 != ''){
+                    foreach($data5 as $d5){                
+                        $pdf->SetFont('Arial','',10);
+                        $dq = $d4->precio_total / $d5->precio_total_py * 100;
+                        
+                        $pdf->Cell(95,5, number_format($dq, 2, ",", "."),0,1,'C');
+                    }
+                }
         }
      }
         
     $id_programacion = $this->input->get('id');
-    $data5 = $this->Programacion_model->consulta_total_PYT($id_programacion);
-    if($data5 != ''){
-        foreach($data5 as $d5){                
-            $pdf->SetFont('Arial','B',10);
+    
+    $data5 = $this->Programacion_model->consulta_total_PYT($id_programacion);   
+        if($data5 != ''){ 
+            foreach($data5 as $d5){ 
+            $pdf->SetFont('Arial','B',12);
             $pdf->Cell(175,10, number_format($d5->precio_total_py, 2, ",", "."),0,1,'C');
-        }
-    }
+        }} 
    
     $pdf->SetFont('Arial','I',8);
     $pdf->Ln(2);
@@ -5456,7 +5460,7 @@ public function Llamado_1() //hacer un pdf de comprobante programacion final
       
      // $pdf->Ln(10);
     
-      $pdf->Output('modifiacion_programacion '.$curdate.'.pdf', 'D');
+      $pdf->Output('modifiacion_programacion_segun_ley '.$curdate.'.pdf', 'D');
      // $this->load->view('headfoot/header', $datos);
 }
 public function comprobante_rendicion() //hacer un pdf de comprobante rendidicon final
