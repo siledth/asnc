@@ -530,12 +530,27 @@ class User_model extends CI_Model
         }
     
         public function valida_ced4($cedula){
-            $this->db->select('cedula');
+            // $this->db->select('cedula');
+            // $this->db->where('cedula', $cedula);
+            // //$this->db->order_by('id desc');
+            // $query = $this->db->get('seguridad.funcionarios');
+            // $response = $query->row_array();
+            // return $response;
+
+
             $this->db->where('cedula', $cedula);
-            //$this->db->order_by('id desc');
             $query = $this->db->get('seguridad.funcionarios');
-            $response = $query->row_array();
-            return $response;
+        
+            if ($query->num_rows() > 0) {
+               
+                return 'OPEN';
+        
+            } else {
+                return 'NO';
+
+            }
+
+
         }
         public function valida_correo($email){
             $this->db->select('email');
