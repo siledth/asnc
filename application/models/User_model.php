@@ -543,10 +543,10 @@ class User_model extends CI_Model
         
             if ($query->num_rows() > 0) {
                
-                return '1';
+                return 1;
         
             } else {
-                return '0';
+                return 0;
 
             }
 

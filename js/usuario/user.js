@@ -25,7 +25,7 @@ function may(e){
 // }
 function validateUsers() {
     var cedula = document.getElementById('cedula1').value;
-    console.log(cedula);
+    console.log('cedula:', cedula);
     var base_url = '/index.php/User/valida_ced4';
     var no=0;
     $.ajax({
@@ -33,19 +33,18 @@ function validateUsers() {
       url: base_url,
       data: {
         cedula: cedula
-      },
+      },    
+
       success: function(data) {
-        console.log(data);
-        if (data == cedula) {
-        alert('no');
+       
+        data = data.trim();
 
-         
-          $("#guardar_user").prop('disabled', false)
+        if (data == no) {
+            alert('La cedula no existe, puede continuar');
+            console.log(data);
         } else {
-        alert('si seguir');
-
-        
-          $("#guardar_user").prop('disabled', true)
+            alert('La cedula ya existe, Revisa y vuelve a intentar');
+            console.log(data);
         }
       }
     });
