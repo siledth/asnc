@@ -201,7 +201,7 @@
                 var cedula = $(this).val();
                 var dataString = 'cedula=' + cedula;
                // var base_url = window.location.origin + '/asnc/index.php/Login/validad_cedula'
-                 var base_url = '/index.php/User/validad_cedula';
+                 var base_url = '/index.php/User/valida_ced4';
                 $.ajax({
                     type: "POST",
                     url: base_url,

@@ -719,7 +719,7 @@ public function modi_usua()
 
     public function valida_ced4(){
         $cedula = $this->input->post('cedula');
-        $data= $this->User_model->valida_ced($cedula);
+        $data= $this->User_model->valida_ced4($cedula);
        //$data = $this->input->post();
       echo json_encode($data);
        
