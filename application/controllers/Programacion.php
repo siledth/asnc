@@ -2160,7 +2160,7 @@ public function editar_item_servicio_py(){
         $data3 = $this->Programacion_model->consulta_total_acc($id_programacion);
        
         $data4 = $this->Programacion_model->consulta_total_objeto_py2($id_programacion);
-        print_r($data4);die;
+        //print_r($data4);die;
         
         $data5 = $this->Programacion_model->consulta_total_PYT($id_programacion); 
         
