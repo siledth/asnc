@@ -151,7 +151,7 @@
 
 
     </script>
-  <script type="text/javascript">
+  <!-- <script type="text/javascript">
         $(document).ready(function() {
             $('#usuario').on('blur', function() {
                 // url(http://localhost/asnc/Plantilla/img/images.jpeg);
@@ -208,18 +208,17 @@
                     data: dataString,
                     success: function(data) {
                          console.log(data);
-                        if (data == null) {
-                            $('#result-cedula').fadeIn(1600).html(
-                                '<div class="alert alert-danger"><strong>Cedula ya Registrado!</strong>.</div>'
-                                );
-                            $("#guardar_user").prop('disabled', true) 
-                           
-                        } else {
-                            
+                        if (data == 'null') {
                             $('#result-cedula').fadeIn(1600).html(
                                 '<div class="alert alert-success"><strong>Bien!</strong> Cedula disponible.</div>'
                                 );
                             $("#guardar_user").prop('disabled', false)
+
+                        } else {
+                            $('#result-cedula').fadeIn(1600).html(
+                                '<div class="alert alert-danger"><strong>Cedula ya Registrado!</strong> .</div>'
+                                );
+                            $("#guardar_user").prop('disabled', true)
 
                         } ///DESABILITAR BOTON UNA VEZ ENVIADA LA INFORMACION
 
@@ -233,7 +232,7 @@
         });
         </script>
 
-<script type="text/javascript">
+<script type="text/javascript"> -->
         $(document).ready(function() {
             $('#email').on('blur', function() {
                 // url(http://localhost/asnc/Plantilla/img/images.jpeg);
