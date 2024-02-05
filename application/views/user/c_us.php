@@ -176,7 +176,7 @@
 
                         } else {
                             $('#result-usuario').fadeIn(1600).html(
-                                '<div class="alert alert-danger"><strong>Usuario ya Registrado!</strong> Ingrese otro Correo.</div>'
+                                '<div class="alert alert-danger"><strong>Usuario ya Registrado!</strong> Ingrese otro Usuario.</div>'
                                 );
                             $("#guardar_user").prop('disabled', true)
 
@@ -207,7 +207,7 @@
                     url: base_url,
                     data: dataString,
                     success: function(data) {
-                        // console.log(data);
+                         console.log(data);
                         if (data == 'null') {
                             $('#result-cedula').fadeIn(1600).html(
                                 '<div class="alert alert-success"><strong>Bien!</strong> Cedula disponible.</div>'

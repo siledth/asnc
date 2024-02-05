@@ -2353,6 +2353,8 @@
            'estimado_total_t_acc' => $data['estimado_total_t_acc'],
             'estatus_rendi' => $data['estatus_rendi'],
             'id_proyecto' => $data['id_proyecto'],
+            'id_usuario' => $data['id_usuario'],
+
             
 
         );
@@ -2482,6 +2484,7 @@ function agregar_mas_item_servicio($data,$p_ffinanciamiento){
        'estatus_rendi' => $data['estatus_rendi'],
        'reprogramado' => 0,
        'id_proyecto' => $data['id_proyecto'],
+       'id_usuario' => $data['id_usuario'],
 
       
     );
@@ -2664,6 +2667,8 @@ function agregar_mas_item_obras($data,$p_ffinanciamiento){
        'estimado_total_t_acc' => $data['estimado_total_t_acc'],
        'estatus_rendi' => 0,
        'id_proyecto' => $data['id_proyecto'],
+       'id_usuario' => $data['id_usuario'],
+
 
     );
     $quers =$this->db->insert("programacion.p_items", $data1);
@@ -3064,6 +3069,7 @@ function Guardar_mas_item_py_servicio($data,$p_ffinanciamiento){
        'estimado_total_t_acc' => $data['estimado_total_t_acc'],
        'estatus_rendi' => $data['estatus_rendi'],
        'id_proyecto' => $data['id_proyecto'],
+       'id_usuario' => $data['id_usuario'],
 
 
     );
@@ -3126,6 +3132,7 @@ function Guardar_mas_item_py_obras($data,$p_ffinanciamiento){
        'estimado_total_t_acc' => $data['estimado_total_t_acc'],
        'estatus_rendi' => $data['estatus_rendi'],
        'id_proyecto' => $data['id_proyecto'],
+       'id_usuario' => $this->session->userdata('id_user'),
        
 
     );

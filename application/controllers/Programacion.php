@@ -1559,6 +1559,7 @@ public function Guardar_mas_item_acc() {
         'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t_acc'),
         'estatus_rendi' => 0,//estatus inical del id_items
         'id_proyecto' 		 => $this->input->post('id_proyectoii'),//para calcular total de partida pp
+        'id_usuario' => $this->session->userdata('id_user'),
 
       
 
@@ -1760,6 +1761,7 @@ public function Guardar_mas_item_bienes_py() {
         'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t_acc'),
         'estatus_rendi' => 0,//estatus inical del id_items
         'id_proyecto' 		 => $this->input->post('id_proyectoii'),//para calcular total de partida pp
+        'id_usuario' => $this->session->userdata('id_user'),
 
       
 
@@ -2009,6 +2011,7 @@ public function editar_item_servicio_py(){
             'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t'),
             "estatus_rendi"    => 0,// estatus de la rendicion
             'id_proyecto' 		 => $this->input->post('id_proyectoii'),//para calcular total de partida pp
+            'id_usuario' => $this->session->userdata('id_user'),
 
           
     
@@ -2123,6 +2126,7 @@ public function editar_item_servicio_py(){
             'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t'),
             'estatus_rendi' => 0,//estatus inical del id_items
             'id_proyecto' 		 => $this->input->post('id_proyectoii'),//para calcular total de partida pp
+            'id_usuario' => $this->session->userdata('id_user'),
 
           
     
@@ -3410,6 +3414,7 @@ public function Guardar_mas_item_py_servicio() {
         'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t'),
         'estatus_rendi' => 0,//estatus inical del id_items
         'id_proyecto' 		 => $this->input->post('id_proyectoii'),//para calcular total de partida pp
+        'id_usuario' => $this->session->userdata('id_user'),
 
         
 
@@ -3509,6 +3514,7 @@ public function Guardar_mas_item_py_obras() {
         'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t'),
         'estatus_rendi' => 0,//estatus inical del id_items
         'id_proyecto' 		 => $this->input->post('id_proyectoii'),//para calcular total de partida pp
+        'id_usuario' => $this->session->userdata('id_user'),
 
 
       
