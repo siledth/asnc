@@ -151,4 +151,45 @@
 
 
     </script>
- 
+   <script type="text/javascript">
+        $(document).ready(function() {
+            $('#usuario').on('blur', function() {
+                // url(http://localhost/asnc/Plantilla/img/images.jpeg);
+                $('#result-usuario').html('<img src="http://localhost/asnc/Plantilla/img/5.gif"/>')
+                    .fadeOut(1000);
+
+                var usuario = $(this).val();
+                var dataString = 'usuario=' + usuario;
+                var no=0;
+
+                // var base_url = window.location.origin + '/asnc/index.php/Login/validad_correo'
+                 var base_url = '/index.php/User/validad_users';
+                 $.ajax({
+                    type: "POST",
+                    url: base_url,
+                    data: dataString,
+                    success: function(data) {
+                        // console.log(data);
+                        if (data == no) {
+                            $('#result-usuario').fadeIn(1600).html(
+                                '<div class="alert alert-success"><strong>Bien!</strong> Usuario disponible.</div>'
+                                );
+                            $("#guardar_user").prop('disabled', false)
+
+                        } else {
+                            $('#result-usuario').fadeIn(1600).html(
+                                '<div class="alert alert-danger"><strong>Usuario ya Registrado!</strong> Ingrese otro Usuario.</div>'
+                                );
+                            $("#guardar_user").prop('disabled', true)
+
+                        }
+
+
+
+
+
+                    }
+                });
+            });
+        });
+        </script>
