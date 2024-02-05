@@ -3014,7 +3014,7 @@ public function enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $da
                     'anio'            => $id1,
 
         );
-        //print_r($resulta);die;
+        print_r($resulta);die;
        $this->db->insert('programacion.inf_enviada',$resulta);
 
         $data1 = array('estatus' => '2',// se puede reprogramar y rendir 
