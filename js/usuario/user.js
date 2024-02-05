@@ -36,7 +36,7 @@ function validateUsers() {
       },
       success: function(data) {
         console.log(data);
-        if (data == '21151374') {
+        if (data == '1') {
         alert('no');
 
          
