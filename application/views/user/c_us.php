@@ -52,7 +52,7 @@
                             </div>
                             <div class="form-group col-3">
                                 <label>Cédula de Identidad <b title="Campo Obligatorio" style="color:red">*</b></label>
-                                <input type="text" id="cedula" name="cedula" maxlength="8"  
+                                <input type="text" id="cedula" name="cedula" maxlength="8" onblur="validateUsers();" 
                                     placeholder="ingrese la Cédula sin punto ni coma" class="form-control" />
                                     <div id="result-cedula"></div>
                             </div>
@@ -192,44 +192,44 @@
         });
         </script>
 <script type="text/javascript">
-        $(document).ready(function() {
-            $('#cedula').on('blur', function() {
-                // url(http://localhost/asnc/Plantilla/img/images.jpeg);
-                $('#result-cedula').html('<img src="http://localhost/asnc/Plantilla/img/5.gif"/>')
-                    .fadeOut(1000);
+        // $(document).ready(function() {
+        //     $('#cedula').on('blur', function() {
+        //         // url(http://localhost/asnc/Plantilla/img/images.jpeg);
+        //         $('#result-cedula').html('<img src="http://localhost/asnc/Plantilla/img/5.gif"/>')
+        //             .fadeOut(1000);
 
-                var cedula = $(this).val();
-                var dataString = 'cedula=' + cedula;
-               // var base_url = window.location.origin + '/asnc/index.php/Login/validad_cedula'
-                 var base_url = '/index.php/User/valida_ced4';
-                $.ajax({
-                    type: "POST",
-                    url: base_url,
-                    data: dataString,
-                    success: function(data) {
-                         console.log(data);
-                        if (data == 'null') {
-                            $('#result-cedula').fadeIn(1600).html(
-                                '<div class="alert alert-success"><strong>Bien!</strong> Cedula disponible.</div>'
-                                );
-                            $("#guardar_user").prop('disabled', false)
+        //         var cedula = $(this).val();
+        //         var dataString = 'cedula=' + cedula;
+        //        // var base_url = window.location.origin + '/asnc/index.php/Login/validad_cedula'
+        //          var base_url = '/index.php/User/valida_ced4';
+        //         $.ajax({
+        //             type: "POST",
+        //             url: base_url,
+        //             data: dataString,
+        //             success: function(data) {
+        //                  console.log(data);
+        //                 if (data == 'null') {
+        //                     $('#result-cedula').fadeIn(1600).html(
+        //                         '<div class="alert alert-success"><strong>Bien!</strong> Cedula disponible.</div>'
+        //                         );
+        //                     $("#guardar_user").prop('disabled', false)
 
-                        } else {
-                            $('#result-cedula').fadeIn(1600).html(
-                                '<div class="alert alert-danger"><strong>Cedula ya Registrado!</strong> .</div>'
-                                );
-                            $("#guardar_user").prop('disabled', true)
+        //                 } else {
+        //                     $('#result-cedula').fadeIn(1600).html(
+        //                         '<div class="alert alert-danger"><strong>Cedula ya Registrado!</strong> .</div>'
+        //                         );
+        //                     $("#guardar_user").prop('disabled', true)
 
-                        } ///DESABILITAR BOTON UNA VEZ ENVIADA LA INFORMACION
-
-
+        //                 } ///DESABILITAR BOTON UNA VEZ ENVIADA LA INFORMACION
 
 
 
-                    }
-                });
-            });
-        });
+
+
+        //             }
+        //         });
+        //     });
+        // });
         </script>
 
 <script type="text/javascript">

@@ -1,54 +1,55 @@
 function may(e){
 	e.value = e.value.toUpperCase();
 }
-function validateEmail(){
+// function validateEmail(){
                 
-    // Get our input reference.
-    var emailField = document.getElementById('email');
+//     // Get our input reference.
+//     var emailField = document.getElementById('email');
     
-    // Define our regular expression.
-    var validEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    var errorMsg = document.getElementById("errorMsgc");
+//     // Define our regular expression.
+//     var validEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+//     var errorMsg = document.getElementById("errorMsgc");
 
-    // Using test we can check if the text match the pattern
-    if( validEmail.test(emailField.value) ){
-        errorMsg.style.color = "green";
-       errorMsg.innerHTML = "Correo valido.";
-        $("#guardar_user").prop('disabled', false)
-        return true;
-    }else{
-        errorMsg.style.color = "red";
-       errorMsg.innerHTML = "Correo No valido.Ingrese Corre Institucional";
-        $("#guardar_user").prop('disabled', true)
-        return false;
-    }
-}
-// function validateUsers() {
-//     var cedula = document.getElementById('cedula').value;
-//     var base_url = '/index.php/User/validad_cedula';
+//     // Using test we can check if the text match the pattern
+//     if( validEmail.test(emailField.value) ){
+//         errorMsg.style.color = "green";
+//        errorMsg.innerHTML = "Correo valido.";
+//         $("#guardar_user").prop('disabled', false)
+//         return true;
+//     }else{
+//         errorMsg.style.color = "red";
+//        errorMsg.innerHTML = "Correo No valido.Ingrese Corre Institucional";
+//         $("#guardar_user").prop('disabled', true)
+//         return false;
+//     }
+// }
+function validateUsers() {
+    var cedula = document.getElementById('cedula').value;
+    console.log(cedula);
+    var base_url = '/index.php/User/valida_ced4';
   
-//     $.ajax({
-//       type: "POST",
-//       url: base_url,
-//       data: {
-//         cedula: cedula
-//       },
-//       success: function(data) {
-//         console.log(data);
-//         if (data == 'true') {
-//           $('#result-cedula').fadeIn(1600).html(
-//             '<div class="alert alert-success"><strong>Bien!</strong> Cedula disponible.</div>'
-//           );
-//           $("#btn_guar_2").prop('disabled', false)
-//         } else {
-//           $('#result-cedula').fadeIn(1600).html(
-//             '<div class="alert alert-danger"><strong>Cedula ya Registrado!</strong> .</div>'
-//           );
-//           $("#btn_guar_2").prop('disabled', true)
-//         }
-//       }
-//     });
-//   }
+    $.ajax({
+      type: "POST",
+      url: base_url,
+      data: {
+        cedula: cedula
+      },
+      success: function(data) {
+        console.log(data);
+        if (data == 'null') {
+          $('#result-cedula').fadeIn(1600).html(
+            '<div class="alert alert-success"><strong>Bien!</strong> Cedula disponible.</div>'
+          );
+          $("#btn_guar_2").prop('disabled', false)
+        } else {
+          $('#result-cedula').fadeIn(1600).html(
+            '<div class="alert alert-danger"><strong>Cedula ya Registrado!</strong> .</div>'
+          );
+          $("#btn_guar_2").prop('disabled', true)
+        }
+      }
+    });
+  }
   
 function guardar_b(){
     var nombrefun = $("#nombrefun").val();
