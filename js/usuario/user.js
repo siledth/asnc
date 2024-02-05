@@ -36,13 +36,13 @@ function validateUsers() {
       },
       success: function(data) {
         console.log(data);
-        if (data == 'null') {
-        alert('seguir');
+        if (data == cedula) {
+        alert('no');
 
          
           $("#guardar_user").prop('disabled', false)
         } else {
-        alert('no');
+        alert('si seguir');
 
         
           $("#guardar_user").prop('disabled', true)
