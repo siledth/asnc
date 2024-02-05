@@ -208,17 +208,18 @@
                     data: dataString,
                     success: function(data) {
                          console.log(data);
-                        if (data == 'null') {
+                        if (data !== 'null') {
+                            $('#result-cedula').fadeIn(1600).html(
+                                '<div class="alert alert-danger"><strong>Cedula ya Registrado!</strong> .</div>'
+                                );
+                            $("#guardar_user").prop('disabled', true) 
+                           
+                        } else {
+                            
                             $('#result-cedula').fadeIn(1600).html(
                                 '<div class="alert alert-success"><strong>Bien!</strong> Cedula disponible.</div>'
                                 );
                             $("#guardar_user").prop('disabled', false)
-
-                        } else {
-                            $('#result-cedula').fadeIn(1600).html(
-                                '<div class="alert alert-danger"><strong>Cedula ya Registrado!</strong> .</div>'
-                                );
-                            $("#guardar_user").prop('disabled', true)
 
                         } ///DESABILITAR BOTON UNA VEZ ENVIADA LA INFORMACION
 
