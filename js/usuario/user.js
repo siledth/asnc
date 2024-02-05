@@ -37,15 +37,15 @@ function validateUsers() {
       success: function(data) {
         console.log(data);
         if (data == 'null') {
-          $('#result-cedula').fadeIn(1600).html(
-            '<div class="alert alert-success"><strong>Bien!</strong> Cedula disponible.</div>'
-          );
-          $("#btn_guar_2").prop('disabled', false)
+        alert('seguir');
+
+         
+          $("#guardar_user").prop('disabled', false)
         } else {
-          $('#result-cedula').fadeIn(1600).html(
-            '<div class="alert alert-danger"><strong>Cedula ya Registrado!</strong> .</div>'
-          );
-          $("#btn_guar_2").prop('disabled', true)
+        alert('no');
+
+        
+          $("#guardar_user").prop('disabled', true)
         }
       }
     });
