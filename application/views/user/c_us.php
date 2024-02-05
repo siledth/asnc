@@ -208,7 +208,7 @@
                     data: dataString,
                     success: function(data) {
                          console.log(data);
-                        if (data == 'null') {
+                        if (data == "null") {
                             $('#result-cedula').fadeIn(1600).html(
                                 '<div class="alert alert-danger"><strong>Cedula ya Registrado!</strong> .</div>'
                                 );
