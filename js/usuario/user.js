@@ -36,7 +36,7 @@ function validateUsers() {
       },
       success: function(data) {
         console.log(data);
-        if (data == no) {
+        if (data == cedula) {
         alert('no');
 
          
