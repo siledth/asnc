@@ -36,7 +36,7 @@ function validateUsers() {
       },
       success: function(data) {
         console.log(data);
-        if (data == cedula) {
+        if (data == '21151374') {
         alert('no');
 
          
