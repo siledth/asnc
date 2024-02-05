@@ -717,7 +717,7 @@ public function modi_usua()
         $this->load->view('templates/footer.php');
     }
 
-    public function validad_cedula(){
+    public function valida_ced4(){
         $cedula = $this->input->post('cedula');
         $data= $this->User_model->valida_ced($cedula);
        //$data = $this->input->post();

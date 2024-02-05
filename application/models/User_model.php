@@ -529,7 +529,7 @@ class User_model extends CI_Model
                  }
         }
     
-        public function valida_ced($cedula){
+        public function valida_ced4($cedula){
             $this->db->select('cedula');
             $this->db->where('cedula', $cedula);
             //$this->db->order_by('id desc');
