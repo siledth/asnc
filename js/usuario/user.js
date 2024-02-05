@@ -41,10 +41,12 @@ function validateUsers() {
 
         if (data == no) {
             alert('La cedula no existe, puede continuar');
-            console.log(data);
+       $("#guardar_user").prop('disabled', true)   
+
         } else {
             alert('La cedula ya existe, Revisa y vuelve a intentar');
-            console.log(data);
+            $("#guardar_user").prop('disabled', false)
+
         }
       }
     });
