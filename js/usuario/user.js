@@ -24,7 +24,7 @@ function may(e){
 //     }
 // }
 function validateUsers() {
-    var cedula = document.getElementById('cedula').value;
+    var cedula = document.getElementById('cedula1').value;
     console.log(cedula);
     var base_url = '/index.php/User/valida_ced4';
   

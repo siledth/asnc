@@ -52,7 +52,7 @@
                             </div>
                             <div class="form-group col-3">
                                 <label>Cédula de Identidad <b title="Campo Obligatorio" style="color:red">*</b></label>
-                                <input type="text" id="cedula" name="cedula" maxlength="8" onblur="validateUsers();" 
+                                <input type="text" id="cedula1" name="cedula1" maxlength="8" onblur="validateUsers();" 
                                     placeholder="ingrese la Cédula sin punto ni coma" class="form-control" />
                                     <div id="result-cedula"></div>
                             </div>
