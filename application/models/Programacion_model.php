@@ -2950,7 +2950,7 @@ public function enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $da
     
             else if ($d->id_obj_comercial != '' && $d->id_obj_comercial == 1) {
                 $id_obj_comr_bien_p = $d->id_obj_comercial;
-                $precio_total_bien_p = $d->precio_total;
+                $precio_total_bien_p = number_format($d->precio_total, 2, ",", ".");
     
                 foreach($data5 as $d3){          
                     $porcentaje_bien_p = $d->precio_total / $d3->precio_total_py * 100;
