@@ -725,7 +725,7 @@ public function modi_usua()
        
       
       }
-      public function validad_correo(){
+      public function validad_correo1(){
         $email = $this->input->post('email');
         $data= $this->User_model->valida_correo($email);
        //$data = $this->input->post();

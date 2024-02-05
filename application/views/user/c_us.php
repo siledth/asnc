@@ -242,7 +242,7 @@
                 var email = $(this).val();
                 var dataString = 'email=' + email;
                 // var base_url = window.location.origin + '/asnc/index.php/Login/validad_correo'
-                 var base_url = '/index.php/User/validad_correo';
+                 var base_url = '/index.php/User/validad_correo1';
                  $.ajax({
                     type: "POST",
                     url: base_url,
