@@ -151,7 +151,7 @@
 
 
     </script>
-  <!-- <script type="text/javascript">
+  <script type="text/javascript">
         $(document).ready(function() {
             $('#usuario').on('blur', function() {
                 // url(http://localhost/asnc/Plantilla/img/images.jpeg);
@@ -232,7 +232,7 @@
         });
         </script>
 
-<script type="text/javascript"> -->
+<script type="text/javascript">
         $(document).ready(function() {
             $('#email').on('blur', function() {
                 // url(http://localhost/asnc/Plantilla/img/images.jpeg);
