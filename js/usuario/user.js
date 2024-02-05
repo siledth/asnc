@@ -27,7 +27,7 @@ function validateUsers() {
     var cedula = document.getElementById('cedula1').value;
     console.log(cedula);
     var base_url = '/index.php/User/valida_ced4';
-  
+    var no=0;
     $.ajax({
       type: "POST",
       url: base_url,
@@ -36,7 +36,7 @@ function validateUsers() {
       },
       success: function(data) {
         console.log(data);
-        if (data == 'NO') {
+        if (data == no) {
         alert('no');
 
          
