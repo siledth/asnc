@@ -52,7 +52,7 @@
                             </div>
                             <div class="form-group col-3">
                                 <label>Cédula de Identidad <b title="Campo Obligatorio" style="color:red">*</b></label>
-                                <input type="text" id="cedula1" name="cedula1" maxlength="8" onblur="validateUsers();" 
+                                <input type="text" id="cedula" name="cedula" maxlength="8" onblur="validateUsers();" 
                                     placeholder="ingrese la Cédula sin punto ni coma" class="form-control" />
                                     <div id="result-cedula"></div>
                             </div>
@@ -179,6 +179,41 @@
                         } else {
                             $('#result-usuario').fadeIn(1600).html(
                                 '<div class="alert alert-danger"><strong>Usuario ya Registrado!</strong> Ingrese otro Usuario.</div>'
+                                );
+                            $("#guardar_user").prop('disabled', true)
+
+                        }
+                    }
+                });
+            });
+        });
+        </script>
+        <script type="text/javascript">
+        $(document).ready(function() {
+            $('#email').on('blur', function() {
+                // url(http://localhost/asnc/Plantilla/img/images.jpeg);
+                $('#result-email').html('<img src="http://localhost/asnc/Plantilla/img/5.gif"/>')
+                    .fadeOut(1000);
+                    var no=0;
+                var email = $(this).val();
+                var dataString = 'email=' + email;
+                // var base_url = window.location.origin + '/asnc/index.php/Login/validad_correo'
+                 var base_url = '/index.php/User/validad_correo1';
+                 $.ajax({
+                    type: "POST",
+                    url: base_url,
+                    data: dataString,
+                    success: function(data) {
+                        // console.log(data);
+                        if (data == no) {
+                            $('#result-email').fadeIn(1600).html(
+                                '<div class="alert alert-success"><strong>Bien!</strong> Correo disponible.</div>'
+                                );
+                            $("#guardar_user").prop('disabled', false)
+
+                        } else {
+                            $('#result-email').fadeIn(1600).html(
+                                '<div class="alert alert-danger"><strong>Correo ya Registrado!</strong> Ingrese otro Correo.</div>'
                                 );
                             $("#guardar_user").prop('disabled', true)
 

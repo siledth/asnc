@@ -553,25 +553,31 @@ class User_model extends CI_Model
 
         }
         public function valida_correo($email){
+            // $this->db->select('email');
+            // $this->db->where('email ', $email);
+            // //$this->db->order_by('id desc');
+            // $query = $this->db->get('seguridad.usuarios');
+            // $response = $query->row_array();
+            // return $response;
             $this->db->select('email');
-            $this->db->where('email ', $email);
-            //$this->db->order_by('id desc');
+            $this->db->where('email', $email);
             $query = $this->db->get('seguridad.usuarios');
-            $response = $query->row_array();
-            return $response;
+        
+            if ($query->num_rows() > 0) {               
+                return 1;        
+            } else {
+                return 0;
+            }
         }
         public function validad_users($usuario){
             $this->db->select('nombre');
             $this->db->where('nombre', $usuario);
             $query = $this->db->get('seguridad.usuarios');
         
-            if ($query->num_rows() > 0) {
-               
-                return 1;
-        
+            if ($query->num_rows() > 0) {               
+                return 1;        
             } else {
                 return 0;
-
             }
             // $this->db->where('nombre ', $usuario);
             // //$this->db->order_by('id desc');
