@@ -400,12 +400,16 @@
     }
    
     public function valida_corre($email){
+       
         $this->db->select('correo');
-        $this->db->where('correo', $email);
-        //$this->db->order_by('id desc');
-        $query = $this->db->get('public.organoente');
-        $response = $query->row_array();
-        return $response;
+            $this->db->where('correo', $email);
+            $query = $this->db->get('public.organoente');
+        
+            if ($query->num_rows() > 0) {               
+                return 1;        
+            } else {
+                return 0;
+            }
     }
     public function save_eng_ads($data1){
 
