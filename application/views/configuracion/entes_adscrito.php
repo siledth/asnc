@@ -164,6 +164,7 @@
                 // url(http://localhost/asnc/Plantilla/img/images.jpeg);
                 $('#result-email').html('<img src="http://localhost/asnc/Plantilla/img/5.gif"/>')
                     .fadeOut(1000);
+                    var no=0;
 
                 var email = $(this).val();
                 var dataString = 'email=' + email;
@@ -174,7 +175,7 @@
                     data: dataString,
                     success: function(data) {
                         console.log(data);
-                        if (data == 'null') {
+                        if (data == no) {
                             $('#result-email').fadeIn(1600).html(
                                 '<div class="alert alert-success"><strong>Bien!</strong> Correo disponible.</div>'
                             );
