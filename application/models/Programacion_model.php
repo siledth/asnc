@@ -4837,14 +4837,25 @@ public function Consultar_programacion_final($id_programacion){
 
 public function valida_anio($anio,$des_unidad){ 
     
+    // $this->db->select('anio,unidad');
+    // $this->db->where('anio', $anio);
+    // $this->db->where('unidad', $des_unidad);
+
+    // //$this->db->order_by('id desc');
+    // $query = $this->db->get('programacion.programacion');
+    // $response = $query->row_array();
+    // return $response;
+
     $this->db->select('anio,unidad');
     $this->db->where('anio', $anio);
     $this->db->where('unidad', $des_unidad);
-
-    //$this->db->order_by('id desc');
-    $query = $this->db->get('programacion.programacion');
-    $response = $query->row_array();
-    return $response;
+            $query = $this->db->get('programacion.programacion');
+        
+            if ($query->num_rows() > 0) {               
+                return 1;        
+            } else {
+                return 0;
+            }
 }
 public function consultar_acc_todo($id_programacion){
     // $this->db->select('pac.id_p_acc_centralizada,

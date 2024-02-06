@@ -135,6 +135,7 @@ $(document).ready(function() {
         // url(http://localhost/asnc/Plantilla/img/images.jpeg);
         $('#result-anio').html('<img src="http://localhost/asnc/Plantilla/img/5.gif"/>')
             .fadeOut(1000);
+            var no=0;
 
         var anio = $(this).val();
         var dataString = 'anio=' + anio;
@@ -146,7 +147,7 @@ $(document).ready(function() {
             data: dataString,
             success: function(data) {
                 // console.log(data);
-                if (data == 'null') {
+                if (data == no) {
                     $('#result-anio').fadeIn(1600).html(
                         '<div class="alert alert-success"><strong>Bien!</strong> Año disponible.</div>'
                     );
