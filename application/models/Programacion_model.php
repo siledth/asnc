@@ -12,7 +12,12 @@
         //----Registrar año de programación--
         public function agg_programacion_anio($data){
             $quers =$this->db->insert('programacion.programacion',$data);
-            return true;
+           // return true;
+           if ($query= true) {               
+            return 1;        
+        } else {
+            return 0;
+        }
         }
 
         public function consultar_prog_anio($id_programacion, $unidad){
