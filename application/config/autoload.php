@@ -143,6 +143,7 @@ $autoload['model'] = array(
     'Publicaciones_model',
     'Certificacion_model',
     'Comision_contrata_model',
+    'Auth_prog_model',
 
    
 );

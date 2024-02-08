@@ -72,7 +72,7 @@
                         <?php if (($this->session->userdata('menu_progr') == 1)) : ?>
 
                         <li class="has-sub">
-                        <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
+                            <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
                             <a href="javascript:;">
                                 <b class="caret"></b>
                                 <span>Comisión de comtrataciones</span>
@@ -80,7 +80,7 @@
                             <ul class="sub-menu">
 
                                 <li><a href="<?= base_url() ?>index.php/Comision_contrata/logger_type_c">-
-                                       Registrar comisión</a></li>
+                                        Registrar comisión</a></li>
 
 
                                 <li><a href="<?= base_url() ?>index.php/Comision_contrata/consultar_snc">-
@@ -95,11 +95,33 @@
                             </a>
                             <?php endif; ?>
                             <ul class="sub-menu">
-                                <li>
-                                    <a href="<?= base_url() ?>index.php/programacion">
-                                        - Programación Anual
+                                <li class="has-sub">
+                                    <a href="javascript:;">
+                                        <b class="caret"></b>
+                                        <span>Programaciòn Anual</span>
                                     </a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/programacion">
+                                                - Programación Anual
+                                            </a>
+
+                                        </li>
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/Auth_prog/requests_prog">
+                                                - Solicitar Editar Programaciòn Anual
+                                            </a>
+
+                                        </li>
+                                        <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
+                                        <li><a href="<?= base_url() ?>index.php/Auth_prog/see_prog">-
+                                                Autorizar Editar <b>Programaciòn Anual</b></a></li>
+                                        <?php endif; ?>
+
+                                    </ul>
                                 </li>
+
+
                                 <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
                                 <li>
                                     <a href="<?= base_url() ?>index.php/Programacion/sending_p">
@@ -391,14 +413,14 @@
                                     <i class="fas fa-lg fa-fw m-r-10 fa-landmark"></i>Organo
                                 </a>
                             </li>
-                           
-                           
+
+
                             <li>
                                 <a href="<?= base_url() ?>index.php/configuracion/ent">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-building"></i>Entes
                                 </a>
                             </li>
-                           
+
                             <li>
                                 <a href="<?= base_url() ?>index.php/configuracion/entes_adscrito">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-city"></i>Entes Adscritos

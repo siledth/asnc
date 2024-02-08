@@ -1,0 +1,49 @@
+<?php
+
+defined('BASEPATH') or exit('No direct script access allowed');
+
+class Auth_prog_model extends CI_Model
+{
+        public function validad_users($usuario){
+            $this->db->select('nombre');
+            $this->db->where('nombre', $usuario);
+            $query = $this->db->get('seguridad.usuarios');
+        
+            if ($query->num_rows() > 0) {               
+                return 1;        
+            } else {
+                return 0;
+            }
+            // $this->db->where('nombre ', $usuario);
+            // //$this->db->order_by('id desc');
+            // $query = $this->db->get('seguridad.usuarios');
+            // $response = $query->row_array();
+            // return $response;
+        }
+        function red_prog($rif){
+            $this->db->select('id_ainf_enviada, id_programacion, des_unidad, rif,anio');
+            $this->db->from('programacion.inf_enviada ');
+            $this->db->where('rif', $rif);
+
+            $query = $this->db->get();
+            return $query->result_array();
+        }
+        function delet_sse($data){
+            $this->db->where('user_id', $data['user_id']);
+            $query = $this->db->delete('seguridad.user_sessions');
+            return true;
+        }
+
+        public function save_solicitud($id, $d_anulacion){
+            $quers =$this->db->insert('programacion.auth_prog', $d_anulacion);
+            // $data2 = array(
+            //     'id_estatus' => 2,
+            // );
+            // $this->db->where('id', $id);
+            // $update = $this->db->update('evaluacion_desempenio.evaluacion', $data2);
+            // return $id;
+            // $this->db->select('id_auth');
+            // $this->db->where('id_auth', $usuario);
+            // $query = $this->db->get('programacion.auth_prog');
+        }
+}
