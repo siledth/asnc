@@ -107,13 +107,14 @@
                                             </a>
 
                                         </li>
+                                        <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
+
                                         <li>
                                             <a href="<?= base_url() ?>index.php/Auth_prog/requests_prog">
                                                 - Solicitar Editar Programaciòn Anual
                                             </a>
 
                                         </li>
-                                        <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
                                         <li><a href="<?= base_url() ?>index.php/Auth_prog/see_prog">-
                                                 Autorizar Editar <b>Programaciòn Anual</b></a></li>
                                         <?php endif; ?>
