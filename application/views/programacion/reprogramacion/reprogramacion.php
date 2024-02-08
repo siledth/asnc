@@ -24,7 +24,9 @@
 
                     </div>
                     <div class="col-6 text-center mt-1">
-                        <h3 class="text-center">Disponibles para Modificación</h3>
+                        <h3 class="text-center">Disponibles para "Modificación de la Programación Anual correspondiente al Ejercicio Fiscal de conformidad a lo establecido en el Articulo 38, numeral 2 del DCRVFLCP"</h3>
+                        <h6 style="color:red" class="text-center">Para Editar una Programaciòn Anual debera ponerse en contacto con el Servicio Nacional de Contrataciones</h6>
+
                         <table id="data-table-autofill" class="table table-hover">
                             <thead style="background:#e4e7e8">
                                 <tr class="text-center">

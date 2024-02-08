@@ -2,7 +2,7 @@ function enviar(id_programacion) {
     event.preventDefault();
     swal
         .fire({
-            title: "¿Seguro que desea enviar la Programación seleccionada?, una vez enviada al snc, para realizar cambios deberá ir a la opción de Modificación de Programación",
+            title: "¿Seguro que desea enviar la Programación seleccionada?, una vez enviada al snc, para realizar cambios a la programaciòn debera comunicarse con el Servicio Nacional de Contrataciones",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
