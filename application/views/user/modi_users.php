@@ -41,6 +41,25 @@
                                 </select>
                                 
                             </div>
+                            <div class="form-group mt-3 col-6">
+                                <label>Organo/Ente/Ente Adscrito/Und Ejecutora</label><br>
+                                <input type="text" id="rif1" name="rif1" value="<?=$ver['descripcion']?>" class="form-control" readonly>
+                                <input type="text" id="rif2" name="rif2" value="<?=$ver['unidad']?>" class="form-control">
+                                <input type="text" id="rif3" name="rif3" value="<?=$ver['rif_organoente']?>" class="form-control">
+
+                            </div>
+                            
+                            <div class="col-6 mt-3 form-group" >
+                                 <label>Organo/Ente/Ente Adscrito/Und Ejecutora<b style="color:red">* Seleccione si desea Editar</b></label><br>
+                                <select style="width: 100%;"  name="cambio_org" id="cambio_org" class="default-select2 form-control">
+                                <option value="0">Seleccione</option>
+                                    <?php foreach ($final as $data): ?>
+                                    <option value="<?=$data['codigo']?>/<?=$data['rif']?>"><?=$data['descripcion']?> /
+                                        <?=$data['rif']?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                
+                            </div>
                            
                             <div class="form-group mt-3 col-6">
                                 <label>Nombres del Funcionario</label><br>

@@ -286,11 +286,32 @@ class User_model extends CI_Model
 
 
         }
+        public function read_list($data){
+            $this->db->select('e.id as id1, 
+            e.perfil, 
+            e.rif_organoente,
+            e.unidad as und,
+              f.*, 
+              t.nombrep,
+              t.id_perfil,
+              r.descripcion,
+              r.rif,');
+            $this->db->from('seguridad.usuarios e');
+            $this->db->join('seguridad.funcionarios f', 'f.id_usuario = e.id', 'left');
+            $this->db->join('seguridad.perfil t', 't.id_perfil = e.perfil', 'left');
+            $this->db->join('public.organoente r', 'r.rif = e.rif_organoente', 'left');
+            $this->db->where('e.id',$data['id']);
+            $query = $this->db->get();
+            $resultado = $query->row_array();
+            return $resultado;
+        }
+    
         public function single_user($id)
         {
             $this->db->select('e.id as id1, 
                            e.perfil, 
                            e.rif_organoente,
+                           e.unidad,
                              f.*, 
                              t.nombrep,
                              t.id_perfil,
@@ -322,9 +343,17 @@ class User_model extends CI_Model
     /// GUARDAR UN USUARIO MODIFICADO Y EL PERFIL DE ESE USUARIO
             public function editar_modi_usua($usua, $funci, $id)
             {
+                $dataus = array(
+                       
+                      'perfil' 	            => $usua['perfil'],
+                       'unidad' 	            => $usua['unidad1'],
+                       'rif_organoente' 	            => $usua['rif_organoente1'],
+                       'fecha_update'             => $usua['fecha_update'],
+                       
 
+                   );
                 $this->db->where('id', $id);
-                $update = $this->db->update('seguridad.usuarios', $usua);
+                $update = $this->db->update('seguridad.usuarios', $dataus);
 
                 if ($update) {
                     $this->db->where('id_usuario', $id);
@@ -427,6 +456,85 @@ class User_model extends CI_Model
             return $result = $query->result_array();
 
 
+        }
+        public function consultar_perfiles1($data){
+            $this->db->select('f.id_perfil, 
+            f.nombrep,
+             f.fecha_creacion');
+            $this->db->where('f.id_perfil !=', $data['id_perfil']);
+            $query = $this->db->get('seguridad.perfil f');
+            return $query->result_array();
+        }
+        public function organo_ent($data){
+            $this->db->select('rif,codigo ,descripcion,certificaciones');
+            $this->db->where('certificaciones', '0');  
+            $query = $this->db->get('public.organoente');
+            return $query->result_array();
+        }
+        public function organo_ent1($data){
+            $this->db->select('rif,codigo ,descripcion,certificaciones');
+            $this->db->where('rif', $data['camb_org']); 
+            $this->db->where('certificaciones', '0');  
+            $query = $this->db->get('public.organoente');
+            return $query->result_array();
+        }
+        public function save_modif_user1($data){ //externo
+
+            $this->db->where('id', $data['id']);
+        
+            $pp_s = $data['cambio_perf'];
+            if ($pp_s == 0) {
+                $perfil = $data['id_perfil'];
+            }else {
+                $perfil = $data['cambio_perf'];
+            }
+        
+            $org_en = $data['camb_org'];
+            if ($org_en == 1) {
+                $rif_organoente1 = $data['rif_organoente1'];
+                $unidad1 = $data['unidad1'];
+
+            }else {
+                $rif_organoente1 = $data['rif1'];
+                $unidad1 = $data['code1'];
+
+            }         
+        
+            $data1 = array(
+                'perfil'        => $perfil,
+                'rif_organoente'         => $rif_organoente1,
+                'unidad'         => $unidad1              
+            );
+            // print_r($data1);die;
+            $update = $this->db->update('seguridad.usuarios', $data1);
+            if ($update) {
+                $this->db->where('id_usuario', $data['id']);
+                // $this->db->where('id_p_acc', 0);
+
+                $data_inf = array(
+                    'nombrefun'   		    => $data['nombrefun'],
+                    'apellido'          	=> $data['apellido'],
+                    'cedula'            	=> $data['cedula'],
+                    'cargo' 	            => $data['cargo'],
+                //     'oficina' 	            => $data['oficina'],
+                //    'tele_1' 	            => $data['tele_1'],
+                //     'tele_2' 	            => $data['tele_2'],
+                //     'fecha_designacion' 	            => $funci['fecha_designacion'],
+                //     'numero_gaceta'             => $funci['numero_gaceta'],
+                    'email'             =>$data['email'],
+
+                );
+                $update1 = $this->db->update('seguridad.funcionarios', $data_inf);
+
+
+
+            }
+            if ($update= true) {               
+                return 1;        
+            } else {
+                return 0;
+            }
+           // return true;
         }
         public function guardar_perfil($data)
         {

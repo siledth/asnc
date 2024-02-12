@@ -546,7 +546,36 @@ class User extends CI_Controller
         $this->load->view('user/listado_user_exter.php', $data);
         $this->load->view('templates/footer.php');
     }
-
+    public function read_list(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $data = $this->input->post();
+        $data =	$this->User_model->read_list($data);
+        echo json_encode($data);
+    }
+    public function consultar_perfiles1(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $data = $this->input->post();
+        $data =	$this->User_model->consultar_perfiles1($data);
+        echo json_encode($data);
+    }
+    public function organo_ent(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $data = $this->input->post();
+        $data =	$this->User_model->organo_ent($data);
+        echo json_encode($data);
+    }
+    public function organo_ent1(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $data = $this->input->post();
+        $data = $this->User_model->organo_ent1($data);
+        echo json_encode($data);
+    }
+    public function save_modif_user1(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $data = $this->input->post();
+        $data =	$this->User_model->save_modif_user1($data);
+        echo json_encode($data);
+    }
     public function consultar_user()
     {
         if(!$this->session->userdata('session')) {
@@ -601,6 +630,8 @@ class User extends CI_Controller
 
         $data['ver_usuarios'] =	$this->User_model->single_user($data['id']);
         $data['ver_perfil'] = $this->User_model->consultar_perfiles(); //consultar todos los perfiles
+        $data['final']  = $this->User_model->consulta_organoente();
+
 
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
@@ -613,6 +644,27 @@ public function modi_usua()
     if(!$this->session->userdata('session')) {
         redirect('login');
     }
+    
+
+    $cambio_org=$this->input->post("cambio_org");
+    $rif1 = $this->input->post("rif1");
+    $rif2 = $this->input->post("rif2");
+    $rif3 = $this->input->post("rif3");
+
+
+    $pp_s = $cambio_org;
+    if ($pp_s == 0) {
+        $unidad = $rif2;
+        $rif_organoente = $rif3;
+
+    }else {
+    $parametros = $this->input->post('cambio_org');
+    $separar        = explode("/", $parametros);
+    $unidad= $separar['0'];
+    $rif_organoente= $separar['1'];
+
+    }
+
 
     $id = $this->input->post("id1");
     $perfil = $this->input->post("perfil");
@@ -638,8 +690,12 @@ public function modi_usua()
     $usua = array(
         "id"  => $id,
         "perfil"   => $perfil,
+        "unidad1"   => $unidad,
+        "rif_organoente1"   => $rif_organoente,
         "fecha_update"  => date("Y-m-d")
     );
+       //print_r($usua);die;
+
     $funci = array( //propietarios
         'nombrefun'   	 => $this->input->post('nombrefun'),
         'apellido'   => $this->input->post('apellido'),
@@ -660,10 +716,10 @@ public function modi_usua()
 
     if ($data) {
         $this->session->set_flashdata('sa-success2', 'Se guardo los datos correctamente');
-        redirect('User/modif_usuarios');
+        redirect('User/listado_usuarios');
     } else {
         $this->session->set_flashdata('sa-error', 'error');
-        redirect('User/modif_usuarios');
+        redirect('User/listado_usuarios');
     }
 }
 
