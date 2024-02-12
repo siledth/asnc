@@ -81,7 +81,7 @@
             <div class="modal-body">
                 <div class="row">
 
-                    <input type="text" class="form-control" name="id" id="id">
+                    <input type="hidden" class="form-control" name="id" id="id">
                     <div class="form-group col-6">
                         <label>Nombre Funcionario</label>
                         <input class="form-control" type="text" name="nombrefun" id="nombrefun" readonly>
@@ -108,9 +108,9 @@
                     </div>
                     <div class="form-group col-6">
                         <label>Organo/ente/ente adscrito/unid ejecutora local</label>
-                        <input type="text" class="form-control" name="rif_organoente1" id="rif_organoente1" readonly>
+                        <input type="hidden" class="form-control" name="rif_organoente1" id="rif_organoente1" readonly>
                         <input type="text" class="form-control" name="descripcion" id="descripcion" readonly>
-                        <input type="text" class="form-control" name="unidad1" id="unidad1" readonly>
+                        <input type="hidden" class="form-control" name="unidad1" id="unidad1" readonly>
 
                     </div>
                     
@@ -124,8 +124,8 @@
                         </select>
                     </div>
                     <div class="form-group col-12">
-                        <input  class="form-control" type="text" id="code1" name="code1" readonly>
-                        <input  class="form-control" type="text" id="rif1" name="rif1" readonly>
+                        <input  class="form-control" type="hidden" id="code1" name="code1" readonly>
+                        <input  class="form-control" type="hidden" id="rif1" name="rif1" readonly>
 
                     </div>  
                     <div class="form-group col-6">
