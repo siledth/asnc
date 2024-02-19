@@ -130,7 +130,7 @@
                         </div>
 
                         <div class="form-group col-7">
-                            <label>Seleccione  <b title="Campo Obligatorio" style="color:red">*</b></label>
+                            <label>Seleccione Ítem  <b title="Campo Obligatorio" style="color:red">*</b></label>
                             <select style="width: 100%;" onclick="trae_inf();" id="matricular" name="matricular"
                                 class="form-control" data-show-subtext="true" data-live-search="true">
                                 <option value="0">Seleccione</option>
@@ -581,7 +581,7 @@
                         </div>
 
                         <div class="form-group col-7">
-                            <label>Seleccione <b title="Campo Obligatorio" style="color:red">*</b></label>
+                            <label>Seleccione Ítem <b title="Campo Obligatorio" style="color:red">*</b></label>
                             <select style="width: 100%;" onclick="trae_inf();" id="ccnu" name="ccnu"
                                 class="form-control" data-show-subtext="true" data-live-search="true">
                                 <option value="0">Seleccione</option>

@@ -516,29 +516,64 @@ function llenar7() {
                 confirmButtonText: "¡Si, guardar!",
             })
             .then((result) => {
-      
-         
-            if (document.rendir_py.modalida_rendi7.selectedIndex==0){
-                alert("Debe seleccionar un PROCEDIMIENTO DE CONTRATACIÓN.")
-                document.rendir_py.modalida_rendi7.focus()
+                if (document.rendir_py.llenar_trimestre7.selectedIndex==0){
+                    alert("Debe seleccionar un Trimestre.")
+                    document.rendir_py.llenar_trimestre7.focus()
+                    return 0;
+             }
+                if (document.rendir_py.ccnu.selectedIndex==0){
+                    alert("Debe seleccionar Ítem a rendir.")
+                    document.rendir_py.ccnu.focus()
+                    return 0;
+             }
+             if (document.rendir_py.ccnu.selectedIndex==0){
+                alert("Debe seleccionar Ítem a rendir.")
+                document.rendir_py.ccnu.focus()
                 return 0;
          }
+          
             if (document.rendir_py.selc_tipo_doc_contrata7.selectedIndex==0){
                 alert("Debe seleccionar un TIPO DOCUMENTO CONTRATACIÓN.")
                 document.rendir_py.selc_tipo_doc_contrata7.focus()
                 return 0;
          }
-            if (document.rendir_py.facturacion7.selectedIndex==0){
-                alert("Debe seleccionar una opción ¿Desea Registrar Facturación y Pago?.")
-                document.rendir_py.facturacion7.focus()
-                return 0;
-         }
-       
-                    if (document.rendir_py.llenar_trimestre7.selectedIndex==0){
-                alert("Debe seleccionar un Trimestre.")
-                document.rendir_py.llenar_trimestre7.focus()
-                return 0;
-         }
+            
+         if (document.rendir_py.cantidad_rendi7.value.length==0){
+            alert("No Puede dejar el campo Cantidad vacio, Ingrese un valor")
+            document.rendir_py.cantidad_rendi7.focus()
+            return 0;
+     }  
+     if (document.rendir_py.costo_unitario_remd7.value.length==0){
+        alert("No Puede dejar el campo costo unitario vacio, Ingrese un valor")
+        document.rendir_py.costo_unitario_remd7.focus()
+        return 0;
+ } 
+ if (document.rendir_py.selc_iva_ret7.selectedIndex==0){
+    alert("Debe seleccionar el valor del IVA correspondiente.")
+    document.rendir_py.selc_iva_ret7.focus()
+    return 0;
+}
+         if (document.rendir_py.paridad_rendi7.value.length==0){
+            alert("No Puede dejar el campo Paridad US$ vacio, Ingrese un Monto")
+            document.rendir_py.paridad_rendi7.focus()
+            return 0;
+     }
+     if (document.rendir_py.rif_b7.value.length==0){
+        alert("No Puede dejar el campo Rif Contratista vacio, Ingrese un valor")
+        document.rendir_py.rif_b7.focus()
+        return 0;
+ }  
+ if (document.rendir_py.num_contrato7.value.length==0){
+    alert("No Puede dejar el campo numero de contrato vacio, Ingrese un valor")
+    document.rendir_py.num_contrato7.focus()
+    return 0;
+} 
+     if (document.rendir_py.facturacion7.selectedIndex==0){
+        alert("Debe seleccionar una opción ¿Desea Registrar Facturación y Pago?.")
+        document.rendir_py.facturacion7.focus()
+        return 0;
+ }
+
                 if (result.value == true) {
                     event.preventDefault();
                     var datos = new FormData($("#rendir_py")[0]);

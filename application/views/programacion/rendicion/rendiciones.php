@@ -53,15 +53,15 @@
                                                             <a title="Enviar al SNC" onclick="enviar(<?php echo $lista['id_programacion'];?>);" class="button">
                                                                 <i class="fas fa-lg fa-fw fa-upload" style="color: green;"></i>
                                                             <a/>
-                                                            <button
+                                                            <!-- <button
                                                         onclick="location.href='<?php echo base_url()?>index.php/Programacion/ver_rendicion_realizadas?id=<?php echo $lista['id_programacion'];?>'"
                                                         type="button" class="btn btn-lg btn-default" name="button">
                                                         Ver items Rendidos 
-                                                    </button>
-                                                    <button
+                                                    </button> -->
+                                                    <!-- <button
                                                         onclick="location.href='<?php echo base_url()?>index.php/programacion/comprobante_rendicion?id=<?php echo $lista['id_programacion'];?>'"
                                                         type="button" class="fas fa-2x  fa-cloud-download-alt" style="color:blue" name="button"> 
-                                                    </button>  
+                                                    </button>   -->
                                                     <!-- <button
                                                         onclick="location.href='<?php echo base_url()?>index.php/Programacion/hojaEnBlanco?id=<?php echo $lista['id_programacion'];?>'"
                                                         type="button" class="btn btn-lg btn-default" name="button">

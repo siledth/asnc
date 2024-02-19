@@ -552,11 +552,18 @@ function validarmayor(){
         //         document.guardar_proc_pag.dolar.focus()
         //         return 0;
         //  } 
-        //     if (document.guardar_proc_pag.cantidad_pagar_otra.value.length==0){
-        //         alert("No Puede dejar el campo la Cantidad a pagar $ vacio, Ingrese un Monto")
-        //         document.guardar_proc_pag.cantidad_pagar_otra.focus()
-        //         return 0;
-        //  }  
+            
+   
+        if (document.rendi_bienes1.llenar_trimestre5.selectedIndex==0){
+            alert("Debe seleccionar un Trimestre.")
+            document.rendi_bienes1.llenar_trimestre5.focus()
+            return 0;
+     }
+     if (document.rendi_bienes1.matricular.selectedIndex==0){
+        alert("Debe seleccionar Ítem a rendir.")
+        document.rendi_bienes1.matricular.focus()
+        return 0;
+ }   
         if (document.rendi_bienes1.modalida_rendi5.selectedIndex==0){
             alert("Debe seleccionar un PROCEDIMIENTO DE CONTRATACIÓN.")
             document.rendi_bienes1.modalida_rendi5.focus()
@@ -572,12 +579,38 @@ function validarmayor(){
             document.rendi_bienes1.facturacion5.focus()
             return 0;
      }
-   
-                if (document.rendi_bienes1.llenar_trimestre5.selectedIndex==0){
-            alert("Debe seleccionar un Trimestre.")
-            document.rendi_bienes1.llenar_trimestre5.focus()
-            return 0;
-     }
+     
+       if (document.rendi_bienes1.cantidad_rendi5.value.length==0){
+        alert("No Puede dejar el campo Cantidad vacio, Ingrese un Valor")
+        document.rendi_bienes1.cantidad_rendi5.focus()
+        return 0;
+       }
+       if (document.rendi_bienes1.costo_unitario_remd.value.length==0){
+        alert("No Puede dejar el campo costo unitario vacio, Ingrese un Valor")
+        document.rendi_bienes1.costo_unitario_remd.focus()
+        return 0;
+       }
+       if (document.rendi_bienes1.selc_iva_ret.selectedIndex==0){
+        alert("Debe seleccionar un IVA correspondiente.")
+        document.rendi_bienes1.selc_iva_ret.focus()
+        return 0;
+ }
+       if (document.rendi_bienes1.paridad_rendi5.value.length==0){
+        alert("No Puede dejar el campo Paridad US$ vacio, Ingrese un Monto")
+        document.rendi_bienes1.paridad_rendi5.focus()
+        return 0;
+       }
+       if (document.rendi_bienes1.rif_b.value.length==0){
+        alert("No Puede dejar campo rif contratista vacio, ingrese un valor")
+        document.rendi_bienes1.rif_b.focus()
+        return 0;
+       }
+       if (document.rendi_bienes1.num_contrato5.value.length==0){
+        alert("No Puede dejar campo numero de comtrato vacio, ingrese un valor")
+        document.rendi_bienes1.num_contrato5.focus()
+        return 0;
+       }
+       
             if (result.value == true) {
                 event.preventDefault();
                 var datos = new FormData($("#rendi_bienes1")[0]);
