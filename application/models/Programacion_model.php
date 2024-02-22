@@ -2055,11 +2055,11 @@
                                pi2.alicuota_iva,
                                pi2.iva_estimado,
                                pi2.monto_estimado,
-                               p.id_p_acc_centralizada');
+                               ');
             $this->db->join('programacion.ccnu c2','c2.codigo_ccnu = pi2.id_ccnu');
             $this->db->join('programacion.partida_presupuestaria pp','pp.id_partida_presupuestaria = pi2.id_partidad_presupuestaria');
             $this->db->join('programacion.unidad_medida um','um.id_unidad_medida = pi2.id_unidad_medida');
-            $this->db->join('programacion.p_acc_centralizada p','p.id_p_acc_centralizada = pi2.id_enlace');// esto viara cuando sea un proyecto consultar tabla proyecto
+          //  $this->db->join('programacion.p_acc_centralizada p','p.id_p_acc_centralizada = pi2.id_enlace');// esto viara cuando sea un proyecto consultar tabla proyecto
             $this->db->where('pi2.id_enlace', $id_p_proyecto);
             $this->db->where('pi2.id_p_acc', 0);//busca que sean proyectos
             $this->db->from('programacion.p_items pi2');
