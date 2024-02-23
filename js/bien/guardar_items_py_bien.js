@@ -23,7 +23,7 @@ function guardar_py_bien(){
     var estimado_ii_acc = $("#estimado_ii_acc").val();
     var estimado_iii_acc = $("#estimado_iii_acc").val();
     var estimado_iV_acc = $("#estimado_iV_acc").val();
-    var estimado_total_t_acc = $("#estimado_total_t_acc").val();
+    var cant_total_distribuir_acc = $("#cant_total_distribuir_acc").val();
 
 
     if ($("#par_presupuestaria_acc option:selected").val() == 0) {
@@ -59,6 +59,10 @@ function guardar_py_bien(){
     else if(cantidad_acc == ''){
         alert("Debe ingresar una Cantidad (obligatotio)")
         document.getElementById("cantidad_acc").focus();
+    }
+     else if(cant_total_distribuir_acc > '1'){
+        alert("la cantidad a Distribuir debe ser igual a cero (obligatotio) (Debe distribuir la cantidad ingresada en los campos de trimestres I,II,III,IV segun su programación)")
+        document.getElementById("cant_total_distribuir_acc").focus();
     }
     // else if(cant_total_distribuir_acc >= '1'){
     //     alert("la cantidad restante a Distribuir debe ser igual a cero (obligatotio)")

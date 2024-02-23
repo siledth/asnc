@@ -44,6 +44,7 @@ function guardar_acc_servicio(){
     var estimado_iii_acc = $("#estimado_iii_acc").val();
     var estimado_iV_acc = $("#estimado_iV_acc").val();
     var estimado_total_t_acc = $("#estimado_total_t_acc").val();
+    var cant_total_distribuir = $("#cant_total_distribuir").val();
 
 
     if ($("#par_presupuestaria_acc option:selected").val() == 0) {
@@ -71,6 +72,10 @@ function guardar_acc_servicio(){
         alert("Debe Seleccionar una unidad de medida");
         document.getElementById("id_unidad_medida_acc").focus();
         return false;
+    }
+    else if(cant_total_distribuir > '1'){
+        alert("la cantidad a Distribuir debe ser igual a cero (obligatotio) (Debe ingresar la distribución porcentual en los campos de trimestres I,II,III,IV segun su programación)")
+        document.getElementById("cant_total_distribuir").focus();
     }
     else if(precio_total == ''){
         alert("Debe ingresar un Precio Total (obligatotio)")

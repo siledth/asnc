@@ -59,7 +59,23 @@ function guardar_acc_servicio(){
         document.getElementById("id_unidad_medida_acc").focus();
         return false;
     }
-    else if(precio_total == ''){
+    else if ($("#id_tip_obra option:selected").val() == 0) {
+        alert("Debe Seleccionar un Tipo de obra");
+        document.getElementById("id_tip_obra").focus();
+        return false;
+    
+    }
+    else if ($("#id_alcance_obra option:selected").val() == 0) {
+        alert("Debe Seleccionar un Alcance de Obra");
+        document.getElementById("id_alcance_obra").focus();
+        return false;
+    
+    }else if ($("#id_obj_obra option:selected").val() == 0) {
+        alert("Debe Seleccionar un Objeto de Obra");
+        document.getElementById("id_obj_obra").focus();
+        return false;
+    
+    }else if(precio_total == ''){
         alert("Debe ingresar Un precio (Obligatorio)")
         document.getElementById("precio_total").focus();
     }

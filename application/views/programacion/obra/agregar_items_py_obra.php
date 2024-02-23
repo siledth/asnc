@@ -1,6 +1,6 @@
 <div class="sidebar-bg"></div>
 <div id="content" class="content">
-    <h2>Cotinuar la carga de la programación "Proyecto-Obras"</h2>
+    <h2>Continuar la carga de la programación "Proyecto-Obras"</h2>
     <div class="row">
 
         <div class="col-10 mt-4">

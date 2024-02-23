@@ -44,6 +44,7 @@ function guardar_py_obra(){
     var estimado_iii_acc = $("#estimado_iii_acc").val();
     var estimado_iV_acc = $("#estimado_iV_acc").val();
     var estimado_total_t_acc = $("#estimado_total_t_acc").val();
+    var cant_total_distribuir = $("#cant_total_distribuir").val();
 
 
     if ($("#par_presupuestaria_acc option:selected").val() == 0) {
@@ -59,10 +60,27 @@ function guardar_py_obra(){
         document.getElementById("fuente_financiamiento_acc").focus();
         return false;
     }
-   else if($("#id_ccnu_acc option:selected").val() == 0) {
-        alert("Debe Seleccionar un CCNU");
-        document.getElementById("id_ccnu_acc").focus();
+//    else if($("#id_ccnu_acc option:selected").val() == 0) {
+//         alert("Debe Seleccionar un CCNU");
+//         document.getElementById("id_ccnu_acc").focus();
+//         return false;
+//     }
+    else if ($("#id_tip_obra option:selected").val() == 0) {
+        alert("Debe Seleccionar un Tipo de obra");
+        document.getElementById("id_tip_obra").focus();
         return false;
+    
+    }
+    else if ($("#id_alcance_obra option:selected").val() == 0) {
+        alert("Debe Seleccionar un Alcance de Obra");
+        document.getElementById("id_alcance_obra").focus();
+        return false;
+    
+    }else if ($("#id_obj_obra option:selected").val() == 0) {
+        alert("Debe Seleccionar un Objeto de Obra");
+        document.getElementById("id_obj_obra").focus();
+        return false;
+    
     }
     else if(especificacion_acc == ''){
         alert("Debe ingresar una especificación")
@@ -72,14 +90,15 @@ function guardar_py_obra(){
         document.getElementById("id_unidad_medida_acc").focus();
         return false;
     }
+    else if(cant_total_distribuir > '1'){
+        alert("la cantidad a Distribuir debe ser igual a cero (obligatotio) (Debe ingresar la distribución porcentual en los campos de trimestres I,II,III,IV segun su programación)")
+        document.getElementById("cant_total_distribuir").focus();
+    }
     else if(precio_total == ''){
         alert("Debe ingresar un Precio Total (obligatotio)")
         document.getElementById("precio_total").focus();
     }
-    // else if(cant_total_distribuir_acc >= '1'){
-    //     alert("la cantidad restante a Distribuir debe ser igual a cero (obligatotio)")
-    //     document.getElementById("cant_total_distribuir_acc").focus();
-    // }
+    
  else if($("#id_alicuota_iva option:selected").val() == 0) {
         alert("Debe Seleccionar un iva ");
         document.getElementById("id_alicuota_iva").focus();

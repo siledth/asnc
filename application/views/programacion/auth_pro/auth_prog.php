@@ -27,7 +27,7 @@
                             <tr class="odd gradeX" style="text-align:center">
                             <td><?=$data['rif']?> </td>
                                 
-                               <td><?=$data['des_unidad']?> </td>
+                               <td><?=$data['descripcion']?> </td>
                                 <td><?=$data['anio']?> </td>
                                 <td class="center">
 									

@@ -40,13 +40,21 @@ class Auth_prog extends CI_Controller
         redirect('login');
     
         $data['time']=date("d-m-Y");
-        $data['programacion'] 	= $this->Auth_prog_model->red_prog();
+        $data['programacion'] 	= $this->Auth_prog_model->red_prog_a();
 
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
         $this->load->view('programacion/auth_pro/auth_prog.php', $data);
         $this->load->view('templates/footer.php');
     }
+
+    public function resgistrar_solicitud_edit(){
+		if(!$this->session->userdata('session'))redirect('login');
+		// $id_evaluacion = $this->input->POST('id_evaluacion');
+		$data = $this->input->post();
+		$data = $this->Auth_prog_model->resgistrar_solicitud_edit1($data);
+        echo json_encode($data);
+	}
 
   
    

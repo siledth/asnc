@@ -109,7 +109,7 @@
                                         title="Seleccione el tipo de Obra a realizar"
                                         class="fas fa-question-circle"></i></label><br>
                                 <select  id="id_tip_obra" name="id_tip_obra" class="form-control">
-                                    <option value="">SELECCIONE</option>
+                                    <option value="0">SELECCIONE</option>
                                     <?php foreach ($tip_obra as $data): ?>
                                         <option value="<?=$data['id_tip_obra']?>"><?=$data['descripcion_tip_obr']?></option>
                                     <?php endforeach; ?>
@@ -121,7 +121,7 @@
                                         title="Seleccione el alcance de la Obra a realizar"
                                         class="fas fa-question-circle"></i></label><br>
                                 <select  id="id_alcance_obra" name="id_alcance_obra" class="form-control">
-                                    <option value="">SELECCIONE</option>
+                                    <option value="0">SELECCIONE</option>
                                     <?php foreach ($alcance_obra as $data): ?>
                                         <option value="<?=$data['id_alcance_obra']?>"><?=$data['descripcion_alcance_obra']?></option>
                                     <?php endforeach; ?>
@@ -132,7 +132,7 @@
                                         title="Seleccione el objeto de la Obra a realizar"
                                         class="fas fa-question-circle"></i></label><br>
                                 <select  id="id_obj_obra" name="id_obj_obra" class="form-control">
-                                    <option value="">SELECCIONE</option>
+                                    <option value="0">SELECCIONE</option>
                                     <?php foreach ($obj_obra as $data): ?>
                                         <option value="<?=$data['id_obj_obra']?>"><?=$data['descripcion_obj_obra']?></option>
                                     <?php endforeach; ?>

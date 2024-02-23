@@ -1,3 +1,6 @@
+function modal(id){
+    $('#id').val(id);
+}
 function guardar_solicitud(){
     var id              = $("#id").val();
     var cedula_solc     = $("#cd").val();
@@ -8,15 +11,25 @@ function guardar_solicitud(){
     var motivo       = $("#motivo").val();
 
    if (cedula_solc == '') {
+    alert("Debe ingresar Cédula del Sol.")
+
         document.getElementById("cd").focus();
     }else if (nom_ape_solc == '') {
+    alert("Debe ingresar Nombre y Apellido del solicitante.")
+
         document.getElementById("nom_ape_solc").focus();
     }else if (cargo == '') {
+    alert("Debe ingresar cargo.")
+
         document.getElementById("cargo").focus();
     } else if (telf_solc == '') {
+    alert("Debe ingresar Télefono del Solicitante")
+
         document.getElementById("telf_solc").focus();
     }
     else if (motivo == '') {
+    alert("Debe ingresar Breve descripción de la Solicitud.(motivo)")
+
         document.getElementById("motivo").focus();
     }else {
         event.preventDefault();
@@ -34,7 +47,7 @@ function guardar_solicitud(){
 
                 event.preventDefault();
                 var datos = new FormData($("#resgistrar_solicitud")[0]);
-                var base_url = '/index.php/evaluacion_desempenio/resgistrar_solicitud';
+                var base_url = '/index.php/Auth_prog/resgistrar_solicitud_edit';
                 $.ajax({
                     url:base_url,
                     method: 'POST',
@@ -43,7 +56,7 @@ function guardar_solicitud(){
                     processData: false,
                     success: function(response){
                         if(response != '') {
-                                var menj = 'Se ha Enviado la Solicitud de anulación de la Evaluación de Desempeño Nroº: ';
+                                var menj = 'Se ha Enviado la Solicitud Nroº: ';
                             swal.fire({
                                 title: 'Registro Exitoso',
                                 text: menj + response,

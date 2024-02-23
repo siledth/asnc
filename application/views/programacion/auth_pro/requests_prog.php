@@ -4,7 +4,7 @@
 		<div class="col-lg-12">
             <div class="panel panel-inverse">
                 <div class="col-12"><br>
-                    <h3 class="text-center">Programaciones para solicitar Habilitar editar Programaciòn anual</h3>
+                    <h3 class="text-center">Solicitud de editar Programación anual</h3>
                     <table id="data-table-default" class="table table-bordered table-hover">
                         <thead style="background:#e4e7e8">
                             <tr class="text-center">
@@ -41,14 +41,16 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Solicitud de Anulación de Desempeño</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Solicitud Editar Programaciòn Anual Enviada</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" id="resgistrar_solicitud" data-parsley-validate="true" method="POST" enctype="multipart/form-data">
-                    <div class="row">
+				<fieldset class="border border-success p-10 shadow-lg">
+                   
+                <div class="row">
                         <div class="form-group col-2">
                             <input class="form-control text-center" type="hidden" name="id" id="id" readonly>
                         </div>
@@ -72,10 +74,12 @@
                             <input class="form-control" type="text" name="cargo" id="cargo">
                         </div>
                         <div class="form-group col-12">
-                            <label>Breve descripción de la Solicitud</label>
+                            <label>Breve descripción de la Solicitud (motivo)</label>
                             <textarea class="form-control" rows="2" name="motivo" id="motivo"></textarea>
                         </div>
                     </div>
+				</fieldset>
+
                 </form>
             </div>
             <div class="modal-footer">
@@ -86,7 +90,7 @@
     </div>
 </div>
 <!-- MODAL PARA MOSTRAR LA INFORMACIÓN DE LA ANULACION -->
-<div class="modal fade" id="exampleModal_ver" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="exampleModal_ver" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -147,5 +151,5 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <script src="<?=base_url()?>/js/programacion/auth/auth_prog.js"></script>
