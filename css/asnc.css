@@ -53,5 +53,37 @@ hr {
     border-radius: 20px;
     transition: 0.4s ease;
   } 
+  .password-toggle {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
+.password-toggle i {
+    font-size: 1rem;
+}
+
+.password-toggle i:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.password-toggle.collapsed i {
+    color: #777;
+}
+
+.password-toggle i.fa-eye {
+    display: none;
+}
+
+.password-toggle i.fa-eye-slash {
+    display: inline-block;
+}
+
+.password-toggle.collapsed i.fa-eye-slash {
+    display: none;
+}
+
+.password-toggle.collapsed i.fa-eye {
+    display: inline-block;
+}
   

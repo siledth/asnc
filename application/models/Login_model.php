@@ -4,16 +4,16 @@ class Login_model extends CI_model
 {
     public function iniciar($usuario, $contrasena)
     {
-        $this->db->select('f.*,
-        c.id_perfil, c.menu_rnce, c.menu_progr, c.menu_eval_desem, c.menu_reg_eval_desem, c.menu_soli_anular_eval_desem, 
-        c.menu_proc_anular_eval_desem, c.menu_comprobante_eval_desem, c.menu_estdi_eval_desem, 
-        c.menu_noregi_eval_desem, c.menu_llamado, c.consultar_llamado, c.reg_llamado, anul_llamado, 
-        c.ver_anul_llamado, c.ver_rnc, c.ver_conf, c.ver_parametro, 
-        c.ver_conf_publ, c.ver_user, c.ver_user_exter, c.ver_user_desb, c.ver_user_lista, c.ver_user_perfil, c.menu_anulacion, c.menu_repor_evalu, c.certificacion, c.certi_externo, c.menu_certi');
-        $this->db->from('seguridad.usuarios f');
-        $this->db->join('seguridad.perfil c', 'c.id_perfil = f.perfil', 'left');
-        $this->db->where('nombre', $usuario);
-        $result = $this->db->get();
+        $sql = "SELECT f.*,
+            c.id_perfil, c.menu_rnce, c.menu_progr, c.menu_eval_desem, c.menu_reg_eval_desem, c.menu_soli_anular_eval_desem, 
+            c.menu_proc_anular_eval_desem, c.menu_comprobante_eval_desem, c.menu_estdi_eval_desem, 
+            c.menu_noregi_eval_desem, c.menu_llamado, c.consultar_llamado, c.reg_llamado, anul_llamado, 
+            c.ver_anul_llamado, c.ver_rnc, c.ver_conf, c.ver_parametro, 
+            c.ver_conf_publ, c.ver_user, c.ver_user_exter, c.ver_user_desb, c.ver_user_lista, c.ver_user_perfil, c.menu_anulacion, c.menu_repor_evalu, c.certificacion, c.certi_externo, c.menu_certi
+            FROM seguridad.usuarios f
+            LEFT JOIN seguridad.perfil c ON c.id_perfil = f.perfil
+            WHERE nombre = ?";
+        $result = $this->db->query($sql, array($usuario));
         if ($result->num_rows() == 1) {
             $id_estatus = $result->row('id_estatus');
             if ($id_estatus == 1) {
@@ -154,7 +154,12 @@ class Login_model extends CI_model
     {
         $this->db->where('id', $id_usuario);
         $update = $this->db->update('seguridad.usuarios', $data);
-        return $update;
+       // return $update;
+        if ($update == true) {               
+            return 1;        
+        } else {
+            return 0;
+        }
     }
 
     // esto lo guarda para ussuarios de perfil 8 chacaito

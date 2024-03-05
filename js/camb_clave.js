@@ -4,14 +4,16 @@ function camb_clave(){
     var c_clave  = $("#c_clave").val();
 
     if (clave == '') {
+        swal("Mensaje de alerta!", "El Campo Clave no pueden estar vacio")
         document.getElementById("clave").focus();
 
     }else if(c_clave == '') {
+        swal("Mensaje de alerta!", "no pueden estar vacios")
         document.getElementById("c_clave").focus();
     }else{
         event.preventDefault();
         swal.fire({
-            title: '¿Registrar?',
+            title: 'Guardar?',
             text: '¿Esta seguro de cambiar su contraseña actual?',
             type: 'warning',
             showCancelButton: true,
@@ -34,9 +36,9 @@ function camb_clave(){
                     contentType: false,
                     processData: false,
                     success: function(response){
-                        if(response == 'true') {
+                        if(response == 1) {
                             swal.fire({
-                                title: 'Cambio Exitoso',
+                                title: 'Cambio Exitoso, por Favor Vuelva a Iniciar Sesión',
                                 type: 'success',
                                 showCancelButton: false,
                                 confirmButtonColor: '#3085d6',

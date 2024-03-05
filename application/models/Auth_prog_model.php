@@ -34,7 +34,7 @@ class Auth_prog_model extends CI_Model
             return true;
         }
         function red_prog_a(){
-            $this->db->select('a.id_auth, a.id_programacion, a.motivo, a.cedula_solc, a.nom_ape_solc, a.telf_solc, a.cargo,a.fecha_solicitud, p.unidad, p.anio, org.rif,org.descripcion');
+            $this->db->select('a.id_auth, a.id_programacion, a.motivo, a.cedula_solc, a.nom_ape_solc, a.telf_solc, a.cargo,a.fecha_solicitud,a.id_estatus, p.unidad, p.anio, org.rif,org.descripcion');
             $this->db->from('programacion.auth_prog a');
             $this->db->join('programacion.programacion p', 'p.id_programacion = a.id_programacion');
             $this->db->join('public.organoente org', 'org.codigo = p.unidad');
@@ -76,5 +76,43 @@ class Auth_prog_model extends CI_Model
             );
             $quers =$this->db->insert("programacion.auth_prog", $data1);
             return $data1['id_auth'];
+        }
+        public function read_solic($data){
+            $this->db->select('a.id_auth, a.id_programacion, a.motivo, a.cedula_solc, a.nom_ape_solc, a.telf_solc, a.cargo,a.fecha_solicitud,a.id_estatus, p.unidad, p.anio, org.rif,org.descripcion');
+            $this->db->where('id_auth', $data['id_auth']);
+            $this->db->join('programacion.programacion p', 'p.id_programacion = a.id_programacion');
+            $this->db->join('public.organoente org', 'org.codigo = p.unidad');
+            $query = $this->db->get('programacion.auth_prog a');
+            return $response = $query->row_array();
+        }
+        public function guardar_solici($data){
+             
+            $data1 = array('estatus' => 0,                           
+                        );                     
+                            
+            $this->db->where('id_programacion', $data['id_programacion']);
+            $update = $this->db->update('programacion.programacion', $data1);
+    
+            if ($update) {
+                $data2 = array('id_estatus' => 2, 
+                                ' aprobado_user' => $this->session->userdata('id_user'),
+                                ' fecha_procesado' => date('Y-m-d'),
+
+                                                          
+            );                    
+                
+            $this->db->where('id_auth', $data['id_auth']);
+            $update2 = $this->db->update('programacion.auth_prog', $data2);
+          
+           
+            $this->db->where('id_programacion', $data['id_programacion']);
+                    
+                    $this->db->delete('programacion.inf_enviada');
+            } 
+            if ($update= true) {               
+                return 1;        
+            } else {
+                return 0;
+            }
         }
 }

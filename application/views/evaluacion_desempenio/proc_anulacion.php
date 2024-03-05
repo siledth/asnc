@@ -40,7 +40,7 @@
                                     <a/>
                                     <?php if ($data['id_estatus'] != 3): ?>
                                         <a class="button">
-                                            <i title="Aprovar Anulación de Desempeño" onclick="aprovar_anul(<?php echo $data['id_evaluacion']?>);" class="fas fa-lg fa-fw fa-check" style="color: #fbff00;"></i>
+                                            <i title="Aprobar Anulación de Desempeño" onclick="aprovar_anul(<?php echo $data['id_evaluacion']?>);" class="fas fa-lg fa-fw fa-check" style="color: #fbff00;"></i>
                                         <a/>
                                     <?php endif; ?>
                                 </td>

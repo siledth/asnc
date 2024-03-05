@@ -55,7 +55,20 @@ class Auth_prog extends CI_Controller
 		$data = $this->Auth_prog_model->resgistrar_solicitud_edit1($data);
         echo json_encode($data);
 	}
-
+    public function read_solic(){
+		if(!$this->session->userdata('session'))redirect('login');
+		$data = $this->input->post();
+		$data =	$this->Auth_prog_model->read_solic($data);
+		echo json_encode($data);
+	}
+    public function guardar_solici(){ //se guardA EL NUEVO ESTATUS DEL CERTIFICADO
+        if(!$this->session->userdata('session'))redirect('login');
+        $data['time']=date("d-m-Y");
+        $data['users']= $this->session->userdata('id_user');
+        $data = $this->input->post();
+        $data =	$this->Auth_prog_model->guardar_solici($data);
+        echo json_encode($data);
+    }
   
    
 }

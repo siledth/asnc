@@ -99,7 +99,12 @@
                             <td><?=$data['iv']?> </td>
                             <td><?=$data['costo_unitario']?> </td>
                             <td><?=$data['precio_total']?> </td>
-                            <td><?=$data['alicuota_iva']?> </td>
+                            <?php if ($data['alicuota_iva'] == '0.16') : ?>
+                                <td >16 %</td>
+
+                                    <?php else: ?>
+                                        <td><?=$data['alicuota_iva']?> </td>
+                                    <?php endif; ?>
                             <td><?=$data['iva_estimado']?> </td>
                             <td><?=$data['monto_estimado']?> </td>
                             <td><?=$data['cantidad_ejecu']?> </td>
@@ -111,12 +116,25 @@
                             <td><?=$data['total_rendi']?> </td>
                             <td><?=$data['paridad_rendi']?> </td>
                             <td><?=$data['subtotal_rendiusdt']?> </td>
-                            <td><?=$data['id_modalida_rendi']?> </td>
+                            <td><?=$data['descripcion']?> </td>
                             <td><?=$data['sel_rif_nombre']?> </td>
                             <td><?=$data['num_contrato']?> </td>
                             <td><?=$data['fecha_contrato']?> </td>
-                            <td><?=$data['selc_tipo_doc_contrata']?> </td>
-                            <td><?=$data['selc_com_res_social']?> </td>
+                            <td><?=$data['desc_tipo_doc_contrata']?> </td>
+                            <td><?=$data['desc_comp_resp_social']?> </td>
+                           
+                            <?php if ($data['selc_com_res_social'] == 0) : ?>
+                                <td>No Ingreso Información </td>
+                            <td>No Ingreso Información</td>
+                            <td>No Ingreso Información </td>
+                            <td>No Ingreso Información </td>
+                            <td>No Ingreso Información </td>
+                            <td>No Ingreso Información </td>
+                            <td>No Ingreso Información </td>
+                            <td>No Ingreso Información </td>
+                            <td>No Ingreso Información </td>
+                            <td>No Ingreso Información </td> 
+                                <?php else: ?>
                             <td><?=$data['monto3_rendim']?> </td>
                             <td><?=$data['nfactura_rendi']?> </td>
                             <td><?=$data['datefactura_rendi']?> </td>
@@ -126,7 +144,8 @@
                             <td><?=$data['total_pago_rendi']?> </td>
                             <td><?=$data['paridad_rendi_factura']?> </td>
                             <td><?=$data['subtotal_rendi_factura']?> </td>
-                            <td><?=$data['fecha_pago_rendi']?> </td>                       
+                            <td><?=$data['fecha_pago_rendi']?> </td> 
+                            <?php endif; ?>                      
                         </tr>
                         <?php endforeach;?>
                     </tbody>
