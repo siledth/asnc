@@ -611,3 +611,67 @@ function llenar7() {
         
     }
     
+    function validateMaxLength4(input) {
+        var maxLength = 10;
+        var errorMsg = document.getElementById("errorMsg4");
+       
+        if (input.value.length < maxLength) {
+           input.value = input.value.slice(0, maxLength);
+           errorMsg.style.color = "red";
+           errorMsg.innerHTML = "El Rif ingresado no puede ser menor de 10 caracteres. por favor ingrese un rif correcto";
+           $("#rendi_py1").prop('disabled', true)
+    
+        } else {
+           errorMsg.innerHTML = "";
+           $("#rendi_py1").prop('disabled', false)
+    
+        }
+       }
+       function validateMaxLength3(input) {
+        var maxLength = 10;
+        var errorMsg = document.getElementById("errorMsg3");
+       
+        if (input.value.length > maxLength) {
+           input.value = input.value.slice(0, maxLength);
+           errorMsg.style.color = "red";
+           errorMsg.innerHTML = "El Rif ingresado no puede superar los 11 caracteres.por favor ingrese un rif correcto";
+           $("#rendi_py1").prop('disabled', true)
+    
+        } else {
+           errorMsg.innerHTML = "";
+           $("#rendi_py1").prop('disabled', false)
+    
+        }
+       }
+       function validateMaxLength1(input) {
+        var maxLength = 10;
+        var errorMsg = document.getElementById("errorMsg1");
+       
+        if (input.value.length < maxLength) {
+           input.value = input.value.slice(0, maxLength);
+           errorMsg.style.color = "red";
+           errorMsg.innerHTML = "El Rif ingresado no puede ser menor de 10 caracteres. por favor ingrese un rif correcto";
+           $("#rendi_py1").prop('disabled', true)
+    
+        } else {
+           errorMsg.innerHTML = "";
+           $("#rendi_py1").prop('disabled', false)
+    
+        }
+       }
+       function validateMaxLength2(input) {
+        var maxLength = 10;
+        var errorMsg = document.getElementById("errorMsg2");
+       
+        if (input.value.length > maxLength) {
+           input.value = input.value.slice(0, maxLength);
+           errorMsg.style.color = "red";
+           errorMsg.innerHTML = "El Rif ingresado no puede superar los 11 caracteres.por favor ingrese un rif correcto";
+           $("#rendi_py1").prop('disabled', true)
+    
+        } else {
+           errorMsg.innerHTML = "";
+           $("#rendi_py1").prop('disabled', false)
+    
+        }
+       }

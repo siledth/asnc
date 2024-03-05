@@ -374,7 +374,7 @@
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="form-group col-12">
-                                            <label>Ingrese Rif del Contratista <i style="color: red;"
+                                            <label>Es obligatorio Ingrese Rif del Contratista Completo<i style="color: red;"
                                                     title="Ingrese el Rif del Contratista, para continuar."
                                                     class="fas fa-question-circle">Leer*</i></label>
                                             <input class="form-control" type="text" name="rif_b" id="rif_b"
@@ -822,15 +822,16 @@
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="form-group col-12">
-                                            <label>Ingrese Rif del Contratista <i style="color: red;"
+                                            <label>Es obligatorio Ingrese Rif del Contratista Completo<i style="color: red;"
                                                     title="Ingrese el Rif del Contratista, para continuar."
                                                     class="fas fa-question-circle">Leer*</i></label>
                                             <input class="form-control" type="text" name="rif_b7" id="rif_b7"
                                                 onkeypress="may(this);" placeholder="J123456789"
                                                 oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/,'')"
                                                 onKeyUp="this.value=this.value.toUpperCase();"
-                                                onblur="consultar_rif7();">
-
+                                                onblur="consultar_rif7();validateMaxLength4(this);validateMaxLength3(this)">
+                                                <p id="errorMsg3"></p>
+                                                <p id="errorMsg4"></p>
 
                                         </div>
                                         <!-- <div class="form-group col-2">
@@ -845,7 +846,7 @@
                                 </div>
 
                                 <div class="form-group col-12" id='existe1' style="display: none;">
-                                    <label>Ingrese Rif del contratista <i style="color: red;"
+                                    <label>Es obligatorio Ingresar Rif del contratista Completo<i style="color: red;"
                                             title="Ingrese el Rif del Contratista"
                                             class="fas fa-question-circle"></i></label>
                                     <div class="row">
@@ -853,10 +854,12 @@
                                         <div class="form-group col-3">
                                             <label>Rif del Contratista</label>
                                             <input class="form-control" type="text" name="sel_rif_nombre7"
-                                                id="sel_rif_nombre7" readonly>
+                                                id="sel_rif_nombre7"       onblur="validateMaxLength1(this);validateMaxLength2(this)" readonly>
+                                                <p id="errorMsg1"></p>
+                                                <p id="errorMsg2"></p>
                                         </div>
                                         <div class="form-group col-6">
-                                            <label>Denominación o Razón Social</label>
+                                            <label> Denominación o Razón Social</label>
                                             <input type="text" name="nombre_conta_7" id="nombre_conta_7"
                                                 class="form-control" readonly>
                                         </div>
@@ -869,6 +872,7 @@
                                             <label>Ingrese Rif del contratista <i style="color: red;"
                                                     title="Ingrese el Rif del contratista, sin guiones ni punto."
                                                     class="fas fa-question-circle"></i></label>
+                                                    <h5>Es obligatorio Ingrese el Rif del contratista, sin guiones ni punto.</h5>
                                             <input title="Debe ingresar una palabra para realizar la busqueda"
                                                 type="text" class="form-control"
                                                 onKeyUp="this.value=this.value.toUpperCase();" name="rif_7" id="rif_7"
@@ -876,6 +880,7 @@
                                         </div>
                                         <div class="col-8">
                                             <label>Razón Social <b style="color:red">*</b> </label>
+                                            <h5>Es obligatorio Ingrese el Nombre del Contratista</h5>
                                             <input id="razon_social7" name="razon_social7" class="form-control">
                                         </div>
                                     </div>

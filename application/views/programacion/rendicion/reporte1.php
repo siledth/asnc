@@ -121,20 +121,21 @@
                             <td><?=$data['num_contrato']?> </td>
                             <td><?=$data['fecha_contrato']?> </td>
                             <td><?=$data['desc_tipo_doc_contrata']?> </td>
-                            <td><?=$data['desc_comp_resp_social']?> </td>
                            
                             <?php if ($data['selc_com_res_social'] == 0) : ?>
-                                <td>No Ingreso Información </td>
-                            <td>No Ingreso Información</td>
-                            <td>No Ingreso Información </td>
-                            <td>No Ingreso Información </td>
-                            <td>No Ingreso Información </td>
-                            <td>No Ingreso Información </td>
-                            <td>No Ingreso Información </td>
-                            <td>No Ingreso Información </td>
-                            <td>No Ingreso Información </td>
-                            <td>No Ingreso Información </td> 
+                                <td>No Ingreso Información de Facturación y Pago</td>
+                                <td>No Ingreso Información de Facturación y Pago </td>
+                            <td>No Ingreso Información de Facturación y Pago</td>
+                            <td>No Ingreso Información de Facturación y Pago </td>
+                            <td>No Ingreso Información de Facturación y Pago </td>
+                            <td>No Ingreso Información de Facturación y Pago </td>
+                            <td>No Ingreso Información de Facturación y Pago</td>
+                            <td>No Ingreso Información de Facturación y Pago </td>
+                            <td>No Ingreso Información de Facturación y Pago</td>
+                            <td>No Ingreso Información de Facturación y Pago</td>
+                            <td>No Ingreso Información de Facturación y Pago</td> 
                                 <?php else: ?>
+                            <td><?=$data['desc_comp_resp_social']?> </td>
                             <td><?=$data['monto3_rendim']?> </td>
                             <td><?=$data['nfactura_rendi']?> </td>
                             <td><?=$data['datefactura_rendi']?> </td>
