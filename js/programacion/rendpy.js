@@ -485,24 +485,49 @@ function llenar7() {
 
     var num1 = document.rendir_py.total_rendi7.value;
     var num2 = document.rendir_py.monto_estimado_mod_b7.value;
-    var newstr = num1.replace('.', "");
+   // var newstr = num1.replace('.', "");
     //var newstr2 = num2.replace('.', "");
-
-    var newstr = num2.replace(".", "");
-    var newstr2 = newstr.replace(".", "");
+    var newstr0 = num2.replace(".", "");
+    var newstr2 = newstr0.replace(".", "");
     var newstr3 = newstr2.replace(".", "");
     var newstr4 = newstr3.replace(".", "");
     var cant_f = newstr4.replace(",", ".");
 
-    console.log(newstr);
+    var newstr6 = num1.replace(".", "");
+    var newstr7 = newstr6.replace(".", "");
+    var newstr8 = newstr7.replace(".", "");
+    var newstr9 = newstr8.replace(".", "");
+    var total_rendi7 = newstr9.replace(",", ".");
+
+    console.log(total_rendi7);
     console.log(cant_f);
 
-    if (parseFloat(newstr) > parseFloat(cant_f)) {
-        alert('El Total Contratado es mayor al Monto total Estimado Ingresado en la Programación anual,no puede continuar con la rendiciòn, debe  ir a Programación -Modificación de una programación, luego vuelva a rendición y intente de nuevo');
+    if (parseFloat(total_rendi7) > parseFloat(cant_f)) {
+        swal.fire({
+            title: 'El Total Contratado es mayor al Monto total Estimado Ingresado en la Programación anual,no puede continuar con la rendición, debe  ir a Programación -Modificación de una programación, luego vuelva a rendición y intente de nuevo',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+       // alert('El Total Contratado es mayor al Monto total Estimado Ingresado en la Programación anual,no puede continuar con la rendiciòn, debe  ir a Programación -Modificación de una programación, luego vuelva a rendición y intente de nuevo');
         //document.rendi_bienes1.total_rendi5.value = "";
        $("#rendi_py1").prop('disabled', true)   
         } else {
-            alert('Bien. Puede continuar con la Rendiciòn');
+            swal.fire({
+                title: 'Bien. Puede continuar con la Rendiciòn',
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+            }).then((result) => {
+                if (result.value == true) {
+                }
+            });
+            //alert('Bien. Puede continuar con la Rendiciòn');
        
        $("#rendi_py1").prop('disabled', false)
 
