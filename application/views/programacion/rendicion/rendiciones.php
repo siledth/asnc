@@ -50,9 +50,9 @@
                                             <i class="fas fa-registered fa-lg" title="Rendir2" style="color: black;"></i>
                                         <a/>
                                         
-                                                            <a title="Enviar al SNC" onclick="enviar(<?php echo $lista['id_programacion'];?>);" class="button">
+                                                            <!-- <a title="Enviar al SNC" onclick="enviar(<?php echo $lista['id_programacion'];?>);" class="button">
                                                                 <i class="fas fa-lg fa-fw fa-upload" style="color: green;"></i>
-                                                            <a/>
+                                                            <a/> -->
                                                             <!-- <button
                                                         onclick="location.href='<?php echo base_url()?>index.php/Programacion/ver_rendicion_realizadas?id=<?php echo $lista['id_programacion'];?>'"
                                                         type="button" class="btn btn-lg btn-default" name="button">
