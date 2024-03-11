@@ -51,8 +51,11 @@ function guardar_not(){
         }
         var fileSize = $('#fileImagen')[0].files[0].size;
         var siezekiloByte = parseInt(fileSize / 1024);
-        if (siezekiloByte >  $('#fileImagen').attr('size')) {
-            alert("Imagen muy grande");
+        var maxSize = parseInt($('#fileImagen').data('size'));
+    
+        if (siezekiloByte > maxSize) {
+            alert("Tamaño del archivo es máximo de 1 megabyte (MB), Intente de Nuevo");
+           //$("#registrar_eval").prop('disabled', true)
             return false;
         }
        
@@ -67,8 +70,8 @@ function guardar_not(){
             document.getElementById("fecha_not").focus();
         }else if (fileImagen == '') {
             document.getElementById("fileImagen").focus();
-        }else if (tipo != 'jpg' && tipo != 'img'&& tipo != 'png' && tipo != 'jpeg') {
-            swal("Mensaje de alerta!", "El tipo de archivo debe ser en formato, jpg, img, png o jpeg.")
+        }else if (tipo != 'pdf' && tipo != 'jpg' && tipo != 'img'&& tipo != 'png' && tipo != 'jpeg') {
+            swal("Mensaje de alerta!", "El tipo de archivo debe ser en formato pdf, jpg, png, img, jpeg")
             document.getElementById("fileImagen").focus();
         }else {
             

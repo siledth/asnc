@@ -286,9 +286,9 @@ class Evaluacion_desempenio extends CI_Controller {
 		$data['fecha_reg_eval'] = $date_r;
 
        
-			$img = $data['eval_ind']['fileimagen'];
-			$separar  = explode(".", $img);
-			$data['tipo_img'] = $separar['1'];
+			// $img = $data['eval_ind']['fileimagen'];
+			// $separar  = explode(".", $img);
+			// $data['tipo_img'] = $separar['1'];
 			
 		//print_r($data['eval_ind']);die;
 		 
@@ -640,7 +640,7 @@ class Evaluacion_desempenio extends CI_Controller {
 		$data = $this->input->post();
 		if (!empty($_FILES['fileImagen']['name'])){
 			$config['upload_path'] = './imagenes';;
-			$config['allowed_types'] = 'jpg|png|jpeg';
+			$config['allowed_types'] = 'jpg|png|jpeg|pdf';
 			// $config['max_size'] = '1000px';
 			// $config['max_width'] = '1000px';
 			// $config['max_height'] = '1000px';
