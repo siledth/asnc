@@ -486,12 +486,18 @@ function llenar7() {
     var num1 = document.rendir_py.total_rendi7.value;
     var num2 = document.rendir_py.monto_estimado_mod_b7.value;
     var newstr = num1.replace('.', "");
-    var newstr2 = num2.replace('.', "");
+    //var newstr2 = num2.replace('.', "");
+
+    var newstr = num2.replace(".", "");
+    var newstr2 = newstr.replace(".", "");
+    var newstr3 = newstr2.replace(".", "");
+    var newstr4 = newstr3.replace(".", "");
+    var cant_f = newstr4.replace(",", ".");
 
     console.log(newstr);
-    console.log(newstr2);
+    console.log(cant_f);
 
-    if (parseFloat(newstr) > parseFloat(newstr2)) {
+    if (parseFloat(newstr) > parseFloat(cant_f)) {
         alert('El Total Contratado es mayor al Monto total Estimado Ingresado en la Programación anual,no puede continuar con la rendiciòn, debe  ir a Programación -Modificación de una programación, luego vuelva a rendición y intente de nuevo');
         //document.rendi_bienes1.total_rendi5.value = "";
        $("#rendi_py1").prop('disabled', true)   
