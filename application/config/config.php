@@ -383,7 +383,7 @@ $config['sess_expiration'] = 1800;
 //$config['sess_expiration'] = 300;
 $config['sess_save_path'] = NULL;
 $config['sess_match_ip'] = FALSE;
-$config['sess_time_to_update'] = 1800;
+//$config['sess_time_to_update'] = 1800;
 //$config['sess_regenerate_destroy'] = TRUE; cambie esto por abajo
 $config['sess_regenerate_destroy'] = FALSE;
 

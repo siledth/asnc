@@ -90,9 +90,9 @@
                             <div class="form-group col-6">
                                 <label>Correo Electronico<b title="Campo Obligatorio" style="color:red">*</b></label>
                                 <input type="email" id="email" name="email" onblur="return validateEmail()"
-                                    class="form-control" placeholder="ingrese correo institucional">
-                                <div id="result-email"></div>
-
+                                    class="form-control"  placeholder="ingrese correo institucional">
+                                    <div id="result-email"></div>
+                                
                             </div>
                             <div class="form-group col-12">
                                 <label>Direcciòn Fiscal<b title="Campo Obligatorio" style="color:red">*</b></label><br>
@@ -172,7 +172,7 @@ $(document).ready(function() {
             data: dataString,
             success: function(data) {
                 console.log(data);
-                if (data == 'null') {
+                 if (data == 0) {
                     $('#result-email').fadeIn(1600).html(
                         '<div class="alert alert-success"><strong>Bien!</strong> Correo disponible.</div>'
                     );
@@ -185,7 +185,6 @@ $(document).ready(function() {
                     $("#guardar_organo").prop('disabled', true)
 
                 }
-
 
 
 

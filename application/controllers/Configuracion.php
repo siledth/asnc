@@ -487,7 +487,7 @@ public function orga() { //nuevo filiares
         $data = $this->Configuracion_model->save_eng_ads($data1);
         echo json_encode($data);
     } 
-    public function filiares() { //nuevo 
+    public function filiares() { //nuevo  filiaresssssss
         if (!$this->session->userdata('session'))
             redirect('login');
         $data['organismos'] = $this->Configuracion_model->consulta_organo();
