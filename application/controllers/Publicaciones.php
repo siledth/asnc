@@ -951,7 +951,7 @@ public function llamadointerno() {
           $pdf->SetFont('Arial','B',12);
              
                 //  $pdf->Cell(100,10,' ',0,0,'C');
-                 $pdf->Cell(180,10,utf8_decode('Fecha Fin (Acto Público):'),0,1,'C');   
+                 $pdf->Cell(180,10,utf8_decode('Acto Público:'),0,1,'C');   
 
           $pdf->SetFont('Arial','',10);
                     // $pdf->Cell(100,5, date("d/m/Y", strtotime($d->fecha_disponible_llamado)),0,0,'C');
