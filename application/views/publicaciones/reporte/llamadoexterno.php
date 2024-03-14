@@ -272,6 +272,11 @@
                                             name="fecha_fin_llamado" readonly>
                                     </div>
                                     <br><br><br><br><br><br>
+                                    <div class="form-group col-5">
+                                        <label>Fecha de Disponibilidad</label>
+                                        <input type="text" class="form-control" id="fecha_disponible_llamado"
+                                            name="fecha_disponible_llamado" readonly>
+                                    </div>
                                     <div class="col-12 text-center">
                                         <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
                                         <h5> DIRECCIÓN PARA ADQUISICIÓN DE RETIRO DE PLIEGO</h5>

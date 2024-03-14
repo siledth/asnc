@@ -950,15 +950,24 @@ public function llamadointerno() {
           
           $pdf->SetFont('Arial','B',12);
              
-                 $pdf->Cell(100,10,'Fecha de disponibilidad:',0,0,'C');
-                 $pdf->Cell(60,10,'Fecha Fin:',0,1,'C');   
+                //  $pdf->Cell(100,10,' ',0,0,'C');
+                 $pdf->Cell(180,10,utf8_decode('Fecha Fin (Acto Público):'),0,1,'C');   
 
           $pdf->SetFont('Arial','',10);
-                    $pdf->Cell(100,5, date("d/m/Y", strtotime($d->fecha_disponible_llamado)),0,0,'C');
-                    $pdf->Cell(60,5, date("d/m/Y", strtotime($d->fecha_fin_llamado)),0,1,'C');   
+                    // $pdf->Cell(100,5, date("d/m/Y", strtotime($d->fecha_disponible_llamado)),0,0,'C');
+                    $pdf->Cell(180,5, date("d/m/Y", strtotime($d->fecha_fin_llamado)),0,1,'C');   
           $pdf->SetFont('Arial','B',12);
                   $pdf->Cell(195,10,'_______________________________________________________________________________________',0,1,'C');
-                  $pdf->Cell(195,10,utf8_decode('Dirección Para Adquisición de Retiro de Pliego'),0,1,'C'); 
+                  $pdf->SetFont('Arial','B',12);
+             
+                  $pdf->Cell(180,5,'Fecha de disponibilidad:',0,1,'C');
+                  $pdf->SetFont('Arial','',10);
+                  $pdf->Cell(80,5,'Desde:',0,0,'C');
+                  $pdf->Cell(5,5, date("d/m/Y", strtotime($d->fecha_disponible_llamado)),0,0,'C');
+                  $pdf->Cell(50,5,'Hasta:',0,0,'C');
+                  $pdf->Cell(10,5, date("d/m/Y", strtotime($d->fecha_tope)),0,1,'C'); 
+                  $pdf->SetFont('Arial','B',12);
+                  $pdf->Cell(195,5,utf8_decode('Dirección Para Adquisición de Retiro de Pliego'),0,1,'C'); 
           $pdf->SetFont('Arial','B',12);
                   $pdf->Cell(100,5,'Hora desde:',0,0,'C');
                   $pdf->Cell(60,5,'Hora hasta:',0,1,'C');   
