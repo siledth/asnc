@@ -35,7 +35,7 @@
                                         <i class="fas fa-lg fa-fw fa-eye" style="color: green;"></i>
                                         <a />
                                         <a class="button">
-                                            <i title="Notifiaciòn" onclick="modal(<?php echo $data['id']?>);"
+                                            <i title="Notificación" onclick="modal(<?php echo $data['id']?>);"
                                                 data-toggle="modal" data-target="#exampleModal"
                                                 class="fas fas fa-lg fa-fw fa-align-justify" style="color: red;"></i>
                                             <a />

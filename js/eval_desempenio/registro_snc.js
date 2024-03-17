@@ -666,7 +666,7 @@ function registrar() {
                             contentType: false,
                             processData: false,
                             success: function (response) {
-                                var menj = 'Identificador de Evaluación de Desempeño holasss:';
+                                var menj = 'Identificador de Evaluación de Desempeño :';
 
                                 if (response != '') {
                                     swal.fire({
