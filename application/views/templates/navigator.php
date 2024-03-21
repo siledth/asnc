@@ -157,7 +157,7 @@
                                     </a>
                                 </li> -->
                                 <?php endif; ?>
-                                <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
+                                <?php if (($this->session->userdata('pdvsa') == 1)) : ?>
 
                                 <li>
                                     <a href="<?= base_url() ?>index.php/Programacion/sending_pdvsa">
