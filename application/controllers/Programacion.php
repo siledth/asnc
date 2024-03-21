@@ -5738,6 +5738,19 @@ public function sending_p(){
     $this->load->view('programacion/sending/sendig_pr.php', $data);
     $this->load->view('templates/footer.php');
 }
+public function sending_pdvsa(){
+    if(!$this->session->userdata('session'))redirect('login');
+
+   
+
+    $data['read'] = $this->Programacion_model->read_sending_pdvsa();
+    $data['fecha'] = date('yy');
+
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('programacion/sending/sendig_pdvsa.php', $data);
+    $this->load->view('templates/footer.php');
+}
 public function tolist_info(){
     if(!$this->session->userdata('session'))redirect('login');
     $data = $this->input->post();

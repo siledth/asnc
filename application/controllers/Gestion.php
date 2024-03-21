@@ -112,7 +112,7 @@ class Gestion extends CI_Controller {
       $generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
       $generar3 = $this->Publicaciones_model->generar2(); // finalizar llamad
       $generar4 = $this->Publicaciones_model->generar3(); // finalizar llamad
-      $date=date("d-m-Y");
+      $date=date("Y-m-d");
       $data['exonerado'] = $this->Certificacion_model->consultar_llamados_externos($date);
       $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
       $data['objeto'] 	 = $this->Configuracion_model->objeto();

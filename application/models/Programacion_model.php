@@ -5164,6 +5164,13 @@ public function save_certificado($data){ //por hacer
         $query = $this->db->get('programacion.inf_enviada');
         return $query->result_array();
     }
+    public function read_sending_pdvsa(){
+        $this->db->select('i.id_ainf_enviada, i.id_programacion, i.anio,i.des_unidad,i.rif, or.id_organoenteads');
+        $this->db->join('public.organoente or','or.rif = i.rif');
+        $this->db->where('or.id_organoenteads', '13');//acc
+        $query = $this->db->get('programacion.inf_enviada i');
+        return $query->result_array();
+    }
 function read_sending_p2($data1){
     $query = $this->db->query("SELECT  pac.id_programacion, pac.des_unidad, pac.rif, pac.codigo_onapre
 
