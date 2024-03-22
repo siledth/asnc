@@ -374,7 +374,7 @@
                         <div class="form-group col-3">
                             <label>Unidad de Medida</label>
                             <input type="text" class="form-control" name="unid_med_b" id="unid_med_b" readonly>
-                            <input type="text" name="id_unid_med_b" id="id_unid_med_b">
+                            <input type="hidden" name="id_unid_med_b" id="id_unid_med_b">
                         </div>
                         <div class="form-group col-3">
                             <label> Cambiar Unid. Medida <i

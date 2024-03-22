@@ -295,11 +295,12 @@
                                     <td><?=$data['iva_estimado']?> </td>
                                     <td><?=$data['monto_estimado']?> </td>
                                      <td class="center">
-                                     <a href="<?php echo base_url();?>index.php/programacion/editar_item_servicio_py?id=<?php echo $data['id_p_items'];?>/<?php echo $data['id_p_items'];?>"
-                                            class="button">
-                                            <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
+                                  
+                                        <a onclick="modal(<?php echo $data['id_p_items'] ?>);" data-toggle="modal"
+                                        data-target="#myModal_bienes" style="color: white">
+                                        <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
                                             style="color: darkgreen;"></i>
-                                        <a /> 
+                                    </a>
                                         <a onclick="eliminar_items_servi(<?php echo $data['id_p_items'];?>);"
                                          class="button"><i class="fas fa-lg fa-fw  fa-trash-alt" style="color:red"></i><a />
                                     </td>
@@ -313,9 +314,159 @@
         </div>
     </div>
 
+    <div id="myModal_bienes" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Modificar Servicio-proyecto</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        
+                        <input type="hidden" class="form-control" name="id_items_b" id="id_items_b" readonly>
+                        <div class="form-group col-8">
+                            <label>ID - ITEMS</label>
+                            <input class="form-control" type="text" name="id_p_items" id="id_p_items" readonly>
+                        </div>
+                        <div class="form-group col-4">
+                            <label>Cod. Partida Presupuestaria</label>
+                            <input type="hidden" name="id_part_pres_b" id="id_part_pres_b">
+                            <input id="codigopartida_presupuestaria" name="codigopartida_presupuestaria" class="form-control"
+                                class="form-control" readonly>
+                                <input id="desc_partida_presupuestaria" name="desc_partida_presupuestaria" class="form-control"
+                                class="form-control" readonly>
+                        </div>
+                        <div class="form-group col-6">
+                            <label>Especificación</label>
+                            <input type="text" class="form-control" name="especificacion" id="especificacion">
+                        </div>
+                        <div class="form-group col-3">
+                            <label>Unidad de Medida</label>
+                            <input type="text" class="form-control" name="unid_med_b" id="unid_med_b" readonly>
+                            <input type="hidden" name="id_unid_med_b" id="id_unid_med_b">
+                        </div>
+                        <div class="form-group col-3">
+                            <label> Cambiar Unid. Medida <i
+                                    title="Si quiere cambiar la Unidad de Medida, debe seleccionarla en este campo"
+                                    class="fas fa-question-circle"></i></label>
+                            <select class="form-control" name="camb_unid_medi_b" id="camb_unid_medi_b">
+                                <option value="0">Seleccione</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-12">
+                                <label style="color:red;">Ingrese Rango de Fecha Estimado para Ejecución del Servicio (Obligatorio). <b style="color:red">*leer</b></label><i style="color: red;" title="Seleccione la Fecha estimada de ejecución de la obra."
+                                        class="fas fa-question-circle"></i>
+                                    <div class="input-group input-daterange">
+                                        <input type="text" class="form-control" id="fecha_desde1"  name="start1" placeholder="Desde" />
+                                        <span class="input-group-addon">-</span>
+                                        <input type="text" class="form-control"  id="fecha_hasta1"  name="end1" placeholder="Hasta" />
+                                    </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card card-outline-danger">
+                                    <h5 class="mt-3 text-center"><b>Distribución Porcentual de la Ejecución
+                                            Trimestral</b> <i style="color: red;"
+                                            title="Para ingresar los datos correspondientes a cada trimestre, debe ingresar un Rango de Fecha."
+                                            class="fas fa-question-circle"></i></h5>
+                                    <div class="row mt-3">
+                                        <div class="form-group col-2">
+                                            <label>I<b style="color:red">*</b></label>
+                                            <input id="primero_b" name="primero_b" type="text" onblur="calculo_obras();" value="0"
+                                                class="form-control" onkeypress="return valideKey(event);" >
+                                        </div>
+                                        <div class="form-group col-2">
+                                            <label>II<b style="color:red">*</b></label>
+                                            <input id="segundo_b" name="segundo_b" type="text" onblur="calculo_obras();" value="0"
+                                                class="form-control" onkeypress="return valideKey(event);" >
+                                        </div>
+                                        <div class="form-group col-2">
+                                            <label>III<b style="color:red">*</b></label>
+                                            <input id="tercero_b" name="tercero_b" type="text" onblur="calculo_obras();" value="0"
+                                                class="form-control" onkeypress="return valideKey(event);" >
+                                        </div>
+                                        <div class="form-group col-2">
+                                            <label>IV<b style="color:red">*</b></label>
+                                            <input id="cuarto_b" name="cuarto_b" type="text" onblur="calculo_obras();" value="0"
+                                                class="form-control" onkeypress="return valideKey(event);" >
+                                        </div>
+                                        <div class="form-group col-4">
+                                            <label>Cantd. Total Distribuir <b style="color:red">*leer</b> <i style="color: red;" title="Restara con los valores ingresados en los campos de trimestres, debe dar un Valor de Cero(0)."
+                                        class="fas fa-question-circle"></i></label>
+                                            <input id="cant_total_distribuir1" value="100" onblur="calculo_obras();"
+                                                name="cant_total_distribui1r" type="number" class="form-control"
+                                                readonly >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                      
+                        <div class="form-group col-4">
+                            <label>Precio Total Estimado<b style="color:red">*</b></label>
+                            <input id="precio_total_mod_b1" name="precio_total_mod_b1" type="text" class="form-control">
+                        </div>
 
+                        <div class="form-group col-4">
+                            <label>Alícuota IVA Estimado<b style="color:red">*</b></label><br>
+                            <div class="row">
+                                <div class="col-5">
+                                    <input type="text" class="form-control" onblur="calculo_obras();"
+                                        name="ali_iva_e_b" id="ali_iva_e_b" readonly>
+                                </div>
+                                <div class="col-7">
+                                    <select title="Para cambiar la Alicuota de IVA debe seleccionarlo en este campo."
+                                        class="form-control" name="sel_id_alic_iva_b1" id="sel_id_alic_iva_b1"
+                                        onchange="calculo_obras();">
+                                        <option value="s">Seleccione</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <label>Monto IVA Estimado<b style="color:red">*</b></label>
+                            <input id="iva_estimado_mod_b1" name="iva_estimado_mod_b1" type="text" class="form-control"
+                                readonly>
+                        </div>
+                        <div class="form-group col-6">
+                            <label>Monto total Estimado<b style="color:red">*</b></label>
+                            <input id="monto_estimado_mod_b1" name="monto_estimado_mod_b1" type="text"
+                                class="form-control" readonly>
+                        </div>
+                        <div class="col-12">
+                            <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
+                        </div>
+                        <div class="form-group col-2">
+                            <label>Est. I Trimestre</b></label>
+                            <input id="estimado_primer" name="estimado_i" type="text" class="form-control" readonly>
+                        </div>
+                        <div class="form-group col-2">
+                            <label>Est. II Trimestre</label>
+                            <input id="estimado_segundo" name="estimado_ii" type="text" class="form-control" readonly>
+                        </div>
+                        <div class="form-group col-2">
+                            <label>Est. III Trimestre</label>
+                            <input id="estimado_tercer" name="estimado_iii" type="text" class="form-control" readonly>
+                        </div>
+                        <div class="form-group col-2">
+                            <label>Est. IV Trimestre</label>
+                            <input id="estimado_cuarto" name="estimado_iV" type="text" class="form-control" readonly>
+                        </div>
+                        <div class="form-group col-4">
+                            <label>Est. Total Trimestres</label>
+                            <input id="estimado_total_t_mod" name="estimado_total_t" type="text" class="form-control"
+                                readonly>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" onclick="guardar_reprogramacion_servi_py();"
+                            data-dismiss="modal">Guardar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    
+    <script src="<?=base_url()?>/js/servicio/editar_ser_py.js"></script>
     <!-- ////////////////////////////////////////////GUARDA MAS ITEM EN LA BD DE SERVICIOS proyecto -->
     <script src="<?=base_url()?>/js/calculos.js"></script>
     <script src="<?=base_url()?>/js/servicio/guardar_mas_items_py_serv.js"></script>

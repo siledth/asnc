@@ -3396,7 +3396,7 @@ public function Guardar_mas_item_py_servicio() {
         'id_ccnu' 		         => $id_ccnu_acc1,
         'especificacion' 		 => $this->input->post('especificacion_acc'),
         'id_unidad_medida' 		 => $id_unidad_medida_acc1,
-        'cantidad' 		 => 0,
+        'cantidad' 		 => 1,
         'i' 		             => $this->input->post('I'),
         'ii' 		             => $this->input->post('II'),
         'iii' 		             => $this->input->post('III'),
@@ -3496,7 +3496,7 @@ public function Guardar_mas_item_py_obras() {
         'id_ccnu' 		         => 0,
         'especificacion' 		 => $this->input->post('especificacion_acc'),
         'id_unidad_medida' 		 => $id_unidad_medida_acc1,
-        'cantidad' 		 => 0,
+        'cantidad' 		 => 1,
         'i' 		             => $this->input->post('I'),
         'ii' 		             => $this->input->post('II'),
         'iii' 		             => $this->input->post('III'),
@@ -3955,6 +3955,12 @@ public function Repro_modal_py_servicios(){
     if(!$this->session->userdata('session'))redirect('login');
     $data = $this->input->post();
     $data =	$this->Programacion_model->Repro_modal_py_servicios($data);
+    echo json_encode($data);
+}
+public function edit_modal_py_servicios(){
+    if(!$this->session->userdata('session'))redirect('login');
+    $data = $this->input->post();
+    $data =	$this->Programacion_model->edit_modal_py_servicios($data);
     echo json_encode($data);
 }
  //////////////////////////////Agregar mas items Reprogramando proyecto Obra 

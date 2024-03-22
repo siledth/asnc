@@ -293,7 +293,7 @@
                                 <th style="color:white;">IVA </th>
                                 <th style="color:white;">Monto Iva Est.</th>
                                 <th style="color:white;">Monto Total Est.</th>
-                                <!-- <th style="color:white;">Acción</th> -->
+                                <th style="color:white;">Acción</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -330,6 +330,11 @@
                                          class="button"><i class="fas fa-lg fa-fw  fa-trash-alt" style="color:red"></i><a />
                                    
                                 </td> --> 
+
+                                </a>
+                                     <td>   <a onclick="eliminar_items_servi(<?php echo $data['id_p_items'];?>);"
+                                         class="button"><i class="fas fa-lg fa-fw  fa-trash-alt" style="color:red"></i><a />
+                            </td>
                             </tr>
                             <?php endforeach;?>
                         </tbody>

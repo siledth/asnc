@@ -4307,6 +4307,56 @@ public function Repro_modal_py_servicios($data){
     $update = $this->db->update('programacion.p_items', $data1);
     return true;
 }
+////////////////////editar Guardar modal items proyecto sericio 
+public function edit_modal_py_servicios($data){
+
+    $this->db->where('id_p_items', $data['id_items_proy']);
+
+    $unid_m_s = $data['sel_camb_unid_medi'];
+    if ($unid_m_s == 0) {
+        $id_unidad_medida = $data['unid_med'];
+    }else {
+        $id_unidad_medida = $data['sel_camb_unid_medi'];
+    }
+
+    $id_ali_iva = $data['sel_id_alic_iva'];
+    if ($id_ali_iva == 0) {
+        $alicuota_iva = $data['ali_iva_e'];
+    }else {
+        $alicuota_iva = $data['sel_id_alic_iva'];
+    }
+
+    $data1 = array(
+         'id_tip_obra' => 0,
+         'id_alcance_obra'                    => 0,
+         'id_obj_obra'                    => 0,
+        'especificacion'             => $data['especificacion'],
+        'id_unidad_medida'           => $id_unidad_medida,
+        'cantidad'                   => 1,
+        'i'                          => $data['primero'],
+        'ii'                         => $data['segundo'],
+        'iii'                        => $data['tercero'],
+        'iv'                         => $data['cuarto'],
+        'cant_total_distribuir'      => $data['cantidad_distribuir'],
+        'costo_unitario'             => $data['cost_uni'],
+        'precio_total'               => $data['prec_t'],
+        'alicuota_iva'               => $alicuota_iva,
+        'iva_estimado'               => $data['monto_iva_e'],
+        'monto_estimado'             => $data['monto_tot_est'],
+        'est_trim_1'             => $data['est_trim_1'],
+        'est_trim_2'             => $data['est_trim_2'],
+        'est_trim_3'             => $data['est_trim_3'],
+        'est_trim_4'             => $data['est_trim_4'],
+        'estimado_total_t_acc'   => $data['estimado_total_t_acc'],
+        'estatus_rendi' => 0,
+        'reprogramado' => 0,
+        'fecha_reprogramacion' => date('Y-m-d'),
+
+
+    );
+    $update = $this->db->update('programacion.p_items', $data1);
+    return true;
+}
 ///////////////pruebas
 public function consultar_items_servicio_acc_rendir5($data){
     $this->db->select('m.id_p_items,

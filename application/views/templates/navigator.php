@@ -72,7 +72,7 @@
                         <?php if (($this->session->userdata('menu_progr') == 1)) : ?>
 
                         <li class="has-sub">
-                            <!-- <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
+                            <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
                             <a href="javascript:;">
                                 <b class="caret"></b>
                                 <span>Comisión de comtrataciones</span>
@@ -87,7 +87,7 @@
                                         Cerfificar Comisión</a></li>
 
                             </ul>
-                            <?php endif; ?> -->
+                            <?php endif; ?>
 
                             <a href="javascript:;">
                                 <b class="caret"></b>

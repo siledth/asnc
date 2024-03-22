@@ -48,7 +48,7 @@
                                 <div class="col-12 text-center">
                                     <h4 style="color:red;">Totales Por partida Presupuestaria</h4>
                                 </div>
-                                <table id="data-table-default" class="table table-bordered table-hover">
+                                <table id="data-table-buttons" class="table table-bordered table-hover">
                                     <thead style="background:#e4e7e8;">
                                         <tr class="text-center">
                                             <th>Código Part. Presupuestaria</th>
@@ -74,9 +74,10 @@
                     <div class="col-1"></div>
                     <div class="col-10 mt-3">
                         <h3 class="text-center">Tabla Referente a Proyectos Registrados</h3>
-                        <table id="table"   class="table table-bordered table-hover">
+                        <table id="data-table-default"   class="table table-striped">
                             <thead style="background:#e4e7e8">
                                 <tr class="text-center">
+                                    <th>Nº</th>
                                     <th>Nombre Programación</th>
                                     <th>Objeto de Contratación</th>
                                     <th>Acciones</th>
@@ -85,6 +86,7 @@
                             <tbody>
                                 <?php foreach($ver_proyectos as $ver_proyecto):?>
                                 <tr class="odd gradeX" style="text-align:center">
+                                <td><?=$ver_proyecto['id_p_proyecto']?> </td>
                                     <td><?=$ver_proyecto['nombre_proyecto']?> </td>
                                     <td><?=$ver_proyecto['desc_objeto_contrata']?> </td>
                                     <td class="center">
@@ -120,8 +122,7 @@
                         <table id="data-table-autofill" class="table table-hover">
                             <thead style="background:#e4e7e8">
                                 <tr class="text-center">
-                                <th>id</th>
-
+                                    <th>Nº</th>
                                     <th>Acción Centralizada</th>
                                     <th>Objeto de Contratación</th>
                                     <th>Acciones</th>

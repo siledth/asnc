@@ -646,7 +646,7 @@ function guardar_tabla_obra_acc(){//////////////////////////////////////////acci
     event.preventDefault();
 
     swal.fire({
-        title: '¿Seguro desea Reprogramar? ',
+        title: '¿Seguro desea Modificar? ',
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -750,7 +750,7 @@ function guardar_tabla_obra_acc(){//////////////////////////////////////////acci
                 success: function(response){
                     if(response == 1) {
                         swal.fire({
-                            title: 'Se Reprogramo la información con exito.',
+                            title: 'Se Modifico la información con exito.',
                             type: 'success',
                             showCancelButton: false,
                             confirmButtonColor: '#3085d6',
@@ -1195,7 +1195,7 @@ function guardar_reprogramacion_servi_py(){/////////////////////////////////////
     event.preventDefault();
 
     swal.fire({
-        title: '¿Seguro desea Reprogramar? ',
+        title: '¿Seguro desea Modificar? ',
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -1272,7 +1272,7 @@ function guardar_reprogramacion_servi_py(){/////////////////////////////////////
                 success: function(response){
                     if(response == 1) {
                         swal.fire({
-                            title: 'Se Reprogramo la información con exito.',
+                            title: 'Se Modifico la información con exito.',
                             type: 'success',
                             showCancelButton: false,
                             confirmButtonColor: '#3085d6',

@@ -320,12 +320,12 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Reprogramar Obra-proyecto</h4>
+                    <h4 class="modal-title">Modificaciòn Obra-proyecto</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         
-                        <input type="text" class="form-control" name="id_items_b" id="id_items_b">
+                        <input type="hidden" class="form-control" name="id_items_b" id="id_items_b">
                         <div class="form-group col-8">
                             <label>ID - ITEMS</label>
                             <input class="form-control" type="text" name="id_p_items" id="id_p_items" readonly>
