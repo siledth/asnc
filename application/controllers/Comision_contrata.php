@@ -11,6 +11,8 @@ class Comision_contrata extends CI_Controller
         $rif_organoente = $this->session->userdata('rif_organoente');
 
         $data['rif_organoente'] 		 = $this->session->userdata('rif_organoente');
+        $data['unidad'] 		 = $this->session->userdata('unidad');
+
         $data['comisiones'] = $this->Comision_contrata_model->check_logger_commission($rif_organoente);
         $usuario = $this->session->userdata('id_user');
         $data['tp_contrata'] = $this->Comision_contrata_model->check_tipo_com();
@@ -24,11 +26,20 @@ class Comision_contrata extends CI_Controller
         $this->load->view('comision_contrata/reg_tip_contrata.php', $data);
         $this->load->view('templates/footer.php');
     }
+    public function employees()
+    {
+        $data['employees'] = $this->Comision_contrata_model->get_employees();
+        $this->load->view('employees', $data);
+    }
     public function logger_commission() {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = array(
             'rif_organoente' => $this->input->POST('rif_organoente'),
+            'unidad' => $this->input->POST('unidad'),
+
+            'tipo_comi' => $this->input->POST('tipo_com'),
+
             'observacion' => $this->input->POST('observacion'),
             'id_usuario' => $this->session->userdata('id_user'),
             'fecha_creacion' => date("Y-m-d"), 
@@ -37,6 +48,7 @@ class Comision_contrata extends CI_Controller
             'fecha_cambi_statu' => date("Y-m-d")
 
         );
+        //print_r($data);die;
         $data = $this->Comision_contrata_model->logger_commission($data);
         echo json_encode($data);
     }
@@ -84,5 +96,46 @@ class Comision_contrata extends CI_Controller
         $data = $this->input->post();
         $data =	$this->Comision_contrata_model->check_miembros1($data);
         echo json_encode($data);
+    }
+
+    public function miemb(){
+        if(!$this->session->userdata('session'))redirect('login');
+        //Información traido por el session de usuario para mostrar inf
+       
+        $data['id_comision'] = $this->input->get('id');
+   
+        $data['ver'] = $this->Comision_contrata_model->check_miemb($data['id_comision']);
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('comision_contrata/see_mb.php', $data);
+        $this->load->view('templates/footer.php');
+    }
+    public function enviar_cm()
+    {
+        if(!$this->session->userdata('session')) {
+            redirect('login');
+        }
+        $data = $this->input->post();
+        
+        $des_unidad = $this->session->userdata('unidad');
+        $codigo_onapre = $this->session->userdata('codigo_onapre');
+        $rif = $this->session->userdata('rif_organoente');
+        $id_comision = $data['id'];
+        
+        
+        // $data2 = $this->Programacion_model->consulta_total_objeto_acc($id_programacion);
+        
+        // $data3 = $this->Programacion_model->consulta_total_acc($id_programacion);
+       
+        // $data4 = $this->Programacion_model->consulta_total_objeto_py2($id_programacion);
+        //print_r($data4);die;
+        
+        // $data5 = $this->Programacion_model->consulta_total_PYT($id_programacion); 
+        
+        // $data = $this->Programacion_model->enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $data3, $data4, $data5);
+        $data = $this->Comision_contrata_model->enviar_snc($data, $des_unidad, $codigo_onapre, $rif);
+
+        print_r($data);die;
+        //echo json_encode($data);
     }
 }

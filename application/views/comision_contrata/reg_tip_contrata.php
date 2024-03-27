@@ -8,23 +8,37 @@
                     enctype="multipart/form-data">
                     <div class="panel-body">
                         <div class="row">
-                            <!-- <div class="form-group col-6">
-							<label>Seleccione Tipo Contratación <b title="Campo Obligatorio" style="color:red">*</b></label>
-							<select class="form-control" name="tipo_comi" id="tipo_comi">
-                                <option value="0">Seleccione</option>
-                                <option value="1">Comisión Permanente</option>
-                                <option value="2">Comisión Temporal</option>
-                            
-                            </select>
-						</div> -->
                             <div class="form-group col-6">
-                                <label>Observación <b title="Campo Obligatorio" style="color:red">*</b></label>
-                                <input class="form-control" onkeypress="may(this);" type="text" name="observacion"
-                                    id="observacion">
-                                <input type="hidden" id="rif_organoente" name="rif_organoente"
-                                    value="<?=$rif_organoente?>" readonly>
+                                <label>Seleccione Tipo Contratación <b title="Campo Obligatorio"
+                                        style="color:red">*</b></label>
+                                <select class="form-control" name="tipo_com" id="tipo_com" onclick="selectipo();">
+                                    <option value="0">Seleccione</option>
+                                    <option value="1">Comisión Permanente</option>
+                                    <option value="2">Comisión Temporal</option>
 
+                                </select>
+                                <input type="hidden" id="unidad" name="unidad" value="<?=$unidad?>" readonly>
                             </div>
+
+
+                            <div class="form-group col-6" id='campos3' style="display: none;">
+
+                                <div class="row ">
+                                    <label>Indique el Objeto de la Comisión Temporal <b title="Campo Obligatorio"
+                                            style="color:red">*</b></label>
+                                    <input class="form-control" onkeypress="may(this);" type="text" name="observacion"
+                                        id="observacion">
+                                    <input type="hidden" id="rif_organoente" name="rif_organoente"
+                                        value="<?=$rif_organoente?>" readonly>
+
+
+
+
+
+                                </div>
+                            </div>
+
+
 
 
                         </div>
@@ -44,7 +58,7 @@
                             <thead style="background:#e4e7e8">
                                 <tr>
                                     <th>Rif </th>
-                                    <th>Observación</th>
+                                    <th>Nombre de la Comisiòn</th>
                                     <th>Estatus</th>
                                     <th>Notificado</th>
                                     <th>Acción</th>
@@ -59,29 +73,43 @@
                                     <td><?=$data['desc_status_snc']?> </td>
 
                                     <td class="center">
-                                        <a href="<?php echo base_url();?>index.php/Publicaciones/anular?id=<?php echo $data['id_comision'];?>"
-                                            class="button">
-                                            <i class="fas fa-2x fa-fw  fa-ban" style="color: red;"
-                                                title="Anular comisión"></i>
-                                            <a />
-
+                                        
 
                                             <a onclick="modal(<?php echo $data['id_comision'] ?>);" data-toggle="modal"
                                                 data-target="#dede" style="color: white">
-                                                <i title="Ingresar Miembros de Comisión" class="fas fa-2x fa-fw fa-address-card"
+                                                <i title="Ingresar Miembros de Comisión"
+                                                    class="fas fa-2x fa-fw fa-address-card"
                                                     style="color: darkblue;"></i>
                                             </a>
-                                            <a onclick="modalacademico(<?php echo $data['id_comision']?>);" data-toggle="modal"
-                                                data-target="#academico" style="color: white">
+                                            <!-- <a onclick="modalacademico(<?php echo $data['id_comision']?>);"
+                                                data-toggle="modal" data-target="#academico" style="color: white">
                                                 <i title="Ingresar información Academica"
                                                     class="fas fa-2x fa-fw fa-user-graduate"
                                                     style="color: darkgreen;"></i>
-                                            </a>
-                                           <!--  <a onclick="modal(<?php echo $data['id_comision']?>);" data-toggle="modal"
+                                            </a> -->
+                                            <!-- <a onclick="modal14(<?php echo $data['id_comision']?>);" data-toggle="modal"
                                                 data-target="#exampleModal" style="color: white">
-                                                <i title="Ingresar experiencia ultimos 5 años"
+                                                <i title="ver Integrantes"
                                                     class="fas fa-2x fa-fw fa-clipboard-list" style="color: pink;"></i>
-                                            </a>
+                                            </a> -->
+                                            <a href="<?php echo base_url();?>index.php/Comision_contrata/miemb?id=<?php echo $data['id_comision'];?>"
+                                                class="button">
+                                                <i title="ver Integrantes" class="fas fa-2x fa-fw fa-clipboard-list"
+                                                    style="color: pink;"></i>
+                                                <a />
+                                               
+                                                <a title="Enviar Notificar SNC"
+                                                    onclick="enviar(<?php echo $data['id_comision'];?>);"
+                                                    class="button">
+                                                    <i  class="fas fa-2x fa-fw fas ffas fa-bullhorn"
+                                                    style="color: black;"></i>
+                                                    <a />
+                                                    <a href="<?php echo base_url();?>index.php/Publicaciones/anul?id=<?php echo $data['id_comision'];?>"
+                                                        class="button">
+                                                        <i class="fas fa-2x fa-fw  fa-ban" style="color: red;"
+                                                            title="Anular comisión"></i>
+                                                        <a />
+                                                        <!--
                                             <a onclick="modal(<?php echo $data['id_comision']?>);" data-toggle="modal"
                                                 data-target="#exampleModal" style="color: white">
                                                 <i title="Capacitación Relacionada con Contrataciones Públicas"
@@ -91,12 +119,8 @@
                                                 data-target="#exampleModal" style="color: white">
                                                 <i title="Capacitación en Comisión de Contrataciones"
                                                     class="fas fa-2x fa-fw fas fas fa-city" style="color: Indigo;"></i>
-                                            </a>
-                                            <a onclick="modal(<?php echo $data['id_comision']?>);" data-toggle="modal"
-                                                data-target="#exampleModal" style="color: white">
-                                                <i title="Notificar SNC" class="fas fa-2x fa-fw fas ffas fa-bullhorn"
-                                                    style="color: black;"></i>
                                             </a> -->
+                                            
                                     </td>
                                 </tr>
                                 <?php endforeach;?>
@@ -122,7 +146,7 @@
                         data-parsley-validate="true" method="POST" enctype="multipart/form-data">
                         <div class="row">
 
-                            <div class="form-group col-7">
+                            <!-- <div class="form-group col-7">
                                 <label>Seleccione Tipo de Comisión <b title="Campo Obligatorio"
                                         style="color:red">*</b></label>
                                 <select style="width: 100%;" onclick="ver_obs();" id="tipo_comi" name="tipo_comi"
@@ -132,7 +156,7 @@
                                     <option value="<?= $data['id_tipo_comision']?>"><?= $data['descripcion']?></option>
                                     <?php endforeach; ?>
                                 </select>
-                            </div>
+                            </div> -->
                             <div class="row" id='campos' style="display: none;">
 
 
@@ -244,28 +268,31 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal" id="academicos" name="academicos"
-                        data-parsley-validate="true" method="POST" enctype="multipart/form-data">
+                    <form class="form-horizontal" id="academicos" name="academicos" data-parsley-validate="true"
+                        method="POST" enctype="multipart/form-data">
                         <div class="row">
-                        <div class="form-group col-7">
-                            <label>Seleccione Miembro de Comisión <b title="Campo Obligatorio" style="color:red">*</b></label>
-                            <select style="width: 100%;"  id="id_miembro4" name="id_miembro4"
-                                class="form-control" data-show-subtext="true" data-live-search="true">
-                                <option value="0">Seleccione</option>
-                                 
-                            </select>
-                        </div>
-                       
+                            <div class="form-group col-7">
+                                <label>Seleccione Miembro de Comisión <b title="Campo Obligatorio"
+                                        style="color:red">*</b></label>
+                                <select style="width: 100%;" id="id_miembro4" name="id_miembro4" class="form-control"
+                                    data-show-subtext="true" data-live-search="true">
+                                    <option value="0">Seleccione</option>
+
+                                </select>
+                            </div>
+
 
                             <div class="card card-outline-danger">
                                 <h5 class="mt-0 text-center"><b>INFORMACIÓN ACADÉMICA</b></h5>
                                 <div class="row ">
                                     <div class="form-group col-4">
                                         <label>Cédula de Identidad</label>
-                                        <input class="form-control" type="text" name="id_miembro_m" id="id_miembro_m" readonly>
-                                        <input class="form-control" type="text" name="cedula_miem" id="cedula_miem" readonly>
+                                        <input class="form-control" type="text" name="id_miembro_m" id="id_miembro_m"
+                                            readonly>
+                                        <input class="form-control" type="text" name="cedula_miem" id="cedula_miem"
+                                            readonly>
 
-                                     
+
                                         <input class="form-control" type="hidden" name="id_comision3" id="id_comision3"
                                             readonly>
                                         <input class="form-control" type="hidden" name="rif_organoente3"
@@ -279,7 +306,8 @@
                                     </div>
                                     <div class="form-group col-4">
                                         <label>Apellidos</label>
-                                        <input class="form-control" type="text" name="apellido_m" id="apellido_"readonly>
+                                        <input class="form-control" type="text" name="apellido_m" id="apellido_"
+                                            readonly>
                                     </div>
                                     <div class="form-group col-4">
                                         <label>Seleccione Área <b title="Campo Obligatorio"
@@ -351,18 +379,19 @@
             </div>
         </div>
     </div>
+
     <script src="<?=base_url()?>/js/comision/comision.js">
+  
 
 
-</script>
-<script type="text/javascript">
 
-$(document).ready(function() {
-    $("#id_miembro4").select2({
-        dropdownParent: $("#academico")
+
+
+    </script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $("#id_miembro4").select2({
+            dropdownParent: $("#academico")
+        });
     });
-});
-</script>
-
-
- 
+    </script>

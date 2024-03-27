@@ -130,9 +130,9 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                             <!-- <button type="button"
                                 onclick="location.href='<?php echo base_url() ?>index.php/llamadoconcurso'"
                                 class="btn btn-grey btn-lg">Ver Llamados a Concursos</button> -->
-                            <button type="button"
+                            <!-- <button type="button"
                                 onclick="location.href='<?php echo base_url() ?>index.php/certificacion1'"
-                                class="btn btn-grey btn-lg">Ver Certificación PJ y PN Privada</button>
+                                class="btn btn-grey btn-lg">Ver Certificación PJ y PN Privada</button> -->
 
 
                         </div>
@@ -142,13 +142,13 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
                                     class="btn btn-grey btn-lg">Registrar Cuentadante</button> -->
 
 
-                        <div class="login-buttons mt-1">
+                        <!-- <div class="login-buttons mt-1">
                             <button type="button" class="btn btn-lg btn-block"
                                 style="background: #161635; color:#FFFFFF;" data-toggle="modal"
                                 data-target="#exampleModalCenter">
                                 Registro Certificado Formaciòn
                             </button>
-                        </div>
+                        </div> -->
 
 
 

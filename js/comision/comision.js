@@ -1,4 +1,59 @@
 
+function enviar(id_comision) {
+
+
+    event.preventDefault();
+    swal
+        .fire({
+            title: "¿Seguro que desea enviar la comisión seleccionada?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "¡Si, Enviar!",
+        })
+        .then((result) => {
+            if (result.value == true) {
+                var id = id_comision;
+             //  var base_url =window.location.origin+'/asnc/index.php/Programacion/enviar_snc';
+               var base_url = '/index.php/Comision_contrata/enviar_cm';
+                   
+                $.ajax({
+                    url: base_url,
+                    method: "post",
+                    data: {
+                        id: id,
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        if (response == 1) {
+                            swal
+                                .fire({
+                                    title: "Proceso Enviado",
+                                    type: "success",
+                                    showCancelButton: false,
+                                    confirmButtonColor: "#3085d6",
+                                    confirmButtonText: "Ok",
+                                })
+                                .then((result) => {
+                                    if (result.value == true) {
+                                        location.reload();
+                                    }
+                                });
+                        }
+                    },error: function(jqXHR, textStatus, errorThrown) {
+                        swal.fire({
+                            title: 'Atenciòn',
+                            type: 'error',
+                            text: 'revise la informacion que intenta enviar, el total de miembros debe ser impar, vuelva a intentar'
+                        });
+                    }
+                });
+            }
+        });
+    }
+
 //TODO MAYUSCULA
 function may(e){
 	e.value = e.value.toUpperCase();
@@ -15,15 +70,11 @@ function valideKey(evt){
 	}
 }
 
-//CRUD BANCO
+
 	//GUARDAR comision
 	function guardar_b(){
-		//var codigo_b = $("#tipo_comi").val();
+		var tipo_comi = $("#tipo_com").val();
 		var observacion = $("#observacion").val();
-
-		if(observacion == ''){
-			document.getElementById("observacion").focus();
-		}else {
 			event.preventDefault();
 			swal.fire({
 				title: '¿Registrar?',
@@ -35,6 +86,24 @@ function valideKey(evt){
 				cancelButtonText: 'Cancelar',
 				confirmButtonText: '¡Si, guardar!'
 			}).then((result) => {
+                if ($("#tipo_com option:selected").val() == 0) {
+                    swal.fire({
+                        title: 'Para continuar debe seleccionar un tipo de contratación',
+                        type: 'warning',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Ok'
+                    }).then((result) => {
+                        if (result.value == true) {
+                        }
+                    });
+                   // alert("Debe Seleccionartipo de contrataciòn");
+                    document.getElementById("tipo_com").focus();
+                    return false;
+                   // $("#guardar").prop('disabled', true)   
+
+                }
+
 				if (result.value == true) {
 					event.preventDefault();
 					var datos = new FormData($("#guardar_ba")[0]);
@@ -64,7 +133,7 @@ function valideKey(evt){
 					})
 				}
 			});
-		}
+		
 	}
 	//BUSCAR BANCO PARA EDITAR
 	function modal_ver(id){
@@ -184,6 +253,19 @@ function valideKey(evt){
 		});
 	}
 
+    function selectipo() {
+        
+        var tipo_comi = $("#tipo_com").val();
+        if (tipo_comi == "2") {
+            $("#campos3").show();
+        } else {
+            $("#campos3").hide();
+        }
+    
+    
+    
+    
+    }
     function ver_obs() {
         var tipo_pago = $("#tipo_comi").val();
         if (tipo_pago == "2") {
@@ -354,11 +436,11 @@ function valideKey(evt){
                 var correo = $('#correo').val();
                 var telf = $('#telf').val();
                 var obj_comision = $('#observacion1').val();
-                if ($("#tipo_comi option:selected").val() == 0) {
-                    alert("seleccione Tipo de Comisión");
-                    document.getElementById("tipo_comi").focus();
-                    return false;
-                }
+                // if ($("#tipo_comi option:selected").val() == 0) {
+                //     alert("seleccione Tipo de Comisión");
+                //     document.getElementById("tipo_comi").focus();
+                //     return false;
+                // }
                   if(cedula == ''){
                     alert("el campo cedula no puede quedar vacio")            
                     document.getElementById("cedula").focus();
@@ -417,7 +499,7 @@ function valideKey(evt){
                     data:{
                          id_comision: id_comision,                        
                         rif_organoente: rif_organoente,
-                        tipo_comision: tipo_comision,
+                       
                         cedula: cedula,
                         nombre: nombre,
                         apellido: apellido,
