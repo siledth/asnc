@@ -1,0 +1,89 @@
+.nav-link {
+	font-size: 16px;
+}
+
+.nav-link:hover {
+	font-weight: bold;
+	background-color: rgba(0, 0, 0, 0.25);
+}
+
+.card-body {
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+.bg-turquesa {
+	background-color: #01cdb2;
+	color: white;
+}
+
+.text-vinotinto {
+	color: #8b0600;
+}
+
+hr {
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+.modal-body-wrapper {
+	overflow-y: scroll;
+	height: 60vh;
+  }
+  body {
+	background: rgb(212, 243, 224);
+  }
+  .sinborde {
+	border: 0;
+  }
+
+  .my-button {
+    background-image: linear-gradient(135deg, rgb(196, 74, 74) 0%, rgb(135, 42, 48) 100%);
+	border: 0;
+    color: white;
+    padding: 15px;
+    border-radius: 20px;
+    transition: 0.4s ease;
+  } 
+
+  .my-button2 {
+    background-image: linear-gradient(135deg, rgb(227, 144, 137) 0%, rgb(196, 74, 74) 100%);
+	border: 0;
+    color: white;
+    padding: 15px;
+    border-radius: 20px;
+    transition: 0.4s ease;
+  } 
+  .password-toggle {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.password-toggle i {
+    font-size: 1rem;
+}
+
+.password-toggle i:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.password-toggle.collapsed i {
+    color: #777;
+}
+
+.password-toggle i.fa-eye {
+    display: none;
+}
+
+.password-toggle i.fa-eye-slash {
+    display: inline-block;
+}
+
+.password-toggle.collapsed i.fa-eye-slash {
+    display: none;
+}
+
+.password-toggle.collapsed i.fa-eye {
+    display: inline-block;
+}
+  
