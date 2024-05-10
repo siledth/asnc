@@ -209,7 +209,7 @@ $data = $this->Comision_contrata_model->comin($id_programacion);
 $pdf->SetFont('Arial','B',9);
 $pdf->Ln(3);
 $pdf->Cell(30,3,'',0,0,'L');
-$pdf->Cell(15,3,'Cedula',0,0,'L'); 
+$pdf->Cell(25,3,'Cedula',0,0,'L'); 
 $pdf->Cell(55,3, utf8_decode('Nombres y Apellidos'),0,0,'C'); 
 $pdf->Cell(40,3, utf8_decode('Área '),0,0,'C');      
 $pdf->Cell(30,3,'Tipo de Miembro',0,1,'R'); 
