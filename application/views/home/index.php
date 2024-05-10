@@ -1,13 +1,28 @@
 <div class="sidebar-bg"></div>
 <div id="content" class="content">
-
     <div class="row">
-        <!-- <h1 class="text-center mt-3">
-            <i class="fas fa-fw m-r-10 fa-bullseye" style="color: darkred"></i>
-            Bienvenido al Sistema de Servicio Nacional de Contrataciones
-        </h1> -->
-        <div class="col-12 text-center mt-3">
-            <img style="width: 70%"  src="<?= base_url() ?>Plantilla/img/93.png" alt="Card image">
+        <div class="col-lg-12">
+            <div class="panel panel-inverse" data-sortable-id="form-validation-1">
+                <form class="form-horizontal" id="guardar_ba" data-parsley-validate="true" method="POST"
+                    enctype="multipart/form-data">
+                    <div class="panel-body">
+                        <div class="row">
+                        <div class="header-container">
+    <h1 class="title">
+      <i class="fas fa-fw fa-bullseye" aria-hidden="true"></i>
+      Bienvenido al Sistema Integrado del Servicio Nacional de Contrataciones
+
+    </h1>
+    
+  </div>
+
+                        </div>
+
+                    </div>
+
+                    </from>
+            </div>
+
+
         </div>
     </div>
-</div>

@@ -80,6 +80,7 @@
                                     <option value="1">Providencia</option>
                                     <option value="2">Resoluciòn</option>
                                     <option value="3">Punto de Cuenta</option>
+                                    <option value="4">Decreto</option>
 
 
                                 </select>
