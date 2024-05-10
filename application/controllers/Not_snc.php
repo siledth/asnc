@@ -222,7 +222,7 @@ $pdf->Cell(30,3,'',0,0,'L');
      $pdf->Cell(33,5, utf8_decode($d->desc_area_miembro),0,0,'L');
      $pdf->Cell(20,7, utf8_decode($d->desc_tp_miembro),0,1,'L');
 
-   } 
+   } //
  }
 
      $pdf->Output('notificacion' , 'I' );
