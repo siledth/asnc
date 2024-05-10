@@ -216,7 +216,7 @@ $pdf->Cell(30,3,'Tipo de Miembro',0,1,'R');
 $pdf->SetFont('Arial','',8);
 $pdf->Cell(30,3,'',0,0,'L');
       
-     $pdf->Cell(15,5, $d->cedula,0,0,'L');
+     $pdf->Cell(25,5, $d->cedula,0,0,'L');
      $pdf->Cell(70,5, utf8_decode($d->nombre_completo),0,0,'L');
      
      $pdf->Cell(33,5, utf8_decode($d->desc_area_miembro),0,0,'L');
