@@ -580,6 +580,7 @@ return $query->result_array();
                         	   razon_social as contratista,
                         	   nombre_ente,
                         	   calificacion,
+                               objeto,
                         	   nombre_calificacion,
                         	   num_contrato,
                         	   numero_procedimiento');

@@ -105,7 +105,7 @@ function consultar_rif() {
 			}else{
 				event.preventDefault();
 				swal.fire({
-					title: 'Es rif solicitado no posee registros',
+					title: 'Es rif solicitado no posee registros en el Sistema Integrado',
 					type: 'info',
 					showCancelButton: false,
 					confirmButtonColor: '#3085d6',
@@ -136,6 +136,8 @@ function consultar_rif() {
 						response["fecha_evaluacion"] +
 						"</td><td>" +
 						response["nombre_ente"] +
+						"</td><td>" +
+						response["objeto"] +
 						"</td><td>" +
 						response["nombre_calificacion"] +
 						"</td></tr>"

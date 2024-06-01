@@ -184,6 +184,21 @@ $("#precio_total_mod_b1").on({
 });
 /////////////Guardar reprograma modal proyecto-servicio
 function guardar_reprogramacion_servi_py(){//////////
+    var precio = $("#precio_total_mod_b1").val();
+         
+    if (  precio <= 0) {
+        swal.fire({
+            title: 'El precio debe ser un número mayor que cero, intente de nuevo',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+       // return false; // no dejar guardar
+    }else{
     event.preventDefault();
 
     swal.fire({
@@ -279,4 +294,104 @@ function guardar_reprogramacion_servi_py(){//////////
             })
         }
     });
+}
+
+}
+function calculo_servi(){
+
+    var cantidad = 100;
+    var i = $('#primero_b').val();
+    var ii = $('#segundo_b').val();
+    var iii = $('#tercero_b').val();
+    var iv = $('#cuarto_b').val();
+
+    var cantidad_total = Number(i) + Number(ii) + Number(iii) + Number(iv)
+
+    var can_x_distr =   cantidad - i - ii - iii - iv
+    $('#cant_total_distribuir1').val(can_x_distr);
+
+    if (cantidad_total > 100) {
+        swal({
+            title: "¡ATENCION!",
+            text: "La cantidad a distribuir no puede ser mayor a 100! Por favor modifique para seguir con la carga.",
+            type: "warning",
+            showCancelButton: false,
+            confirmButtonColor: "#00897b",
+            confirmButtonText: "CONTINUAR",
+            closeOnConfirm: false
+        }, function(){
+            swal("Deleted!", "Your imaginary file has been deleted.", "success");
+        });
+
+        $("#precio_total_mod_b1").prop('disabled', true);
+        $("#ali_iva_e_b").prop('disabled', true);
+    }else{
+        $("#precio_total_mod_b1").prop('disabled', false);
+        $("#ali_iva_e_b").prop('disabled', false);
+        //Calculo Cantidad x DIstribuir
+            var can_x_distr =   cantidad - i - ii - iii - iv
+            $('#cant_total_distribuir').val(can_x_distr);
+
+
+        var id_alicuota_iva1 = $('#ali_iva_e_b').val();
+
+        var sel_id_alic_iva_b = $('#sel_id_alic_iva_b1').val();
+
+        if (sel_id_alic_iva_b == 's') {
+            var id_al_iva = id_alicuota_iva1
+        }else {
+            var id_al_iva = sel_id_alic_iva_b
+        }
+        //console.log(id_alicuota_iva1);
+        //Remplazar decimales para caculos
+            var precio_total = $('#precio_total_mod_b1').val();
+            var newstr = precio_total.replace('.', "");
+            var newstr2 = newstr.replace('.', "");
+            var newstr3 = newstr2.replace('.', "");
+            var newstr4 = newstr3.replace('.', "");
+            var precio = newstr4.replace(',', ".");
+
+        //calculo de Iva Estimado
+            var id_alicuota_iva = $('#ali_iva_e_b').val();
+            var separar = id_alicuota_iva.split("/");
+            var porcentaje = separar['0'];
+            var monto_iva_estimado = precio*id_al_iva;
+            var iva_estimado = parseFloat(monto_iva_estimado).toFixed(2);
+            var iva_estimado2 = Intl.NumberFormat("de-DE").format(iva_estimado);
+            $('#iva_estimado_mod_b1').val(iva_estimado2);
+
+        //Calculo Monto Total Estimado
+            var monto_total_est = Number(precio) + Number(iva_estimado);
+            var monto_total_estimado = Intl.NumberFormat("de-DE").format(monto_total_est);
+            $('#monto_estimado_mod_b1').val(monto_total_estimado);
+
+        //Calculo estimado por Trimestre
+
+            var primer = (monto_total_est/cantidad_total)*i;
+            var primer_i = parseFloat(primer).toFixed(2);
+            var i_trim  = Intl.NumberFormat("de-DE").format(primer_i);
+            $('#estimado_primer').val(i_trim);
+
+
+            var segun = (monto_total_est/cantidad_total)*ii;
+            var segun_ii = parseFloat(segun).toFixed(2);
+            var ii_trim  = Intl.NumberFormat("de-DE").format(segun_ii);
+            $('#estimado_segundo').val(ii_trim);
+
+            var tercer = (monto_total_est/cantidad_total)*iii;
+            var tercer_iii = parseFloat(tercer).toFixed(2);
+            var iii_trim  = Intl.NumberFormat("de-DE").format(tercer_iii);
+            $('#estimado_tercer').val(iii_trim);
+
+            var cuarto = (monto_total_est/cantidad_total)*iv;
+            var cuarto_iv = parseFloat(cuarto).toFixed(2);
+            var iv_trim  = Intl.NumberFormat("de-DE").format(cuarto_iv);
+            $('#estimado_cuarto').val(iv_trim);
+
+        // Calculo total estimado trimestres
+            var total_est = primer+segun+tercer+cuarto
+            var total_estim = parseFloat(total_est).toFixed(2);
+            var estimado_total_t  = Intl.NumberFormat("de-DE").format(total_estim);
+            $('#estimado_total_t_mod').val(estimado_total_t);
+    }
 }

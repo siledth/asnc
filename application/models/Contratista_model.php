@@ -107,11 +107,12 @@ class Contratista_model extends CI_Model
         return $query->result_array();
     }
 
-    public function consulta_planillaresumen2($rif){
+    public function consulta_planillaresumen2($rif,$proceso_id){
         $this->db_b->select('p.rifced, p.proceso_id, r.proceso_id, r.domfiscal, r.objsocial, r.fecduremp_at, r.fecdurjd_at,
         r.diaciefcal, r.mesciefcal, r.capsusc, r.cappagado');
         $this->db_b->join('public.planillapirmera2 p', 'p.proceso_id = r.proceso_id');
         $this->db_b->where('p.rifced', $rif);
+        $this->db_b->where ('p.proceso_id', $proceso_id) ;
         $this->db_b->order_by("p.proceso_id", "desc");
         $query = $this->db_b->get('public.regmercantiles r');
         return $response = $query->row_array();
@@ -168,7 +169,7 @@ class Contratista_model extends CI_Model
         return $query->result_array(); //cuando uso foreach
     }
     public function consulta_dictamen($rif,$proceso_id){
-        $this->db_b->select(' proceso_id,  nomcont, apecont, cedcont, cpc, firmaaudit,
+        $this->db_b->select(' proceso_id,  nomcont, apecont, cedcont, cpc, firmaaudit, revlimitada,
         fecha_at, opilimpia, abstopinion, opinion');
         $this->db_b->where('proceso_id', $proceso_id);
         $this->db_b->order_by("proceso_id", "Desc");

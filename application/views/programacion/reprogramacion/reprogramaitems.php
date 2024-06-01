@@ -20,24 +20,31 @@
                         </div>
                     </div>
                     <div class="col-12 text-center">
-                                    <h1 style="color:red;">Modificación de una Programación</h1>
+                                    <h3 >Modificación del Plan de Compras correspondiente al Ejercicio Fiscal de conformidad a lo establecido en el Articulo 38, numeral 2 del DCRVFLCP</h3>
                                 </div>
                     <div class="col-12 text-center">
-                        <div class="row">
-                            <div class="col-4">
-                              CREAR NUEVA ACCIÓN CENTRALIZADA O PROYECTO ->>>> <a onclick="bienes(<?php echo $id_programacion ?>);" data-toggle="modal"
-                                    data-target="#bienes" style="color: white" > 
-                                    <i title="Crear" class="fas fa-clipboard" title="Crear" style='font-size:48px;color:red'></i>
-                                </a>                              
-                                  
-                            </div>
-                           
-                           
-                            <!-- <div class="col-4">
-                                <button onclick="location.href='<?php echo base_url()?>index.php/Programacion/add?id=<?php echo $id_programacion;?>'" type="button" class="btn btn-lg btn-default"  name="button">
-                                    Agregar Información de todas
+                    <div class="row">
+                            <div class="col-12 text-center">
+                                <!-- <button type="button" class="btn btn-lg btn-default" -->
+                                <button type="button" class="my-button4"
+                                    onclick="bienes(<?php echo $id_programacion ?>);" data-toggle="modal"
+                                    data-target="#bienes">
+                                    Cargar Acción Centralizada o Proyecto
                                 </button>
-                            </div> -->
+
+                                <button type="button" class="my-button4"
+                                    onclick="location.href='#proyectos-registrados'">Continuar con la Carga de
+                                    Proyectos</button>
+
+
+                                <button type="button" class="my-button4"
+                                    onclick="location.href='#acc-registrados'">Continuar con la Carga de Acciòn
+                                    Centralizada</button>
+
+                            </div>
+
+
+
                         </div>
 
                             
@@ -48,7 +55,7 @@
                     <div class="col-11" style="margin-left: 40px;">
                             <div class="table-responsive mt-3">
                                 <div class="col-12 text-center">
-                                    <h4 style="color:red;">Totales Por partida Presupuestaria</h4>
+                                    <h4 >Totales Por partida Presupuestaria</h4>
                                 </div>
                                 <table id="data-table-default" class="table table-bordered table-hover">
                                     <thead style="background:#e4e7e8;">
@@ -76,11 +83,12 @@
 
                     <div class="col-1"></div>
                     <div class="col-10 mt-3">
-                        <h3 class="text-center">Tabla Referente a Proyectos para Modificar</h3>
+                        <h3 id="proyectos-registrados" class="text-center">Tabla Referente a Proyectos para Modificar</h3>
                         <table id="data-table-default" class="table table-bordered table-hover">
                             <thead style="background:#e4e7e8">
                                 <tr class="text-center">
-                                    <th>Nombre Programación</th>
+                                <th>Nº</th>
+                                    <th>Nombre Proyecto</th>
                                     <th>Objeto de Contratación</th>
                                     <th>Acciones</th>
                                 </tr>
@@ -88,21 +96,24 @@
                             <tbody>
                                 <?php foreach($ver_proyectos as $ver_proyecto):?>
                                 <tr class="odd gradeX" style="text-align:center">
+                                <td><?=$ver_proyecto['id_p_proyecto']?> </td>
                                     <td><?=$ver_proyecto['nombre_proyecto']?> </td>
                                     <td><?=$ver_proyecto['desc_objeto_contrata']?> </td>
                                     <td class="center">
                                         <a href="<?php echo base_url();?>index.php/programacion/ver_programacion_proy?id=<?php echo $ver_proyecto['id_p_proyecto'];?>/<?php echo $ver_proyecto['id_programacion'];?>/<?php echo $ver_proyecto['id_obj_comercial'];?>"
                                             class="button">
-                                            <i class="fas fa-lg fa-fw fa-eye" style="color: green;"></i>
+                                            <i class="fas fa-lg fa-fw fa-eye" style="color: green;"
+                                                title="Ver Informaciòn Cargada"></i>
                                         <a/>
                                       
                                         <?php if ($ver_proyecto['estatus'] == 2) : ?>
-                                        <a title="Reprogramación" href="<?php echo base_url();?>index.php/programacion/reprogramar_items_py?id=<?php echo $ver_proyecto['id_p_proyecto'];?>/<?php echo $ver_proyecto['id_obj_comercial'];?>/<?php echo $ver_proyecto['id_programacion'];?>"
+                                        <a  href="<?php echo base_url();?>index.php/programacion/reprogramar_items_py?id=<?php echo $ver_proyecto['id_p_proyecto'];?>/<?php echo $ver_proyecto['id_obj_comercial'];?>/<?php echo $ver_proyecto['id_programacion'];?>"
                                             class="button">
-                                            <i class="fas fa-marker fa-lg"></i>
+                                            <i class="fas fa-lg fa-fw fa-edit" title="Cargar Informaciòn"> </i>
                                         <a />
-                                        
-                                        <a onclick="eliminar_acc(<?php echo $ver_proyecto['id_p_proyecto'];?>);" class="button"><i class="fas fa-lg fa-fw  fa-trash-alt" style="color:red"></i><a />
+                                        <a onclick="eliminar_proy(<?php echo $ver_proyecto['id_p_proyecto'];?>);"
+                                                    class="button"><i class="fas fa-lg fa-fw  fa-trash-alt"
+                                                        style="color:red" title="Eliminar Proyecto"></i><a />
                                         <?php endif; ?>
                                     </td>
                                 </tr>
@@ -114,10 +125,11 @@
                     <div class="col-1"></div>
                     <div class="col-1"></div>
                     <div class="col-10 mt-4">
-                        <h3 class="text-center">Tabla Referente a Acción Centralizada Registradas</h3>
-                        <table id="data-table-autofill" class="table table-hover">
+                        <h3 id="acc-registrados" class="text-center">Tabla Referente a Acción Centralizada para Modificar</h3>
+                        <table id="data-table-autofill" class="table table-bordered table-hover">
                             <thead style="background:#e4e7e8">
                                 <tr class="text-center">
+                                <th>Nº</th>
                                     <th>Acción Centralizada</th>
                                     <th>Objeto de Contratación</th>
                                     <th>Acciones</th>
@@ -126,20 +138,23 @@
                             <tbody>
                                 <?php foreach($ver_acc_centralizada as $ver_acc_centralizad):?>
                                 <tr class="odd gradeX" style="text-align:center">
+                                <td><?=$ver_acc_centralizad['id_p_acc_centralizada']?> </td>
                                     <td><?=$ver_acc_centralizad['desc_accion_centralizada']?> </td>
                                     <td><?=$ver_acc_centralizad['desc_objeto_contrata']?> </td>
                                     <td class="center">
                                         <a href="<?php echo base_url();?>index.php/programacion/ver_programacion_acc?id=<?php echo $ver_acc_centralizad['id_p_acc_centralizada'];?>/<?php echo $ver_acc_centralizad['id_programacion'];?>/<?php echo $ver_acc_centralizad['id_obj_comercial'];?>"
                                             class="button">
-                                            <i class="fas fa-lg fa-fw fa-eye" style="color: green;"></i>
+                                            <i class="fas fa-lg fa-fw fa-eye" style="color: green;"
+                                                title="Ver Informaciòn Cargada"></i>
                                         <a/>
                                         <?php if ($ver_acc_centralizad['estatus'] == 2) : ?>
-                                        <a title="Reprogramación" href="<?php echo base_url();?>index.php/programacion/reprogramar_items_?id=<?php echo $ver_acc_centralizad['id_p_acc_centralizada'];?>/<?php echo $ver_acc_centralizad['id_obj_comercial'];?>/<?php echo $ver_acc_centralizad['id_programacion'];?>"
+                                        <a  href="<?php echo base_url();?>index.php/programacion/reprogramar_items_?id=<?php echo $ver_acc_centralizad['id_p_acc_centralizada'];?>/<?php echo $ver_acc_centralizad['id_obj_comercial'];?>/<?php echo $ver_acc_centralizad['id_programacion'];?>"
                                             class="button">
-                                            <i class="fas fa-marker fa-lg"></i>
+                                            <i class="fas fa-lg fa-fw fa-edit" title="Cargar Informaciòn"> </i>
                                         <a />
-                                        
-                                        <a onclick="eliminar_acc(<?php echo $ver_acc_centralizad['id_p_acc_centralizada'];?>);" class="button"><i class="fas fa-lg fa-fw  fa-trash-alt" style="color:red"></i><a />
+                                        <a onclick="eliminar_acc(<?php echo $ver_acc_centralizad['id_p_acc_centralizada'];?>);"
+                                                    class="button"><i class="fas fa-lg fa-fw  fa-trash-alt"
+                                                        style="color:red" title="Eliminar Acciòn Centralizada"></i><a />
                                         <?php endif; ?>
                                     </td>
                                 </tr>
@@ -148,19 +163,29 @@
                         </table>
                     </div>
                     <div class="col-12 text-center mt-3 mb-3">
-                        <a class="btn btn-circle waves-effect btn-lg waves-circle waves-float btn-primary" href="javascript:history.back()"> Volver</a>
+                        <button
+                            onclick="location.href='<?php echo base_url()?>index.php/programacion/reprogramar?id=<?php echo $id_programacion;?>'"
+                            type="button" class="my-button3" name="button">
+                            Ir Modificación Ley
+                        </button>
+                        <button
+                            onclick="location.href='<?php echo base_url()?>index.php/programacion/consultar_item_reprogramacion?id=<?php echo $id_programacion;?>'"
+                            type="button" class="my-button3" name="button">
+                           Ir Cargar Acción Centralizada o Proyecto
+                        </button>
+                        <!-- <a class="my-button"
+                            href="javascript:history.back()"> Volver</a> -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="bienes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Crear Bien </h5>
+                <h5 class="modal-title" id="exampleModalLabel">Crear Acción Centralizada o Proyecto </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -169,14 +194,11 @@
                 <form class="form-horizontal" id="save" name="save" data-parsley-validate="true" method="POST"
                     enctype="multipart/form-data">
                     <div class="row">
-
-                        <div class="card card-outline-green">
-                            <h5 class="mt-3 text-center"><b>Seleccione si desea Cargar Un Bien , Un Servicio o Una
-                                    Obra</b></h5>
-                            <div class="row ">
-
+                        <div class="card card-outline-green col-12">
+                            <h5 class="mt-3 text-center"><b></b></h5>
+                            <div class="row">
                                 <div class="col-6 mt-3">
-                                    <label>Acción a Cargar</label>
+                                    <label>Seleccione si es una acción centralizada o un proyecto </label>
                                     <input id="id_programacion1" name="id_programacion1" type="hidden"
                                         class="form-control">
                                     <select id="acc_cargar" name="acc_cargar" class="select2 form-control"
@@ -217,9 +239,9 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" onclick="javascript:window.location.reload()" class="btn btn-secondary"
+                <button type="button" onclick="javascript:window.location.reload()" class="my-button2"
                     data-dismiss="modal">Cerrar</button>
-                <button type="button" id="saves" onclick="save_();" class="btn btn-primary">Guardar</button>
+                <button type="button" id="saves" onclick="save_();" class="my-button">Guardar</button>
             </div>
         </div>
     </div>

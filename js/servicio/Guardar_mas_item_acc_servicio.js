@@ -31,7 +31,8 @@ function guardar_acc_servicio(){
     var id_unidad_medida_acc = $("#id_unidad_medida_acc").val();
     var cant_total_distribuir = $("#cant_total_distribuir").val();
     var precio_total = $("#precio_total").val();
-    
+    var fecha_hasta = $("#fecha_hasta").val();
+    var fecha_desde = $("#fecha_desde").val();
     var I = $("#I").val();
     var II = $("#II").val();
     var III = $("#III").val();
@@ -95,7 +96,8 @@ function guardar_acc_servicio(){
         alert("el campo porcentaje no puede quedar vacio")
 
         document.getElementById("porcentaje_acc").focus();
-    }else if($("#id_ccnu_acc option:selected").val() == 0) {
+    }
+    else if($("#id_ccnu_acc option:selected").val() == 0) {
         swal.fire({
             title: 'Debe Seleccionar un CCNU',
             type: 'warning',
@@ -139,6 +141,32 @@ function guardar_acc_servicio(){
         document.getElementById("id_unidad_medida_acc").focus();
         return false;
     }
+    else if(fecha_hasta === ""){
+        swal.fire({
+            title: 'Debe ingresar un fecha hasta (Obligatorio)',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        document.getElementById("fecha_hasta").focus();
+     }
+     else if(fecha_desde === ""){
+        swal.fire({
+            title: 'Debe ingresar un fecha desde (Obligatorio)',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        document.getElementById("fecha_desde").focus();
+     }
     // else if(cant_total_distribuir ='0'){
     //     //alert("la cantidad a Distribuir debe ser igual a cero (obligatotio) (Debe distribuir la cantidad ingresada en los campos de trimestres I,II,III,IV segun su programación)")
     //     swal.fire({
@@ -153,6 +181,20 @@ function guardar_acc_servicio(){
     //     });
     //     document.getElementById("cant_total_distribuir").focus();
     // }
+    else if(cant_total_distribuir > '1'){
+        swal.fire({
+            title: 'El porcentaje a distribuir debe ser igual a cero (obligatotio) (Debe ingresar la distribución porcentual en los campos de trimestres I,II,III,IV según su    programación)',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        }); 
+        
+        document.getElementById("cant_total_distribuir").focus();
+    }
     else if(precio_total == ''){
        // alert("Debe ingresar Un precio (Obligatorio)")
        swal.fire({
@@ -254,7 +296,7 @@ function Guardar_mas_item_acc_servicio2(){
     var fecha_hasta = $("#fecha_hasta").val();
 
     var id_unidad_medida_acc = $("#id_unidad_medida_acc").val();
-    var cantidad_acc = $("#cant_total_distribuir").val();
+    var cant_total_distribuir = $("#cant_total_distribuir").val();
     var I = $("#I").val();
     var II = $("#II").val();
     var III = $("#III").val();
@@ -273,19 +315,59 @@ function Guardar_mas_item_acc_servicio2(){
     
 
      if (observaciones == '') {
-        alert("Debe ingresar una observación de la reprogramación")
+        swal.fire({
+            title: 'Debe Ingresar Una Observación para continuar, por favor intente de nuevo',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+       // alert("Debe ingresar una observación de la reprogramación")
         document.getElementById("observaciones").focus();
     }
-    else if($("#par_presupuestaria_acc option:selected").val() == 0) {
-        alert("Debe Seleccionar una Partida Presupuestaria");
+   else if ($("#par_presupuestaria_acc option:selected").val() == 0) {
+        swal.fire({
+            title: 'Debe Seleccionar una Partida Presupuestaria',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        //alert("Debe Seleccionar una Partida Presupuestaria");
         document.getElementById("par_presupuestaria_acc").focus();
         return false;
     }else if(id_estado_acc == ''){
-        alert("Debe ingresar un estado")
+        //alert("Debe ingresar un estado")
+        swal.fire({
+            title: 'Debe ingresar un estado',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
         document.getElementById("id_estado_acc").focus();
     }
     else if($("#fuente_financiamiento_acc option:selected").val() == 0) {
-        alert("Debe Seleccionar una Fuente Financiamiento");
+        swal.fire({
+            title: 'Debe Seleccionar una Fuente Financiamiento',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        // alert("Debe Seleccionar una Fuente Financiamiento");
         document.getElementById("fuente_financiamiento_acc").focus();
         return false;
     }
@@ -293,45 +375,120 @@ function Guardar_mas_item_acc_servicio2(){
         alert("el campo porcentaje no puede quedar vacio")
 
         document.getElementById("porcentaje_acc").focus();
-    }else if($("#id_ccnu_acc option:selected").val() == 0) {
-        alert("Debe Seleccionar un CCNU");
+    }
+    else if($("#id_ccnu_acc option:selected").val() == 0) {
+        swal.fire({
+            title: 'Debe Seleccionar un CCNU',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        //alert("Debe Seleccionar un CCNU");
         document.getElementById("id_ccnu_acc").focus();
         return false;
     }
     else if(especificacion_acc == ''){
-        alert("Debe ingresar una especificación")
+        swal.fire({
+            title: 'Debe ingresar una especificación',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        //alert("Debe ingresar una especificación")
 
         document.getElementById("especificacion_acc").focus();
     }else if($("#id_unidad_medida_acc option:selected").val() == 0) {
-        alert("Debe Seleccionar una unidad de medida");
+        swal.fire({
+            title: 'Debe Seleccionar una unidad de medida',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        //  alert("Debe Seleccionar una unidad de medida");
         document.getElementById("id_unidad_medida_acc").focus();
         return false;
-    }else if(fecha_desde == ''){
-        alert("Debe ingresar  Fecha desde Estimado para Ejecución del Servicio (Obligatorio)")
-
-        document.getElementById("fecha_desde").focus();
     }
-    else if(fecha_hasta == ''){
-        alert("Debe ingresar  Fecha Hasta Estimado para Ejecución del Servicio (Obligatorio)")
-
+    else if(fecha_hasta === ""){
+        swal.fire({
+            title: 'Debe ingresar un fecha hasta (Obligatorio)',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
         document.getElementById("fecha_hasta").focus();
-    }
-    else if(cantidad_acc == '100'){
-        alert("Cantidad total a distribuir debe ser igual a Cero(0) (Obligatorio)")
-
+     }
+     else if(fecha_desde === ""){
+        swal.fire({
+            title: 'Debe ingresar un fecha desde (Obligatorio)',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        document.getElementById("fecha_desde").focus();
+     }
+     else if(cant_total_distribuir > '1'){
+        swal.fire({
+            title: 'El porcentaje a distribuir debe ser igual a cero (obligatotio) (Debe ingresar la distribución porcentual en los campos de trimestres I,II,III,IV según su    programación)',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        }); 
+        
         document.getElementById("cant_total_distribuir").focus();
     }
     else if(precio_total == ''){
-        alert("Debe ingresar un Precio Total (Obligatorio)")
-
+       // alert("Debe ingresar Un precio (Obligatorio)")
+       swal.fire({
+        title: 'Debe ingresar un precio (Obligatorio)',
+        type: 'warning',
+        showCancelButton: false,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Ok'
+    }).then((result) => {
+        if (result.value == true) {
+        }
+    });
         document.getElementById("precio_total").focus();
-    } else if($("#id_alicuota_iva option:selected").val() == 0) {
-        alert("Debe Seleccionar un iva ");
+    }
+     else if($("#id_alicuota_iva option:selected").val() == 0) {
+        swal.fire({
+            title: 'Debe Seleccionar un iva correspondiente (Obligatorio)',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        //alert("Debe Seleccionar un iva ");
         document.getElementById("id_alicuota_iva").focus();
         return false;
-    }
-    
-    else{
+    }    else{
         event.preventDefault();
         swal.fire({
             title: '¿Guardar Nueva Infomación Modificación.?',
@@ -698,7 +855,157 @@ function guardar_tabla_serv_acc(){//////////////////////////////////////////acci
      }
     }
 
-
+    function guardar_tabla_serv_acc2(){//////////////////////////////////////////accion central modificacion servicio
+        var observaciones2 = $("#observaciones2").val();
+        
+        var precio = $("#precio_total_mod_b1").val();
+         
+        if (  precio <= 0) {
+            swal.fire({
+                title: 'El precio debe ser un número mayor que cero, intente de nuevo',
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+            }).then((result) => {
+                if (result.value == true) {
+                }
+            });
+           // return false; // no dejar guardar
+        }
+        else if (observaciones2 == '') {
+            swal.fire({
+                title: 'Debe Ingresar Una Observación para continuar, por favor intente de nuevo',
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+            }).then((result) => {
+                if (result.value == true) {
+                }
+            });
+           // alert("Debe ingresar una observación de la reprogramación")
+            document.getElementById("observaciones2").focus();
+        }
+        
+        
+        
+        else{
+        
+        event.preventDefault();
+    
+        swal.fire({
+            title: '¿Seguro desea Modificar Servicios? ',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: '¡Si, !'
+        }).then((result) => {
+            if (result.value == true) {
+                var id_items_proy = $('#id_items_b').val();
+               
+                var especificacion = $('#especificacion').val();
+    
+                var unid_med = $('#id_unid_med_b').val();
+                var sel_camb_unid_medi = $('#camb_unid_medi_b').val();
+    
+                var ff = $('#id_ff_b').val();
+                var sel_camb_ff1 = $('#camb_ff_b1').val();
+    
+                var fecha_desde1 = $('#fecha_desde1').val();
+                var fecha_hasta1 = $('#fecha_hasta1').val();
+    
+                var primero = $('#primero_b').val();
+                var segundo = $('#segundo_b').val();
+                var tercero = $('#tercero_b').val();
+                var cuarto = $('#cuarto_b').val();
+                var cantidad_distribuir = $('#cant_total_distribuir1').val();
+    
+                var prec_t = $('#precio_total_mod_b1').val();
+    
+                var ali_iva_e = $('#ali_iva_e_b').val();
+                var sel_id_alic_iva = $('#sel_id_alic_iva_b1').val();
+    
+                var monto_iva_e = $('#iva_estimado_mod_b1').val();
+                var monto_tot_est = $('#monto_estimado_mod_b1').val();
+                var est_trim_1 = $('#estimado_primer').val();
+                var est_trim_2 = $('#estimado_segundo').val();
+                var est_trim_3 = $('#estimado_tercer').val();
+                var est_trim_4 = $('#estimado_cuarto').val();
+                var estimado_total_t_acc = $('#estimado_total_t_mod').val();
+                var cantidad=1;
+                var cost_uni=0;
+                var observaciones = $('#observaciones2').val();
+              
+               // var base_url =window.location.origin+'/asnc/index.php/Programacion/reprogramar_fila_acc_obra';
+                var base_url = '/index.php/Programacion/reprogramar_fila_acc_serv'; 
+    
+                $.ajax({
+                    url:base_url,
+                    method: 'post',
+                    data:{
+                        id_items_proy: id_items_proy,
+                        // partida_pre: partida_pre,
+                        // selc_part_pres:selc_part_pres,
+                        // ccnu: ccnu,
+                        // sel_ccnu: sel_ccnu,
+                        // tipo_obra: tipo_obra,
+                        // camb_tipo_obra: camb_tipo_obra,
+                        // alcance_obra: alcance_obra,
+                        // camb_id_alcance_obra: camb_id_alcance_obra,
+                        // obj_obra: obj_obra,
+                        // camb_id_obj_obra: camb_id_obj_obra,
+                        fecha_desde1: fecha_desde1,
+                        fecha_hasta1: fecha_hasta1,
+                        especificacion: especificacion,
+                        unid_med: unid_med,
+                        sel_camb_unid_medi: sel_camb_unid_medi,
+                        ff: ff,
+                        sel_camb_ff1: sel_camb_ff1,
+    
+                        cantidad:cantidad,
+                        primero: primero,
+                        segundo: segundo,
+                        tercero: tercero,
+                        cuarto: cuarto,
+                        cantidad_distribuir:cantidad_distribuir,
+                        cost_uni:cost_uni,
+                        prec_t: prec_t,
+                        ali_iva_e: ali_iva_e,
+                        sel_id_alic_iva:sel_id_alic_iva,
+                        monto_iva_e: monto_iva_e,
+                        monto_tot_est: monto_tot_est,
+                        est_trim_1: est_trim_1,
+                        est_trim_2: est_trim_2,
+                        est_trim_3: est_trim_3,
+                        est_trim_4: est_trim_4,
+                        estimado_total_t_acc: estimado_total_t_acc,
+                        observaciones,observaciones
+    
+                    },
+                    dataType: 'json',
+                    success: function(response){
+                        if(response == 1) {
+                            swal.fire({
+                                title: 'Se edito la información con exito.',
+                                type: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Ok'
+                            }).then((result) => {
+                                if (result.value == true) {
+                                    location.reload();
+                                }
+                            });
+                        }
+                    }
+                })
+            }
+        });
+     }
+    }
 // function calcular_mod_bienes(){
 
 //     //var cantidad_acc = $('#cantidad_mod_b').val();

@@ -1,9 +1,9 @@
 <div class="sidebar-bg"></div>
 <div id="content" class="content">
-    <h2>Modificación Servicio</h2>
+    <h2>Modificación Servicio-ACC</h2>
     <div class="row">
 
-        <div class="col-10 mt-4">
+        <div class="col-12 mt-4">
             <div class="card card-outline-danger text-center bg-white">
                 <div class="card-block">
                     <blockquote class="card-blockquote" style="margin-bottom: -19px;">
@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="form-group mt-2 col-3">
-                    <label>Objeto de Contratación</label><br>
+                <label id="accbienes">Objeto de Contratación</label><br>
                     <input type="hidden" id="id_obj_comercial" name="id_obj_comercial"
                         value="<?=$inf_1_acc['id_obj_comercial']?>">
                     <input type="text" id="desc_objeto_contrata" name="desc_objeto_contrata"
@@ -113,13 +113,14 @@
                                 <h4 style="color:red;">Información Items Productos (IP)</h4>
                             </div>
                             <div class="form-group col-12">
-                                <label>Cambiar CCNU <b style="color:red">*</b> <i style="color: red;"
-                                        title="Para llenar el campo de CCNU debe ingresar una palabra clave, esto le ayudara con la busqueda"
+                            <label>Agregar Servicios (CCNU) <b style="color:red">*</b> <i style="color: red;"
+                                        title="Para llenar el campo de CCNU debe ingresar una palabra clave, esto le ayudará con la búsqueda"
                                         class="fas fa-question-circle"></i></label>
                                 <div class="row">
                                     <div class="col-4">
-                                        <label>Leer<i style="color: red;"
-                                                title="Debe ingresar una palabra para realizar la busqueda."
+                                    <label>Leer: Debe ingresar una palabra para realizar la búsqueda<i
+                                                style="color: red;"
+                                                title="Debe ingresar una palabra para realizar la búsqueda."
                                                 class="fas fa-question-circle"></i></label>
                                         <input title="Debe ingresar una palabra para realizar la busqueda" type="text"
                                             class="form-control" onKeyUp="this.value=this.value.toUpperCase();"
@@ -127,8 +128,9 @@
                                     </div>
 
                                     <div class="col-8">
-                                        <label>Leer<i style="color: red;"
-                                                title="Depende de la palabra ingresada en el campo anterior, se Mostrara las opciones."
+                                    <label>Leer: Depende de la palabra ingresada en el campo anterior, se mostrará
+                                            las opciones.<i style="color: red;"
+                                                title="Depende de la palabra ingresada en el campo anterior, se mostrará las opciones."
                                                 class="fas fa-question-circle"></i></label>
                                         <select class="form-control" name="id_ccnu_acc" id="id_ccnu_acc">
                                             <option value="0">Seleccione</option>
@@ -161,14 +163,15 @@
                                 <label style="color:red;">Ingrese Rango de Fecha Estimado para Ejecución del Servicio
                                     (Obligatorio). <b style="color:red">*</b></label><i style="color: red;"
                                     title="Seleccione la Fecha estimada de ejecución del Servicio."
-                                    class="fas fa-question-circle"></i>
-                                <div class="input-group input-daterange">
-                                    <input type="text" class="form-control" id="fecha_desde" onchange="verif_d();"
-                                        onblur="habilitar_trim();" name="start" placeholder="Desde" />
-                                    <span class="input-group-addon">-</span>
-                                    <input type="text" class="form-control" id="fecha_hasta" onchange="verif_h();"
-                                        onblur="habilitar_trim();" name="end" placeholder="Hasta" />
-                                </div>
+                                    class="fas fa-question-circle"></i><br>
+                                    <span class="input-group-addon">-</span> <label>Fecha de Desde</label><b style="color:red">*</b>
+
+                                    <input type="date" class="form-control" id="fecha_desde" onchange="verif_d();"
+                                        onblur="habilitar_trim();" name="fecha_desde" placeholder="Desde" />
+                                    <span class="input-group-addon">-</span>   <label>Fecha Hasta</label><b style="color:red">*</b>
+
+                                    <input type="date" class="form-control" id="fecha_hasta" onchange="verif_h();"
+                                        onblur="habilitar_trim();" name="fecha_hasta" placeholder="Hasta" />
                             </div>
                             <div class="col-12">
                                 <div class="card card-outline-danger">
@@ -198,7 +201,7 @@
                                                 class="form-control" onkeypress="return valideKey(event);">
                                         </div>
                                         <div class="form-group col-4">
-                                            <label>Cantd. Total Distribuir <b style="color:red">*</b> <i
+                                            <label>Porcentaje. Total Distribuir <b style="color:red">*</b> <i
                                                     style="color: red;"
                                                     title="Restara con los valores ingresados en los campos de trimestres, debe dar un Valor de Cero(0)."
                                                     class="fas fa-question-circle"></i></label>
@@ -267,7 +270,7 @@
                     </div>
                     <div class="form-group col 12 text-center">
                         <button type="button" onclick="Guardar_mas_item_acc_servicio2();" id="guardar" name="guardar"
-                            class="btn btn-primary mb-3">Guardar</button>
+                            class="my-button">Guardar</button>
                     </div>
                 </form>
             </div>
@@ -284,7 +287,7 @@
                         class="table table-bordered table-hover">
                         <thead style="background:#01cdb2">
                             <tr style="text-align:center">
-                                <th style="color:white;" colspan="5">Información del Servicio</th>
+                                <th style="color:white;" colspan="4">Información del Servicio</th>
                                 <th style="color:white;" colspan="2">Fecha estimada de Ejecución Servicio</th>
                                 <th style="color:white;" colspan="4">Distribución Porcentual de la Ejecución Trimestral
                                 </th>
@@ -305,7 +308,6 @@
                                 <th style="color:white;"> % a Ejecutar II</th>
                                 <th style="color:white;">% a Ejecutar III</th>
                                 <th style="color:white;">% a Ejecutar IV</th>
-                                <th style="color:white;">Costo Unit.</th>
                                 <th style="color:white;">Precio Total</th>
                                 <th style="color:white;">IVA </th>
                                 <th style="color:white;">Monto Iva Est.</th>
@@ -327,7 +329,6 @@
                                 <td><?=$data['ii']?> </td>
                                 <td><?=$data['iii']?> </td>
                                 <td><?=$data['iv']?> </td>
-                                <td><?=$data['costo_unitario']?> </td>
                                 <td><?=$data['precio_total']?> </td>
                                 <td><?=$data['alicuota_iva']?> </td>
                                 <td><?=$data['iva_estimado']?> </td>
@@ -354,6 +355,16 @@
                             <?php endforeach;?>
                         </tbody>
                     </table>
+                </div>
+                <div class="form-group col 12 text-center">
+                    <button type="button" class="my-button3" onclick="location.href='#accbienes'">Continuar con la Carga
+                        de Proyecto Servicios</button>
+                    <button
+                        onclick="location.href='<?php echo base_url()?>index.php/programacion/consultar_item_reprogramacion?id=<?php echo $id_programacion;?>'"
+                        type="button" class="my-button3" name="button">
+                        Ir a Modificar Plan de Compra
+                    </button>
+
                 </div>
             </div>
 
@@ -542,16 +553,16 @@
 
                         <div class="form-group mt-2 col-6">
                                 <label style="color: red;">Debe Ingresar una Observación (Obligatorio)</label> Leer<i style="color: red;"
-                                    title="Debe ingresar una Observación, para reprogramar"
+                                    title="Debe ingresar una Observación, para continuar"
                                     class="fas fa-question-circle"></i><br>
                                 <textarea class="form-control" rows="2" name="observaciones2"
                                     id="observaciones2"></textarea>
                             </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" onclick="guardar_tabla_serv_acc();"
+                        <button type="button" class="my-button" onclick="guardar_tabla_serv_acc2();"
                             data-dismiss="modal">Guardar</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="my-button" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
             </div>
@@ -583,4 +594,50 @@
             return false;
         }
     }
+    </script>
+    <script>
+    $(document).ready(function() {
+        $("#precio_total").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#I").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#II").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#III").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#IV").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#primero_b").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#segundo_b").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#tercero_b").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#cuarto_b").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#precio_total_mod_b1").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+
+       
+    });
     </script>

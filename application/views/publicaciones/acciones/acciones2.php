@@ -22,13 +22,13 @@
 
                             </div>
                             <div class="col-12  form-group">
-                            <label>Para Enviar la Información ingresada <b style="color:red">*</b></label>
+                            <label>Para Enviar (Notificar) la Información ingresada <b style="color:red">*</b></label>
 
                             <!-- <a title="Enviar" onclick="enviar(<?php echo $inf_1['numero_proceso'];?>);"
                                                 class="button">
                                                 <i class="fas fa-lg fa-fw fa-upload" style="color: green;"></i>
                                                 <a /> -->
-                                                <a title="Envia33r" onclick="enviar('<?php echo $inf_1['numero_proceso'];?>');"
+                                                <a title="Enviar" onclick="enviar('<?php echo $inf_1['numero_proceso'];?>');"
                                                 class="button">
                                                 <i class="fas fa-lg fa-fw fa-upload" style="color: green;"></i>
                                                 <a />
@@ -237,6 +237,8 @@
                                     <th>Paridad</th>
                                     <th>Total paridad</th>
                                     <th>Fecha paridad</th>
+                                    <th>Total</th>
+
 
                                     <th>Notificado</th>
                                     <th>Acción</th>
@@ -287,7 +289,19 @@
 
 
                                     <?php endif; ?>
+                                    <?php if ($data['id_accion_cargar'] == 2) : ?>
+                                        <td>No Aplica</td>
+
+
+                                    <?php else: ?>
+
+                                        <td><?=number_format($results_2['total_mas_iva'], 2, ',', '.')?></td>
+
+                                    <?php endif; ?>
+                                 
+
                                     <td><?=$data['desc_status_snc']?> </td>
+
 
                                     <td >
                                     <?php if ($data['id_accion_cargar'] == 2) : ?>
@@ -308,6 +322,14 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group mt-3 row">
+                        <label class="col-md-4 col-form-label"> Total </label>
+                        <div class="col-md-8">
+                            <div class="input-group ">
+                            <input class="form-control text-center" type="text" value="<?=number_format($results_2['total_mas_iva'], 2, ',', '.')?>" readonly>
+                          </div>
+                        </div>
+                    </div>
         </div>
     </div>
 

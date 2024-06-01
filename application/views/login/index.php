@@ -63,6 +63,7 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
     <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/pace/pace.min.js"></script>
     <link href="<?= base_url() ?>Plantilla/admin/assets/plugins/sweetalert/sweetalert.css" rel="stylesheet"
         type="text/css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.all.min.js"></script>
 </head>
 
 <body class="pace-top bg-white">
@@ -233,11 +234,28 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
     <?php if ($this->session->flashdata('fallido')) { ?>
     <div hidden id="fallido"> <?= $this->session->flashdata('fallido') ?> </div>
     <?php } ?>
-    <?php 
-    if ($this->session->flashdata('alert')) {
-    echo '<script>alert("' . $this->session->flashdata('alert') . '");</script>';
-}
-?>
+     <?php 
+//     if ($this->session->flashdata('alert')) {
+//     echo '<script>alert("' . $this->session->flashdata('alert') . '");</script>';
+// }
+?>  
+<?php if ($this->session->flashdata('alert')): ?>
+    <script>
+        console.log('Mostrando alerta...');
+        swal.fire({
+            title: '<?php echo $this->session->flashdata('alert'); ?>',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+                // Acción a realizar después de cerrar la alerta
+            }
+        });
+    </script>
+    <?php var_dump($this->session->flashdata('alert')); ?>
+<?php endif; ?>
 
 
     <!-- ================== BEGIN BASE JS ================== -->

@@ -1,9 +1,9 @@
 <div class="sidebar-bg"></div>
 <div id="content" class="content">
-    <h2>Cotinuar la carga de la programación Servicios</h2>
+    <h2>Continuar la carga de la programación Servicios-acc</h2>
     <div class="row">
 
-        <div class="col-10 mt-4">
+        <div class="col-12 mt-4">
             <div class="card card-outline-danger text-center bg-white">
                 <div class="card-block">
                     <blockquote class="card-blockquote" style="margin-bottom: -19px;">
@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="form-group mt-2 col-3">
-                    <label>Objeto de Contratación</label><br>
+                    <label id="accbienes">Objeto de Contratación</label><br>
                     <input type="hidden" id="id_obj_comercial" name="id_obj_comercial"
                         value="<?=$inf_1_acc['id_obj_comercial']?>">
                     <input type="text" id="desc_objeto_contrata" name="desc_objeto_contrata"
@@ -47,10 +47,9 @@
                     enctype="multipart/form-data">
                     <div class="panel-body">
                         <div class="row">
-                        <input type="hidden" id="id_obj_comercial" name="id_obj_comercial"
-                        value="<?=$inf_1_acc['id_obj_comercial']?>">
-                        <input type="hidden" id="id_proyectoii" name="id_proyectoii"
-                            value="<?=$id_programacion?>">
+                            <input type="hidden" id="id_obj_comercial" name="id_obj_comercial"
+                                value="<?=$inf_1_acc['id_obj_comercial']?>">
+                            <input type="hidden" id="id_proyectoii" name="id_proyectoii" value="<?=$id_programacion?>">
                             <input type="hidden" id="id_programacion" name="id_programacion"
                                 value="<?=$id_p_acc_centralizada?>">
                             <div class="col-12 text-center">
@@ -95,7 +94,8 @@
                                 </select>
                             </div>
                             <div class="form-group col-3">
-                                <input id="porcentaje_acc" name="porcentaje_acc" value="0" type="hidden" class="form-control">
+                                <input id="porcentaje_acc" name="porcentaje_acc" value="0" type="hidden"
+                                    class="form-control">
                             </div>
 
                             <div class="col-12">
@@ -105,38 +105,43 @@
                                 <h4 style="color:red;">Información Items Productos (IP)</h4>
                             </div>
                             <div class="form-group col-12">
-                                <label >Cambiar CCNU <b style="color:red">*</b> <i style="color: red;"
-                                        title="Para llenar el campo de CCNU debe ingresar una palabra clave, esto le ayudara con la busqueda"
+                                <label>Agregar Servicios (CCNU) <b style="color:red">*</b> <i style="color: red;"
+                                        title="Para llenar el campo de CCNU debe ingresar una palabra clave, esto le ayudará con la búsqueda"
                                         class="fas fa-question-circle"></i></label>
                                 <div class="row">
                                     <div class="col-4">
-                                    <label>Leer<i style="color: red;" title="Debe ingresar una palabra para realizar la busqueda."
-                                        class="fas fa-question-circle"></i></label>
-                                    <input title="Debe ingresar una palabra para realizar la busqueda" type="text"
+                                        <label>Leer: Debe ingresar una palabra para realizar la búsqueda<i
+                                                style="color: red;"
+                                                title="Debe ingresar una palabra para realizar la búsqueda."
+                                                class="fas fa-question-circle"></i></label>
+                                        <input title="Debe ingresar una palabra para realizar la búsqueda" type="text"
                                             class="form-control" onKeyUp="this.value=this.value.toUpperCase();"
                                             name="ccnu_b" id="ccnu_b" onblur="buscar_ccnnu();">
                                     </div>
-                                    
+
                                     <div class="col-8">
-                                    <label>Leer<i style="color: red;" title="Depende de la palabra ingresada en el campo anterior, se Mostrara las opciones."
-                                        class="fas fa-question-circle"></i></label>
-                                        <select
-                                           class="form-control" name="id_ccnu_acc" id="id_ccnu_acc">
+                                        <label>Leer: Depende de la palabra ingresada en el campo anterior, se mostrará
+                                            las opciones.<i style="color: red;"
+                                                title="Depende de la palabra ingresada en el campo anterior, se mostrará las opciones."
+                                                class="fas fa-question-circle"></i></label>
+                                        <select class="form-control" name="id_ccnu_acc" id="id_ccnu_acc">
                                             <option value="0">Seleccione</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                           
+
                             <div class="form-group col-6">
-                                <label>Especificación <b style="color:red">*</b> <i style="color: red;" title="Ingrese Especificación de CCNU seleccionada, de no existir , elegir no codificado y colocar detalle en la especificación."
+                                <label>Especificación <b style="color:red">*</b> <i style="color: red;"
+                                        title="Ingrese Especificación de CCNU seleccionada, de no existir , elegir no codificado y colocar detalle en la especificación."
                                         class="fas fa-question-circle"></i> </label>
                                 <input id="especificacion_acc" name="especificacion_acc" type="text"
                                     class="form-control" onkeypress="may(this);">
                             </div>
                             <div class="form-group col-6">
-                                <label>Unidad de Medida <b style="color:red">*</b> </label><i style="color: red;" title="Seleccione la Unidad de medida correspondiente."
-                                        class="fas fa-question-circle"></i> <br>
+                                <label>Unidad de Medida <b style="color:red">*</b> </label><i style="color: red;"
+                                    title="Seleccione la Unidad de medida correspondiente."
+                                    class="fas fa-question-circle"></i> <br>
                                 <select style="width: 100%;" id="id_unidad_medida_acc" name="id_unidad_medida_acc"
                                     class="form-control default-select2">
                                     <option value="">SELECCIONE</option>
@@ -147,56 +152,66 @@
                                 </select>
                             </div>
                             <div class="form-group col-6">
-                                <label style="color:red;">Ingrese Rango de Fecha Estimado para Ejecución del Servicio (Obligatorio). <b style="color:red">*</b></label><i style="color: red;" title="Seleccione la Fecha estimada de ejecución del Servicio."
-                                        class="fas fa-question-circle"></i>
-                                    <div class="input-group input-daterange">
-                                        <input type="text" class="form-control" id="fecha_desde" onchange="verif_d();" onblur="habilitar_trim();" name="start" placeholder="Desde" />
-                                        <span class="input-group-addon">-</span>
-                                        <input type="text" class="form-control"  id="fecha_hasta" onchange="verif_h();" onblur="habilitar_trim();" name="end" placeholder="Hasta" />
-                                    </div>
+                                <label style="color:red;">Ingrese Rango de Fecha Estimado para Ejecución del Servicio
+                                    (Obligatorio). <b style="color:red">*</b></label><i style="color: red;"
+                                    title="Seleccione la Fecha estimada de ejecución del Servicio."
+                                    class="fas fa-question-circle"></i><br>
+                                    <span class="input-group-addon">-</span> <label>Fecha de Desde</label><b style="color:red">*</b>
+
+                                    <input type="date" class="form-control" id="fecha_desde" onchange="verif_d();"
+                                        onblur="habilitar_trim();" name="fecha_desde" placeholder="Desde" />
+                                    <span class="input-group-addon">-</span>   <label>Fecha Hasta</label><b style="color:red">*</b>
+
+                                    <input type="date" class="form-control" id="fecha_hasta" onchange="verif_h();"
+                                        onblur="habilitar_trim();" name="fecha_hasta" placeholder="Hasta" />
                             </div>
                             <div class="col-12">
                                 <div class="card card-outline-danger">
-                                <h5 class="mt-3 text-center"><b>Distribución de la cantidad de la Ejecución
-                                        Trimestral</b><b style="color:red">*Leer</b><i style="color: red;"
+                                    <h5 class="mt-3 text-center"><b>Distribución del porcentaje  de la
+                                            Ejecución
+                                            Trimestral</b><b style="color:red">*Leer</b><i style="color: red;"
                                             title="Para ingresar los datos correspondientes a cada trimestre, debe ingresar un Rango de Fecha."
                                             class="fas fa-question-circle"></i> </h5> <br>
-                                            <h6 class="mt-1 text-center">Debe distribuir el porcentaje de ejecución trimestral en los campos de trimestres I,II,III,IV segun su programación</h6>
-                                            <h6 class=" text-right">Cantidad a distribuir debe ser igual a Cero (0)</h6>
+                                    <h6 class="mt-1 text-center">Debe distribuir el porcentaje de ejecución trimestral
+                                        en los campos de trimestres I,II,III,IV según su programación</h6>
+                                    <h6 class=" text-right">Porcentaje a distribuir debe ser igual a Cero (0)</h6>
                                     <div class="row mt-3">
                                         <div class="form-group col-2">
                                             <label>I<b style="color:red">*</b></label>
                                             <input id="I" name="I" type="text" onblur="calculo();" value="0"
-                                                class="form-control" onkeypress="return valideKey(event);" >
+                                                class="form-control" onkeypress="return valideKey(event);">
                                         </div>
                                         <div class="form-group col-2">
                                             <label>II<b style="color:red">*</b></label>
                                             <input id="II" name="II" type="text" onblur="calculo();" value="0"
-                                                class="form-control" onkeypress="return valideKey(event);" >
+                                                class="form-control" onkeypress="return valideKey(event);">
                                         </div>
                                         <div class="form-group col-2">
                                             <label>III<b style="color:red">*</b></label>
                                             <input id="III" name="III" type="text" onblur="calculo();" value="0"
-                                                class="form-control" onkeypress="return valideKey(event);" >
+                                                class="form-control" onkeypress="return valideKey(event);">
                                         </div>
                                         <div class="form-group col-2">
                                             <label>IV<b style="color:red">*</b></label>
                                             <input id="IV" name="IV" type="text" onblur="calculo();" value="0"
-                                                class="form-control" onkeypress="return valideKey(event);" >
+                                                class="form-control" onkeypress="return valideKey(event);">
                                         </div>
                                         <div class="form-group col-4">
-                                            <label>Cantd. Total Distribuir <b style="color:red">*</b> <i style="color: red;" title="Restara con los valores ingresados en los campos de trimestres, debe dar un Valor de Cero(0)."
-                                        class="fas fa-question-circle"></i></label>
+                                            <label>Porcentaje. Total Distribuir <b style="color:red">*</b> <i
+                                                    style="color: red;"
+                                                    title="Restara con los valores ingresados en los campos de trimestres, debe dar un Valor de Cero(0)."
+                                                    class="fas fa-question-circle"></i></label>
                                             <input id="cant_total_distribuir" value="100" onblur="calculo();"
                                                 name="cant_total_distribuir" type="number" class="form-control"
-                                                readonly >
+                                                readonly>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group col-4">
-                                <label>Precio Total <b style="color:red">*</b></label><i style="color: red;" title="Ingrese el Costo Total del Servicio para realizar los siguientes cálculos."
-                                        class="fas fa-question-circle"></i>
+                                <label>Precio Total <b style="color:red">*</b></label><i style="color: red;"
+                                    title="Ingrese el Costo Total del Servicio para realizar los siguientes cálculos."
+                                    class="fas fa-question-circle"></i>
                                 <input id="precio_total" name="precio_total" type="text" onclick="cant_total();"
                                     onblur="calculo();" class="form-control">
                             </div>
@@ -217,7 +232,8 @@
                             </div>
                             <div class="form-group col-3">
                                 <label>Monto total Estimado<b style="color:red">*</b></label>
-                                <input id="monto_estimado" name="monto_estimado" type="text" class="form-control" readonly>
+                                <input id="monto_estimado" name="monto_estimado" type="text" class="form-control"
+                                    readonly>
                             </div>
                             <div class="col-12">
                                 <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
@@ -240,7 +256,8 @@
                             </div>
                             <div class="form-group col-4">
                                 <label>Estimado Total Trimestres</label>
-                                <input id="estimado_total_t" name="estimado_total_t" type="text" class="form-control"readonly>
+                                <input id="estimado_total_t" name="estimado_total_t" type="text" class="form-control"
+                                    readonly>
                             </div>
                             <div class="col-12">
                                 <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
@@ -249,7 +266,7 @@
                     </div>
                     <div class="form-group col 12 text-center">
                         <button type="button" onclick="guardar_acc_servicio();" id="guardar" name="guardar"
-                            class="btn btn-primary mb-3">Guardar</button>
+                            class="my-button">Guardar</button>
                     </div>
                 </form>
             </div>
@@ -283,7 +300,7 @@
                                 <th style="color:white;">III</th>
                                 <th style="color:white;">IV</th>
                                 <th style="color:white;">Total a Distrib.</th>
-                               
+
                                 <th style="color:white;">Precio Total</th>
                                 <th style="color:white;">IVA </th>
                                 <th style="color:white;">Monto Iva Est.</th>
@@ -307,7 +324,7 @@
                                 <td><?=$data['iii']?> </td>
                                 <td><?=$data['iv']?> </td>
                                 <td><?=$data['cant_total_distribuir']?> </td>
-                                
+
                                 <td><?=$data['precio_total']?> </td>
                                 <td><?=$data['alicuota_iva']?> </td>
                                 <td><?=$data['iva_estimado']?> </td>
@@ -324,20 +341,31 @@
                                             <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
                                             style="color: darkgreen;"></i>
                                         <a />  -->
-                                        <a onclick="modal(<?php echo $data['id_p_items'] ?>);" data-toggle="modal"
+                                    <a onclick="modal(<?php echo $data['id_p_items'] ?>);" data-toggle="modal"
                                         data-target="#myModal_bienes" style="color: white">
                                         <i title="editar" class="fas  fa-lg fa-fw fa-highlighter"
                                             style="color: darkgreen;"></i>
                                     </a>
 
-                                        <a onclick="eliminar_items_servi(<?php echo $data['id_p_items'];?>);"
-                                         class="button"><i class="fas fa-lg fa-fw  fa-trash-alt" style="color:red"></i><a />
-                                   
+                                    <a onclick="eliminar_items_servi(<?php echo $data['id_p_items'];?>);"
+                                        class="button"><i class="fas fa-lg fa-fw  fa-trash-alt"
+                                            style="color:red"></i><a />
+
                                 </td>
                             </tr>
                             <?php endforeach;?>
                         </tbody>
                     </table>
+                </div>
+                <div class="form-group col 12 text-center">
+                    <button type="button" class="my-button3" onclick="location.href='#accbienes'">Continuar con la Carga
+                        de Acciòn Centralizada Servicios</button>
+                    <button
+                        onclick="location.href='<?php echo base_url()?>index.php/programacion/nueva_prog?id=<?php echo $id_programacion;?>'"
+                        type="button" class="my-button3" name="button">
+                        Ir a Carga Plan de Compra
+                    </button>
+
                 </div>
             </div>
 
@@ -454,21 +482,22 @@
                                             value="0" class="form-control" onkeypress="return valideKey(event);">
                                     </div>
                                     <div class="form-group col-4">
-                                        <label>Cantd. Total Distribuir <b style="color:red">*leer</b> <i
+                                        <label>Porcentaje. Total Distribuir <b style="color:red">*leer</b> <i
                                                 style="color: red;"
                                                 title="Restara con los valores ingresados en los campos de trimestres, debe dar un Valor de Cero(0)."
                                                 class="fas fa-question-circle"></i></label>
                                         <input id="cant_total_distribuir1" value="100" onblur="calculo_servi();"
                                             name="cant_total_distribui1r" type="number" class="form-control" readonly>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group col-4">
                             <label>Precio Total Estimado<bbbb style="color:red">*</b></label>
-                            <input id="precio_total_mod_b1" name="precio_total_mod_b1" type="text" class="form-control" onblur="calculo_servi();">
+                            <input id="precio_total_mod_b1" name="precio_total_mod_b1" type="text" class="form-control"
+                                onblur="calculo_servi();">
                         </div>
 
                         <div class="form-group col-4">
@@ -531,20 +560,20 @@
                             </div> -->
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" onclick="guardar_tabla_serv_acc();"
+                        <button type="button" class="my-button" onclick="guardar_tabla_serv_acc();"
                             data-dismiss="modal">Guardar</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="my-button" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
 
     <!-- ////////////////////////////////////////////GUARDA MAS ITEM EN LA BD DE SERVICIOS -->
     <!-- <script src="<?=base_url()?>/js/programacion.js"></script> -->
-<script src="<?=base_url()?>/js/calculos.js"></script>
-<!-- <script src="<?=base_url()?>/js/servicio/agregar_ff.js"></script>
+    <script src="<?=base_url()?>/js/calculos.js"></script>
+    <!-- <script src="<?=base_url()?>/js/servicio/agregar_ff.js"></script>
 <script src="<?=base_url()?>/js/servicio/agregar_ip.js"></script>
 <script src="<?=base_url()?>/js/servicio/registro.js"></script> -->
 
@@ -554,7 +583,7 @@
 
     <script src="<?=base_url()?>/js/eliminar.js"></script>
 
-  
+
 
 
     <!-- <script src="<?=base_url()?>/js/bien/llenar_editar_acc_b.js"></script> -->
@@ -562,3 +591,50 @@
     <script src="<?=base_url()?>/js/bien/agregar_acc_centralizada_ff.js"></script> -->
 
     <!-- <script src="<?=base_url()?>/js/bien/calculos_bienes_edit.js"></script> -->
+
+    <script>
+    $(document).ready(function() {
+        $("#precio_total").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#I").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#II").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#III").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#IV").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#primero_b").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#segundo_b").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#tercero_b").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#cuarto_b").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#precio_total_mod_b1").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+
+       
+    });
+    </script>

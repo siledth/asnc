@@ -1987,8 +1987,8 @@ public function editar_item_servicio_py(){
              'id_obj_obra'=> '0',
              'id_obj_comercial'=> $this->input->post('id_obj_comercial'),
 
-             'fecha_desde'=> $this->input->post('start'),
-             'fecha_hasta'=> $this->input->post('end'),
+             'fecha_desde'=> $this->input->post('fecha_desde'),
+             'fecha_hasta'=> $this->input->post('fecha_hasta'),
             'id_partidad_presupuestaria'  => $par_presupuestaria_acc1,
             'id_ccnu' 		         => $id_ccnu_acc1,
             'especificacion' 		 => $this->input->post('especificacion_acc'),
@@ -2109,8 +2109,8 @@ public function editar_item_servicio_py(){
              'id_tip_obra'=> $this->input->post('id_tip_obra'),
              'id_alcance_obra'=> $this->input->post('id_alcance_obra'),
              'id_obj_obra'=> $this->input->post('id_obj_obra'),
-             'fecha_desde'=> $this->input->post('start'),
-             'fecha_hasta'=> $this->input->post('end'),
+             'fecha_desde'=> $this->input->post('fecha_desde'),
+             'fecha_hasta'=> $this->input->post('fecha_hasta'),
             'id_partidad_presupuestaria'  => $par_presupuestaria_acc1,
             'id_ccnu' 		         => 0,
             'especificacion' 		 => $this->input->post('especificacion_acc'),
@@ -2546,8 +2546,8 @@ public function enviar_rendi()
                  'id_tip_obra'=> '0',
                  'id_alcance_obra'=> '0',
                  'id_obj_obra'=> '0',
-                 'fecha_desde'=> $this->input->post('start'),
-                 'fecha_hasta'=> $this->input->post('end'),
+                 'fecha_desde'=> $this->input->post('fecha_desde'),
+                 'fecha_hasta'=> $this->input->post('fecha_hasta'),
                 'id_partidad_presupuestaria'  => $par_presupuestaria_acc1,
                 'id_ccnu' 		         => $id_ccnu_acc1,
                 'especificacion' 		 => $this->input->post('especificacion_acc'),
@@ -3423,8 +3423,8 @@ public function Guardar_mas_item_py_servicio() {
 
          'id_alcance_obra'=> '0',
          'id_obj_obra'=> '0',
-         'fecha_desde'=> $this->input->post('start'),
-         'fecha_hasta'=> $this->input->post('end'),
+         'fecha_desde'=> $this->input->post('fecha_desde'),
+         'fecha_hasta'=> $this->input->post('fecha_hasta'),
         'id_partidad_presupuestaria'  => $par_presupuestaria_acc1,
         'id_ccnu' 		         => $id_ccnu_acc1,
         'especificacion' 		 => $this->input->post('especificacion_acc'),
@@ -3738,8 +3738,8 @@ public function reprogramar_fila_acc_serv(){
          'id_tip_obra'=> $this->input->post('id_tip_obra'),
          'id_alcance_obra'=> $this->input->post('id_alcance_obra'),
          'id_obj_obra'=> $this->input->post('id_obj_obra'),
-         'fecha_desde'=> $this->input->post('start'),
-         'fecha_hasta'=> $this->input->post('end'),
+         'fecha_desde'=> $this->input->post('fecha_desde'),
+         'fecha_hasta'=> $this->input->post('fecha_hasta'),
         'id_partidad_presupuestaria'  => $par_presupuestaria_acc1,
         'id_ccnu' 		         => 0,
         'especificacion' 		 => $this->input->post('especificacion_acc'),
@@ -5060,9 +5060,9 @@ public function read_send() //hacer un pdf de comprobante programacion final par
    //$pdf->Image(base_url().'imagenes/logosnc.png',10,6,50);
    $pdf->Ln(10);
    
-   $pdf->Cell(195,5,'COMPROBANTE DE CUMPLIMIENTO',0,1,'C');
-   $pdf->Cell(195,5,'ARTICULO 38 NUMERAL 1 del',0,1,'C'); 
-   $pdf->Cell(195,5,'Decreto con Rango Valor y Fuerza de Ley de Contrataciones Publicas ',0,1,'C');
+   $pdf->Cell(195,5,utf8_decode('COMPROBANTE DE CUMPLIMIENTO'),0,1,'C');
+   $pdf->Cell(195,5,utf8_decode('ARTÍCULO 38 NUMERAL 1 del'),0,1,'C'); 
+   $pdf->Cell(195,5,utf8_decode('Decreto con Rango Valor y Fuerza de Ley de Contrataciones Públicas'),0,1,'C');
    $pdf->Cell(195,5,'(DCRVFLCP)',0,1,'C');
 
    $pdf->SetFont('Arial','I',8);
@@ -5125,7 +5125,7 @@ public function read_send() //hacer un pdf de comprobante programacion final par
            foreach($dat5 as $dt5){ 
        
            $pdf->MultiCell(100,5, $dt5->anio, 0, 'L');
-          // $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt5->fecha)), 0, 'L');
+         //  $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt5->fecha)), 0, 'L');
           
        }}
 
@@ -5301,7 +5301,7 @@ public function read_send() //hacer un pdf de comprobante programacion final par
     
     
      
-      $pdf->Output('Comprobanteproyecto '.$curdate.'.pdf', 'D');
+      $pdf->Output('Comprobanteproyecto '.$curdate.'.pdf', 'I');
      // $this->load->view('headfoot/header', $datos);
 }
 public function modificacion_ley() //pdf segun ley

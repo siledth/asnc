@@ -60,10 +60,6 @@
                                             id="dura_com_hasta">
                                     </div>
 
-
-
-
-
                                 </div>
                             </div>
 

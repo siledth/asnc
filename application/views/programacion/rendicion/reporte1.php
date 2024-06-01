@@ -1,5 +1,5 @@
 <div id="content" class="content">
-    <h2>Rendidición</h2>
+    <h2>Rendición</h2>
     <div class="row">
 
         <div class="col-10 mt-4">

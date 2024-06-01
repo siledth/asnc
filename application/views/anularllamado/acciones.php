@@ -45,8 +45,8 @@
                                     <td class="center">
                                         <?php if  ( $ver['id_llcestatus']==1) : ?>
                                             <a href="<?php echo base_url();?>index.php/Publicaciones/Accion2?id=<?php echo $ver['numero_proceso'];?>"
-                                                class="button">
-                                                <i class="fa fa-2x fa-retweet" style="color: #900C3F;"
+                                                class="button"> 
+                                                <i class="far fa-2x fa-handshake" style="color: #900C3F;"
                                                     title="Resultado del llamado "></i>
                                                 <a />
 

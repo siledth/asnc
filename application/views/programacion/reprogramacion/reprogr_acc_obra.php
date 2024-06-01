@@ -3,7 +3,7 @@
     <h2>Modificar ACC Obras</h2>
     <div class="row">
 
-        <div class="col-10 mt-4">
+        <div class="col-12 mt-4">
             <div class="card card-outline-danger text-center bg-white">
                 <div class="card-block">
                     <blockquote class="card-blockquote" style="margin-bottom: -19px;">
@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="form-group mt-2 col-3">
-                    <label>Objeto de Contratación</label><br>
+                <label id="accbienes">Objeto de Contratación</label><br>
                     <input type="hidden" id="id_obj_comercial" name="id_obj_comercial"
                         value="<?=$inf_1_acc['id_obj_comercial']?>">
                     <input type="text" id="desc_objeto_contrata" name="desc_objeto_contrata"
@@ -148,7 +148,7 @@
                             </div>
                                                  
                             <div class="form-group col-6">
-                                <label>Especificación <b style="color:red">*</b> <i style="color: red;" title="Ingrese Especificación de CCNU seleccionada, de no existir , elegir no codificado y colocar detalle en la especificación."
+                                <label>Especificación <b style="color:red">*</b> <i style="color: red;" title="Ingrese Especificación de la obra"
                                         class="fas fa-question-circle"></i> </label>
                                 <input id="especificacion_acc" name="especificacion_acc" type="text"
                                     class="form-control" onkeypress="may(this);">
@@ -165,14 +165,27 @@
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-                            <div class="form-group col-6">
-                                <label style="color:red;">Ingrese Rango de Fecha Estimado para Ejecución de La Obra (Obligatorio). <b style="color:red">*</b></label><i style="color: red;" title="Seleccione la Fecha estimada de ejecución del Servicio."
-                                        class="fas fa-question-circle"></i>
-                                    <div class="input-group input-daterange">
-                                        <input type="text" class="form-control" id="fecha_desde" onchange="verif_d();" onblur="habilitar_trim();" name="start" placeholder="Desde" />
-                                        <span class="input-group-addon">-</span>
-                                        <input type="text" class="form-control"  id="fecha_hasta" onchange="verif_h();" onblur="habilitar_trim();" name="end" placeholder="Hasta" />
-                                    </div>
+                            <div class="form-group col-12">
+                                <label style="color:red;">Ingrese Rango de Fecha Estimado para Ejecución de La Obra
+                                    (Obligatorio). <b style="color:red">*</b></label><i style="color: red;"
+                                    title="Seleccione la Fecha estimada de ejecución del Servicio."
+                                    class="fas fa-question-circle"></i>
+                                
+
+                            </div>
+                            <div class="form-group col-2">
+                            <span class="input-group-addon">-</span>
+                                <label>Fecha de Desde</label><b style="color:red">*</b>
+                                <input type="date" id="fecha_desde" name="fecha_desde" placeholder="fecha"
+                                    class="form-control " />
+                              
+                            </div>
+                            <div class="form-group col-2">
+                            <span class="input-group-addon">-</span>
+                                <label>Fecha Hasta</label><b style="color:red">*</b>
+                                <input type="date" id="fecha_hasta" name="fecha_hasta" placeholder="fecha"
+                                required  class="form-control " />
+                                
                             </div>
                             <div class="col-12">
                                 <div class="card card-outline-danger">
@@ -202,7 +215,7 @@
                                                 class="form-control" onkeypress="return valideKey(event);" >
                                         </div>
                                         <div class="form-group col-4">
-                                            <label>Cantd. Total Distribuir <b style="color:red">*</b> <i style="color: red;" title="Restara con los valores ingresados en los campos de trimestres, debe dar un Valor de Cero(0)."
+                                            <label>Porcentaje a Distribuir <b style="color:red">*</b> <i style="color: red;" title="Restara con los valores ingresados en los campos de trimestres, debe dar un Valor de Cero(0)."
                                         class="fas fa-question-circle"></i></label>
                                             <input id="cant_total_distribuir" value="100" onblur="calculo();"
                                                 name="cant_total_distribuir" type="number" class="form-control"
@@ -266,7 +279,7 @@
                     </div>
                     <div class="form-group col 12 text-center">
                         <button type="button" onclick="guardar_acc_obra_reprograma();" id="guardar" name="guardar"
-                            class="btn btn-primary mb-3">Guardar</button>
+                            class="my-button">Guardar</button>
                     </div>
                 </form>
             </div>
@@ -336,6 +349,16 @@
                             <?php endforeach;?>
                         </tbody>
                     </table>
+                </div>
+                <div class="form-group col 12 text-center">
+                    <button type="button" class="my-button3" onclick="location.href='#accbienes'">Continuar con la Carga
+                        de Acciòn Centralizada Obras</button>
+                    <button
+                        onclick="location.href='<?php echo base_url()?>index.php/programacion/consultar_item_reprogramacion?id=<?php echo $id_programacion;?>'"
+                        type="button" class="my-button3" name="button">
+                        Ir Modificar Plan de Compra
+                    </button>
+
                 </div>
             </div>
 
@@ -485,7 +508,7 @@
                                                 class="form-control" onkeypress="return valideKey(event);" >
                                         </div>
                                         <div class="form-group col-4">
-                                            <label>Cantd. Total Distribuir <b style="color:red">*leer</b> <i style="color: red;" title="Restara con los valores ingresados en los campos de trimestres, debe dar un Valor de Cero(0)."
+                                            <label>Porcentaje a Distribuir <b style="color:red">*leer</b> <i style="color: red;" title="Restara con los valores ingresados en los campos de trimestres, debe dar un Valor de Cero(0)."
                                         class="fas fa-question-circle"></i></label>
                                             <input id="cant_total_distribuir1" value="100" onblur="calculo_obras();"
                                                 name="cant_total_distribui1r" type="number" class="form-control"
@@ -495,22 +518,24 @@
                                 </div>
                             </div>
                       
-                        <div class="form-group col-4">
-                            <label>Precio Total Estimado<b style="color:red">*</b></label>
-                            <input id="precio_total_mod_b1" name="precio_total_mod_b1" type="text" class="form-control">
+                        
+                            <div class="form-group col-4">
+                            <label>Precio Total Estimado<bbbb style="color:red">*</b></label>
+                            <input id="precio_total_mod_b1" name="precio_total_mod_b1" type="text" class="form-control"
+                                onblur="calculo_servi();">
                         </div>
 
                         <div class="form-group col-4">
                             <label>Alícuota IVA Estimado<b style="color:red">*</b></label><br>
                             <div class="row">
                                 <div class="col-5">
-                                    <input type="text" class="form-control" onblur="calculo_obras();"
-                                        name="ali_iva_e_b" id="ali_iva_e_b" readonly>
+                                    <input type="text" class="form-control" onblur="calculo_servi();" name="ali_iva_e_b"
+                                        id="ali_iva_e_b" readonly>
                                 </div>
                                 <div class="col-7">
                                     <select title="Para cambiar la Alicuota de IVA debe seleccionarlo en este campo."
                                         class="form-control" name="sel_id_alic_iva_b1" id="sel_id_alic_iva_b1"
-                                        onchange="calculo_obras();">
+                                        onchange="calculo_servi();">
                                         <option value="s">Seleccione</option>
                                     </select>
                                 </div>
@@ -559,16 +584,61 @@
                             </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" onclick="guardar_tabla_obra_acc();"
+                        <button type="button" class="my-button" onclick="guardar_tabla_obra_acc2();"
                             data-dismiss="modal">Guardar</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="my-button" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <script>
+    $(document).ready(function() {
+        $("#precio_total").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#I").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#II").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#III").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#IV").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#primero_b").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#segundo_b").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#tercero_b").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#cuarto_b").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#precio_total_mod_b1").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
 
+       
+    });
+    </script>
 
   
     <!-- ////////////////////////////////////////////reprogramar  acc obra -->

@@ -16,7 +16,7 @@ function guardar_acc_bien(){
     var II_acc = $("#II_acc").val();
     var III_acc = $("#III_acc").val();
     var IV_acc = $("#IV_acc").val();
-    var costo_unitario_acc = $("#costo_unitario_acc").val();
+    var costo_unitario_acc1 = $("#costo_unitario_acc").val();
     var precio_total_acc = $("#precio_total_acc").val();
     var id_alicuota_iva_acc = $("#id_alicuota_iva_acc").val();
     var iva_estimado_acc = $("#iva_estimado_acc").val();
@@ -26,7 +26,13 @@ function guardar_acc_bien(){
     var estimado_iii_acc = $("#estimado_iii_acc").val();
     var estimado_iV_acc = $("#estimado_iV_acc").val();
     var estimado_total_t_acc = $("#estimado_total_t_acc").val();
+    var newstr6 = costo_unitario_acc1.replace(".", "");
+    var newstr7 = newstr6.replace(".", "");
+    var newstr8 = newstr7.replace(".", "");
+    var newstr9 = newstr8.replace(".", "");
+    var costo_unitario_acc = newstr9.replace(",", ".");
 
+    //console.log(costo_unitario_acc);
 
     if ($("#par_presupuestaria_acc option:selected").val() == 0) {
         swal.fire({
@@ -160,7 +166,22 @@ function guardar_acc_bien(){
         }
     });
         document.getElementById("costo_unitario_acc").focus();
-    } else if($("#id_alicuota_iva_acc option:selected").val() == 0) {
+    }
+    else if (isNaN(costo_unitario_acc)) {
+        // Mostrar mensaje de error
+        swal.fire({
+            title: 'En Costo Unitario debe ingresar un número (Obligatorio) , por favor revisar.',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        document.getElementById("costo_unitario_acc").focus();
+    }
+     else if($("#id_alicuota_iva_acc option:selected").val() == 0) {
         swal.fire({
             title: 'Debe Seleccionar un iva correspondiente (Obligatorio)',
             type: 'warning',

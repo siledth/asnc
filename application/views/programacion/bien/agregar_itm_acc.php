@@ -1,9 +1,9 @@
 <div class="sidebar-bg"></div>
 <div id="content" class="content">
-    <h2>Cotinuar la carga de la programación Bienes-acc</h2>
+    <h2>Continuar la carga de la programación Bienes-acc</h2>
     <div class="row">
 
-        <div class="col-10 mt-4">
+        <div class="col-12 mt-4">
             <div class="card card-outline-danger text-center bg-white">
                 <div class="card-block">
                     <blockquote class="card-blockquote" style="margin-bottom: -19px;">
@@ -23,6 +23,7 @@
                 <?php foreach($inf_1_acc as $inf_1_acc):?><?php endforeach;?>
 
                 <div class="col-6 mt-3 form-group">
+
                     <label>Acción Centralizada<b style="color:red">*</b></label><br>
                     <select style="width: 100%;" name="id_accion_centralizada" id="id_accion_centralizada"
                         class="default-select2 form-control" readonly>
@@ -33,8 +34,8 @@
                 </div>
 
                 <div class="form-group mt-2 col-3">
-                    <label>Objeto de Contratación</label><br>
-                  
+                    <label id="accbienes">Objeto de Contratación</label><br>
+
                     <input type="text" id="desc_objeto_contrata" name="desc_objeto_contrata"
                         value="<?=$inf_1_acc['desc_objeto_contrata']?>" class="form-control" readonly>
                 </div>
@@ -46,10 +47,9 @@
                     enctype="multipart/form-data">
                     <div class="panel-body">
                         <div class="row">
-                        <input type="hidden" id="id_obj_comercial1" name="id_obj_comercial1"
-                        value="<?=$inf_1_acc['id_obj_comercial']?>">
-                        <input type="hidden" id="id_proyectoii" name="id_proyectoii"
-                            value="<?=$id_programacion?>">
+                            <input type="hidden" id="id_obj_comercial1" name="id_obj_comercial1"
+                                value="<?=$inf_1_acc['id_obj_comercial']?>">
+                            <input type="hidden" id="id_proyectoii" name="id_proyectoii" value="<?=$id_programacion?>">
                             <input type="hidden" id="id_programacion" name="id_programacion"
                                 value="<?=$id_p_acc_centralizada?>">
                             <div class="col-12 text-center">
@@ -94,8 +94,9 @@
                                 </select>
                             </div>
                             <div class="form-group col-3">
-                               
-                                <input id="porcentaje_acc" name="porcentaje_acc" value="0" type="hidden" class="form-control">
+
+                                <input id="porcentaje_acc" name="porcentaje_acc" value="0" type="hidden"
+                                    class="form-control">
                             </div>
 
                             <div class="col-12">
@@ -105,16 +106,24 @@
                                 <h4 style="color:red;">Información Items Productos (IP)</h4>
                             </div>
                             <div class="form-group col-12">
-                                <label>Cambiar CCNU <i style="color: red;"
-                                        title="Para llenar el campo de CCNU debe ingresar una palabra clave, esto le ayudara con la busqueda"
+                                <label>Agregar Bienes (CCNU) <i style="color: red;"
+                                        title="Para llenar el campo de CCNU debe ingresar una palabra clave, esto le ayudará con la búsqueda"
                                         class="fas fa-question-circle"></i></label>
                                 <div class="row">
                                     <div class="col-4">
-                                        <input title="Debe ingresar una palabra para realizar la busqueda" type="text"
+                                        <label>Leer: Debe ingresar una palabra para realizar la búsqueda<i
+                                                style="color: red;"
+                                                title="Debe ingresar una palabra para realizar la búsqueda."
+                                                class="fas fa-question-circle"></i></label>
+                                        <input title="Debe ingresar una palabra para realizar la búsqueda" type="text"
                                             class="form-control" onKeyUp="this.value=this.value.toUpperCase();"
                                             name="ccnu_b" id="ccnu_b" onblur="buscar_ccnnu();">
                                     </div>
                                     <div class="col-8">
+                                        <label>Leer: Depende de la palabra ingresada en el campo anterior, se mostrará
+                                            las opciones.<i style="color: red;"
+                                                title="Depende de la palabra ingresada en el campo anterior, se mostrará las opciones."
+                                                class="fas fa-question-circle"></i></label>
                                         <select
                                             title="Depende de la palabra ingresada en el campo anterior, se listaran las opciones."
                                             class="form-control" name="id_ccnu_acc" id="id_ccnu_acc">
@@ -142,10 +151,11 @@
                             <div class="card card-outline-danger">
                                 <h5 class="mt-3 text-center"><b>Distribución de la cantidad de la Ejecución
                                         Trimestral</b><b style="color:red">*Leer</b><i style="color: red;"
-                                            title="Debe distribuir la cantidad ingrersada por trimestre"
-                                            class="fas fa-question-circle"></i> </h5> <br>
-                                            <h6 class="mt-1 text-center">Debe distribuir la cantidad ingresada en los campos de trimestres I,II,III,IV segun su programación</h6>
-                                            <h6 class=" text-right">Cantidad a distribuir debe ser igual a Cero (0)</h6>
+                                        title="Debe distribuir la cantidad ingrersada por trimestre"
+                                        class="fas fa-question-circle"></i> </h5> <br>
+                                <h6 class="mt-1 text-center">Debe distribuir la cantidad ingresada en los campos de
+                                    trimestres I,II,III,IV según su programación</h6>
+                                <h6 class=" text-right">Cantidad a distribuir debe ser igual a Cero (0)</h6>
 
                                 <div class="row mt-2">
                                     <div class="form-group col-2">
@@ -156,28 +166,33 @@
                                     <div class="form-group col-2">
                                         <label>I<b style="color:red">*</b></label>
                                         <input id="I_acc" name="I_acc" type="text" onblur="calcular_bienes();" value="0"
-                                            class="form-control" style="width: 100%;" onkeypress="return valideKey(event);">
+                                            class="form-control" style="width: 100%;"
+                                            onkeypress="return valideKey(event);">
                                     </div>
                                     <div class="form-group col-2">
                                         <label>II<b style="color:red">*</b></label>
                                         <input id="II_acc" name="II_acc" type="text" onblur="calcular_bienes();"
-                                            value="0" class="form-control" style="width: 100%;" onkeypress="return valideKey(event);">
+                                            value="0" class="form-control" style="width: 100%;"
+                                            onkeypress="return valideKey(event);">
                                     </div>
                                     <div class="form-group col-2">
                                         <label>III<b style="color:red">*</b></label>
                                         <input id="III_acc" name="III_acc" type="text" onblur="calcular_bienes();"
-                                            value="0" class="form-control" style="width: 100%;" onkeypress="return valideKey(event);">
+                                            value="0" class="form-control" style="width: 100%;"
+                                            onkeypress="return valideKey(event);">
                                     </div>
                                     <div class="form-group col-2">
                                         <label>IV<b style="color:red">*</b></label>
                                         <input id="IV_acc" name="IV_acc" type="text" onblur="calcular_bienes();"
-                                            value="0" class="form-control" style="width: 100%;" onkeypress="return valideKey(event);">
+                                            value="0" class="form-control" style="width: 100%;"
+                                            onkeypress="return valideKey(event);">
                                     </div>
                                     <div class="form-group col-2">
-                                        <label>Cantd. a Distribuir <b style="color:red">*</b><i style="color: red;" title="Restara con los valores ingresados en los campos de trimestres, debe dar un Valor de Cero(0)."
-                                        class="fas fa-question-circle"></i></label>
-                                        <input id="cant_total_distribuir_acc"  name="cant_total_distribuir_acc" 
-                                            type="text" class="form-control" readonly >
+                                        <label>Cantd. a Distribuir <b style="color:red">*</b><i style="color: red;"
+                                                title="Restara con los valores ingresados en los campos de trimestres, debe dar un Valor de Cero(0)."
+                                                class="fas fa-question-circle"></i></label>
+                                        <input id="cant_total_distribuir_acc" name="cant_total_distribuir_acc"
+                                            type="text" class="form-control" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -248,7 +263,7 @@
                     </div>
                     <div class="form-group col 12 text-center">
                         <button type="button" onclick="guardar_acc_bien();" id="guardar" name="guardar"
-                            class="btn btn-primary mb-3">Guardar</button>
+                            class="my-button">Guardar</button>
                     </div>
                 </form>
             </div>
@@ -304,12 +319,23 @@
                                             style="color: darkgreen;"></i>
                                     </a>
                                     <a onclick="eliminar_items_bienes(<?php echo $data['id_p_items'];?>);"
-                                         class="button"><i class="fas fa-lg fa-fw  fa-trash-alt" style="color:red"></i><a />
+                                        class="button"><i class="fas fa-lg fa-fw  fa-trash-alt"
+                                            style="color:red"></i><a />
                                 </td>
                             </tr>
                             <?php endforeach;?>
                         </tbody>
                     </table>
+                </div>
+                <div class="form-group col 12 text-center">
+                    <button type="button" class="my-button3" onclick="location.href='#accbienes'">Continuar con la Carga
+                        de Acciòn Centralizada Bienes</button>
+                    <button
+                        onclick="location.href='<?php echo base_url()?>index.php/programacion/nueva_prog?id=<?php echo $id_programacion;?>'"
+                        type="button" class="my-button3" name="button">
+                        Ir a Carga Plan de Compra
+                    </button>
+
                 </div>
             </div>
 
@@ -326,7 +352,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        
+
                         <input type="hidden" class="form-control" name="id_items_b" id="id_items_b">
                         <div class="form-group col-3">
                             <label>ID - ITEMS</label>
@@ -335,12 +361,12 @@
                         <div class="form-group col-9">
                             <label>Cod. Partida Presupuestaria</label>
                             <input type="hidden" name="id_part_pres_b" id="id_part_pres_b">
-                            <input id="codigopartida_presupuestaria" name="codigopartida_presupuestaria" class="form-control"
-                                class="form-control" disabled>
-                                <input id="desc_partida_presupuestaria" name="desc_partida_presupuestaria" class="form-control"
-                                class="form-control" disabled>
+                            <input id="codigopartida_presupuestaria" name="codigopartida_presupuestaria"
+                                class="form-control" class="form-control" disabled>
+                            <input id="desc_partida_presupuestaria" name="desc_partida_presupuestaria"
+                                class="form-control" class="form-control" disabled>
                         </div>
-                        
+
                         <!-- <div class="form-group col-12">
                             <label> Cambiar Partida Presupuestaria <i
                                     title="Si requiere cambiar la Partida Presupuestaria, debe seleccionarlo en el siguiente campo"
@@ -352,12 +378,12 @@
                         <div class="form-group col-6">
                             <label>CCNU</label>
                             <input type="text" class="form-control" name="desc_ccnu" id="desc_ccnu" disabled>
-                            
+
                         </div>
 
                         <!-- <div class="form-group col-12">
                             <label>Cambiar CCNU <i style="color: red;"
-                                    title="Para llenar el campo de CCNU debe ingresar una palabra clave, esto le ayudara con la busqueda"
+                                    title="Para llenar el campo de CCNU debe ingresar una palabra clave, esto le ayudara con la búsqueda"
                                     class="fas fa-question-circle"></i></label>
                             <div class="row">
                                 <div class="col-4">
@@ -378,7 +404,7 @@
                             <label>Especificación</label>
                             <input type="text" class="form-control" name="especificacion" id="especificacion">
                         </div>
-                        
+
                         <div class="form-group col-3">
                             <label>Unidad de Medida</label>
                             <input type="text" class="form-control" name="unid_med_b" id="unid_med_b" disabled>
@@ -491,15 +517,15 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" onclick="guardar_tabla_b1();"
+                        <button type="button" class="my-button" onclick="guardar_tabla_b1();"
                             data-dismiss="modal">Guardar</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="my-button" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<!-- /////////////////////////////editar items de bienes -->
+    <!-- /////////////////////////////editar items de bienes -->
     <script src="<?=base_url()?>/js/bien/modal_editar_items_bienes.js"></script>
     <!-- /////////////////////////////editar items de bienes -->
     <script src="<?=base_url()?>/js/bien/llenar_editar_proy_b.js"></script>
@@ -507,3 +533,25 @@
 
     <script src="<?=base_url()?>/js/bien/guardaritmccs.js"></script>
     <script src="<?=base_url()?>/js/eliminar.js"></script>
+    <script>
+    $(document).ready(function() {
+        $("#costo_unitario_acc").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#cantidad_acc").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#costo_unitario_mod_b").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#cantidad_mod_b").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+
+       
+    });
+    </script>

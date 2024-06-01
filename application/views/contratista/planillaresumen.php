@@ -580,6 +580,7 @@
                             <h5 style="margin-bottom: 0;"><b>Nombre de la firma de la Auditoría: </b></h5>
                             <h6><?= $consultadictamen['firmaaudit'] ?></h6>
                         </div>
+                        
                         <div class="col-6">
                             <h5 style="margin-bottom: 0;"><b>Presenta Dictamen de opinión Limpia: </b></h5>
                             <h6><?php if ($consultadictamen['opilimpia'] == '1') {

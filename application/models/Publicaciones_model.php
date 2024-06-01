@@ -1098,5 +1098,16 @@ public function updateAccionesLlamadosAndNotifyLlc(array $data, string $des_unid
 
     return true;
 }
+public function consultar_cxc_client3($data){
+	
+		$this->db->select("sum(to_number(mc.monto_contrato,'999999999999D99')) as total_mas_iva");
+	   //$this->db->join('mensualidad m', 'm.id_mensualidad = mc.id_mensualidad', 'left');
+		$this->db->where('mc.numero_proceso', $data);
+		$this->db->where('mc.id_accion_cargar', 1);
+		$query = $this->db->get('publicaciones.acciones_llamados mc');
+		return $query->row_array();
+	
+}
+
 }
 ?>

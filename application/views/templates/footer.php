@@ -77,11 +77,31 @@ $(document).ready( function () {
       
       {
         extend: "excel",
-        text: "Exportar a Calc"
+        text: "Exportar Hoja de Càlculo"
       }
     ]
   });
 } );
+$(document).ready(function() {
+  var table = $('#data-tablever_programacion_final').DataTable({
+    dom: "Bfrtip",
+    buttons: [
+      {
+        extend: "pdf",
+        text: "Exportar a PDF",
+        orientation: 'landscape',
+        title: function() {
+          return 'Reporte Plan de Compra fecha de Impresión- ' + new Date().toLocaleString();
+        },
+        customize: function(doc) {
+  doc.pageMargins = [5, 10, 10, 10]; // left, top, right, bottom
+  doc.defaultStyle.fontSize = 8; // You can adjust the font size to fit more content
+  doc.pageSize = 'A3'; // Change the page size to A3, which has more width
+}
+      }
+    ]
+  });
+});
 
 </script> 
 <script>
@@ -115,7 +135,7 @@ $(document).ready(function() {
         text: "Exportar a PDF",
         orientation: 'landscape',
         title: function() {
-          return 'Resuldado del LLamado a Concurso - ' + new Date().toLocaleString();
+          return 'Resultados del LLamado a Concurso - ' + new Date().toLocaleString();
         },
         customize: function(doc) {
           doc.pageMargins = [5, 10, 10, 10]; // left, top, right, bottom

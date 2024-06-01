@@ -25,17 +25,46 @@ function guardar_py_bien(){
     var estimado_iV_acc = $("#estimado_iV_acc").val();
     var cant_total_distribuir_acc = $("#cant_total_distribuir_acc").val();
 
-
     if ($("#par_presupuestaria_acc option:selected").val() == 0) {
-        alert("Debe Seleccionar una Partida Presupuestaria");
+        swal.fire({
+            title: 'Debe Seleccionar una Partida Presupuestaria',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
         document.getElementById("par_presupuestaria_acc").focus();
-        return false;
-    }else if(id_estado_acc == ''){
-        alert("Debe ingresar un estado")
+      
+    }
+    else if(id_estado_acc == ''){
+        swal.fire({
+            title: 'Debe ingresar un estado',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        // alert("Debe ingresar un estado")
         document.getElementById("id_estado_acc").focus();
     }
     else if($("#fuente_financiamiento_acc option:selected").val() == 0) {
-        alert("Debe Seleccionar una Fuente Financiamiento");
+        swal.fire({
+            title: 'Debe Seleccionar una Fuente Financiamiento',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+       // alert("Debe Seleccionar una Fuente Financiamiento");
         document.getElementById("fuente_financiamiento_acc").focus();
         return false;
     }
@@ -44,24 +73,74 @@ function guardar_py_bien(){
 
         document.getElementById("porcentaje_acc").focus();
     }else if($("#id_ccnu_acc option:selected").val() == 0) {
-        alert("Debe Seleccionar un CCNU");
+        swal.fire({
+            title: 'Debe Seleccionar un CCNU',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+       // alert("Debe Seleccionar un CCNU");
         document.getElementById("id_ccnu_acc").focus();
         return false;
     }
     else if(especificacion_acc == ''){
-        alert("Debe ingresar una especificación")
+        swal.fire({
+            title: 'Debe ingresar una especificación',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        //alert("Debe ingresar una especificación")
         document.getElementById("especificacion_acc").focus();
     }else if($("#id_unidad_medida_acc option:selected").val() == 0) {
-        alert("Debe Seleccionar una unidad de medida");
+        swal.fire({
+            title: 'Debe Seleccionar una unidad de medida',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+       // alert("Debe Seleccionar una unidad de medida");
         document.getElementById("id_unidad_medida_acc").focus();
         return false;
     }
     else if(cantidad_acc == ''){
-        alert("Debe ingresar una Cantidad (obligatotio)")
+        swal.fire({
+            title: 'Debe ingresar una Cantidad (obligatotio)',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        //alert("Debe ingresar una Cantidad (obligatotio)")
         document.getElementById("cantidad_acc").focus();
     }
-     else if(cant_total_distribuir_acc > '1'){
-        alert("la cantidad a Distribuir debe ser igual a cero (obligatotio) (Debe distribuir la cantidad ingresada en los campos de trimestres I,II,III,IV segun su programación)")
+    else if(cant_total_distribuir_acc > '1'){
+        //alert("la cantidad a Distribuir debe ser igual a cero (obligatotio) (Debe distribuir la cantidad ingresada en los campos de trimestres I,II,III,IV segun su programación)")
+        swal.fire({
+            title: 'la cantidad a Distribuir debe ser igual a cero (obligatotio) (Debe distribuir la cantidad ingresada en los campos de trimestres I,II,III,IV según su programación)',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
         document.getElementById("cant_total_distribuir_acc").focus();
     }
     // else if(cant_total_distribuir_acc >= '1'){
@@ -69,14 +148,32 @@ function guardar_py_bien(){
     //     document.getElementById("cant_total_distribuir_acc").focus();
     // }
     else if(costo_unitario_acc == ''){
-        alert("Debe ingresar un Costo Unitario (Obligatorio)")
-
-        document.getElementById("costo_unitario_acc").focus();
-    } else if($("#id_alicuota_iva_acc option:selected").val() == 0) {
-        alert("Debe Seleccionar un iva ");
+        // alert("Debe ingresar un Costo Unitario (Obligatorio)")
+        swal.fire({
+         title: 'Debe ingresar un Costo Unitario (Obligatorio)',
+         type: 'warning',
+         showCancelButton: false,
+         confirmButtonColor: '#3085d6',
+         confirmButtonText: 'Ok'
+     }).then((result) => {
+         if (result.value == true) {
+         }
+     });
+         document.getElementById("costo_unitario_acc").focus();
+     } else if($("#id_alicuota_iva_acc option:selected").val() == 0) {
+        swal.fire({
+            title: 'Debe Seleccionar un iva correspondiente (Obligatorio)',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        //alert("Debe Seleccionar un iva ");
         document.getElementById("id_alicuota_iva_acc").focus();
         return false;
-    
     }else{
         event.preventDefault();
         swal.fire({

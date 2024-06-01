@@ -25,12 +25,12 @@
                     </div>
                     <div class="col-6 text-center mt-1">
                         <h3 class="text-center">Disponibles para "Modificación de la Programación Anual correspondiente al Ejercicio Fiscal de conformidad a lo establecido en el Articulo 38, numeral 2 del DCRVFLCP"</h3>
-                        <h6 style="color:red" class="text-center">Para Editar una Programaciòn Anual debera ponerse en contacto con el Servicio Nacional de Contrataciones</h6>
+                        <!-- <h6 style="color:red" class="text-center">Para Editar una Programaciòn Anual debera ponerse en contacto con el Servicio Nacional de Contrataciones</h6> -->
 
                         <table id="data-table-autofill" class="table table-hover">
                             <thead style="background:#e4e7e8">
                                 <tr class="text-center">
-                                    <th>Año de la Programación</th>
+                                    <th>Período de Programación Registrados</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -41,13 +41,15 @@
                                     <td class="center">
                                         <a href="<?php echo base_url();?>index.php/programacion/consultar_item_reprogramacion?id=<?php echo $lista['id_programacion'];?>"
                                             class="button">
-                                            <i class="fas fa-lg fa-fw fa-eye" title="Cargar información de la re-programación"></i>
+                                            <i class="fas fa-lg fa-fw fa-edit"
+                                                title="Modificar Carga de Programación, Articulo 38 #2 del DCRVFLCP"></i>
+                                            <a />
                                         <a/>
                                         <!-- <a href="<?php echo base_url();?>index.php/programacion/certi_progra?id=<?php echo $lista['id_programacion'];?>"
                                             class="button">
                                             <i class="fas fa-lg fa-fw fa-eye" style="color: green;" title="Cargar información de la re-programación"></i>
                                         <a/> -->
-                                        <a title="Enviar Modificación" onclick="enviarreprogramacion(<?php echo $lista['id_programacion'];?>);" class="button">
+                                        <a title="Notificar Modificación al SNC" onclick="enviarreprogramacion(<?php echo $lista['id_programacion'];?>);" class="button">
                                                                 <i class="fas fa-lg fa-fw fa-upload" style="color: green;"></i>
                                                             <a/>
                                                             <?php if ($lista['modificado'] != 0) : ?>
@@ -56,7 +58,7 @@
                                                     <a href="<?php echo base_url();?>index.php/programacion/modificacion_ley?id=<?php echo $lista['id_programacion'];?>"
                                                                 class="button">
                                                                 <i class="fas   fa-lg fa-cloud-download-alt"
-                                                                    title="Certificado" style="color: blue;"></i>
+                                                                    title="Descarga certificado de cumplimiento ART.38 N2" style="color: blue;"></i>
                                                                 <a />
                                                     <?php endif; ?>
 

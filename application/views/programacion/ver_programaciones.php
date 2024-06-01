@@ -22,18 +22,18 @@
                     <div class="col-12 text-center">
                         <button type="button" class="btn btn-lg mt-2 mb-2 btn-default" data-toggle="modal"
                             data-target="#agregar_programacion">
-                            Agregar Año de Programación
+                            Agregar Período de Programación
                         </button>
                     </div>
                     <div class="col-3">
 
                     </div>
                     <div class="col-6 text-center mt-3">
-                        <h3 class="text-center">Años de Programaciones Registrados</h3>
+                        <h3 class="text-center">Período de Programación Registrados</h3>
                         <table class="table table-bordered">
                             <thead style="background:#e4e7e8">
                                 <tr class="text-center">
-                                    <th>Año de la Programación</th>
+                                    <th>Período</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -47,9 +47,9 @@
                                         <a href="<?php echo base_url();?>index.php/programacion/nueva_prog?id=<?php echo $lista['id_programacion'];?>"
                                             class="button">
                                             <i class="fas fa-lg fa-fw fa-edit"
-                                                title="Cargar información de la programación"></i>
+                                                title="Cargar Programación"></i>
                                             <a />
-                                            <a title="Enviar" onclick="enviar(<?php echo $lista['id_programacion'];?>);"
+                                            <a title="Remitir al SNC" onclick="enviar(<?php echo $lista['id_programacion'];?>);"
                                                 class="button">
                                                 <i class="fas fa-lg fa-fw fa-upload" style="color: green;"></i>
                                                 <a />
@@ -58,17 +58,17 @@
                                                 <?php if ($lista['estatus'] ==2) : ?>
                                                 <a href="<?php echo base_url();?>index.php/programacion/nueva_prog?id=<?php echo $lista['id_programacion'];?>"
                                                     class="button">
-                                                    <i class="fas fa-lg fa-fw fa-edit"
-                                                        title="Editar información de la programación"></i>
+                                                    <i class="fas fa-lg fa-fw fa-edit" style="color:black"
+                                                        title="Editar programación"></i>
                                                     <a />
-                                                    <a title="Enviar Programación Editada"
+                                                    <a title="Notificar Programación Editada al SNC"
                                                         onclick="enviar(<?php echo $lista['id_programacion'];?>);"
                                                         class="button">
                                                         <i class="fas fa-lg fa-fw fa-upload" style="color: green;"></i>
                                                         <a />
                                                         <a href="<?php echo base_url();?>index.php/programacion/ver_programacion_final?id=<?php echo $lista['id_programacion'];?>"
                                                             class="button">
-                                                            <i class="fas fa-print fa-lg" title="Imprimir"
+                                                            <i class="fas fa-print fa-lg" title="Imprimir Carga"
                                                                 style="color: black;"></i>
                                                             <a />
                                                             <!-- <a href="<?php echo base_url();?>index.php/programacion/certi_progra?id=<?php echo $lista['id_programacion'];?>"
@@ -80,7 +80,7 @@
                                                             <a href="<?php echo base_url();?>index.php/programacion/read_send?id=<?php echo $lista['id_programacion'];?>"
                                                                 class="button">
                                                                 <i class="fas   fa-lg fa-cloud-download-alt"
-                                                                    title="Certificado" style="color: blue;"></i>
+                                                                    title="Descargar Certificado de Cumplimiento ART.38 #1" style="color: blue;"></i>
                                                                 <a />
                                                                 <?php endif; ?>
                                     </td>
@@ -99,7 +99,7 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel">Agregar año</h4>
+                <h4 class="modal-title" id="exampleModalLabel">Agregar Período</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -160,13 +160,13 @@ $(document).ready(function() {
                 // console.log(data);
                 if (data == no) {
                     $('#result-anio').fadeIn(1600).html(
-                        '<div class="alert alert-success"><strong>Bien!</strong> Año disponible.</div>'
+                        '<div class="alert alert-success"><strong>Bien!</strong> Período disponible.</div>'
                     );
                     $("#btn_guar_2").prop('disabled', false)
 
                 } else {
                     $('#result-anio').fadeIn(1600).html(
-                        '<div class="alert alert-danger"><strong>Año ya Registrado!</strong> .</div>'
+                        '<div class="alert alert-danger"><strong>Período ya Registrado!</strong> .</div>'
                     );
                     $("#btn_guar_2").prop('disabled', true)
 

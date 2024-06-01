@@ -1264,6 +1264,8 @@ public function llamadointerno() {
         $data['time']=date("Y-m-d");
 
         $data['inf_1'] = $this->Publicaciones_model->inf_1($data['numero_proceso']);
+        $data['results_2']      =  $this->Publicaciones_model->consultar_cxc_client3($data['numero_proceso']);
+
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
           $this->load->view('publicaciones/acciones/acciones2.php', $data);

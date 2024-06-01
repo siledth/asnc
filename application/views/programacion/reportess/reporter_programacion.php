@@ -2,15 +2,25 @@
     <h2>Programación Anual</h2>
     <div class="row">
 
-        <div class="col-10 mt-4">
-            <div class="card card-outline-danger text-center bg-white">
+        <div class="col-12 mt-7">
+        <div class="card card-outline-danger text-center bg-white" style="border-color: white;">
+  
                 <div class="card-block">
-                    <blockquote class="card-blockquote" style="margin-bottom: -19px;">
                      
-
-
-                            <!-- <input type="hidden" name="fecha_est" id="fecha_est" value=""> -->
-                    </blockquote>
+                    <div class="col-12 text-center mt-3 mb-3">
+                        <button
+                            onclick="location.href='<?php echo base_url()?>index.php/programacion?id=<?php echo $id_programacion;?>'"
+                            type="button" class="my-button3" name="button">
+                            Ir a Período de Programaciones Cargadas
+                        </button>
+                        <button
+                            onclick="location.href='<?php echo base_url()?>index.php/programacion/nueva_prog?id=<?php echo $id_programacion;?>'"
+                            type="button" class="my-button3" name="button">
+                            Ir a Cargar Acción Centralizada o Proyecto
+                        </button>
+                        <!-- <a class="my-button"
+                            href="javascript:history.back()"> Volver</a> -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -20,7 +30,7 @@
             <div class="table-responsive">
                 <!-- <table id="example" class="table table-striped table-bordered table-responsive nowrap" style="width:100%"> -->
                 <!-- <table id="data-table-buttons" data-order='[[ 1, "asc" ]]' class="table table-bordered"> -->
-                <table id="data-table" data-order='[[ 1, "asc" ]]' class="table table-bordered">
+                <table id="data-tablever_programacion_final" data-order='[[ 1, "asc" ]]' class="table table-bordered">
 
                     <thead style="background:#01cdb2">
                       
@@ -50,7 +60,7 @@
                             <th style="color:white; width: 40px">IVA </th>
                             <th style="color:white; width: 40px">Monto Iva Est.</th>
                             <th style="color:white; width: 40px">Monto Total Est.</th>
-                            <th style="color:white; width: 40px">Objeto de Contratación</th>
+                            <th style="color:white; width: 40px">Obj. Contr.</th>
 
                         </tr>
                     </thead>

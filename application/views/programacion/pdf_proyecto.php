@@ -34,7 +34,7 @@
                                 <div class="col-12 text-center">
                                     <h4 style="color:red;">Información Items Fuente Financiamiento (IFF)</h4>
                                 </div>
-                                <table id="data-table-buttons" class="table table-bordered table-hover">
+                                <table id="data-table-autofill" class="table table-bordered table-hover">
                                     <thead style="background:#e4e7e8;">
                                         <tr class="text-center">
                                             <th>Código Part. Presupuestaria</th>
@@ -107,8 +107,18 @@
                         </div>
                     </div>
                     <!--////////////////////////////SEGUNDA PARTE DE LA CARGA -->
-                    <div class="col-12 text-center mt-3">
-                        <a class="btn btn-circle waves-effect btn-lg waves-circle waves-float btn-grey" href="javascript:history.back()"> Volver</a>
+                    <div class="form-group col 12 text-center">
+                        <button
+                            onclick="location.href='<?php echo base_url()?>index.php/programacion?id=<?php echo $id_programacion;?>'"
+                            type="button" class="my-button3" name="button">
+                            Ir a Período de Programaciones Cargadas
+                        </button>
+                        <button
+                            onclick="location.href='<?php echo base_url()?>index.php/programacion/nueva_prog?id=<?php echo $id_programacion;?>'"
+                            type="button" class="my-button3" name="button">
+                            Ir a Cargar Acción Centralizada o Proyecto
+                        </button>
+
                     </div>
                 </div>
             </div>

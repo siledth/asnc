@@ -41,9 +41,14 @@ class Login extends CI_Controller {
      
       $data2 = $this->login_model->consultar_organo($id_unidad);
       if ($data5 == TRUE) {
-        $this->session->set_flashdata('alert','El Usuario Tiene una Sesión Abierta.');
+        $this->session->set_flashdata('alert', 'Su sesión se cerro por inactividad, vuelva a iniciar Sesión.');
+        $data6 = $this->login_model->delesesion2($id_user);
+
         redirect('login');
-      } else{      
+
+      } 
+      
+      else{      
       if ($data2) {
         $user_data = [
           'id_user' => $data['id'],

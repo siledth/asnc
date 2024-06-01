@@ -3,7 +3,7 @@
     <h2>Modificación  Bienes-acc</h2> 
     <div class="row">
 
-        <div class="col-10 mt-4">
+        <div class="col-12 mt-4">
             <div class="card card-outline-danger text-center bg-white">
                 <div class="card-block">
                     <blockquote class="card-blockquote" style="margin-bottom: -19px;">
@@ -50,7 +50,7 @@
                         <input type="hidden" id="id_obj_comercial" name="id_obj_comercial"
                         value="<?=$inf_1_acc['id_obj_comercial']?>">
                                 <label style="color: red;">Debe Ingresar una Observación</label> Leer<i style="color: red;"
-                                    title="Debe ingresar una Observación, para reprogramar"
+                                    title="Debe ingresar una Observación"
                                     class="fas fa-question-circle"></i><br>
                                 <textarea class="form-control" rows="2" name="observaciones"
                                     id="observaciones"></textarea>
@@ -111,16 +111,24 @@
                                 <h4 style="color:red;">Información Items Productos (IP)</h4>
                             </div>
                             <div class="form-group col-12">
-                                <label>Cambiar CCNU <i style="color: red;"
-                                        title="Para llenar el campo de CCNU debe ingresar una palabra clave, esto le ayudara con la busqueda"
+                            <label>Agregar Bienes (CCNU) <b style="color:red">*</b> <i style="color: red;"
+                                        title="Para llenar el campo de CCNU debe ingresar una palabra clave, esto le ayudará con la búsqueda"
                                         class="fas fa-question-circle"></i></label>
                                 <div class="row">
                                     <div class="col-4">
+                                    <label>Leer: Debe ingresar una palabra para realizar la búsqueda<i
+                                                style="color: red;"
+                                                title="Debe ingresar una palabra para realizar la búsqueda."
+                                                class="fas fa-question-circle"></i></label>
                                         <input title="Debe ingresar una palabra para realizar la busqueda" type="text"
                                             class="form-control" onKeyUp="this.value=this.value.toUpperCase();"
                                             name="ccnu_b" id="ccnu_b" onblur="buscar_ccnnu();">
                                     </div>
                                     <div class="col-8">
+                                    <label>Leer: Depende de la palabra ingresada en el campo anterior, se mostrará
+                                            las opciones.<i style="color: red;"
+                                                title="Depende de la palabra ingresada en el campo anterior, se mostrará las opciones."
+                                                class="fas fa-question-circle"></i></label>
                                         <select
                                             title="Depende de la palabra ingresada en el campo anterior, se listaran las opciones."
                                             class="form-control" name="id_ccnu_acc" id="id_ccnu_acc">
@@ -248,7 +256,7 @@
                     </div>
                     <div class="form-group col 12 text-center">
                         <button type="button" onclick="guardar_acc_bien_rendi();" id="guardar" name="guardar"
-                            class="btn btn-primary mb-3">Guardar</button>
+                            class="my-button">Guardar</button>
                     </div>
                 </form>
             </div>
@@ -322,7 +330,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Modal para Modificar Items de Bienes-acc</h4>
+                    <h4 class="modal-title">Modificar Items de Bienes-acc</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -405,7 +413,7 @@
                                         onblur="calcular_mod_bienes();" name="cuarto_b" id="cuarto_b">
                                 </div>
                                 <div class="form-group col-2">
-                                    <label>Cantd. restante a Distribuir <b style="color:red">*</b></label>
+                                    <label>Porcentaje a Distribuir <b style="color:red">*</b></label>
                                     <input id="cant_total_distribuir_mod_b" name="cant_total_distribuir_mod_b"
                                         onkeyup="verif();" class="form-control" disabled>
                                 </div>
@@ -475,16 +483,16 @@
                         </div>
                         <div class="form-group mt-2 col-6">
                                 <label style="color: red;">Debe Ingresar una Observación (Obligatorio)</label> Leer<i style="color: red;"
-                                    title="Debe ingresar una Observación, para reprogramar"
+                                    title="Debe ingresar una Observación"
                                     class="fas fa-question-circle"></i><br>
                                 <textarea class="form-control" rows="2" name="observaciones2"
                                     id="observaciones2"></textarea>
                             </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" onclick="guardar_reprogramacion_bienes_acc();"
+                        <button type="button" class="my-button" onclick="guardar_reprogramacion_bienes_acc();"
                             data-dismiss="modal">Guardar</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="my-button" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
             </div>
@@ -510,3 +518,25 @@
 
 
     <script src="<?=base_url()?>/js/eliminar.js"></script>
+    <script>
+    $(document).ready(function() {
+        $("#costo_unitario_acc").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#cantidad_acc").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#costo_unitario_mod_b").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#cantidad_mod_b").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+
+       
+    });
+    </script>

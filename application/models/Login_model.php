@@ -117,6 +117,12 @@ class Login_model extends CI_model
             $query = $this->db->delete('seguridad.user_sessions');
             return true;
         }
+        public function delesesion2($data)
+        { 
+            $this->db->where('user_id', $data['user_id']);
+            $query = $this->db->delete('seguridad.user_sessions');
+            return true;
+        }
     public function consultar_organo($id_unidad)
     {
         $this->db->select('ea.id_organoente,

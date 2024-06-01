@@ -53,6 +53,28 @@ hr {
     border-radius: 20px;
     transition: 0.4s ease;
   } 
+  .my-button3 {
+    background-image: linear-gradient(135deg, rgb(196, 74, 74) 0%, rgb(135, 42, 48) 100%);
+	  border: 0;
+    color: white;
+    width: 350px; /* ajusta el ancho según sea necesario */
+    height: 40px; /* ajusta el alto según sea necesario */
+    /*font-size: 16px;  ajusta el tamaño de la fuente según sea necesario */
+    padding: 10px; /* ajusta el padding según sea necesario */
+    border-radius: 20px;
+    transition: 0.4s ease;
+  }
+  .my-button4 {
+    background-image: linear-gradient(135deg, rgb(196, 74, 74) 0%, rgb(135, 42, 48) 100%);
+	  border: 0;
+    color: white;
+    width: 280px; /* ajusta el ancho según sea necesario */
+    height: 40px; /* ajusta el alto según sea necesario */
+    /*font-size: 16px;  ajusta el tamaño de la fuente según sea necesario */
+    padding: 10px; /* ajusta el padding según sea necesario */
+    border-radius: 20px;
+    transition: 0.4s ease;
+  }
   .password-toggle {
     cursor: pointer;
     transition: all 0.3s ease;

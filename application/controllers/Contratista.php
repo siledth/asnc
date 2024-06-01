@@ -81,7 +81,7 @@ class Contratista extends CI_Controller
 		$rif = $this->input->post("rif_cont");
 		$proceso_id = $this->input->post("proceso_id");
 		$data1['rifced']= $this->Contratista_model->consulta_planillaresumen($rifced);
-		$data1['mercantil']= $this->Contratista_model->consulta_planillaresumen2($rif);
+		$data1['mercantil']= $this->Contratista_model->consulta_planillaresumen2($rif,$proceso_id);
 		$data1['accionistas']= $this->Contratista_model->consulta_accionistas($rif,$proceso_id);
 		$data1['comisarios']= $this->Contratista_model->consulta_comisarios($rif,$proceso_id);
 		$data1['actividad']= $this->Contratista_model->consulta_activ_prod_clasif_compr_edo($rif,$proceso_id);

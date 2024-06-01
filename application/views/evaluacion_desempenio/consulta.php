@@ -43,6 +43,8 @@
 							<th>Fecha Evaluación</th>
 							<th>Ente Calificador</th>
 							<th>Calificación</th>
+							<th>Objeto</th>
+
 						</tr>
 					</thead>
 					<tbody>

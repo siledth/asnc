@@ -4803,7 +4803,7 @@ public function rendir($id_programacion){
     $this->db->join('evaluacion_desempenio.modalidad cc','cc.id = pac.id_modalida_rendi', 'left');
     $this->db->join('programacion.tipo_doc_contrata ti','ti.id_tipo_doc_contrata = pac.selc_tipo_doc_contrata', 'left');
     $this->db->join('programacion.comp_resp_social se','se.id_comp_resp_social = pac.selc_com_res_social', 'left');
-    $this->db->join('programacion.trimestre tr','tr.id_trimestre = pac.trimestre');
+    $this->db->join('programacion.trimestre tr','tr.id_trimestre = pac.trimestre', 'left');
 
     
     $this->db->where('pac.id_programacion', $id_programacion);
@@ -5229,19 +5229,20 @@ public function save_certificado($data){ //por hacer
         $query = $this->db->get('programacion.inf_enviada i');
         return $query->result_array();
     }
-function read_sending_p2($data1){
-    $query = $this->db->query("SELECT  pac.id_programacion, pac.des_unidad, pac.rif, pac.codigo_onapre, org.filiar, org.id_organoenteads ,p.descripcion ,p.rif as filiares
-    FROM programacion.inf_enviada pac 
-    join public.organoente org on pac.rif = org.rif
-    join public.organoente p on p.id_organoente = org.id_organoenteads
-    where pac.id_programacion = '$data1'");
-    if($query->num_rows()>0){
-        return $query->result();
+    function read_sending_p2($data1){
+        $query = $this->db->query("SELECT  pac.id_programacion, pac.des_unidad, pac.rif, pac.codigo_onapre, 
+        org.filiar, org.id_organoenteads ,p.descripcion ,p.rif as filiares
+        FROM programacion.inf_enviada pac 
+        join public.organoente org on pac.rif = org.rif
+        join public.organoente p on p.id_organoente = org.id_organoenteads
+        where pac.id_programacion = '$data1'");
+        if($query->num_rows()>0){
+            return $query->result();
+        }
+        else{
+            return NULL;
+        }
     }
-    else{
-        return NULL;
-    }
-}
 /////consutar item llena el select para el modal de rendicion especificacion acc
 public function consulta_itemsr($id_programacion){
     $this->db->select('especificacion,id_proyecto,id_p_items,id_p_acc');

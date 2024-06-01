@@ -329,6 +329,13 @@
 
 
                                 <?php endif; ?>
+                                <?php if (($this->session->userdata('ver_anul_llamado') == 1)) : ?>
+                                     
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/Publicaciones/acciones">-Acciones
+                                                Llamado a Concurso </a>
+                                        </li>
+                                        <?php endif; ?>
 
                             </ul>
                         </li>
