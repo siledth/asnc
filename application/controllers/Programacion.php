@@ -5146,7 +5146,7 @@ public function read_send() //hacer un pdf de comprobante programacion final par
    $pdf->MultiCell(200,5, utf8_decode('El Servicio Nacional de Contrataciones (SNC), hace de su conocimiento que fue recibida la carga') , 0, 'L');
    $pdf->Cell(40,10,'',0,'L');
 
-   $pdf->Cell(60,5,utf8_decode('de la Programación Anual correspondienteal Ejercicio Fiscal'),0,'L');
+   $pdf->Cell(60,5,utf8_decode('de la Programación Anual correspondiente al Ejercicio Fiscal'),0,'L');
    $id_programacion = $this->input->get('id');
    $pdf->SetFont('Arial','B',12);
    $dat7 = $this->Programacion_model->anio_programacion($id_programacion);   
@@ -5160,7 +5160,7 @@ public function read_send() //hacer un pdf de comprobante programacion final par
    $pdf->Cell(20,10,'',0,'L');
        
    $pdf->SetFont('Arial','',12);
-   $pdf->MultiCell(200,5, utf8_decode('de conformidad a lo establecido en el Articulo 38, numeral 1 del DCRVFLCP.'), 0, 'L');
+   $pdf->MultiCell(200,5, utf8_decode('de conformidad a lo establecido en el Artículo 38, numeral 1 del DCRVFLCP.'), 0, 'L');
    $pdf->Ln(1);
    $pdf->SetFont('Arial','B',10);
 
@@ -5301,7 +5301,7 @@ public function read_send() //hacer un pdf de comprobante programacion final par
     
     
      
-      $pdf->Output('Comprobanteproyecto '.$curdate.'.pdf', 'I');
+      $pdf->Output('Comprobanteproyecto '.$curdate.'.pdf', 'D');
      // $this->load->view('headfoot/header', $datos);
 }
 public function modificacion_ley() //pdf segun ley
@@ -5320,7 +5320,7 @@ public function modificacion_ley() //pdf segun ley
    //$pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');            
    //$pdf->Image(base_url().'imagenes/logosnc.png',10,6,50);  
    $pdf->Cell(195,5,'COMPROBANTE DE CUMPLIMIENTO',0,1,'C');
-   $pdf->Cell(195,5,'ARTICULO 38 NUMERAL 2 del',0,1,'C'); 
+   $pdf->Cell(195,5,utf8_decode('ARTÍCULO 38 NUMERAL 2 del'),0,1,'C'); 
    $pdf->Cell(195,5,utf8_decode('Decreto con Rango Valor y Fuerza de Ley de Contrataciones Públicas'),0,1,'C');
    $pdf->Cell(195,5,'(DCRVFLCP)',0,1,'C');
 
@@ -5377,7 +5377,7 @@ public function modificacion_ley() //pdf segun ley
        }}
    $pdf->SetFont('Arial','',12);
 
-   $pdf->MultiCell(200,5, utf8_decode('    de conformidad a lo establecido en el Articulo 38, numeral 2 del DCRVFLCP.'), 0, 'L');
+   $pdf->MultiCell(200,5, utf8_decode('    de conformidad a lo establecido en el Artículo 38, numeral 2 del DCRVFLCP.'), 0, 'L');
    $pdf->Ln(1);
    $pdf->SetFont('Arial','B',10);
 
@@ -5584,8 +5584,8 @@ public function comprobante_rendicion() //hacer un pdf de comprobante rendidicon
        }}
    $pdf->SetFont('Arial','',12);
 
-   $pdf->MultiCell(200,5, utf8_decode('   de conformidad a lo establecido en el Articulo 38, numeral 3 del Decreto con Rango, Valor y
-      Fuerza de Ley de Contrataciones Publicas, (DRVFLCP). '), 0, 'L');
+   $pdf->MultiCell(200,5, utf8_decode('   de conformidad a lo establecido en el Artículo 38, numeral 3 del Decreto con Rango, Valor y
+      Fuerza de Ley de Contrataciones Públicas, (DRVFLCP). '), 0, 'L');
    $pdf->Ln(1);
    $pdf->SetFont('Arial','B',10);
 
