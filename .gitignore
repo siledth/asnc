@@ -1,4 +1,4 @@
 imagenes/
-config.php
+application/config/config.php
 database.php
 /assets
