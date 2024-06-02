@@ -160,69 +160,7 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
     </div>
 
 
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">REGISTRO DE USUARIO PARA CERTIFICACIÓN JURÍDICA
-                        DE PERSONAS NATURALES Y JURIDICAS
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div align="center">
-                            <img style="width: 60%" height="100%" src=" <?= base_url() ?>Plantilla/img/2024.jpeg"
-                                alt="Card image">
-                        </div>
-                        <!-- <div class="form-group col-3 m-b-15">
-                            <label>Cedula</label>
-                            <input type="text" id="cedula_prop" class="form-control form-control-lg"
-                                placeholder="VXXXXXXXX" name="cedula_prop" maxlength="9" minlength="5" value="V"
-                                required />
-                            <div id="result-cedula_prop"></div>
-                        </div> -->
-                        <!-- <div class="col-2 mt-1">
-                                  <button onclick=buscar(); class="btn btn-success btn-lg btn-flat"><i class="fas fa-search"></i></button>
-                                 </div> -->
-                        <!-- <div class="col-7">
-                            <h4 class="mt-3" style="display:none; color:crimson" id="mensaj" name="mensaj">Por favor
-                                llenar sus datos</h4>
-                        </div> -->
-                        <!-- <div class="form-group col-6 m-b-15">
-                            <label>Nombre y Apellido</label>
-                            <input type="text" id="nombre" name="nombre" class="form-control form-control-lg"
-                                placeholder="Nombre y Apellido" />
-                        </div> -->
-
-                        <!-- <div class="form-group col-5 m-b-15">
-                            <label>Correo</label>
-                            <input type="text" id="email" name="email" class="form-control form-control-lg"
-                                placeholder="Email" />
-                            <div id="result-email"></div>
-                        </div> -->
-
-                    </div>
-                    <!-- <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="button" id="btn_guar_2" onclick="guardar()" class="btn btn-primary"
-                            disabled>Guardar</button>
-                    </div> -->
-                    <!-- <div class="form-group col-12 m-b-15">
-                        <h5>* Este registro es unicamente pára realizar la carga de Certificado de Persona Natural y
-                            Juridica. </h5> <br>
-                        <h5>* Para Realizar carga de llamados a concusos, evaluaciones, programación anual, consulta de
-                            contratista, por favor contactar con el Servico Nacional de Contrataciones para solicitar
-                            Usuario de Ingreso.</h5>
-
-                    </div> -->
-                </div>
-            </div>
-        </div>
-    </div>
+   
 
 
     <?php if ($this->session->flashdata('sa-error')) { ?>
@@ -274,20 +212,7 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
     <script src="<?= base_url() ?>Plantilla/admin/assets/plugins/sweetalert/jquery.sweet-alert.custom.js"></script>
     <!-- ================== END BASE JS ================== -->
 
-    <script>
-    /*  $(document).ready(function () {
-                $('.button').attr("disabled", true);
-                $('.captha_numbers a').on('click', function () {
-                    var data = $(this).attr('data');
-                    $('#captcha').val($('#captcha').val() + data);
-
-                    if ($('#captcha').val() == $('#current_captcha').val())
-                        $('.button').attr("disabled", false);
-
-                    return false;
-                });
-            });/*
-    </script>
+    
 
     <script>
     $(document).ready(function() {
@@ -315,111 +240,13 @@ $captcha_numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);*/
         });
     });
     </script>
-    <script>
-    $(document).ready(function() {
-        App.init();
-    });
-    </script>
-    <script>
-    (function(i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function() {
-            (i[r].q = i[r].q || []).push(arguments)
-        }, i[r].l = 1 * new Date();
-        a = s.createElement(o),
-            m = s.getElementsByTagName(o)[0];
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
-    ga('create', 'UA-53034621-1', 'auto');
-    ga('send', 'pageview');
-    </script>
+   
 
 
 
-    <script type="text/javascript">
-    $(document).ready(function() {
-        $('#email').on('blur', function() {
-            // url(http://localhost/asnc/Plantilla/img/images.jpeg);
-            $('#result-email').html('<img src="http://localhost/asnc/Plantilla/img/5.gif"/>')
-                .fadeOut(1000);
+   
 
-            var email = $(this).val();
-            var dataString = 'email=' + email;
-            // var base_url = window.location.origin + '/asnc/index.php/Login/validad_correo'
-            var base_url = '/index.php/Login/validad_correo';
-            $.ajax({
-                type: "POST",
-                url: base_url,
-                data: dataString,
-                success: function(data) {
-                    // console.log(data);
-                    if (data == 'null') {
-                        $('#result-email').fadeIn(1600).html(
-                            '<div class="alert alert-success"><strong>Bien!</strong> Correo disponible.</div>'
-                        );
-                        $("#btn_guar_2").prop('disabled', false)
-
-                    } else {
-                        $('#result-email').fadeIn(1600).html(
-                            '<div class="alert alert-danger"><strong>Correo ya Registrado!</strong> Ingrese otro Correo.</div>'
-                        );
-                        $("#btn_guar_2").prop('disabled', true)
-
-                    }
-
-
-
-
-
-                }
-            });
-        });
-    });
-    </script>
-
-    <script type="text/javascript">
-    $(document).ready(function() {
-        $('#cedula_prop').on('blur', function() {
-            // url(http://localhost/asnc/Plantilla/img/images.jpeg);
-            $('#result-cedula_prop').html('<img src="http://localhost/asnc/Plantilla/img/5.gif"/>')
-                .fadeOut(1000);
-
-            var cedula_prop = $(this).val();
-            var dataString = 'cedula_prop=' + cedula_prop;
-            // var base_url = window.location.origin + '/asnc/index.php/Login/validad_cedula'
-            var base_url = '/index.php/Login/validad_cedula';
-            $.ajax({
-                type: "POST",
-                url: base_url,
-                data: dataString,
-                success: function(data) {
-                    // console.log(data);
-                    if (data == 'null') {
-                        $('#result-cedula_prop').fadeIn(1600).html(
-                            '<div class="alert alert-success"><strong>Bien!</strong> Cedula disponible.</div>'
-                        );
-                        $("#btn_guar_2").prop('disabled', false)
-
-                    } else {
-                        $('#result-cedula_prop').fadeIn(1600).html(
-                            '<div class="alert alert-danger"><strong>Cedula ya Registrado!</strong> .</div>'
-                        );
-                        $("#btn_guar_2").prop('disabled', true)
-
-                    } ///DESABILITAR BOTON UNA VEZ ENVIADA LA INFORMACION
-
-
-
-
-
-                }
-            });
-        });
-    });
-    </script>
+   
 
 
 </body>
