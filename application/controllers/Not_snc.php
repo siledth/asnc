@@ -71,7 +71,7 @@ class Pdf extends FPDF
         $this->Cell(80,5,'',0,'L');
 
         $this->Cell(180,5,utf8_decode('Omissis ... "'),0,1,'L');
-        $this->Ln(3);
+        $this->Ln(1);
 
 
    
@@ -113,7 +113,7 @@ class Not_snc extends CI_Controller {
     $pdf->AliasNbPages();
     // Set the document properties
     $pdf->AddPage('P','A4',0);
-    $pdf->Ln(5);
+    $pdf->Ln(1);
     $pdf->SetFont('Arial','B',9);
    
 
@@ -158,13 +158,13 @@ if($data != ''){
   $pdf->SetFont('Arial','B',9);
   $pdf->Cell(50,6,utf8_decode('Acto Administrativo de Designación:'),0,0,'R'); 
   $pdf->SetFont('Arial','',9);
-  $pdf->Cell(40,6, utf8_decode($d->desc_acto_admin),0,0,'L');
+  $pdf->Cell(30,6, utf8_decode($d->desc_acto_admin),0,0,'L');
   $pdf->SetFont('Arial','B',9);
-  $pdf->Cell(26,6,utf8_decode('Fecha del acto:'),0,0,'L'); 
+  $pdf->Cell(25,6,utf8_decode('Fecha del acto:'),0,0,'L'); 
   $pdf->SetFont('Arial','',9); 
-  $pdf->Cell(26,6, date("d/m/Y", strtotime($d->fecha_acto)),0,0,'L');
+  $pdf->Cell(20,6, date("d/m/Y", strtotime($d->fecha_acto)),0,0,'L');
   $pdf->SetFont('Arial','B',9);
-  $pdf->Cell(26,6,utf8_decode('Nº del acto:'),0,0,'L'); 
+  $pdf->Cell(20,6,utf8_decode('Nº del acto:'),0,0,'L'); 
   $pdf->SetFont('Arial','',9); 
   $pdf->Cell(1,6,utf8_decode( $d->num_acto),0,1,'L');
   if($d->tipo_comi == 2){ 
