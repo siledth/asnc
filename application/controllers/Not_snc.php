@@ -33,7 +33,7 @@ class Pdf extends FPDF
         $dat5 = $this->comision_contrata_model->comprobante($this->id_programacion);
         if($dat5 != ''){
             foreach($dat5 as $dt5){
-                $this->Cell(100,5,utf8_decode($dt5->comprobante),0,1,'C');
+                $this->Cell(90,5,utf8_decode($dt5->comprobante),0,1,'C');
             }
         }
         
@@ -77,17 +77,13 @@ class Pdf extends FPDF
    
     }
     function Footer() {
-        // Set the cell margins
         $this->SetMargins(30, 15, 30);
-        $this->Ln(1);
-    
-        // Move the cursor to the bottom of the page
-     
-        $this->SetY(-15);
-        // Add footer section
-        $this->SetFont('Arial','',6);
-        $this->Cell(220,10,utf8_decode('RIF. G-200024518               Pagina') . ($this->PageNo() == 1 ? '1' : '2') . '/2',0,0,'C');
-        $this->SetY(-35);
+    $this->Ln(1);
+    $this->SetY(-15);
+    $this->SetFont('Arial','',6);
+    $page = $this->PageNo();
+    $this->Cell(220, 10, utf8_decode('RIF. G-200024518               Pagina'). $this->PageNo(). '/'. $this->AliasNbPages, 0, 0, 'C');
+    $this->SetY(-35);
         // Add image
         $this->Image(base_url().'baner/fp.png',80, $this->GetY(), 50);
         $data11 = $this->comision_contrata_model->con_qr($this->id_programacion);
@@ -114,16 +110,18 @@ class Not_snc extends CI_Controller {
 
     // Create a new instance of the Pdf class and pass the $id_programacion argument
     $pdf = new Pdf($id_programacion);
-
+    $pdf->AliasNbPages();
     // Set the document properties
     $pdf->AddPage('P','A4',0);
     $pdf->Ln(5);
     $pdf->SetFont('Arial','B',9);
+   
+
 $pdf->Cell(195,5,utf8_decode('INFORMACIÓN DE LA COMISIÓN DE CONTRATACIONES'),0,1,'C');
 $pdf->SetFont('Arial','I',8);
 
 // c   $pdf->Cell(350,4,'Pagina '.$pdf->PageNo().'/{nb}',0,1,'C');
-$pdf->SetFont('Arial','',12);
+$pdf->SetFont('Arial','',9);
 
 
 $da = $this->session->userdata('rif');
@@ -133,7 +131,7 @@ $pdf->Ln(3);
 
 
 
-$pdf->Cell(50,5,utf8_decode('Órgano / Ente / Adscrito:'),0,0,'R'); 
+$pdf->Cell(50,3,utf8_decode('Órgano / Ente / Adscrito:'),0,0,'R'); 
 
 $id_programacion = $this->input->get('id');
 
@@ -141,13 +139,14 @@ $data = $this->Comision_contrata_model->consulta_total_objeto_acc($id_programaci
 if($data != ''){
  foreach($data as $d){    
      $pdf->SetFont('Arial','',9);
+     $pdf->MultiCell(100,3, utf8_decode($d->descripcion), 0, 'L');
      
-    $pdf->Cell(60,6, utf8_decode($d->descripcion),0,0,'L');
+   // $pdf->Cell(60,6, utf8_decode($d->descripcion),0,0,'L');
   //  $pdf->Cell(40,6, number_format($d->precio_total, 2, ",", "."),0,0,'R');
   $pdf->SetFont('Arial','B',9);
   $pdf->Cell(50,6,utf8_decode('RIF:'),0,0,'R'); 
   $pdf->SetFont('Arial','',9); 
-  $pdf->Cell(0,6, $d->rif_organoente,0,1,'C');
+  $pdf->Cell(20,6, $d->rif_organoente,0,1,'C');
   $pdf->SetFont('Arial','B',9);
   $pdf->Cell(50,6,utf8_decode('Tipo de Comisión:'),0,0,'R'); 
   $pdf->SetFont('Arial','',9);

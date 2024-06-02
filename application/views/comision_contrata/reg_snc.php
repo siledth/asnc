@@ -77,6 +77,8 @@
                                     <option value="2">Resoluciòn</option>
                                     <option value="3">Punto de Cuenta</option>
                                     <option value="4">Decreto</option>
+                                    <option value="5">Acuerdo</option>
+
 
 
                                 </select>
