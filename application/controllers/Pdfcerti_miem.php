@@ -84,7 +84,7 @@ class Pdf extends FPDF
         $this->SetY(-15);
         // Add footer section
         $this->SetFont('Arial','',6);
-        $this->Cell(220,10,utf8_decode('RIF. G-200024518               Pagina') . ($this->PageNo() == 1 ? '1' : '2') . '/2',0,0,'C');
+        $this->Cell(220, 10, utf8_decode('RIF. G-200024518               Pagina'). $this->PageNo(). '/'. $this->AliasNbPages, 0, 0, 'C');
         $this->SetY(-35);
         // Add image
         $this->Image(base_url().'baner/fp.png',80, $this->GetY(), 50);
@@ -112,6 +112,7 @@ class Pdfcerti_miem extends CI_Controller {
 
     // Create a new instance of the Pdf class and pass the $id_programacion argument
     $pdf = new Pdf($id_programacion);
+    $pdf->AliasNbPages();
 
     // Set the document properties
     $pdf->AddPage('P','A4',0);
@@ -130,13 +131,13 @@ $pdf->Cell(50,5,utf8_decode('Órgano / Ente / Adscrito:'),0,0,'R');
   if($data != ''){
    foreach($data as $d){    
        $pdf->SetFont('Arial','',9);
+       $pdf->MultiCell(125,3, utf8_decode($d->descripcion), 0, 'L');
        
-      $pdf->Cell(60,5, utf8_decode($d->descripcion),0,0,'L');
     //  $pdf->Cell(40,5, number_format($d->precio_total, 2, ",", "."),0,0,'R');
     $pdf->SetFont('Arial','B',9);
     $pdf->Cell(50,5,utf8_decode('RIF:'),0,0,'R'); 
     $pdf->SetFont('Arial','',9); 
-    $pdf->Cell(0,5, $d->rif_organoente,0,1,'C');
+    $pdf->Cell(20,5, $d->rif_organoente,0,1,'C');
     $pdf->SetFont('Arial','B',9);
     $pdf->Cell(50,5,utf8_decode('Tipo de Comisión:'),0,0,'R'); 
     $pdf->SetFont('Arial','',9);
@@ -152,9 +153,9 @@ $pdf->Cell(50,5,utf8_decode('Órgano / Ente / Adscrito:'),0,0,'R');
     $pdf->SetFont('Arial','B',9);
     $pdf->Cell(25,5,utf8_decode('Fecha del acto:'),0,0,'L'); 
     $pdf->SetFont('Arial','',9); 
-    $pdf->Cell(25,5, date("d/m/Y", strtotime($d->fecha_acto)),0,0,'L');
+    $pdf->Cell(20,5, date("d/m/Y", strtotime($d->fecha_acto)),0,0,'L');
     $pdf->SetFont('Arial','B',9);
-    $pdf->Cell(25,5,utf8_decode('Nº del acto:'),0,0,'L'); 
+    $pdf->Cell(20,5,utf8_decode('Nº del acto:'),0,0,'L'); 
     $pdf->SetFont('Arial','',9); 
     $pdf->Cell(1,5,utf8_decode( $d->num_acto),0,1,'L');
     if($d->tipo_comi == 2){ 
