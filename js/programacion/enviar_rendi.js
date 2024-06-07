@@ -2,7 +2,7 @@ function enviar(id_programacion) {
     event.preventDefault();
     swal
         .fire({
-            title: "¿Seguro que desea enviar la Rendición seleccionada?, una vez enviada al snc, para realizar cambios a la programaciòn debera comunicarse con el Servicio Nacional de Contrataciones",
+            title: "¿Seguro que desea Notificar la Rendición seleccionada.",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",

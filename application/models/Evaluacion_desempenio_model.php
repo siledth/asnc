@@ -595,6 +595,7 @@ return $query->result_array();
                         	   e.fecha_reg_eval fecha_evaluacion,
                         	   e.calificacion nombre_calificacion,
                         	   e.id_usuario,
+                               e.descr_contrato,
                         	   u.nombre,
                         	   u.unidad,
                         	   concat(o.desc_organo,\'\', e2.desc_entes) nombre_ente');

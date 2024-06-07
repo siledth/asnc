@@ -2,14 +2,14 @@
     <h2>Rendición</h2>
     <div class="row">
 
-        <div class="col-10 mt-4">
+        <div class="col-12 mt-4">
             <div class="card card-outline-danger text-center bg-white">
                 <div class="card-block">
                     <blockquote class="card-blockquote" style="margin-bottom: -19px;">
                         <p class="f-s-18 text-inverse f-w-600">Nombre Órgano / Ente: <?=$des_unidad?>.</p>
                         <p class="f-s-16">RIF.: <?=$rif?> <br>
                             Código ONAPRE: <?=$codigo_onapre?> <br>
-                            <?=$id_programacion?>
+                           
 
 
                             <!-- <input type="hidden" name="fecha_est" id="fecha_est" value=""> -->
@@ -23,7 +23,7 @@
             <div class="table-responsive">
                 <!-- <table id="example" class="table table-striped table-bordered table-responsive nowrap" style="width:100%"> -->
                 <!-- <table id="data-table-buttons" data-order='[[ 0, "desc" ]]' class="table table-bordered"> -->
-                <table id="data-table" data-order='[[ 0, "desc" ]]' class="table table-bordered">
+                <table id="data-tablever_rendicion" data-order='[[ 0, "desc" ]]' class="table table-bordered">
                     
                 <thead style="background:#01cdb2">
                        <tr style="text-align:center">
@@ -62,33 +62,33 @@
                             <th style="color:white; width: 40px">Monto Iva Est.</th>
                             <th style="color:white; width: 40px">Monto Total Est.</th>
                            
-                            <th style="color:white;">Trimestre Rendido</th>
+                            <th style="color:white;">Trimestre</th>
 
-                            <th style="color:white;">Cantidad.Ejecu</th>
+                            <th style="color:white;">Cant.Ejecu</th>
 
-                            <th style="color:white;">cost.U rend_ejecu</th>
-                            <th style="color:white;">precio_rend_ejecu</th>
-                            <th style="color:white;">selc_iva_rendi</th>
-                            <th style="color:white;">iva_estimado_rend</th>
-                            <th style="color:white;">total_rendi</th>
-                            <th style="color:white;">paridad_rendi</th>
-                            <th style="color:white;">subtotal_rendi</th>
-                            <th style="color:white;">id_modalida_rendi</th>
-                            <th style="color:white;">sel_rif_nombre</th>
-                            <th style="color:white;">num_contrato</th>
-                            <th style="color:white;">fecha_contrato</th>
-                            <th style="color:white;">selc_tipo_doc_contrata</th>
-                            <th style="color:white;">selc_com_res_social</th>
-                            <th style="color:white;">monto3_rendim</th>
-                            <th style="color:white;">nfactura_rendi</th>
-                            <th style="color:white;">datefactura_rendi</th>
-                            <th style="color:white;">base_imponible_rendi</th>
-                            <th style="color:white;">selc_iva_rendi2</th>
-                            <th style="color:white;">monto_factura_rend</th>
-                            <th style="color:white;">total_pago_rendi</th>
-                            <th style="color:white;">paridad_rendi_factura</th>
-                            <th style="color:white;">subtotal_rendi_factura</th>
-                            <th style="color:white;">fecha_pago_rendi</th>
+                            <th style="color:white;">Cost.U Ejecu</th>
+                            <th style="color:white;">Precio Ejecu</th>
+                            <th style="color:white;">IVA</th>
+                            <th style="color:white;">IVA Est.</th>
+                            <th style="color:white;">Total Rend.</th>
+                            <th style="color:white;">Paridad</th>
+                            <th style="color:white;">Subtotal</th>
+                            <th style="color:white;">Modalidad</th>
+                            <th style="color:white;">RIF</th>
+                            <th style="color:white;">Contrato</th>
+                            <th style="color:white;">Fecha Contr.</th>
+                            <th style="color:white;">Doc.Contra.</th>
+                            <th style="color:white;">Com.Res.Social</th>
+                            <th style="color:white;">Monto Rendido</th>
+                            <th style="color:white;"># Fac.</th>
+                            <th style="color:white;">Fecha</th>
+                            <th style="color:white;">Base imponible</th>
+                            <th style="color:white;">IVA</th>
+                            <th style="color:white;">Monto Fac.</th>
+                            <th style="color:white;">total Pago.Rend</th>
+                            <th style="color:white;">Paridad Fac.</th>
+                            <th style="color:white;">Sub total</th>
+                            <th style="color:white;">Fecha pago</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -22,10 +22,10 @@
 
                     </div>
                     <div class="col-6 text-center mt-3">
-                        <h3 class="text-center">Programaciones Recibidas de PDVSA</h3>
-                        <h6 class="text-center">Se mostraran desde la primera Programación enviada a la última</h6>
+                        <h3 class="text-center">Rendiciones Recibidas de PDVSA</h3>
+                        <h6 class="text-center">Se mostraran desde la primera Rendicion enviada a la última</h6>
 
-                        <table id="data-table-default" data-order='[[ 1, "asc" ]]' class="table table-bordered">
+                        <table id="data-table-default" data-order='[[ 2, "asc" ]]' class="table table-bordered">
                     <thead style="background:#01cdb2">
                                 <tr class="text-center">
                                 <th>N#</th>
@@ -47,17 +47,16 @@
                                     <td class="center">
 
                                        
-                                    <a href="<?php echo base_url();?>index.php/programacion/ver_programacion_final?id=<?php echo $lista['id_programacion'];?>"
+                                    <a href="<?php echo base_url();?>index.php/programacion/ver_rendicion_realizadas?id=<?php echo $lista['id_programacion'];?>"
                                      class="button">
                                      <i class="fas fa-print fa-lg" title="Imprimir"
                                                         style="color: black;"></i>
                                     <a />
                                                  
-                                       
-                                        <a href="<?php echo base_url();?>index.php/programacion/read_send?id=<?php echo $lista['id_programacion'];?>"
+                                    <a href="<?php echo base_url();?>index.php/programacion/read_send_snc?id=<?php echo $lista['id_ainf_enviada'];?>"
                                                                 class="button">
                                                                 <i class="fas   fa-lg fa-cloud-download-alt"
-                                                                    title="Descargar Certificado de Cumplimiento ART.38 #1" style="color: blue;"></i>
+                                                                    title="Descargar Certificado de Cumplimiento ART.38 #3" style="color: blue;"></i>
                                                                 <a />
                                                        
                                     </td>

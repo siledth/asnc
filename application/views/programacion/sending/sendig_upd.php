@@ -25,7 +25,7 @@
                         <h2 class="text-center">Modificaciones Recibidas</h2>
                         <h6 class="text-center">Se mostraran desde la primera modificación enviada a la última</h6>
 
-                        <table id="data-table-buttons" data-order='[[ 1, "desc" ]]' class="table table-bordered">
+                        <table id="data-table-default" data-order='[[ 1, "desc" ]]' class="table table-bordered">
                     <thead style="background:#01cdb2">
                                 <tr class="text-center">
                                 <th>N°</th>
@@ -57,11 +57,12 @@
                                                         style="color: black;"></i>
                                     <a />
                                                  
-                                        <button
-                                             onclick="location.href='<?php echo base_url()?>index.php/programacion/read_send_upd?id=<?php echo $lista['id_ainf_enviada'];?>'"
-                                            type="button" class="fas fa-2x  fa-cloud-download-alt"
-                                         style="color:blue" name="button">
-                                        </button>
+                                        
+                                        <a href="<?php echo base_url();?>index.php/programacion/read_send_upd?id=<?php echo $lista['id_ainf_enviada'];?>"
+                                                                class="button">
+                                                                <i class="fas   fa-lg fa-cloud-download-alt"
+                                                                    title="Descargar Certificado de Cumplimiento ART.38 #2" style="color: blue;"></i>
+                                                                <a />
                                                        
                                     </td>
                                 </tr>

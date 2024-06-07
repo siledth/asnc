@@ -160,9 +160,13 @@
 
                                     </ul>
                                 </li>
-
-
-                                <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
+                                <li class="has-sub">
+                                    <a href="javascript:;">
+                                        <b class="caret"></b>
+                                        <span>Consultas</span>
+                                    </a>
+                                    <ul class="sub-menu">
+                                    <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
                                 <li>
                                     <a href="<?= base_url() ?>index.php/Programacion/sending_p">
                                         - Consulta Programación Enviada
@@ -178,7 +182,49 @@
                                 </li>
                                 <?php endif; ?>
 
+                                <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
+                                <li>
+                                    <a href="<?= base_url() ?>index.php/Programacion/sending_rend">
+                                        - Consulta Rendiciones Enviada
+                                    </a>
+                                </li>
+                                <?php endif; ?>
+                                        <?php if (($this->session->userdata('pdvsa') == 1)) : ?>
 
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/Programacion/sending_pdvsa">
+                                                - Programaciones enviada PDVSA
+                                            </a>
+
+                                        </li>
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/Programacion/sendig_upd_pdvsa">
+                                                - Programaciones Modificadas Según Ley enviada PDVSA
+                                            </a>
+
+                                        </li>
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/Programacion/senrendi_pdvsa">
+                                                - Rendiciones enviadas de PDVSA
+                                            </a>
+
+                                        </li>
+
+                                        <?php endif; ?>
+                                        <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
+
+                                        <!-- <li>
+                                            <a href="<?= base_url() ?>index.php/Auth_prog/requests_prog">
+                                                - Solicitar Editar Programaciòn Anual
+                                            </a>
+
+                                        </li>
+                                        <li><a href="<?= base_url() ?>index.php/Auth_prog/see_prog">-
+                                                Autorizar Editar <b>Programaciòn Anual</b></a></li> -->
+                                        <?php endif; ?>
+
+                                    </ul>
+                                </li>
 
                                 <?php if (($this->session->userdata('ver_user_exter') == 1)) : ?>
                                 <!-- <li>
@@ -187,16 +233,7 @@
                                     </a>
                                 </li> -->
                                 <?php endif; ?>
-                                <?php if (($this->session->userdata('pdvsa') == 1)) : ?>
-
-                                <li>
-                                    <a href="<?= base_url() ?>index.php/Programacion/sending_pdvsa">
-                                        - Programaciones enviada PDVSA
-                                    </a>
-
-                                </li>
-
-                                <?php endif; ?>
+                                
 
 
                             </ul>

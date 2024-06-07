@@ -102,6 +102,30 @@ $(document).ready(function() {
     ]
   });
 });
+$(document).ready(function() {
+  var table = $('#data-tablever_rendicion').DataTable({
+    dom: "Bfrtip",
+    buttons: [
+      {
+        extend: "pdf",
+        text: "Exportar a PDF",
+        orientation: 'landscape',
+        title: function() {
+          return 'Resumen Rendición fecha de Impresión- ' + new Date().toLocaleString();
+        },
+        customize: function(doc) {
+          doc.pageMargins = [5, 10, 10, 10]; // left, top, right, bottom
+          doc.defaultStyle.fontSize = 7; // You can adjust the font size to fit more content
+          doc.pageSize = 'A3'; // Change the page size to A3, which has more width
+        },
+        exportOptions: {
+          columns: [17, 18, 19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,38,39,40,41], // include columns 16 and onwards
+          footer: true // keep the footer
+        }
+      }
+    ]
+  });
+});
 
 </script> 
 <script>
@@ -142,6 +166,27 @@ $(document).ready(function() {
         },
         exportOptions: {
           columns: ':visible:not(:last-child)'
+        }
+      }
+    ]
+  });
+});
+</script>
+<script>
+
+$(document).ready(function() {
+  var table = $('#data-tablepdfpt').DataTable({
+    dom: "Bfrtip",
+    buttons: [
+      {
+        extend: "pdf",
+        text: "Exportar a PDF",
+        orientation: 'landscape',
+        title: function() {
+          return 'Totales por Partida Presupuestaria - ' + new Date().toLocaleString();
+        },
+        customize: function(doc) {
+          doc.pageMargins = [5, 10, 10, 10]; // left, top, right, bottom
         }
       }
     ]

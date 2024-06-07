@@ -58,7 +58,7 @@
                             <div class="col-12 text-center">
                                 <h4>Tablas de Totales por Partida Presupuestaria</h4>
                             </div>
-                            <table id="data-table" class="table table-bordered table-hover">
+                            <table id="data-tablepdfpt" class="table table-bordered table-hover">
                                 <thead style="background:#e4e7e8;">
                                     <tr class="text-center">
                                         <th>Código Part. Presupuestaria</th>

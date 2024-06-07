@@ -18,21 +18,23 @@
                     </div>
 
                   
-                    <div class="col-3">
+                    <div class="col-1">
 
                     </div>
-                    <div class="col-6 text-center mt-3">
-                        <h3 class="text-center">Programaciones Recibidas de PDVSA</h3>
-                        <h6 class="text-center">Se mostraran desde la primera Programación enviada a la última</h6>
+                    <div class="col-10 text-center mt-1">
+                        <h2 class="text-center">Modificaciones Recibidas PDVSA</h2>
+                        <h6 class="text-center">Se mostraran desde la primera modificación enviada a la última</h6>
 
-                        <table id="data-table-default" data-order='[[ 1, "asc" ]]' class="table table-bordered">
+                        <table id="data-table-default" data-order='[[ 0, "desc" ]]' class="table table-bordered">
                     <thead style="background:#01cdb2">
                                 <tr class="text-center">
-                                <th>N#</th>
+                                <th>N°</th>
 
                                 <th>Organo/Ente</th>
                                 <th>Rif</th>
                                     <th>Año de la Programación</th>
+                                    <th>Fecha Modificación</th>
+
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -44,6 +46,8 @@
                                     <td><?=$lista['des_unidad']?> </td>
                                     <td><?=$lista['rif']?> </td>                                
                                     <td><?=$lista['anio']?> </td>
+                                    <td><?=$lista['fecha']?> </td>
+
                                     <td class="center">
 
                                        
@@ -54,10 +58,10 @@
                                     <a />
                                                  
                                        
-                                        <a href="<?php echo base_url();?>index.php/programacion/read_send?id=<?php echo $lista['id_programacion'];?>"
+                                        <a href="<?php echo base_url();?>index.php/programacion/read_send_upd?id=<?php echo $lista['id_ainf_enviada'];?>"
                                                                 class="button">
                                                                 <i class="fas   fa-lg fa-cloud-download-alt"
-                                                                    title="Descargar Certificado de Cumplimiento ART.38 #1" style="color: blue;"></i>
+                                                                    title="Descargar Certificado de Cumplimiento ART.38 #2" style="color: blue;"></i>
                                                                 <a />
                                                        
                                     </td>

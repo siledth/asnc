@@ -5720,10 +5720,261 @@ public function comprobante_rendicion() //hacer un pdf de comprobante rendidicon
       
      // $pdf->Ln(10);
     
-      $pdf->Output('ewndicion_programacion '.$curdate.'.pdf', 'D');
+      $pdf->Output('rendicion_programacion '.$curdate.'.pdf', 'D');
      // $this->load->view('headfoot/header', $datos);
 }
+public function read_send_snc() //hacer un pdf de comprobante programacion final para ver por el snc
+ { 
+   require_once APPPATH.'third_party/fpdf/fpdf.php';
+ 
+   
+   $pdf = new FPDF();
+   $pdf->AliasNbPages();
+   $pdf->AddPage('P','A4',0);
+   $pdf->SetMargins(8,8,8,8);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Image(base_url().'baner/logo3.png',40,8,150);
 
+   //$pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');            
+   //$pdf->Image(base_url().'imagenes/logosnc.png',10,6,50);
+   $pdf->Ln(10);
+   
+   $pdf->Cell(195,5,utf8_decode('COMPROBANTE DE CUMPLIMIENTO'),0,1,'C');
+   $pdf->Cell(195,5,utf8_decode('ARTÍCULO 38 NUMERAL 3 del'),0,1,'C'); 
+   $pdf->Cell(195,5,utf8_decode('Decreto con Rango Valor y Fuerza de Ley de Contrataciones Públicas'),0,1,'C');
+   $pdf->Cell(195,5,'(DCRVFLCP)',0,1,'C');
+
+   $pdf->SetFont('Arial','I',8);
+
+   $pdf->Cell(350,4,'Pagina '.$pdf->PageNo().'/{nb}',0,1,'C');
+   $pdf->SetFont('Arial','B',12);
+ 
+
+   $da = $this->session->userdata('rif');
+   
+//    $pdf->Cell(195,3,'____________________________________________________________________________',0,1,'C');
+   $pdf->Cell(60,5,'Organo / Ente / Adscrito:',0,'C');
+
+   $id_programacion = $this->input->get('id');
+   $dat5e = $this->Programacion_model->read_sending_rendiciones($id_programacion);   
+   if($dat5e != ''){ 
+       foreach($dat5e as $date3){ 
+   
+       $pdf->MultiCell(100,5,  utf8_decode($date3->des_unidad), 0, 'L');
+      // $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt5->fecha)), 0, 'L');
+      
+   }}
+   $pdf->Cell(60,5,'Rif:',0,'L');
+
+   $id_programacion = $this->input->get('id');
+   $date6e = $this->Programacion_model->read_sending_rendiciones($id_programacion);   
+   if($date6e != ''){ 
+       foreach($date6e as $dati8){ 
+   
+        if($dati8->filiar > 0){
+       $pdf->MultiCell(100,5,  utf8_decode($dati8->filiares), 0, 'L');
+      // $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt5->fecha)), 0, 'L');
+      
+    }else  { 
+       $pdf->MultiCell(100,5,  utf8_decode($dati8->rif), 0, 'L');
+
+     }
+   }}
+   
+   $pdf->Cell(60,5,utf8_decode('Código ONAPRE:'),0,'L');
+   $id_programacion = $this->input->get('id');
+   $dat34 = $this->Programacion_model->read_sending_rendiciones($id_programacion);   
+   if($dat34 != ''){ 
+       foreach($dat34 as $dt4r){ 
+   
+       $pdf->MultiCell(100,5,  utf8_decode($dt4r->codigo_onapre), 0, 'L');
+      // $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt5->fecha)), 0, 'L');
+      
+   }}
+
+
+   $pdf->Cell(60,5,utf8_decode('Ejercicio Fiscal:'),0,'L');
+
+  // $pdf->MultiCell(100,5, '2023', 0, 'L');
+
+   $id_programacion = $this->input->get('id');
+    
+   $dat5 = $this->Programacion_model->read_sending_rendiciones($id_programacion);   
+       if($dat5 != ''){ 
+           foreach($dat5 as $dt5){ 
+       
+           $pdf->MultiCell(100,5, $dt5->anio, 0, 'L');
+         //  $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt5->fecha)), 0, 'L');
+          
+       }}
+       $pdf->Cell(60,5,utf8_decode('Trimestre:'),0,'L');
+       $pdf->MultiCell(100,5, 'I', 0, 'L');
+   $pdf->Cell(60,5,utf8_decode('Fecha de Registro:'),0,'L');
+   $id_programacion = $this->input->get('id');
+    
+   $dat6 = $this->Programacion_model->read_sending_rendiciones($id_programacion);   
+       if($dat6 != ''){ 
+           foreach($dat6 as $dt6){ 
+       
+           $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt6->fecha)), 0, 'L');
+          
+       }}
+  // $pdf->MultiCell(100,5, 'fecha', 0, 'L');
+   $pdf->Ln(5);
+   $pdf->SetFont('Arial','',12);
+       
+   $pdf->Cell(60,5,utf8_decode('El Servicio Nacional de Contrataciones (SNC), hace de su conocimiento que fue recibida la carga'),0,1,'L');
+   $pdf->Cell(60,5,utf8_decode('  de la Rendición de la Programación Anual correspondiente al I Trimestre Ejercicio Fiscal'),0,'L');
+   $id_programacion = $this->input->get('id');
+   $pdf->SetFont('Arial','B',12);
+   $dat7 = $this->Programacion_model->read_sending_rendiciones($id_programacion);   
+       if($dat7 != ''){ 
+           foreach($dat7 as $dt7){ 
+       
+           $pdf->MultiCell(230,5, $dt7->anio, 0, 'C');
+          // $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt5->fecha)), 0, 'L');
+          
+       }}
+   $pdf->SetFont('Arial','',12);
+
+   $pdf->MultiCell(200,5, utf8_decode('   de conformidad a lo establecido en el Artículo 38, numeral 3 del Decreto con Rango, Valor y
+      Fuerza de Ley de Contrataciones Públicas, (DRVFLCP). '), 0, 'L');
+   $pdf->Ln(1);
+   $pdf->SetFont('Arial','B',10);
+
+   $pdf->Cell(90,10,'',0,'L');
+   $pdf->MultiCell(200,5, utf8_decode('    Información de la Programación y de las Contrataciones'), 0, 'L');
+   $pdf->Cell(20,10,'',0,'L');
+
+   $pdf->MultiCell(200,5, utf8_decode('    
+   Artículo 38. Los contratantes sujetos al presente Decreto con Rango, Valor y Fuerza de Ley, están
+   en la obligación de remitir al Servicio Nacional de Contrataciones:
+   '), 0, 'L');
+   $pdf->Cell(50,10,'',0,'L');
+
+   $pdf->MultiCell(200,5, utf8_decode(' . . . Omissis'), 0, 'L');
+   $pdf->Cell(20,10,'',0,'L');
+   $pdf->MultiCell(200,5, utf8_decode('3. Deberán rendir la información de las contrataciones realizadas en ejecución del presente
+   Decreto con Rango, Valor y Fuerza de Ley, dentro de los primeros quince días continuos
+   siguientes al vencimiento de cada trimestre.
+   '), 0, 'L');
+   $pdf->SetFont('Arial','',10);
+
+   $pdf->Cell(20,10,'',0,'L');
+   $pdf->MultiCell(200,5, utf8_decode('El Servicio Nacional de Contrataciones establecerá los mecanismos y parámetros para la rendición
+   de la información a que se refiere el presente artículo.
+   '), 0, 'L');
+   $pdf->SetFont('Arial','B',10);
+
+   $pdf->Cell(50,5,'ACTIVIDAD',0,0,'C'); 
+   $pdf->Cell(80,5, utf8_decode('ACCIÓN CENTRALIZADA. Bs.'),0,0,'C');      
+   $pdf->Cell(35,5,' ',0,1,'C'); 
+   $pdf->SetFont('Arial','',10);
+   
+   $data = $this->Programacion_model->read_sending_rendiciones_snc2($id_programacion);   
+   if($data != ''){ 
+    $total = 0;
+       foreach($data as $dt7){ 
+        $precio_total_bien_a = str_replace('.', '', str_replace(',', '.', $dt7->precio_total_bien_a));
+        $precio_total_serv_a = str_replace('.', '', str_replace(',', '.', $dt7->precio_total_serv_a));
+        $precio_total_obra_a = str_replace('.', '', str_replace(',', '.', $dt7->precio_total_obra_a));
+        
+        $total += floatval(str_replace('.', '', str_replace(',', '.', $precio_total_bien_a))) + 
+                   floatval(str_replace('.', '', str_replace(',', '.', $precio_total_serv_a))) + 
+                   floatval(str_replace('.', '', str_replace(',', '.', $precio_total_obra_a)));
+        
+        
+        $pdf->Cell(60,5, 'Bienes',0,0,'C');
+       $pdf->Cell(40,5, $dt7->precio_total_bien_a,0,1,'R');
+       $pdf->Cell(60,5, 'Servicios',0,0,'C');
+       $pdf->Cell(40,5, $dt7->precio_total_serv_a,0,1,'R');
+       $pdf->Cell(60,5, 'Obras',0,0,'C');
+       $pdf->Cell(40,5, $dt7->precio_total_obra_a,0,1,'R');
+   }
+   $pdf->SetFont('Arial','B',10);
+   $pdf->Cell(60,5, 'Total',0,0,'C');
+   $pdf->Cell(40,5, number_format($total / 100, 2, ',', '.'),0,1,'R');
+}
+   $id_programacion = $this->input->get('id'); 
+     $pdf->SetFont('Arial','B',10);
+     $pdf->Cell(50,5,'ACTIVIDAD',0,0,'C'); 
+     $pdf->Cell(80,5,'PROYECTO Bs. ',0,0,'C'); 
+     $pdf->Cell(35,5,' ',0,1,'C');
+   $pdf->SetFont('Arial','',10);
+
+     $data = $this->Programacion_model->read_sending_rendiciones_snc2($id_programacion);
+     $totalpy = 0;   
+     if($data != ''){ 
+         foreach($data as $dtp0){ 
+            $precio_total_bien = str_replace('.', '', str_replace(',', '.', $dtp0->precio_total_bien));
+        $precio_total_serv = str_replace('.', '', str_replace(',', '.', $dtp0->precio_total_serv));
+        $precio_total_obra = str_replace('.', '', str_replace(',', '.', $dtp0->precio_total_obra));
+        
+        $totalpy += floatval(str_replace('.', '', str_replace(',', '.', $precio_total_bien))) + 
+                   floatval(str_replace('.', '', str_replace(',', '.', $precio_total_serv))) + 
+                   floatval(str_replace('.', '', str_replace(',', '.', $precio_total_obra)));
+
+          $pdf->Cell(60,5, 'Bienes',0,0,'C');
+          $pdf->Cell(40,5, $dtp0->precio_total_bien,0,1,'R');
+         $pdf->Cell(60,5, 'Servicios',0,0,'C');
+         $pdf->Cell(40,5, $dtp0->precio_total_serv,0,1,'R');
+         $pdf->Cell(60,5, 'Obras',0,0,'C');
+         $pdf->Cell(40,5, $dtp0->precio_total_obra,0,1,'R');
+    
+     } $pdf->SetFont('Arial','B',10);
+     $pdf->Cell(60,5, 'Total',0,0,'C');
+     $pdf->Cell(40,5, number_format($totalpy / 100, 2, ',', '.'),0,1,'R');
+    }
+   
+        
+   
+   
+        $pdf->SetFont('Arial','I',8);
+    $pdf->Ln(5);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(60,5,utf8_decode(''),0,0,'C'); 
+
+    $pdf->MultiCell(200,5, utf8_decode('ANTHONI CAMILO TORRES
+    Director General'), 0);      
+    $pdf->Cell(50,5,utf8_decode(''),0,0,'C'); 
+    $pdf->SetFont('Arial','B',8);
+
+    $pdf->MultiCell(200,5, utf8_decode('Resolución CCP/ DGCJ Nº 001/2014 del 07 de Enero'), 0);
+    $pdf->Cell(50,5,utf8_decode(''),0,0,'C'); 
+   
+    $pdf->MultiCell(200,5, utf8_decode('de 2014, publicada en Gaceta Oficial de la República'), 0);
+    $pdf->Cell(40,5,utf8_decode(''),0,0,'C'); 
+
+    $pdf->MultiCell(200,5, utf8_decode('Bolivariana de Venezuela N° 40.334 de fecha 15 de Enero de 2014'), 0);
+    
+  
+    
+                          
+      $pdf->Ln(10);
+     $curdate = date('d-m-Y H:i:s');
+                           $pdf->SetFont('Arial','B',10);
+                           $pdf->Cell(100,5,utf8_decode(''),0,0,'C'); 
+
+                           $pdf->Cell(60,10,utf8_decode('Fecha de Emisión:'),0,0,'C'); 
+                           $pdf->Cell(30,10, $curdate,0,1,'C');
+                           $pdf->Cell(40,5,utf8_decode(''),0,0,'C'); 
+                           $pdf->SetFont('Arial','',6);
+                           $pdf->MultiCell(200,5, utf8_decode('Av. Lecuna, Parque Central, Torre Oeste, Piso 6, Caracas, Venezuela / Telf. (0212) 508.55.14 / 55.15 RIF. G-20002451-81/3'), 0);
+                           
+                          
+                           $pdf->SetX(-15);
+                          // Arial italic 8
+                          $pdf->SetFont('Arial','I',8);
+                          // Número de página
+                        //   $pdf->Cell(0,10,'Pagina '.$pdf->PageNo().'/{nb}',0,0,'C');
+      
+     // $pdf->Ln(10);
+    
+    
+     
+      $pdf->Output('rendicion_programacion '.$curdate.'.pdf', 'D');
+     // $this->load->view('headfoot/header', $datos);
+}
 public function guardar_comprobante_totales() {
     if (!$this->session->userdata('session'))
         redirect('login');
@@ -5815,6 +6066,19 @@ public function sending_pdvsa(){
     $this->load->view('programacion/sending/sendig_pdvsa.php', $data);
     $this->load->view('templates/footer.php');
 }
+public function senrendi_pdvsa(){
+    if(!$this->session->userdata('session'))redirect('login');
+
+   
+
+    $data['read'] = $this->Programacion_model->read_sending_pdvsa_rendi();
+    $data['fecha'] = date('yy');
+
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('programacion/sending/senrendi_pdvsa.php', $data);
+    $this->load->view('templates/footer.php');
+}
 public function tolist_info(){
     if(!$this->session->userdata('session'))redirect('login');
     $data = $this->input->post();
@@ -5826,7 +6090,7 @@ public function tolist_info_py(){
     $data = $this->input->post();
     $data = $this->Programacion_model->tolist_info_py($data);
     echo json_encode($data);
-}
+} 
 
 public function sending_upd(){
     if(!$this->session->userdata('session'))redirect('login');
@@ -5839,6 +6103,32 @@ public function sending_upd(){
     $this->load->view('templates/header.php');
     $this->load->view('templates/navigator.php');
     $this->load->view('programacion/sending/sendig_upd.php', $data);
+    $this->load->view('templates/footer.php');
+}
+public function sendig_upd_pdvsa(){
+    if(!$this->session->userdata('session'))redirect('login');
+
+   
+
+    $data['read'] = $this->Programacion_model->read_sending_upd_pdvsa();
+    $data['fecha'] = date('yy');
+
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('programacion/sending/sendig_upd_pdvsa.php', $data);
+    $this->load->view('templates/footer.php');
+}
+public function sending_rend(){
+    if(!$this->session->userdata('session'))redirect('login');
+
+   
+
+    $data['read'] = $this->Programacion_model->read_sending_red();
+    $data['fecha'] = date('yy');
+
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('programacion/sending/sendig_red.php', $data);
     $this->load->view('templates/footer.php');
 }
 public function read_send_upd() //hacer un pdf de comprobante de programacion modificada final para ver por el snc

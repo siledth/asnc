@@ -42,8 +42,8 @@
 						<tr class="text-center">
 							<th>Fecha Evaluación</th>
 							<th>Ente Calificador</th>
-							<th>Calificación</th>
 							<th>Objeto</th>
+							<th>Calificación</th>
 
 						</tr>
 					</thead>
@@ -59,6 +59,7 @@
 						<tr class="text-center">
 							<th>Fecha Evaluación</th>
 							<th>Ente Calificador</th>
+							<th>Objeto</th>
 							<th>Calificación</th>
 						</tr>
 					</thead>

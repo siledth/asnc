@@ -5026,6 +5026,27 @@ $query = $this->db->query("SELECT  pac.id_p_acc,pac.id_proyecto,
         return NULL;
     }
 }
+function consulta_total_objeto_acc_rendi1($data1){ //da totales agrupados por bienes, servicio, obras
+    
+    $query = $this->db->query("SELECT  pac.id_p_acc,pac.id_proyecto,
+        pac.id_obj_comercial,ob.desc_objeto_contrata,
+       sum(to_number(pac.monto_estimado,'999999999999D99')) as precio_total
+    
+         FROM programacion.rendidicion pac 
+        --  left join public.modalidad m on m.id_modalidad = c.id_modalidad
+       -- join programacion.p_acc_centralizada i on i.id_p_acc_centralizada = pac.id_enlace	
+         join programacion.objeto_contrata ob on ob.id_objeto_contrata = pac.id_obj_comercial	
+            
+         where pac.id_proyecto = '$data1' and pac.id_p_acc ='1'
+         group by pac.id_p_acc,pac.id_proyecto,
+        pac.id_obj_comercial,ob.desc_objeto_contrata ");
+        if($query->num_rows()>0){
+            return $query->result();
+        }
+        else{
+            return NULL;
+        }
+    }
 function consulta_total_objeto_acc3($data1){ //da totales agrupados por bienes, servicio, obras
     
     $query = $this->db->query("SELECT pac.* ,to_number(pac.porcentaje_bien_a,'999999999999D99')as porcentaje_bien_a1  
@@ -5225,8 +5246,17 @@ public function save_certificado($data){ //por hacer
     public function read_sending_pdvsa(){
         $this->db->select('i.id_ainf_enviada, i.id_programacion, i.anio,i.des_unidad,i.rif');
         $this->db->join('programacion.pdvsa or','or.rif = i.rif');
+        $this->db->where('i.rif!=', 'G200004088');
        // $this->db->where('or.id_organoenteads', '13');//acc
         $query = $this->db->get('programacion.inf_enviada i');
+        return $query->result_array();
+    }
+    public function read_sending_pdvsa_rendi(){
+        $this->db->select('i.id_ainf_enviada, i.id_programacion, i.anio,i.des_unidad,i.rif');
+        $this->db->join('programacion.pdvsa or','or.rif = i.rif');
+        $this->db->where('i.rif!=', 'G200004088');
+       // $this->db->where('or.id_organoenteads', '13');//acc
+        $query = $this->db->get('programacion.inf_enviada_rendi i');
         return $query->result_array();
     }
     function read_sending_p2($data1){
@@ -5236,6 +5266,38 @@ public function save_certificado($data){ //por hacer
         join public.organoente org on pac.rif = org.rif
         join public.organoente p on p.id_organoente = org.id_organoenteads
         where pac.id_programacion = '$data1'");
+        if($query->num_rows()>0){
+            return $query->result();
+        }
+        else{
+            return NULL;
+        }
+    }
+    /////pdf rendiciones
+    function read_sending_rendiciones($data1){
+        $query = $this->db->query("SELECT  pac.id_programacion, pac.des_unidad, pac.rif,
+         pac.codigo_onapre, org.filiar, org.id_organoenteads ,p.descripcion ,
+         p.rif as filiares, pac.anio,pac.fecha
+        FROM programacion.inf_enviada_rendi pac 
+        join public.organoente org on pac.rif = org.rif
+        join public.organoente p on p.id_organoente = org.id_organoenteads
+        where pac.id_ainf_enviada = '$data1'");
+        if($query->num_rows()>0){
+            return $query->result();
+        }
+        else{
+            return NULL;
+        }
+    }
+    function read_sending_rendiciones_snc2($data1){
+        $query = $this->db->query("SELECT   id_programacion,  
+        id_obj_comr_obra, precio_total_obra, porcentaje_obra, id_obj_comr_bien, precio_total_bien, 
+        porcentaje_bien, id_obj_comr_serv, precio_total_serv, porcentaje_serv, total_proy, id_p_acc, 
+        id_obj_comr_obra_a, precio_total_obra_a, porcentaje_obra_a, id_obj_comr_bien_a, precio_total_bien_a,
+        porcentaje_bien_a, id_obj_comr_serv_a, precio_total_serv_a, porcentaje_serv_a, total_acc
+        FROM programacion.inf_enviada_rendi 
+       
+        where  id_ainf_enviada = '$data1'");
         if($query->num_rows()>0){
             return $query->result();
         }
@@ -5392,6 +5454,18 @@ public function tolist_info_py($data){
     public function read_sending_upd(){
         $this->db->select('id_ainf_enviada, id_programacion, anio,des_unidad,rif, fecha');
         $query = $this->db->get('programacion.inf_modif');
+        return $query->result_array();
+    }
+    public function read_sending_upd_pdvsa(){
+        $this->db->select('i.id_ainf_enviada, i.id_programacion, i.anio,i.des_unidad,i.rif,i.fecha');
+        $this->db->join('programacion.pdvsa or','or.rif = i.rif');
+        $this->db->where('i.rif!=', 'G200004088');
+        $query = $this->db->get('programacion.inf_modif i');
+        return $query->result_array();
+    }
+    public function read_sending_red(){
+        $this->db->select('id_ainf_enviada, id_programacion, anio,des_unidad,rif, fecha');
+        $query = $this->db->get('programacion.inf_enviada_rendi');
         return $query->result_array();
     }
     function read_sending_upd2($data1){

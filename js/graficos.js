@@ -160,6 +160,8 @@ function consultar_rif() {
 						"</td><td>" +
 						response["nombre_ente"] +
 						"</td><td>" +
+						response["descr_contrato"] +
+						"</td><td>" +
 						response["nombre_calificacion"] +
 						"</td></tr>"
 				);
