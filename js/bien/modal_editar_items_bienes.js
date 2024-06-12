@@ -423,10 +423,10 @@ function guardar_reprogramacion_bienes_acc(){
             });
             document.getElementById("costo_unitario_mod_b").focus();
         }
-        else if (isNaN(iva_estimado_mod_b)) {
-            // Mostrar mensaje de error
+
+        else  if ($("#iva_estimado_mod_b option:selected").val() == 0) {
             swal.fire({
-                title: 'Debe Seleccionar un IVA, por favor revisar.',
+                title: 'Debe Seleccionar un IVA',
                 type: 'warning',
                 showCancelButton: false,
                 confirmButtonColor: '#3085d6',
@@ -436,6 +436,7 @@ function guardar_reprogramacion_bienes_acc(){
                 }
             });
             document.getElementById("iva_estimado_mod_b").focus();
+          
         }
         
         else if(observaciones2 == ''){
