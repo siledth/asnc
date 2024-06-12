@@ -58,7 +58,7 @@
                             </div>
                             <!-- <table id="data-table-default" class="table table-bordered table-hover"> -->
                             <!-- <table id="data-table-buttons" data-order='[[ 0, "desc" ]]' class="table table-bordered"> -->
-                            <table id="data-table" data-order='[[ 0, "desc" ]]' class="table table-bordered">
+                            <table id="data-tablepdfpt" data-order='[[ 0, "desc" ]]' class="table table-bordered">
 
                                 <thead style="background:#e4e7e8;">
                                     <tr class="text-center">
