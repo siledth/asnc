@@ -9,8 +9,10 @@ class Home extends CI_Controller {
             redirect('login');
         }
         $date=date("d-m-Y");
+        $date1=date("Y-m-d");
         $generar = $this->Publicaciones_model->generar($date); // finalizar llamad
        // $generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
+       $generar_vencimiento_comision = $this->Comision_contrata_model->generar_vencimiento_comision($date1); // finalizar llamad
 
        
         $this->load->view('templates/header.php');

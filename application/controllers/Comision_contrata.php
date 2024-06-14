@@ -808,7 +808,7 @@ public function logger_type_snc()
     $data['tipo'] = $this->Comision_contrata_model->check_tipo();
     $data['final']  = $this->User_model->consulta_organoente();
 
-//$data['mat'] = $this->Programacion_model->consulta_itemsr($data['id_programacion']);
+   //$data['mat'] = $this->Programacion_model->consulta_itemsr($data['id_programacion']);
     
     $this->load->view('templates/header.php');
     $this->load->view('templates/navigator.php');
@@ -1165,5 +1165,53 @@ public function editar_fila_ip_b(){
     $data =	$this->Comision_contrata_model->editar_fila_ip_b($data);
     echo json_encode($data);
 }
+public function logger_type_sncinactivo()
+{
+    if (!$this->session->userdata('session')) {
+        redirect('login');
+    }
+    $rif_organoente = $this->session->userdata('rif_organoente');
+    $data['time']=date("Y-m-d"); // para calcular la vigencia
 
+    $data['rif_organoente'] 		 = $this->session->userdata('rif_organoente');
+    $data['unidad'] 		 = $this->session->userdata('unidad');
+
+    $data['comisiones'] = $this->Comision_contrata_model->check_logger_commissionsnc3inac();
+    $usuario = $this->session->userdata('id_user');
+    $data['tp_contrata'] = $this->Comision_contrata_model->check_tipo_com();
+    $data['area'] = $this->Comision_contrata_model->check_areas();
+    $data['tipo'] = $this->Comision_contrata_model->check_tipo();
+
+    //$data['mat'] = $this->Programacion_model->consulta_itemsr($data['id_programacion']);
+    
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('comision_contrata/consultas/consulta_com_inc.php', $data);
+    $this->load->view('templates/footer.php');
 }
+public function logger_type_sncactivo()
+{
+    if (!$this->session->userdata('session')) {
+        redirect('login');
+    }
+    $rif_organoente = $this->session->userdata('rif_organoente');
+    $data['time']=date("Y-m-d"); // para calcular la vigencia
+
+    $data['rif_organoente'] 		 = $this->session->userdata('rif_organoente');
+    $data['unidad'] 		 = $this->session->userdata('unidad');
+
+    $data['comisiones'] = $this->Comision_contrata_model->check_logger_commissionsnc1();
+    $usuario = $this->session->userdata('id_user');
+    $data['tp_contrata'] = $this->Comision_contrata_model->check_tipo_com();
+    $data['area'] = $this->Comision_contrata_model->check_areas();
+    $data['tipo'] = $this->Comision_contrata_model->check_tipo();
+
+    //$data['mat'] = $this->Programacion_model->consulta_itemsr($data['id_programacion']);
+    
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('comision_contrata/consultas/consulta_com_act.php', $data);
+    $this->load->view('templates/footer.php');
+}
+}
+

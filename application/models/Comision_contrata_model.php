@@ -101,6 +101,21 @@
             $query = $this->db->get();
             return $query->result_array();
         }
+        function check_logger_commissionsnc3inac(){
+            $this->db->select('c.id_comision,c.rif_organoente,c.observacion,c.id_status,c.snc,c.tipo_comi, c.fecha_desig, c,num_acto, c.fecha_acto, 
+            c.acto_adm, c.dura_com_desde, c.dura_com_hasta, stu.desc_status, nto.desc_status_snc, act.desc_acto_admin,c.snc');
+            $this->db->from('comisiones.comision c');
+            $this->db->join('comisiones.status_comision stu', 'stu.id_status = c.id_status');
+            $this->db->join('comisiones.notificacion_comision nto', 'nto.id_status_snc = c.snc'); 
+            $this->db->join('comisiones.acto_admin act', 'act.id_acto_admin = c.acto_adm');           
+
+           // $this->db->where('c.rif_organoente', $rif_organoente);
+            $this->db->where('c.snc', 2);
+            $this->db->where('c.id_status', 2);
+
+            $query = $this->db->get();
+            return $query->result_array();
+        }
         
         function logger_commission($data){
             $p='Comisiòn';
@@ -1199,6 +1214,16 @@ public function carga_completa($data){
                 );
                 $update = $this->db->update('comisiones.miembros', $data1);
                 return true;
+            }
+            public function generar_vencimiento_comision($date1){
+                $data1 = array('id_cert' => '4');		    
+                    $this->db->where('vigentehasta', $date1);
+                    $this->db->where('id_cert', '3');
+                    $this->db->where('snc', '2');
+                    $update = $this->db->update('comisiones.miembros', $data1);
+        
+                    return true;
+                   // return $id;
             }
     }
 
