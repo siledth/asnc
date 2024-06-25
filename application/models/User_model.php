@@ -465,6 +465,29 @@ class User_model extends CI_Model
             $query = $this->db->get('seguridad.perfil f');
             return $query->result_array();
         }
+        public function read_list_p($data){
+            $this->db->select(' * '
+                            );
+            $this->db->from('perfiles_n');
+            
+              $this->db->where('id_perfil', $data['id_perfil']);
+            // $this->db->order_by('mc.id_p_items desc');
+            $query = $this->db->get();
+            $resultado = $query->row_array();
+            return $resultado;
+        }
+        public function read_list_p2($data){
+            $this->db->select(' * '
+                            );
+            $this->db->from('seguridad.perfil');
+            
+              $this->db->where('id_perfil', $data['id_perfil']);
+            // $this->db->order_by('mc.id_p_items desc');
+            $query = $this->db->get();
+            $resultado = $query->row_array();
+            return $resultado;
+        }
+
         public function organo_ent($data){
             $this->db->select('rif,codigo ,descripcion,certificaciones');
             $this->db->where('certificaciones', '0');  
@@ -704,6 +727,189 @@ class User_model extends CI_Model
         function delet_sse($data){
             $this->db->where('user_id', $data['user_id']);
             $query = $this->db->delete('seguridad.user_sessions');
+            return true;
+        }
+        public function save_modif_perfil($data){
+
+            $this->db->where('id_perfil', $data['id_perfil']);
+        
+            $pp_s = $data['camb_menu_rnce'];
+            if ($pp_s == 2) {
+                $menu_rnce = $data['menu_rnce'];
+            }else {
+                $menu_rnce = $data['camb_menu_rnce'];
+            }
+        
+            $ccnu_s = $data['camb_menu_progr'];
+            if ($ccnu_s == 2) {
+                $menu_progr = $data['menu_progr'];
+            }else {
+                $menu_progr = $data['camb_menu_progr'];
+            }
+            $menuevalu = $data['cam_menu_eval_desem'];
+            if ($menuevalu == 2) {
+                $menu_eval_desem = $data['menu_eval_desem'];
+            }else {
+                $menu_eval_desem = $data['cam_menu_eval_desem'];
+            }  
+
+            $menu_reg = $data['camb_menu_reg_eval_desem'];
+            if ($menu_reg == 2) {
+                $menu_reg_eval_desem = $data['menu_reg_eval_desem'];
+            }else {
+                $menu_reg_eval_desem = $data['camb_menu_reg_eval_desem'];
+            }
+            $menu_anula = $data['camb_menu_anulacion'];
+            if ($menu_anula == 2) {
+                $menu_anulacion = $data['menu_anulacion'];
+            }else {
+                $menu_anulacion = $data['camb_menu_anulacion'];
+            }
+            $menu_soli_anular_eval_dese = $data['camb_menu_soli_anular_eval_desem'];
+            if ($menu_soli_anular_eval_dese == 2) {
+                $menu_soli_anular_eval_desem = $data['menu_soli_anular_eval_desem'];
+            }else {
+                $menu_soli_anular_eval_desem = $data['camb_menu_soli_anular_eval_desem'];
+            }
+
+            $menu_proc_anular_eval_dese = $data['camb_menu_proc_anular_eval_desem'];
+            if ($menu_proc_anular_eval_dese == 2) {
+                $menu_proc_anular_eval_desem = $data['menu_proc_anular_eval_desem'];
+            }else {
+                $menu_proc_anular_eval_desem = $data['camb_menu_proc_anular_eval_desem'];
+            }
+            $menu_comprobante_eval_dese = $data['camb_menu_comprobante_eval_desem'];
+            if ($menu_comprobante_eval_dese == 2) {
+                $menu_comprobante_eval_desem = $data['menu_comprobante_eval_desem'];
+            }else {
+                $menu_comprobante_eval_desem = $data['camb_menu_comprobante_eval_desem'];
+            }
+            $menu_estdi_eval_dese = $data['camb_menu_estdi_eval_desem'];
+            if ($menu_estdi_eval_dese == 2) {
+                $menu_estdi_eval_desem = $data['menu_estdi_eval_desem'];
+            }else {
+                $menu_estdi_eval_desem = $data['camb_menu_estdi_eval_desem'];
+            }
+            $menu_noregi_eval_dese  = $data['camb_menu_noregi_eval_desem'];
+            if ($menu_noregi_eval_dese  == 2) {
+                $menu_noregi_eval_desem = $data['menu_noregi_eval_desem'];
+            }else {
+                $menu_noregi_eval_desem = $data['camb_menu_noregi_eval_desem'];
+            }
+            $menu_llamad  = $data['camb_menu_llamado'];
+            if ($menu_llamad  == 2) {
+                $menu_llamado = $data['menu_llamado'];
+            }else {
+                $menu_llamado = $data['camb_menu_llamado'];
+            } 
+            $consultar_llamad  = $data['camb_consultar_llamado'];
+            if ($consultar_llamad  == 2) {
+                $consultar_llamado = $data['consultar_llamado'];
+            }else {
+                $consultar_llamado = $data['camb_consultar_llamado'];
+            }
+            $reg_llamad  = $data['camb_reg_llamado'];
+            if ($reg_llamad  == 2) {
+                $reg_llamado = $data['reg_llamado'];
+            }else {
+                $reg_llamado = $data['camb_reg_llamado'];
+            } 
+            $anul_llamad  = $data['camb_anul_llamado'];
+            if ($anul_llamad  == 2) {
+                $anul_llamado = $data['anul_llamado'];
+            }else {
+                $anul_llamado = $data['camb_anul_llamado'];
+            }
+            $ver_anul_llamad  = $data['camb_ver_anul_llamado'];
+            if ($ver_anul_llamad  == 2) {
+                $ver_anul_llamado = $data['ver_anul_llamado'];
+            }else {
+                $ver_anul_llamado = $data['camb_ver_anul_llamado'];
+            }
+            $ver_rnc1  = $data['camb_ver_rnc'];
+            if ($ver_rnc1  == 2) {
+                $ver_rnc = $data['ver_rnc'];
+            }else {
+                $ver_rnc = $data['camb_ver_rnc'];
+            }
+            $ver_conf1  = $data['camb_ver_conf'];
+            if ($ver_conf1  == 2) {
+                $ver_conf = $data['ver_conf'];
+            }else {
+                $ver_conf = $data['camb_ver_conf'];
+            }
+            $ver_parametro1  = $data['camb_ver_parametro'];
+            if ($ver_parametro1  == 2) {
+                $ver_parametro = $data['ver_parametro'];
+            }else {
+                $ver_parametro = $data['camb_ver_parametro'];
+            }
+            $ver_conf_publ1  = $data['camb_ver_conf_publ'];
+            if ($ver_conf_publ1  == 2) {
+                $ver_conf_publ = $data['ver_conf_publ'];
+            }else {
+                $ver_conf_publ = $data['camb_ver_conf_publ'];
+            }
+            $ver_user1  = $data['camb_ver_user'];
+            if ($ver_user1  == 2) {
+                $ver_user = $data['ver_user'];
+            }else {
+                $ver_user = $data['camb_ver_user'];
+            }
+            $ver_user_exter1  = $data['camb_ver_user_exter'];
+            if ($ver_user_exter1  == 2) {
+                $ver_user_exter = $data['ver_user_exter'];
+            }else {
+                $ver_user_exter = $data['camb_ver_user_exter'];
+            }
+            $ver_user_desb1  = $data['camb_ver_user_desb'];
+            if ($ver_user_desb1  == 2) {
+                $ver_user_desb = $data['ver_user_desb'];
+            }else {
+                $ver_user_desb = $data['camb_ver_user_desb'];
+            }
+            $ver_user_lista1  = $data['camb_ver_user_lista'];
+            if ($ver_user_lista1  == 2) {
+                $ver_user_lista = $data['ver_user_lista'];
+            }else {
+                $ver_user_lista = $data['camb_ver_user_lista'];
+            }
+            $ver_user_perfil1  = $data['camb_ver_user_perfil'];
+            if ($ver_user_perfil1  == 2) {
+                $ver_user_perfil = $data['ver_user_perfil'];
+            }else {
+                $ver_user_perfil = $data['camb_ver_user_perfil'];
+            }
+            $data1 = array(
+                 
+                        'menu_rnce' => $menu_rnce,
+                        'menu_progr' => $menu_progr,
+                        'menu_eval_desem' => $menu_eval_desem,
+                        'menu_reg_eval_desem' => $menu_reg_eval_desem,
+                        'menu_soli_anular_eval_desem' => $menu_soli_anular_eval_desem,
+                        'menu_proc_anular_eval_desem' => $menu_proc_anular_eval_desem,
+                        'menu_comprobante_eval_desem' => $menu_comprobante_eval_desem,
+                        'menu_estdi_eval_desem' => $menu_estdi_eval_desem,
+                        'menu_noregi_eval_desem' => $menu_noregi_eval_desem,
+                        'menu_llamado' => $menu_llamado,
+                        'consultar_llamado' => $consultar_llamado,
+                        'reg_llamado' => $reg_llamado,
+                        'anul_llamado'=> $anul_llamado,
+                        'ver_anul_llamado' => $ver_anul_llamado,
+                        'ver_rnc' => $ver_rnc,
+                        'ver_conf' => $ver_conf,
+                        'ver_parametro' => $ver_parametro,
+                        'ver_conf_publ' => $ver_conf_publ,
+                        'ver_user' => $ver_user,
+                        'ver_user_exter' => $ver_user_exter,
+                        'ver_user_desb' => $ver_user_desb,
+                        'ver_user_lista' => $ver_user_lista,
+                        'ver_user_perfil' => $ver_user_perfil,
+                        'menu_anulacion' => $menu_anulacion,
+                        
+                     
+            );
+            $update = $this->db->update('seguridad.perfil', $data1);
             return true;
         }
 }

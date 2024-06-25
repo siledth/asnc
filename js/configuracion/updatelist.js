@@ -38,7 +38,7 @@ function modal(id) {
                    
 
 
-// llena el select de unidad de medida
+         // llena el select de unidad de medida
             var id_estado = data['id_estado'];
              
         $.ajax({

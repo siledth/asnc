@@ -169,7 +169,7 @@ class Comision_contrata extends CI_Controller
         //Información traido por el session de usuario para mostrar inf
        
         $data['id_comision'] = $this->input->get('id');
-   
+        
         $data['ver'] = $this->Comision_contrata_model->check_miemb($data['id_comision']);
         $data['tp_contrata'] = $this->Comision_contrata_model->check_tipo_com();
         $data['area'] = $this->Comision_contrata_model->check_areas();
@@ -719,7 +719,7 @@ class Comision_contrata extends CI_Controller
     
     
      
-      $pdf->Output('Comprobantemiembros '.$curdate.'.pdf', 'I');
+      $pdf->Output('Comprobantemiembros '.$curdate.'.pdf', 'D');
      // $this->load->view('headfoot/header', $datos);
 }
 
@@ -1137,7 +1137,7 @@ El Servicio Nacional de Contrataciones podrá realizar las labores de control po
    
    
     
-     $pdf->Output('Comprobantemiembros '.$curdate.'.pdf', 'I');
+     $pdf->Output('Comprobantemiembros '.$curdate.'.pdf', 'D');
     // $this->load->view('headfoot/header', $datos);
 }
 public function consulta_mb() {
@@ -1211,6 +1211,90 @@ public function logger_type_sncactivo()
     $this->load->view('templates/header.php');
     $this->load->view('templates/navigator.php');
     $this->load->view('comision_contrata/consultas/consulta_com_act.php', $data);
+    $this->load->view('templates/footer.php');
+}
+public function logger_type_snc_vencidos()
+{
+    if (!$this->session->userdata('session')) {
+        redirect('login');
+    }
+    $rif_organoente = $this->session->userdata('rif_organoente');
+    $data['time']=date("Y-m-d"); // para calcular la vigencia
+
+    $data['rif_organoente'] 		 = $this->session->userdata('rif_organoente');
+    $data['unidad'] 		 = $this->session->userdata('unidad');
+
+    $data['miembros'] = $this->Comision_contrata_model->check_logger_miebros_vencidos();
+    $usuario = $this->session->userdata('id_user');
+    $data['tp_contrata'] = $this->Comision_contrata_model->check_tipo_com();
+    $data['area'] = $this->Comision_contrata_model->check_areas();
+    $data['tipo'] = $this->Comision_contrata_model->check_tipo();
+
+    //$data['mat'] = $this->Programacion_model->consulta_itemsr($data['id_programacion']);
+    
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('comision_contrata/estatus_miebros/vencidos.php', $data);
+    $this->load->view('templates/footer.php');
+}
+public function miembro_vencido_cer(){
+    if(!$this->session->userdata('session'))redirect('login');
+    $data = $this->input->post();
+    $data =	$this->Comision_contrata_model->miembro_vencido_cer2($data);
+    echo json_encode($data);
+}
+public function logger_type_snc_condicionado()
+{
+    if (!$this->session->userdata('session')) {
+        redirect('login');
+    }
+    $rif_organoente = $this->session->userdata('rif_organoente');
+    $data['time']=date("Y-m-d"); // para calcular la vigencia
+
+    $data['rif_organoente'] 		 = $this->session->userdata('rif_organoente');
+    $data['unidad'] 		 = $this->session->userdata('unidad');
+
+    $data['miembros'] = $this->Comision_contrata_model->check_logger_miebros_condicionado();
+    $usuario = $this->session->userdata('id_user');
+    $data['tp_contrata'] = $this->Comision_contrata_model->check_tipo_com();
+    $data['area'] = $this->Comision_contrata_model->check_areas();
+    $data['tipo'] = $this->Comision_contrata_model->check_tipo();
+
+    //$data['mat'] = $this->Programacion_model->consulta_itemsr($data['id_programacion']);
+    
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('comision_contrata/estatus_miebros/condicionado.php', $data);
+    $this->load->view('templates/footer.php');
+}
+public function miembro_condicionado_cer(){
+    if(!$this->session->userdata('session'))redirect('login');
+    $data = $this->input->post();
+    $data =	$this->Comision_contrata_model->miembro_condicionado_cer2($data);
+    echo json_encode($data);
+}
+public function logger_type_snc_certificados()
+{
+    if (!$this->session->userdata('session')) {
+        redirect('login');
+    }
+    $rif_organoente = $this->session->userdata('rif_organoente');
+    $data['time']=date("Y-m-d"); // para calcular la vigencia
+
+    $data['rif_organoente'] 		 = $this->session->userdata('rif_organoente');
+    $data['unidad'] 		 = $this->session->userdata('unidad');
+
+    $data['miembros'] = $this->Comision_contrata_model->check_logger_miebros_certificados();
+    $usuario = $this->session->userdata('id_user');
+    $data['tp_contrata'] = $this->Comision_contrata_model->check_tipo_com();
+    $data['area'] = $this->Comision_contrata_model->check_areas();
+    $data['tipo'] = $this->Comision_contrata_model->check_tipo();
+
+    //$data['mat'] = $this->Programacion_model->consulta_itemsr($data['id_programacion']);
+    
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('comision_contrata/estatus_miebros/certificados.php', $data);
     $this->load->view('templates/footer.php');
 }
 }

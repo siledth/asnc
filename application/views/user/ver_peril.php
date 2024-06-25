@@ -34,6 +34,7 @@
                             <label>Nombre <b title="Campo Obligatorio" style="color:red">*</b></label>
                             <h5><?=$ver_perfil['nombrep']?> </h5>
                         </div>
+                        
                         <div class="form-group col-4" style="font-size:20px">
                             <label>Menu RNCE<b title="Campo Obligatorio" style="color:red">*</b></label>
                             <h5>

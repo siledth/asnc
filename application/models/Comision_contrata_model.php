@@ -1225,6 +1225,96 @@ public function carga_completa($data){
                     return true;
                    // return $id;
             }
+            function check_logger_miebros_vencidos(){
+                $this->db->select('c.*, stu.desc_status, nto.desc_status_snc,  c2.desc_area_miembro, 
+                c3.desc_tp_miembro, c4.desc_status_miembro');
+                $this->db->from('comisiones.miembros c');
+                $this->db->join('comisiones.status_comision stu', 'stu.id_status = c.id_status');
+                $this->db->join('comisiones.notificacion_comision nto', 'nto.id_status_snc = c.snc'); 
+               // $this->db->join('comisiones.acto_admin act', 'act.id_acto_admin = c.acto_adm');           
+                $this->db->join('comisiones.area_miembro c2','c2.id_area_miembro = c.id_area_miembro');
+                $this->db->join('comisiones.tp_miembro c3','c3.id_tp_miembro = c.id_tp_miembro');
+                $this->db->join('comisiones.status_miembro c4','c4.id_status_miembro = c.id_cert');
+
+               // $this->db->where('c.rif_organoente', $rif_organoente);
+                $this->db->where('c.snc', 2);
+                $this->db->where('c.id_status', 1);
+                $this->db->where('c.id_cert', 4);
+
+    
+                $query = $this->db->get();
+                return $query->result_array();
+            }
+            function check_logger_miebros_certificados(){
+                $this->db->select('c.*, stu.desc_status, nto.desc_status_snc,  c2.desc_area_miembro, 
+                c3.desc_tp_miembro, c4.desc_status_miembro');
+                $this->db->from('comisiones.miembros c');
+                $this->db->join('comisiones.status_comision stu', 'stu.id_status = c.id_status');
+                $this->db->join('comisiones.notificacion_comision nto', 'nto.id_status_snc = c.snc'); 
+               // $this->db->join('comisiones.acto_admin act', 'act.id_acto_admin = c.acto_adm');           
+                $this->db->join('comisiones.area_miembro c2','c2.id_area_miembro = c.id_area_miembro');
+                $this->db->join('comisiones.tp_miembro c3','c3.id_tp_miembro = c.id_tp_miembro');
+                $this->db->join('comisiones.status_miembro c4','c4.id_status_miembro = c.id_cert');
+
+               // $this->db->where('c.rif_organoente', $rif_organoente);
+                $this->db->where('c.snc', 2);
+                $this->db->where('c.id_status', 1);
+                $this->db->where('c.id_cert', 2);
+
+    
+                $query = $this->db->get();
+                return $query->result_array();
+            }
+            function check_logger_miebros_condicionado(){
+                $this->db->select('c.*, stu.desc_status, nto.desc_status_snc,  c2.desc_area_miembro, 
+                c3.desc_tp_miembro, c4.desc_status_miembro');
+                $this->db->from('comisiones.miembros c');
+                $this->db->join('comisiones.status_comision stu', 'stu.id_status = c.id_status');
+                $this->db->join('comisiones.notificacion_comision nto', 'nto.id_status_snc = c.snc'); 
+               // $this->db->join('comisiones.acto_admin act', 'act.id_acto_admin = c.acto_adm');           
+                $this->db->join('comisiones.area_miembro c2','c2.id_area_miembro = c.id_area_miembro');
+                $this->db->join('comisiones.tp_miembro c3','c3.id_tp_miembro = c.id_tp_miembro');
+                $this->db->join('comisiones.status_miembro c4','c4.id_status_miembro = c.id_cert');
+
+               // $this->db->where('c.rif_organoente', $rif_organoente);
+                $this->db->where('c.snc', 2);
+                $this->db->where('c.id_status', 1);
+                $this->db->where('c.id_cert', 3);
+
+    
+                $query = $this->db->get();
+                return $query->result_array();
+            }
+            public function miembro_vencido_cer2($data){
+
+                $this->db->where('id_miembros', $data['id_miembros']);
+            
+                $data1 = array( 
+                     
+                    'vigentedesde'             => $data['vigen_cert_desde'],
+                    'vigentehasta'             => $data['vigen_cert_hasta'],
+                    'id_cert'             => 2,
+
+                         
+                );
+                $update = $this->db->update('comisiones.miembros', $data1);
+                return true;
+            }
+            public function miembro_condicionado_cer2($data){
+
+                $this->db->where('id_miembros', $data['id_miembros']);
+            
+                $data1 = array( 
+                     
+                    'vigentedesde'             => $data['vigen_cert_desde'],
+                    'vigentehasta'             => $data['vigen_cert_hasta'],
+                    'id_cert'             => 2,
+
+                         
+                );
+                $update = $this->db->update('comisiones.miembros', $data1);
+                return true;
+            }
     }
 
     

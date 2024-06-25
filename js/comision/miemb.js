@@ -189,7 +189,7 @@ function inactivar(id_comision) {
         });
     }
 
-    function modal(id) {
+    function modal_ce(id) {
         var id_comision = id;          
         var base_url = '/index.php/Comision_contrata/check_comision';    
         $.ajax({

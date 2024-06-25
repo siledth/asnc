@@ -113,6 +113,38 @@
 
                                     </ul>
                                 </li>
+                                <li class="has-sub">
+                                    <a href="javascript:;">
+                                        <b class="caret"></b>
+                                        <span>Estatus Miembros</span>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a
+                                                href="<?= base_url() ?>index.php/Comision_contrata/logger_type_snc_vencidos">
+                                                - Consulta  certificado miembros vencidos
+                                            </a>
+
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="<?= base_url() ?>index.php/Comision_contrata/logger_type_snc_condicionado">
+                                                - Consulta certificado miembros condicionados
+                                            </a>
+
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="<?= base_url() ?>index.php/Comision_contrata/logger_type_snc_certificados">
+                                                - Consulta certificado miembros Certificado
+                                            </a>
+
+                                        </li>
+                                       
+
+
+                                    </ul>
+                                </li>
 
                             </ul>
                             <?php endif; ?>

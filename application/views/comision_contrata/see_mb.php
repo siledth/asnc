@@ -3,12 +3,17 @@
     <h2>Miembros de Comisión </h2>
     <div class="row">
 
-        <div class="col-10 mt-4">
+        <div class="col-12 mt-4">
             <div class="card card-outline-danger text-center bg-white">
                 <div class="card-block">
                     <blockquote class="card-blockquote" style="margin-bottom: -19px;">
-                      
-
+                    <button type="button" class="my-button4"
+                                    onclick="modal(<?php echo $id_comision ?>);" data-toggle="modal"
+                                    data-target="#dede">
+                                    Ingresar Miembros de Comisión
+                                </button>
+                                <br><br>
+               
 
                             <!-- <input type="hidden" name="fecha_est" id="fecha_est" value=""> -->
                     </blockquote>
@@ -55,13 +60,13 @@
                                         data-toggle="modal" data-target="#exampleModal" class="fas fa-2x fa-fw fa-edit" 
                                         style="color:green"></i>
                                     <a/>
-                                <a onclick="modal(<?php echo $data['id_comision'] ?>);" data-toggle="modal"
+                                <!-- <a onclick="modal(<?php echo $data['id_comision'] ?>);" data-toggle="modal"
                                                 data-target="#dede" style="color: white">
                                                 <i title="Ingresar Miembros de Comisión"
                                                     class="fas fa-2x fa-fw fa-address-card"
                                                     style="color: darkblue;"></i>
                                                     
-                                            </a>
+                                            </a> -->
                                 <?php if ($data['id_status'] == 1) : ?>
 
                                 <a title="Desactivar Miembro"
@@ -272,7 +277,8 @@
         </div>
     </div>
 </div>
-    <script src="<?=base_url()?>/js/comision/miemb.js">
+
+    <script src="<?=base_url()?>/js/comision/miemb.js">   </script>
 
  <script type="text/javascript">
     $(document).ready(function() {

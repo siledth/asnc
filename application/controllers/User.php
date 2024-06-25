@@ -558,6 +558,18 @@ class User extends CI_Controller
         $data =	$this->User_model->consultar_perfiles1($data);
         echo json_encode($data);
     }
+    public function read_list_p(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $data = $this->input->post();
+        $data =	$this->User_model->read_list_p($data);
+        echo json_encode($data);
+    }
+    public function read_list_p2(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $data = $this->input->post();
+        $data =	$this->User_model->read_list_p2($data);
+        echo json_encode($data);
+    }
     public function organo_ent(){
         if(!$this->session->userdata('session'))redirect('login');
         $data = $this->input->post();
@@ -812,4 +824,11 @@ public function modi_usua()
         $data = $this->User_model->delet_sse($data);
         echo json_encode($data);
     }
+    public function save_modif_perfil(){
+        if(!$this->session->userdata('session'))redirect('login');
+        $data = $this->input->post();
+        $data =	$this->User_model->save_modif_perfil($data);
+        echo json_encode($data);
+    }
+   
 }
