@@ -125,14 +125,14 @@ function inactivar(id_comision) {
                 //     alert("debe ingresar Fecha Acto .");
                 //     event.preventDefault();
                 //   }
-                  if ($("#correo").val() === "") {
-                    alert("debe ingresar Dirección de Correo Electrónico .");
-                    event.preventDefault();
-                  }
-                  if ($("#telf").val() === "") {
-                    alert("debe ingresar Teléfono .");
-                    event.preventDefault();
-                  }
+                //   if ($("#correo").val() === "") {
+                //     alert("debe ingresar Dirección de Correo Electrónico .");
+                //     event.preventDefault();
+                //   }
+                //   if ($("#telf").val() === "") {
+                //     alert("debe ingresar Teléfono .");
+                //     event.preventDefault();
+                //   }
 
                 var base_url = '/index.php/Comision_contrata/save1';
     
