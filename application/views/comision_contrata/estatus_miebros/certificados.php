@@ -72,7 +72,7 @@
                                                                     style="color: pink;"></i>
                                                                 <a />
                                                                 <button
-                                                                    onclick="location.href='<?php echo base_url()?>index.php/Comision_contrata/pdfrt?id=<?php echo $data['id_comision'];?>'"
+                                                                    onclick="location.href='<?php echo base_url()?>index.php/Pdfcerti_miem/pdfrt?id=<?php echo $data['id_comision'];?>'"
                                                                     type="button"
                                                                     class="fas fa-2x  fa-cloud-download-alt"
                                                                     style="color:blue" name="button">

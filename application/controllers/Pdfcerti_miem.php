@@ -237,6 +237,6 @@ El Servicio Nacional de Contrataciones podrá realizar las labores de control po
 
 
 
-     $pdf->Output('notificacion' , 'I' );
+     $pdf->Output('notificacion' , 'D' );
  }
 }
