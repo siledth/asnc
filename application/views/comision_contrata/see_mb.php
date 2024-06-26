@@ -8,7 +8,7 @@
                 <div class="card-block">
                     <blockquote class="card-blockquote" style="margin-bottom: -19px;">
                     <button type="button" class="my-button4"
-                                    onclick="modal(<?php echo $id_comision ?>);" data-toggle="modal"
+                                    onclick="modal_ce(<?php echo $id_comision ?>);" data-toggle="modal"
                                     data-target="#dede">
                                     Ingresar Miembros de Comisión
                                 </button>
