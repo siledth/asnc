@@ -138,9 +138,9 @@
                                     <div class="form-group col-4">
                                         <label>Cédula de Identidad/ Pasaporte</label>
                                         <input class="form-control" type="text" name="cedula" id="cedula">
-                                        <input class="form-control" type="text" name="id_comision" id="id_comision"
+                                        <input class="form-control" type="hidden" name="id_comision" id="id_comision"
                                             readonly>
-                                        <input class="form-control" type="text" name="rif_organoente2"
+                                        <input class="form-control" type="hidden" name="rif_organoente2"
                                             id="rif_organoente2" readonly>
 
 
