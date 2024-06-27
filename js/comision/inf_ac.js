@@ -1,3 +1,27 @@
+function modal_ce(id_miembros) {
+    var id = id_miembros;
+
+   var base_url = '/index.php/Comision_contrata/consultar_t';
+      // var base_url2 = '/index.php/certificacion/llenar_contratista_rp';
+
+    //  var base_url =
+    //      window.location.origin + "/asnc/index.php/Certificacion/consultar_certificacion";
+
+   
+
+    $.ajax({
+        url: base_url,
+        method: "post",
+        data: { id: id },
+        dataType: "json",
+        success: function(data) {
+            $("#id_mesualidad_ver").val(id);
+          
+            
+
+        },
+    });
+}
 function modal(id) {
     var id_miembros = id;          
     var base_url = '/index.php/Comision_contrata/check_comision_inf';    
@@ -755,5 +779,119 @@ function enviar(id_miembros) {
                     }
                 });
             }
+        });
+    }
+    function guardar_nuevoestatus(){////////////////////////////////
+        event.preventDefault();
+    
+        swal.fire({
+            title: '¿Seguro desea Certificar? ',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: '¡Si!'
+        }).then((result) => {
+            if (result.value == true) {
+                var id_miembros = $('#id_mesualidad_ver').val();
+                var vigen_cert_desde = $('#vigen_cert_desde').val();
+                var vigen_cert_hasta = $('#vigen_cert_hasta').val();
+                 
+                var base_url = '/index.php/Comision_contrata/miembro_condicionado_cer'; 
+    
+                $.ajax({
+                    url:base_url,
+                    method: 'post',
+                    data:{
+                        id_miembros: id_miembros,
+                        vigen_cert_desde: vigen_cert_desde, 
+                        vigen_cert_hasta: vigen_cert_hasta,
+                         
+    
+                    },
+                    dataType: 'json',
+                    success: function(response){
+                        if(response == 1) {
+                            swal.fire({
+                                title: ' exito.',
+                                type: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Ok'
+                            }).then((result) => {
+                                if (result.value == true) {
+                                    location.reload();
+                                }
+                            });
+                        }
+                    }
+                })
+            }
+        });
+    }
+    function cambiarEndDate(){
+
+        f = $("#vigen_cert_desde").val();; // Acá la fecha leída del INPUT
+        vec = f.split('-'); // Parsea y pasa a un vector
+        var fecha = new Date(vec[0], vec[1], vec[2]); // crea el Date
+        fecha.setFullYear(fecha.getFullYear()+2); // Hace el cálculo
+        res = fecha.getFullYear()+'-'+fecha.getMonth()+'-'+fecha.getDate(); // carga el resultado
+        $('#vigen_cert_hasta').val(res);
+        //console.log(res);f;
+    }
+    //////////////////////////////////////////////////////
+    $('#fcerti').on('change', function(){
+        $('#vigencia').val(calcular_edad2());
+    });
+    
+    vigencia
+    
+    function calcular_edad2()
+    {
+        var fecha_seleccionada = $("#fcerti").val();
+        var fehca_nacimiento = new Date (fecha_seleccionada);
+        var fecha_actual = new Date();
+        var vigencia = (parseInt((fecha_actual- fehca_nacimiento)/(1000*60*60*24*365)));
+        return vigencia;
+    }
+      //////////////////////////////////////////////////////
+      $('#fcerti8').on('change', function(){
+        $('#vigencia8').val(calcular_edad());
+    });
+    
+    vigencia
+    
+    function calcular_edad()
+    {
+        var fecha_seleccionada = $("#fcerti8").val();
+        var fehca_nacimiento = new Date (fecha_seleccionada);
+        var fecha_actual = new Date();
+        var vigencia = (parseInt((fecha_actual- fehca_nacimiento)/(1000*60*60*24*365)));
+        return vigencia;
+    }
+
+    function modal_ce(id_miembros) {
+        var id = id_miembros;
+    
+       var base_url = '/index.php/Comision_contrata/consultar_t';
+          // var base_url2 = '/index.php/certificacion/llenar_contratista_rp';
+    
+        //  var base_url =
+        //      window.location.origin + "/asnc/index.php/Certificacion/consultar_certificacion";
+    
+       
+    
+        $.ajax({
+            url: base_url,
+            method: "post",
+            data: { id: id },
+            dataType: "json",
+            success: function(data) {
+                $("#id_mesualidad_ver").val(id);
+              
+                
+    
+            },
         });
     }

@@ -307,11 +307,12 @@
         function check_miemb_certi($id_comision){
 
             $this->db->select('pi2.id_miembros, pi2.id_comision, pi2.rif_organoente, pi2.cedula, pi2.nombre, pi2.apellido, 
-            pi2.id_area_miembro, c2.desc_area_miembro, c3.desc_tp_miembro, st.desc_status,pi2.id_status,pi2.id_cert, pi2.snc');
+            pi2.id_area_miembro, c2.desc_area_miembro, c3.desc_tp_miembro, st.desc_status,pi2.id_status,
+            pi2.id_cert, pi2.snc,c4.desc_status_miembro');
                 $this->db->join('comisiones.area_miembro c2','c2.id_area_miembro = pi2.id_area_miembro');
                 $this->db->join('comisiones.tp_miembro c3','c3.id_tp_miembro = pi2.id_tp_miembro');
                 $this->db->join('comisiones.status_comision st','st.id_status = pi2.id_status');
-
+                $this->db->join('comisiones.status_miembro c4','c4.id_status_miembro = pi2.id_cert');
                 $this->db->where('pi2.id_comision', $id_comision);
                 $this->db->where('pi2.id_status', 1);
 

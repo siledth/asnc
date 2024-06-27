@@ -56,21 +56,21 @@
                                                     <?php else: ?>
                                                     <?php if ($data['snc'] == 1) : ?>
 
-                                                    <a href="<?php echo base_url();?>index.php/Comision_contrata/miemb?id=<?php echo $data['id_comision'];?>"
+                                                    <!-- <a href="<?php echo base_url();?>index.php/Comision_contrata/miemb?id=<?php echo $data['id_comision'];?>"
                                                         class="button">
                                                         <i title="ver Integrantes"
                                                             class="fas fa-2x fa-fw fa-clipboard-list"
                                                             style="color: pink;"></i>
                                                         <a />
-                                                       
+                                                        -->
 
                                                             <?php else: ?>
-                                                            <a href="<?php echo base_url();?>index.php/Comision_contrata/miemb?id=<?php echo $data['id_comision'];?>"
+                                                            <!-- <a href="<?php echo base_url();?>index.php/Comision_contrata/miemb?id=<?php echo $data['id_comision'];?>"
                                                                 class="button">
                                                                 <i title="ver Integrantes"
                                                                     class="fas fa-2x fa-fw fa-clipboard-list"
                                                                     style="color: pink;"></i>
-                                                                <a />
+                                                                <a /> -->
                                                                 <button
                                                                     onclick="location.href='<?php echo base_url()?>index.php/Pdfcerti_miem/pdfrt?id=<?php echo $data['id_comision'];?>'"
                                                                     type="button"

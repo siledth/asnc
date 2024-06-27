@@ -726,7 +726,7 @@ class Comision_contrata extends CI_Controller
 public function miemb2(){
     if(!$this->session->userdata('session'))redirect('login');
     //Información traido por el session de usuario para mostrar inf
-   
+    $data['time']=date("Y-m-d");
     $data['id_comision'] = $this->input->get('id');
     $data['carrera'] = $this->Comision_contrata_model->check_espec();
      $data['final']  = $this->Comision_contrata_model->check_organo();

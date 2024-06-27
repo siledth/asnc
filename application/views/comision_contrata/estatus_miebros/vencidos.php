@@ -56,26 +56,26 @@
                                                     <?php else: ?>
                                                     <?php if ($data['snc'] == 1) : ?>
 
-                                                    <a href="<?php echo base_url();?>index.php/Comision_contrata/miemb?id=<?php echo $data['id_comision'];?>"
+                                                    <!-- <a href="<?php echo base_url();?>index.php/Comision_contrata/miemb?id=<?php echo $data['id_comision'];?>"
                                                         class="button">
                                                         <i title="ver Integrantes"
                                                             class="fas fa-2x fa-fw fa-clipboard-list"
                                                             style="color: pink;"></i>
-                                                        <a />
-                                                        <a title="Notificar al SNC"
+                                                        <a /> -->
+                                                        <!-- <a title="Notificar al SNC"
                                                             onclick="enviar(<?php echo $data['id_comision'];?>);"
                                                             class="button">
                                                             <i class="fas fa-2x fa-fw fas ffas fa-bullhorn"
                                                                 style="color: black;"></i>
-                                                            <a />
+                                                            <a /> -->
 
                                                             <?php else: ?>
-                                                            <a href="<?php echo base_url();?>index.php/Comision_contrata/miemb?id=<?php echo $data['id_comision'];?>"
+                                                            <!-- <a href="<?php echo base_url();?>index.php/Comision_contrata/miemb?id=<?php echo $data['id_comision'];?>"
                                                                 class="button">
                                                                 <i title="ver Integrantes"
                                                                     class="fas fa-2x fa-fw fa-clipboard-list"
                                                                     style="color: pink;"></i>
-                                                                <a />
+                                                                <a /> -->
                                                                 <button
                                                                     onclick="location.href='<?php echo base_url()?>index.php/Pdfcerti_miem/pdfrt?id=<?php echo $data['id_comision'];?>'"
                                                                     type="button"
@@ -85,14 +85,14 @@
 
                                                                
 
-                                                                    <a onclick="modal_ce(<?php echo $data['id_miembros']?>);"
+                                                                    <!-- <a onclick="modal_ce(<?php echo $data['id_miembros']?>);"
                                                                         data-toggle="modal" data-target="#exampleModal"
                                                                         style="color: white">
                                                                         <i title="Certificar Miembro 2 años"
                                                                             class="fas fa-2x fa-fw fa-file-import"
                                                                             style="color: crimson;"></i>
 
-                                                                    </a>
+                                                                    </a> -->
                                                                     <?php endif; ?>
 
                                                                     <?php endif; ?>
