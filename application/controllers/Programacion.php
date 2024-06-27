@@ -5554,7 +5554,17 @@ public function comprobante_rendicion() //hacer un pdf de comprobante rendidicon
    $pdf->Cell(60,5,utf8_decode('Código ONAPRE:'),0,'L');
    $pdf->MultiCell(100,5, utf8_decode($codigo_onapre), 0, 'L');
    $pdf->Cell(60,5,utf8_decode('Ejercicio Fiscal:'),0,'L');
-   $pdf->MultiCell(100,5, '2023', 0, 'L');
+//    $pdf->MultiCell(100,5, '2023', 0, 'L');
+$id_programacion = $this->input->get('id');
+
+   $dat7 = $this->Programacion_model->anio_programacion($id_programacion);   
+       if($dat7 != ''){ 
+           foreach($dat7 as $dt7){ 
+       
+           $pdf->MultiCell(100,5, $dt7->anio, 0, 'C');
+          // $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt5->fecha)), 0, 'L');
+          
+       }}
    $pdf->Cell(60,5,utf8_decode('Trimestre:'),0,'L');
    $pdf->MultiCell(100,5, 'I', 0, 'L');
    $pdf->Cell(60,5,utf8_decode('Fecha de Registro:'),0,'L');
