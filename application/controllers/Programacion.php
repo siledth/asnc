@@ -5568,24 +5568,24 @@ $id_programacion = $this->input->get('id');
    $pdf->Cell(60,5,utf8_decode('Trimestre:'),0,'L');
    $pdf->MultiCell(100,5, 'I', 0, 'L');
    $pdf->Cell(60,5,utf8_decode('Fecha de Registro:'),0,'L');
-//    $id_programacion = $this->input->get('id');
+   $id_programacion = $this->input->get('id');
     
-//    $dat6 = $this->Programacion_model->anio_programacion($id_programacion);   
-//        if($dat6 != ''){ 
-//            foreach($dat6 as $dt6){ 
-       
-//            $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt6->fecha_modifi)), 0, 'L');
-          
-//        }}
-$id_programacion = $this->input->get('id');
-    
-   $dat6 = $this->Programacion_model->read_sending_rendiciones14($id_programacion);   
+   $dat6 = $this->Programacion_model->anio_programacion($id_programacion);   
        if($dat6 != ''){ 
            foreach($dat6 as $dt6){ 
        
            $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt6->fecha)), 0, 'L');
           
        }}
+// $id_programacion = $this->input->get('id');
+    
+//    $dat6 = $this->Programacion_model->read_sending_rendiciones14($id_programacion);   
+//        if($dat6 != ''){ 
+//            foreach($dat6 as $dt6){ 
+       
+//            $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt6->fecha)), 0, 'L');
+          
+//        }}
    $pdf->Ln(2);
    $pdf->SetFont('Arial','',12);
 
