@@ -5569,7 +5569,7 @@ public function comprobante_rendicion() //hacer un pdf de comprobante rendidicon
 //        }}
 $id_programacion = $this->input->get('id');
     
-   $dat6 = $this->Programacion_model->read_sending_rendiciones($id_programacion);   
+   $dat6 = $this->Programacion_model->read_sending_rendiciones14($id_programacion);   
        if($dat6 != ''){ 
            foreach($dat6 as $dt6){ 
        
