@@ -89,6 +89,8 @@ class Login extends CI_Controller {
                     'certi_externo' => $data['certi_externo'],
                     'menu_certi' => $data['menu_certi'], 
                     'pdvsa' => $data['pdvsa'],  
+                    'accion_llamado' => $data['accion_llamado'],  
+
 
           'session' => TRUE,
         ];

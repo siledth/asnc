@@ -3152,7 +3152,7 @@ public function guardar_rendi_bienes_acc() {
         'total_pago_rendi' => $this->input->POST('total_pago_rendi5'),        
         'paridad_rendi_factura' => $this->input->POST('paridad_rendi_factura5'),
         'subtotal_rendi_factura' => $this->input->POST('subtotal_rendi_factura5'),
-        'fecha_pago_rendi' => $this->input->POST('fecha_pago_rendi5'),
+        'fecha_pago_rendi' => $this->input->POST('fecha_pago_rendi5'), 
         'estatus' => 4,
         'fecha_rendicion' => date("Y-m-d"), 
         'fecha_cam_estatus' => date("Y-m-d"), 

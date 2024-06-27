@@ -3353,7 +3353,7 @@ public function consultar_items_servicio_acc_rendir($data){
 
         }else {
             $datefactura_rendi = $data['datefactura_rendi'];
-            $datefactura_rendi = $data['fecha_pago_rendi'];
+            $fecha_pago_rendi = $data['fecha_pago_rendi'];
             $subtotal_rendi_factura = $data['subtotal_rendi_factura'];
             $monto_factura_rend = $data['monto_factura_rend'];
             $total_pago_rendi = $data['total_pago_rendi'];
