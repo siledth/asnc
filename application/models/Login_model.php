@@ -10,7 +10,7 @@ class Login_model extends CI_model
             c.menu_noregi_eval_desem, c.menu_llamado, c.consultar_llamado, c.reg_llamado, anul_llamado, 
             c.ver_anul_llamado, c.ver_rnc, c.ver_conf, c.ver_parametro, 
             c.ver_conf_publ, c.ver_user, c.ver_user_exter, c.ver_user_desb, c.ver_user_lista, c.ver_user_perfil, 
-            c.menu_anulacion, c.menu_repor_evalu, c.certificacion, c.certi_externo, c.menu_certi,c.pdvsa
+            c.menu_anulacion, c.menu_repor_evalu, c.certificacion, c.certi_externo, c.menu_certi,c.pdvsa,c.menu_certi,c.accion_llamado
             FROM seguridad.usuarios f
             LEFT JOIN seguridad.perfil c ON c.id_perfil = f.perfil
             WHERE nombre = ?";
