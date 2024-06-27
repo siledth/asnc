@@ -5561,7 +5561,7 @@ $id_programacion = $this->input->get('id');
        if($dat7 != ''){ 
            foreach($dat7 as $dt7){ 
        
-           $pdf->MultiCell(50,5, $dt7->anio, 0, 'C');
+           $pdf->MultiCell(5,5, $dt7->anio, 0, 'C');
           // $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt5->fecha)), 0, 'L');
           
        }}
