@@ -5289,6 +5289,21 @@ public function save_certificado($data){ //por hacer
             return NULL;
         }
     }
+    function read_sending_rendiciones14($data1){
+        $query = $this->db->query("SELECT  pac.id_programacion, pac.des_unidad, pac.rif,
+         pac.codigo_onapre, org.filiar, org.id_organoenteads ,p.descripcion ,
+         p.rif as filiares, pac.anio,pac.fecha
+        FROM programacion.inf_enviada_rendi pac 
+        join public.organoente org on pac.rif = org.rif
+        join public.organoente p on p.id_organoente = org.id_organoenteads
+        where pac.id_programacion = '$data1'");
+        if($query->num_rows()>0){
+            return $query->result();
+        }
+        else{
+            return NULL;
+        }
+    }
     function read_sending_rendiciones_snc2($data1){
         $query = $this->db->query("SELECT   id_programacion,  
         id_obj_comr_obra, precio_total_obra, porcentaje_obra, id_obj_comr_bien, precio_total_bien, 
