@@ -130,11 +130,11 @@
                             <td><?=$data['subtotal_rendiusdt']?> </td>
                             <td><?=$data['descripcion']?> </td>
                             <?php if ($data['sel_rif_nombre'] == '0') : ?>
-                                <td><?=$data['razon_social_no_rnc']?> </td>
+                                <td><?=$data['rif_contr_no_rnc']?>/<?=$data['razon_social_no_rnc']?> </td>
 
 
                                     <?php else: ?>
-                                        <td><?=$data['sel_rif_nombre']?> </td>
+                                        <td><?=$data['nombre_contratista']?>/<?=$data['sel_rif_nombre']?> </td>
                                     <?php endif; ?>
                            
 
