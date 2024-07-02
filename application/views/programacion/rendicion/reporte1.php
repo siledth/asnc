@@ -129,7 +129,16 @@
                             <td><?=$data['paridad_rendi']?> </td>
                             <td><?=$data['subtotal_rendiusdt']?> </td>
                             <td><?=$data['descripcion']?> </td>
-                            <td><?=$data['sel_rif_nombre']?> </td>
+                            <?php if ($data['sel_rif_nombre'] == '0') : ?>
+                                <td><?=$data['razon_social_no_rnc']?> </td>
+
+
+                                    <?php else: ?>
+                                        <td><?=$data['sel_rif_nombre']?> </td>
+                                    <?php endif; ?>
+                           
+
+
                             <td><?=$data['num_contrato']?> </td>
                             <td><?=$data['fecha_contrato']?> </td>
                             <td><?=$data['desc_tipo_doc_contrata']?> </td>
