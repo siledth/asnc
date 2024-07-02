@@ -5675,7 +5675,7 @@ $id_programacion = $this->input->get('id');
                 $pdf->SetFont('Arial','',10);
                 
                 $pdf->Cell(50,5, $d4->desc_objeto_contrata,0,0,'C');
-                $pdf->Cell(48,5, number_format($d4->precio_total, 2, ",", "."),0,0,'R');
+                $pdf->Cell(48,5, number_format($d4->precio_total, 2, ",", "."),0,1,'R');
                 $id_programacion = $this->input->get('id');
                 
                 $id_programacion = $this->input->get('id');
