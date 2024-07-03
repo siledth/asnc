@@ -371,8 +371,8 @@
                                         <li><a href="<?= base_url() ?>index.php/Publicaciones/anulaciones_general">-Anulaciones
                                                 General</b></a></li>
                                         <li>
-                                            <a href="<?= base_url() ?>index.php/Publicaciones/acciones">-Acciones
-                                                Llamado a Concurso </a>
+                                            <a href="<?= base_url() ?>index.php/Publicaciones/Accion2_snc">-Consultar Acciones al Final de 
+                                            LLamados a Concurso</a>
                                         </li>
                                         <?php endif; ?>
 

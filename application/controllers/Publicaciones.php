@@ -1272,6 +1272,29 @@ public function llamadointerno() {
         
         $this->load->view('templates/footer.php');
     }
+    public function Accion2_snc(){
+        if(!$this->session->userdata('session'))
+        redirect('login');
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $rif_organoente = $this->session->userdata('rif_organoente');
+
+        $data['rif'] = $this->session->userdata('rif');
+        $parametros = $this->input->get('id');
+        $data['numero_proceso']=$this->input->get('id');
+        $data['llamadot'] = $this->Publicaciones_model->check_logger_accion_snc();
+
+        $data['time']=date("Y-m-d");
+
+        $data['inf_1'] = $this->Publicaciones_model->inf_1($data['numero_proceso']);
+        $data['results_2']      =  $this->Publicaciones_model->consultar_cxc_client3($data['numero_proceso']);
+
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+          $this->load->view('publicaciones/acciones/accionesnc.php', $data);
+        
+        $this->load->view('templates/footer.php');
+    }
+    
     public function acciones3() {
         if (!$this->session->userdata('session'))
             redirect('login');

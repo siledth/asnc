@@ -1038,6 +1038,27 @@
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+	function check_logger_accion_snc(){
+		$this->db->select('c.id_accion, c.numero_proceso, c.id_accion_cargar, c.id_articulo_113,
+		c.observacion_desierto, c.adjudicado, c.sel_rif_nombre, c.nombre_contratista,
+		c.rif_contr_no_rnc, c.razon_social_no_rnc, c.exit_rnc, c.id_objeto_c, c.num_contrato,
+		c.monto_contrato, c.paridad, c.total_contrato, c.fecha_paridad, c.rif_organoente,
+		 nto.desc_status_snc, c.snc, acc.desc_acciones, art.desc_articulo113, adj.desc_adjudicado,
+		 obj.desc_objeto_contrata, org.descripcion as desc_org, org.filiar, org.id_organoenteads ,p.descripcion ,p.rif as filiares');
+		$this->db->from('publicaciones.acciones_llamados c');	
+		$this->db->join('comisiones.notificacion_comision nto', 'nto.id_status_snc = c.snc');
+		$this->db->join('publicaciones.acciones acc', 'acc.id_acciones = c.id_accion_cargar'); 
+		$this->db->join('publicaciones.articulo113 art', 'art.id_articulo113 = c.id_articulo_113'); 
+		$this->db->join('publicaciones.adjudicado  adj', 'adj.id_adjudicado = c.adjudicado');
+		$this->db->join('programacion.objeto_contrata  obj', 'obj.id_objeto_contrata = c.id_objeto_c');	  
+		$this->db->join('public.organoente org ', 'c.rif_organoente = org.rif');	  
+		$this->db->join('public.organoente p', 'p.id_organoente = org.id_organoenteads');	  
+
+		        
+
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 	function consulta_accll($data){
 		$this->db->select('id_accion, numero_proceso, num_contrato');
 		$this->db->from('publicaciones.acciones_llamados');
