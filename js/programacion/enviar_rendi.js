@@ -4,10 +4,10 @@ function modal1(id_programacion) {
     // Muestra el modal
     $('#notif').modal('show');
   }
-function enviar() {
+  function enviar() {
     event.preventDefault();
     swal
-        .fire({
+       .fire({
             title: "¿Seguro que desea Notificar la Rendición seleccionada.",
             type: "warning",
             showCancelButton: true,
@@ -16,44 +16,53 @@ function enviar() {
             cancelButtonText: "Cancelar",
             confirmButtonText: "¡Si, Enviar!",
         })
-        .then((result) => {
+       .then((result) => {
             if (result.value == true) {
                 var id = $('#id_programacion77').val();
-            var trimestre = $('#llenar_trimestre77').val();
+                var trimestre = $('#llenar_trimestre77').val();
 
-             //  var base_url =window.location.origin+'/asnc/index.php/Programacion/enviar_snc';
-               var base_url = '/index.php/Programacion/enviar_rendi';
-                   
+                var base_url = '/index.php/Programacion/enviar_rendi';
+
                 $.ajax({
                     url: base_url,
                     method: "post",
                     data: {
                         id: id,
                         trimestre: trimestre,
-
                     },
                     dataType: "json",
                     success: function(response) {
                         if (response == 1) {
                             swal
-                                .fire({
+                               .fire({
                                     title: "Proceso Enviado",
                                     type: "success",
                                     showCancelButton: false,
                                     confirmButtonColor: "#3085d6",
                                     confirmButtonText: "Ok",
                                 })
-                                .then((result) => {
+                               .then((result) => {
                                     if (result.value == true) {
                                         location.reload();
                                     }
                                 });
                         }
                     },
+                    error: function(xhr, status, error) {
+                        swal
+                           .fire({
+                                title: "Error al guardar datos",
+                                text: "No se pudieron guardar los datos en la base de datos. Intente nuevamente.",
+                                type: "error",
+                                showCancelButton: false,
+                                confirmButtonColor: "#3085d6",
+                                confirmButtonText: "Ok",
+                            });
+                    },
                 });
             }
         });
-    }
+}
 
     function rendi_py1(){
         event.preventDefault();
