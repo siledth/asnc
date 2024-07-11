@@ -4811,6 +4811,23 @@ public function rendir($id_programacion){
     return $query->result_array();
     // return $query->result_array();
 }
+public function ver_rendir1($id_programacion){
+    $this->db->select('pac.*,
+    cc.descripcion,
+    ti.desc_tipo_doc_contrata,
+    se.desc_comp_resp_social, tr.descripcion_trimestre
+    ');
+    $this->db->join('evaluacion_desempenio.modalidad cc','cc.id = pac.id_modalida_rendi', 'left');
+    $this->db->join('programacion.tipo_doc_contrata ti','ti.id_tipo_doc_contrata = pac.selc_tipo_doc_contrata', 'left');
+    $this->db->join('programacion.comp_resp_social se','se.id_comp_resp_social = pac.selc_com_res_social', 'left');
+    $this->db->join('programacion.trimestre tr','tr.id_trimestre = pac.trimestre', 'left');    
+    $this->db->where('pac.id_programacion', $id_programacion);
+    $this->db->where('pac.trimestre', 1);
+
+    $query = $this->db->get('programacion.rendidicion pac');
+    return $query->result_array();
+    // return $query->result_array();
+}
 
 public function consulta_items($id_programacion){
     $this->db->select('*');
