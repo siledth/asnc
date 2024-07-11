@@ -10,6 +10,8 @@
                     <table id="data-table-default" class="table table-bordered table-hover">
                         <thead style="background:#e4e7e8">
                             <tr class="text-center">
+                            <th></th>
+
                                 <th>Rif Contratante</th>
                                 <th>Contratante</th>
                                 <th>Rif Contratista</th>
@@ -19,6 +21,8 @@
                         <tbody>
                             <?php foreach($contrat as $data):?>
                             <tr class="odd gradeX" style="text-align:center">
+                            <td><?=$data['id']?> </td>
+
                                 <td><?=$data['rif_contratista']?> </td>
                                 <td><?=$data['contratista']?> </td>
                                 <td><?=$data['rif_contratante']?> </td>

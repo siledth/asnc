@@ -5238,6 +5238,34 @@ public function save_certificado($data){ //por hacer
         return true;
     
    }
+   public function read_sending_prier_ren($rif){
+    $this->db->select('id_ainf_enviada, id_programacion, anio,des_unidad,rif, trimestre');
+    $this->db->where('rif', $rif);
+    $this->db->where('trimestre', 1);
+    $query = $this->db->get('programacion.inf_enviada_rendi');
+    return $query->result_array();
+   }
+   public function read_sending_segun_ren($rif){
+    $this->db->select('id_ainf_enviada, id_programacion, anio,des_unidad,rif, trimestre');
+    $this->db->where('rif', $rif);
+    $this->db->where('trimestre', 2);
+    $query = $this->db->get('programacion.inf_enviada_rendi');
+    return $query->result_array();
+         }
+         public function read_sending_terc_ren($rif){
+            $this->db->select('id_ainf_enviada, id_programacion, anio,des_unidad,rif, trimestre');
+            $this->db->where('rif', $rif);
+            $this->db->where('trimestre', 3);
+            $query = $this->db->get('programacion.inf_enviada_rendi');
+            return $query->result_array();
+                 }
+                 public function read_sending_cuarto_ren($rif){
+                    $this->db->select('id_ainf_enviada, id_programacion, anio,des_unidad,rif, trimestre');
+                    $this->db->where('rif', $rif);
+                    $this->db->where('trimestre', 4);
+                    $query = $this->db->get('programacion.inf_enviada_rendi');
+                    return $query->result_array();
+                         }
     public function read_sending_p(){
         $this->db->select('id_ainf_enviada, id_programacion, anio,des_unidad,rif');
         $query = $this->db->get('programacion.inf_enviada');
@@ -5277,10 +5305,12 @@ public function save_certificado($data){ //por hacer
     function read_sending_rendiciones($data1){
         $query = $this->db->query("SELECT  pac.id_programacion, pac.des_unidad, pac.rif,
          pac.codigo_onapre, org.filiar, org.id_organoenteads ,p.descripcion ,
-         p.rif as filiares, pac.anio,pac.fecha
+         p.rif as filiares, pac.anio,pac.fecha, pac.trimestre,t.descripcion_trimestre
         FROM programacion.inf_enviada_rendi pac 
         join public.organoente org on pac.rif = org.rif
         join public.organoente p on p.id_organoente = org.id_organoenteads
+        join programacion.trimestre t on t.id_trimestre = pac.trimestre
+
         where pac.id_ainf_enviada = '$data1'");
         if($query->num_rows()>0){
             return $query->result();
@@ -5737,8 +5767,7 @@ public function tolist_info_py($data){
                 
                     $resulta = array('id_programacion'      => $data['id'],
                                     'des_unidad'            => $des_unidad,
-                                    'codigo_onapre'         => $codigo_onapre,
-                                    
+                                    'codigo_onapre'         => $codigo_onapre,                                    
                                     'rif'                   => $rif,
                                     'id_p_acc_proy'         => 0,
                                     'id_obj_comr_obra'      => $id_obj_comr_obra_p,
@@ -5764,6 +5793,7 @@ public function tolist_info_py($data){
                                     'total_acc'             => $total_acc,
                                     'id_usuario'            => $this->session->userdata('id_user'),
                                     'anio'            => $id1,
+                                    'trimestre'      => $data['trimestre'],
                 
                         );
                      //   print_r($resulta);die;
@@ -5777,4 +5807,89 @@ public function tolist_info_py($data){
                         $update = $this->db->update('programacion.rendidicion', $data1);
                         return true;
                 }
+
+                function consulta_total_objeto_acc_rendi_f($id_programacion,$trimestre){ //da totales agrupados por bienes, servicio, obras
+    
+                    $query = $this->db->query("SELECT 
+                    ob.id_objeto_contrata,
+                    pac.id_p_acc,
+                    pac.id_programacion,
+                    pac.id_obj_comercial,
+                    ob.desc_objeto_contrata,
+                    pac.trimestre,
+                    SUM(TO_NUMBER(pac.total_rendi, '999999999999D99')) AS precio_total
+                FROM 
+                    programacion.objeto_contrata ob
+                LEFT JOIN 
+                    programacion.rendidicion pac ON ob.id_objeto_contrata = pac.id_obj_comercial AND pac.id_programacion = '$id_programacion' AND pac.id_p_acc ='1' 
+                    and pac.trimestre='$trimestre'
+                GROUP BY 
+                    ob.id_objeto_contrata,
+                    pac.id_p_acc,
+                    pac.id_programacion,
+                    pac.id_obj_comercial,
+                    ob.desc_objeto_contrata,pac.trimestre");
+                        if($query->num_rows()>0){
+                            return $query->result();
+                        }
+                        else{
+                            return NULL;
+                        }
+                    }
+
+                   
+                        function consulta_total_accrendi2_f($id_programacion,$trimestre){
+               
+                            $query = $this->db->query("SELECT  pac.id_p_acc,pac.id_programacion,pac.trimestre,
+                            sum(to_number(pac.total_rendi,'999999999999D99')) as precio_total
+                             FROM programacion.rendidicion pac 
+                             where pac.id_programacion = '$id_programacion' and pac.id_p_acc ='1' and pac.trimestre='$trimestre'
+                             group by pac.id_p_acc,pac.id_programacion,pac.trimestre");
+                            if($query->num_rows()>0){
+                                return $query->result();
+                            }
+                            else{
+                                return NULL;
+                            }
+                        }
+
+                        function consulta_total_objeto_py2rendi_f($id_programacion,$trimestre){ //da totales agrupados por bienes, servicio, obras
+    
+                            $query = $this->db->query("SELECT  pac.id_p_acc,pac.id_programacion,
+                                pac.id_obj_comercial,ob.desc_objeto_contrata,pac.trimestre,
+                               sum(to_number(pac.total_rendi,'999999999999D99')) as precio_total
+                            
+                                 FROM programacion.rendidicion pac 
+                                --  left join public.modalidad m on m.id_modalidad = c.id_modalidad
+                               -- join programacion.p_acc_centralizada i on i.id_p_acc_centralizada = pac.id_enlace	
+                                 join programacion.objeto_contrata ob on ob.id_objeto_contrata = pac.id_obj_comercial	
+                                    
+                                 where pac.id_programacion = '$id_programacion' and pac.id_p_acc ='0' and pac.trimestre='$trimestre'
+                                 group by pac.id_p_acc,pac.id_programacion,
+                                pac.id_obj_comercial,ob.desc_objeto_contrata,pac.trimestre ");
+                                if($query->num_rows()>0){
+                                    return $query->result();
+                                }
+                                else{
+                                    return NULL;
+                                }
+                            }
+                            function consulta_total_PYTrendi_f($id_programacion,$trimestre){
+                                //$id=$data['numero_proceso'];
+                                $query = $this->db->query("SELECT  pac.id_p_acc,pac.id_programacion,
+                                sum(to_number(pac.total_rendi,'999999999999D99')) as precio_total_py
+                            
+                                 FROM programacion.rendidicion pac 
+                                --  left join public.modalidad m on m.id_modalidad = c.id_modalidad
+                                --  left join public.mecanismo  cn on cn.id_mecanismo = c.id_mecanismo
+                                --  join public.objeto_contratacion obj on obj.id_objeto_contratacion = c.id_objeto_contratacion	    
+                                 where pac.id_programacion = '$id_programacion' and pac.id_p_acc ='0' and pac.trimestre='$trimestre'
+                                 group by pac.id_p_acc,pac.id_programacion ");
+                                if($query->num_rows()>0){
+                                    return $query->result();
+                                }
+                                else{
+                                    return NULL;
+                                }
+                            }
 }

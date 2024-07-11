@@ -50,19 +50,22 @@
                                             <i class="fas fa-registered fa-lg" title="Rendir2" style="color: red;"></i>
                                         <a/>
                                         
-                                                            <a title="Enviar al SNC" onclick="enviar(<?php echo $lista['id_programacion'];?>);" class="button">
-                                                                <i class="fas fa-lg fa-fw fa-upload" style="color: green;"></i>
-                                                            <a/>
+                                                           
+                                                            <!-- <a onclick="modal(<?php echo $lista['id_programacion'] ?>);" data-toggle="modal"
+                                                            data-target="#proyecto" style="color: white">
+                                                            <i title="Enviar al SNC Rendición" class="fas  fas fa-lg fa-fw fa-upload"
+                                                                style="color: darkgreen;"></i>
+                                                             </a> -->
                                                             <!-- <button
                                                         onclick="location.href='<?php echo base_url()?>index.php/Programacion/ver_rendicion_realizadas?id=<?php echo $lista['id_programacion'];?>'"
                                                         type="button" class="btn btn-lg btn-default" name="button">
                                                         Ver items Rendidos 
                                                     </button> -->
 
-                                                    <a href="<?php echo base_url();?>index.php/programacion/comprobante_rendicion?id=<?php echo $lista['id_programacion'];?>"
+                                                    <!-- <a href="<?php echo base_url();?>index.php/programacion/comprobante_rendicion?id=<?php echo $lista['id_programacion'];?>"
                                             class="button">
                                             <i class="fas   fa-lg fa-cloud-download-alt" title="Certificado" style="color: blue;"></i>
-                                        <a/>
+                                        <a/> -->
                                                     <!-- <button
                                                         onclick="location.href='<?php echo base_url()?>index.php/programacion/comprobante_rendicion?id=<?php echo $lista['id_programacion'];?>'"
                                                         type="button" class="fas fa-2x  fa-cloud-download-alt" style="color:blue" name="button"> 
@@ -80,6 +83,55 @@
                         </table>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="proyecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Notificar Rendición </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="rendir_py" name="rendir_py" data-parsley-validate="true" method="POST"
+                    enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-12"></div>
+                        <div class="col-12">
+                        <input class="form-control" type="hidden" name="id_programacion" id="id_programacion" readonly>
+
+                            <label style="color:red;">Seleccione Trimestre a Notificar (Obligatorio).leer <b
+                                    style="color:red">*</b></label><i style="color: red;"
+                                title="Seleccione un Trimestre." class="fas fa-question-circle"></i>
+
+                            <select class="form-control" name="llenar_trimestre7" id="llenar_trimestre7">
+                                <option value="0">Seleccione</option>
+                                <option value="1">Primer  Trimestre</option>
+                                <option value="2">Segundo Trimestre</option>
+                                <option value="3">Tercer  Trimestre</option>
+                                <option value="4">Cuarto  Trimestre</option>
+
+
+
+                            </select>
+                        </div>
+ 
+
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="javascript:window.location.reload()" class="my-button"
+                    data-dismiss="modal">Cerrar</button>
+                <button type="button" id="rendi_py1" onclick="enviar();"
+                class="my-button">Guardar</button>
             </div>
         </div>
     </div>

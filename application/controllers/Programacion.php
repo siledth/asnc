@@ -2209,8 +2209,8 @@ public function editar_item_servicio_py(){
         // echo json_encode($data);
     }
 ///////////////enviar rendicion
-public function enviar_rendi()
-{
+public function enviar_rendi8()
+  {
     if(!$this->session->userdata('session')) {
         redirect('login');
     }
@@ -2230,6 +2230,34 @@ public function enviar_rendi()
     //print_r($data4);die;
     
     $data5 = $this->Programacion_model->consulta_total_PYTrendi($id_programacion); 
+    
+    $data = $this->Programacion_model->enviar_snc_rendi($data, $des_unidad, $codigo_onapre, $rif, $data2, $data3, $data4, $data5);
+    print_r($data);die;
+    //echo json_encode($data);
+}
+public function enviar_rendi()
+  {
+    if(!$this->session->userdata('session')) {
+        redirect('login');
+    }
+    $data = $this->input->post();
+    
+    $des_unidad = $this->session->userdata('unidad');
+    $codigo_onapre = $this->session->userdata('codigo_onapre');
+    $rif = $this->session->userdata('rif_organoente');
+    $id_programacion = $data['id'];
+    $trimestre = $data['trimestre'];
+
+    
+    
+    $data2 = $this->Programacion_model->consulta_total_objeto_acc_rendi_f($id_programacion,$trimestre);
+    
+    $data3 = $this->Programacion_model->consulta_total_accrendi2_f($id_programacion,$trimestre);
+   
+    $data4 = $this->Programacion_model->consulta_total_objeto_py2rendi_f($id_programacion,$trimestre);
+    //print_r($data4);die;
+    
+    $data5 = $this->Programacion_model->consulta_total_PYTrendi_f($id_programacion,$trimestre); 
     
     $data = $this->Programacion_model->enviar_snc_rendi($data, $des_unidad, $codigo_onapre, $rif, $data2, $data3, $data4, $data5);
     print_r($data);die;
@@ -5647,12 +5675,7 @@ $id_programacion = $this->input->get('id');
       $pdf->Cell(60,5, $d->desc_objeto_contrata,0,0,'C');
       $pdf->Cell(40,5, number_format($d->precio_total, 2, ",", "."),0,1,'R');
       $id_programacion = $this->input->get('id');
-      $data3 = $this->Programacion_model->consulta_total_accrendi($id_programacion);
-      foreach($data3 as $d3){                
-          $pdf->SetFont('Arial','',10);
-            $ds = $d->precio_total / $d3->precio_total * 100;
-        //  $pdf->Cell(90,5, number_format($ds, 2, ",", "."),0,1,'C');
-        }
+      
       
      }
      
@@ -5827,7 +5850,17 @@ public function read_send_snc() //hacer un pdf de comprobante programacion final
           
        }}
        $pdf->Cell(60,5,utf8_decode('Trimestre:'),0,'L');
-       $pdf->MultiCell(100,5, 'I', 0, 'L');
+       $id_programacion = $this->input->get('id');
+    
+   $dat51 = $this->Programacion_model->read_sending_rendiciones($id_programacion);   
+       if($dat51 != ''){ 
+           foreach($dat51 as $dt51){ 
+       
+           $pdf->MultiCell(100,5, $dt51->descripcion_trimestre, 0, 'L');
+         //  $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt5->fecha)), 0, 'L');
+          
+       }}
+    //    $pdf->MultiCell(100,5, 'I', 0, 'L');
    $pdf->Cell(60,5,utf8_decode('Fecha de Registro:'),0,'L');
    $id_programacion = $this->input->get('id');
     
@@ -5843,7 +5876,18 @@ public function read_send_snc() //hacer un pdf de comprobante programacion final
    $pdf->SetFont('Arial','',12);
        
    $pdf->Cell(60,5,utf8_decode('El Servicio Nacional de Contrataciones (SNC), hace de su conocimiento que fue recibida la carga'),0,1,'L');
-   $pdf->Cell(60,5,utf8_decode('  de la Rendición de la Programación Anual correspondiente al I Trimestre Ejercicio Fiscal'),0,'L');
+   $pdf->Cell(60,5,utf8_decode('  de la Rendición de la Programación Anual correspondiente al '),0,'L');
+   $id_programacion = $this->input->get('id');
+   $pdf->SetFont('Arial','B',12);
+    
+   $dat52 = $this->Programacion_model->read_sending_rendiciones($id_programacion);
+
+   if($dat52!= ''){ 
+       foreach($dat52 as $dt52){ 
+           $pdf->Cell(180,5, $dt52->descripcion_trimestre. '   Trimestre Ejercicio Fiscal',0,0,'C');        
+       }
+   }
+
    $id_programacion = $this->input->get('id');
    $pdf->SetFont('Arial','B',12);
    $dat7 = $this->Programacion_model->read_sending_rendiciones($id_programacion);   
@@ -6362,7 +6406,61 @@ public function read_send_upd() //hacer un pdf de comprobante de programacion mo
 }
 
 
+public function sending_rendiciones_1(){
+    if(!$this->session->userdata('session'))redirect('login');
 
+    $rif = $this->session->userdata('rif_organoente');
+   
 
+    $data['read'] = $this->Programacion_model->read_sending_prier_ren($rif);
+    $data['fecha'] = date('yy');
+
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('programacion/sending/sendig_ren_1.php', $data);
+    $this->load->view('templates/footer.php');
+}
+public function sending_rendiciones_2(){
+    if(!$this->session->userdata('session'))redirect('login');
+
+    $rif = $this->session->userdata('rif_organoente');
+   
+
+    $data['read'] = $this->Programacion_model->read_sending_segun_ren($rif);
+    $data['fecha'] = date('yy');
+
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('programacion/sending/sendig_ren_2.php', $data);
+    $this->load->view('templates/footer.php');
+}
+public function sending_rendiciones_3(){
+    if(!$this->session->userdata('session'))redirect('login');
+
+    $rif = $this->session->userdata('rif_organoente');
+   
+
+    $data['read'] = $this->Programacion_model->read_sending_terc_ren($rif);
+    $data['fecha'] = date('yy');
+
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('programacion/sending/sendig_ren_3.php', $data);
+    $this->load->view('templates/footer.php');
+}
+public function sending_rendiciones_4(){
+    if(!$this->session->userdata('session'))redirect('login');
+
+    $rif = $this->session->userdata('rif_organoente');
+   
+
+    $data['read'] = $this->Programacion_model->read_sending_cuarto_ren($rif);
+    $data['fecha'] = date('yy');
+
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('programacion/sending/sendig_ren_4.php', $data);
+    $this->load->view('templates/footer.php');
+}
 }
  

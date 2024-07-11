@@ -608,7 +608,7 @@ return $query->result_array();
             return $response;
         }
 
-        public function consulta_contr_nr(){
+        public function consulta_contr_nr(){ 
             $this->db->select('cn.id,
                         	   cn.user_id,
                         	   cn.rifced rif_contratante,
@@ -627,6 +627,7 @@ return $query->result_array();
             $response = $query->result_array();
             return $response;
         }
+        
 
         // Consulta de Evaluacion completas para anulación
         public function consulta_eval_anul($usuario){

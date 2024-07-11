@@ -122,7 +122,7 @@
                                         <li>
                                             <a
                                                 href="<?= base_url() ?>index.php/Comision_contrata/logger_type_snc_vencidos">
-                                                - Consulta  certificado miembros vencidos
+                                                - Consulta certificado miembros vencidos
                                             </a>
 
                                         </li>
@@ -140,7 +140,7 @@
                                             </a>
 
                                         </li>
-                                       
+
 
 
                                     </ul>
@@ -198,29 +198,49 @@
                                         <span>Consultas</span>
                                     </a>
                                     <ul class="sub-menu">
-                                    <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
-                                <li>
-                                    <a href="<?= base_url() ?>index.php/Programacion/sending_p">
-                                        - Consulta Programación Enviada
-                                    </a>
-                                </li>
-                                <?php endif; ?>
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_1">
+                                                - Consulta Rendiciones Notificadas Primer Trimestre
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_2">
+                                                - Consulta Rendiciones Notificadas Segundo Trimestre
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_3">
+                                                - Consulta Rendiciones Notificadas Tercer Trimestre
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_4">
+                                                - Consulta Rendiciones Notificadas Cuarto Trimestre
+                                            </a>
+                                        </li>
+                                        <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/Programacion/sending_p">
+                                                - Consulta Programación Enviada
+                                            </a>
+                                        </li>
+                                        <?php endif; ?>
 
-                                <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
-                                <li>
-                                    <a href="<?= base_url() ?>index.php/Programacion/sending_upd">
-                                        - Consulta Modificaciones Enviada
-                                    </a>
-                                </li>
-                                <?php endif; ?>
+                                        <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/Programacion/sending_upd">
+                                                - Consulta Modificaciones Enviada
+                                            </a>
+                                        </li>
+                                        <?php endif; ?>
 
-                                <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
-                                <li>
-                                    <a href="<?= base_url() ?>index.php/Programacion/sending_rend">
-                                        - Consulta Rendiciones Enviada
-                                    </a>
-                                </li>
-                                <?php endif; ?>
+                                        <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/Programacion/sending_rend">
+                                                - Consulta Rendiciones Enviada
+                                            </a>
+                                        </li>
+                                        <?php endif; ?>
                                         <?php if (($this->session->userdata('pdvsa') == 1)) : ?>
 
                                         <li>
@@ -265,7 +285,7 @@
                                     </a>
                                 </li> -->
                                 <?php endif; ?>
-                                
+
 
 
                             </ul>
@@ -371,8 +391,9 @@
                                         <li><a href="<?= base_url() ?>index.php/Publicaciones/anulaciones_general">-Anulaciones
                                                 General</b></a></li>
                                         <li>
-                                            <a href="<?= base_url() ?>index.php/Publicaciones/Accion2_snc">-Consultar Acciones al Final de 
-                                            LLamados a Concurso</a>
+                                            <a href="<?= base_url() ?>index.php/Publicaciones/Accion2_snc">-Consultar
+                                                Acciones al Final de
+                                                LLamados a Concurso</a>
                                         </li>
                                         <?php endif; ?>
 
@@ -399,12 +420,12 @@
 
                                 <?php endif; ?>
                                 <?php if (($this->session->userdata('accion_llamado') == 1)) : ?>
-                                     
-                                        <li>
-                                            <a href="<?= base_url() ?>index.php/Publicaciones/acciones">-Acciones
-                                                Llamado a Concurso </a>
-                                        </li>
-                                        <?php endif; ?>
+
+                                <li>
+                                    <a href="<?= base_url() ?>index.php/Publicaciones/acciones">-Acciones
+                                        Llamado a Concurso </a>
+                                </li>
+                                <?php endif; ?>
 
                             </ul>
                         </li>
@@ -443,7 +464,11 @@
                                     Resumen por Nombre</a></li>
                             <li><a href="<?= base_url() ?>index.php/Contratista/infor_contrat_objCont">- Busqueda de
                                     Contratista</a></li>
-                            <!-- <li><a>- Reprogramación</a></li> -->
+                            <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
+                            <li><a href="<?= base_url() ?>index.php/Contratista/infor_contrat_comi_conta">-Consulta de
+                                    Contratistas por Comisario o Contador por número de Cédula</a></li>
+                            <?php endif; ?>
+
                         </ul>
                     </li>
                 </ul>

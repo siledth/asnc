@@ -25,7 +25,7 @@
                                 <button
                                     onclick="location.href='<?php echo base_url()?>index.php/Programacion/ver_rendicion_realizadas?id=<?php echo $id_programacion;?>'"
                                     type="button" class="btn btn-lg btn-default" name="button">
-                                    Ver items Rendidos 
+                                    Ver items Rendidos
                                 </button>
                                 <input type="hidden" id="id_programacion" name="id_programacion"
                                     value="<?=$id_programacion?>">
@@ -43,8 +43,16 @@
                                     Rendir Proyectos
                                 </a>
                             </div>
+
+                            <div class="col-4 mb-3">
+                            <button type="button" class="my-button5" onclick="modal1(<?php echo $id_programacion?>);"
+                            data-toggle="modal" data-target="#notif">
+                            Notificar al SNC
+                        </button>
+                            </div>
                         </div>
                     </div>
+                   
 
 
                     <div class="col-1"></div>
@@ -74,7 +82,9 @@
                                     <td><?=$data['especificacion']?> </td>
                                     <td><?=$data['desc_ccnu']?> </td>
                                     <td class="center">
-									<a class="button"><i onclick="eliminar_rendiciones(<?php echo $data['id_rendicion']?>);" class="fas fa-lg fa-fw fa-trash-alt" style="color:red"></i><a/>
+                                        <a class="button"><i
+                                                onclick="eliminar_rendiciones(<?php echo $data['id_rendicion']?>);"
+                                                class="fas fa-lg fa-fw fa-trash-alt" style="color:red"></i><a />
 
                                     </td>
 
@@ -85,8 +95,7 @@
                         </table>
                     </div>
                     <div class="col-12 text-center mt-3 mb-3">
-                        <a class="my-button"
-                            href="javascript:history.back()"> Volver</a>
+                        <a class="my-button" href="javascript:history.back()"> Volver</a>
                     </div>
                 </div>
             </div>
@@ -131,13 +140,13 @@
                         </div>
 
                         <div class="form-group col-7">
-                            <label>Seleccione Ítem  <b title="Campo Obligatorio" style="color:red">*</b></label>
+                            <label>Seleccione Ítem <b title="Campo Obligatorio" style="color:red">*</b></label>
                             <select style="width: 100%;" onclick="trae_inf();" id="matricular" name="matricular"
                                 class="form-control" data-show-subtext="true" data-live-search="true">
                                 <option value="0">Seleccione</option>
                                 <?php foreach ($mat as $data) : ?>
                                 <option value="<?= $data['id_p_items']?>">
-                                 <?= $data['especificacion']?></option>
+                                    <?= $data['especificacion']?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -278,30 +287,30 @@
                                 <div class="form-group col-3">
                                     <label>Monto total Estimado<b style="color:red">*</b></label>
                                     <input id="monto_estimado_mod_b5" name="monto_estimado_mod_b5" type="text"
-                                        class="form-control"  readonly>
+                                        class="form-control" readonly>
                                 </div>
                                 <div class="form-group col-2">
-                                     
+
                                     <input id="estimado_primer5" name="estimado_i5" type="hidden" class="form-control"
                                         readonly>
                                 </div>
                                 <div class="form-group col-2">
-                                   
+
                                     <input id="estimado_segundo5" name="estimado_ii5" type="hidden" class="form-control"
                                         readonly>
                                 </div>
                                 <div class="form-group col-2">
-                                    
+
                                     <input id="estimado_tercer5" name="estimado_iii5" type="hidden" class="form-control"
                                         readonly>
                                 </div>
                                 <div class="form-group col-2">
-                                     
+
                                     <input id="estimado_cuarto5" name="estimado_iV5" type="hidden" class="form-control"
                                         readonly>
                                 </div>
                                 <div class="form-group col-4">
-                                     
+
                                     <input id="estimado_total_t_mod5" name="estimado_total_t5" type="hidden"
                                         class="form-control" readonly>
                                 </div>
@@ -320,8 +329,8 @@
                                 <div class="form-group col-2">
                                     <label>Costo Unitario</label>
                                     <input id="costo_unitario_remd" name="costo_unitario_remd"
-                                        onkeypress="return valideKey(event);" onblur="calculos_rendi_bienessacc();validarmayor();"
-                                        class="form-control">
+                                        onkeypress="return valideKey(event);"
+                                        onblur="calculos_rendi_bienessacc();validarmayor();" class="form-control">
                                 </div>
                                 <div class="form-group col-2">
                                     <label>Sub Total</label>
@@ -347,7 +356,7 @@
                                         name="total_rendi5" id="total_rendi5" readonly>
                                 </div>
                                 <div class="form-group col-2">
-                                    <label>Paridad  <b style="color:red">*</b> <br><br></label>
+                                    <label>Paridad <b style="color:red">*</b> <br><br></label>
                                     <input id="paridad_rendi5" name="paridad_rendi5"
                                         onkeypress="return valideKey(event);" onblur="calculos_rendi_bienessacc();"
                                         class="form-control">
@@ -375,7 +384,8 @@
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="form-group col-12">
-                                            <label>Es obligatorio Ingrese Rif del Contratista Completo<i style="color: red;"
+                                            <label>Es obligatorio Ingrese Rif del Contratista Completo<i
+                                                    style="color: red;"
                                                     title="Ingrese el Rif del Contratista, para continuar."
                                                     class="fas fa-question-circle">Leer*</i></label>
                                             <input class="form-control" type="text" name="rif_b" id="rif_b"
@@ -539,8 +549,7 @@
             <div class="modal-footer">
                 <button type="button" onclick="javascript:window.location.reload()" class="my-button"
                     data-dismiss="modal">Cerrar</button>
-                <button type="button" id="rendi_bienes" onclick="rendi_bienes();"
-                class="my-button">Guardar</button>
+                <button type="button" id="rendi_bienes" onclick="rendi_bienes();" class="my-button">Guardar</button>
             </div>
         </div>
     </div>
@@ -571,10 +580,10 @@
                             <select class="form-control" name="llenar_trimestre7" id="llenar_trimestre7"
                                 onclick="llenar7();">
                                 <option value="0">Seleccione</option>
-                                <option value="1">Primer  Trimestre</option>
+                                <option value="1">Primer Trimestre</option>
                                 <option value="2">Segundo Trimestre</option>
-                                <option value="3">Tercer  Trimestre</option>
-                                <option value="4">Cuarto  Trimestre</option>
+                                <option value="3">Tercer Trimestre</option>
+                                <option value="4">Cuarto Trimestre</option>
 
 
 
@@ -601,7 +610,8 @@
                             <label>Nombre Proyecto</label>
                             <input class="form-control" type="hidden" name="id_p_items7" id="id_p_items7" readonly>
                             <input class="form-control" type="hidden" name="id_enlace7" id="id_enlace7" readonly>
-                            <input class="form-control" type="hidden" name="id_p_proyecto7" id="id_p_proyecto7" readonly>
+                            <input class="form-control" type="hidden" name="id_p_proyecto7" id="id_p_proyecto7"
+                                readonly>
                             <input class="form-control" type="text" name="nombre_proyecto7" id="nombre_proyecto7"
                                 readonly>
                         </div>
@@ -649,8 +659,8 @@
                         <div class="form-group col-6">
                             <label>Tipo de Obra</label>
                             <input type="hidden" class="form-control" name="id_tip_obra7" id="id_tip_obra7" readonly>
-                            <input type="text" class="form-control" name="descripcion_tip_obr7" id="descripcion_tip_obr7"
-                                readonly>
+                            <input type="text" class="form-control" name="descripcion_tip_obr7"
+                                id="descripcion_tip_obr7" readonly>
 
                         </div>
 
@@ -729,27 +739,27 @@
                                         class="form-control" oninput="return valideKey(event);" readonly>
                                 </div>
                                 <div class="form-group col-2">
-                                    
+
                                     <input id="estimado_primer7" name="estimado_i7" type="hidden" class="form-control"
                                         readonly>
                                 </div>
                                 <div class="form-group col-2">
-                                   
+
                                     <input id="estimado_segundo7" name="estimado_ii7" type="hidden" class="form-control"
                                         readonly>
                                 </div>
                                 <div class="form-group col-2">
-                                    
+
                                     <input id="estimado_tercer7" name="estimado_iii7" type="hidden" class="form-control"
                                         readonly>
                                 </div>
                                 <div class="form-group col-2">
-                                   
+
                                     <input id="estimado_cuarto7" name="estimado_iV7" type="hidden" class="form-control"
                                         readonly>
                                 </div>
                                 <div class="form-group col-4">
-                                    
+
                                     <input id="estimado_total_t_mod7" name="estimado_total_t7" type="hidden"
                                         class="form-control" readonly>
                                 </div>
@@ -768,13 +778,13 @@
                                 <div class="form-group col-2">
                                     <label>Costo Unitario</label>
                                     <input id="costo_unitario_remd7" name="costo_unitario_remd7"
-                                        onkeypress="return valideKey(event);" onblur="calculos_rendi_py();validarmayorpy();"
-                                        class="form-control">
+                                        onkeypress="return valideKey(event);"
+                                        onblur="calculos_rendi_py();validarmayorpy();" class="form-control">
                                 </div>
                                 <div class="form-group col-2">
                                     <label>Sub Total</label>
-                                    <input type="text" class="form-control" name="subt_rend_ejecu7" id="subt_rend_ejecu7"
-                                        readonly>
+                                    <input type="text" class="form-control" name="subt_rend_ejecu7"
+                                        id="subt_rend_ejecu7" readonly>
                                 </div>
 
                                 <div class="form-group col-2">
@@ -823,7 +833,8 @@
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="form-group col-12">
-                                            <label>Es obligatorio Ingrese Rif del Contratista Completo<i style="color: red;"
+                                            <label>Es obligatorio Ingrese Rif del Contratista Completo<i
+                                                    style="color: red;"
                                                     title="Ingrese el Rif del Contratista, para continuar."
                                                     class="fas fa-question-circle">Leer*</i></label>
                                             <input class="form-control" type="text" name="rif_b7" id="rif_b7"
@@ -831,8 +842,8 @@
                                                 oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/,'')"
                                                 onKeyUp="this.value=this.value.toUpperCase();"
                                                 onblur="consultar_rif7();validateMaxLength4(this);validateMaxLength3(this)">
-                                                <p id="errorMsg3"></p>
-                                                <p id="errorMsg4"></p>
+                                            <p id="errorMsg3"></p>
+                                            <p id="errorMsg4"></p>
 
                                         </div>
                                         <!-- <div class="form-group col-2">
@@ -855,9 +866,10 @@
                                         <div class="form-group col-3">
                                             <label>Rif del Contratista</label>
                                             <input class="form-control" type="text" name="sel_rif_nombre7"
-                                                id="sel_rif_nombre7"       onblur="validateMaxLength1(this);validateMaxLength2(this)" readonly>
-                                                <p id="errorMsg1"></p>
-                                                <p id="errorMsg2"></p>
+                                                id="sel_rif_nombre7"
+                                                onblur="validateMaxLength1(this);validateMaxLength2(this)" readonly>
+                                            <p id="errorMsg1"></p>
+                                            <p id="errorMsg2"></p>
                                         </div>
                                         <div class="form-group col-6">
                                             <label> Denominación o Razón Social</label>
@@ -873,7 +885,8 @@
                                             <label>Ingrese Rif del contratista <i style="color: red;"
                                                     title="Ingrese el Rif del contratista, sin guiones ni punto."
                                                     class="fas fa-question-circle"></i></label>
-                                                    <h5>Es obligatorio Ingrese el Rif del contratista, sin guiones ni punto.</h5>
+                                            <h5>Es obligatorio Ingrese el Rif del contratista, sin guiones ni punto.
+                                            </h5>
                                             <input title="Debe ingresar una palabra para realizar la busqueda"
                                                 type="text" class="form-control"
                                                 onKeyUp="this.value=this.value.toUpperCase();" name="rif_7" id="rif_7"
@@ -953,8 +966,8 @@
                                 </div>
                                 <div class="form-group col-2">
                                     <label>TOTAL PAGO <b style="color:red">*</b><br><br></label>
-                                    <input onblur="calculos_rendi_py();" id="total_pago_rendi7"
-                                        name="total_pago_rendi7" class="form-control" readonly>
+                                    <input onblur="calculos_rendi_py();" id="total_pago_rendi7" name="total_pago_rendi7"
+                                        class="form-control" readonly>
                                 </div>
                                 <div class="form-group col-2">
                                     <label>Paridad US$ <b style="color:red">*</b> <br><br></label>
@@ -998,19 +1011,66 @@
             <div class="modal-footer">
                 <button type="button" onclick="javascript:window.location.reload()" class="my-button"
                     data-dismiss="modal">Cerrar</button>
-                <button type="button" id="rendi_py1" onclick="rendi_py1();"
-                class="my-button">Guardar</button>
+                <button type="button" id="rendi_py1" onclick="rendi_py1();" class="my-button">Guardar</button>
             </div>
         </div>
     </div>
 </div>
 
 
+<div class="modal fade" id="notif" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Notificar Rendición </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="notificar_snc" name="notificar_snc" data-parsley-validate="true"
+                    method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-12"></div>
+                        <div class="col-12">
+                            <input class="form-control" type="hidden" name="id_programacion77" id="id_programacion77"
+                                readonly>
 
+                            <label style="color:red;">Seleccione Trimestre a Notificar (Obligatorio).leer <b
+                                    style="color:red">*</b></label><i style="color: red;"
+                                title="Seleccione un Trimestre." class="fas fa-question-circle"></i>
+
+                            <select class="form-control" name="llenar_trimestre77" id="llenar_trimestre77">
+                                <option value="0">Seleccione</option>
+                                <option value="1">Primer Trimestre</option>
+                                <option value="2">Segundo Trimestre</option>
+                                <option value="3">Tercer Trimestre</option>
+                                <option value="4">Cuarto Trimestre</option>
+
+
+
+                            </select>
+                        </div>
+
+
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="javascript:window.location.reload()" class="my-button"
+                    data-dismiss="modal">Cerrar</button>
+                <button type="button" id="notificar_snc" onclick="enviar();" class="my-button">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="<?=base_url()?>/js/programacion/yield.js"></script>
 <script src="<?=base_url()?>/js/programacion/rendpy.js"></script>
 
+<script src="<?=base_url()?>/js/programacion/enviar_rendi.js"></script>
 
 
 

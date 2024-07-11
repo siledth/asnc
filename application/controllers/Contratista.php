@@ -130,7 +130,45 @@ class Contratista extends CI_Controller
       }
 
 
-
-
+	  public function infor_contrat_comi_conta()
+	  {
+		  $this->load->view('templates/header.php');
+		  $this->load->view('templates/navigator.php');
+		  $this->load->view('contratista/consultas/comisario_contador.php');
+		  $this->load->view('templates/footer.php');
+	  }
+	  public function llenar_contratista_comi_conta1() {
+		if (!$this->session->userdata('session')) {
+			redirect('login');
+		}
+		
+		$nombre = $this->input->post('nombre');
+		$result = $this->Contratista_model->llenar_contratista_comi_conta($nombre);
+		
+		if (!empty($result)) {
+			echo json_encode($result);
+		} else {
+			// Handle error
+			echo json_encode(array('error' => 'No results found'));
+		}
+		
+	    }
+		public function save_contratista_comi_cont() {
+			if (!$this->session->userdata('session'))
+				redirect('login');
+			$data = array(
+				'observacion' => $this->input->POST('observacion'),
+				'numero_oficio' => $this->input->POST('numero_oficio'),
+				'fecha_consulta' => date("Y-m-d"), 
+				
+				'id_usuario' => $this->session->userdata('id_user'),
+				'snc' => 1,//si informacion
+				
+			);
+				
+		
+			$data = $this->Contratista_model->save_contratista_comi_cont2($data);
+			echo json_encode($data);
+		}
 
 }

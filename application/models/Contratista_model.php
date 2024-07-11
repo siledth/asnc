@@ -218,4 +218,45 @@ class Contratista_model extends CI_Model
                 return $result;
             }
     }
+    public function llenar_contratista_comi_conta($nombre) {
+        $sql = "select c.rifced, c.nombre from contratistas c 
+                where c.edocontratista_id not in (1, 4)
+                and (c.rifced in (select a.rifced from datosgenerales a, comisarios b where a.proceso_id=b.proceso_id and 
+                b.cedcom like?))
+                OR (c.rifced in (select a.rifced from datosgenerales a, dictamenes b where a.proceso_id=b.proceso_id and b.cedcont
+                 like?))";
+        
+        $query = $this->db_b->query($sql, array("%$nombre%", "%$nombre%"));
+        
+        if ($query) {
+            return $query->result_array();
+        } else {
+            // Handle error
+            log_message('error', 'Error executing query: '. $this->db_b->_error_message());
+            return array();
+        }
+    }
+    
+    function save_contratista_comi_cont2($data){
+        $this->db->select('max(e.id) as id1');
+        $query1 = $this->db->get('contratistas.consultas_investigacion e');
+        $response4 = $query1->row_array();
+        $id1 = $response4['id1'] + 1 ;      
+        $data1 = array(
+            'id'		    => $id1,  
+            'observacion' => $data['observacion'],
+           'numero_oficio' => $data['numero_oficio'],
+           'snc' => 1,
+           'id_usuariov' => $data['id_usuario'],
+            'fecha_consulta' => $data['fecha_consulta'],
+            
+
+           //'id_unidad_medida'           => $id_unidad_medida,
+                 
+        );    
+
+        $query=$this->db->insert('contratistas.consultas_investigacion ',$data1);
+        return true;
+    }
+    
 }
