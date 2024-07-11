@@ -45,7 +45,7 @@
                                     <td class="center">
 
                                        
-                                    <a href="<?php echo base_url();?>index.php/programacion/ver_programacion_final?id=<?php echo $lista['id_programacion'];?>"
+                                    <a href="<?php echo base_url();?>index.php/Programacion/ver_rendicion_realizadas2?id=<?php echo $lista['id_programacion'];?>"
                                      class="button">
                                      <i class="fas fa-print fa-lg" title="Imprimir"
                                                         style="color: black;"></i>

@@ -4524,6 +4524,72 @@ public function ver_rendicion_realizadas1(){ //////////visualiza las rendiciones
     $this->load->view('programacion/rendicion/reporte1.php', $data);
     $this->load->view('templates/footer.php');
 }
+public function ver_rendicion_realizadas2(){ //////////visualiza las rendiciones realizadas
+    if(!$this->session->userdata('session'))redirect('login');
+
+    $data['unidad'] = $this->session->userdata('id_unidad');
+    $data['des_unidad'] = $this->session->userdata('unidad');
+    $data['rif'] = $this->session->userdata('rif');
+    $data['codigo_onapre'] = $this->session->userdata('codigo_onapre');
+
+    $data['id_programacion'] = $this->input->get('id');
+    
+    $data['programacion_anio'] = $this->Programacion_model->consultar_prog_anio($data['id_programacion'], $data['unidad']);
+    $data['anio'] = $data['programacion_anio']['anio'];
+
+ 
+
+    $data['rendir'] = $this->Programacion_model->ver_rendir2($data['id_programacion']);
+
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('programacion/rendicion/reporte1.php', $data);
+    $this->load->view('templates/footer.php');
+}
+public function ver_rendicion_realizadas3(){ //////////visualiza las rendiciones realizadas
+    if(!$this->session->userdata('session'))redirect('login');
+
+    $data['unidad'] = $this->session->userdata('id_unidad');
+    $data['des_unidad'] = $this->session->userdata('unidad');
+    $data['rif'] = $this->session->userdata('rif');
+    $data['codigo_onapre'] = $this->session->userdata('codigo_onapre');
+
+    $data['id_programacion'] = $this->input->get('id');
+    
+    $data['programacion_anio'] = $this->Programacion_model->consultar_prog_anio($data['id_programacion'], $data['unidad']);
+    $data['anio'] = $data['programacion_anio']['anio'];
+
+ 
+
+    $data['rendir'] = $this->Programacion_model->ver_rendir3($data['id_programacion']);
+
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('programacion/rendicion/reporte1.php', $data);
+    $this->load->view('templates/footer.php');
+}
+public function ver_rendicion_realizadas4(){ //////////visualiza las rendiciones realizadas
+    if(!$this->session->userdata('session'))redirect('login');
+
+    $data['unidad'] = $this->session->userdata('id_unidad');
+    $data['des_unidad'] = $this->session->userdata('unidad');
+    $data['rif'] = $this->session->userdata('rif');
+    $data['codigo_onapre'] = $this->session->userdata('codigo_onapre');
+
+    $data['id_programacion'] = $this->input->get('id');
+    
+    $data['programacion_anio'] = $this->Programacion_model->consultar_prog_anio($data['id_programacion'], $data['unidad']);
+    $data['anio'] = $data['programacion_anio']['anio'];
+
+ 
+
+    $data['rendir'] = $this->Programacion_model->ver_rendir4($data['id_programacion']);
+
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('programacion/rendicion/reporte1.php', $data);
+    $this->load->view('templates/footer.php');
+}
 public function ver_programacion_final(){ //////////visualiza la programacion realizada
     if(!$this->session->userdata('session'))redirect('login');
 
