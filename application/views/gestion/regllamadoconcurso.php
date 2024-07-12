@@ -240,3 +240,22 @@
 		border-radius: 12px;
 	}
 </style>
+<script>
+    $(document).ready(function() {
+        $("#txtNumeroProceso").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#txtDenominacionProceso").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+        $("#txtDescripcionContratacion").on('paste', function(e) {
+            e.preventDefault();
+            //alert('Esta acción está deshabilitada');
+        });
+      
+
+       
+    });
+    </script>
