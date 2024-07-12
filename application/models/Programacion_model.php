@@ -608,19 +608,19 @@
         }
         public function total_por_partidas($id_programacion){
             $this->db->select("pf.id_proyecto,
-                        	   pf.id_partidad_presupuestaria,
-                        	   pp.desc_partida_presupuestaria,
-                               pp.codigopartida_presupuestaria,
-                               sum(to_number(pf.precio_total,'999999999999D99')) as precio_total,
-                               sum(to_number(pf.monto_estimado,'999999999999D99')) as monto_estimado,
-                              ");
+                                 pf.id_partidad_presupuestaria,
+                                 pp.desc_partida_presupuestaria,
+                                 pp.codigopartida_presupuestaria,
+                                 SUM(COALESCE(to_number(NULLIF(pf.precio_total, ''), '999999999999D99'), 0)) as precio_total,
+                                 SUM(COALESCE(to_number(NULLIF(pf.monto_estimado, ''), '999999999999D99'), 0)) as monto_estimado,
+                                ");
             $this->db->join('programacion.partida_presupuestaria pp','pp.id_partida_presupuestaria = pf.id_partidad_presupuestaria');
             $this->db->where('pf.id_proyecto', $id_programacion);
-          //  $this->db->where('pf.id_p_acc', 0);
+            //  $this->db->where('pf.id_p_acc', 0);
             $this->db->group_by('pf.id_proyecto,
-            pf.id_partidad_presupuestaria,
-            pp.desc_partida_presupuestaria,
-            pp.codigopartida_presupuestaria');
+                                 pf.id_partidad_presupuestaria,
+                                 pp.desc_partida_presupuestaria,
+                                 pp.codigopartida_presupuestaria');
             $query = $this->db->get('programacion.p_items pf');
             return $query->result_array();
         }
