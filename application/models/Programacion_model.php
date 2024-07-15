@@ -628,8 +628,8 @@
             $this->db->select("pf.id_proyecto,
                         	   pf.codigopartida_presupuestaria,
                         	   pf.desc_partida_presupuestaria,
-                               sum(to_number(pf.total_rendi,'999999999999D99')) as total_rendi,
-                               sum(to_number(pf.subtotal_rend_ejecu,'999999999999D99')) as precio_rend_ejecu,
+                               SUM(COALESCE(to_number(NULLIF(pf.total_rendi, ''), '999999999999D99'), 0)) as total_rendi,
+                               SUM(COALESCE(to_number(NULLIF(pf.subtotal_rend_ejecu, ''), '999999999999D99'), 0)) as precio_rend_ejecu,
                               ");
             // $this->db->join('programacion.partida_presupuestaria pp','pp.codigopartida_presupuestaria = pf.codigopartida_presupuestaria');
             $this->db->where('pf.id_programacion', $id_programacion);
