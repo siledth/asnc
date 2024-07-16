@@ -50,7 +50,7 @@ function modal1(id_programacion) {
                         if (response == 1) {
                             swal
                                .fire({
-                                    title: "Proceso Enviado",
+                                    title: "Proceso Enviado, para visualizar su comprobante diríjase al menú programación luego en consultas seleccione el trimestre deseado ",
                                     type: "success",
                                     showCancelButton: false,
                                     confirmButtonColor: "#3085d6",
