@@ -17,6 +17,21 @@ function modal1(id_programacion) {
             confirmButtonText: "¡Si, Enviar!",
         })
        .then((result) => {
+        if (document.notificar_snc.llenar_trimestre77.selectedIndex==0){
+            swal.fire({
+                title: 'Debe seleccionar un Trimestre, para continuar',
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+            }).then((result) => {
+                if (result.value == true) {
+                }
+            });
+           // alert("Debe seleccionar un Trimestre.")
+            document.notificar_snc.llenar_trimestre77.focus()
+            return 0;
+     }
             if (result.value == true) {
                 var id = $('#id_programacion77').val();
                 var trimestre = $('#llenar_trimestre77').val();
@@ -52,7 +67,7 @@ function modal1(id_programacion) {
                         swal
                            .fire({
                                 title: "Error al guardar datos",
-                                text: "No se pudieron guardar los datos en la base de datos. Intente nuevamente.",
+                                text: "No se pudieron guardar los datos Intente nuevamente.",
                                 type: "error",
                                 showCancelButton: false,
                                 confirmButtonColor: "#3085d6",
