@@ -30,7 +30,7 @@
             <div class="table-responsive">
                 <!-- <table id="example" class="table table-striped table-bordered table-responsive nowrap" style="width:100%"> -->
                 <!-- <table id="data-table-buttons" data-order='[[ 1, "asc" ]]' class="table table-bordered"> -->
-                <table id="data-tablever_programacion_final" data-order='[[ 1, "asc" ]]' class="table table-bordered">
+                <table id="data-table" data-order='[[ 1, "asc" ]]' class="table table-bordered">
 
                     <thead style="background:#01cdb2">
                       

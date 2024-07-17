@@ -23,7 +23,7 @@
             <div class="table-responsive">
                 <!-- <table id="example" class="table table-striped table-bordered table-responsive nowrap" style="width:100%"> -->
                 <!-- <table id="data-table-buttons" data-order='[[ 0, "desc" ]]' class="table table-bordered"> -->
-                <table id="data-tablever_rendicion" data-order='[[ 0, "desc" ]]' class="table table-bordered">
+                <table id="data-table" data-order='[[ 0, "desc" ]]' class="table table-bordered">
                     
                 <thead style="background:#01cdb2">
                        <tr style="text-align:center">
