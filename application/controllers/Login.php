@@ -123,8 +123,8 @@ class Login extends CI_Controller {
       'user_id' => $this->session->userdata('id_user'),
       'ultimo_login' 	=> date('Y-m-d H:i:s') 
   );
-  $data = $this->login_model->delesesion1($data);
-  echo json_encode($data);
+  // $data = $this->login_model->delesesion1($data);
+  // echo json_encode($data);
   if ($data == TRUE) {
     $this->session->sess_destroy();
     redirect('login');
