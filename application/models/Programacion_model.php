@@ -3,7 +3,7 @@
 
         // PROGRAMACION
         public function consultar_programaciones($unidad){
-            $this->db->select('*');
+            $this->db->select('id_programacion, unidad, anio');
             $this->db->where('unidad', $unidad);
             $query = $this->db->get('programacion.programacion');
             return $query->result_array();
