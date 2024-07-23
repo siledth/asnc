@@ -573,7 +573,7 @@
                             </li>
                             <li>
                                 <a href="<?= base_url() ?>index.php/configuracion/filiares">
-                                    <i class="fas fa-lg fa-fw m-r-10 fa-city"></i>Filiares
+                                    <i class="fas fa-lg fa-fw m-r-10 fa-city"></i>Unidades Ejecutoras locales
                                 </a>
                             </li>
                             <li>
