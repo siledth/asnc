@@ -117,24 +117,29 @@ class Login extends CI_Controller {
     // }
   }
   
-  public function logout() {
+//   public function logout() {
    
-    $data = array(
-      'user_id' => $this->session->userdata('id_user'),
-      'ultimo_login' 	=> date('Y-m-d H:i:s') 
-  );
-  // $data = $this->login_model->delesesion1($data);
-  // echo json_encode($data);
-  if ($data == TRUE) {
-    $this->session->sess_destroy();
-    redirect('login');
+//     $data = array(
+//       'user_id' => $this->session->userdata('id_user'),
+//       'ultimo_login' 	=> date('Y-m-d H:i:s') 
+//   );
+//   $data = $this->login_model->delesesion1($data);
+//   echo json_encode($data);
+//   if ($data == TRUE) {
+//     $this->session->sess_destroy();
+//     redirect('login');
   
-  } else{      
+//   } else{      
    
-    $this->session->set_flashdata('alert','algo paso');
-    redirect('login');
-  }
+//     $this->session->set_flashdata('alert','algo paso');
+//     redirect('login');
+//   }
+// }
+public function logout() {
+  $this->session->sess_destroy();
+  redirect('login');
 }
+
   
   public function validad_ssesion(){
     $usuario = $this->input->post('usuario');
