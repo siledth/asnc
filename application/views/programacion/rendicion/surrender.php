@@ -65,6 +65,7 @@
 
                                     <th>id</th>
                                     <th>Objeto de Contratación</th>
+                                    <th>Trimestre</th>
                                     <th>partida presupuestaria</th>
                                     <th>Especificación</th>
                                     <th>CCNU</th>
@@ -75,9 +76,10 @@
                                 <?php foreach($rendir as $data):?>
                                 <tr class="odd gradeX" style="text-align:center">
 
-
-                                    <td><?=$data['id_p_items']?> </td>
+                                
+                                    <td><?=$data['id_rendicion']?> </td>
                                     <td><?=$data['desc_objeto_contrata']?> </td>
+                                    <td><?=$data['descripcion_trimestre']?> </td>
                                     <td><?=$data['desc_partida_presupuestaria']?> </td>
                                     <td><?=$data['especificacion']?> </td>
                                     <td><?=$data['desc_ccnu']?> </td>
