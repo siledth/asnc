@@ -59,7 +59,7 @@
                     <div class="col-10 mt-3">
                         <h3 class="text-center">Tabla Rendiciones Realizadas
                         </h3>
-                        <table id="data-table-autofill" class="table table-hover">
+                        <table id="data-table-autofill" data-order='[[ 0, "desc" ]]' class="table table-hover">
                             <thead style="background:#e4e7e8">
                                 <tr class="text-center">
 
