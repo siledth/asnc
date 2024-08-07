@@ -85,7 +85,12 @@ class Tablas_model extends CI_Model {
 
             
                 );
-                $this->db->insert('programacion.partida_presupuestaria', $data3);
+                try {
+                    $this->db->insert('programacion.partida_presupuestaria', $data3);
+                  return $this->db->affected_rows() > 0;
+                } catch (Exception $e) {
+                    return 0;
+                }
         return true;
     }
   

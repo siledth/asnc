@@ -49,7 +49,7 @@ function valideKey(evt){
 						contentType: false,
 						processData: false,
 						success: function(response){
-							if(response != '') {
+							if(response == 1) {
 								swal.fire({
 									title: 'Registro Exitoso',
 									type: 'success',
@@ -61,8 +61,38 @@ function valideKey(evt){
 										location.reload();
 									}
 								});
+							}else if (response == 0) {
+								swal.fire({
+									title: 'Error',
+									text: 'El registro ya existe, por favor revise y vuelva a intentar',
+									type: 'error',
+									showCancelButton: false,
+									confirmButtonColor: '#3085d6',
+									confirmButtonText: 'Ok'
+								});
+							} else {
+								swal.fire({
+									title: 'Error al guardar',
+									text: 'No se pudo guardar el registro, por favor revise los datos ingresados',
+									type: 'error',
+									showCancelButton: false,
+									confirmButtonColor: '#3085d6',
+									confirmButtonText: 'Ok'
+								});
 							}
+						},
+						error: function(xhr, status, error) {
+							swal.fire({
+								title: 'Error al guardar',
+								text: 'No se pudo guardar el registro',
+								type: 'error',
+								showCancelButton: false,
+								confirmButtonColor: '#3085d6',
+								confirmButtonText: 'Ok'
+							});
 						}
+							
+						
 					})
 				}
 			});

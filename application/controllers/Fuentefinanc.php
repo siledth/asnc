@@ -224,8 +224,14 @@ class Fuentefinanc extends CI_Controller
             'id_usuario' => $this->session->userdata('id_user'),
             'fecha' => date("Y-m-d"), 
         );
-        $data = $this->Tablas_model->registrar_b($data);
-        echo json_encode($data);
+       $data = $this->Tablas_model->registrar_b($data);
+    if ($data == 1) {
+        echo json_encode(1);
+    } elseif ($data == 0) {
+        echo json_encode(0); // Registro ya existe
+    } else {
+        echo json_encode(0); // Error al insertar
+    }
     }
 	public function consulta_b() {
         if (!$this->session->userdata('session'))
