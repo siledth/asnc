@@ -83,7 +83,7 @@ class Tablas_model extends CI_Model {
             'id_usuario' => $data['id_usuario'],
             'fecha' => $data['fecha'] 
 
-            
+            //c
                 );
                 try {
                     $this->db->insert('programacion.partida_presupuestaria', $data3);
