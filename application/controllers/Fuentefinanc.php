@@ -205,7 +205,7 @@ class Fuentefinanc extends CI_Controller
 	public function registrar_pa()
     {
         if (!$this->session->userdata('session')) {
-            redirect('login');  //c
+            redirect('login');
         }
        // $data['contratista'] =	$this->Certificacion_model->llenar_contratista_exonerado();
         $data['exonerado'] = $this->Tablas_model->consultar_partida1();
@@ -224,10 +224,10 @@ class Fuentefinanc extends CI_Controller
             'id_usuario' => $this->session->userdata('id_user'),
             'fecha' => date("Y-m-d"), 
         );
-       $data = $this->Tablas_model->registrar_b($data);
-    if ($data == 1) {
+        $result = $this->Tablas_model->registrar_b($data);
+    if ($result == 1) {
         echo json_encode(1);
-    } elseif ($data == 0) {
+    } elseif ($result == 0) {
         echo json_encode(0); // Registro ya existe
     } else {
         echo json_encode(0); // Error al insertar

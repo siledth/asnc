@@ -71,27 +71,36 @@ class Tablas_model extends CI_Model {
         return $query->result_array();
     }
     function registrar_b($data){
-        $this->db->select('max(e.id_partida_presupuestaria) as id1');
-        $query1 = $this->db->get('programacion.partida_presupuestaria e');
-        $response4 = $query1->row_array();
-        $id1 = $response4['id1'] + 1 ;
-
-        $data3 = array(
-            'id_partida_presupuestaria'    => $id1,
-            'codigopartida_presupuestaria'   		        => $data['codigopartida_presupuestaria'],
-            'desc_partida_presupuestaria' => $data['desc_partida_presupuestaria'],
-            'id_usuario' => $data['id_usuario'],
-            'fecha' => $data['fecha'] 
-
-            //c
-                );
-                try {
-                    $this->db->insert('programacion.partida_presupuestaria', $data3);
-                  return $this->db->affected_rows() > 0;
-                } catch (Exception $e) {
-                    return 0;
-                }
-        return true;
+        // Verificar si el código y nombre de partida presupuestaria ya existen
+        $this->db->where('codigopartida_presupuestaria', $data['codigopartida_presupuestaria']);
+        $this->db->where('desc_partida_presupuestaria', $data['desc_partida_presupuestaria']);
+        $query = $this->db->get('programacion.partida_presupuestaria');
+        if ($query->num_rows() > 0) {
+            // Si ya existe, devuelve 0 (o false)
+            return 0;
+        } else {
+            // Si no existe, inserta los datos
+            $this->db->select('max(e.id_partida_presupuestaria) as id1');
+            $query1 = $this->db->get('programacion.partida_presupuestaria e');
+            $response4 = $query1->row_array();
+            $id1 = $response4['id1'] + 1 ;
+    
+            $data3 = array(
+                'id_partida_presupuestaria'    => $id1,
+                'codigopartida_presupuestaria'   		        => $data['codigopartida_presupuestaria'],
+                'desc_partida_presupuestaria' => $data['desc_partida_presupuestaria'],
+                'id_usuario' => $data['id_usuario'],
+                'fecha' => $data['fecha']
+    
+                
+                    );
+                    try {
+                        $this->db->insert('programacion.partida_presupuestaria', $data3);
+                        return $this->db->affected_rows() > 0;
+                    } catch (Exception $e) {
+                        return 0;
+                    }
+        }
     }
   
     function consulta_b($data){
