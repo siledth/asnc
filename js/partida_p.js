@@ -58,7 +58,7 @@ function valideKey(evt){
 									confirmButtonText: 'Ok'
 								}).then((result) => {
 									if (result.value == true){
-										location.reload();
+										location.reload(); 
 									}
 								});
 							}else if (response == 0) {

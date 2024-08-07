@@ -81,7 +81,7 @@ class Tablas_model extends CI_Model {
             'codigopartida_presupuestaria'   		        => $data['codigopartida_presupuestaria'],
             'desc_partida_presupuestaria' => $data['desc_partida_presupuestaria'],
             'id_usuario' => $data['id_usuario'],
-            'fecha' => $data['fecha']
+            'fecha' => $data['fecha'] 
 
             
                 );

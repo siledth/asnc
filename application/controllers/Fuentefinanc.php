@@ -205,7 +205,7 @@ class Fuentefinanc extends CI_Controller
 	public function registrar_pa()
     {
         if (!$this->session->userdata('session')) {
-            redirect('login');
+            redirect('login'); 
         }
        // $data['contratista'] =	$this->Certificacion_model->llenar_contratista_exonerado();
         $data['exonerado'] = $this->Tablas_model->consultar_partida1();
