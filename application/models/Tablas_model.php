@@ -73,7 +73,7 @@ class Tablas_model extends CI_Model {
     function registrar_b($data){
         // Verificar si el código y nombre de partida presupuestaria ya existen
         $this->db->where('codigopartida_presupuestaria', $data['codigopartida_presupuestaria']);
-        $this->db->where('desc_partida_presupuestaria', $data['desc_partida_presupuestaria']);
+       // $this->db->where('desc_partida_presupuestaria', $data['desc_partida_presupuestaria']);
         $query = $this->db->get('programacion.partida_presupuestaria');
         if ($query->num_rows() > 0) {
             // Si ya existe, devuelve 0 (o false)

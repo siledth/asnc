@@ -3474,8 +3474,10 @@ public function consultar_items_servicio_acc_rendir($data){
         if ($query) {
             $this->db->where('id_p_items', $data['id_p_items']);
             $update = $this->db->update('programacion.p_items', $id_p_itemss);
-            }
-        return true;
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     function rendir_serv_acc($id_p_acc_centralizada){

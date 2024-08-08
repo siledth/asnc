@@ -546,12 +546,12 @@ function llenar7() {
 
     }
 };
-    function rendi_py1(){
+    function rendi_py11(){
         event.preventDefault();
         swal
             .fire({
                 title: "¿Registrar?",
-                text: "¿Esta seguro de registrar rendición  ",
+                text: "¿Esta seguro de registrar rendición Proyecto?  ",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
@@ -772,6 +772,20 @@ if (document.rendir_py.id_sub_modalidad7.selectedIndex==0){
         document.rendir_py.facturacion7.focus()
         return 0;
  }
+ if (document.rendir_py.fecha_contrato7.value === '') {
+    swal.fire({
+        title: 'ingrese fecha de contrato',
+        type: 'warning',
+        showCancelButton: false,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Ok'
+    }).then((result) => {
+        if (result.value == true) {
+            document.rendir_py.fecha_contrato7.focus();
+        }
+    });
+    return 0;
+}
 
                 if (result.value == true) {
                     event.preventDefault();
@@ -788,9 +802,9 @@ if (document.rendir_py.id_sub_modalidad7.selectedIndex==0){
                         success: function(response) {
                             var menj = 'Rendido';
                            
-                           if (response != '') {
+                           if (response == 1) {
                             swal.fire({
-                                title: 'Registro Exitoso ',
+                                title: 'Registro Exitoso Proyecto',
                                 text: menj ,
                                 type: 'success',
                                 showCancelButton: false,
@@ -801,9 +815,27 @@ if (document.rendir_py.id_sub_modalidad7.selectedIndex==0){
                                     location.reload();
                                 }
                             });
+                            }else {
+                                swal.fire({
+                                    title: 'Error al guardar',
+                                    text: 'No se pudo guardar el registro, por favor revise la información ingresada y vuelva a intentar',
+                                    type: 'error',
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Ok'
+                                });
                             }
                             
-                        },
+                        },error: function(jqXHR, textStatus, errorThrown) {
+                            swal.fire({
+                                title: 'Error',
+                                text: 'ocurrio un error, por favor vuelva a intentar.',
+                                type: 'error',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Ok'
+                            });
+                        }
                     });
                 }
             });

@@ -1013,7 +1013,8 @@
             <div class="modal-footer">
                 <button type="button" onclick="javascript:window.location.reload()" class="my-button"
                     data-dismiss="modal">Cerrar</button>
-                <button type="button" id="rendi_py1" onclick="rendi_py1();" class="my-button">Guardar</button>
+                <button type="button" id="rendi_py11" onclick="rendi_py11();" class="my-button">Guardar</button>
+
             </div>
         </div>
     </div>

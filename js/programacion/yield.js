@@ -807,6 +807,20 @@ function validarmayor(){
         document.rendi_bienes1.num_contrato5.focus()
         return 0;
        }
+       if (document.rendi_bienes1.fecha_contrato5.value === '') {
+        swal.fire({
+            title: 'ingrese fecha de contrato',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+                document.rendi_bienes1.fecha_contrato5.focus();
+            }
+        });
+        return 0;
+    }
        
             if (result.value == true) {
                 event.preventDefault();
@@ -822,27 +836,37 @@ function validarmayor(){
                     processData: false,
                     success: function(response) {
                         var menj = 'Rendido';
-                       
-                       if (response != '') {
-                        swal.fire({
-                            title: 'Registro Exitoso ',
-                            text: menj ,
-                            type: 'success',
-                            showCancelButton: false,
-                            confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'Ok'
-                        }).then((result) => {
-                            if (result.value == true){
-                                location.reload();
-                            }
-                        });
+                        if (response == 1) {
+                            swal.fire({
+                                title: 'Registro Exitoso ',
+                                text: menj ,
+                                type: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Ok'
+                            }).then((result) => {
+                                if (result.value == true){
+                                    location.reload();
+                                }
+                            });
+                        } else {
+                            swal.fire({
+                                title: 'Error al guardar',
+                                text: 'No se pudo guardar el registro, por favor revise la información ingresada y vuelva a intentar',
+                                type: 'error',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Ok'
+                            });
                         }
-                        
                     },error: function(jqXHR, textStatus, errorThrown) {
                         swal.fire({
                             title: 'Error',
+                            text: 'ocurrio un error, por favor vuelva a intentar.',
                             type: 'error',
-                            text: 'ocurrio un error, por favor vuelva a intentar.'
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Ok'
                         });
                     }
                 });

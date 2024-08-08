@@ -3198,9 +3198,12 @@ public function guardar_rendi_bienes_acc() {
               'estatus_rendi' 	=> $this->input->POST('llenar_trimestre5'),//trimestre que rindio     
     );
    
-
-    $data = $this->Programacion_model->guardar_rendi_servicio_acc($data,$id_p_itemss);
-    echo json_encode($data);
+    $resultado = $this->Programacion_model->guardar_rendi_servicio_acc($data,$id_p_itemss);
+    if ($resultado) {
+        echo json_encode(1);
+    } else {
+        echo json_encode(0);
+    }
 }
 /////////Guardar Rendicion Proyecto
 public function save_rendi_pry() {
@@ -3298,8 +3301,12 @@ public function save_rendi_pry() {
     );
    
 
-    $data = $this->Programacion_model->guardar_rendi_servicio_acc($data,$id_p_itemss);
-    echo json_encode($data);
+    $resultado = $this->Programacion_model->guardar_rendi_servicio_acc($data,$id_p_itemss);
+    if ($resultado) {
+        echo json_encode(1);
+    } else {
+        echo json_encode(0);
+    }
 }
 ////////////////////agregar item proyecto///////////////////////
 public function agregar_items_proyecto() {
