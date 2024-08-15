@@ -41,12 +41,48 @@ function porc_acc(){
 
 function calcular_bienes(){
 
-    var cantidad_acc = $('#cantidad_acc').val();
-    $('#cant_total_distribuir_acc').val(cantidad_acc);
-    var i = $('#I_acc').val();
-    var ii = $('#II_acc').val();
-    var iii = $('#III_acc').val();
-    var iv = $('#IV_acc').val();
+    // var cantidad_acc = $('#cantidad_acc').val();
+    // $('#cant_total_distribuir_acc').val(cantidad_acc);
+    // var i = $('#I_acc').val();
+    // var ii = $('#II_acc').val();
+    // var iii = $('#III_acc').val();
+    // var iv = $('#IV_acc').val();
+ //Remplazar decimales para caculos
+ var cantidad_acc1 = $('#cantidad_acc').val();
+ var newst1 = cantidad_acc1.replace('.', "");
+ var newst2 = newst1.replace('.', "");
+ var newst3 = newst2.replace('.', "");
+ var newst4 = newst3.replace('.', "");
+ var cantidad_acc = newst4.replace(',', ".");
+
+ var I_acc = $('#I_acc').val();
+ var newst5 = I_acc.replace('.', "");
+ var newst6 = newst5.replace('.', "");
+ var newst7 = newst6.replace('.', "");
+ var newst8 = newst7.replace('.', "");
+ var i = newst8.replace(',', ".");
+
+ var II_acc = $('#II_acc').val();
+ var newst9 = II_acc.replace('.', "");
+ var newst10 = newst9.replace('.', "");
+ var newst11 = newst10.replace('.', "");
+ var newst12 = newst11.replace('.', "");
+ var ii = newst12.replace(',', ".");
+
+ var III_acc = $('#III_acc').val();
+ var newst14 = III_acc.replace('.', "");
+ var newst15 = newst14.replace('.', "");
+ var newst16 = newst15.replace('.', "");
+ var newst17 = newst16.replace('.', "");
+ var iii = newst17.replace(',', ".");
+
+ var IV_acc = $('#IV_acc').val();
+ var newst18 = IV_acc.replace('.', "");
+ var newst19 = newst18.replace('.', "");
+ var newst20 = newst19.replace('.', "");
+ var newst30 = newst20.replace('.', "");
+ var iv = newst30.replace(',', ".");
+
     var cant_total_distribuir = cantidad_acc - i - ii - iii - iv
 
 
@@ -176,6 +212,126 @@ $(document).ready(function(){
             });
         }
     });
+    $("#cantidad_acc").on({
+        "focus": function (event) {
+            $(event.target).select();
+        },
+        "keyup": function (event) {
+            $(event.target).val(function (index, value ) {
+                return value.replace(/\D/g, "")
+                            .replace(/([0-9])([0-9]{2})$/, '$1,$2')
+                            .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+            });
+        }
+    });
+    $("#I_acc").on({
+        "focus": function (event) {
+            $(event.target).select();
+        },
+        "keyup": function (event) {
+            $(event.target).val(function (index, value ) {
+                return value.replace(/\D/g, "")
+                            .replace(/([0-9])([0-9]{2})$/, '$1,$2')
+                            .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+            });
+        }
+    });
+    $("#II_acc").on({
+        "focus": function (event) {
+            $(event.target).select();
+        },
+        "keyup": function (event) {
+            $(event.target).val(function (index, value ) {
+                return value.replace(/\D/g, "")
+                            .replace(/([0-9])([0-9]{2})$/, '$1,$2')
+                            .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+            });
+        }
+    });
+    $("#III_acc").on({
+        "focus": function (event) {
+            $(event.target).select();
+        },
+        "keyup": function (event) {
+            $(event.target).val(function (index, value ) {
+                return value.replace(/\D/g, "")
+                            .replace(/([0-9])([0-9]{2})$/, '$1,$2')
+                            .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+            });
+        }
+    });
+    $("#IV_acc").on({
+        "focus": function (event) {
+            $(event.target).select();
+        },
+        "keyup": function (event) {
+            $(event.target).val(function (index, value ) {
+                return value.replace(/\D/g, "")
+                            .replace(/([0-9])([0-9]{2})$/, '$1,$2')
+                            .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+            });
+        }
+    });
+    $("#cuarto_b").on({
+        "focus": function (event) {
+            $(event.target).select();
+        },
+        "keyup": function (event) {
+            $(event.target).val(function (index, value ) {
+                return value.replace(/\D/g, "")
+                            .replace(/([0-9])([0-9]{2})$/, '$1,$2')
+                            .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+            });
+        }
+    });
+    $("#tercero_b").on({
+        "focus": function (event) {
+            $(event.target).select();
+        },
+        "keyup": function (event) {
+            $(event.target).val(function (index, value ) {
+                return value.replace(/\D/g, "")
+                            .replace(/([0-9])([0-9]{2})$/, '$1,$2')
+                            .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+            });
+        }
+    });
+    $("#segundo_b").on({
+        "focus": function (event) {
+            $(event.target).select();
+        },
+        "keyup": function (event) {
+            $(event.target).val(function (index, value ) {
+                return value.replace(/\D/g, "")
+                            .replace(/([0-9])([0-9]{2})$/, '$1,$2')
+                            .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+            });
+        }
+    });
+    $("#primero_b").on({
+        "focus": function (event) {
+            $(event.target).select();
+        },
+        "keyup": function (event) {
+            $(event.target).val(function (index, value ) {
+                return value.replace(/\D/g, "")
+                            .replace(/([0-9])([0-9]{2})$/, '$1,$2')
+                            .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+            });
+        }
+    });
+    $("#cantidad_mod_b").on({
+        "focus": function (event) {
+            $(event.target).select();
+        },
+        "keyup": function (event) {
+            $(event.target).val(function (index, value ) {
+                return value.replace(/\D/g, "")
+                            .replace(/([0-9])([0-9]{2})$/, '$1,$2')
+                            .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+            });
+        }
+    });
 });
 
 $("#porcentaje_acc").on({
@@ -190,3 +346,4 @@ $("#porcentaje_acc").on({
         });
     }
 });
+

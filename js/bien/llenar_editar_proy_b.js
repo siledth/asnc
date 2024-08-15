@@ -286,13 +286,47 @@ function buscar_ccnnu_m_b(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
 
 function calcular_mod_bienes(){
 
-    var cantidad_acc = $('#cantidad_mod_b').val();
-    $('#cant_total_distribuir_mod_b').val(cantidad_acc);
+    // var cantidad_acc = $('#cantidad_mod_b').val();
+    // $('#cant_total_distribuir_mod_b').val(cantidad_acc);
 
-    var i = $('#primero_b').val();
-    var ii = $('#segundo_b').val();
-    var iii = $('#tercero_b').val();
-    var iv = $('#cuarto_b').val();
+    // var i = $('#primero_b').val();
+    // var ii = $('#segundo_b').val();
+    // var iii = $('#tercero_b').val();
+    // var iv = $('#cuarto_b').val();
+     var cantidad_acc1 = $('#cantidad_mod_b').val();
+    var newst1 = cantidad_acc1.replace('.', "");
+    var newst2 = newst1.replace('.', "");
+    var newst3 = newst2.replace('.', "");
+    var newst4 = newst3.replace('.', "");
+    var cantidad_acc = newst4.replace(',', ".");
+   
+    var I_acc = $('#primero_b').val();
+    var newst5 = I_acc.replace('.', "");
+    var newst6 = newst5.replace('.', "");
+    var newst7 = newst6.replace('.', "");
+    var newst8 = newst7.replace('.', "");
+    var i = newst8.replace(',', ".");
+   
+    var II_acc = $('#segundo_b').val();
+    var newst9 = II_acc.replace('.', "");
+    var newst10 = newst9.replace('.', "");
+    var newst11 = newst10.replace('.', "");
+    var newst12 = newst11.replace('.', "");
+    var ii = newst12.replace(',', ".");
+   
+    var III_acc = $('#tercero_b').val();
+    var newst14 = III_acc.replace('.', "");
+    var newst15 = newst14.replace('.', "");
+    var newst16 = newst15.replace('.', "");
+    var newst17 = newst16.replace('.', "");
+    var iii = newst17.replace(',', ".");
+   
+    var IV_acc = $('#cuarto_b').val();
+    var newst18 = IV_acc.replace('.', "");
+    var newst19 = newst18.replace('.', "");
+    var newst20 = newst19.replace('.', "");
+    var newst30 = newst20.replace('.', "");
+    var iv = newst30.replace(',', ".");
     var cant_total_distribuir = cantidad_acc - i - ii - iii - iv
 
     var cantidad2 = Number(i) + Number(ii) + Number(iii) + Number(iv)

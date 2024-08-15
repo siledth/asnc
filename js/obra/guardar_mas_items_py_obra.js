@@ -1364,12 +1364,63 @@ function guardar_acc_obra_reprograma(){
         });
     }
 }
+
 /////////////Guardar reprograma modal proyecto-obra
 function guardar_reprogramacion_obra_py(){//////////////////////////////////////////accion central
+    var precio = $("#precio_total_mod_b1").val();
+    var iva_estimado_mod_b1 = $("#iva_estimado_mod_b1").val();
+    var observaciones2 = $("#observaciones2").val();
+
+         
+        if (  precio <= 0) {
+            swal.fire({
+                title: 'El precio debe ser un número mayor que cero, intente de nuevo',
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+            }).then((result) => {
+                if (result.value == true) {
+                }
+            });
+           // return false; // no dejar guardar
+        }
+        else if (isNaN(iva_estimado_mod_b1)) {
+            // Mostrar mensaje de error
+            swal.fire({
+                title: 'Debe Seleccionar un IVA, por favor revisar.',
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+            }).then((result) => {
+                if (result.value == true) {
+                }
+            });
+            document.getElementById("iva_estimado_mod_b1").focus();
+        }
+        else if (observaciones2 == '') {
+            swal.fire({
+                title: 'Debe ingresar una observación para continuar, por favor intente de nuevo',
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+            }).then((result) => {
+                if (result.value == true) {
+                }
+            });
+           // alert("Debe ingresar una observación de la reprogramación")
+            document.getElementById("observaciones2").focus();
+        }
+        
+        
+        
+        else{
     event.preventDefault();
 
     swal.fire({
-        title: '¿Seguro desea Reprogramar? ',
+        title: '¿Seguro desea Modificar? ',
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -1388,6 +1439,9 @@ function guardar_reprogramacion_obra_py(){//////////////////////////////////////
 
             var obj_obra = $('#iobj_obra').val();
             var camb_id_obj_obra = $('#camb_id_obj_obra').val();
+
+            var ff = $('#id_ff_b').val();
+            var sel_camb_ff1 = $('#camb_ff_b1').val();
 
             var especificacion = $('#especificacion').val();
 
@@ -1417,7 +1471,9 @@ function guardar_reprogramacion_obra_py(){//////////////////////////////////////
             var estimado_total_t_acc = $('#estimado_total_t_mod').val();
             var cantidad=0;
             var cost_uni=0;
-            //var base_url =window.location.origin+'/asnc/index.php/Programacion/Repro_modal_py_obra';
+            var observaciones = $('#observaciones2').val();
+
+           // var base_url =window.location.origin+'/asnc/index.php/Programacion/reprogramar_fila_acc_obra';
             var base_url = '/index.php/Programacion/Repro_modal_py_obra'; 
 
             $.ajax({
@@ -1435,6 +1491,10 @@ function guardar_reprogramacion_obra_py(){//////////////////////////////////////
                     camb_id_alcance_obra: camb_id_alcance_obra,
                     obj_obra: obj_obra,
                     camb_id_obj_obra: camb_id_obj_obra,
+                    
+                    ff: ff,
+                    sel_camb_ff1: sel_camb_ff1,
+
                     fecha_desde1: fecha_desde1,
                     fecha_hasta1: fecha_hasta1,
                     especificacion: especificacion,
@@ -1456,14 +1516,15 @@ function guardar_reprogramacion_obra_py(){//////////////////////////////////////
                     est_trim_2: est_trim_2,
                     est_trim_3: est_trim_3,
                     est_trim_4: est_trim_4,
-                    estimado_total_t_acc: estimado_total_t_acc
+                    estimado_total_t_acc: estimado_total_t_acc,
+                    observaciones:observaciones,
 
                 },
                 dataType: 'json',
                 success: function(response){
                     if(response == 1) {
                         swal.fire({
-                            title: 'Se Reprogramo la información con exito.',
+                            title: 'Se Modifico la información con exito.',
                             type: 'success',
                             showCancelButton: false,
                             confirmButtonColor: '#3085d6',
@@ -1479,6 +1540,8 @@ function guardar_reprogramacion_obra_py(){//////////////////////////////////////
         }
     });
 }
+}
+
 //guarda un nuevo item de reprogramacion proyecto obra
 function Guardar_repro_obra_proyecto(){
     var par_presupuestaria_acc = $("#par_presupuestaria_acc").val();
@@ -1490,39 +1553,216 @@ function Guardar_repro_obra_proyecto(){
     var id_alcance_obra = $("#id_alcance_obra").val();
     var especificacion_acc = $("#especificacion_acc").val();
     var id_unidad_medida_acc = $("#id_unidad_medida_acc").val();
-    var cantidad_acc = $("#cant_total_distribuir").val();
+    var cant_total_distribuir = $("#cant_total_distribuir").val();
     var I = $("#I").val();
     var II = $("#II").val();
     var III = $("#III").val();
     var IV = $("#IV").val();
     var costo_unitario_acc = $("#costo_unitario_acc").val();
-    var precio_total_acc = $("#precio_total_acc").val();
+    var precio_total = $("#precio_total").val();
     var id_alicuota_iva_acc = $("#id_alicuota_iva_acc").val();
     var iva_estimado_acc = $("#iva_estimado_acc").val();
     var monto_estimado_acc = $("#monto_estimado_acc").val();
     var estimado_i_acc = $("#estimado_i_acc").val();
     var estimado_ii_acc = $("#estimado_ii_acc").val();
     var estimado_iii_acc = $("#estimado_iii_acc").val();
-    var estimado_iV_acc = $("#estimado_iV_acc").val();
-    var estimado_total_t_acc = $("#estimado_total_t_acc").val();
+    var fecha_hasta = $("#fecha_hasta").val();
+    var fecha_desde = $("#fecha_desde").val();
+    var observaciones = $("#observaciones").val();
+    if (observaciones == '') {
+        swal.fire({
+            title: 'Debe Ingresar Una Observación para continuar, por favor intente de nuevo',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        document.getElementById("observaciones").focus();
+    }
 
-
-    if (par_presupuestaria_acc == '') {
+    else if ($("#par_presupuestaria_acc option:selected").val() == 0) {
+        swal.fire({
+            title: 'Debe Seleccionar una Partida Presupuestaria',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        //alert("Debe Seleccionar una Partida Presupuestaria");
         document.getElementById("par_presupuestaria_acc").focus();
+        return false;
     }else if(id_estado_acc == ''){
+        //alert("Debe ingresar un estado")
+        swal.fire({
+            title: 'Debe ingresar un estado',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
         document.getElementById("id_estado_acc").focus();
     }
-    else if(fuente_financiamiento_acc == ''){
-    document.getElementById("fuente_financiamiento_acc").focus();
+    else if($("#fuente_financiamiento_acc option:selected").val() == 0) {
+        swal.fire({
+            title: 'Debe Seleccionar una Fuente Financiamiento',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        // alert("Debe Seleccionar una Fuente Financiamiento");
+        document.getElementById("fuente_financiamiento_acc").focus();
+        return false;
     }else if(porcentaje_acc == ''){
         document.getElementById("porcentaje_acc").focus();
-    }else if(porcentaje_acc == ''){
-            document.getElementById("porcentaje_acc").focus();
-    }else if(id_tip_obra == ''){
+    }else if($("#id_tip_obra option:selected").val() == 0) {
+        swal.fire({
+            title: 'Debe Seleccionar un Tipo de obra',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        // alert("Debe Seleccionar una Fuente Financiamiento");
         document.getElementById("id_tip_obra").focus();
-    }else if(especificacion_acc == ''){
+        return false;
+    }else if($("#id_alcance_obra option:selected").val() == 0) {
+        swal.fire({
+            title: 'Debe Seleccionar un Alcance de Obra',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        // alert("Debe Seleccionar una Fuente Financiamiento");
+        document.getElementById("id_alcance_obra").focus();
+        return false;
+    }else if($("#id_obj_obra option:selected").val() == 0) {
+        swal.fire({
+            title: 'Debe Seleccionar un Objeto de Obra',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        // alert("Debe Seleccionar una Fuente Financiamiento");
+        document.getElementById("id_obj_obra").focus();
+        return false;
+    }
+    else if(cant_total_distribuir > '1'){
+        swal.fire({
+            title: 'El porcentaje a Distribuir debe ser igual a cero (obligatotio) (Debe ingresar la distribución porcentual en los campos de trimestres I,II,III,IV segun su programación)',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        document.getElementById("cant_total_distribuir").focus();
+    } else if(especificacion_acc == ''){
+        swal.fire({
+            title: 'Debe ingresar una especificación',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        //alert("Debe ingresar una especificación")
+
         document.getElementById("especificacion_acc").focus();
-    }else{
+    }else if($("#id_unidad_medida_acc option:selected").val() == 0) {
+        swal.fire({
+            title: 'Debe Seleccionar una unidad de medida',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        //  alert("Debe Seleccionar una unidad de medida");
+        document.getElementById("id_unidad_medida_acc").focus();
+        return false;
+    } else if(precio_total == ''){
+        // alert("Debe ingresar Un precio (Obligatorio)")
+        swal.fire({
+         title: 'Debe ingresar un precio (Obligatorio)',
+         type: 'warning',
+         showCancelButton: false,
+         confirmButtonColor: '#3085d6',
+         confirmButtonText: 'Ok'
+     }).then((result) => {
+         if (result.value == true) {
+         }
+     });
+         document.getElementById("precio_total").focus();
+     }else if(fecha_hasta === ""){
+        swal.fire({
+            title: 'Debe ingresar un fecha hasta (Obligatorio)',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        document.getElementById("fecha_hasta").focus();
+     } else if(fecha_desde === ""){
+        swal.fire({
+            title: 'Debe ingresar un fecha desde (Obligatorio)',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        document.getElementById("fecha_desde").focus();
+     }else if($("#id_alicuota_iva option:selected").val() == 0) {
+        swal.fire({
+            title: 'Debe Seleccionar un iva correspondiente (Obligatorio)',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        //alert("Debe Seleccionar un iva ");
+        document.getElementById("id_alicuota_iva").focus();
+        return false;
+    }
+    else{
         event.preventDefault();
         swal.fire({
             title: '¿Guardar Modificación?',

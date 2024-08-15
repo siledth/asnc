@@ -155,20 +155,20 @@ function guardar_tabla_b1(){
             });
             document.getElementById("costo_unitario_mod_b").focus();
         }
-        else if (isNaN(iva_estimado_mod_b)) {
-            // Mostrar mensaje de error
-            swal.fire({
-                title: 'Debe Seleccionar un IVA, por favor revisar.',
-                type: 'warning',
-                showCancelButton: false,
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Ok'
-            }).then((result) => {
-                if (result.value == true) {
-                }
-            });
-            document.getElementById("iva_estimado_mod_b").focus();
-        }
+        // else if (isNaN(iva_estimado_mod_b)) {
+        //     // Mostrar mensaje de error
+        //     swal.fire({
+        //         title: 'Debe Seleccionar un IVA, por favor revisar.',
+        //         type: 'warning',
+        //         showCancelButton: false,
+        //         confirmButtonColor: '#3085d6',
+        //         confirmButtonText: 'Ok'
+        //     }).then((result) => {
+        //         if (result.value == true) {
+        //         }
+        //     });
+        //     document.getElementById("iva_estimado_mod_b").focus();
+        // }
         
         
         

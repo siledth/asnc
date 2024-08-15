@@ -3779,7 +3779,7 @@ public function reprogramar_fila_acc_serv(){
         'id_ccnu' 		         => 0,
         'especificacion' 		 => $this->input->post('especificacion_acc'),
         'id_unidad_medida' 		 => $id_unidad_medida_acc1,
-        'cantidad' 		 => 0,
+        'cantidad' 		 => 1,
         'i' 		             => $this->input->post('I'),
         'ii' 		             => $this->input->post('II'),
         'iii' 		             => $this->input->post('III'),
@@ -3798,6 +3798,7 @@ public function reprogramar_fila_acc_serv(){
         'id_proyecto' 		 => $this->input->post('id_programacion3'),
         'id_obj_comercial' 		 => $this->input->post('id_obj_comercial'),
         'observaciones' 		 => $this->input->post('observaciones'),
+        'id_usuario' => $this->session->userdata('id_user'),
 
         
 
@@ -4086,8 +4087,8 @@ public function edit_modal_py_servicios(){
          'id_tip_obra'=> $this->input->post('id_tip_obra'),
          'id_alcance_obra'=> $this->input->post('id_alcance_obra'),
          'id_obj_obra'=> $this->input->post('id_obj_obra'),
-         'fecha_desde'=> $this->input->post('start'),
-         'fecha_hasta'=> $this->input->post('end'),
+         'fecha_desde'=> $this->input->post('fecha_desde'),
+         'fecha_hasta'=> $this->input->post('fecha_hasta'),
         'id_partidad_presupuestaria'  => $par_presupuestaria_acc1,
         'id_ccnu' 		         => 0,
         'especificacion' 		 => $this->input->post('especificacion_acc'),
@@ -4110,6 +4111,9 @@ public function edit_modal_py_servicios(){
         'estimado_total_t_acc' 		 => $this->input->post('estimado_total_t'),
         'id_proyecto' 		 => $this->input->post('id_programacion3'),
         'id_obj_comercial' 		 => $this->input->post('id_obj_comercial'),
+        'observaciones' 		 => $this->input->post('observaciones'),
+        'id_usuario' => $this->session->userdata('id_user'),
+
 
       
 

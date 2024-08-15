@@ -3919,6 +3919,7 @@ public function consultar_items_servicio_acc_rendir($data){
        'id_proyecto' => $data['id_proyecto'],
        'id_obj_comercial' => $data['id_obj_comercial'],
        'observaciones' => $data['observaciones'],
+       'id_usuario' => $data['id_usuario'],
 
 
        
@@ -4133,6 +4134,8 @@ public function Repro_modal_py_obra($data){
         'estatus_rendi' => 0,
         'reprogramado' => 1,
         'fecha_reprogramacion' => date('Y-m-d'),
+        'observaciones'             => $data['observaciones'],
+
 
 
     );
@@ -4179,7 +4182,8 @@ function Repro_py_obra($data,$p_ffinanciamiento){
        'fecha_reprogramacion' => date('Y-m-d'),
        'id_proyecto' => $data['id_proyecto'],
        'id_obj_comercial' => $data['id_obj_comercial'],
-
+       'observaciones' => $data['observaciones'],
+       'id_usuario' => $data['id_usuario'],
 
 
     );

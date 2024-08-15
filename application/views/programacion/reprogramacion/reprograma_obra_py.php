@@ -43,6 +43,13 @@
                     enctype="multipart/form-data">
                     <div class="panel-body">
                         <div class="row">
+                        <div class="form-group mt-2 col-6">
+                                <label style="color: red;">Debe Ingresar una Observación</label> Leer<i style="color: red;"
+                                    title="Debe ingresar una Observación, para reprogramar"
+                                    class="fas fa-question-circle"></i><br>
+                                <textarea class="form-control" rows="2" name="observaciones"
+                                    id="observaciones"></textarea>
+                            </div>
                         <input type="hidden" id="id_obj_comercial" name="id_obj_comercial"
                         value="<?=$inf_1['id_obj_comercial']?>">
                         <input type="hidden" id="id_programacion3" name="id_programacion3"
@@ -152,14 +159,24 @@
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-                            <div class="form-group col-6">
+                            <div class="form-group col-12">
                                 <label style="color:red;">Ingrese Rango de Fecha Estimado para Ejecución de la Obra (Obligatorio).leer <b style="color:red">*</b></label><i style="color: red;" title="Seleccione la Fecha estimada de ejecución de la obra."
                                         class="fas fa-question-circle"></i>
-                                    <div class="input-group input-daterange">
-                                        <input type="text" class="form-control" id="fecha_desde" onchange="verif_d();" onblur="habilitar_trim();" name="start" placeholder="Desde" />
-                                        <span class="input-group-addon">-</span>
-                                        <input type="text" class="form-control"  id="fecha_hasta" onchange="verif_h();" onblur="habilitar_trim();" name="end" placeholder="Hasta" />
-                                    </div>
+                               
+                            </div>
+                            <div class="form-group col-2">
+                            <span class="input-group-addon">-</span>
+                                <label>Fecha de Desde</label><b style="color:red">*</b>
+                                <input type="date" id="fecha_desde" name="fecha_desde" placeholder="fecha"
+                                    class="form-control " />
+                              
+                            </div>
+                            <div class="form-group col-2">
+                            <span class="input-group-addon">-</span>
+                                <label>Fecha Hasta</label><b style="color:red">*</b>
+                                <input type="date" id="fecha_hasta" name="fecha_hasta" placeholder="fecha"
+                                required  class="form-control " />
+                                
                             </div>
                             <div class="col-12">
                                 <div class="card card-outline-danger">
@@ -253,7 +270,7 @@
                     </div>
                     <div class="form-group col 12 text-center">
                         <button type="button" onclick="Guardar_repro_obra_proyecto();" id="guardar" name="guardar"
-                            class="btn btn-primary mb-3">Guardar</button>
+                            class="my-button">Guardar</button>
                     </div>
                 </form>
             </div>
@@ -508,6 +525,13 @@
                             <input id="estimado_total_t_mod" name="estimado_total_t" type="text" class="form-control"
                                 readonly>
                         </div>
+                        <div class="form-group mt-2 col-6">
+                                <label style="color: red;">Debe Ingresar una Observación (Obligatorio)</label> Leer<i style="color: red;"
+                                    title="Debe ingresar una Observación, para reprogramar"
+                                    class="fas fa-question-circle"></i><br>
+                                <textarea class="form-control" rows="2" name="observaciones2"
+                                    id="observaciones2"></textarea>
+                            </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" onclick="guardar_reprogramacion_obra_py();"

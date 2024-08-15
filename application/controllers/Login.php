@@ -37,18 +37,18 @@ class Login extends CI_Controller {
       $ssesion = ['id' => $data['id']];
       $id_user =  $ssesion['id'];
       
-     // $data5 = $this->login_model->existe($id_user);
+     $data5 = $this->login_model->existe($id_user);
      
       $data2 = $this->login_model->consultar_organo($id_unidad);
-      // if ($data5 == TRUE) {
-      //   $this->session->set_flashdata('alert', 'Su sesión se cerro por inactividad, vuelva a iniciar Sesión.');
-      //   $data6 = $this->login_model->delesesion2($id_user);
+      if ($data5 == TRUE) {
+        $this->session->set_flashdata('alert', 'Su sesión se cerro por inactividad, vuelva a iniciar Sesión.');
+        $data6 = $this->login_model->delesesion2($id_user);
 
-      //   redirect('login');
+        redirect('login');
 
-      // } 
+      } 
       
-      // else{      
+      else{      
       if ($data2) {
         $user_data = [
           'id_user' => $data['id'],
@@ -102,14 +102,14 @@ class Login extends CI_Controller {
           'user_id' =>$id_user,
           'session_id' => $id_user,
       );
-     // $data = $this->login_model->save_session($data_session);
+     $data = $this->login_model->save_session($data_session);
       echo json_encode($data);
         redirect('home');
       } else {
         echo "<script>alert('usuario o Clave Errorena! Por favor intente de nuevo.');</script>";
         redirect('login');
       }
-    // } 
+    } 
     }
     // else{
     // 	echo "<script>alert('usuario o Clave Errorena! Por favor intente de nuevo.');</script>";
@@ -117,28 +117,28 @@ class Login extends CI_Controller {
     // }
   }
   
-//   public function logout() {
+  public function logout() {
    
-//     $data = array(
-//       'user_id' => $this->session->userdata('id_user'),
-//       'ultimo_login' 	=> date('Y-m-d H:i:s') 
-//   );
-//   $data = $this->login_model->delesesion1($data);
-//   echo json_encode($data);
-//   if ($data == TRUE) {
-//     $this->session->sess_destroy();
-//     redirect('login');
+    $data = array(
+      'user_id' => $this->session->userdata('id_user'),
+      'ultimo_login' 	=> date('Y-m-d H:i:s') 
+  );
+  $data = $this->login_model->delesesion1($data);
+  echo json_encode($data);
+  if ($data == TRUE) {
+    $this->session->sess_destroy();
+    redirect('login');
   
-//   } else{      
+  } else{      
    
-//     $this->session->set_flashdata('alert','algo paso');
-//     redirect('login');
-//   }
-// }
-public function logout() {
-  $this->session->sess_destroy();
-  redirect('login');
+    $this->session->set_flashdata('alert','algo paso');
+    redirect('login');
+  }
 }
+// public function logout() {
+//   $this->session->sess_destroy();
+//   redirect('login');
+// }
 
   
   public function validad_ssesion(){
