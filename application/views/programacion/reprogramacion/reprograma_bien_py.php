@@ -45,9 +45,14 @@
                     enctype="multipart/form-data">
                     <div class="panel-body">
                         <div class="row">
-                        <input type="hidden" id="id_obj_comercial" name="id_obj_comercial"
-                        value="<?=$inf_1_acc['id_obj_comercial']?>">
-                        <input type="hidden" id="id_programacion3" name="id_programacion3"
+                            <input type="hidden" id="id_obj_comercial" name="id_obj_comercial"
+                                value="<?=$inf_1_acc['id_obj_comercial']?>">
+                                <label style="color: red;">Debe Ingresar una Observación</label> Leer<i
+                                    style="color: red;" title="Debe ingresar una Observación"
+                                    class="fas fa-question-circle"></i><br>
+                                <textarea class="form-control" rows="2" name="observaciones"
+                                    id="observaciones"></textarea>
+                            <input type="hidden" id="id_programacion3" name="id_programacion3"
                                 value="<?=$id_programacion?>">
                             <input type="hidden" id="id_programacion" name="id_programacion"
                                 value="<?=$id_p_proyecto?>">
@@ -93,7 +98,8 @@
                                 </select>
                             </div>
                             <div class="form-group col-3">
-                                <input id="porcentaje_acc" name="porcentaje_acc" type="hidden"  value="0" class="form-control">
+                                <input id="porcentaje_acc" name="porcentaje_acc" type="hidden" value="0"
+                                    class="form-control">
                             </div>
 
                             <div class="col-12">
@@ -296,7 +302,8 @@
                                             style="color: darkgreen;"></i>
                                     </a>
                                     <a onclick="eliminar_items_bienes(<?php echo $data['id_p_items'];?>);"
-                                         class="button"><i class="fas fa-lg fa-fw  fa-trash-alt" style="color:red"></i><a />
+                                        class="button"><i class="fas fa-lg fa-fw  fa-trash-alt"
+                                            style="color:red"></i><a />
                                 </td>
                             </tr>
                             <?php endforeach;?>
@@ -318,7 +325,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        
+
                         <input type="text" class="form-control" name="id_items_b" id="id_items_b">
                         <div class="form-group col-8">
                             <label>ID - ITEMS</label>
@@ -327,16 +334,16 @@
                         <div class="form-group col-4">
                             <label>Cod. Partida Presupuestaria</label>
                             <input type="hidden" name="id_part_pres_b" id="id_part_pres_b">
-                            <input id="codigopartida_presupuestaria" name="codigopartida_presupuestaria" class="form-control"
-                                class="form-control" readonly>
-                                <input id="desc_partida_presupuestaria" name="desc_partida_presupuestaria" class="form-control"
-                                class="form-control" readonly>
+                            <input id="codigopartida_presupuestaria" name="codigopartida_presupuestaria"
+                                class="form-control" class="form-control" readonly>
+                            <input id="desc_partida_presupuestaria" name="desc_partida_presupuestaria"
+                                class="form-control" class="form-control" readonly>
                         </div>
-                        
+
                         <div class="form-group col-6">
                             <label>CCNU</label>
                             <input type="text" class="form-control" name="desc_ccnu" id="desc_ccnu" readonly>
-                            
+
                         </div>
                         <div class="form-group col-6">
                             <label>Especificación</label>
@@ -462,7 +469,7 @@
             </div>
         </div>
     </div>
-<!-- /////////////////////////////editar items de bienes -->
+    <!-- /////////////////////////////editar items de bienes -->
     <script src="<?=base_url()?>/js/bien/modal_editar_items_bienes.js"></script>
     <!-- /////////////////////////////editar items de bienes -->
     <script src="<?=base_url()?>/js/bien/llenar_editar_proy_b.js"></script>
@@ -470,7 +477,7 @@
     <script src="<?=base_url()?>/js/bien/agregar_acc_centralizada_ff.js"></script>
     <script src="<?=base_url()?>/js/bien/calculos_bienes_edit.js"></script>
 
-<!-- ///////////////////////////////////////////////////////guardar items py bienes -->
+    <!-- ///////////////////////////////////////////////////////guardar items py bienes -->
     <script src="<?=base_url()?>/js/bien/guardar_items_py_bien.js"></script>
 
 

@@ -64,7 +64,7 @@ class Pdf extends FPDF
 
   $this->Cell(180,5,utf8_decode('Omissis ... "'),0,1,'L');
   $this->Ln(3);
-  $this->MultiCell(180,4, utf8_decode('Recibida la información suministrada y de conformidad con lo establecido en el Articulo 14 del Decreto con Rango Valor y Fuerza de Ley de Contrataciones Públicas, y con la Providencia Nº DG/2024/010, de fecha 19 de mayo del año 2024, se detallada lo siguiente:'), 0, 'J');
+  $this->MultiCell(180,4, utf8_decode('Recibida la información suministrada y de conformidad con lo establecido en el Articulo 14 del Decreto con Rango Valor y Fuerza de Ley de Contrataciones Públicas, y con la Providencia Nº DG/2024/010, de fecha 19 de marzo del año 2024, se detallada lo siguiente:'), 0, 'J');
 
 
   $this->SetFont('Arial','B',9);
