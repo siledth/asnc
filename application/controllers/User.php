@@ -527,7 +527,24 @@ class User extends CI_Controller
         $this->load->view('user/modi_user.php', $data);
         $this->load->view('templates/footer.php');
     }
+// --------------------------------------------------
+public function lista_user_inactivos_snc() // listado de usuarios internos solo snc
+{if(!$this->session->userdata('session')) {
+    redirect('login');
+}
+    $data['descripcion'] = $this->session->userdata('unidad');
+    $data['rif'] = $this->session->userdata('rif');
+    $data['time']=date("d-m-Y");
+    $data['te']=date('d');
 
+    $data['ver_usuarios'] = $this->User_model->get_usuario_inac_snc();
+    $data['ver_perfil'] = $this->User_model->consultar_perfiles(); //consultar todos los perfiles
+
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('user/user_inac_snc.php', $data);
+    $this->load->view('templates/footer.php');
+}
 
     public function listado_usuarios() // listado de usuarios externos
     {if(!$this->session->userdata('session')) {

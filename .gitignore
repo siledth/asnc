@@ -1,4 +1,5 @@
 imagenes/
 application/config/config.php
 application/config/database.php
+application/views/login/index.php
 assets/

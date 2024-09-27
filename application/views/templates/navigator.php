@@ -792,7 +792,14 @@
                     <?php if (($this->session->userdata('ver_user_lista') == 1)) : ?>
                     <li>
                         <a href="<?= base_url() ?>index.php/user/modif_usuarios">
-                            <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Lista Usuarios SNC
+                            <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Lista Usuarios SNC activos
+                        </a>
+                    </li>
+                    <?php endif; ?>
+                    <?php if (($this->session->userdata('ver_user_lista') == 1)) : ?>
+                    <li>
+                        <a href="<?= base_url() ?>index.php/user/lista_user_inactivos_snc">
+                            <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Lista Usuarios SNC inactivos
                         </a>
                     </li>
                     <?php endif; ?>

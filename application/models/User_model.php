@@ -248,12 +248,42 @@ class User_model extends CI_Model
                     r.descripcion,
                     r.rif,
                     c.id as id1,
-                    t.nombrep
+                    t.nombrep,
+                    id_estatus
                 ");
             $this->db->join('seguridad.funcionarios c', 'c.id_usuario = f.id', 'left');
             $this->db->join('public.organoente r', 'r.rif = f.rif_organoente', 'left');
             $this->db->join('seguridad.perfil t', 't.id_perfil = f.perfil', 'left');
             $this->db->where('f.rif_organoente ', 'G200024518');
+            $this->db->where('f.id_estatus ', 1);
+            $query = $this->db->get('seguridad.usuarios f');
+            return $result = $query->result_array();
+
+
+            //$query = $this->db->get('programacion.alicuota_iva');
+            // if (count($query->result()) > 0) {
+            //return $query->result();
+            // }
+        }
+        public function get_usuario_inac_snc()
+        {
+            $this->db->select("f.id,
+                    f.nombre,
+                    f.id_estatus,
+                    f.intentos,
+                    c.nombrefun,
+                    c.apellido,
+                    r.descripcion,
+                    r.rif,
+                    c.id as id1,
+                    t.nombrep,
+                    id_estatus
+                ");
+            $this->db->join('seguridad.funcionarios c', 'c.id_usuario = f.id', 'left');
+            $this->db->join('public.organoente r', 'r.rif = f.rif_organoente', 'left');
+            $this->db->join('seguridad.perfil t', 't.id_perfil = f.perfil', 'left');
+            $this->db->where('f.rif_organoente ', 'G200024518');
+            $this->db->where('f.id_estatus ', 4);
             $query = $this->db->get('seguridad.usuarios f');
             return $result = $query->result_array();
 

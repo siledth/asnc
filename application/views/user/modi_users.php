@@ -44,8 +44,8 @@
                             <div class="form-group mt-3 col-6">
                                 <label>Organo/Ente/Ente Adscrito/Und Ejecutora</label><br>
                                 <input type="text" id="rif1" name="rif1" value="<?=$ver['descripcion']?>" class="form-control" readonly>
-                                <input type="text" id="rif2" name="rif2" value="<?=$ver['unidad']?>" class="form-control">
-                                <input type="text" id="rif3" name="rif3" value="<?=$ver['rif_organoente']?>" class="form-control">
+                                <input type="hidden" id="rif2" name="rif2" value="<?=$ver['unidad']?>" class="form-control" readonly>
+                                <input type="hidden" id="rif3" name="rif3" value="<?=$ver['rif_organoente']?>" class="form-control" readonly>
 
                             </div>
                             

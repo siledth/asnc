@@ -17,7 +17,7 @@
                             <div class="col-md-12">
                                 <div class="panel-body">
                                     <div class="col-12 text-center">
-                                        <h4>Lista de Usuarios del SNC activos</h4>
+                                        <h4>Lista de Usuarios del SNC Inactivos</h4>
                                     </div>
 
                                     <table id="data-table-default" class="table table-striped table-bordered">
@@ -43,9 +43,7 @@
                                                         <a class="button" href="<?php echo base_url() ?>index.php/User/verUsuario?id=<?php echo $lista['id'];?>">
                                                             <i title="Ver Usuario" class="fas fa-lg fa-fw fa-eye" style="color: midnightblue;"></i>
                                                         <a />
-                                                        <a class="button" href="<?php echo base_url() ?>index.php/User/verUsuario_editar?id=<?php echo $lista['id'];?>">
-                                                            <i title="Ver Modificar" class="fas fa-lg fa-fw  fa-edit" style="color: midnightblue;"></i>
-                                                        <a />
+                                                       
                                                         
                                                         
                                                         <?php //if ($lista['id_status'] != 2) : ?>
