@@ -26,6 +26,8 @@
                                             <th>Titulo</th>                                         
                                                 <th>Año de inicio</th>
                                                 <th>Año Fin</th>
+                                                <th>Acciones</th>
+
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -36,7 +38,13 @@
                                                 <td><?=$data['anio_inicio']?></td>
                                                 <td><?=$data['anio_fin']?></td>
                                                                                       
-
+                                                <td class="center">
+                                                <a onclick="modal(<?php echo $data['id_inf_academ'] ?>);" data-toggle="modal"
+                                        data-target="#exampleModal" style="color: white">
+                                        <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
+                                            style="color: darkgreen;"></i>
+                                    </a>
+                                </td>
                                             </tr>
                                         <?php endforeach;?>
                                     </tbody>
@@ -177,5 +185,79 @@
     </div>
 </div>
 
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar Información academica</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="guardar_proc_pag" name="guardar_proc_pag"
+                        data-parsley-validate="true" method="POST" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="card card-outline-danger">
+                                <h5 class="mt-0 text-center"><b>INFORMACIÓN ACADÉMICA</b></h5>
+                                <div class="row ">
+                                <div class="form-group col-4">
+                                        <label>Formación Académica :</label>
+                                        <input class="form-control" type="text" name="fm_ac1" id="fm_ac1" readonly>
+                                        <input class="form-control" type="text" name="id_academico" id="id_academico" readonly>
+                                    </div>
+                                    <div class="form-group col-4">
+                                    <label> Cambiar Formación Académica <i
+                                    title="Si quiere cambiar la Formación Académica, debe seleccionarla en este campo"
+                                    class="fas fa-question-circle"></i></label>
+                            <select class="form-control" name="camb_id_academico" id="camb_id_academico">
+                                <option value="0">Seleccione</option>
+                            </select>
+                                        <input class="form-control" type="text" name="id_inf_academ" id="id_inf_academ" readonly>
+                                        <input class="form-control" type="text" name="id_comision" id="id_comision"
+                                            readonly>
+                                      
+                                        <input class="form-control" type="text" name="id_miembros" id="id_miembros"
+                                            readonly>
+                                            
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label>Título Obtenido:</label>
+                                        <input class="form-control" type="text" name="titulo" id="titulo">
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label> Año de Inicio (aaaa)</label>
+                                        <input class="form-control" type="text" name="anioi" id="anioi">
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label>Culminación:</label>
+                                        <input class="form-control" type="text" name="anioc" id="anioc">
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label>En Curso:</label>
+                                        <select name="curso" id="curso">
+                                            <option value="0">Selecciones</option>
+
+                                            <option value="1">No</option>
+                                            <option value="2">Si</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="javascript:window.location.reload()" class="btn btn-secondary"
+                        data-dismiss="modal">Cerrar</button>
+                    <button type="button" id="guardar_pago_fin" onclick="save_inf_ac();"
+                        class="my-button">Guardar</button>
+                </div>
+            </div>
+        </div>
+</div>
 
 
+
+<script src="<?=base_url()?>/js/comision/editar_inf_academica.js"></script>

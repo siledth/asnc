@@ -907,6 +907,18 @@ public function miemb_inf(){
     $this->load->view('comision_contrata/see_inf.php', $data);
     $this->load->view('templates/footer.php');
 }
+public function consulta_infomr_acade_miembro(){
+    if(!$this->session->userdata('session'))redirect('login');
+    $data = $this->input->post();
+    $data =	$this->Comision_contrata_model->check_miemb_inf_ac_($data);
+    echo json_encode($data);
+}
+public function llenar_forma_aca_mod(){
+    if(!$this->session->userdata('session'))redirect('login');
+    $data = $this->input->post();
+    $data =	$this->Comision_contrata_model->llenar_forma_aca_mod($data);
+    echo json_encode($data);
+}
 public function consultar_t(){
     if(!$this->session->userdata('session'))redirect('login');
     $data = $this->input->post();

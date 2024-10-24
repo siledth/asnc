@@ -219,14 +219,13 @@ class Contratista_model extends CI_Model
             }
     }
     public function llenar_contratista_comi_conta($nombre) {
-        $sql = "select c.rifced, c.nombre from contratistas c 
+        $query = $this->db_b->query("SELECT c.rifced, c.nombre 
+                from contratistas c 
                 where c.edocontratista_id not in (1, 4)
-                and (c.rifced in (select a.rifced from datosgenerales a, comisarios b where a.proceso_id=b.proceso_id and 
-                b.cedcom like?))
-                OR (c.rifced in (select a.rifced from datosgenerales a, dictamenes b where a.proceso_id=b.proceso_id and b.cedcont
-                 like?))";
+                and (c.rifced in (select a.rifced from datosgenerales a, comisarios b where a.proceso_id=b.proceso_id and b.cpc like '%$nombre%') )
+                OR c.rifced in (select a.rifced from datosgenerales a, dictamenes b where a.proceso_id=b.proceso_id and b.cpc like '%$nombre%')");
         
-        $query = $this->db_b->query($sql, array("%$nombre%", "%$nombre%"));
+        // $query = $this->db_b->query($sql, array("%$nombre%", "%$nombre%"));
         
         if ($query) {
             return $query->result_array();

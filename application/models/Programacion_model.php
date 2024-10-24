@@ -2294,11 +2294,7 @@
                              al.descripcion_alcance_obra,
                              obj.descripcion_obj_obra,
                              ff.id_fuente_financiamiento ,
-                             f1.desc_fuente_financiamiento
-                              '
-                             
-
-						);
+                             f1.desc_fuente_financiamiento');
 		$this->db->from('programacion.p_items m');
         $this->db->join('programacion.partida_presupuestaria pp','pp.id_partida_presupuestaria = m.id_partidad_presupuestaria', 'left');
         $this->db->join('programacion.ccnu cc','cc.codigo_ccnu = m.id_ccnu', 'left');
@@ -2308,9 +2304,6 @@
         $this->db->join('programacion.obj_obra obj','obj.id_obj_obra = m.id_obj_obra', 'left');
         $this->db->join('programacion.p_ffinanciamiento ff','ff.id_p_items = m.id_p_items', 'left');
         $this->db->join('programacion.fuente_financiamiento f1','f1.id_fuente_financiamiento = ff.id_fuente_financiamiento', 'left');
-
-
-
 		$this->db->where('m.id_p_items', $data['id_p_items']);
 		// $this->db->order_by('mc.id_p_items desc');
 		$query = $this->db->get();

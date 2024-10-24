@@ -935,6 +935,24 @@ public function carga_completa($data){
                     $query = $this->db->get();
                     return $query->result_array();
             }
+            function check_miemb_inf_ac_($data){ //mostrar para editar informacion academica de los miembros
+
+                $this->db->select('pi2.id_inf_academ, pi2.id_academico, pi2.id_miembros, pi2.id_comision, pi2.titulo,
+                pi2.anio_inicio, pi2.anio_fin, pi2.cursando, c2.desc_academico');
+                     $this->db->join('comisiones.academico c2','c2.id_academico = pi2.id_academico');   
+                    $this->db->where('pi2.id_inf_academ', $data['id_inf_academ']);
+                    $this->db->from('comisiones.inf_academ pi2');
+                    $query = $this->db->get();
+                    $resultado = $query->row_array();
+                    return $resultado;
+            }
+            public function llenar_forma_aca_mod($data){
+                $this->db->select('id_academico, desc_academico');
+                $this->db->where('pi2.id_academico !=', $data['id_academico']);
+                $query = $this->db->get('comisiones.academico pi2');
+                $this->db->order_by('id_academico ASC');
+                return $query->result_array();
+            }
             function check_miemb_inf_exp5($id_miembros){
 
                 $this->db->select('pi2.rif,pi2.areas, pi2.cargo, pi2.desde, pi2.hasta');
