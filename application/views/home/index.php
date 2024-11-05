@@ -8,11 +8,11 @@
                     <div class="panel-body">
                         <div class="row">
                         <div class="header-container">
-    <h1 class="title">
-      <i class="fas fa-fw fa-bullseye" aria-hidden="true"></i>
-      Bienvenido al Sistema Integrado del Servicio Nacional de Contrataciones
+                                <h1 class="title">
+                                <i class="fas fa-fw fa-bullseye" aria-hidden="true"></i>
+                                Bienvenido al Sistema Integrado del Servicio Nacional de Contrataciones
 
-    </h1>
+                                </h1> 
     
   </div>
 

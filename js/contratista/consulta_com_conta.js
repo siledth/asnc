@@ -4,8 +4,8 @@ function consultar_nombre(){
         //...
     } else {
         $("#items").show();
-        var base_url = '/index.php/Contratista/llenar_contratista_comi_conta1';
-        // var base_url =window.location.origin+'/asnc/index.php/Contratista/llenar_contratista_comi_conta1';
+        // var base_url = '/index.php/Contratista/llenar_contratista_comi_conta1';
+        var base_url =window.location.origin+'/asnc/index.php/Contratista/llenar_contratista_comi_conta1';
         $.ajax({
             url: base_url,
             method: 'post',

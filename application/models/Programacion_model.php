@@ -5368,6 +5368,20 @@ public function save_certificado($data){ //por hacer
             return NULL;
         }
     }
+    function read_sending_p2_snc($data1){
+        $query = $this->db->query("SELECT pac.id_ainf_enviada, pac.id_programacion, pac.des_unidad, pac.rif, pac.codigo_onapre, 
+        org.filiar, org.id_organoenteads ,p.descripcion ,p.rif as filiares
+        FROM programacion.inf_enviada pac 
+        join public.organoente org on pac.rif = org.rif
+        join public.organoente p on p.id_organoente = org.id_organoenteads
+        where pac.id_ainf_enviada = '$data1'");
+        if($query->num_rows()>0){
+            return $query->result();
+        }
+        else{
+            return NULL;
+        }
+    }
     /////pdf rendiciones
     function read_sending_rendiciones($data1){
         $query = $this->db->query("SELECT  pac.id_programacion, pac.des_unidad, pac.rif,
