@@ -25,7 +25,7 @@
                         <h3 class="text-center">Programaciones Recibidas de PDVSA</h3>
                         <h6 class="text-center">Se mostraran desde la primera Programación enviada a la última</h6>
 
-                        <table id="data-table-default" data-order='[[ 1, "asc" ]]' class="table table-bordered">
+                        <table id="data-table" data-order='[[ 1, "asc" ]]' class="table table-bordered">
                     <thead style="background:#01cdb2">
                                 <tr class="text-center">
                                 <th>N#</th>
