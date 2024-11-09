@@ -899,24 +899,47 @@ public function miemb_inf(){
     $data['exp5'] = $this->Comision_contrata_model->check_miemb_inf_exp5($data['id_miembros']);
     $data['con_p'] = $this->Comision_contrata_model->check_miemb_inf_contr_pub($data['id_miembros']);
     $data['con_c'] = $this->Comision_contrata_model->check_miemb_inf_cap($data['id_miembros']);
-
-
-
+     $data['final']  = $this->Comision_contrata_model->check_organo();
     $this->load->view('templates/header.php');
     $this->load->view('templates/navigator.php');
     $this->load->view('comision_contrata/see_inf.php', $data);
     $this->load->view('templates/footer.php');
 }
+  public function editar_informacion_academica(){
+  		if(!$this->session->userdata('session'))redirect('login');
+  		$data = $this->input->post();
+  		$data =	$this->Comision_contrata_model->editar_informacion_academica($data);
+  		echo json_encode($data);
+  	}
+
 public function consulta_infomr_acade_miembro(){
     if(!$this->session->userdata('session'))redirect('login');
     $data = $this->input->post();
     $data =	$this->Comision_contrata_model->check_miemb_inf_ac_($data);
     echo json_encode($data);
 }
+public function consulta_infomr_modal_exp_miembro(){
+    if(!$this->session->userdata('session'))redirect('login');
+    $data = $this->input->post();
+    $data =	$this->Comision_contrata_model->consulta_infomr_modal_exp_miembro($data);
+    echo json_encode($data);
+}
+public function editar_modal_exp_miembro(){
+  		if(!$this->session->userdata('session'))redirect('login');
+  		$data = $this->input->post();
+  		$data =	$this->Comision_contrata_model->editar_modal_exp_miembro($data);
+  		echo json_encode($data);
+  	}
 public function llenar_forma_aca_mod(){
     if(!$this->session->userdata('session'))redirect('login');
     $data = $this->input->post();
     $data =	$this->Comision_contrata_model->llenar_forma_aca_mod($data);
+    echo json_encode($data);
+}
+public function llenar_ente(){
+    if(!$this->session->userdata('session'))redirect('login');
+    $data = $this->input->post();
+    $data =	$this->Comision_contrata_model->llenar_ente($data);
     echo json_encode($data);
 }
 public function consultar_t(){

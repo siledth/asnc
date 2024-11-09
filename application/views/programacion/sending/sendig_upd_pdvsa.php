@@ -25,7 +25,7 @@
                         <h2 class="text-center">Modificaciones Recibidas PDVSA</h2>
                         <h6 class="text-center">Se mostraran desde la primera modificación enviada a la última</h6>
 
-                        <table id="data-table-default" data-order='[[ 0, "desc" ]]' class="table table-bordered">
+                        <table id="data-table" data-order='[[ 0, "desc" ]]' class="table table-bordered">
                     <thead style="background:#01cdb2">
                                 <tr class="text-center">
                                 <th>N°</th>

@@ -5431,12 +5431,13 @@ public function read_send() //hacer un pdf de comprobante programacion final par
       $pdf->Output('Comprobanteproyecto '.$curdate.'.pdf', 'D');
      // $this->load->view('headfoot/header', $datos);
 }
-public function read_send_snc12() //hacer un pdf de comprobante programacion final para ver por el snc
- { //programacion
-  //  $data['ver_programaciones'] = $this->Programacion_model->consultar_reprogramacion($unidad);
+public function read_send_snc12() //esto es nuevo ya que se coloco para ver los comprobante en snc ver programaciones enviadas 
+ { 
+    //programacion
+    //  $data['ver_programaciones'] = $this->Programacion_model->consultar_reprogramacion($unidad);
    //Se agrega la clase desde thirdparty para usar FPDF
    require_once APPPATH.'third_party/fpdf/fpdf.php';
- //  $unidad
+        //  $unidad
    
    $pdf = new FPDF();
    $pdf->AliasNbPages();
@@ -5465,11 +5466,11 @@ public function read_send_snc12() //hacer un pdf de comprobante programacion fin
    $pdf->Cell(195,3,'____________________________________________________________________________',0,1,'C');
    $pdf->Cell(60,5,'Organo / Ente / Adscrito:',0,'C');
 
- $parametros = $this->input->get('id');
- $separar = explode("/", $parametros);
-// Asignar los valores a variables individuales
-$id_ainf_enviada = $separar[0]; // Accede al primer elemento del array
-$id_programacion = $separar[1]; // Accede al segundo elemento del array
+    $parametros = $this->input->get('id');
+    $separar = explode("/", $parametros);
+    // Asignar los valores a variables individuales
+    $id_ainf_enviada = $separar[0]; // Accede al primer elemento del array
+    $id_programacion = $separar[1]; // Accede al segundo elemento del array
 
     // $data['id_programacion'] = $separar['2'];
 
@@ -5513,9 +5514,9 @@ $id_programacion = $separar[1]; // Accede al segundo elemento del array
 
    $pdf->Cell(60,5,utf8_decode('Ejercicio Fiscal:'),0,'L');
 
-  // $pdf->MultiCell(100,5, '2023', 0, 'L');
+    // $pdf->MultiCell(100,5, '2023', 0, 'L');
 
- //  $id_programacion = $this->input->get('id');
+     //  $id_programacion = $this->input->get('id');
     
    $dat5 = $this->Programacion_model->anio_programacion($id_programacion);   
        if($dat5 != ''){ 
@@ -5645,7 +5646,7 @@ $id_programacion = $separar[1]; // Accede al segundo elemento del array
         }
      }
         
- //   $id_programacion = $this->input->get('id');
+    //   $id_programacion = $this->input->get('id');
     
     $data5 = $this->Programacion_model->consulta_total_PYT($id_programacion);   
         if($data5 != ''){ 
@@ -6134,7 +6135,7 @@ $id_programacion = $this->input->get('id');
       $pdf->Output('rendicion_programacion '.$curdate.'.pdf', 'D');
      // $this->load->view('headfoot/header', $datos);
 }
-public function read_send_snc() //hacer un pdf de comprobante programacion final para ver por el snc
+public function read_send_snc() //hacer un pdf de comprobante programacion final para ver por el snc /// esto tambien lo ve en los reportes de los contratistas
  { 
    require_once APPPATH.'third_party/fpdf/fpdf.php';
  

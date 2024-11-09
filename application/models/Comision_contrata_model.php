@@ -946,6 +946,17 @@ public function carga_completa($data){
                     $resultado = $query->row_array();
                     return $resultado;
             }
+             function consulta_infomr_modal_exp_miembro($data){ //mostrar para editar informacion experiencia 5 años de los miembros
+
+                $this->db->select('pi2.id_inf_exp5, pi2.id_miembros, pi2.id_comision, pi2.rif, pi2.areas, pi2.cargo,
+                                    pi2.desde, pi2.hasta, c2.descripcion');
+                      $this->db->join('public.organoente c2','c2.rif = pi2.rif');   
+                    $this->db->where('pi2.id_inf_exp5', $data['id_inf_exp5']);
+                    $this->db->from('comisiones.inf_exp5 pi2');
+                    $query = $this->db->get();
+                    $resultado = $query->row_array();
+                    return $resultado;
+            }
             public function llenar_forma_aca_mod($data){
                 $this->db->select('id_academico, desc_academico');
                 $this->db->where('pi2.id_academico !=', $data['id_academico']);
@@ -953,9 +964,16 @@ public function carga_completa($data){
                 $this->db->order_by('id_academico ASC');
                 return $query->result_array();
             }
+              public function llenar_ente($data){
+                $this->db->select('rif, descripcion');
+               $this->db->where('certificaciones', 0);
+                $query = $this->db->get('public.organoente');
+                //$this->db->order_by('id_academico ASC');
+                return $query->result_array();
+            }
             function check_miemb_inf_exp5($id_miembros){
 
-                $this->db->select('pi2.rif,pi2.areas, pi2.cargo, pi2.desde, pi2.hasta');
+                $this->db->select('pi2.id_inf_exp5,pi2.rif,pi2.areas, pi2.cargo, pi2.desde, pi2.hasta');
                  //    $this->db->join('FROM public.organoente c2','c2.rif = pi2.rif');
                     // $this->db->join('comisiones.tp_miembro c3','c3.id_tp_miembro = pi2.id_tp_miembro');
                     // $this->db->join('comisiones.status_comision st','st.id_status = pi2.id_status');
@@ -1334,6 +1352,59 @@ public function carga_completa($data){
                 $update = $this->db->update('comisiones.miembros', $data1);
                 return true;
             }
+
+        public function editar_informacion_academica($data){  // edita la informacion academica del miembro de comision
+
+            $this->db->where('id_inf_academ', $data['id_inf_academ']);
+            $academico = $data['camb_id_academico'];
+            if ($academico == 0) {
+                $id_academico = $data['id_academico'];
+            }else {
+                $id_academico = $data['camb_id_academico'];
+            }
+            $data1 = array(
+                'titulo'             => $data['titulo'],
+                'id_academico'           => $id_academico,
+                'anio_inicio'                   => $data['anioi'],
+                'anioc'                          => $data['anioc'],
+               
+            );
+            $update = $this->db->update('comisiones.inf_academ', $data1);
+            return true;
+        }
+
+          public function editar_modal_exp_miembro($data){  // edita la informacion academica del miembro de comision
+
+            $this->db->where('id_inf_exp5', $data['id_inf_exp5']);
+
+             var_dump($data['cam_org']);
+             $academico = $data['cam_org'];
+            if ($academico == 0) {
+
+              if (isset($data['arif'])) {
+        $id_academico = $data['arif'];
+    } else {
+         
+        $id_academico = null; // O asigna un valor por defecto
+       
+    }
+
+
+            }else {
+                $id_academico = $data['cam_org'];
+            }
+
+             var_dump($id_academico);
+            $data1 = array(
+                'rif'           => $id_academico,
+                'areas'         => $data['areas'],
+                'cargo'         => $data['cargo'],
+                'desde'         => $data['desde'],
+                'hasta'         => $data['hasta'],               
+            );
+            $update = $this->db->update('comisiones.inf_exp5', $data1);
+            return true;
+        }
     }
 
     
