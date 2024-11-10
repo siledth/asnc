@@ -4810,6 +4810,44 @@ public function rendir($id_programacion){
     return $query->result_array();
     // return $query->result_array();
 }
+ function consulta_item_edit($data){ //mostrar para editar informacion de la facturacion de la rendicion
+
+                $this->db->select('pi2.nfactura_rendi,   pi2.datefactura_rendi, pi2.base_imponible_rendi, pi2.selc_iva_rendi2, pi2.monto_factura_rend,
+                                    pi2.total_pago_rendi, pi2.paridad_rendi_factura, pi2.subtotal_rendi_factura,  pi2.selc_com_res_social ,pi2.monto3_rendim,
+                                     pi2.fecha_pago_rendi, se.desc_comp_resp_social');
+                      $this->db->join('programacion.comp_resp_social se','se.id_comp_resp_social = pi2.selc_com_res_social', 'left');   
+                    $this->db->where('pi2.id_rendicion', $data['id_rendicion']);
+                    $this->db->from('programacion.rendidicion pi2');
+                    $query = $this->db->get();
+                    $resultado = $query->row_array();
+                    return $resultado;
+            }
+            public function editar_informacion_factura($data){  // edita la informacion  de la facturacion de la rendicion
+
+            $this->db->where('id_rendicion', $data['id_rendiciones']);
+            $academico = $data['camb_selc_com_res_social5s'];
+            if ($academico == 0) {
+                $id_academico = $data['id_selc_com_res_social'];
+            }else {
+                $id_academico = $data['camb_selc_com_res_social5s'];
+            }
+            $data1 = array(
+                'nfactura_rendi'             => $data['n_factura'],
+                'datefactura_rendi'                   => $data['datefactura_rendisr'],
+                'base_imponible_rendi'                          => $data['base_imponible_rendi5s'],
+                'selc_iva_rendi2'                          => $data['camb_id_iva'],
+                'monto_factura_rend'                          => $data['monto_factura_rend5s'],
+                'total_pago_rendi'                          => $data['total_pago_rendi5s'],
+                'paridad_rendi_factura'                          => $data['paridad_rendi_factura5s'],
+                'subtotal_rendi_factura'                          => $data['subtotal_rendi_factura5s'],
+                'selc_com_res_social'           => $id_academico,
+                'monto3_rendim'                          => $data['monto3_rendibiness'],
+                'fecha_pago_rendi'                          => $data['fecha_pago_rendi5s'],
+               
+            );
+            $update = $this->db->update('programacion.rendidicion', $data1);
+            return true;
+        }
 public function ver_rendir1($id_programacion){
     $this->db->select('pac.*,
     cc.descripcion,

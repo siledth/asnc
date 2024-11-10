@@ -761,7 +761,7 @@ function validarmayor(){
        // alert("Debe seleccionar un IVA correspondiente.")
         document.rendi_bienes1.selc_iva_ret.focus()
         return 0;
- }
+            }
        if (document.rendi_bienes1.paridad_rendi5.value.length==0){
         swal.fire({
             title: 'Ingrese una Paridad',

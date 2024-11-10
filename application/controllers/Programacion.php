@@ -6473,6 +6473,18 @@ public function surrender(){
     $this->load->view('programacion/rendicion/surrender.php', $data);
     $this->load->view('templates/footer.php');
 }
+public function consulta_item_edit(){ ///consulta para editar factura de la rendicion
+    if(!$this->session->userdata('session'))redirect('login');
+    $data = $this->input->post();
+    $data =	$this->Programacion_model->consulta_item_edit($data);
+    echo json_encode($data);
+}
+public function editar_informacion_factura(){
+  		if(!$this->session->userdata('session'))redirect('login');
+  		$data = $this->input->post();
+  		$data =	$this->Programacion_model->editar_informacion_factura($data);
+  		echo json_encode($data);
+  	}
 public function sending_p(){
     if(!$this->session->userdata('session'))redirect('login');
 
