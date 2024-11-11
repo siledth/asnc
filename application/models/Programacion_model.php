@@ -5469,6 +5469,21 @@ public function save_certificado($data){ //por hacer
             return NULL;
         }
     }
+    function read_sending_rendiciones_snctotales($data20){
+       $query = $this->db->query("SELECT  id_ainf_enviada, id_programacion, precio_total_bien_a,precio_total_serv_a,precio_total_obra_a,total_acc,precio_total_obra,
+                                          precio_total_bien, precio_total_serv,total_proy
+        FROM  programacion.inf_enviada       
+        where  id_programacion = '$data20'
+        ORDER BY id_ainf_enviada DESC
+        LIMIT 1");
+        if($query->num_rows()>0){
+            return $query->result();
+        }
+        else{
+            return NULL;
+        }
+    }
+   
 /////consutar item llena el select para el modal de rendicion especificacion acc
 public function consulta_itemsr($id_programacion){
     $this->db->select('especificacion,id_proyecto,id_p_items,id_p_acc');

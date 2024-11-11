@@ -50,7 +50,7 @@
                                      <i class="fas fa-print fa-lg" title="Imprimir"
                                                         style="color: black;"></i>
                                     <a />
-                                    <a href="<?php echo base_url();?>index.php/programacion/read_send_snc?id=<?php echo $lista['id_ainf_enviada'];?>"
+                                    <a href="<?php echo base_url();?>index.php/programacion/read_send_snc?id=<?php echo $lista['id_ainf_enviada'];?>/<?php echo $lista['id_programacion'];?>"
                                             class="button">
                                             <i class="fas   fa-lg fa-cloud-download-alt" title="Certificado" style="color: blue;"></i>
                                         <a/>   

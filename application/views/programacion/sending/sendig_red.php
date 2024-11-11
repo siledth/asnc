@@ -58,7 +58,7 @@
                                     <a />
                                                  
                                       
-                                        <a href="<?php echo base_url();?>index.php/programacion/read_send_snc?id=<?php echo $lista['id_ainf_enviada'];?>"
+                                        <a href="<?php echo base_url();?>index.php/programacion/read_send_snc?id=<?php echo $lista['id_ainf_enviada'];?>/<?php echo $lista['id_programacion'];?>"
                                                                 class="button">
                                                                 <i class="fas   fa-lg fa-cloud-download-alt"
                                                                     title="Descargar Certificado de Cumplimiento ART.38 #3" style="color: blue;"></i>

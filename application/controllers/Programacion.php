@@ -5699,7 +5699,7 @@ public function read_send_snc12() //esto es nuevo ya que se coloco para ver los 
     
     
      
-      $pdf->Output('Comprobanteproyectof'.$curdate.'.pdf', 'D');
+      $pdf->Output('Comprobanteproyectof'.$curdate.'.pdf', 'I');
      // $this->load->view('headfoot/header', $datos);
 }
 public function modificacion_ley() //pdf segun ley
@@ -5952,8 +5952,8 @@ public function comprobante_rendicion() //hacer un pdf de comprobante rendidicon
    $pdf->Cell(60,5,utf8_decode('Código ONAPRE:'),0,'L');
    $pdf->MultiCell(100,5, utf8_decode($codigo_onapre), 0, 'L');
    $pdf->Cell(60,5,utf8_decode('Ejercicio Fiscal:'),0,'L');
-//    $pdf->MultiCell(100,5, '2023', 0, 'L');
-$id_programacion = $this->input->get('id');
+        //    $pdf->MultiCell(100,5, '2023', 0, 'L');
+       $id_programacion = $this->input->get('id');
 
    $dat7 = $this->Programacion_model->anio_programacion($id_programacion);   
        if($dat7 != ''){ 
@@ -5975,15 +5975,15 @@ $id_programacion = $this->input->get('id');
            $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt6->fecha)), 0, 'L');
           
        }}
-// $id_programacion = $this->input->get('id');
-    
-//    $dat6 = $this->Programacion_model->read_sending_rendiciones14($id_programacion);   
-//        if($dat6 != ''){ 
-//            foreach($dat6 as $dt6){ 
-       
-//            $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt6->fecha)), 0, 'L');
-          
-//        }}
+    // $id_programacion = $this->input->get('id');
+        
+    //    $dat6 = $this->Programacion_model->read_sending_rendiciones14($id_programacion);   
+    //        if($dat6 != ''){ 
+    //            foreach($dat6 as $dt6){ 
+        
+    //            $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt6->fecha)), 0, 'L');
+            
+    //        }}
    $pdf->Ln(2);
    $pdf->SetFont('Arial','',12);
 
@@ -6160,15 +6160,17 @@ public function read_send_snc() //hacer un pdf de comprobante programacion final
 
    $pdf->Cell(350,4,'Pagina '.$pdf->PageNo().'/{nb}',0,1,'C');
    $pdf->SetFont('Arial','B',12);
- 
-
    $da = $this->session->userdata('rif');
-   
 //    $pdf->Cell(195,3,'____________________________________________________________________________',0,1,'C');
    $pdf->Cell(60,5,'Organo / Ente / Adscrito:',0,'C');
-
-   $id_programacion = $this->input->get('id');
-   $dat5e = $this->Programacion_model->read_sending_rendiciones($id_programacion);   
+// ------------------------------------------------------------------------------
+     $parametros = $this->input->get('id');
+    $separar = explode("/", $parametros);
+    // Asignar los valores a variables individuales
+    $id_ainf_enviada = $separar[0]; // Accede al primer elemento del array
+    $id_programacion = $separar[1]; // Accede al segundo elemento del array
+//    $dat5e = $this->Programacion_model->read_sending_p2_snc($id_ainf_enviada); 
+   $dat5e = $this->Programacion_model->read_sending_rendiciones($id_ainf_enviada);   
    if($dat5e != ''){ 
        foreach($dat5e as $date3){ 
    
@@ -6178,8 +6180,8 @@ public function read_send_snc() //hacer un pdf de comprobante programacion final
    }}
    $pdf->Cell(60,5,'Rif:',0,'L');
 
-   $id_programacion = $this->input->get('id');
-   $date6e = $this->Programacion_model->read_sending_rendiciones($id_programacion);   
+   //$id_programacion = $this->input->get('id');
+   $date6e = $this->Programacion_model->read_sending_rendiciones($id_ainf_enviada);   
    if($date6e != ''){ 
        foreach($date6e as $dati8){ 
    
@@ -6194,8 +6196,8 @@ public function read_send_snc() //hacer un pdf de comprobante programacion final
    }}
    
    $pdf->Cell(60,5,utf8_decode('Código ONAPRE:'),0,'L');
-   $id_programacion = $this->input->get('id');
-   $dat34 = $this->Programacion_model->read_sending_rendiciones($id_programacion);   
+  // $id_programacion = $this->input->get('id');
+   $dat34 = $this->Programacion_model->read_sending_rendiciones($id_ainf_enviada);   
    if($dat34 != ''){ 
        foreach($dat34 as $dt4r){ 
    
@@ -6209,9 +6211,9 @@ public function read_send_snc() //hacer un pdf de comprobante programacion final
 
   // $pdf->MultiCell(100,5, '2023', 0, 'L');
 
-   $id_programacion = $this->input->get('id');
+   //$id_programacion = $this->input->get('id');
     
-   $dat5 = $this->Programacion_model->read_sending_rendiciones($id_programacion);   
+   $dat5 = $this->Programacion_model->read_sending_rendiciones($id_ainf_enviada);   
        if($dat5 != ''){ 
            foreach($dat5 as $dt5){ 
        
@@ -6220,9 +6222,9 @@ public function read_send_snc() //hacer un pdf de comprobante programacion final
           
        }}
        $pdf->Cell(60,5,utf8_decode('Trimestre:'),0,'L');
-       $id_programacion = $this->input->get('id');
+      // $id_programacion = $this->input->get('id');
     
-   $dat51 = $this->Programacion_model->read_sending_rendiciones($id_programacion);   
+   $dat51 = $this->Programacion_model->read_sending_rendiciones($id_ainf_enviada);   
        if($dat51 != ''){ 
            foreach($dat51 as $dt51){ 
        
@@ -6232,9 +6234,9 @@ public function read_send_snc() //hacer un pdf de comprobante programacion final
        }}
     //    $pdf->MultiCell(100,5, 'I', 0, 'L');
    $pdf->Cell(60,5,utf8_decode('Fecha de Registro:'),0,'L');
-   $id_programacion = $this->input->get('id');
+   //$id_programacion = $this->input->get('id');
     
-   $dat6 = $this->Programacion_model->read_sending_rendiciones($id_programacion);   
+   $dat6 = $this->Programacion_model->read_sending_rendiciones($id_ainf_enviada);   
        if($dat6 != ''){ 
            foreach($dat6 as $dt6){ 
        
@@ -6247,7 +6249,7 @@ public function read_send_snc() //hacer un pdf de comprobante programacion final
        
    $pdf->Cell(60,5,utf8_decode('El Servicio Nacional de Contrataciones (SNC), hace de su conocimiento que fue recibida la carga'),0,1,'L');
    $pdf->Cell(60,5,utf8_decode('  de la Rendición de la Programación Anual correspondiente al '),0,'L');
-   $id_programacion = $this->input->get('id');
+   //$id_programacion = $this->input->get('id');
    $pdf->SetFont('Arial','B',12);
     
    $dat52 = $this->Programacion_model->read_sending_rendiciones($id_programacion);
@@ -6258,7 +6260,7 @@ public function read_send_snc() //hacer un pdf de comprobante programacion final
        }
    }
 
-   $id_programacion = $this->input->get('id');
+   ///$id_programacion = $this->input->get('id');
    $pdf->SetFont('Arial','B',12);
    $dat7 = $this->Programacion_model->read_sending_rendiciones($id_programacion);   
        if($dat7 != ''){ 
@@ -6301,67 +6303,164 @@ public function read_send_snc() //hacer un pdf de comprobante programacion final
 
    $pdf->Cell(50,5,'ACTIVIDAD',0,0,'C'); 
    $pdf->Cell(80,5, utf8_decode('ACCIÓN CENTRALIZADA. Bs.'),0,0,'C');      
+   $pdf->Cell(35,5, utf8_decode('%'),0,0,'C');    
    $pdf->Cell(35,5,' ',0,1,'C'); 
    $pdf->SetFont('Arial','',10);
    
-   $data = $this->Programacion_model->read_sending_rendiciones_snc2($id_programacion);   
+   $data = $this->Programacion_model->read_sending_rendiciones_snc2($id_ainf_enviada);   
    if($data != ''){ 
-    $total = 0;
-       foreach($data as $dt7){ 
-        $precio_total_bien_a = str_replace('.', '', str_replace(',', '.', $dt7->precio_total_bien_a));
-        $precio_total_serv_a = str_replace('.', '', str_replace(',', '.', $dt7->precio_total_serv_a));
-        $precio_total_obra_a = str_replace('.', '', str_replace(',', '.', $dt7->precio_total_obra_a));
+    $data20 = $this->Programacion_model->read_sending_rendiciones_snctotales($id_programacion);  
+    if ($data20 != '') { 
+        foreach($data20 as $dt70){  
+            $precio_total_bien_a_total = str_replace('.', '', $dt70->precio_total_bien_a);
+            $precio_total_bien_a_total2 = str_replace(',', '.', $precio_total_bien_a_total); // Reemplazar la coma decimal por un punto 
+            
+              $precio_total_serv_a_total2 = str_replace('.', '', $dt70->precio_total_serv_a);
+            $precio_total_serv_a_total = str_replace(',', '.', $precio_total_serv_a_total2);
+
+            $precio_total_obra_a_total22 = str_replace('.', '', $dt70->precio_total_obra_a);
+            $precio_total_obra_a_total = str_replace(',', '.', $precio_total_obra_a_total22);
+  
+            $total_acc_total =  $dt70->total_acc ;
+ 
+            $precio_total_bien_a_totalpy22 = str_replace('.', '', $dt70->precio_total_bien);
+            $precio_total_bien_a_totalpy = str_replace(',', '.', $precio_total_bien_a_totalpy22);
+
+            $precio_total_servpy22 = str_replace('.', '', $dt70->precio_total_serv);
+            $precio_total_servpy = str_replace(',', '.', $precio_total_servpy22);
+  
+               $precio_total_obrapy2 = str_replace('.', '', $dt70->precio_total_obra);
+            $precio_total_obrapy = str_replace(',', '.', $precio_total_obrapy2);
+  
+            $total_proypy = $dt70->total_proy;
+        }
+    }
+       foreach($data as $dt7){        
+            // $precio_total_bien_a = 0;
+              $precio_total_bien_a1 = str_replace('.', '', $dt7->precio_total_bien_a); // Eliminar el separador de miles
+        $precio_total_bien_a2 = str_replace(',', '.', $precio_total_bien_a1); // Reemplazar la coma decimal por un punto 
+
+        $precio_total_serv_a122 = str_replace('.', '', $dt7->precio_total_serv_a); // Eliminar el separador de miles
+        $precio_total_serv_a1 = str_replace(',', '.', $precio_total_serv_a122); // Reemplazar la coma decimal por un punto 
+
+        $precio_total_obra_a122 = str_replace('.', '', $dt7->precio_total_obra_a); // Eliminar el separador de miles
+        $precio_total_obra_a1 = str_replace(',', '.', $precio_total_obra_a122); // Reemplazar la coma decimal por un punto 
         
-        $total += floatval(str_replace('.', '', str_replace(',', '.', $precio_total_bien_a))) + 
-                   floatval(str_replace('.', '', str_replace(',', '.', $precio_total_serv_a))) + 
-                   floatval(str_replace('.', '', str_replace(',', '.', $precio_total_obra_a)));
-        
-        
-        $pdf->Cell(60,5, 'Bienes',0,0,'C');
-       $pdf->Cell(40,5, $dt7->precio_total_bien_a,0,1,'R');
-       $pdf->Cell(60,5, 'Servicios',0,0,'C');
-       $pdf->Cell(40,5, $dt7->precio_total_serv_a,0,1,'R');
-       $pdf->Cell(60,5, 'Obras',0,0,'C');
-       $pdf->Cell(40,5, $dt7->precio_total_obra_a,0,1,'R');
-   }
+        // $precio_total_serv_a1 = str_replace('.', '', str_replace(',', '.', $dt7->precio_total_serv_a));
+        // $precio_total_obra_a1 = str_replace('.', '', str_replace(',', '.', $dt7->precio_total_obra_a));
+        $total_acc1 =  $dt7->total_acc ;
+       
+        // Imprimir Bienes con porcentaje
+        $pdf->Cell(60, 5, 'Bienes', 0, 0, 'C');
+        $pdf->Cell(40, 5, $dt7->precio_total_bien_a, 0, 0, 'R');
+             
+        // Calcular y mostrar el porcentaje
+        if ($precio_total_bien_a_total2 != 0) {
+            $resultado = $precio_total_bien_a2 / $precio_total_bien_a_total2;
+            $pdf->Cell(50, 5, number_format($resultado * 100, 2, ',', '.'), 0, 1, 'R');
+        } else {
+            $pdf->Cell(50, 5, '0', 0, 1, 'R');
+        }
+
+        // Imprimir Servicios
+        $pdf->Cell(60, 5, 'Servicios', 0, 0, 'C');
+        $pdf->Cell(40, 5, $dt7->precio_total_serv_a, 0, 0, 'R');
+
+        if ($precio_total_serv_a_total != 0) {
+            $resultado2 = $precio_total_serv_a1 / $precio_total_serv_a_total;
+            $pdf->Cell(50, 5, number_format($resultado2 * 100, 2, ',', '.'), 0, 1, 'R');
+        } else {
+            $pdf->Cell(50, 5, '0', 0, 1, 'R');
+        }
+        // Imprimir Obras
+        $pdf->Cell(60, 5, 'Obras', 0, 0, 'C');
+        $pdf->Cell(40, 5, $dt7->precio_total_obra_a, 0, 0, 'R');
+       
+         if ($precio_total_obra_a_total != 0) {
+            $resultado3 = $precio_total_obra_a1 / $precio_total_obra_a_total;
+            $pdf->Cell(50, 5, number_format($resultado3 * 100, 2, ',', '.'), 0, 1, 'R');
+        } else {
+            $pdf->Cell(50, 5, '0', 0, 1, 'R');
+        }
+    }
+ 
+   
    $pdf->SetFont('Arial','B',10);
    $pdf->Cell(60,5, 'Total',0,0,'C');
-   $pdf->Cell(40,5, number_format($total / 100, 2, ',', '.'),0,1,'R');
+   $pdf->Cell(40,5, number_format($dt7->total_acc, 2, ',', '.'),0,0,'R');
+  
+    if ($total_acc_total != 0) {
+            $resultado4 = $total_acc1 / $total_acc_total;
+            $pdf->Cell(50, 5, number_format($resultado4 * 100, 2, ',', '.'), 0, 1, 'R');
+        } else {
+            $pdf->Cell(50, 5, '0', 0, 1, 'R');
+        }
 }
-   $id_programacion = $this->input->get('id'); 
+  // $id_programacion = $this->input->get('id'); 
      $pdf->SetFont('Arial','B',10);
      $pdf->Cell(50,5,'ACTIVIDAD',0,0,'C'); 
      $pdf->Cell(80,5,'PROYECTO Bs. ',0,0,'C'); 
+     $pdf->Cell(35,5, utf8_decode('%'),0,0,'C');
      $pdf->Cell(35,5,' ',0,1,'C');
    $pdf->SetFont('Arial','',10);
 
-     $data = $this->Programacion_model->read_sending_rendiciones_snc2($id_programacion);
-     $totalpy = 0;   
+     $data = $this->Programacion_model->read_sending_rendiciones_snc2($id_ainf_enviada);
+     
      if($data != ''){ 
          foreach($data as $dtp0){ 
-            $precio_total_bien = str_replace('.', '', str_replace(',', '.', $dtp0->precio_total_bien));
-        $precio_total_serv = str_replace('.', '', str_replace(',', '.', $dtp0->precio_total_serv));
-        $precio_total_obra = str_replace('.', '', str_replace(',', '.', $dtp0->precio_total_obra));
-        
-        $totalpy += floatval(str_replace('.', '', str_replace(',', '.', $precio_total_bien))) + 
-                   floatval(str_replace('.', '', str_replace(',', '.', $precio_total_serv))) + 
-                   floatval(str_replace('.', '', str_replace(',', '.', $precio_total_obra)));
+         $precio_total_bien_a1py1 = str_replace('.', '', $dt7->precio_total_bien); // Eliminar el separador de miles
+        $precio_total_bien_a1py = str_replace(',', '.', $precio_total_bien_a1py1); // Reemplazar la coma decimal por un punto 
+
+         $precio_total_servpy11 = str_replace('.', '', $dt7->precio_total_serv); // Eliminar el separador de miles
+        $precio_total_servpy1 = str_replace(',', '.', $precio_total_servpy11); // Reemplazar la coma decimal por un punto 
+
+        $precio_total_obrapy11 = str_replace('.', '', $dt7->precio_total_obra); // Eliminar el separador de miles
+        $precio_total_obrapy1 = str_replace(',', '.', $precio_total_obrapy11); // Reemplazar la coma decimal por un punto
+ 
+        $total_proy1 = $dtp0->total_proy;
 
           $pdf->Cell(60,5, 'Bienes',0,0,'C');
-          $pdf->Cell(40,5, $dtp0->precio_total_bien,0,1,'R');
+          $pdf->Cell(40,5, $dtp0->precio_total_bien,0,0,'R');
+            if ($precio_total_bien_a_totalpy != 0) {
+            $resultado5 = $precio_total_bien_a1py / $precio_total_bien_a_totalpy;
+            $pdf->Cell(50, 5, number_format($resultado5 * 100, 2, ',', '.'), 0, 1, 'R');
+        } else {
+            $pdf->Cell(50, 5, '0', 0, 1, 'R');
+        }
          $pdf->Cell(60,5, 'Servicios',0,0,'C');
-         $pdf->Cell(40,5, $dtp0->precio_total_serv,0,1,'R');
+         $pdf->Cell(40,5, $dtp0->precio_total_serv,0,0,'R');
+
+          if ($precio_total_servpy != 0) {
+            $resultado6 = $precio_total_servpy1 / $precio_total_servpy;
+            $pdf->Cell(50, 5, number_format($resultado6 * 100, 2, ',', '.'), 0, 1, 'R');
+        } else {
+            $pdf->Cell(50, 5, '0', 0, 1, 'R');
+        }
          $pdf->Cell(60,5, 'Obras',0,0,'C');
-         $pdf->Cell(40,5, $dtp0->precio_total_obra,0,1,'R');
-    
-     } $pdf->SetFont('Arial','B',10);
+         $pdf->Cell(40,5, $dtp0->precio_total_obra,0,0,'R');
+         
+              if ($precio_total_obrapy != 0) {
+            $resultado7 = $precio_total_obrapy1 / $precio_total_obrapy;
+            $pdf->Cell(50, 5, number_format($resultado7 * 100, 2, ',', '.'), 0, 1, 'R');
+        } else {
+            $pdf->Cell(50, 5, '0', 0, 1, 'R');
+        }
+     } 
+     $pdf->SetFont('Arial','B',10);
      $pdf->Cell(60,5, 'Total',0,0,'C');
-     $pdf->Cell(40,5, number_format($totalpy / 100, 2, ',', '.'),0,1,'R');
+      $pdf->Cell(40,5,  number_format($dtp0->total_proy, 2, ',', '.'),0,0,'R');
+    //   $pdf->Cell(40,5,  $total_proy1,0,0,'R');
+    //   $pdf->Cell(40,5,  $total_proypy,0,0,'R');
+
+
+
+          if ($total_proypy != 0) {
+            $resultado8 = $total_proy1 / $total_proypy;
+            $pdf->Cell(50, 5, number_format($resultado8 * 100, 2, ',', '.'), 0, 1, 'R');
+        } else {
+            $pdf->Cell(50, 5, '0', 0, 1, 'R');
+        }
     }
-   
-        
-   
-   
         $pdf->SetFont('Arial','I',8);
     $pdf->Ln(5);
     $pdf->SetFont('Arial','B',12);
@@ -6405,7 +6504,7 @@ public function read_send_snc() //hacer un pdf de comprobante programacion final
     
     
      
-      $pdf->Output('rendicion_programacion '.$curdate.'.pdf', 'D');
+      $pdf->Output('rendicion_programacion '.$curdate.'.pdf', 'I');
      // $this->load->view('headfoot/header', $datos);
 }
 public function guardar_comprobante_totales() {
