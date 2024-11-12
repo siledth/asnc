@@ -6256,7 +6256,7 @@ public function read_send_snc() //hacer un pdf de comprobante programacion final
 
    if($dat52!= ''){ 
        foreach($dat52 as $dt52){ 
-           $pdf->Cell(30,5, $dt52->descripcion_trimestre. '   Trimestre Ejercicio Fiscal',0,0,'C');        
+           $pdf->Cell(180,5, $dt52->descripcion_trimestre. '   Trimestre Ejercicio Fiscal',0,0,'C');        
        }
    }
 
