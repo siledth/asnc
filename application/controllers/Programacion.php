@@ -6504,7 +6504,7 @@ public function read_send_snc() //hacer un pdf de comprobante programacion final
     
     
      
-      $pdf->Output('rendicion_programacion '.$curdate.'.pdf', 'I');
+      $pdf->Output('rendicion_programacion '.$curdate.'.pdf', 'D');
      // $this->load->view('headfoot/header', $datos);
 }
 public function guardar_comprobante_totales() {
