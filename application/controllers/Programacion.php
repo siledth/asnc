@@ -6496,7 +6496,7 @@ public function read_send_snc() //hacer un pdf de comprobante programacion final
                           
                            $pdf->SetX(-15);
                           // Arial italic 8
-                          $pdf->SetFont('Arial','I',8);
+                          $pdf->SetFont('Arial','D',8);
                           // Número de página
                         //   $pdf->Cell(0,10,'Pagina '.$pdf->PageNo().'/{nb}',0,0,'C');
       
