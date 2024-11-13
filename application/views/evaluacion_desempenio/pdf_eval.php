@@ -30,7 +30,6 @@
             <div class="col-12 text-center">
                 <img class="mb-2" src="<?php echo base_url('Plantilla/img/membretesnc.png'); ?>" height="70" />
             </div>
-
             <div class="panel panel-inverse">
                 <div class="col-6 mt-2">
                     <h6>Identificador de Evaluación de Desempeño: <?=$eval_ind['id']?></h6>

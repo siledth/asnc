@@ -270,7 +270,9 @@ class Evaluacion_desempenio extends CI_Controller {
 		if(!$this->session->userdata('session'))redirect('login');
 		
 		$id_evaluacion = $this->input->get('id');
+
 		$data['eval_ind'] 	= $this->Evaluacion_desempenio_model->consulta_eval_ind($id_evaluacion);
+		//print_r($data['eval_ind']);die;
 		$data['dt_eval']	= $this->Evaluacion_desempenio_model->consutar_dt_eval($id_evaluacion);
 
 		$fecha_d = $data['eval_ind']['fec_inicio_cont'];

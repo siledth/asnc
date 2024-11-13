@@ -468,7 +468,7 @@ return $query->result_array();
                                 ed.id_usuario,
                                 u.unidad,
                                 en.rif as rif_organo,
-                               en.descripcion as organo,
+                                en.descripcion as organo,
                                  ed.rif_contrat,
                                  concat(cn.nombre,\'\',c.nombre) as nom_comer,
                                  concat(e2.descedo,\'\', e3.descedo) as est_contratista,
@@ -509,8 +509,8 @@ return $query->result_array();
                                  e5.descripcion,
                                  ed.fecha_reg_eval,
                                  ed.snc');
-            $this->db->join('seguridad.usuarios u', 'u.id = ed.id_usuario');
-            $this->db->join('public.organoente en', 'en.codigo = u.unidad', 'left');      
+            $this->db->join('seguridad.usuarios u', 'u.id = ed.id_usuario'); ////esto es para saber quien lo cargo
+            $this->db->join('public.organoente en', 'en.rif = u.rif_organoente', 'left');      
             $this->db->join('evaluacion_desempenio.contratistas_nr cn', 'cn.rifced = ed.rif_contrat', 'left');
             $this->db->join('evaluacion_desempenio.contratistas c', 'c.rifced = ed.rif_contrat', 'left');
             $this->db->join('public.estados e', 'e.id = ed.id_estado_contrato');
@@ -523,10 +523,11 @@ return $query->result_array();
             $this->db->join('evaluacion_desempenio.modalidad m3', 'm3.id = ed.id_modalidad');
             $this->db->join('evaluacion_desempenio.sub_modalidad sm', 'sm.id = ed.id_sub_modalidad');
             $this->db->join('public.estatus e5', 'e5.id = ed.id_estatus');
-            $this->db->where('ed.id', $id_evaluacion);
+            $this->db->where('ed.id', $id_evaluacion); //Aqui hace la busqueda del id que se envia desde la tabla
             $query = $this->db->get('evaluacion_desempenio.evaluacion ed');
             return $response = $query->row_array();
         }
+
         public function consulta_eval_ind_img($id_evaluacion){
             $this->db->select('ed.id,
                                     ed.notf_cont,
