@@ -159,8 +159,8 @@ function guardar_b(){
             if (result.value == true) {
                 event.preventDefault();
                 var datos = new FormData($("#guardar_ba")[0]);
-                 var base_url =window.location.origin+'/asnc/index.php/User/save_user_c';
-                // var base_url = '/index.php/User/save_user_c';
+                //  var base_url =window.location.origin+'/asnc/index.php/User/save_user_c';
+                var base_url = '/index.php/User/save_user_c';
                 
                 $.ajax({
                     url: base_url,
