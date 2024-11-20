@@ -127,7 +127,7 @@ class User extends CI_Controller
         $rif_organoente = $this->session->userdata('rif_organoente');
 
         $data['list'] = $this->Configuracion_model->consultar_lis();
-        $data['final']  = $this->User_model->check_user();
+        
 
         $data['rif_organoente'] 		 = $this->session->userdata('rif_organoente');
         $usuario = $this->session->userdata('id_user');
