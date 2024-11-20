@@ -459,12 +459,11 @@ return $query->result_array();
 }
 
 
-
-
-
         //Se consulta la Evaluación de desempeño. Tomando en cuenta que hay dos tablas de consultas de los contratistas (Solicitado de esa forma).
         public function consulta_eval_ind($id_evaluacion){
-            $this->db->select('ed.id,
+
+
+            /*$this->db->select('ed.id,
                                 ed.id_usuario,
                                 u.unidad,
                                 en.rif as rif_organo,
@@ -509,23 +508,93 @@ return $query->result_array();
                                  e5.descripcion,
                                  ed.fecha_reg_eval,
                                  ed.snc');
-            $this->db->join('seguridad.usuarios u', 'u.id = ed.id_usuario'); ////esto es para saber quien lo cargo
-            $this->db->join('public.organoente en', 'en.rif = u.rif_organoente', 'left');      
-            $this->db->join('evaluacion_desempenio.contratistas_nr cn', 'cn.rifced = ed.rif_contrat', 'left');
-            $this->db->join('evaluacion_desempenio.contratistas c', 'c.rifced = ed.rif_contrat', 'left');
-            $this->db->join('public.estados e', 'e.id = ed.id_estado_contrato');
-            $this->db->join('public.estados e2', 'e2.id = c.estado_id', 'left');
-            $this->db->join('public.estados e3', 'e3.id = cn.estado_id', 'left');
-            $this->db->join('public.municipios m', 'm.id = c.municipio_id', 'left');
-            $this->db->join('public.municipios m2', 'm2.id = cn.municipio_id', 'left');
-            $this->db->join('public.ciudades c3', 'c3.id = c.ciudade_id', 'left');
-            $this->db->join('public.ciudades c2', 'c2.id = cn.ciudade_id', 'left');
-            $this->db->join('evaluacion_desempenio.modalidad m3', 'm3.id = ed.id_modalidad');
-            $this->db->join('evaluacion_desempenio.sub_modalidad sm', 'sm.id = ed.id_sub_modalidad');
-            $this->db->join('public.estatus e5', 'e5.id = ed.id_estatus');
-            $this->db->where('ed.id', $id_evaluacion); //Aqui hace la busqueda del id que se envia desde la tabla
+                $this->db->join('seguridad.usuarios u', 'u.id = ed.id_usuario'); ////esto es para saber quien lo cargo
+                $this->db->join('public.organoente en', 'en.rif = u.rif_organoente', 'left');      
+                $this->db->join('evaluacion_desempenio.contratistas_nr cn', 'cn.rifced = ed.rif_contrat', 'left');
+                $this->db->join('evaluacion_desempenio.contratistas c', 'c.rifced = ed.rif_contrat', 'left');
+                $this->db->join('public.estados e', 'e.id = ed.id_estado_contrato');
+                $this->db->join('public.estados e2', 'e2.id = c.estado_id', 'left');
+                $this->db->join('public.estados e3', 'e3.id = cn.estado_id', 'left');
+                $this->db->join('public.municipios m', 'm.id = c.municipio_id', 'left');
+                $this->db->join('public.municipios m2', 'm2.id = cn.municipio_id', 'left');
+                $this->db->join('public.ciudades c3', 'c3.id = c.ciudade_id', 'left');
+                $this->db->join('public.ciudades c2', 'c2.id = cn.ciudade_id', 'left');
+                $this->db->join('evaluacion_desempenio.modalidad m3', 'm3.id = ed.id_modalidad');
+                $this->db->join('evaluacion_desempenio.sub_modalidad sm', 'sm.id = ed.id_sub_modalidad');
+                $this->db->join('public.estatus e5', 'e5.id = ed.id_estatus');
+                $this->db->where('ed.id', $id_evaluacion); //Aqui hace la busqueda del id que se envia desde la tabla
+            
             $query = $this->db->get('evaluacion_desempenio.evaluacion ed');
+            
+            
+            
             return $response = $query->row_array();
+                */
+            
+            $query = $this->db->query("select ed.id,
+                                ed.id_usuario,
+                                u.unidad,
+                                en.rif as rif_organo,
+                                en.descripcion as organo,
+                                 ed.rif_contrat,
+                                 case when cn.nombre != '' then cn.nombre else c.nombre END AS nom_comer,
+                                 case when e2.descedo != '' then e2.descedo else e3.descedo END AS est_contratista,
+                                 case when m.descmun != '' then m.descmun else m2.descmun END AS mun_contratista,
+                                 case when c2.descciu != '' then c2.descciu else c3.descciu END AS ciudad,
+                                 case when c.percontacto != '' then c.percontacto else cn.percontacto END AS per_cont,
+                                 case when c.telf1 != '' then c.telf1 else cn.telf1 END AS tef_cont,
+                                 m3.descripcion as modalidad,
+                                 sm.descripcion as sub_modalidad,
+                                 ed.fec_inicio_cont,
+                            	 ed.fec_fin_cont,
+                            	 ed.nro_procedimiento,
+                            	 ed.nro_contrato,
+                            	 e.descedo as estado_contrato,
+                            	 ed.descr_contrato,
+                            	 ed.bienes,
+                            	 ed.servicios,
+                            	 ed.obras,
+                            	 ed.monto,
+                            	 ed.dolar,
+                            	 ed.euro,
+                            	 ed.petros,
+                            	 ed.bolivares,
+                            	 ed.calidad,
+                            	 ed.responsabilidad,
+                            	 ed.conocimiento,
+                            	 ed.oportunidad,
+                            	 ed.total_calif,
+                            	 ed.calificacion,
+                                 ed.notf_cont,
+                                 ed.fecha_not,
+                                 ed.medio,
+                                 ed.nro_oc_os,
+                                 ed.fileimagen,
+                                 ed.otro,
+                                 ed.mod_otro,
+                                 ed.id_estatus,
+                                 e5.descripcion,
+                                 ed.fecha_reg_eval,
+                                 ed.snc
+                            from evaluacion_desempenio.evaluacion ed 
+                            left join evaluacion_desempenio.contratistas_nr cn on cn.rifced = ed.rif_contrat
+                            left join evaluacion_desempenio.contratistas c on c.rifced = ed.rif_contrat
+                            left join seguridad.usuarios u on u.id = ed.id_usuario
+                            left join public.organoente en on en.rif = u.rif_organoente 
+                            --left join public.organoente en on en.codigo = u.unidad
+                            left join public.estados e on e.id = ed.id_estado_contrato
+                            left join public.estados e2 on e2.id = c.estado_id
+                            left join public.estados e3 on e3.id = cn.estado_id
+                            left join public.municipios m on m.id = c.municipio_id
+                            left join public.municipios m2 on m2.id = cn.municipio_id
+                            left join public.ciudades c3 on c3.id = c.ciudade_id
+                            left join public.ciudades c2 on c2.id = cn.ciudade_id
+                            left join evaluacion_desempenio.modalidad m3 on m3.id = ed.id_modalidad
+                            left join evaluacion_desempenio.sub_modalidad sm on sm.id = ed.id_sub_modalidad
+                            left join public.estatus e5 on e5.id = ed.id_estatus
+                            where ed.id = '$id_evaluacion'");
+            return $response = $query->row_array();
+            
         }
 
         public function consulta_eval_ind_img($id_evaluacion){

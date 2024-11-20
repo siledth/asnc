@@ -590,10 +590,16 @@ class User_model extends CI_Model
            // return true;
         }
         public function guardar_perfil($data)
-        {
-
+        {          
+           $parametros = $data['id_user'];
+            $separar        = explode("/", $parametros);
+            $codigo= $separar['0'];
+            $name= $separar['1'];
+            // var_dump($codigo);
+            // var_dump($rif);
             $data1 = array(
-                        'nombrep' => $data['nombrep'],
+                        'id_perfil'		    => $codigo,
+                        'nombrep' => $name,
                         'menu_rnce' => $data['menu_rnce'],
                         'menu_progr' => $data['menu_progr'],
                         'menu_eval_desem' => $data['menu_eval_desem'],
@@ -607,7 +613,7 @@ class User_model extends CI_Model
                         'consultar_llamado' => $data['consultar_llamado'],
                         'reg_llamado' => $data['reg_llamado'],
                         'anul_llamado'=> $data['anul_llamado'],
-                        'ver_anul_llamado' => $data['ver_anul_llamado'],
+                        
                         'ver_rnc' => $data['ver_rnc'],
                         'ver_conf' => $data['ver_conf'],
                         'ver_parametro' => $data['ver_parametro'],
@@ -619,12 +625,37 @@ class User_model extends CI_Model
                         'ver_user_perfil' => $data['ver_user_perfil'],
                         'fecha_creacion' => date('Y-m-d h:i:s'),
                         'menu_anulacion' => $data['menu_anulacion'],
+                        // 'ver_anul_llamado' => $data['ver_anul_llamado'],
+                        'accion_llamado' => $data['accion_llamado'],
+
                         'menu_repor_evalu' => $data['menu_repor_evalu'],
+                        'menu_comisiones' => $data['menu_comisiones'],
+                        'comisiones_interna_mieb' => $data['comisiones_interna_mieb'],
+                        'comisiones_interna_certifi' => $data['comisiones_interna_certifi'],
+                        'notif_comisi_externa_mib' => $data['notif_comisi_externa_mib'],
+                        'certi_miemb_externo' => $data['certi_miemb_externo'],
+                        'consulta_snc_certi_mb' => $data['consulta_snc_certi_mb'],
+                        'consultas_exter_miembros' => $data['consultas_exter_miembros'],
+                        'consultas_exter_mb_certificado' => $data['consultas_exter_mb_certificado'],
+                        'registrar_prog_anual' => $data['registrar_prog_anual'],
+                        'modi_prog_anual_ley' => $data['modi_prog_anual_ley'],
+                        'reg_rend_anual' => $data['reg_rend_anual'],
+                        'consul_prog_anual' => $data['consul_prog_anual'],
+                        'consul_mod_ley_anual' => $data['consul_mod_ley_anual'],
+                        'consultar_rendi_anual' => $data['consultar_rendi_anual'],
                         );
 
             $this->db->insert("seguridad.perfil", $data1);
 
-            return true;
+                    
+            if ($this->db->affected_rows() > 0) {
+                // Realiza el update en la tabla usuarios
+                $this->db->where('id', $codigo);
+                $this->db->update('seguridad.usuarios', array('perfil' => $codigo));
+                return 1;  
+            } else {
+                return 0;  
+            }
 
         }
 
@@ -941,5 +972,13 @@ class User_model extends CI_Model
             );
             $update = $this->db->update('seguridad.perfil', $data1);
             return true;
+        }
+         public function check_user(){
+            $this->db->select('id, nombre');
+            $this->db->from('seguridad.usuarios');
+             $this->db->where('id_estatus', '1');
+           // $this->db->order_by('id_academico ASC');
+            $query = $this->db->get();
+            return $result = $query->result_array();
         }
 }

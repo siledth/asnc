@@ -127,7 +127,7 @@ class User extends CI_Controller
         $rif_organoente = $this->session->userdata('rif_organoente');
 
         $data['list'] = $this->Configuracion_model->consultar_lis();
-      
+        $data['final']  = $this->User_model->check_user();
 
         $data['rif_organoente'] 		 = $this->session->userdata('rif_organoente');
         $usuario = $this->session->userdata('id_user');
@@ -158,7 +158,8 @@ class User extends CI_Controller
             'nombre' => $this->input->POST('usuario'),
             'password' => $clave,
             'email' => $this->input->POST('email'),
-            'perfil' => $this->input->POST('perfil'),
+            // 'perfil' => $this->input->POST('perfil'),
+            'perfil' => 0,
             'foto' => '1',
             'foto' => 2,
             'estado' => 1,
@@ -764,7 +765,7 @@ public function modi_usua()
         $data['te']=date('d');
 
         $data['ver_perfil'] = $this->User_model->consultar_perfiles();
-
+        $data['final']  = $this->User_model->check_user();
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
         $this->load->view('user/perfil.php', $data);

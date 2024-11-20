@@ -1,10 +1,12 @@
 function perfiles(id) {
     var id_perfil = id;
        
-        var base_url = '/index.php/User/read_list_p';
-        var base_url2 = '/index.php/User/read_list_p2';
-        // var base_url2 = '/index.php/Configuracion/llenar_edo';
-        // var base_url7 = '/index.php/Configuracion/llenar_ff_';
+        // var base_url = '/index.php/User/read_list_p';
+        // var base_url2 = '/index.php/User/read_list_p2';
+        // var base_url = '/index.php/User/read_list_p';
+        // var base_url2 = '/index.php/User/read_list_p2';
+         var base_url =window.location.origin+'/asnc/index.php/User/read_list_p';
+          var base_url2 =window.location.origin+'/asnc/index.php/User/read_list_p2';
     $.ajax({
         url: base_url,
         method: "post",
