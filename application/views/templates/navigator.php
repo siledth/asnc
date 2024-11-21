@@ -230,27 +230,40 @@
                                     </a>
                                     <ul class="sub-menu">
                                         <?php if (($this->session->userdata('consultar_rendi_anual') == 1)) : ?>
+                                        <li class="has-sub">
+                                            <a href="javascript:;">
+                                                <b class="caret"></b>
+                                                <span>-Consultas Rendiciones</span>
+                                            </a>
+                                            <ul class="sub-menu">
+                                                <li>
+                                                    <a
+                                                        href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_1">
+                                                        - Consulta Rendiciones Notificadas Primer Trimestre
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_2">
+                                                        - Consulta Rendiciones Notificadas Segundo Trimestre
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_3">
+                                                        - Consulta Rendiciones Notificadas Tercer Trimestre
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_4">
+                                                        - Consulta Rendiciones Notificadas Cuarto Trimestre
+                                                    </a>
+                                                </li>
 
-                                        <li>
-                                            <a href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_1">
-                                                - Consulta Rendiciones Notificadas Primer Trimestre
-                                            </a>
+                                            </ul>
                                         </li>
-                                        <li>
-                                            <a href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_2">
-                                                - Consulta Rendiciones Notificadas Segundo Trimestre
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_3">
-                                                - Consulta Rendiciones Notificadas Tercer Trimestre
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_4">
-                                                - Consulta Rendiciones Notificadas Cuarto Trimestre
-                                            </a>
-                                        </li>
+
                                         <?php endif; ?>
 
                                         <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>

@@ -6589,14 +6589,41 @@ public function sending_p(){
 
    
 
-    $data['read'] = $this->Programacion_model->read_sending_p();
+    $data['read'] = $this->Programacion_model->read_sending_p1();
     $data['fecha'] = date('yy');
+    $data['anio_totales'] = $this->Programacion_model->get_totales_por_anio(); 
+    $data['anio_totales1'] = $this->Programacion_model->read_sending_p1total(); 
+    $data['modificaciones'] = $this->Programacion_model->read_sending_pmodificaciones(); 
+    $data['anio_totales_modif'] = $this->Programacion_model->get_totales_por_anio_modifi(); 
+    $data['anio_totales_modi_graf'] = $this->Programacion_model->anio_totales_modi_graf(); 
+    $data['rendiciones'] = $this->Programacion_model->read_sending_prendiciones(); 
+    $data['anio_totales_rendi'] = $this->Programacion_model->get_anio_totales_rendi(); 
+    $data['anio_totales_rendi_graf'] = $this->Programacion_model->anio_totales_rendi_graf(); 
+
+    $data['usuarios'] = $this->Programacion_model->read_usuarios(); 
+
+
+
+
+
+
 
     $this->load->view('templates/header.php');
     $this->load->view('templates/navigator.php');
     $this->load->view('programacion/sending/sendig_pr.php', $data);
     $this->load->view('templates/footer.php');
 }
+
+// public function grafico_torta() {
+   
+
+//     $this->load->view('templates/header.php');
+//     $this->load->view('templates/navigator.php');
+//     $this->load->view('programacion/sending/sendig_pr.php', $data);  
+//     $this->load->view('templates/footer.php');
+// }
+
+
 public function sending_pdvsa(){
     if(!$this->session->userdata('session'))redirect('login');
 

@@ -5371,11 +5371,76 @@ public function save_certificado($data){ //por hacer
                     $query = $this->db->get('programacion.inf_enviada_rendi');
                     return $query->result_array();
                          }
-    public function read_sending_p(){
+    public function read_sending_p(){//esto se vera el historico
         $this->db->select('id_ainf_enviada, id_programacion, anio,des_unidad,rif');
+         $this->db->where('anio >', 0);
         $query = $this->db->get('programacion.inf_enviada');
         return $query->result_array();
     }
+      public function read_sending_p1(){
+        $this->db->select('id_ainf_enviada, id_programacion, anio,des_unidad,rif');
+         $this->db->where('anio >', 0);
+        $query = $this->db->get('programacion.inf_enviadafil');
+        return $query->result_array();
+    }
+     public function read_sending_pmodificaciones(){
+        $this->db->select('des_unidad, total_veces,rif,anio');
+        $query = $this->db->get('programacion.inf_enviadafiltro_modi');
+        return $query->result_array();
+    }
+     public function read_sending_prendiciones(){
+        $this->db->select('des_unidad, rif, anio');
+        $query = $this->db->get('programacion.inf_enviadafil_rendiciones');
+        return $query->result_array();
+    }
+         public function read_usuarios(){
+        $this->db->select('razon_social, rif_organoente, total_usuarios');
+        $query = $this->db->get('programacion.total_usuario');
+        return $query->result_array();
+    }
+
+   public function read_sending_p1total(){
+        $this->db->select('anio, total_id_programacion as total');
+        $this->db->where('anio >', 0);
+    $this->db->order_by('anio', 'ASC');
+        $query = $this->db->get('programacion.inf_enviadatotal_anio');
+        return $query->result_array();
+    }
+    public function get_totales_por_anio_modifi(){
+        $this->db->select('anio, total_veces');
+    $this->db->order_by('anio', 'ASC');
+        $query = $this->db->get('programacion.inf_enviadaf_modi_total_anio');
+        return $query->result_array();
+    }
+     public function get_anio_totales_rendi(){///rendiicones
+        $this->db->select('anio, total_rendicion');
+    $this->db->order_by('anio', 'ASC');
+        $query = $this->db->get('programacion.inf_enviadatotal_anio_rendi');
+        return $query->result_array();
+    }
+
+    public function get_totales_por_anio() {
+    $this->db->select('anio, total_id_programacion as total');  
+    $this->db->from('programacion.inf_enviadatotal_anio');  
+    $this->db->where('anio >', 0);
+    $this->db->order_by('anio', 'ASC');
+    $query = $this->db->get();
+    return $query->result();
+}
+   public function anio_totales_modi_graf() {
+    $this->db->select('anio, total_veces');  
+    $this->db->from('programacion.inf_enviadaf_modi_total_anio');  
+    $this->db->order_by('anio', 'ASC');
+    $query = $this->db->get();
+    return $query->result();
+}
+ public function anio_totales_rendi_graf() {
+    $this->db->select('anio, total_rendicion');  
+    $this->db->from('programacion.inf_enviadatotal_anio_rendi');  
+    $this->db->order_by('anio', 'ASC');
+    $query = $this->db->get();
+    return $query->result();
+}
     public function read_sending_pdvsa(){
         $this->db->select('i.id_ainf_enviada, i.id_programacion, i.anio,i.des_unidad,i.rif');
         $this->db->join('programacion.pdvsa or','or.rif = i.rif');
