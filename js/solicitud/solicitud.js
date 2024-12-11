@@ -63,7 +63,7 @@ function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
 function llenar_municipio(){
     var id_estado_n = $('#id_estado_n').val();
 //    var base_url = window.location.origin+'/asnc/index.php/User/listar_municipio';
-    var base_url = '/index.php//User/listar_municipio';
+    var base_url = '/index.php/User/listar_municipio';
 
     $.ajax({
         url: base_url,
@@ -368,11 +368,12 @@ if (document.sav_ext.rif_b.value.length==0){
 
             if (result.value) {
                 var datos = new FormData($("#sav_ext")[0]);
-                var base_url = '/index.php/User/save_solicitud';
-                var base_url = '/index.php/Solicitud/pdfrt?id=';
-
                 // var base_url = window.location.origin + '/asnc/index.php/User/save_solicitud';
                 // var base_url_3 = window.location.origin + '/asnc/index.php/Solicitud/pdfrt?id=';
+                var base_url = '/index.php/User/save_solicitud';
+
+                var base_url_3 = '/index.php/Solicitud/pdfrt?id=';
+
 
                 $.ajax({
                     url: base_url,
@@ -435,7 +436,7 @@ function validateEmail() {
 
     function showAlert() {
         Swal.fire({
-            title: 'Debe ingresar un correo institucional, para continuars',
+            title: 'Debe ingresar un correo institucional, para continuar',
             icon: 'warning',
             showCancelButton: false,
             confirmButtonColor: '#3085d6',
