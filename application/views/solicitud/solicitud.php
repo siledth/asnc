@@ -261,8 +261,8 @@
 
                                                     </div>
                                                     <div class="form-group col-5">
-                                                        <label>Correo Electronico<b title="Campo Obligatorio"
-                                                                style="color:red">(institucional o cifrado
+                                                        <label>Correo Electrónico<b title="Campo Obligatorio"
+                                                                style="color:red"> (Institucional o cifrado
                                                                 seguro)
                                                                 A este correo se enviará el usuario y/o
                                                                 clave*</b></label>
@@ -303,13 +303,13 @@
                                                         <label>
                                                             <input type="checkbox" id="consl_p_m_r" name="consl_p_m_r">
                                                             Consulta (Programación, Modificación a la
-                                                            Programación y Rendición )
+                                                            Programación y Rendición)
                                                         </label>
                                                     </div>
                                                     <div class="form-group col-4"><br>
                                                         <label>
                                                             <input type="checkbox" id="reg_llamado" name="reg_llamado">
-                                                            Registro de los llamados a Concurso (Solo para la
+                                                            Registro de los Llamados a Concurso (Solo para la
                                                             Secretaria o Secretario de la Comisión de
                                                             Contratación) (Art. 79 DRVLCP)
                                                         </label>
@@ -317,20 +317,20 @@
                                                     <div class="form-group col-4"><br>
                                                         <label>
                                                             <input type="checkbox" id="consul_ll" name="consul_ll">
-                                                            Consulta de los llamados a Concurso
+                                                            Consulta de los Llamados a Concurso
                                                         </label>
                                                     </div>
                                                     <div class="form-group col-4"><br>
                                                         <label>
                                                             <input type="checkbox" id="procesos_ll" name="procesos_ll">
-                                                            Procesos de los llamados a Concurso
+                                                            Procesos de los Llamados a Concurso
                                                         </label>
                                                     </div>
                                                     <div class="form-group col-4"><br>
                                                         <label>
                                                             <input type="checkbox" id="accion_llamado"
                                                                 name="accion_llamado">
-                                                            Acción de los llamados a Concurso
+                                                            Acción de los Llamados a Concurso
                                                         </label>
                                                     </div>
                                                     <div class="form-group col-4"><br>
@@ -367,7 +367,7 @@
                                                         <label>
                                                             <input type="checkbox" id="reg_cert_mb_comi"
                                                                 name="reg_cert_mb_comi">
-                                                            Registro de Certificación de Miembros de Comisión
+                                                            Solicitud de Certificación de Miembros de Comisión
                                                             (Art. 14 DRVLCP)
                                                         </label>
                                                     </div>

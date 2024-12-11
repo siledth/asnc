@@ -198,12 +198,6 @@ class Gestion extends CI_Controller {
     } else {
       
        
-      $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
-      $data['objeto'] 	 = $this->Configuracion_model->objeto();
-      $this->load->view('templates/header.php');
-      $this->load->view('templates/navigator.php');
-      $this->load->view('publicaciones/reporte/llamadoexterno.php', $data);
-      $this->load->view('templates/footer.php');
     } 
 
   }

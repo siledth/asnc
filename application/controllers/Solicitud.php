@@ -350,7 +350,7 @@ $pdf->SetY($y + 5);
                         $pdf->Cell(25,5,utf8_decode('Importante:'),0,1,'L'); 
     $pdf->SetTextColor(255, 0, 0);
 
-   $pdf->MultiCell(180,4,utf8_decode('ESTA PLANILLA DEBE REMITIRSE FIRMADA POR LA MAXIMA AUTORIDAD  O CUENTADANTE AL SIGUIENTE CORREO clavesi@snc.gob.ve:'),0,'J'); 
+   $pdf->MultiCell(180,4,utf8_decode('ESTA PLANILLA DEBE REMITIRSE FIRMADA POR LA MAXIMA AUTORIDAD  O CUENTADANTE AL SIGUIENTE CORREO clavesi@snc.gob.ve, números corporativos: 0426-5654730/0426-5654740:'),0,'J'); 
             $pdf->SetTextColor(0, 0, 0);
     
    $pdf->SetFont('Arial','',7);

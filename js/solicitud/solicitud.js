@@ -217,14 +217,14 @@ function save(event) {
     event.preventDefault();
     swal
         .fire({
-            title: "Solicitar?",
-            text: "¿Está seguro de enviar la solicitud?",
+            title: "¿Solicitar?",
+            text: "¿Está seguro de enviar la solicitud?, ESTA PLANILLA DEBE REMITIRSE FIRMADA POR LA MAXIMA AUTORIDAD  O CUENTADANTE AL SIGUIENTE CORREO clavesi@snc.gob.ve, números corporativos: 0426-5654730/0426-5654740",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             cancelButtonText: "Cancelar",
-            confirmButtonText: "¡Sí, guardar!",
+            confirmButtonText: "¡Sí, Descargar!",
         })
         .then((result) => {
 if (document.sav_ext.rif_b.value.length==0){
@@ -371,7 +371,6 @@ if (document.sav_ext.rif_b.value.length==0){
                 // var base_url = window.location.origin + '/asnc/index.php/User/save_solicitud';
                 // var base_url_3 = window.location.origin + '/asnc/index.php/Solicitud/pdfrt?id=';
                 var base_url = '/index.php/User/save_solicitud';
-
                 var base_url_3 = '/index.php/Solicitud/pdfrt?id=';
 
 
@@ -385,12 +384,12 @@ if (document.sav_ext.rif_b.value.length==0){
                         console.log("ID de la solicitud:", response); // Verifica el ID
                         if (response) {
                             swal.fire({
-                                title: 'Solicitud Exitosa',
+                                title: 'Solicitud Exitosa, ESTA PLANILLA DEBE REMITIRSE FIRMADA POR LA MAXIMA AUTORIDAD  O CUENTADANTE AL SIGUIENTE CORREO clavesi@snc.gob.ve, números corporativos: 0426-5654730/0426-5654740',
                                 text: 'Número de Solicitud: ' + response,
                                 type: 'success',
                                 showCancelButton: false,
                                 confirmButtonColor: '#3085d6',
-                                confirmButtonText: 'Ok'
+                                confirmButtonText: 'LA DESCARGA DEBIO INICIAR, SINO DAR CLIC AQUI'
                             }).then((result) => {
                                 if (result.value) {
                                     window.location.href = base_url_3 + response; // Redirige a la URL generada
