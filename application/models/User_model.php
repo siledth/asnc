@@ -981,4 +981,280 @@ class User_model extends CI_Model
             $query = $this->db->get();
             return $result = $query->result_array();
         }
+
+        public function llenar_organos($data){
+    $this->db->select('
+                        c.rif,
+                        c.descripcion
+                       ');
+    $this->db->where('c.rif',$data['rif_b']);
+    $query = $this->db->get('public.organoente c');
+    $result = $query->row_array();
+        if ($result == '') {
+            $this->db->select('  c.rifced,
+                                 c.nombre
+                                ');
+            
+            $this->db->where('c.rifced',$data['rif_b']);
+            $query = $this->db->get('evaluacion_desempenio.contratistas_nr c');
+            return $result = $query->row_array();
+        }else {
+            return $result;
+        }
 }
+
+  public function save_solicitud($data){
+           if (isset($data['reg_rend_anual'])) {
+        $reg_rend_anual = 'on'; // Checkbox está seleccionado
+    } else {
+        $reg_rend_anual = 'off'; // Checkbox no está seleccionado
+    } 
+             if (isset($data['reg_llamado'])) {
+        $reg_llamado = 'on'; // Checkbox está seleccionado
+    } else {
+        $reg_llamado = 'off'; // Checkbox no está seleccionado
+    } 
+        if (isset($data['consul_ll'])) {
+        $consul_ll = 'on'; // Checkbox está seleccionado
+    } else {
+        $consul_ll = 'off'; // Checkbox no está seleccionado
+    } 
+        if (isset($data['procesos_ll'])) {
+        $procesos_ll = 'on'; // Checkbox está seleccionado
+    } else {
+        $procesos_ll = 'off'; // Checkbox no está seleccionado
+    } 
+        if (isset($data['accion_llamado'])) {
+        $accion_llamado = 'on'; // Checkbox está seleccionado
+    } else {
+        $accion_llamado = 'off'; // Checkbox no está seleccionado
+    } 
+     if (isset($data['menu_reg_eval_desem'])) {
+        $menu_reg_eval_desem = 'on'; // Checkbox está seleccionado
+    } else {
+        $menu_reg_eval_desem = 'off'; // Checkbox no está seleccionado
+    } 
+     if (isset($data['menu_soli_anular_eval_desem'])) {
+        $menu_soli_anular_eval_desem = 'on'; // Checkbox está seleccionado
+    } else {
+        $menu_soli_anular_eval_desem = 'off'; // Checkbox no está seleccionado
+    } 
+     if (isset($data['menu_comprobante_eval_desem'])) {
+        $menu_comprobante_eval_desem = 'on'; // Checkbox está seleccionado
+    } else {
+        $menu_comprobante_eval_desem = 'off'; // Checkbox no está seleccionado
+    } 
+     if (isset($data['reg_not_mb_comi'])) {
+        $reg_not_mb_comi = 'on'; // Checkbox está seleccionado
+    } else {
+        $reg_not_mb_comi = 'off'; // Checkbox no está seleccionado
+    } 
+     if (isset($data['reg_cert_mb_comi'])) {
+        $reg_cert_mb_comi = 'on'; // Checkbox está seleccionado
+    } else {
+        $reg_cert_mb_comi = 'off'; // Checkbox no está seleccionado
+    } 
+     if (isset($data['consulta_mb_comi'])) {
+        $consulta_mb_comi = 'on'; // Checkbox está seleccionado
+    } else {
+        $consulta_mb_comi = 'off'; // Checkbox no está seleccionado
+    } 
+      if (isset($data['ver_rnc'])) {
+        $ver_rnc = 'on'; // Checkbox está seleccionado
+    } else {
+        $ver_rnc = 'off'; // Checkbox no está seleccionado
+    } 
+     if (isset($data['registrar_prog_anual'])) {
+        $registrar_prog_anual = 'on'; // Checkbox está seleccionado
+    } else {
+        $registrar_prog_anual = 'off'; // Checkbox no está seleccionado
+    } 
+     if (isset($data['modi_prog_anual_ley'])) {
+        $modi_prog_anual_ley = 'on'; // Checkbox está seleccionado
+    } else {
+        $modi_prog_anual_ley = 'off'; // Checkbox no está seleccionado
+    } 
+     $rif_contrat = $data['sel_rif_nombre5'];
+        if ($rif_contrat == '') {
+           
+            
+            $exit_rnc=0;
+
+        }else {
+        
+            $exit_rnc=1;
+
+
+
+        }
+            
+             $this->db->select('max(e.id_solicitud_user) as id');
+            $query = $this->db->get('public.solicitud_user e');
+            $response =$query->row_array();
+            if ($response){
+                $id = $response['id'] + 1 ;
+            
+            $data1 = array(
+                            'id_solicitud_user'     => $id,
+                            'rif'      => $data['rif_b'],
+                            'name_f'    => $data['name_f'],
+                            'name_max_a_f'	 	=> $data['name_max_a_f'],
+                            'cargo__max_a_f'	 	=> $data['cargo__max_a_f'],
+                            'apellido_f'          => $data['apellido_f'],
+                            'cedula_f'        => $data['cedula_f'],
+                            'cargo_f'       => $data['cargo_f'],
+                            'telefono_f'          => $data['telefono_f'],
+                            'correo'             => $data['correo'],
+                            'registrar_prog_anual'      => $registrar_prog_anual,
+                            'modi_prog_anual_ley'  => $modi_prog_anual_ley,
+                            'reg_rend_anual'  => $reg_rend_anual,
+                            'reg_llamado'       => $reg_llamado,
+                            'consul_ll'       => $consul_ll,
+                            'procesos_ll'       => $procesos_ll,
+                            'accion_llamado'       => $accion_llamado,
+                            'menu_reg_eval_desem'       => $menu_reg_eval_desem,
+                            'menu_soli_anular_eval_desem'       => $menu_soli_anular_eval_desem,
+                            'menu_comprobante_eval_desem'       => $menu_comprobante_eval_desem,
+                            'reg_not_mb_comi'       => $reg_not_mb_comi,
+                            'reg_cert_mb_comi'       => $reg_cert_mb_comi,
+                            'consulta_mb_comi'       => $consulta_mb_comi,
+                            'ver_rnc'       => $ver_rnc,
+                            'exit_rnc'       => $exit_rnc  //debe guardar 1 si existe                          
+                        );
+            $x = $this->db->insert('public.solicitud_user',$data1);
+           if ($x) {
+                $id = $id;
+            if ($exit_rnc == 0) {
+                $data3 = array(
+                 
+                    'id_solicitud_user'		    => $id,
+                    'rif'		=> $data['rif_b'],
+                    'descripcion'		=> $data['razon_social'],
+                    'cod_onapre'	=> $data['cod_onapre'],
+                    'siglas'	 	=> $data['siglas'],
+                    'id_clasificacion'	 	=> $data['id_clasificacion'],
+                    'tel_local'	 	=> $data['tel_local'],
+                    'pag_web'	 	    => $data['pag_web'],
+                    'name_max_a_f'	 	=> $data['name_max_a_f'],
+                    'cargo__max_a_f'	 	=> $data['cargo__max_a_f'],
+                    'id_estado_n'	 	=> $data['id_estado_n'],
+                    'id_municipio_n'	 	=> $data['id_municipio_n'],
+                    'id_parroquia_n'	 	=> $data['id_parroquia_n'],
+                    'direccion_fiscal'	 	=> $data['direccion_fiscal'],
+                    'rifadscrito'	 	=> $data['rifadscrito'],
+                    'nameadscrito'	 	=> $data['nameadscrito'],
+                    
+                        );
+                        $this->db->insert('public.sorg_ent_no_snc', $data3);
+                         }
+                       return $id;  
+                 }
+            
+        }
+        } 
+
+      function consulta_solictud($data1){ 
+    
+            $query = $this->db->query("SELECT c.*, o.descripcion,o.id_estado, o.id_municipio, o.id_parroquia, o.siglas, 
+            o.direccion as dri,o.siglas,o.cod_onapre, o.id_clasificacion, o.tel1,
+            o.id_organoenteads, cl.desc_clasificacion, a.descripcion  as asdscrito, e.descedo, m.descmun, p.descparro, 
+            C.name_max_a_f, C.cargo__max_a_f
+            
+                 FROM public.solicitud_user c 
+                join  public.organoente o on o.rif = c.rif	
+                join  public.estados e on e.id = o.id_estado	
+                join  public.municipios m on m.id = o.id_municipio	
+                join  public.parroquias p on p.id = o.id_parroquia	
+                join  public.clasificacion cl on cl.id_clasificacion = o.id_clasificacion
+                join  public.organoente a on a.id_organoente = o.id_organoenteads	
+
+                    
+                 where c.id_solicitud_user = '$data1' 
+                  ");
+                if($query->num_rows()>0){
+                    return $query->result();
+                }
+                else{
+                    return NULL;
+                }
+            }  
+
+
+      function consulta_solictud1($data1){ 
+    
+            $query = $this->db->query("SELECT c.exit_rnc
+                 FROM public.solicitud_user c                    
+                 where c.id_solicitud_user = '$data1' 
+                  ");
+                if($query->num_rows()>0){
+                    return $query->result();
+                }
+                else{
+                    return NULL;
+                }
+            } 
+  function consulta_solictud3($data1){ 
+    
+            $query = $this->db->query("SELECT c.*, o.descripcion,o.id_estado_n, o.id_municipio_n, o.id_parroquia_n, o.siglas, 
+            o.direccion_fiscal as dri,o.siglas,o.cod_onapre, o.id_clasificacion, o.tel_local ,
+             cl.desc_clasificacion,  e.descedo, m.descmun, p.descparro,  o.pag_web, o.name_max_a_f, o.cargo__max_a_f, 
+             o.rifadscrito, o.nameadscrito
+            
+                 FROM public.solicitud_user c 
+                join  public.sorg_ent_no_snc o on o.rif = c.rif	
+                join  public.estados e on e.id = o.id_estado_n	
+                join  public.municipios m on m.id = o.id_municipio_n	
+                join  public.parroquias p on p.id = o.id_parroquia_n	
+                join  public.clasificacion cl on cl.id_clasificacion = o.id_clasificacion
+
+                    
+                 where c.id_solicitud_user = '$data1' 
+                  ");
+                if($query->num_rows()>0){
+                    return $query->result();
+                }
+                else{
+                    return NULL;
+                }
+            } 
+
+            function consulta_solictud4($data1){ 
+    
+            $query = $this->db->query("SELECT name_f, apellido_f, cedula_f, cargo_f, telefono_f, correo, 
+                            registrar_prog_anual, modi_prog_anual_ley, reg_rend_anual, consl_p_m_r, reg_llamado, consul_ll, 
+                            procesos_ll, accion_llamado, menu_reg_eval_desem, menu_soli_anular_eval_desem, menu_comprobante_eval_desem, 
+                            reg_not_mb_comi, reg_cert_mb_comi, consulta_mb_comi, ver_rnc
+                 FROM public.solicitud_user 
+
+                    
+                 where id_solicitud_user = '$data1' 
+                  ");
+                if($query->num_rows()>0){
+                    return $query->result();
+                }
+                else{
+                    return NULL;
+                }
+            }  
+
+               function consulta_solictud5($data1){ 
+    
+                $query = $this->db->query("SELECT 
+                            registrar_prog_anual, modi_prog_anual_ley, reg_rend_anual, consl_p_m_r, reg_llamado, consul_ll, 
+                            procesos_ll, accion_llamado, menu_reg_eval_desem, menu_soli_anular_eval_desem, menu_comprobante_eval_desem, 
+                            reg_not_mb_comi, reg_cert_mb_comi, consulta_mb_comi, ver_rnc
+                 FROM public.solicitud_user 
+
+                    
+                 where id_solicitud_user = '$data1' 
+                  ");
+                if($query->num_rows()>0){
+                    return $query->result();
+                }
+                else{
+                    return NULL;
+                }
+            } 
+
+}
+     

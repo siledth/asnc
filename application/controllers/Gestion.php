@@ -182,5 +182,34 @@ class Gestion extends CI_Controller {
 
   }
   
-  
+  ///////////////////////solicitud de claves 
+   public function solicitud() {
+    if (!$this->session->userdata('session')) {
+     
+      $data['final']  = $this->User_model->consulta_organoente();
+    $data['clasificacion'] = $this->Configuracion_model->consulta_clasificacion();
+      
+      $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
+      $data['objeto'] 	 = $this->Configuracion_model->objeto();
+      $this->load->view('templates/header.php');
+      $this->load->view('templates/navsinsesion.php');
+      $this->load->view('solicitud/solicitud.php', $data);
+      $this->load->view('templates/footer.php');
+    } else {
+      
+       
+      $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
+      $data['objeto'] 	 = $this->Configuracion_model->objeto();
+      $this->load->view('templates/header.php');
+      $this->load->view('templates/navigator.php');
+      $this->load->view('publicaciones/reporte/llamadoexterno.php', $data);
+      $this->load->view('templates/footer.php');
+    } 
+
+  }
+  public function consulta_og(){
+		$data = $this->input->post();
+		$data =	$this->User_model->llenar_organos($data);
+		echo json_encode($data);
+	}
 }

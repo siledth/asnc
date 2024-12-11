@@ -18,24 +18,29 @@
                                 </select>
                             </div>
                             <div class="form-group col-6">
-                                <label>Razon Social Organismo<b title="Campo Obligatorio" style="color:red">*</b></label>
-                                <input type="text" id="organo" name="organo" onkeyup="mayusculas(this);" class="form-control"
-                                    placeholder="Nombre completo" maxlength="250">
+                                <label>Razon Social Organismo<b title="Campo Obligatorio"
+                                        style="color:red">*</b></label>
+                                <input type="text" id="organo" name="organo" onkeyup="mayusculas(this);"
+                                    class="form-control" placeholder="Nombre completo" maxlength="250">
 
                             </div>
                             <div class="form-group col-4">
                                 <label>Codigo ONAPRE<b title="Campo Obligatorio" style="color:red">*</b></label>
                                 <input type="text" id="cod_onapre" name="cod_onapre" onkeyup="mayusculas(this);"
-                                    class="form-control" placeholder="Codigo Onapre" 
-                                    maxlength="100">
-                               
+                                    class="form-control" placeholder="Codigo Onapre" maxlength="100">
+
                             </div>
                             <div class="form-group col-4">
                                 <label>Siglas del Órgano<b title="Campo Obligatorio" style="color:red">*</b></label>
                                 <input type="text" id="siglas" name="siglas" onkeyup="mayusculas(this);"
-                                    class="form-control"
-                                    placeholder="siglas"  maxlength="12">
-                                
+                                    class="form-control" placeholder="siglas" maxlength="12">
+
+                            </div>
+                            <div class="form-group col-4">
+                                <label>Siglas del Órgano<b title="Campo Obligatorio" style="color:red">*</b></label>
+                                <input type="text" id="siglas" name="siglas" onkeyup="mayusculas(this);"
+                                    class="form-control" placeholder="siglas" maxlength="12">
+
                             </div>
                             <div class="col-4">
                                 <label>Rif del Órgano</label>
@@ -60,7 +65,7 @@
                                 <label>Clasificación</label>
                                 <select id="id_clasificacion" name="id_clasificacion"
                                     class="default-select2 form-control <?php  echo form_error('perfil') ? 'is-invalid' : ''; ?>">
-                                    <option value="0" >-Seleccione -</option>
+                                    <option value="0">-Seleccione -</option>
                                     <?php foreach ($clasificacion as $data): ?>
                                     <option value="<?=$data['id_clasificacion']?>"><?=$data['desc_clasificacion']?>
                                     </option>
@@ -71,43 +76,41 @@
                             </div>
                             <div class="col-3 form-group">
                                 <label>Teléfono Local<b title="Campo Obligatorio" style="color:red">*</b></label>
-                                <input type="number" id="tel_local" name="tel_local"
-                                    class="form-control" placeholder="042XXXXXXX"   >
-                                    <p id="errorMsg"></p>
-                                
+                                <input type="number" id="tel_local" name="tel_local" class="form-control"
+                                    placeholder="042XXXXXXX">
+                                <p id="errorMsg"></p>
+
                             </div>
                             <div class="col-3 form-group">
                                 <label>Teléfono Local 2<b title="Campo Obligatorio" style="color:red">*</b></label>
-                                <input type="number" id="tel_local_2" name="tel_local_2"
-                                    class="form-control"  placeholder="(042XXXXXXXX)"     maxlength="20">
+                                <input type="number" id="tel_local_2" name="tel_local_2" class="form-control"
+                                    placeholder="(042XXXXXXXX)" maxlength="20">
 
                             </div>
                             <div class="col-3 form-group">
                                 <label>Teléfono Móvil<b title="Campo Obligatorio" style="color:red">*</b></label>
-                                <input type="number" id="tel_movil" name="tel_movil" 
-                                    class="form-control"  placeholder="(042XXXXXXXX)"   maxlength="20">
-                               
+                                <input type="number" id="tel_movil" name="tel_movil" class="form-control"
+                                    placeholder="(042XXXXXXXX)" maxlength="20">
+
                             </div>
                             <div class="col-3 form-group">
                                 <label>Teléfono Móvil 2<b title="Campo Obligatorio" style="color:red">*</b></label>
-                                <input type="number" id="tel_movil_2" name="tel_movil_2"
-                                    class="form-control" placeholder="(042XXXXXXXX)" 
-                                    maxlength="20">
-                           
+                                <input type="number" id="tel_movil_2" name="tel_movil_2" class="form-control"
+                                    placeholder="(042XXXXXXXX)" maxlength="20">
+
                             </div>
                             <div class="form-group col-3">
                                 <label>Página Web<b title="Campo Obligatorio" style="color:red">*</b></label>
-                                <input type="text" id="pag_web" name="pag_web" 
-                                    class="form-control"
+                                <input type="text" id="pag_web" name="pag_web" class="form-control"
                                     placeholder="pagina web" maxlength="20">
-                               
+
                             </div>
                             <div class="form-group col-6">
                                 <label>Correo Electronico<b title="Campo Obligatorio" style="color:red">*</b></label>
                                 <input type="email" id="email" name="email" onblur="return validateEmail()"
-                                    class="form-control"  placeholder="ingrese correo institucional">
-                                    <div id="result-email"></div>
-                                
+                                    class="form-control" placeholder="ingrese correo institucional">
+                                <div id="result-email"></div>
+
                             </div>
                             <div class="form-group col-12">
                                 <label>Direcciòn Fiscal<b title="Campo Obligatorio" style="color:red">*</b></label><br>
@@ -142,16 +145,15 @@
                                     cols="125"></textarea>
                             </div>
                             <div class="form-group col-6">
-                                            <label>Gaceta Oficial</label>
-                                            <input type="text" name="gaceta_oficial" id="gaceta_oficial"
-                                                class="form-control">
-                                           
-                                        </div>
-                                        <div class="col-6">
-                                            <label>Fecha de Gaceta</label>
-                                            <input type="date" class="form-control" id="fecha_gaceta" name="fecha_gaceta"
-                                                placeholder="Seleccionar Fecha" />
-                                        </div>
+                                <label>Gaceta Oficial</label>
+                                <input type="text" name="gaceta_oficial" id="gaceta_oficial" class="form-control">
+
+                            </div>
+                            <div class="col-6">
+                                <label>Fecha de Gaceta</label>
+                                <input type="date" class="form-control" id="fecha_gaceta" name="fecha_gaceta"
+                                    placeholder="Seleccionar Fecha" />
+                            </div>
                         </div>
                     </div>
             </div>
@@ -178,7 +180,7 @@ $(document).ready(function() {
         // url(http://localhost/asnc/Plantilla/img/images.jpeg);
         $('#result-email').html('<img src="http://localhost/asnc/Plantilla/img/5.gif"/>')
             .fadeOut(1000);
-            var no=0;
+        var no = 0;
 
         var email = $(this).val();
         var dataString = 'email=' + email;
@@ -188,8 +190,8 @@ $(document).ready(function() {
             url: base_url,
             data: dataString,
             success: function(data) {
-                 console.log(data);
-                 if (data == no) {
+                console.log(data);
+                if (data == no) {
                     $('#result-email').fadeIn(1600).html(
                         '<div class="alert alert-success"><strong>Bien!</strong> Correo disponible.</div>'
                     );

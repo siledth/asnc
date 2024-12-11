@@ -516,6 +516,75 @@
 
                         </ul>
                     </li>
+                    <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
+
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                            <b class="caret"></b>
+                            <span>Analistas RNC</span>
+                        </a>
+                        <ul class="sub-menu">
+                            <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
+                            <li class="has-sub">
+                                <a href="javascript:;">
+                                    <b class="caret"></b>
+                                    <span>-Consultas Rendiciones</span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <li>
+                                        <a href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_1">
+                                            - Consulta Rendiciones Notificadas Primer Trimestre
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_2">
+                                            - Consulta Rendiciones Notificadas Segundo Trimestre
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_3">
+                                            - Consulta Rendiciones Notificadas Tercer Trimestre
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_4">
+                                            - Consulta Rendiciones Notificadas Cuarto Trimestre
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+
+                            <?php endif; ?>
+
+                            <?php if (($this->session->userdata('pdvsa') == 1)) : ?>
+
+                            <li>
+                                <a href="<?= base_url() ?>index.php/Rnc/see_pay">
+                                    - Pagos Recibidos
+                                </a>
+
+                            </li>
+
+
+
+                            <?php endif; ?>
+                            <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
+
+                            <!-- <li>
+                                            <a href="<?= base_url() ?>index.php/Auth_prog/requests_prog">
+                                                - Solicitar Editar Programaciòn Anual
+                                            </a>
+
+                                        </li>
+                                        <li><a href="<?= base_url() ?>index.php/Auth_prog/see_prog">-
+                                                Autorizar Editar <b>Programaciòn Anual</b></a></li> -->
+                            <?php endif; ?>
+
+                        </ul>
+                    </li>
+                    <?php endif; ?>
+
                 </ul>
 
             </li>

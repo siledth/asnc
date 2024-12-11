@@ -86,14 +86,14 @@ class Pdf extends FPDF
     $this->SetY(-35);
         // Add image
         $this->Image(base_url().'baner/fp.png',80, $this->GetY(), 50);
-        $data11 = $this->comision_contrata_model->con_qr($this->id_programacion);
-        if($data11 != ''){
-         foreach($data11 as $d11){    
-        $this->Cell(55,3,'',0,'L');
-        $imagePath = $d11->qrcode_path;     
-           $this->Image(base_url().'assets/img/qrcodemiembros/'.$imagePath, 15, 235, 30);    
-          } 
-        }
+        // $data11 = $this->comision_contrata_model->con_qr($this->id_programacion);
+        // if($data11 != ''){
+        //  foreach($data11 as $d11){    
+        // $this->Cell(55,3,'',0,'L');
+        // $imagePath = $d11->qrcode_path;     
+        //    $this->Image(base_url().'assets/img/qrcodemiembros/'.$imagePath, 15, 235, 30);    
+        //   } 
+        // }
     }
 }
 
@@ -156,15 +156,15 @@ if($data != ''){
   $pdf->SetFont('Arial','',9); 
   $pdf->Cell(0,6, date("d/m/Y", strtotime($d->fecha_notifiacion)),0,1,'C');
   $pdf->SetFont('Arial','B',9);
-  $pdf->Cell(50,6,utf8_decode('Acto Administrativo de Designación:'),0,0,'R'); 
+  $pdf->Cell(43,6,utf8_decode('Acto Administrativo de Designación:'),0,0,'R'); 
   $pdf->SetFont('Arial','',9);
-  $pdf->Cell(30,6, utf8_decode($d->desc_acto_admin),0,0,'L');
+  $pdf->Cell(25,6, utf8_decode($d->desc_acto_admin),0,0,'L');
   $pdf->SetFont('Arial','B',9);
   $pdf->Cell(25,6,utf8_decode('Fecha del acto:'),0,0,'L'); 
   $pdf->SetFont('Arial','',9); 
-  $pdf->Cell(20,6, date("d/m/Y", strtotime($d->fecha_acto)),0,0,'L');
+  $pdf->Cell(17,6, date("d/m/Y", strtotime($d->fecha_acto)),0,0,'L');
   $pdf->SetFont('Arial','B',9);
-  $pdf->Cell(20,6,utf8_decode('Nº del acto:'),0,0,'L'); 
+  $pdf->Cell(18,6,utf8_decode('Nº del acto:'),0,0,'L'); 
   $pdf->SetFont('Arial','',9); 
   $pdf->Cell(1,6,utf8_decode( $d->num_acto),0,1,'L');
   if($d->tipo_comi == 2){ 

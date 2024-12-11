@@ -848,5 +848,21 @@ public function modi_usua()
         $data =	$this->User_model->save_modif_perfil($data);
         echo json_encode($data);
     }
-   
+    	public function listar_municipio(){
+		$data = $this->input->post();
+		$data =	$this->Configuracion_model->listar_municipio($data);
+		echo json_encode($data);
+	}
+    public function listar_parroquia(){
+		$data = $this->input->post();
+		$data =	$this->Configuracion_model->listar_parroquia($data);
+		echo json_encode($data);
+	}
+   public function save_solicitud(){
+        //if(!$this->session->userdata('session'))redirect('login');
+        $data['time']=date("d-m-Y");
+        $data = $this->input->post();
+        $data =	$this->User_model->save_solicitud($data);
+        echo json_encode($data);
+    }
 }

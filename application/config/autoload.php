@@ -145,6 +145,7 @@ $autoload['model'] = array(
     'Comision_contrata_model',
     'Auth_prog_model',
     'Tablas_comi_model',
+    'Rnc_model'
 
    
 );
