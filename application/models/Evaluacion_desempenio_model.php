@@ -437,15 +437,7 @@ public function llenar_contratista_2($data){
             return $query->result_array();
 
         }
-
-     function consulta_evaluacion(){
-    $this->db->select('f.*');
-    $this->db->from('evaluacion_desempenio.evaluacion f');
-    $this->db->order_by("id", "desc"); // Asegúrate de que esta columna exista y sea la que deseas usar para ordenar
-    $this->db->limit(10); // Limitar a los últimos 10 registros
-    $query = $this->db->get();
-    return $query->result_array();
-         }
+        
 
         public function consulta_eval_user($usuario){
         $query = $this->db->query("SELECT ed.id,
