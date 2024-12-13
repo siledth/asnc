@@ -438,6 +438,14 @@ public function llenar_contratista_2($data){
 
         }
 
+        function consulta_evaluacion(){
+    $this->db->select('f.*');
+    $this->db->from('evaluacion_desempenio.evaluacion f');
+    //$this->db->order_by("fecha_disponible_llamado", "desc");
+    $query = $this->db->get();
+    return $query->result_array();
+}
+
         public function consulta_eval_user($usuario){
         $query = $this->db->query("SELECT ed.id,
         to_char(ed.fecha_reg_eval, 'dd-mm-yyyy') as fecha,

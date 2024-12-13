@@ -364,7 +364,7 @@ var myPieChart = new Chart(ctx, {
     plugins: [ChartDataLabels] // Agregar el plugin de etiquetas
 });
 </script>
-div class="sidebar-bg"></div>
+<div class="sidebar-bg"></div>
 <div id="content" class="content">
     <div class="row">
         <div class="col-lg-12">

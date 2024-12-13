@@ -1,8 +1,8 @@
 <div class="sidebar-bg"></div>
 <div id="content" class="content">
     <div class="row">
-		<div class="col-lg-12">
-            <div  class="panel panel-inverse">
+        <div class="col-lg-12">
+            <div class="panel panel-inverse">
                 <div class="col-12">
                     <br>
                     <h3 class="text-center">Evaluaciones Registradas</h3>
@@ -12,42 +12,17 @@
                                 <th>ID</th>
                                 <th>Fecha Reg. Evaluación</th>
                                 <th>Rif de Contratante:</th>
-                                <th>Razón Social Contratante</th>                              
+                                <th>Razón Social Contratante</th>
                                 <th>Rif contratista</th>
                                 <th>Razón Social contratista</th>
                                 <th>Calificación</th>
                                 <th>Estatus de Notificación</th>
                                 <th>Acciones</th>
                             </tr>
-                        </thead> 
+                        </thead>
                         <tbody>
-                        <?php if ($rif_organoente == "G200024518") : ?>
+                            <!-- <?php //if ($rif_organoente == "G200024518") : ?> -->
                             <?php foreach($reportes as $data):?>
-                            <tr class="odd gradeX" style="text-align:center">
-                                <td><?=$data['id']?> </td>
-                                <td><?=$data['fecha']?> </td>
-                                <td><?=$data['rif_organoente']?> </td>
-                                <td><?=$data['contratante']?> </td>                                
-                                <td><?=$data['rif_contrat']?> </td>
-                                <td><?=$data['nombre']?> </td>
-                                <td><?=$data['calificacion']?></td>
-                                <td><?=$data['descripcion']?></td>
-                                <td class="center">
-                                    <a title="Visualizar e Imprimir la Evaluación de Desempeño" href="<?php echo base_url();?>index.php/Evaluacion_desempenio/ver_evaluacion?id=<?php echo $data['id'];?>" 
-                                        class="button">
-                                        <i class="fas fa-lg fa-fw fa-eye" style="color: green;"></i>
-                                    <a/>
-                                    <a title="ver Imagen" href="<?php echo base_url();?>index.php/Evaluacion_desempenio/ver_evaluacion_img?id=<?php echo $data['id'];?>"
-                                        class="button">
-                                        <i class="fas fa-lg 	fas fa-camera-retro" style="color: black;"></i>
-                                    <a/>
-                                </td>
-                            </tr>
-                            <?php endforeach;?>
-                            <?php else: ?>
-                     
-                     
-                            <?php foreach($reportes_user as $data):?>
                             <tr class="odd gradeX" style="text-align:center">
                                 <td><?=$data['id']?> </td>
                                 <td><?=$data['fecha']?> </td>
@@ -58,14 +33,24 @@
                                 <td><?=$data['calificacion']?></td>
                                 <td><?=$data['descripcion']?></td>
                                 <td class="center">
-                                    <a title="Visualizar e Imprimir la Evaluación de Desempeño" href="<?php echo base_url();?>index.php/Evaluacion_desempenio/ver_evaluacion?id=<?php echo $data['id'];?>"
+                                    <a title="Visualizar e Imprimir la Evaluación de Desempeño"
+                                        href="<?php echo base_url();?>index.php/Evaluacion_desempenio/ver_evaluacion?id=<?php echo $data['id'];?>"
                                         class="button">
                                         <i class="fas fa-lg fa-fw fa-eye" style="color: green;"></i>
-                                    <a/>
+                                        <a />
+                                        <a title="ver Imagen"
+                                            href="<?php echo base_url();?>index.php/Evaluacion_desempenio/ver_evaluacion_img?id=<?php echo $data['id'];?>"
+                                            class="button">
+                                            <i class="fas fa-lg 	fas fa-camera-retro" style="color: black;"></i>
+                                            <a />
                                 </td>
                             </tr>
                             <?php endforeach;?>
-                            <?php endif; ?>
+                            <?php //else: ?>
+
+
+
+                            <?php// endif; ?>
                         </tbody>
                     </table>
                 </div>

@@ -257,9 +257,11 @@ class Evaluacion_desempenio extends CI_Controller {
 		if(!$this->session->userdata('session'))redirect('login');
 		$data['rif_organoente']= $this->session->userdata('rif_organoente');
 		$usuario = $this->session->userdata('id_user');
-		$data['reportes'] 	= $this->Evaluacion_desempenio_model->consulta_eval($usuario);
+		// $data['reportes'] 	= $this->Evaluacion_desempenio_model->consulta_eval($usuario);
+		$data['reportes'] 	= $this->Evaluacion_desempenio_model->consulta_evaluacion($usuario);
+
 		//print_r($data['reportes']);die;
-		$data['reportes_user'] 	= $this->Evaluacion_desempenio_model->consulta_eval_user($usuario);
+		//$data['reportes_user'] 	= $this->Evaluacion_desempenio_model->consulta_eval_user($usuario);
 		$this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
 		$this->load->view('evaluacion_desempenio/reporte.php', $data);
