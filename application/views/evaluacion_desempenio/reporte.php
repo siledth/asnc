@@ -16,7 +16,7 @@
                                 <th>Rif contratista</th>
                                 <th>Razón Social contratista</th>
                                 <th>Calificación</th>
-                                <th>Estatus de Notificación</th>
+                                <!-- <th>Estatus de Notificación</th> -->
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -31,7 +31,7 @@
                                 <td><?=$data['rif_contrat']?> </td>
                                 <td><?=$data['contratista_ev']?> </td>
                                 <td><?=$data['calificacion']?></td>
-                                <td><?=$data['descripcion']?></td>
+
                                 <td class="center">
                                     <a title="Visualizar e Imprimir la Evaluación de Desempeño"
                                         href="<?php echo base_url();?>index.php/Evaluacion_desempenio/ver_evaluacion?id=<?php echo $data['id'];?>"
