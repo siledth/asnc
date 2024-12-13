@@ -38,11 +38,11 @@
                                         class="button">
                                         <i class="fas fa-lg fa-fw fa-eye" style="color: green;"></i>
                                         <a />
-                                        <a title="ver Imagen"
+                                        <!-- <a title="ver Imagen"
                                             href="<?php echo base_url();?>index.php/Evaluacion_desempenio/ver_evaluacion_img?id=<?php echo $data['id'];?>"
                                             class="button">
                                             <i class="fas fa-lg 	fas fa-camera-retro" style="color: black;"></i>
-                                            <a />
+                                            <a /> -->
                                 </td>
                             </tr>
                             <?php endforeach;?>
