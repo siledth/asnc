@@ -25,11 +25,11 @@
                             <?php foreach($reportes as $data):?>
                             <tr class="odd gradeX" style="text-align:center">
                                 <td><?=$data['id']?> </td>
-                                <td><?=$data['fecha']?> </td>
+                                <td><?=$data['fecha_reg_eval']?> </td>
                                 <td><?=$data['rif_organoente']?> </td>
-                                <td><?=$data['contratante']?> </td>
+                                <td><?=$data['organo_ente']?> </td>
                                 <td><?=$data['rif_contrat']?> </td>
-                                <td><?=$data['nombre']?> </td>
+                                <td><?=$data['contratista_ev']?> </td>
                                 <td><?=$data['calificacion']?></td>
                                 <td><?=$data['descripcion']?></td>
                                 <td class="center">
