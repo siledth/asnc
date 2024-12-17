@@ -52,13 +52,12 @@
                             <?php foreach($reportes_user as $data):?>
                             <tr class="odd gradeX" style="text-align:center">
                                 <td><?=$data['id']?> </td>
-                                <td><?=$data['fecha']?> </td>
+                                <td><?=$data['fecha_reg_eval']?> </td>
                                 <td><?=$data['rif_organoente']?> </td>
-                                <td><?=$data['contratante']?> </td>
+                                <td><?=$data['organo_ente']?> </td>
                                 <td><?=$data['rif_contrat']?> </td>
-                                <td><?=$data['nombre']?> </td>
+                                <td><?=$data['contratista_ev']?> </td>
                                 <td><?=$data['calificacion']?></td>
-                                <td><?=$data['descripcion']?></td>
                                 <td class="center">
                                     <a title="Visualizar e Imprimir la Evaluación de Desempeño"
                                         href="<?php echo base_url();?>index.php/Evaluacion_desempenio/ver_evaluacion?id=<?php echo $data['id'];?>"

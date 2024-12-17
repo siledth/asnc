@@ -32,17 +32,19 @@
                     </div>
                     <div class="form-group col-3">
                         <label>Cedula Consultada <b title="Campo Obligatorio" style="color:red">*</b></label>
-                        <input type="text" id="cedula" value="" class="form-control" readonly>
+                        <input type="text" id="cedula" name="cedula" value="" class="form-control" readonly>
                     </div>
-                    <div class="form-group col-3">
-                        <label>Observacio <b title="Campo Obligatorio" style="color:red">*</b></label>
-                        <input type="text" name="observacion" id="observacion" class="form-control"
-                            placeholder="observacion">
-                    </div>
+
                     <div class="form-group col-3">
                         <label>N Oficio <b title="Campo Obligatorio" style="color:red">*</b></label>
                         <input type="text" name="numero_oficio" id="numero_oficio" class="form-control"
                             placeholder="numero_oficio">
+                        <input type="hidden" name="existe" id="existe" class="form-control" readonly>
+                    </div>
+                    <div class="form-group col-3">
+                        <label>Observación <b title="Campo Obligatorio" style="color:red">*</b></label>
+                        <textarea class="form-control" id="observacion" name="observacion" rows="4" cols="100"
+                            required></textarea>
                     </div>
                     <div class="form-group col 12 text-center">
                         <button type="button" onclick="registrar();" id="registrar_eval" name="registrar_eval"
@@ -66,7 +68,9 @@
                                     <tr class="text-center">
                                         <th>RIF</th>
                                         <th>Razón Social</th>
-                                        <th>Acciones</th>
+                                        <th>Nombre</th>
+                                        <th>Apellido</th>
+                                        <!-- <th>n</th> -->
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
@@ -79,37 +83,7 @@
         </div>
     </div>
 </div>
-<!-- Botón para abrir el modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Abrir modal</button>
 
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Formulario</h4>
-            </div>
-            <div class="modal-body">
-                <form id="formulario">
-                    <div class="form-group">
-                        <label for="nombre">Nombre:</label>
-                        <input type="text" class="form-control" id="observacion" name="observacion" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="numero_oficio">Número de oficio:</label>
-                        <input type="number" class="form-control" id="numero_oficio" name="numero_oficio" required>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary" id="enviar">Enviar</button>
-            </div>
-        </div>
-    </div>
-</div>
 <script type="text/javascript">
 function mayusculas(e) {
     e.value = e.value.toUpperCase();

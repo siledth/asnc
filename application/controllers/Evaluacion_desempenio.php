@@ -259,7 +259,7 @@ class Evaluacion_desempenio extends CI_Controller {
 		$usuario = $this->session->userdata('id_user');
 		$data['reportes'] 	= $this->Evaluacion_desempenio_model->consulta_evaluaciones($usuario);
 		//print_r($data['reportes']);die;
-		$data['reportes_user'] 	= $this->Evaluacion_desempenio_model->consulta_eval_user($usuario);
+		$data['reportes_user'] 	= $this->Evaluacion_desempenio_model->consulta_evaluaciones2($usuario);
 		$this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
 		$this->load->view('evaluacion_desempenio/reporte.php', $data);

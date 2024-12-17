@@ -64,24 +64,23 @@
                                                 style="color: red;"></i>
                                             <a />
 
-                                           
 
-                                                <a onclick="modal_ce(<?php echo $data['id_comision']?>);"
-                                                    data-toggle="modal" data-target="#exampleModal"
-                                                    style="color: white">
-                                                    <i title="Enviar" class="fas fa-2x fa-fw fa-file-import"
-                                                        style="color: crimson;"></i>
 
-                                                </a>
-                                                <?php if ($data['snc'] == 2) : ?>
+                                            <a onclick="modal_ce(<?php echo $data['id_comision']?>);"
+                                                data-toggle="modal" data-target="#exampleModal" style="color: white">
+                                                <i title="Enviar" class="fas fa-2x fa-fw fa-file-import"
+                                                    style="color: crimson;"></i>
 
-                                                        <a href="<?php echo base_url();?>index.php/Pdfcerti_miem/pdfrt?id=<?php echo $data['id_comision'];?>"
-                                                            class="button">
-                                                            <i class="fas fa-2x  fa-lg fa-cloud-download-alt"
-                                                                title="Comprobante" style="color: blue;"></i>
-                                                            <a />
+                                            </a>
+                                            <?php if ($data['snc'] == 2) : ?>
 
-                                                        <?php endif; ?>
+                                            <a href="<?php echo base_url();?>index.php/Pdfcerti_miem/pdfrt?id=<?php echo $data['id_comision'];?>"
+                                                class="button">
+                                                <i class="fas fa-2x  fa-lg fa-cloud-download-alt" title="Comprobante"
+                                                    style="color: blue;"></i>
+                                                <a />
+
+                                                <?php endif; ?>
 
 
 
@@ -138,17 +137,17 @@
                                     </div>
                                     <div class="form-group col-3">
 
-                                        <input type="hidden" id="vigen_cert_desde2" name="vigen_cert_desde2"
+                                        <input type="text" id="vigen_cert_desde2" name="vigen_cert_desde2"
                                             class="form-control" value="<?=$time?>" />
-                                        <input type="hidden" id="vigen_cert_hasta2" name="vigen_cert_hasta2"
+                                        <input type="text" id="vigen_cert_hasta2" name="vigen_cert_hasta2"
                                             class="form-control" />
 
                                     </div>
                                     <div class="form-group col-3">
 
-                                        <input type="hidden" id="vigen_cert_desde" name="vigen_cert_desde"
+                                        <input type="text" id="vigen_cert_desde" name="vigen_cert_desde"
                                             class="form-control" value="<?=$time?>" />
-                                        <input type="hidden" id="vigen_cert_hasta" name="vigen_cert_hasta"
+                                        <input type="text" id="vigen_cert_hasta" name="vigen_cert_hasta"
                                             class="form-control" />
 
                                     </div>

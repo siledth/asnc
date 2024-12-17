@@ -28,7 +28,11 @@
                             <tr style="text-align:center">
                                 <th style="color:white;">Rif</th>
                                 <th style="color:white;">Descripción</th>
+                                <?php if ($this->session->userdata('perfil') == 1 || $this->session->userdata('perfil') == 14) : ?>
+
                                 <th style="color:white;">Acción</th>
+                                <?php endif; ?>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -37,6 +41,7 @@
                                 <td><?=$data['rif']?> </td>
                                 <td><?=$data['descripcion']?> </td>
 
+                                <?php if ($this->session->userdata('perfil') == 1 || $this->session->userdata('perfil') == 14) : ?>
 
                                 <td class="center">
                                     <a onclick="modal(<?php echo $data['id_organoente'] ?>);" data-toggle="modal"
@@ -46,6 +51,8 @@
                                     </a>
 
                                 </td>
+                                <?php endif; ?>
+
                             </tr>
                             <?php endforeach;?>
                         </tbody>
@@ -76,11 +83,12 @@
                         </div>
                         <div class="form-group col-9">
                             <label>Razón Social</label>
-                            <input id="descripcion" name="descripcion" class="form-control" class="form-control"maxlength="250">
+                            <input id="descripcion" name="descripcion" class="form-control" class="form-control"
+                                maxlength="250">
                         </div>
                         <div class="form-group col-2">
                             <label>Codigo ONAPRE</label>
-                            <input type="text" class="form-control" name="cod_onapre" id="cod_onapre"maxlength="20">
+                            <input type="text" class="form-control" name="cod_onapre" id="cod_onapre" maxlength="20">
                         </div>
                         <div class="form-group col-3">
                             <label>Siglas</label>
@@ -92,7 +100,8 @@
                         </div>
                         <div class="form-group col-4">
                             <label>Correo Electronico</label>
-                            <input type="email" class="form-control" name="correo" id="correo" onblur="return validateEmail()" >
+                            <input type="email" class="form-control" name="correo" id="correo"
+                                onblur="return validateEmail()">
                             <p id="errorMsgc"></p>
 
                         </div>
@@ -102,13 +111,11 @@
                             <input type="hidden" name="id_estado" id="id_estado">
                         </div>
                         <div class="form-group col-3">
-                            <label> Cambiar Estado <i
-                                    title="Si quiere cambiar el estado seleccionar"
+                            <label> Cambiar Estado <i title="Si quiere cambiar el estado seleccionar"
                                     class="fas fa-question-circle"></i></label>
-                                    <select class="form-control" name="cambio_edo" id="cambio_edo"
-                                        onclick="llenar_muni();">
-                                        <option value="0">Seleccione</option>
-                                    </select>
+                            <select class="form-control" name="cambio_edo" id="cambio_edo" onclick="llenar_muni();">
+                                <option value="0">Seleccione</option>
+                            </select>
                         </div>
 
                         <div class="form-group col-3">
@@ -117,8 +124,7 @@
                             <input type="hidden" name="id_municipio" id="id_municipio">
                         </div>
                         <div class="form-group col-3">
-                            <label> Cambiar Municipio <i
-                                    title="Si quiere cambiar el municipio seleccionar"
+                            <label> Cambiar Municipio <i title="Si quiere cambiar el municipio seleccionar"
                                     class="fas fa-question-circle"></i></label>
                             <select class="form-control" name="camb_muni" id="camb_muni">
                                 <option value="0">Seleccione</option>
@@ -130,48 +136,52 @@
                             <input type="hidden" name="id_parroquia" id="id_parroquia">
                         </div>
                         <div class="form-group col-3">
-                            <label> Cambiar Parroquia <i
-                                    title="Si quiere cambiar la parroquia seleccionar"
+                            <label> Cambiar Parroquia <i title="Si quiere cambiar la parroquia seleccionar"
                                     class="fas fa-question-circle"></i></label>
                             <select class="form-control" name="camb_parrq" id="camb_parrq">
                                 <option value="0">Seleccione</option>
                             </select>
                         </div>
                         <div class="form-group col-6">
-                        <label>Dirección Fiscal</label>
-                        <textarea class="form-control" id="direccion_fiscal" name="direccion_fiscal" rows="2" cols="125"></textarea>
+                            <label>Dirección Fiscal</label>
+                            <textarea class="form-control" id="direccion_fiscal" name="direccion_fiscal" rows="2"
+                                cols="125"></textarea>
                         </div>
                         <div class="form-group col-3">
                             <label>Telefono local</label>
-                            <input type="number" class="form-control" id="tel1" name="tel1" onkeyup="validateMaxLength(this)" />
-                                <p id="errorMsg"></p>
+                            <input type="number" class="form-control" id="tel1" name="tel1"
+                                onkeyup="validateMaxLength(this)" />
+                            <p id="errorMsg"></p>
                         </div>
                         <div class="form-group col-3">
                             <label>Telefono local </label>
-                            <input type="tenumberxt" class="form-control" name="tel2" id="tel2" onkeyup="validateMaxLength2(this)" >
+                            <input type="tenumberxt" class="form-control" name="tel2" id="tel2"
+                                onkeyup="validateMaxLength2(this)">
                             <p id="errorMsg2"></p>
                         </div>
                         <div class="form-group col-3">
                             <label>Telefono Movil</label>
-                            <input type="number" class="form-control" name="movil1" id="movil1" onkeyup="validateMaxLength3(this)">
+                            <input type="number" class="form-control" name="movil1" id="movil1"
+                                onkeyup="validateMaxLength3(this)">
                             <p id="errorMsg3"></p>
 
                         </div>
                         <div class="form-group col-3">
                             <label>Telefono Movil</label>
-                            <input type="number" class="form-control" name="movil2" id="movil2" onkeyup="validateMaxLength4(this)">
+                            <input type="number" class="form-control" name="movil2" id="movil2"
+                                onkeyup="validateMaxLength4(this)">
                             <p id="errorMsg4"></p>
                         </div>
                         <div class="form-group col-3">
                             <label>Gaceta</label>
                             <input type="text" class="form-control" name="gaceta" id="gaceta" maxlength="50">
                         </div>
-                      
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="my-button" id="btn_guar_2" onclick="save_modif_org();"
                             data-dismiss="modal">Guardar</button>
-                        <button type="button"  class="my-button" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="my-button" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
             </div>

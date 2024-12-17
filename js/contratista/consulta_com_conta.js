@@ -18,16 +18,23 @@ function consultar_nombre(){
                     $('#items').hide();
                     $('#inputs').show();
                     $('#cedula').val(nombre);
+                    $('#existe').val(0);
                 } else {
                     $('#tabla').show();
                     $('#items').show();
                     $('#inputs').show();
                     $('#cedula').val(nombre);
+                    $('#existe').val(1);
+
                     $('#tabla tbody').children().remove()
                     $.each(data, function(index, response){
                         $('#tabla tbody').append('<tr><td>' + response['rifced'] + '</td><td>'
                                                         + response['nombre'] + '</td><td>'
-                                                        + '<button class="boton2 btn"> <a href="llenar_contratista_nombre_ind?id='+ response['rifced'] +'">VER</button></td></tr>');
+                                                        + response['nomacc'] + '</td><td>'
+                                                        + response['apecom'] + '</td></tr>'
+
+                                                        // + '<button class="boton2 btn"> <a href="llenar_contratista_nombre_ind?id='+ response['rifced'] +'">VER</button></td></tr>'
+                                                    );
                     });
 
                     // Inicializar DataTables y configurar la paginación
@@ -41,3 +48,58 @@ function consultar_nombre(){
         });
     }
 }
+
+function registrar(){
+		var cedula = $("#cedula").val();
+		var numero_oficio = $("#numero_oficio").val();
+		var observacion = $("#observacion").val();
+		var existe = $("#existe").val();
+
+
+		if (numero_oficio == '') {
+			document.getElementById("numero_oficio").focus();
+		}else if(observacion == ''){
+			document.getElementById("observacion").focus();
+		}else {
+			event.preventDefault();
+			swal.fire({
+				title: '¿Registrar?',
+				text: '¿Esta seguro de Guardar?',
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				cancelButtonText: 'Cancelar',
+				confirmButtonText: '¡Si, guardar!'
+			}).then((result) => {
+				if (result.value == true) {
+					event.preventDefault();
+					var datos = new FormData($("#resgistrar_eva")[0]);
+					var base_url =window.location.origin+'/asnc/index.php/Contratista/registrar_busqueda';
+					// var base_url = '/index.php/Contratista/registrar_busqueda';
+					$.ajax({
+						url:base_url,
+						method: 'POST',
+						data: datos,
+						contentType: false,
+						processData: false,
+						success: function(response){
+							if(response != '') {
+								swal.fire({
+									title: 'Registro Exitoso',
+									type: 'success',
+									showCancelButton: false,
+									confirmButtonColor: '#3085d6',
+									confirmButtonText: 'Ok'
+								}).then((result) => {
+									if (result.value == true){
+										location.reload();
+									}
+								});
+							}
+						}
+					})
+				}
+			});
+		}
+	}

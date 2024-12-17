@@ -29,6 +29,7 @@
                                                 <th width="25%" style="color:white;">Organo/Ente</th>
                                                 <th width="25%" style="color:white;">Perfil</th>
                                                 <th width="20%" style="color:white;">Acción</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -44,12 +45,15 @@
                                                         <i title="Ver Usuario" class="fas fa-lg fa-fw fa-eye"
                                                             style="color: midnightblue;"></i>
                                                         <a />
+                                                        <?php if ($this->session->userdata('perfil') == 1 || $this->session->userdata('perfil') == 14) : ?>
+
                                                         <a onclick="modal(<?php echo $lista['id'] ?>);"
                                                             data-toggle="modal" data-target="#myModal_bienes"
                                                             style="color: white">
                                                             <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
                                                                 style="color: darkgreen;"></i>
                                                         </a>
+                                                        <?php endif; ?>
 
 
                                                         <?php //if ($lista['id_status'] != 2) : ?>
@@ -113,21 +117,21 @@
                         <input type="hidden" class="form-control" name="unidad1" id="unidad1" readonly>
 
                     </div>
-                    
+
                     <div class="form-group col-12">
                         <label> Cambiar Organo/ente/ente adscrito/unid ejecutora local<i
                                 title="Si quiere cambiar el Organo/ente/ente adscrito/unid ejecutora local seleccionar"
                                 class="fas fa-question-circle"></i></label>
-                                <select style="width: 100%;" onclick="getSelectedRif();" id="camb_org" name="camb_org"
-                             class="form-control" data-show-subtext="true" data-live-search="true">
+                        <select style="width: 100%;" onclick="getSelectedRif();" id="camb_org" name="camb_org"
+                            class="form-control" data-show-subtext="true" data-live-search="true">
                             <option value="1">Seleccione</option>
                         </select>
                     </div>
                     <div class="form-group col-12">
-                        <input  class="form-control" type="hidden" id="code1" name="code1" readonly>
-                        <input  class="form-control" type="hidden" id="rif1" name="rif1" readonly>
+                        <input class="form-control" type="hidden" id="code1" name="code1" readonly>
+                        <input class="form-control" type="hidden" id="rif1" name="rif1" readonly>
 
-                    </div>  
+                    </div>
                     <div class="form-group col-6">
                         <label>Cedula de identidad</label>
                         <input id="cedula" name="cedula" class="form-control" class="form-control" maxlength="8">
@@ -137,11 +141,12 @@
                         <input id="cargo" name="cargo" class="form-control" class="form-control" maxlength="50">
                     </div>
                     <div class="form-group col-6">
-                    <label>Correo Electronico</label>
-                    <input type="email" class="form-control" name="email" id="email" onblur="return validateEmail()" >
-                            <p id="errorMsgc"></p>
+                        <label>Correo Electronico</label>
+                        <input type="email" class="form-control" name="email" id="email"
+                            onblur="return validateEmail()">
+                        <p id="errorMsgc"></p>
                     </div>
-                   
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="my-button" id="btn_guar_2" onclick="save_modif_user();"
@@ -157,10 +162,9 @@
 <script src="<?= base_url() ?>/js/usuario/editar_p.js"></script>
 
 <script type="text/javascript">
-
-    $(document).ready(function() {
-        $("#camb_org").select2({
-            dropdownParent: $("#myModal_bienes")
-        });
+$(document).ready(function() {
+    $("#camb_org").select2({
+        dropdownParent: $("#myModal_bienes")
     });
-    </script>
+});
+</script>

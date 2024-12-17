@@ -743,7 +743,7 @@ function valideKey(evt){
                 var base_url_3 = '/index.php/Certificacion/verpdf?id=';
         
               
-                //  var base_url =   window.location.origin +  "/asnc/index.php/Certificacion/guardar_proc_pag";
+                //  var base_url =   window.location.origin +  "/asnc/index.php/Comision_contrata/guardar_proc_pag";
                 //  var base_url_2 = window.location.origin + "/asnc/index.php/Certificacion/Listado_certificacion";
                 //      var base_url_3 = window.location.origin + "/asnc/index.php/Certificacion/verpdf?id=";
                 $.ajax({

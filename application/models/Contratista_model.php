@@ -235,7 +235,89 @@ class Contratista_model extends CI_Model
             return array();
         }
     }
-    
+    //  public function llenar_contratista_comi_conta2($nombre) {
+    //     $query = $this->db_b->query("select d.rifced, d.nombre, a.cedcom, a.nomcom, a.apecom, a.proceso_id
+    //                                 from comisarios a, datosgenerales d where a.proceso_id = d.proceso_id 
+    //                                 and cedcom = '$nombre'");
+    //     if ($query) {
+    //         return $query->result_array();
+    //     } else {
+    //         // Handle error
+    //         log_message('error', 'Error executing query: '. $this->db_b->_error_message());
+    //         return array();
+    //     }
+    // }
+    public function llenar_contratista_comi_conta22($cedula) {
+    $cedula_dictamenes = 'V0' . str_pad($cedula, 8, '0', STR_PAD_LEFT);
+
+    $query = $this->db_b->query("
+        select d.rifced, d.nombre, a.cedcom, a.nomcom as nomacc, a.apecom as apecom, a.proceso_id
+        from comisarios a, datosgenerales d 
+        where a.proceso_id = d.proceso_id 
+        and a.cedcom = '$cedula'        
+        union        
+        select d.rifced, d.nombre, a.cedrif, a.nomacc as nomacc , a.apeacc as apecom, a.proceso_id
+        from accionistas a, datosgenerales d 
+        where a.proceso_id = d.proceso_id 
+        and a.cedrif = '$cedula'
+        union
+        select d.rifced, d.nombre, a.cedcont, a.nomcont as nomacc, a.apecont as apecom, a.proceso_id
+        from dictamenes a, datosgenerales d 
+        where a.proceso_id = d.proceso_id 
+        and a.cedcont = '$cedula_dictamenes'
+        union
+        select d.rifced, d.nombre, a.cedcont, a.nomcont as nomacc, a.apecont as apecom, a.proceso_id
+        from dictamenes a, datosgenerales d 
+        where a.proceso_id = d.proceso_id 
+        and a.cedcont ilike '%$cedula_dictamenes%'
+    ");
+
+    if ($query) {
+        // $this->db->select('rif_organoente');
+		// 		$this->db->where('numero_proceso', $cedula);            
+		// 		$query2 = $this->db->get('rnc.contadorbusqueda_ ');
+		// 		$response5 = $query2->row_array();
+		// 		$rif_cont = $response5['rif_organoente'];
+
+				$this->db->select('max(e.id_contadorbusqueda_) as id1');
+				$this->db->where('cedula_c', $cedula);            
+				$query1 = $this->db->get('rnc.contadorbusqueda_ e');
+				$response4 = $query1->row_array();
+
+				if (!empty($response4)) {
+					$id1 = $response4['id1'] + 1;
+				} else {
+					$id1 = 1;					
+			
+				}
+				if ($id1==1) {
+					date_default_timezone_set('America/Caracas'); // set the time zone to Venezuela
+
+					$data4 = array(
+						'id_contadorbusqueda_'		    => $id1,
+						'cedula_c'		=> $cedula,
+						'login_time' => date('Y-m-d H:i:s'),
+					);    
+					$this->db->insert("rnc.contadorbusqueda_", $data4);
+
+				} else {
+									
+					date_default_timezone_set('America/Caracas'); // set the time zone to Venezuela
+					$data4 = array(
+						'id_contadorbusqueda_' => $id1,
+						'login_time' => date('Y-m-d H:i:s'),
+					);
+					$this->db->where('cedula_c', $cedula);
+					$update = $this->db->update('rnc.contadorbusqueda_', $data4);
+				
+				}
+        return $query->result_array();
+    } else {
+        // Handle error
+        log_message('error', 'Error executing query: '. $this->db_b->_error_message());
+        return array();
+    }
+}
     function save_contratista_comi_cont2($data){
         $this->db->select('max(e.id) as id1');
         $query1 = $this->db->get('contratistas.consultas_investigacion e');
@@ -257,5 +339,18 @@ class Contratista_model extends CI_Model
         $query=$this->db->insert('contratistas.consultas_investigacion ',$data1);
         return true;
     }
+    function registrar_b($data){
+    $this->db->insert('rnc.busqueda_',$data);
+    return true;
+}
+function consultar_lis(){
+            $this->db->select('b.cedula_c, b.n_oficio, b.observacion, b.id_usuario, b.existe,
+             b.datecreat, c2.id_contadorbusqueda_, f.nombrefun, f.apellido');
+                 $this->db->join('rnc.contadorbusqueda_ c2','c2.cedula_c = b.cedula_c' , 'left');
+                 $this->db->join('seguridad.funcionarios f','f.id_usuario = b.id_usuario');
+                $this->db->from('rnc.busqueda_ b');
+                $query = $this->db->get();
+                return $query->result_array();
+        }
     
 }

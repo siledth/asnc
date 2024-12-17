@@ -142,8 +142,8 @@ class Contratista extends CI_Controller
 			redirect('login');
 		}
 		
-		$nombre = $this->input->post('nombre');
-		$result = $this->Contratista_model->llenar_contratista_comi_conta($nombre);
+		$cedula = $this->input->post('nombre');
+		$result = $this->Contratista_model->llenar_contratista_comi_conta22($cedula);
 		
 		if (!empty($result)) {
 			echo json_encode($result);
@@ -171,4 +171,29 @@ class Contratista extends CI_Controller
 			echo json_encode($data);
 		}
 
+		public function registrar_busqueda() {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $data = array(
+            'cedula_c' => $this->input->POST('cedula'),
+            'n_oficio' => $this->input->POST('numero_oficio'),
+            'observacion' => $this->input->POST('observacion'),
+            'existe' => $this->input->POST('existe'),
+            'id_usuario' => $this->session->userdata('id_user'),
+        );
+        $data = $this->Contratista_model->registrar_b($data);
+        echo json_encode($data);
+    }
+
+	public function list() {
+       
+      
+
+        $data['list'] = $this->Contratista_model->consultar_lis();
+
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('contratista/consultas/ver_solicitudes_contratista.php', $data);
+        $this->load->view('templates/footer.php');
+    }
 }

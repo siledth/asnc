@@ -446,13 +446,35 @@ public function llenar_contratista_2($data){
                 conocimiento, oportunidad, total_calif, calificacion, notf_cont, fecha_not, medio, nro_oc_os,
                 fecha_reg_eval, id_estatus, mod_otro, otro, snc, id_usuario, nombrefun');
     $this->db->from('evaluacion_desempenio.evaluaciones_view');
-    // $this->db->where('id_usuario', $usuario);
+     //$this->db->where('id_usuario', $usuario);
+     $this->db->where('snc', 1);
+    // $this->db->where('id_estatus', 1);
+
+
     $this->db->order_by("id", "desc");
     //$this->db->limit(100); 
     $query = $this->db->get();
     return $query->result_array();
 }
+  function consulta_evaluaciones2($usuario){
+    $this->db->select('id, rif_organoente, organo_ente, rif_contrat,
+                contratista_ev, id_modalidad, descripcion_modalidad,
+                id_sub_modalidad, desc_submodalidad, fec_inicio_cont, fec_fin_cont,
+                nro_procedimiento, nro_contrato, id_estado_contrato, descedocont, descr_contrato,
+                bienes, servicios, obras, monto, dolar, euro, petros, bolivares, calidad, responsabilidad, 
+                conocimiento, oportunidad, total_calif, calificacion, notf_cont, fecha_not, medio, nro_oc_os,
+                fecha_reg_eval, id_estatus, mod_otro, otro, snc, id_usuario, nombrefun');
+    $this->db->from('evaluacion_desempenio.evaluaciones_view');
+     $this->db->where('id_usuario', $usuario);
+     $this->db->where('snc', 1);
+    // $this->db->where('id_estatus', 1);
 
+
+    $this->db->order_by("id", "desc");
+    //$this->db->limit(100); 
+    $query = $this->db->get();
+    return $query->result_array();
+}
         public function consulta_eval_user($usuario){
         $query = $this->db->query("SELECT ed.id,
         to_char(ed.fecha_reg_eval, 'dd-mm-yyyy') as fecha,

@@ -509,9 +509,12 @@
                                     Resumen por Nombre</a></li>
                             <li><a href="<?= base_url() ?>index.php/Contratista/infor_contrat_objCont">- Busqueda de
                                     Contratista</a></li>
-                            <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
+                            <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
+
                             <li><a href="<?= base_url() ?>index.php/Contratista/infor_contrat_comi_conta">-Consulta de
-                                    Contratistas por Comisario o Contador por número de Cédula</a></li>
+                                    Busqueda Investigación</a></li>
+                            <li><a href="<?= base_url() ?>index.php/Contratista/list">-Consulta de
+                                    Consulta resultado Investigación</a></li>
                             <?php endif; ?>
 
                         </ul>
@@ -667,6 +670,8 @@
                         </a>
                         <ul class="sub-menu">
                             <li class="has-sub">
+                                <?php if ($this->session->userdata('perfil') == 1 || $this->session->userdata('perfil') == 14) : ?>
+
                             <li>
                                 <a href="<?= base_url() ?>index.php/configuracion/orga">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-landmark"></i>Organo
@@ -690,6 +695,7 @@
                                     <i class="fas fa-lg fa-fw m-r-10 fa-city"></i>Unidades Ejecutoras locales
                                 </a>
                             </li>
+                            <?php endif; ?>
                             <li>
                                 <a href="<?= base_url() ?>index.php/configuracion/list">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-city"></i>Listado
@@ -870,6 +876,8 @@
                     <span>Usuarios</span>
                 </a>
                 <ul class="sub-menu">
+                    <?php if ($this->session->userdata('perfil') == 1 || $this->session->userdata('perfil') == 14) : ?>
+
                     <?php if (($this->session->userdata('ver_user_exter') == 1)) : ?>
                     <!-- <li>
                             <a href="<?= base_url() ?>index.php/user">
@@ -883,6 +891,7 @@
                             <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Registros Usuarios
                         </a>
                     </li> -->
+
                     <li>
                         <a href="<?= base_url() ?>index.php/user/create_user">
                             <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Registro Usuarios
@@ -917,13 +926,7 @@
                         </a>
                     </li>
                     <?php endif; ?>
-                    <?php if (($this->session->userdata('ver_user_lista') == 1)) : ?>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/user/listado_usuarios">
-                            <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Lista Usuarios externos
-                        </a>
-                    </li>
-                    <?php endif; ?>
+
                     <?php if (($this->session->userdata('ver_user_perfil') == 1)) : ?>
                     <li>
                         <a href="<?= base_url() ?>index.php/user/perfil_">
@@ -935,6 +938,15 @@
                     <li>
                         <a href="<?= base_url() ?>index.php/User/see_ses">
                             <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Sesiones Abiertas
+                        </a>
+                    </li>
+                    <?php endif; ?>
+
+                    <?php endif; ?>
+                    <?php if (($this->session->userdata('ver_user_lista') == 1)) : ?>
+                    <li>
+                        <a href="<?= base_url() ?>index.php/user/listado_usuarios">
+                            <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Lista Usuarios externos
                         </a>
                     </li>
                     <?php endif; ?>
