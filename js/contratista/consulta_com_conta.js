@@ -4,8 +4,8 @@ function consultar_nombre(){
         //...
     } else {
         $("#items").show();
-        // var base_url = '/index.php/Contratista/llenar_contratista_comi_conta1';
-        var base_url =window.location.origin+'/asnc/index.php/Contratista/llenar_contratista_comi_conta1';
+        var base_url = '/index.php/Contratista/llenar_contratista_comi_conta1';
+        // var base_url =window.location.origin+'/asnc/index.php/Contratista/llenar_contratista_comi_conta1';
         $.ajax({
             url: base_url,
             method: 'post',
@@ -75,8 +75,8 @@ function registrar(){
 				if (result.value == true) {
 					event.preventDefault();
 					var datos = new FormData($("#resgistrar_eva")[0]);
-					var base_url =window.location.origin+'/asnc/index.php/Contratista/registrar_busqueda';
-					// var base_url = '/index.php/Contratista/registrar_busqueda';
+					// var base_url =window.location.origin+'/asnc/index.php/Contratista/registrar_busqueda';
+					var base_url = '/index.php/Contratista/registrar_busqueda';
 					$.ajax({
 						url:base_url,
 						method: 'POST',
