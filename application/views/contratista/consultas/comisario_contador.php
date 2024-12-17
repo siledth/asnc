@@ -8,7 +8,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-4">
-                            <label>Ingrese número de Cédula del Comisario o Contador a consultar</label>
+                            <label>Ingrese número de Cédula a consultar</label>
                             <input class="form-control" type="text" name="nombre" id="nombre"
                                 placeholder="Cédula a consultar">
 

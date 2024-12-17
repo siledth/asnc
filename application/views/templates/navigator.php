@@ -511,7 +511,7 @@
                                     Contratista</a></li>
                             <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
 
-                            <li><a href="<?= base_url() ?>index.php/Contratista/infor_contrat_comi_conta">-Consulta de
+                            <li><a href="<?= base_url() ?>index.php/Contratista/infor_contrat_comi_conta">-
                                     Busqueda Investigación</a></li>
                             <li><a href="<?= base_url() ?>index.php/Contratista/list">-Consulta de
                                     Consulta resultado Investigación</a></li>
