@@ -441,7 +441,7 @@ public function llenar_contratista_2($data){
     $this->db->select('id, rif_organoente, organo_ente, rif_contrat,
                 contratista_ev, id_modalidad, descripcion_modalidad,
                 id_sub_modalidad, desc_submodalidad, fec_inicio_cont, fec_fin_cont,
-                nro_procedimiento, nro_contrato, id_estado_contrato, descedocont, descr_contrato,
+                nro_procedimiento, nro_contrato, id_estado_contrato,  descr_contrato,
                 bienes, servicios, obras, monto, dolar, euro, petros, bolivares, calidad, responsabilidad, 
                 conocimiento, oportunidad, total_calif, calificacion, notf_cont, fecha_not, medio, nro_oc_os,
                 fecha_reg_eval, id_estatus, mod_otro, otro, snc, id_usuario, nombrefun');
@@ -460,7 +460,7 @@ public function llenar_contratista_2($data){
     $this->db->select('id, rif_organoente, organo_ente, rif_contrat,
                 contratista_ev, id_modalidad, descripcion_modalidad,
                 id_sub_modalidad, desc_submodalidad, fec_inicio_cont, fec_fin_cont,
-                nro_procedimiento, nro_contrato, id_estado_contrato, descedocont, descr_contrato,
+                nro_procedimiento, nro_contrato, id_estado_contrato,  descr_contrato,
                 bienes, servicios, obras, monto, dolar, euro, petros, bolivares, calidad, responsabilidad, 
                 conocimiento, oportunidad, total_calif, calificacion, notf_cont, fecha_not, medio, nro_oc_os,
                 fecha_reg_eval, id_estatus, mod_otro, otro, snc, id_usuario, nombrefun');
