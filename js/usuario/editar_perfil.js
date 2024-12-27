@@ -1,12 +1,10 @@
 function perfiles(id) {
     var id_perfil = id;
        
-        // var base_url = '/index.php/User/read_list_p';
-        // var base_url2 = '/index.php/User/read_list_p2';
-        // var base_url = '/index.php/User/read_list_p';
-        // var base_url2 = '/index.php/User/read_list_p2';
-         var base_url =window.location.origin+'/asnc/index.php/User/read_list_p';
-          var base_url2 =window.location.origin+'/asnc/index.php/User/read_list_p2';
+        var base_url = '/index.php/User/read_list_p';
+        var base_url2 = '/index.php/User/read_list_p2';
+        //  var base_url =window.location.origin+'/asnc/index.php/User/read_list_p';
+        //   var base_url2 =window.location.origin+'/asnc/index.php/User/read_list_p2';
     $.ajax({
         url: base_url,
         method: "post",
@@ -40,6 +38,8 @@ function perfiles(id) {
             $("#ver_user_desb1").val(data["ver_user_desb"]);
             $("#ver_user_lista1").val(data["ver_user_lista"]);
             $("#ver_user_perfil1").val(data["ver_user_perfil"]);
+            $("#invest_contratista1").val(data["invest_contratista"]);
+
 
 
             var id_perfil = data['id_perfil'];
@@ -74,6 +74,8 @@ function perfiles(id) {
                     $("#ver_user_desb3").val(data["ver_user_desb"]);
                     $("#ver_user_lista3").val(data["ver_user_lista"]);
                     $("#ver_user_perfil3").val(data["ver_user_perfil"]);
+                    $("#invest_contratista3").val(data["invest_contratista"]);
+
                 }
             })
 
@@ -148,6 +150,9 @@ function edit_perfil(){////////////////////////////////
             var ver_rnc = $('#ver_rnc3').val();
             var camb_ver_rnc = $('#ver_rnc2').val();
 
+             var ver_invest_contratista = $('#invest_contratista3').val();
+            var camb_invest_contratista = $('#invest_contratista2').val();
+
             var ver_conf = $('#ver_conf3').val();
             var camb_ver_conf = $('#ver_conf2').val(); var ver_rnc = $('#ver_rnc3').val();
            
@@ -173,6 +178,8 @@ function edit_perfil(){////////////////////////////////
             var camb_ver_user_perfil = $('#ver_user_perfil2').val();
    
             var base_url = '/index.php/User/save_modif_perfil'; 
+        //   var base_url =window.location.origin+'/asnc/index.php/User/save_modif_perfil';
+
 
             $.ajax({
                 url:base_url,
@@ -214,7 +221,11 @@ function edit_perfil(){////////////////////////////////
                     camb_ver_anul_llamado: camb_ver_anul_llamado,
 
                     ver_rnc: ver_rnc,                   
-                    camb_ver_rnc: camb_ver_rnc,                   
+                    camb_ver_rnc: camb_ver_rnc,     
+
+                    ver_invest_contratista: ver_invest_contratista,                   
+                    camb_invest_contratista: camb_invest_contratista,  
+
                     ver_conf: ver_conf,  
                     camb_ver_conf: camb_ver_conf,                   
                     ver_parametro: ver_parametro,                   

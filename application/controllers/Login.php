@@ -104,6 +104,8 @@ class Login extends CI_Controller {
                         'consul_prog_anual' => $data['consul_prog_anual'],
                         'consul_mod_ley_anual' => $data['consul_mod_ley_anual'],
                       'consultar_rendi_anual' => $data['consultar_rendi_anual'],
+                      'invest_contratista' => $data['invest_contratista'],
+
 
 
           'session' => TRUE,

@@ -893,6 +893,15 @@ class User_model extends CI_Model
             }else {
                 $ver_rnc = $data['camb_ver_rnc'];
             }
+
+              $ver_invest_contratista1  = $data['camb_invest_contratista'];
+            if ($ver_invest_contratista1  == 2) {
+                $ver_invest_contratista = $data['ver_invest_contratista'];
+            }else {
+                $ver_invest_contratista = $data['camb_invest_contratista'];
+            }
+
+
             $ver_conf1  = $data['camb_ver_conf'];
             if ($ver_conf1  == 2) {
                 $ver_conf = $data['ver_conf'];
@@ -958,6 +967,8 @@ class User_model extends CI_Model
                         'anul_llamado'=> $anul_llamado,
                         'ver_anul_llamado' => $ver_anul_llamado,
                         'ver_rnc' => $ver_rnc,
+                        'invest_contratista' => $ver_invest_contratista,
+
                         'ver_conf' => $ver_conf,
                         'ver_parametro' => $ver_parametro,
                         'ver_conf_publ' => $ver_conf_publ,

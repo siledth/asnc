@@ -811,6 +811,24 @@
                             </select>
                         </div>
                         <div class="form-group col-2">
+                            <label>Visualizar Busqueda Investigación <b title="Campo Obligatorio"
+                                    style="color:red">*</b></label>
+                            <input type="text" name="invest_contratista1" id="invest_contratista1" class="form-control"
+                                readonly>
+                            <input type="text" name="invest_contratista3" id="invest_contratista3" class="form-control"
+                                readonly>
+
+                        </div>
+                        <div class="form-group col-2">
+                            <label>Camb.Busqueda Investigación <b title="Campo Obligatorio"
+                                    style="color:red">*</b></label>
+                            <select class=" form-control " id="invest_contratista2" name="invest_contratista2">
+                                <option value="2">Sel</option>
+                                <option value="0">No</option>
+                                <option value="1">Si</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-2">
                             <label>Visualizar Configuración <b title="Campo Obligatorio" style="color:red">*</b></label>
                             <input type="text" name="ver_conf1" id="ver_conf1" class="form-control" readonly>
                             <input type="text" name="ver_conf3" id="ver_conf3" class="form-control" readonly>
