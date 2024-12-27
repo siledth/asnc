@@ -153,6 +153,29 @@ class Contratista extends CI_Controller
 		}
 		
 	    }
+		 public function infor_contrat_comi_conta_rif()
+	  {
+		  $this->load->view('templates/header.php');
+		  $this->load->view('templates/navigator.php');
+		  $this->load->view('contratista/consultas/comisario_rif.php');
+		  $this->load->view('templates/footer.php');
+	  }
+	  public function llenar_contratista_comi_conta2() {
+		if (!$this->session->userdata('session')) {
+			redirect('login');
+		}
+		
+		$cedula = $this->input->post('nombre');
+		$result = $this->Contratista_model->llenar_contratista_comi_conta23($cedula);
+		
+		if (!empty($result)) {
+			echo json_encode($result);
+		} else {
+			// Handle error
+			echo json_encode(array('error' => 'No results found'));
+		}
+		
+	    }
 		public function save_contratista_comi_cont() {
 			if (!$this->session->userdata('session'))
 				redirect('login');

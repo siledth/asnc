@@ -8,13 +8,13 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-4">
-                            <label>Ingrese número de Cédula a consultar</label>
+                            <label>Ingrese número de RIF a consultar</label>
                             <input class="form-control" type="text" name="nombre" id="nombre"
-                                oninput="validarInput(this)" placeholder="Cédula a consultar">
+                                oninput="validarInput2(this)" placeholder="rif a consultar">
 
                         </div>
                         <div class="col- mt-4">
-                            <button type="button" class="btn btn-default" onclick="consultar_nombre();" name="button">
+                            <button type="button" class="btn btn-default" onclick="consultar_nombre2();" name="button">
                                 <i class="fas fa-search"></i> </button>
                         </div>
                     </div>
@@ -31,7 +31,7 @@
                         <h4 class="text-center mb-3 mt-3">Por Favor Ingrese estos datos</h4>
                     </div>
                     <div class="form-group col-3">
-                        <label>Cedula Consultada <b title="Campo Obligatorio" style="color:red">*</b></label>
+                        <label>Rif Consultado<b title="Campo Obligatorio" style="color:red">*</b></label>
                         <input type="text" id="cedula" name="cedula" value="" class="form-control" readonly>
                     </div>
 
@@ -68,8 +68,8 @@
                                     <tr class="text-center">
                                         <th>RIF</th>
                                         <th>Razón Social</th>
-                                        <th>Nombre</th>
-                                        <th>Apellido</th>
+                                        <th>Contacto</th>
+                                        <th>Teléfono</th>
                                         <!-- <th>n</th> -->
                                     </tr>
                                 </thead>

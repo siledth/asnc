@@ -510,11 +510,22 @@
                             <li><a href="<?= base_url() ?>index.php/Contratista/infor_contrat_objCont">- Busqueda de
                                     Contratista</a></li>
                             <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
+                            <li class="has-sub">
+                                <a href="javascript:;">
+                                    <b class="caret"></b>
+                                    <span>Busqueda Investigación</span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <li><a href="<?= base_url() ?>index.php/Contratista/infor_contrat_comi_conta">-
+                                            Busqueda Investigación Cédula</a></li>
+                                    <li><a href="<?= base_url() ?>index.php/Contratista/infor_contrat_comi_conta_rif">-
+                                            Busqueda Investigación Rif</a></li>
+                                    <li><a href="<?= base_url() ?>index.php/Contratista/list">-Consulta de
+                                            Consulta resultado Investigación</a></li>
+                                </ul>
+                            </li>
 
-                            <li><a href="<?= base_url() ?>index.php/Contratista/infor_contrat_comi_conta">-
-                                    Busqueda Investigación</a></li>
-                            <li><a href="<?= base_url() ?>index.php/Contratista/list">-Consulta de
-                                    Consulta resultado Investigación</a></li>
+
                             <?php endif; ?>
 
                         </ul>

@@ -273,12 +273,7 @@ class Contratista_model extends CI_Model
     ");
 
     if ($query) {
-        // $this->db->select('rif_organoente');
-		// 		$this->db->where('numero_proceso', $cedula);            
-		// 		$query2 = $this->db->get('rnc.contadorbusqueda_ ');
-		// 		$response5 = $query2->row_array();
-		// 		$rif_cont = $response5['rif_organoente'];
-
+        
 				$this->db->select('max(e.id_contadorbusqueda_) as id1');
 				$this->db->where('cedula_c', $cedula);            
 				$query1 = $this->db->get('rnc.contadorbusqueda_ e');
@@ -352,5 +347,56 @@ function consultar_lis(){
                 $query = $this->db->get();
                 return $query->result_array();
         }
+
+        public function llenar_contratista_comi_conta23($cedula) {
+
+    $query = $this->db_b->query("
+        select rifced, nombre,percontacto,telf1
+        from  datosgenerales 
+        where rifced = '$cedula' 
+        GROUP BY rifced, nombre,percontacto,telf1    
+    ");
+
+    if ($query) {
+        
+				$this->db->select('max(e.id_contadorbusqueda_) as id1');
+				$this->db->where('cedula_c', $cedula);            
+				$query1 = $this->db->get('rnc.contadorbusqueda_ e');
+				$response4 = $query1->row_array();
+
+				if (!empty($response4)) {
+					$id1 = $response4['id1'] + 1;
+				} else {
+					$id1 = 1;					
+			
+				}
+				if ($id1==1) {
+					date_default_timezone_set('America/Caracas'); // set the time zone to Venezuela
+
+					$data4 = array(
+						'id_contadorbusqueda_'		    => $id1,
+						'cedula_c'		=> $cedula,
+						'login_time' => date('Y-m-d H:i:s'),
+					);    
+					$this->db->insert("rnc.contadorbusqueda_", $data4);
+
+				} else {
+									
+					date_default_timezone_set('America/Caracas'); // set the time zone to Venezuela
+					$data4 = array(
+						'id_contadorbusqueda_' => $id1,
+						'login_time' => date('Y-m-d H:i:s'),
+					);
+					$this->db->where('cedula_c', $cedula);
+					$update = $this->db->update('rnc.contadorbusqueda_', $data4);
+				
+				}
+        return $query->result_array();
+    } else {
+        // Handle error
+        log_message('error', 'Error executing query: '. $this->db_b->_error_message());
+        return array();
+    }
+}
     
 }
