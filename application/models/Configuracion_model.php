@@ -316,8 +316,7 @@
 		$this->db->select(' orn.id_organoente, orn.rif, orn.id_organoenteads, orn.tipo_organoente, 
         orn.descripcion, orn.cod_onapre, orn.id_estado, orn.id_municipio, orn.id_parroquia, 
         orn.siglas, orn.direccion, orn.gaceta, orn.fecha_gaceta, orn.pagina_web, orn.correo, orn.tel1, orn.tel2,
-         orn.movil1, orn.movil2, orn.usuario, orn.fecha, orn.codigo, orn.id_clasificacion, edo.descedo, mun.descmun , prq.descparro                       
-                              '
+        orn.movil1, orn.movil2, orn.usuario, orn.fecha, orn.codigo, orn.id_clasificacion, edo.descedo, mun.descmun , prq.descparro '
 						);
 		$this->db->from('public.organoente orn');
        $this->db->join('public.estados edo','edo.id = orn.id_estado', 'left');

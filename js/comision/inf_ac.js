@@ -832,20 +832,27 @@ function enviar(id_miembros) {
     }
     function cambiarEndDate(){
 
-        f = $("#vigen_cert_desde").val();; // Acá la fecha leída del INPUT
-        vec = f.split('-'); // Parsea y pasa a un vector
-        var fecha = new Date(vec[0], vec[1], vec[2]); // crea el Date
-        fecha.setFullYear(fecha.getFullYear()+2); // Hace el cálculo
-        res = fecha.getFullYear()+'-'+fecha.getMonth()+'-'+fecha.getDate(); // carga el resultado
-        $('#vigen_cert_hasta').val(res);
-        //console.log(res);f;
+        // f = $("#vigen_cert_desde").val();; // Acá la fecha leída del INPUT
+        // vec = f.split('-'); // Parsea y pasa a un vector
+        // var fecha = new Date(vec[0], vec[1], vec[2]); // crea el Date
+        // fecha.setFullYear(fecha.getFullYear()+2); // Hace el cálculo
+        // res = fecha.getFullYear()+'-'+fecha.getMonth()+'-'+fecha.getDate(); // carga el resultado
+        // $('#vigen_cert_hasta').val(res);
+        // //console.log(res);f;
+         f = $("#vigen_cert_desde").val(); // Acá la fecha leída del INPUT
+    vec = f.split('-'); // Parsea y pasa a un vector
+    var fecha = new Date(vec[0], vec[1] - 1, vec[2]); // Resta 1 al mes
+    fecha.setFullYear(fecha.getFullYear() + 2); // Hace el cálculo
+    res = fecha.getFullYear() + '-' + (fecha.getMonth() + 1) + '-' + fecha.getDate(); // Suma 1 al mes para el resultado
+    $('#vigen_cert_hasta').val(res);
+    //console.log(res);f;
     }
     //////////////////////////////////////////////////////
     $('#fcerti').on('change', function(){
         $('#vigencia').val(calcular_edad2());
     });
     
-    vigencia
+    // vigencia
     
     function calcular_edad2()
     {
@@ -871,14 +878,14 @@ function enviar(id_miembros) {
         return vigencia;
     }
 
-    function modal_ce(id_miembros) {
+    function modal_ce(id_miembros) { // esto lo cambie
         var id = id_miembros;
     
-       var base_url = '/index.php/Comision_contrata/consultar_t';
+    //    var base_url = '/index.php/Comision_contrata/consultar_t';
           // var base_url2 = '/index.php/certificacion/llenar_contratista_rp';
     
-        //  var base_url =
-        //      window.location.origin + "/asnc/index.php/Certificacion/consultar_certificacion";
+         var base_url =
+             window.location.origin + "/asnc/index.php/Comision_contrata/consultar_t";
     
        
     
