@@ -881,11 +881,11 @@ function enviar(id_miembros) {
     function modal_ce(id_miembros) { // esto lo cambie
         var id = id_miembros;
     
-    //    var base_url = '/index.php/Comision_contrata/consultar_t';
+       var base_url = '/index.php/Comision_contrata/consultar_t';
           // var base_url2 = '/index.php/certificacion/llenar_contratista_rp';
     
-         var base_url =
-             window.location.origin + "/asnc/index.php/Comision_contrata/consultar_t";
+        //  var base_url =
+        //      window.location.origin + "/asnc/index.php/Comision_contrata/consultar_t";
     
        
     
