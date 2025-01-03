@@ -744,8 +744,8 @@ function enviar(id_miembros) {
         .then((result) => {
             if (result.value == true) {
                 var id = id_miembros;
-              var base_url =window.location.origin+'/asnc/index.php/Comision_contrata/carga_completa';
-            //    var base_url = '/index.php/Comision_contrata/carga_completa';
+            //   var base_url =window.location.origin+'/asnc/index.php/Comision_contrata/carga_completa';
+               var base_url = '/index.php/Comision_contrata/carga_completa';
                    
                 $.ajax({
                     url: base_url,
