@@ -897,7 +897,9 @@ public function carga_completa($data){
    
         $this->db->select('exit_rnc');
         $this->db->where('id_miembros', $data['id']);
-        $query2 = $this->db->get('comisiones.cap_comi_contr');
+        // $query2 = $this->db->get('comisiones.cap_comi_contr');
+        $query2 = $this->db->get('comisiones.cap_contr_publ');
+
         $response2 = $query2->row_array();
         $numero2 = $response2['exit_rnc'] ?? 0;
 
