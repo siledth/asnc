@@ -23,13 +23,19 @@ function modal_ce(id_comision) {
         },
     });
 }
-function cambiarEndDate(){
-
-     f = $("#vigen_cert_desde").val(); // Acá la fecha leída del INPUT
+function cambiarEndDate() {
+    f = $("#vigen_cert_desde").val(); // Acá la fecha leída del INPUT
     vec = f.split('-'); // Parsea y pasa a un vector
     var fecha = new Date(vec[0], vec[1] - 1, vec[2]); // Resta 1 al mes
     fecha.setFullYear(fecha.getFullYear() + 2); // Hace el cálculo
-    res = fecha.getFullYear() + '-' + (fecha.getMonth() + 1) + '-' + fecha.getDate(); // Suma 1 al mes para el resultado
+
+    // Formatear el año, mes y día
+    var year = fecha.getFullYear();
+    var month = (fecha.getMonth() + 1).toString().padStart(2, '0'); // Suma 1 al mes y asegura que tenga 2 dígitos
+    var day = fecha.getDate().toString().padStart(2, '0'); // Asegura que el día tenga 2 dígitos
+
+    // Construir la fecha en el formato deseado
+    res = year + '-' + month + '-' + day;
     $('#vigen_cert_hasta').val(res);
     //console.log(res);f;
 }
