@@ -137,17 +137,17 @@
                                     </div>
                                     <div class="form-group col-3">
 
-                                        <input type="text" id="vigen_cert_desde2" name="vigen_cert_desde2"
+                                        <input type="hidden" id="vigen_cert_desde2" name="vigen_cert_desde2"
                                             class="form-control" value="<?=$time?>" />
-                                        <input type="text" id="vigen_cert_hasta2" name="vigen_cert_hasta2"
+                                        <input type="hidden" id="vigen_cert_hasta2" name="vigen_cert_hasta2"
                                             class="form-control" />
 
                                     </div>
                                     <div class="form-group col-3">
 
-                                        <input type="text" id="vigen_cert_desde" name="vigen_cert_desde"
+                                        <input type="hidden" id="vigen_cert_desde" name="vigen_cert_desde"
                                             class="form-control" value="<?=$time?>" />
-                                        <input type="text" id="vigen_cert_hasta" name="vigen_cert_hasta"
+                                        <input type="hidden" id="vigen_cert_hasta" name="vigen_cert_hasta"
                                             class="form-control" />
 
                                     </div>
