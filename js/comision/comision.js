@@ -25,11 +25,11 @@ function modal_ce(id_comision) {
 }
 function cambiarEndDate(){
 
-    f = $("#vigen_cert_desde").val();; // Acá la fecha leída del INPUT
+     f = $("#vigen_cert_desde").val(); // Acá la fecha leída del INPUT
     vec = f.split('-'); // Parsea y pasa a un vector
-    var fecha = new Date(vec[0], vec[1], vec[2]); // crea el Date
-    fecha.setFullYear(fecha.getFullYear()+2); // Hace el cálculo
-    res = fecha.getFullYear()+'-'+fecha.getMonth()+'-'+fecha.getDate(); // carga el resultado
+    var fecha = new Date(vec[0], vec[1] - 1, vec[2]); // Resta 1 al mes
+    fecha.setFullYear(fecha.getFullYear() + 2); // Hace el cálculo
+    res = fecha.getFullYear() + '-' + (fecha.getMonth() + 1) + '-' + fecha.getDate(); // Suma 1 al mes para el resultado
     $('#vigen_cert_hasta').val(res);
     //console.log(res);f;
 }
