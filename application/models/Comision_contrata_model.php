@@ -353,7 +353,7 @@
                     $response5 = $query2->row_array();
                     $rif_cont = $response5['rif_cont'];
 
-                    $p='Nº SNC-NMC-2024-000';
+                    $p='Nº SNC-NMC-2025-000';
                     $r=$id1;
                     $concatenated_variable = (string) $p . '' . (string) $r;
 
@@ -397,7 +397,7 @@
                     $response5 = $query2->row_array();
                     $rif_cont = $response5['rif_cont'];
 
-                    $p='Nº SNC-NMC-2024-000';
+                    $p='Nº SNC-NMC-2025-000';
                     $r=$id1;
                     $concatenated_variable = (string) $p . '' . (string) $r;
 
@@ -1034,7 +1034,7 @@ public function carga_completa($data){
 
                
 
-                $p='Nº SNC-CMC-2024-000';
+                $p='Nº SNC-CMC-2025-000';
                 $r=$id1;
                 $concatenated_variable = (string) $p . '' . (string) $r;
 
