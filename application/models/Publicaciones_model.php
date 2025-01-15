@@ -852,27 +852,68 @@
 	
 	}
 	/////////////////////consulta interna
-	public function consultar_llamados_internos($date,$rif){
-		if ($rif == 'G200024518')  {
-		$this->db->select('rif_organoente,organoente,numero_proceso,estatus,objeto_contratacion,fecha_disponible_llamado as formatted_date,fecha_disponible_llamado,denominacion_proceso,estado');
-		$this->db->from('public.llamado_concurso_view');
-	   // $this->db->where('fecha_disponible_llamado <=', $date);
-		$this->db->order_by("fecha_disponible_llamado", "desc");
-		$query = $this->db->get();
-		return $query->result_array();
-	} else {
-		$this->db->select('rif_organoente,organoente,numero_proceso,estatus,objeto_contratacion,fecha_disponible_llamado as formatted_date,fecha_disponible_llamado,denominacion_proceso,estado');
-		$this->db->from('public.llamado_concurso_view');
-		$this->db->where('rif_organoente', $rif);
-	   // $this->db->where('fecha_disponible_llamado <=', $date);
-		$this->db->order_by("fecha_disponible_llamado", "desc");
-		$query = $this->db->get();
-		return $query->result_array();
+	// public function consultar_llamados_internos($date,$rif){
+	// 	if ($rif == 'G200024518')  {
+	// 	$this->db->select('rif_organoente,organoente,numero_proceso,estatus,objeto_contratacion,fecha_disponible_llamado as formatted_date,fecha_disponible_llamado,denominacion_proceso,estado');
+	// 	$this->db->from('public.llamado_concurso_view');
+	//    // $this->db->where('fecha_disponible_llamado <=', $date);
+	// 	$this->db->order_by("fecha_disponible_llamado", "desc");
+	// 	$query = $this->db->get();
+	// 	return $query->result_array();
+	// } else {
+	// 	$this->db->select('rif_organoente,organoente,numero_proceso,estatus,objeto_contratacion,fecha_disponible_llamado as formatted_date,fecha_disponible_llamado,denominacion_proceso,estado');
+	// 	$this->db->from('public.llamado_concurso_view');
+	// 	$this->db->where('rif_organoente', $rif);
+	//    // $this->db->where('fecha_disponible_llamado <=', $date);
+	// 	$this->db->order_by("fecha_disponible_llamado", "desc");
+	// 	$query = $this->db->get();
+	// 	return $query->result_array();
 
-	}
-	  
+	// }
 	
-	}
+	// }
+	public function consultar_llamados_internos($date, $rif, $limit = null, $offset = null) {
+    $this->db->select('rif_organoente, organoente, numero_proceso, estatus, objeto_contratacion, fecha_disponible_llamado as formatted_date, fecha_disponible_llamado, denominacion_proceso, estado');
+    $this->db->from('public.llamado_concurso_view');
+
+    // Aplicar condiciones según el RIF
+    if ($rif == 'G200024518') {
+        // No se aplica filtro por RIF
+    } else {
+        $this->db->where('rif_organoente', $rif);
+    }
+
+    // Si deseas filtrar por fecha, descomenta la siguiente línea
+    // $this->db->where('fecha_disponible_llamado <=', $date);
+
+    // Ordenar los resultados
+    $this->db->order_by("fecha_disponible_llamado", "desc");
+
+    // Aplicar límite y offset si están definidos
+    if ($limit !== null) {
+        $this->db->limit($limit, $offset);
+    }
+
+    $query = $this->db->get();
+    return $query->result_array();
+}
+
+// Método para contar el total de registros
+public function count_llamados_internos($date, $rif) {
+    $this->db->from('public.llamado_concurso_view');
+
+    // Aplicar condiciones según el RIF
+    if ($rif == 'G200024518') {
+        // No se aplica filtro por RIF
+    } else {
+        $this->db->where('rif_organoente', $rif);
+    }
+
+    // Si deseas filtrar por fecha, descomenta la siguiente línea
+    // $this->db->where('fecha_disponible_llamado <=', $date);
+
+    return $this->db->count_all_results();
+}
 
 	/////fpdf consulta 
 	function consulta_llamado1($data1){

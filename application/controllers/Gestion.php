@@ -135,6 +135,34 @@ class Gestion extends CI_Controller {
     } 
 
   }
+  public function evaluaciones_internas($offset = 0) {
+    if (!$this->session->userdata('session')) redirect('login');
+
+    $date = date("d-m-Y");
+    $rif = $this->session->userdata['rif_organoente'];
+    
+    // Definir el límite de registros por página
+    $limit = 10;
+
+    // Obtener los datos paginados
+    $data['exonerado'] = $this->Publicaciones_model->consultar_llamados_internos($date, $rif, $limit, $offset);
+    
+    // Contar el total de registros
+    $data['total_rows'] = $this->Publicaciones_model->count_llamados_internos($date, $rif);
+    
+    // Obtener otros datos necesarios
+    $data['estados'] = $this->Configuracion_model->consulta_estados();
+    $data['objeto'] = $this->Configuracion_model->objeto();
+    $generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
+    $generar3 = $this->Publicaciones_model->generar2(); // finalizar llamad
+    $generar4 = $this->Publicaciones_model->generar3(); // finalizar llamad
+
+    // Cargar las vistas
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('publicaciones/reporte/llamadointerno.php', $data);
+    $this->load->view('templates/footer.php');
+}
   public function llamadoxternot() {
     if (!$this->session->userdata('session')) {
       $generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad

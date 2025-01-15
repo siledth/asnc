@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>llamados a concurso</title>
 </head>
 
@@ -28,10 +27,10 @@
                         <div class="col-6">
                             <a class="btn btn-circle waves-effect btn-lg waves-circle waves-float btn-primary"
                                 href="javascript:history.back()"> Volver</a>
-                                <a class="btn btn-circle waves-effect btn-lg waves-circle waves-float btn-primary"
-                                    href="javascript:history.back()"> Regresar</a>
+                            <a class="btn btn-circle waves-effect btn-lg waves-circle waves-float btn-primary"
+                                href="javascript:history.back()"> Regresar</a>
                         </div>
-                        
+
                     </div>
 
                     <div class="col-12 text-center">
@@ -41,24 +40,25 @@
                     <div class="panel panel-inverse">
                         <div class="panel-heading"></div>
                         <div class="table-responsive">
-                            <table id="data-table-default" data-order='[[ 8, "desc" ]]'
-                                class="table table-bordered table-hover">
-                                <thead style="background:#01cdb2">
+
+                            <table class="table table-bordered table-hover">
+                                <thead class="thead-light">
                                     <tr style="text-align:center">
-                                        <th style="color:white;">Rif</th>
-                                        <th style="color:white;">Denominación social</th>
-                                        <th style="color:white;">Num. Proceso</th>
-                                        <th style="color:white;">Fecha Disp.</th>
-                                        <th style="color:white;">Estatus</th>
-                                        <th style="color:white;">Obj. Contr</th>
-                                        <th style="color:white;">Den.proceso</th>
-                                        <th style="color:white;">Estado</th>
-                                        <th style="color:white;">Descargar</th>
+                                        <th style="color:black;">Rif</th>
+                                        <th style="color:black;">Denominación social</th>
+                                        <th style="color:black;">Num. Proceso</th>
+                                        <th style="color:black;">Fecha Disp.</th>
+                                        <th style="color:black;">Estatus</th>
+                                        <th style="color:black;">Obj. Contr</th>
+                                        <th style="color:black;">Den.proceso</th>
+                                        <th style="color:black;">Estado</th>
+                                        <th style="color:black;">Descargar</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach($exonerado as $data):?>
-                                    <tr class="odd gradeX" style="text-align:center">
+                                    <?php if (!empty($exonerado)): ?>
+                                    <?php foreach ($exonerado as $data): ?>
+                                    <tr style="text-align:center">
                                         <td><?=$data['rif_organoente']?> </td>
                                         <td><?=$data['organoente']?> </td>
                                         <td><?=$data['numero_proceso']?> </td>
@@ -82,9 +82,6 @@
                                         <?php else: ?>
                                         <td style="color:green;"><?=$data['estatus']?></td>
                                         <?php endif; ?>
-
-
-
                                         <td><?=$data['objeto_contratacion']?> </td>
                                         <td><?=$data['denominacion_proceso']?> </td>
                                         <td><?=$data['estado']?> </td>
@@ -98,24 +95,69 @@
                                                         data-toggle="modal" data-target="#exampleModal"
                                                         class="fas fa-2x  fa-cloud-download-alt" style="color:blue"></i>
                                                     <a /> -->
-                                                    <button
-                                                        onclick="location.href='<?php echo base_url()?>index.php/Publicaciones/Llamado?id=<?php echo $data['numero_proceso'];?>'"
-                                                        type="button" class="fas fa-2x  fa-cloud-download-alt" style="color:blue" name="button"> 
-                                                    </button>
+                                                <button
+                                                    onclick="location.href='<?php echo base_url()?>index.php/Publicaciones/Llamado?id=<?php echo $data['numero_proceso'];?>'"
+                                                    type="button" class="fas fa-2x  fa-cloud-download-alt"
+                                                    style="color:blue" name="button">
+                                                </button>
 
 
 
                                         </td>
                                     </tr>
-                                    <?php endforeach;?>
+                                    <?php endforeach; ?>
+                                    <?php else: ?>
+                                    <tr>
+                                        <td colspan="4" style="text-align:center;">No hay registros disponibles.</td>
+                                    </tr>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
+                            <!-- Paginación -->
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination justify-content-center">
+                                    <?php
+        $limit = 10; // Número de registros por página
+        $total_pages = ceil($total_rows / $limit); // Total de páginas
+        $current_page = ($this->uri->segment(2) ? (int)$this->uri->segment(2) / $limit : 0); // Página actual
+
+        // Enlace a la página anterior
+        if ($current_page > 0): ?>
+                                    <li class="page-item">
+                                        <a class="page-link"
+                                            href="<?php echo base_url('index.php/Gestion/llamadointerno/'. (($current_page - 1) * $limit)) ?>">«
+                                            Anterior</a>
+                                    </li>
+                                    <?php endif; ?>
+
+                                    <!-- Mostrar páginas del 1 al 5 -->
+                                    <?php for ($i = 0; $i < min(10, $total_pages); $i++): ?>
+                                    <li class="page-item <?= ($i == $current_page) ? 'active' : '' ?>">
+                                        <a class="page-link"
+                                            href="<?php echo base_url('index.php/Gestion/llamadointerno/'. ($i * $limit)) ?>">
+                                            <?= $i + 1 ?>
+                                        </a>
+                                    </li>
+                                    <?php endfor; ?>
+
+                                    <!-- Enlace a la página siguiente si hay más de 5 páginas -->
+                                    <?php if ($total_pages > 10): ?>
+                                    <li class="page-item">
+                                        <a class="page-link"
+                                            href="<?php echo base_url('index.php/Gestion/llamadointerno/'. (5 * $limit)) ?>">Siguiente
+                                            »</a>
+                                    </li>
+                                    <?php endif; ?>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>
 
 
             </div>
+
+
 
 
 
@@ -321,7 +363,8 @@
                                         <label>Observaciones</label>
 
 
-                                        <textarea class="form-control" id="observaciones" name="observaciones" rows="12" >  </textarea>
+                                        <textarea class="form-control" id="observaciones" name="observaciones"
+                                            rows="12">  </textarea>
 
                                         <textarea class="form-control" id="observaciones" name="observaciones" rows="10"
                                             cols="80" readonly>  </textarea>

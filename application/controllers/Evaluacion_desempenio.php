@@ -253,16 +253,59 @@ class Evaluacion_desempenio extends CI_Controller {
 	}
 
 	//Para consultar las evaluaciones que tiene el usuarios registradas
-	public function reporte(){
+	// public function reporte(){
+	// 	if(!$this->session->userdata('session'))redirect('login');
+	// 	$data['rif_organoente']= $this->session->userdata('rif_organoente');
+	// 	$usuario = $this->session->userdata('id_user');
+	// 	$data['reportes'] 	= $this->Evaluacion_desempenio_model->consulta_evaluaciones($usuario);
+	// 	//print_r($data['reportes']);die;
+	// 	$data['reportes_user'] 	= $this->Evaluacion_desempenio_model->consulta_evaluaciones2($usuario);
+	// 	$this->load->view('templates/header.php');
+    //     $this->load->view('templates/navigator.php');
+	// 	$this->load->view('evaluacion_desempenio/reporte.php', $data);
+    //     $this->load->view('templates/footer.php');
+	// }
+
+	public function reporte($offset = 0) {
+    if (!$this->session->userdata('session')) redirect('login');
+
+    $date = date("d-m-Y");
+    $rif = $this->session->userdata['rif_organoente'];
+    
+    // Definir el límite de registros por página
+    $limit = 10;
+// Obtener el término de búsqueda
+
+    $search = $this->input->get('search');
+    // Obtener los datos paginados
+    $data['reportes'] = $this->Evaluacion_desempenio_model->consultar_evaluacion_totales($date, $rif, $limit, $offset,$search);
+    
+    // Contar el total de registros
+    $data['total_rows'] = $this->Evaluacion_desempenio_model->count_evaluaciones_totales($date, $rif,$search);
+    
+    // Obtener otros datos necesarios
+    $data['estados'] = $this->Configuracion_model->consulta_estados();
+    $data['objeto'] = $this->Configuracion_model->objeto();
+    $generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
+    $generar3 = $this->Publicaciones_model->generar2(); // finalizar llamad
+    $generar4 = $this->Publicaciones_model->generar3(); // finalizar llamad
+
+    // Cargar las vistas
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+   	$this->load->view('evaluacion_desempenio/reporte.php', $data);
+    $this->load->view('templates/footer.php');
+}
+
+		public function reporte_externo(){
 		if(!$this->session->userdata('session'))redirect('login');
 		$data['rif_organoente']= $this->session->userdata('rif_organoente');
 		$usuario = $this->session->userdata('id_user');
-		$data['reportes'] 	= $this->Evaluacion_desempenio_model->consulta_evaluaciones($usuario);
 		//print_r($data['reportes']);die;
 		$data['reportes_user'] 	= $this->Evaluacion_desempenio_model->consulta_evaluaciones2($usuario);
 		$this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
-		$this->load->view('evaluacion_desempenio/reporte.php', $data);
+		$this->load->view('evaluacion_desempenio/consulta_externa.php', $data);
         $this->load->view('templates/footer.php');
 	}
 

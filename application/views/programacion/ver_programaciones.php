@@ -30,7 +30,7 @@
                     </div>
                     <div class="col-6 text-center mt-3">
                         <h3 class="text-center">Período de Programación Registrados</h3>
-                        <table class="table table-bordered">
+                        <table id="data-table" data-order='[[ 0, "desc" ]]' class="table table-bordered">
                             <thead style="background:#e4e7e8">
                                 <tr class="text-center">
                                     <th>Período</th>
@@ -46,16 +46,22 @@
                                         <?php if ($lista['estatus'] == 0): ?>
                                         <a href="<?php echo base_url();?>index.php/programacion/nueva_prog?id=<?php echo $lista['id_programacion'];?>"
                                             class="button">
-                                            <i class="fas fa-lg fa-fw fa-edit"
-                                                title="Cargar Programación"></i>
+                                            <i class="fas fa-lg fa-fw fa-edit" title="Cargar Programación"></i>
                                             <a />
-                                            <a title="Remitir al SNC" onclick="enviar(<?php echo $lista['id_programacion'];?>);"
+                                            <a title="Remitir al SNC"
+                                                onclick="enviar(<?php echo $lista['id_programacion'];?>);"
                                                 class="button">
                                                 <i class="fas fa-lg fa-fw fa-upload" style="color: green;"></i>
                                                 <a />
 
                                                 <?php endif; ?>
-                                                <?php if ($lista['estatus'] ==2) : ?>
+                                                <?php  if ($lista['estatus'] == 2) {
+
+    if ($lista['anio'] == $anios) {
+
+        // Si el estatus es 2 y el año es igual a $anios
+
+        ?>
                                                 <a href="<?php echo base_url();?>index.php/programacion/nueva_prog?id=<?php echo $lista['id_programacion'];?>"
                                                     class="button">
                                                     <i class="fas fa-lg fa-fw fa-edit" style="color:black"
@@ -80,9 +86,44 @@
                                                             <a href="<?php echo base_url();?>index.php/programacion/read_send?id=<?php echo $lista['id_programacion'];?>"
                                                                 class="button">
                                                                 <i class="fas   fa-lg fa-cloud-download-alt"
-                                                                    title="Descargar Certificado de Cumplimiento ART.38 #1" style="color: blue;"></i>
+                                                                    title="Descargar Certificado de Cumplimiento ART.38 #1"
+                                                                    style="color: blue;"></i>
                                                                 <a />
-                                                                <?php endif; ?>
+
+                                                                <?php
+
+                                                            } else {
+
+                                                                // Si el estatus es 2 pero el año es diferente a $anios
+
+                                                                ?>
+
+                                                                <a href="<?php echo base_url();?>index.php/programacion/ver_programacion_final?id=<?php echo $lista['id_programacion'];?>"
+                                                                    class="button">
+                                                                    <i class="fas fa-print fa-lg" title="Imprimir Carga"
+                                                                        style="color: black;"></i>
+                                                                    <a />
+                                                                    <!-- <a href="<?php echo base_url();?>index.php/programacion/certi_progra?id=<?php echo $lista['id_programacion'];?>"
+                                                        class="button">
+                                                        <i class="fas fa-lg fa-fw fa-eye" style="color: green;"
+                                                            title="Cargar información de la re-programación"></i>
+                                                        <a /> -->
+
+                                                                    <a href="<?php echo base_url();?>index.php/programacion/read_send?id=<?php echo $lista['id_programacion'];?>"
+                                                                        class="button">
+                                                                        <i class="fas   fa-lg fa-cloud-download-alt"
+                                                                            title="Descargar Certificado de Cumplimiento ART.38 #1"
+                                                                            style="color: blue;"></i>
+                                                                        <a />
+
+                                                                        <?php
+
+    }
+
+}
+
+?>
+
                                     </td>
                                 </tr>
                                 <?php endforeach;?>

@@ -15,6 +15,8 @@ class Programacion extends CI_Controller {
 
         $data['ver_programaciones'] = $this->Programacion_model->consultar_programaciones($unidad);
         $data['fecha'] = date('yy');
+        $data['anios'] = date('Y');
+
 
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
@@ -5431,7 +5433,7 @@ public function read_send() //hacer un pdf de comprobante programacion final par
       $pdf->Output('Comprobanteproyecto '.$curdate.'.pdf', 'D');
      // $this->load->view('headfoot/header', $datos);
 }
-public function read_send_snc12() //esto es nuevo ya que se coloco para ver los comprobante en snc ver programaciones enviadas 
+public function read_send_snc12() //esto es nuevo ya que se coloco para ver los comprobante en snc ver programaciones enviadas ultimo 2025
  { 
     //programacion
     //  $data['ver_programaciones'] = $this->Programacion_model->consultar_reprogramacion($unidad);
@@ -5699,7 +5701,7 @@ public function read_send_snc12() //esto es nuevo ya que se coloco para ver los 
     
     
      
-      $pdf->Output('Comprobanteproyectof'.$curdate.'.pdf', 'I');
+      $pdf->Output('Comprobanteproyectof'.$curdate.'.pdf', 'D');
      // $this->load->view('headfoot/header', $datos);
 }
 public function modificacion_ley() //pdf segun ley
@@ -6623,7 +6625,20 @@ public function sending_p(){
 //     $this->load->view('templates/footer.php');
 // }
 
+public function sending_todo(){
+    if(!$this->session->userdata('session'))redirect('login');
 
+ $data['read'] = $this->Programacion_model->read_sending_p();
+   
+
+    //$data['read'] = $this->Programacion_model->read_sending_pdvsa();
+    $data['fecha'] = date('yy');
+
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('programacion/sending/prog_env_todo.php', $data);
+    $this->load->view('templates/footer.php');
+}
 public function sending_pdvsa(){
     if(!$this->session->userdata('session'))redirect('login');
 

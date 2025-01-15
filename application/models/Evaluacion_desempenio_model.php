@@ -452,9 +452,49 @@ public function llenar_contratista_2($data){
 
 
     $this->db->order_by("id", "desc");
-    //$this->db->limit(100); 
+    // $this->db->limit(100); 
     $query = $this->db->get();
     return $query->result_array();
+}
+public function consultar_evaluacion_totales($date, $rif, $limit = null, $offset = null, $search = null) {
+    $this->db->select('id, rif_organoente, organo_ente, rif_contrat,
+                contratista_ev, id_modalidad, descripcion_modalidad,
+                id_sub_modalidad, desc_submodalidad, fec_inicio_cont, fec_fin_cont,
+                nro_procedimiento, nro_contrato, id_estado_contrato,  descr_contrato,
+                bienes, servicios, obras, monto, dolar, euro, petros, bolivares, calidad, responsabilidad, 
+                conocimiento, oportunidad, total_calif, calificacion, notf_cont, fecha_not, medio, nro_oc_os,
+                fecha_reg_eval, id_estatus, mod_otro, otro, snc, id_usuario, nombrefun');
+    $this->db->from('evaluacion_desempenio.evaluaciones_view');
+     $this->db->where('snc', 1);
+if ($search) {
+
+        $this->db->like('calificacion', $search); // Cambia 'objeto_contratacion' por el campo que deseas buscar
+
+        // Puedes agregar más condiciones de búsqueda si es necesario
+
+    }
+    $this->db->order_by("id", "desc");
+
+    // Aplicar límite y offset si están definidos
+    if ($limit !== null) {
+        $this->db->limit($limit, $offset);
+    }
+
+    $query = $this->db->get();
+    return $query->result_array();
+}
+
+public function count_evaluaciones_totales($date, $rif, $search = null) {
+    $this->db->from('evaluacion_desempenio.evaluaciones_view');
+     $this->db->where('snc', 1);
+       if ($search) {
+
+        $this->db->like('calificacion', $search); // Cambia 'objeto_contratacion' por el campo que deseas buscar
+
+        // Puedes agregar más condiciones de búsqueda si es necesario
+
+    }
+    return $this->db->count_all_results();
 }
   function consulta_evaluaciones2($usuario){
     $this->db->select('id, rif_organoente, organo_ente, rif_contrat,

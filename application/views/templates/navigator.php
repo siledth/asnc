@@ -269,7 +269,12 @@
                                         <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
                                         <li>
                                             <a href="<?= base_url() ?>index.php/Programacion/sending_p">
-                                                - Consulta Programación Enviada
+                                                - Consulta grafico
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/Programacion/sending_todo">
+                                                - Consulta todas Programación Enviada
                                             </a>
                                         </li>
                                         <?php endif; ?>
@@ -391,9 +396,14 @@
                                         Reportes
                                     </a>
                                     <ul class="sub-menu">
-                                        <?php if (($this->session->userdata('menu_comprobante_eval_desem') == 1)) : ?>
+                                        <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
                                         <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/reporte">-
-                                                Comprobante Registro</a></li>
+                                                Comprobante Evaluaciones de Desempeño SNC</a></li>
+                                        <?php endif; ?>
+
+                                        <?php if (($this->session->userdata('menu_comprobante_eval_desem') == 1)) : ?>
+                                        <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/reporte_externo">-
+                                                Comprobante Evaluaciones de Desempeño</a></li>
                                         <?php endif; ?>
                                         <?php if (($this->session->userdata('menu_estdi_eval_desem') == 1)) : ?>
                                         <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/consulta">-

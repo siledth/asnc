@@ -21,6 +21,8 @@ $route['llamadoxterno']['get'] = 'Gestion/llamadoxterno';
 $route['solicitud']['get'] = 'Gestion/solicitud';
 
 $route['pdf']['get'] = 'Gestion/pdf';
+$route['llamadointerno/(:num)'] = 'Gestion/llamadointerno/$1';
+// $route['Publicaciones/llamadointerno/(:num)'] = 'Publicaciones/llamadointerno/index/$1';
 //******************************************************************************
 //******************************************************************************
 //***               RUTAS PARA EL SERVICIO DE FORMULARIOS                    ***
