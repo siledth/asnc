@@ -23,7 +23,7 @@
                     </div>
                     <div class="col-6 text-center mt-3">
                         <h3 class="text-center">Programaciones Recibidas</h3>
-                        <table id="data-table-buttons" data-order='[[ 1, "desc" ]]' class="table table-bordered">
+                        <table id="data-table-buttons" data-order='[[ 3, "desc" ]]' class="table table-bordered">
                             <thead style="background:#01cdb2">
                                 <tr class="text-center">
                                     <th>N°</th>
