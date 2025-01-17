@@ -6254,7 +6254,7 @@ public function read_send_snc() //hacer un pdf de comprobante programacion final
    //$id_programacion = $this->input->get('id');
    $pdf->SetFont('Arial','B',12);
     
-   $dat52 = $this->Programacion_model->read_sending_rendiciones($id_programacion);
+   $dat52 = $this->Programacion_model->read_sending_rendiciones($id_ainf_enviada);
 
    if($dat52!= ''){ 
        foreach($dat52 as $dt52){ 

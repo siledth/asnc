@@ -36,7 +36,8 @@ function modal1(id_programacion) {
                 var id = $('#id_programacion77').val();
                 var trimestre = $('#llenar_trimestre77').val();
 
-                var base_url = '/index.php/Programacion/enviar_rendi';
+               var base_url = '/index.php/Programacion/enviar_rendi';
+             //  var base_url =window.location.origin+'/asnc/index.php/Programacion/enviar_rendi';
 
                 $.ajax({
                     url: base_url,

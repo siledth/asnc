@@ -5858,7 +5858,7 @@ public function tolist_info_py($data){
                     $id_obj_comr_serv_a = 0;
                     $precio_total_serv_a = 0;
                     $porcentaje_serv_a = 0;
-                
+                $total_acc = 0; 
                     if($data2 != ''){
                         foreach($data2 as $d2){
                             if($d2->id_obj_comercial != '' && $d2->id_obj_comercial == '3'){
@@ -5889,9 +5889,18 @@ public function tolist_info_py($data){
                             }
                         }
                     
-                        foreach($data3 as $total_ass){
-                            $total_acc = $total_ass->precio_total;
-                        }
+                        // foreach($data3 as $total_ass){
+                        //     $total_acc = $total_ass->precio_total;
+                        // }
+                         if (!empty($data3)) {
+
+            foreach ($data3 as $total_ass) {
+
+                $total_acc = $total_ass->precio_total;
+
+            }
+
+        }
                     }else{
                         $id_obj_comr_obra_a = 0;
                         $precio_total_obra_a = 0;
@@ -5899,7 +5908,7 @@ public function tolist_info_py($data){
                         $id_obj_comr_bien_a = 0;
                         $precio_total_bien_a = 0;
                         $porcentaje_bien_a = 0;
-                        $id_obj_comr_serv_ac = 0;
+                        $id_obj_comr_serv_a = 0;
                         $precio_total_serv_a = 0;
                         $porcentaje_serv_a = 0;
                         $total_acc = 0;
@@ -5948,9 +5957,18 @@ public function tolist_info_py($data){
                             }
                         }
                     
-                        foreach($data5 as $total_ass){
-                            $total_proy = $total_ass->precio_total_py;
-                        }    
+                        // foreach($data5 as $total_ass){
+                        //     $total_proy = $total_ass->precio_total_py;
+                        // }    
+                        if (!empty($data5)) {
+
+            foreach ($data5 as $total_ass) {
+
+                $total_proy = $total_ass->precio_total_py;
+
+            }
+
+        }
                     }else{
                         $id_obj_comr_obra_p = 0;
                         $precio_total_obra_p = 0;
@@ -5995,7 +6013,7 @@ public function tolist_info_py($data){
                                     'trimestre'      => $data['trimestre'],
                 
                         );
-                     //   print_r($resulta);die;
+                      //  print_r($resulta);die;
                        $this->db->insert('programacion.inf_enviada_rendi',$resulta);
                 
                         $data1 = array('snc' => '4',//   y rendir 

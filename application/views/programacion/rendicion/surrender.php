@@ -45,14 +45,15 @@
                             </div>
 
                             <div class="col-4 mb-3">
-                            <button type="button" class="my-button5" onclick="modal1(<?php echo $id_programacion?>);"
-                            data-toggle="modal" data-target="#notif">
-                            Notificar al SNC
-                        </button>
+                                <button type="button" class="my-button5"
+                                    onclick="modal1(<?php echo $id_programacion?>);" data-toggle="modal"
+                                    data-target="#notif">
+                                    Notificar al SNC
+                                </button>
                             </div>
                         </div>
                     </div>
-                   
+
 
 
                     <div class="col-1"></div>
@@ -76,7 +77,7 @@
                             </thead>
                             <tbody>
                                 <?php foreach($rendir as $data):?>
-                                <tr class="odd gradeX" style="text-align:center"> 
+                                <tr class="odd gradeX" style="text-align:center">
                                     <td><?=$data['id_rendicion']?> </td>
                                     <td><?=$data['id_p_items']?> </td>
                                     <td><?=$data['desc_objeto_contrata']?> </td>
@@ -84,16 +85,16 @@
                                     <td><?=$data['desc_partida_presupuestaria']?> </td>
                                     <td><?=$data['especificacion']?> </td>
                                     <td><?=$data['desc_ccnu']?> </td>
-                                    <td><?=$data['total_rendi']?> </td>                                    
+                                    <td><?=$data['total_rendi']?> </td>
                                     <td class="center">
-                                               <a onclick="editar_factura(<?php echo $data['id_rendicion'] ?>);" data-toggle="modal"
-                                                data-target="#editar_factura" style="color: white">
-                                                <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
-                                                    style="color: darkgreen;"></i>
-                                    </a>
+                                        <a onclick="editar_factura(<?php echo $data['id_rendicion'] ?>);"
+                                            data-toggle="modal" data-target="#editar_factura" style="color: white">
+                                            <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
+                                                style="color: darkgreen;"></i>
+                                        </a>
                                         <a class="button"><i
                                                 onclick="eliminar_rendiciones(<?php echo $data['id_rendicion']?>);"
-                                                class="fas fa-lg fa-fw fa-trash-alt" style="color:red"></i><a/>
+                                                class="fas fa-lg fa-fw fa-trash-alt" style="color:red"></i><a />
 
                                     </td>
 
@@ -1076,114 +1077,115 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="editar_factura" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
- <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Editar Información  de Facturación</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal" id="guardar_edit" name="guardar_edit"
-                        data-parsley-validate="true" method="POST" enctype="multipart/form-data">
-                        <div class="row">
-                            <div class="card card-outline-danger">
-                                <h5 class="mt-0 text-center"><b>Editar Información  de Facturación </b></h5>
-                                <div class="row ">
+<div class="modal fade" id="editar_factura" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar Información de Facturación</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="guardar_edit" name="guardar_edit" data-parsley-validate="true"
+                    method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="card card-outline-danger">
+                            <h5 class="mt-0 text-center"><b>Editar Información de Facturación </b></h5>
+                            <div class="row ">
                                 <div class="form-group col-4">
-                                        <label>N° FACTURA*:</label>
-                                        <input class="form-control" type="text" name="n_factura" id="n_factura" >
-                                        <input class="form-control" type="hidden" name="id_rendiciones" id="id_rendiciones" readonly>
-                                    </div>
-                                     <div class="form-group col-4">
-                                        <label>FECHA DE LA FACTURA :</label>
-                                        <input class="form-control" type="date" name="datefactura_rendisr" id="datefactura_rendisr">
-                                         
-                                    </div>
-                                    <div class="form-group col-4">
-                                          <label>BASE IMPONIBLE </label>
-                                          <input type="text" class="form-control" 
-                                            name="base_imponible_rendi5s"
-                                            id="base_imponible_rendi5s">
-                                    </div> 
-                                       <div class="form-group col-4">
-                                          <label>ALÍCUOTA IVA  </label>
-                                            <input class="form-control" type="text" name="ivas" id="ivas" readonly>
+                                    <label>N° FACTURA*:</label>
+                                    <input class="form-control" type="text" name="n_factura" id="n_factura">
+                                    <input class="form-control" type="hidden" name="id_rendiciones" id="id_rendiciones"
+                                        readonly>
+                                </div>
+                                <div class="form-group col-4">
+                                    <label>FECHA DE LA FACTURA :</label>
+                                    <input class="form-control" type="date" name="datefactura_rendisr"
+                                        id="datefactura_rendisr">
 
-                                    </div>  
-                                     <div class="form-group col-4">
-                                        <label> Cambiar ALÍCUOTA IVA <i
-                                            title=" Debe seleccionarla en este campo"
+                                </div>
+                                <div class="form-group col-4">
+                                    <label>BASE IMPONIBLE </label>
+                                    <input type="text" class="form-control" name="base_imponible_rendi5s"
+                                        id="base_imponible_rendi5s">
+                                </div>
+                                <div class="form-group col-4">
+                                    <label>ALÍCUOTA IVA </label>
+                                    <input class="form-control" type="text" name="ivas" id="ivas" readonly>
+
+                                </div>
+                                <div class="form-group col-4">
+                                    <label> Cambiar ALÍCUOTA IVA <i title=" Debe seleccionarla en este campo"
                                             class="fas fa-question-circle"></i></label>
-                                        <select class="form-control" name="camb_id_iva" id="camb_id_iva" onclick="calculos_factura();">
-                                            <option value="0">Seleccione</option>
-                                        </select>                                            
-                                    </div>
-                                    <div class="form-group col-4">
-                                        <label>MONTO FACTURA</label>
-                                           <input type="text" class="form-control" onblur="calculos_factura();"
-                                        name="monto_factura_rend5s" id="monto_factura_rend5s" readonly>
-                                    </div>
-                                    <div class="form-group col-4">
-                                        <label> TOTAL PAGO </label>
-                                                 <input onblur="calculos_factura();" id="total_pago_rendi5s"
-                                        name="total_pago_rendi5s" class="form-control" readonly>
-                                    </div>
-                                    <div class="form-group col-4">
-                                        <label>Paridad US$ :</label>
-                                        <input id="paridad_rendi_factura5s" name="paridad_rendi_factura5s"
-                                        onkeypress="return valideKey(event);" onblur="calculos_factura();"
-                                        class="form-control">
-                                    </div>
-                                     <div class="form-group col-4">
-                                        <label>SUB TOTAL (us$):</label>
-                                         <input id="subtotal_rendi_factura5s" name="subtotal_rendi_factura5s"
-                                        onkeyup="verif();" class="form-control" readonly>
-                                    </div>
-                                    <div class="form-group col-12">
-                                        <label>COMPROMISO DE RESPONSABILIDAD SOCIAL</label>
-                                         <input id="selc_com_res_social5s" name="selc_com_res_social5s"
-                                        onkeyup="verif();" class="form-control" readonly>
-                                            <input type="hidden" id="id_selc_com_res_social" name="id_selc_com_res_social"
-                                          class="form-control" readonly>
-                                    </div>
-                                     <div class="form-group col-12">
-                                        <label>CAMBIAR COMPROMISO DE RESPONSABILIDAD SOCIAL :</label>
-                                        <select class="form-control" name="camb_selc_com_res_social5s" id="camb_selc_com_res_social5s"
-                                        onchange="calculos_rendi_bienessacc();">
+                                    <select class="form-control" name="camb_id_iva" id="camb_id_iva"
+                                        onclick="calculos_factura();">
                                         <option value="0">Seleccione</option>
                                     </select>
-                                    </div>
-                                     <div class="form-group col-4">
-                                        <label>MONTO 3% CRS :</label>
-                                        <input id="monto3_rendibiness" name="monto3_rendibiness" onkeyup="verif();"
+                                </div>
+                                <div class="form-group col-4">
+                                    <label>MONTO FACTURA</label>
+                                    <input type="text" class="form-control" onblur="calculos_factura();"
+                                        name="monto_factura_rend5s" id="monto_factura_rend5s" readonly>
+                                </div>
+                                <div class="form-group col-4">
+                                    <label> TOTAL PAGO </label>
+                                    <input onblur="calculos_factura();" id="total_pago_rendi5s"
+                                        name="total_pago_rendi5s" class="form-control" readonly>
+                                </div>
+                                <div class="form-group col-4">
+                                    <label>Paridad US$ :</label>
+                                    <input id="paridad_rendi_factura5s" name="paridad_rendi_factura5s"
+                                        onkeypress="return valideKey(event);" onblur="calculos_factura();"
                                         class="form-control">
-                                    </div>
-                                    <div class="form-group col-4">
-                                        <label>FECHA DEL PAGO :</label>
-                                       <input type="date" class="form-control" name="fecha_pago_rendi5s"
+                                </div>
+                                <div class="form-group col-4">
+                                    <label>SUB TOTAL (us$):</label>
+                                    <input id="subtotal_rendi_factura5s" name="subtotal_rendi_factura5s"
+                                        onkeyup="verif();" class="form-control" readonly>
+                                </div>
+                                <div class="form-group col-12">
+                                    <label>COMPROMISO DE RESPONSABILIDAD SOCIAL</label>
+                                    <input id="selc_com_res_social5s" name="selc_com_res_social5s" onkeyup="verif();"
+                                        class="form-control" readonly>
+                                    <input type="hidden" id="id_selc_com_res_social" name="id_selc_com_res_social"
+                                        class="form-control" readonly>
+                                </div>
+                                <div class="form-group col-12">
+                                    <label>CAMBIAR COMPROMISO DE RESPONSABILIDAD SOCIAL :</label>
+                                    <select class="form-control" name="camb_selc_com_res_social5s"
+                                        id="camb_selc_com_res_social5s" onchange="calculos_rendi_bienessacc();">
+                                        <option value="0">Seleccione</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-4">
+                                    <label>MONTO 3% CRS :</label>
+                                    <input id="monto3_rendibiness" name="monto3_rendibiness" onkeyup="verif();"
+                                        class="form-control">
+                                </div>
+                                <div class="form-group col-4">
+                                    <label>FECHA DEL PAGO :</label>
+                                    <input type="date" class="form-control" name="fecha_pago_rendi5s"
                                         id="fecha_pago_rendi5s">
-                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" onclick="javascript:window.location.reload()" class="btn btn-secondary"
-                        data-dismiss="modal">Cerrar</button>
-                    <button type="button" id="guardar_pago_fin" onclick="save_edit();"
-                        class="my-button">Guardar</button>
-                </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="javascript:window.location.reload()" class="btn btn-secondary"
+                    data-dismiss="modal">Cerrar</button>
+                <button type="button" id="guardar_pago_fin" onclick="save_edit();" class="my-button">Guardar</button>
             </div>
         </div>
+    </div>
 </div>
 
 <script src="<?=base_url()?>/js/programacion/yield.js"></script>
-<script src="<?=base_url()?>/js/programacion/rendpy.js"></script> 
-<script src="<?=base_url()?>/js/programacion/editar_factu.js"></script> 
+<script src="<?=base_url()?>/js/programacion/rendpy.js"></script>
+<script src="<?=base_url()?>/js/programacion/editar_factu.js"></script>
 
 
 <script src="<?=base_url()?>/js/programacion/enviar_rendi.js"></script>
