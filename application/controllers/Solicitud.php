@@ -362,6 +362,6 @@ $pdf->SetY($y + 5);
 * Para el Módulo de Consulta de Contratista se crearán hasta un máximo de tres (3) Claves
 * Por cada Usuario o Usuaria debe remitirse una Planilla de Solicitud                  '), 0, 'J');
  
-     $pdf->Output('Solicitud SNC' , 'I' );
+     $pdf->Output('Solicitud SNC' , 'D' );
  }
 }
