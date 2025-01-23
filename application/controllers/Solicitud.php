@@ -89,7 +89,7 @@ $da = $this->session->userdata('rif');
           // $pdf->MultiCell(100,5, date("d/m/Y", strtotime($dt5->fecha)), 0, 'L');
           
        }}
-if($exit_rnc1 == 1){ 
+if($exit_rnc1 == 1){ //si existe en el snc
 
   $data = $this->User_model->consulta_solictud($id_programacion);
   if($data != ''){
@@ -111,7 +111,7 @@ if($exit_rnc1 == 1){
                         $pdf->SetFont('Arial','B',9);
                         $pdf->Cell(42,5,utf8_decode('Órgano/Ente de Adscripción:'),0,0,'R'); 
                         $pdf->SetFont('Arial','',9); 
-                        $pdf->Cell(40,5, $d->asdscrito,0,1,'C');
+                        $pdf->Cell(60,5, $d->asdscrito,0,1,'C');
                         $pdf->SetFont('Arial','B',9);
                         $pdf->Cell(9,5,utf8_decode('Siglas:'),0,0,'R'); 
                         $pdf->SetFont('Arial','',9);
@@ -123,7 +123,7 @@ if($exit_rnc1 == 1){
                         $pdf->SetFont('Arial','B',9);
                         $pdf->Cell(30,5,utf8_decode('Clasificación:'),0,0,'R'); 
                         $pdf->SetFont('Arial','',9); 
-                        $pdf->Cell(45,5, $d->desc_clasificacion,0,1,'C');
+                        $pdf->Cell(55,5, $d->desc_clasificacion,0,1,'C');
                         $pdf->SetFont('Arial','B',9);
                         $pdf->Cell(13,5,utf8_decode('Telefono:'),0,0,'R'); 
                         $pdf->SetFont('Arial','',9);
@@ -149,9 +149,9 @@ if($exit_rnc1 == 1){
                         $pdf->SetFont('Arial','',9); 
                         $pdf->MultiCell(125,5, utf8_decode($d->dri), 0, 'L');
                          $pdf->SetFont('Arial','B',9);
-                        $pdf->Cell(51,5,utf8_decode('Máxima Autoridad o Cuentadante:'),0,0,'R'); 
+                        $pdf->Cell(40,5,utf8_decode('Máxima Autoridad o Cuentadante:'),0,0,'R'); 
                         $pdf->SetFont('Arial','',9); 
-                        $pdf->Cell(25,5, $d->name_max_a_f,0,0,'C');
+                        $pdf->Cell(45,5, $d->name_max_a_f,0,0,'C');
                         $pdf->SetFont('Arial','B',9);
                         $pdf->Cell(90,5,utf8_decode('Cargo Máxima Autoridad o Cuentadante:'),0,0,'R'); 
                         $pdf->SetFont('Arial','',9); 
@@ -257,9 +257,9 @@ $pdf->Cell(160,5,utf8_decode('DATOS DEL USUARIO O USUARIA DE LA CLAVE'),0,1,'C')
                         $pdf->SetFont('Arial','',9); 
                         $pdf->Cell(15,5, $d->cedula_f,0,0,'C');
                         $pdf->SetFont('Arial','B',9);
-                        $pdf->Cell(50,5,utf8_decode('Cargo:'),0,0,'R'); 
+                        $pdf->Cell(20,5,utf8_decode('Cargo:'),0,0,'R'); 
                         $pdf->SetFont('Arial','',9); 
-                        $pdf->Cell(25,5, $d->cargo_f,0,0,'C');
+                        $pdf->Cell(90,5, $d->cargo_f,0,0,'C');
                         $pdf->SetFont('Arial','B',9);
                         $pdf->Cell(30,5,utf8_decode('Telefono:'),0,0,'R'); 
                         $pdf->SetFont('Arial','',9);
@@ -267,7 +267,7 @@ $pdf->Cell(160,5,utf8_decode('DATOS DEL USUARIO O USUARIA DE LA CLAVE'),0,1,'C')
                         $pdf->SetFont('Arial','B',9);
                         $pdf->Cell(34,5,utf8_decode('Correo Electrónico:'),0,0,'R'); 
                         $pdf->SetFont('Arial','',9); 
-                        $pdf->Cell(40,5, $d->correo,0,1,'C');
+                        $pdf->Cell(90,5, $d->correo,0,1,'C');
                         $pdf->Cell(2,5,'',0,0,'C');
 
 
@@ -362,6 +362,6 @@ $pdf->SetY($y + 5);
 * Para el Módulo de Consulta de Contratista se crearán hasta un máximo de tres (3) Claves
 * Por cada Usuario o Usuaria debe remitirse una Planilla de Solicitud                  '), 0, 'J');
  
-     $pdf->Output('Solicitud SNC' , 'D' );
+     $pdf->Output('Solicitud SNC' , 'I' );
  }
 }
