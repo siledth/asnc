@@ -941,11 +941,17 @@ public function llamadointerno($offset = 0) {
           $data = $this->Publicaciones_model->consulta_llamado($data1);
           foreach($data as $d){
               
-              $pdf->Cell(60,10,'Rif:',0,0,'C'); 
-              $pdf->Cell(100,10,'Denominacion social:',0,1,'C');                  
+              $pdf->Cell(60,10,'Rif:',0,0,'C');
               $pdf->SetFont('Arial','',10);
-              $pdf->Cell(60,10, $d->rif_organoente,0,0,'C');
-              $pdf->Cell(100,10, utf8_decode($d->organoente),0,1,'C');
+
+              $pdf->Cell(60,10, $d->rif_organoente,0,1,'C');
+              $pdf->SetFont('Arial','B',12);
+
+              $pdf->Cell(70,10,'Denominacion social:',0,0,'C');                  
+              $pdf->SetFont('Arial','',10);
+              $pdf->MultiCell(125, 5, utf8_decode($d->organoente), 0, 'L');
+
+            //   $pdf->Cell(100,10, utf8_decode($d->organoente),0,1,'C');
               
               $pdf->SetFont('Arial','B',12);
               $pdf->Cell(60,10,'Siglas:',0,0,'C'); 
