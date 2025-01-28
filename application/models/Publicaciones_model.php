@@ -1170,6 +1170,78 @@ public function consultar_cxc_client3($data){
 		return $query->row_array();
 	
 }
+function consulta_llamado2($rif_organoente,$numero_proceso){
+			//$id4=$data['id'];
+			$query = $this->db->query("SELECT c.rif_organoente, c.numero_proceso, c.id_modalidad, 
+			c.id_mecanismo, c.id_objeto_contratacion, c.dias_habiles, 
+			c.fecha_llamado, c.fecha_disponible_llamado, c.fecha_fin_aclaratoria, 
+			c.fecha_tope, c.fecha_fin_llamado, 
+			c.denominacion_proceso, c.descripcion_contratacion, 
+			c.web_contratante, c.hora_desde, c.hora_hasta, 
+			c.id_estado, c.id_municipio, c.direccion, 
+			c.hora_desde_sobre, c.id_estado_sobre, c.id_municipio_sobre, 
+			c.direccion_sobre, c.lugar_entrega, c.observaciones, 
+			 c.idestatus, c.fecha_inicio_aclaratoria, 
+			c.mecanismo, c.modalidad, c.objeto_contratacion, c.estado, c.municipio,
+			 c.organoente, c.siglas, c.estado_sobre, c.municipio_sobre, 
+			 c.id_llcestatus, c.estatus, m.descripcion as descr, obj.descripcion as obj
+			 FROM public.llamado_concurso_view c 
+			 left join public.modalidad m on m.id_modalidad = c.id_modalidad
+			 left join public.mecanismo  cn on cn.id_mecanismo = c.id_mecanismo
+			 join public.objeto_contratacion obj on obj.id_objeto_contratacion = c.id_objeto_contratacion	    
+			 where  c.rif_organoente ='$rif_organoente' and c.numero_proceso = '$numero_proceso'");
+			if($query->num_rows()>0){
+
+				$this->db->select('rif_organoente');
+				$this->db->where('numero_proceso', $numero_proceso);            
+				$query2 = $this->db->get('public.llamado_concurso_view');
+				$response5 = $query2->row_array();
+				$rif_cont = $response5['rif_organoente'];
+
+				$this->db->select('max(e.id_contadorllc) as id1');
+				$this->db->where('numero_proceso', $numero_proceso);            
+				$query1 = $this->db->get('public.contadorllc e');
+				$response4 = $query1->row_array();
+
+				if (!empty($response4)) {
+					$id1 = $response4['id1'] + 1;
+				} else {
+					$id1 = 1;					
+			
+				}
+				if ($id1==1) {
+					date_default_timezone_set('America/Caracas'); // set the time zone to Venezuela
+
+					$data4 = array(
+						'id_contadorllc'		    => $id1,
+						'rif_organoente'		=> $rif_cont,
+						'numero_proceso'		=> $numero_proceso,
+						'login_time' => date('Y-m-d H:i:s'),
+					);    
+					$this->db->insert("public.contadorllc", $data4);
+
+				} else {
+									
+					date_default_timezone_set('America/Caracas'); // set the time zone to Venezuela
+					$data4 = array(
+						'id_contadorllc' => $id1,
+						'login_time' => date('Y-m-d H:i:s'),
+					);
+					$this->db->where('numero_proceso', $numero_proceso);
+					$update = $this->db->update('public.contadorllc', $data4);
+				
+				}
+				return $query->result();
+
+
+
+
+			}
+			else{
+				return NULL;
+			}
+		}
+		
 
 }
 ?>

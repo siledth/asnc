@@ -124,13 +124,12 @@
                                                         data-toggle="modal" data-target="#exampleModal"
                                                         class="fas fa-2x  fa-cloud-download-alt" style="color:blue"></i>
                                                     <a /> -->
-                                                <button
-                                                    onclick="location.href='<?php echo base_url()?>index.php/Publicaciones/Llamado?id=<?php echo $data['numero_proceso'];?>'"
-                                                    type="button" class="fas fa-2x  fa-cloud-download-alt"
-                                                    style="color:blue" name="button">
-                                                </button>
 
-
+                                                <a href="<?php echo base_url();?>index.php/Llamados_e/pdfrt?id=<?php echo $data['rif_organoente'];?>/<?php echo $data['numero_proceso'];?>"
+                                                    class="button">
+                                                    <i class="fas   fa-lg fa-cloud-download-alt"
+                                                        title="Descargar llamado a concurso" style="color: blue;"></i>
+                                                    <a />
 
                                         </td>
                                     </tr>
