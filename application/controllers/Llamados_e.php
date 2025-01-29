@@ -147,19 +147,24 @@ $pdf->SetFont('Arial','B',12);
                  $pdf->SetFont('Arial','B',12);
              
               $pdf->Cell(60,5,'Modalidad:',0,0,'C');
-              $pdf->Cell(60,5,'Mecanismo:',0,0,'C');
-              $pdf->Cell(60,5,utf8_decode('Objeto de Contratación:'),0,1,'C'); 
+              $pdf->Cell(60,5,'Mecanismo:',0,1,'C');
 
 
           $pdf->SetFont('Arial','',10);
                  $pdf->Cell(60,10, utf8_decode($d->modalidad),0,0,'C');
-                 $pdf->Cell(60,10, utf8_decode($d->mecanismo),0,0,'C');   
-                 $pdf->Cell(60,10, $d->objeto_contratacion,0,1,'C');        
+                   $pdf->MultiCell(100,5, utf8_decode($d->mecanismo), 0, 'L');  
+                 $pdf->SetFont('Arial','B',12);
+
+              $pdf->Cell(60,10,utf8_decode('Objeto de Contratación:'),0,0,'C'); 
+                 $pdf->Cell(180,10,utf8_decode('Acto Público:'),0,1,'C');   
+
+          $pdf->SetFont('Arial','',10);
+
+                 $pdf->Cell(60,10, $d->objeto_contratacion,0,0,'C');   
           
           $pdf->SetFont('Arial','B',12);
              
                 //  $pdf->Cell(100,10,' ',0,0,'C');
-                 $pdf->Cell(180,10,utf8_decode('Acto Público:'),0,1,'C');   
 
           $pdf->SetFont('Arial','',10);
                     // $pdf->Cell(100,5, date("d/m/Y", strtotime($d->fecha_disponible_llamado)),0,0,'C');
