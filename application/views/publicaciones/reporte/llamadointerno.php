@@ -95,11 +95,13 @@
                                                         data-toggle="modal" data-target="#exampleModal"
                                                         class="fas fa-2x  fa-cloud-download-alt" style="color:blue"></i>
                                                     <a /> -->
-                                                <button
-                                                    onclick="location.href='<?php echo base_url()?>index.php/Publicaciones/Llamado?id=<?php echo $data['numero_proceso'];?>'"
-                                                    type="button" class="fas fa-2x  fa-cloud-download-alt"
-                                                    style="color:blue" name="button">
-                                                </button>
+                                                <a href="<?php echo base_url();?>index.php/Llamados_e/pdfrt?rif=<?php echo $data['rif_organoente'];?>&numero=<?php echo $data['numero_proceso'];?>"
+                                                    class="button">
+
+                                                    <i class="fas fa-lg fa-cloud-download-alt"
+                                                        title="Descargar llamado a concurso" style="color: blue;"></i>
+
+                                                </a>
 
 
 
@@ -125,7 +127,7 @@
         if ($current_page > 0): ?>
                                     <li class="page-item">
                                         <a class="page-link"
-                                            href="<?php echo base_url('index.php/Gestion/llamadointerno/'. (($current_page - 1) * $limit)) ?>">«
+                                            href="<?php echo base_url('index.php/Publicaciones/llamadointerno/'. (($current_page - 1) * $limit)) ?>">«
                                             Anterior</a>
                                     </li>
                                     <?php endif; ?>
@@ -134,7 +136,7 @@
                                     <?php for ($i = 0; $i < min(10, $total_pages); $i++): ?>
                                     <li class="page-item <?= ($i == $current_page) ? 'active' : '' ?>">
                                         <a class="page-link"
-                                            href="<?php echo base_url('index.php/Gestion/llamadointerno/'. ($i * $limit)) ?>">
+                                            href="<?php echo base_url('index.php/Publicaciones/llamadointerno/'. ($i * $limit)) ?>">
                                             <?= $i + 1 ?>
                                         </a>
                                     </li>
@@ -144,7 +146,7 @@
                                     <?php if ($total_pages > 10): ?>
                                     <li class="page-item">
                                         <a class="page-link"
-                                            href="<?php echo base_url('index.php/Gestion/llamadointerno/'. (5 * $limit)) ?>">Siguiente
+                                            href="<?php echo base_url('index.php/Publicaciones/llamadointerno/'. (5 * $limit)) ?>">Siguiente
                                             »</a>
                                     </li>
                                     <?php endif; ?>

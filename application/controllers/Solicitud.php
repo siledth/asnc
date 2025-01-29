@@ -23,19 +23,12 @@ class Pdf extends FPDF
         // Set the cell margins
         $this->SetMargins(15, 15, 15);
          $this->Image(base_url().'baner/logo3.png',30,1,150);
-         $this->Ln(8);
+         $this->Ln(4);
         // Add a new cell with the header text
         $this->Cell(0,5,utf8_decode('PLANILLA DE CREACIÓN O ACTUALIZACIÓN DE DATOS'),0,1,'C');
         $this->Cell(0,5,utf8_decode('SISTEMA INTEGRADO SNC'),0,1,'C');
 
-        $this->Cell(35,3,'',0,'L');
-
-       
-
- 
-
   $this->SetFont('Arial','B',9);
-  $this->Cell(195,5,utf8_decode(''),0,1,'C');
   $this->Ln(1);
 
 
@@ -149,13 +142,14 @@ if($exit_rnc1 == 1){ //si existe en el snc
                         $pdf->SetFont('Arial','',9); 
                         $pdf->MultiCell(125,5, utf8_decode($d->dri), 0, 'L');
                          $pdf->SetFont('Arial','B',9);
-                        $pdf->Cell(40,5,utf8_decode('Máxima Autoridad o Cuentadante:'),0,0,'R'); 
+                        $pdf->Cell(50,5,utf8_decode('Máxima Autoridad o Cuentadante:'),0,0,'R'); 
+                        $pdf->Cell(100,5,utf8_decode('Cargo Máxima Autoridad o Cuentadante:'),0,1,'R'); 
+
                         $pdf->SetFont('Arial','',9); 
-                        $pdf->Cell(45,5, $d->name_max_a_f,0,0,'C');
-                        $pdf->SetFont('Arial','B',9);
-                        $pdf->Cell(90,5,utf8_decode('Cargo Máxima Autoridad o Cuentadante:'),0,0,'R'); 
-                        $pdf->SetFont('Arial','',9); 
-                        $pdf->Cell(20,5, $d->cargo__max_a_f,0,1,'C');
+                        $pdf->Cell(50,5, $d->name_max_a_f,0,0,'C');
+                        $pdf->Cell(150,5, $d->cargo__max_a_f,0,1,'C');
+
+                     
 
             }  
     
@@ -182,8 +176,10 @@ if($exit_rnc1 == 1){ //si existe en el snc
                          $pdf->SetFont('Arial','B',9);
                         $pdf->Cell(46,5,utf8_decode('Órgano/Ente de Adscripción:'),0,0,'R'); 
                         $pdf->SetFont('Arial','',9); 
-                        $pdf->Cell(40,5, $d2->rifadscrito,0,0,'C');
-                        $pdf->Cell(40,5, $d2->nameadscrito,0,1,'C');
+                        $pdf->Cell(40,5, $d2->rifadscrito,0,1,'L');
+                        $pdf->MultiCell(200,5, utf8_decode($d2->nameadscrito), 0, 'L');
+
+                    
 
                         $pdf->SetFont('Arial','B',9);
                         $pdf->Cell(13,5,utf8_decode('Siglas:'),0,0,'R'); 
@@ -198,7 +194,7 @@ if($exit_rnc1 == 1){ //si existe en el snc
                         $pdf->SetFont('Arial','',9); 
                         $pdf->Cell(50,5, $d2->desc_clasificacion,0,1,'C');
                         $pdf->SetFont('Arial','B',9);
-                        $pdf->Cell(17,5,utf8_decode('Telefono:'),0,0,'R'); 
+                        $pdf->Cell(16,5,utf8_decode('Telefono:'),0,0,'R'); 
                         $pdf->SetFont('Arial','',9);
                         $pdf->Cell(20,5, utf8_decode($d2->tel_local),0,0,'L');
                         $pdf->SetFont('Arial','B',9);
@@ -214,24 +210,23 @@ if($exit_rnc1 == 1){ //si existe en el snc
                         $pdf->SetFont('Arial','',9); 
                         $pdf->Cell(20,5,utf8_decode( $d2->descparro),0,1,'L');
                         $pdf->SetFont('Arial','B',9);
-                        $pdf->Cell(18,5,utf8_decode('Dirección:'),0,0,'R'); 
+                        $pdf->Cell(17,5,utf8_decode('Dirección:'),0,0,'R'); 
                         $pdf->SetFont('Arial','',9); 
-                        $pdf->MultiCell(125,5, utf8_decode($d2->dri), 0, 'L');
-                        $pdf->SetFont('Arial','B',9);
-                        $pdf->Cell(54,5,utf8_decode('Máxima Autoridad o Cuentadante:'),0,0,'R'); 
+                        $pdf->MultiCell(180,5, utf8_decode($d2->dri), 0, 'L');
+                         $pdf->SetFont('Arial','B',9);
+                        $pdf->Cell(50,5,utf8_decode('Máxima Autoridad o Cuentadante:'),0,0,'R'); 
+                        $pdf->Cell(100,5,utf8_decode('Cargo Máxima Autoridad o Cuentadante:'),0,1,'R'); 
+
                         $pdf->SetFont('Arial','',9); 
-                        $pdf->Cell(15,5, $d2->name_max_a_f,0,0,'L');
-                        $pdf->SetFont('Arial','B',9);
-                        $pdf->Cell(100,5,utf8_decode('Cargo Máxima Autoridad o Cuentadante:'),0,0,'R'); 
-                        $pdf->SetFont('Arial','',9); 
-                        $pdf->Cell(20,5, $d2->cargo__max_a_f,0,1,'C');
+                        $pdf->Cell(50,5, $d2->name_max_a_f,0,0,'C');
+                        $pdf->Cell(150,5, $d2->cargo__max_a_f,0,1,'C');
 
             }  
     
     }  
 
 }
-   $pdf->Ln(5);
+   $pdf->Ln(1);
   
     $pdf->SetFont('Arial','B',9);
  
