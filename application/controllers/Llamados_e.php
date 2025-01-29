@@ -64,11 +64,16 @@ class Llamados_e extends CI_Controller {
 {
     // Get the id_programacion variable from the URL
    // $id_programacion = $this->input->get('id');
-    $parametros = $this->input->get('id');
-    $separar = explode("/", $parametros);
-    // Asignar los valores a variables individuales
-    $rif_organoente = $separar[0]; // Accede al primer elemento del array
-    $numero_proceso = $separar[1]; // Accede al segundo elemento del array
+    // $parametros = $this->input->get('id');
+    // $separar = explode("/", $parametros);
+    // // Asignar los valores a variables individuales
+    // $rif_organoente = $separar[0]; // Accede al primer elemento del array
+    // $numero_proceso = $separar[1]; // Accede al segundo elemento del array
+
+    $rif_organoente = $this->input->get('rif');
+    $numero_proceso = $this->input->get('numero');
+
+
 
     // Create a new instance of the Pdf class and pass the $id_programacion argument
     $pdf = new Pdf($numero_proceso);

@@ -125,11 +125,16 @@
                                                         class="fas fa-2x  fa-cloud-download-alt" style="color:blue"></i>
                                                     <a /> -->
 
-                                                <a href="<?php echo base_url();?>index.php/Llamados_e/pdfrt?id=<?php echo $data['rif_organoente'];?>/<?php echo $data['numero_proceso'];?>"
+
+
+
+                                                <a href="<?php echo base_url();?>index.php/Llamados_e/pdfrt?rif=<?php echo $data['rif_organoente'];?>&numero=<?php echo $data['numero_proceso'];?>"
                                                     class="button">
-                                                    <i class="fas   fa-lg fa-cloud-download-alt"
+
+                                                    <i class="fas fa-lg fa-cloud-download-alt"
                                                         title="Descargar llamado a concurso" style="color: blue;"></i>
-                                                    <a />
+
+                                                </a>
 
                                         </td>
                                     </tr>
