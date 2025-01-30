@@ -137,6 +137,15 @@ class Contratista extends CI_Controller
 		  $this->load->view('contratista/consultas/comisario_contador.php');
 		  $this->load->view('templates/footer.php');
 	  }
+
+
+	  public function comisario_busqueda()
+	  {
+		  $this->load->view('templates/header.php');
+		  $this->load->view('templates/navigator.php');
+		  $this->load->view('contratista/consultas/comisario_busqueda.php');
+		  $this->load->view('templates/footer.php');
+	  }
 	  public function llenar_contratista_comi_conta1() {
 		if (!$this->session->userdata('session')) {
 			redirect('login');

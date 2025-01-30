@@ -127,7 +127,12 @@ function registrar(){
 					event.preventDefault();
 					var datos = new FormData($("#resgistrar_eva")[0]);
 					// var base_url =window.location.origin+'/asnc/index.php/Contratista/registrar_busqueda';
+					// var base_url_3 =window.location.origin+'/asnc/index.php/Contratista/comisario_busqueda';
+
+
 					var base_url = '/index.php/Contratista/registrar_busqueda';
+                var base_url_3 = '/index.php/Contratista/comisario_busqueda';
+
 					$.ajax({
 						url:base_url,
 						method: 'POST',
@@ -144,7 +149,9 @@ function registrar(){
 									confirmButtonText: 'Ok'
 								}).then((result) => {
 									if (result.value == true){
-										location.reload();
+										//location.reload();
+                                    window.location.href = base_url_3 ; // Redirige a la URL generada
+
 									}
 								});
 							}

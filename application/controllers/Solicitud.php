@@ -104,17 +104,18 @@ if($exit_rnc1 == 1){ //si existe en el snc
                         $pdf->SetFont('Arial','B',9);
                         $pdf->Cell(42,5,utf8_decode('Órgano/Ente de Adscripción:'),0,0,'R'); 
                         $pdf->SetFont('Arial','',9); 
-                        $pdf->Cell(60,5, $d->asdscrito,0,1,'C');
+                        $pdf->MultiCell(200,5, utf8_decode($d->asdscrito), 0, 'L');
+                        // $pdf->Cell(60,5, $d->asdscrito,0,1,'C');
                         $pdf->SetFont('Arial','B',9);
                         $pdf->Cell(9,5,utf8_decode('Siglas:'),0,0,'R'); 
                         $pdf->SetFont('Arial','',9);
                         $pdf->Cell(20,5, utf8_decode($d->siglas),0,0,'L');
                         $pdf->SetFont('Arial','B',9);
-                        $pdf->Cell(30,5,utf8_decode('Codigo ONAPRE'),0,0,'R'); 
+                        $pdf->Cell(30,5,utf8_decode('Codigo ONAPRE:'),0,0,'R'); 
                         $pdf->SetFont('Arial','',9); 
-                        $pdf->Cell(10,5, $d->cod_onapre,0,0,'C');
+                        $pdf->Cell(10,5, $d->cod_onapre,0,0,'L');
                         $pdf->SetFont('Arial','B',9);
-                        $pdf->Cell(30,5,utf8_decode('Clasificación:'),0,0,'R'); 
+                        $pdf->Cell(35,5,utf8_decode('Clasificación:'),0,0,'R'); 
                         $pdf->SetFont('Arial','',9); 
                         $pdf->Cell(55,5, $d->desc_clasificacion,0,1,'C');
                         $pdf->SetFont('Arial','B',9);
@@ -146,8 +147,8 @@ if($exit_rnc1 == 1){ //si existe en el snc
                         $pdf->Cell(100,5,utf8_decode('Cargo Máxima Autoridad o Cuentadante:'),0,1,'R'); 
 
                         $pdf->SetFont('Arial','',9); 
-                        $pdf->Cell(50,5, $d->name_max_a_f,0,0,'C');
-                        $pdf->Cell(150,5, $d->cargo__max_a_f,0,1,'C');
+                        $pdf->Cell(50,5,utf8_decode( $d->name_max_a_f),0,0,'C');
+                        $pdf->Cell(150,5,utf8_decode( $d->cargo__max_a_f),0,1,'C');
 
                      
 
@@ -357,6 +358,6 @@ $pdf->SetY($y + 5);
 * Para el Módulo de Consulta de Contratista se crearán hasta un máximo de tres (3) Claves
 * Por cada Usuario o Usuaria debe remitirse una Planilla de Solicitud                  '), 0, 'J');
  
-     $pdf->Output('Solicitud SNC' , 'D' );
+     $pdf->Output('Solicitud SNC' , 'I' );
  }
 }
