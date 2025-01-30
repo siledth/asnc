@@ -528,10 +528,10 @@
                                 <ul class="sub-menu">
                                     <li><a href="<?= base_url() ?>index.php/Contratista/comisario_busqueda">
                                             -Busqueda Investigación </a></li>
-                                    <li><a href="<?= base_url() ?>index.php/Contratista/infor_contrat_comi_conta">
+                                    <!-- <li><a href="<?= base_url() ?>index.php/Contratista/infor_contrat_comi_conta">
                                             -Busqueda Investigación Cédula</a></li>
                                     <li><a href="<?= base_url() ?>index.php/Contratista/infor_contrat_comi_conta_rif">
-                                            -Busqueda Investigación Rif</a></li>
+                                            -Busqueda Investigación Rif</a></li> -->
                                     <li><a href="<?= base_url() ?>index.php/Contratista/list">-Consulta de
                                             resultado Investigación</a></li>
                                 </ul>
