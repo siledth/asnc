@@ -107,6 +107,19 @@ $(document).ready(function() {
     });
 });
 $(document).ready(function() {
+    var table = $('#tabla').DataTable({
+        dom: "Bfrtip",
+        pageLength: 5,
+        buttons: [
+
+            {
+                extend: "excel",
+                text: "Exportar Hoja de Càlculo"
+            }
+        ]
+    });
+});
+$(document).ready(function() {
     var table = $('#data-table5').DataTable({
         dom: "Bfrtip",
         pageLength: 5,
