@@ -6385,7 +6385,7 @@ public function read_send_snc() //hacer un pdf de comprobante programacion final
 
    //$pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');            
    //$pdf->Image(base_url().'imagenes/logosnc.png',10,6,50);
-   $pdf->Ln(5);
+   $pdf->Ln(8);
    
    $pdf->Cell(195,5,utf8_decode('COMPROBANTE DE CUMPLIMIENTO'),0,1,'C');
    $pdf->Cell(195,5,utf8_decode('ARTÍCULO 38 NUMERAL 3 del'),0,1,'C'); 
@@ -6698,7 +6698,7 @@ public function read_send_snc() //hacer un pdf de comprobante programacion final
         }
     }
         $pdf->SetFont('Arial','I',8);
-    $pdf->Ln(5);
+    $pdf->Ln(3);
     $pdf->SetFont('Arial','B',12);
     $pdf->Cell(60,5,utf8_decode(''),0,0,'C'); 
 
