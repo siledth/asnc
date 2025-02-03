@@ -4,8 +4,8 @@ function consultar_nombre(){
         //...
     } else {
         $("#items").show();
-        var base_url = '/index.php/Contratista/llenar_contratista_comi_conta1';
-        // var base_url =window.location.origin+'/asnc/index.php/Contratista/llenar_contratista_comi_conta1';
+        // var base_url = '/index.php/Contratista/llenar_contratista_comi_conta1';
+        var base_url =window.location.origin+'/asnc/index.php/Contratista/llenar_contratista_comi_conta1';
         $.ajax({
             url: base_url,
             method: 'post',
@@ -32,7 +32,6 @@ function consultar_nombre(){
                                                         + response['nombre'] + '</td><td>'
                                                         + response['nomacc'] + '</td><td>'
                                                         + response['apecom'] + '</td></tr>'
-
                                                         // + '<button class="boton2 btn"> <a href="llenar_contratista_nombre_ind?id='+ response['rifced'] +'">VER</button></td></tr>'
                                                     );
                     });
