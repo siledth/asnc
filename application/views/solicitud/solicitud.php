@@ -56,7 +56,8 @@
 
                                                     </div>
                                                     <div class="form-group col-12" id='existe' style="display: none;">
-                                                        <label>Ingrese Rif <i style="color: red;" title="Ingrese el Rif"
+                                                        <label>Ingrese todos los datos <i style="color: red;"
+                                                                title="Ingrese todos los datos"
                                                                 class="fas fa-question-circle"></i></label>
                                                         <div class="row">
 
