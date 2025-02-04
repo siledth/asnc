@@ -74,10 +74,12 @@
                                                             <div class="col-4">
                                                                 <label>RIF Órgano/Ente de Adscripción: <b ,
                                                                         style="color:red">*</b> </label>
-
                                                                 <input id="rifadscrito1" name="rifadscrito1"
-                                                                    class="form-control" pattern="[A-Za-z0-9]+"
-                                                                    title="Solo se permiten letras y números" required>
+                                                                    class="form-control" onkeypress="may(this);"
+                                                                    placeholder="G123456789"
+                                                                    oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/,'')"
+                                                                    onKeyUp="this.value=this.value.toUpperCase();">
+
                                                             </div>
 
                                                             <div class="col-8">
