@@ -138,7 +138,7 @@
                                                                 <label>Estado</label>
                                                                 <select class="form-control" name="id_estado_n1"
                                                                     id="id_estado_n1"
-                                                                    onclick="llenar_municipio1();listar_ciudades();">
+                                                                    onclick="llenar_municipio2();listar_ciudades();">
                                                                     <option value="0">Seleccione</option>
                                                                     <?php foreach ($estados as $data): ?>
                                                                     <option value="<?=$data['id']?>">
