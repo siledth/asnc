@@ -77,8 +77,8 @@
                                     <tr class="text-center">
                                         <th>RIF</th>
                                         <th>Razón Social</th>
-                                        <th>Nombre</th>
-                                        <th>Apellido</th>
+                                        <th>Num proceso</th>
+                                        <th>Acción</th>
                                         <!-- <th>n</th> -->
                                     </tr>
                                 </thead>

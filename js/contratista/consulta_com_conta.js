@@ -89,7 +89,7 @@ function consultar_nombre() {
                     $.each(data, function(index, response) {
                         $('#tabla tbody').append('<tr><td>' + response['rifced'] + '</td><td>'
                             + response['nombre'] + '</td><td>'
-                            + response['nombre'] + '</td><td>'
+                            + response['proceso_id'] + '</td><td>'
                           
 							+ '<button class="boton2 btn"> <a href="llenar_contratista_nombre_ind?id='+ response['rifced'] +'">VER</button></td></tr>'
                         );
