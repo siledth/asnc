@@ -101,7 +101,10 @@
                                                     <div class="col-4">
                                                         <label>RIF Órgano/Ente de Adscripción: <b ,
                                                                 style="color:red">*</b> </label>
-                                                        <input id="rifadscrito" name="rifadscrito" class="form-control">
+                                                        <input id="rifadscrito" name="rifadscrito" class="form-control"
+                                                            onkeypress="may(this);" placeholder="G123456789"
+                                                            oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/,'')"
+                                                            onKeyUp="this.value=this.value.toUpperCase();">
                                                     </div>
                                                     <div class="col-8">
                                                         <label>Nombre Órgano/Ente de Adscripción: <b
@@ -113,16 +116,15 @@
                                                         <label>Código ONAPRE<b title="Campo Obligatorio"
                                                                 style="color:red">*</b></label>
                                                         <input type="text" id="cod_onapre" name="cod_onapre"
-                                                            onkeyup="mayusculas(this);" class="form-control"
-                                                            placeholder="Codigo Onapre" maxlength="20">
+                                                            class="form-control" placeholder="Codigo Onapre"
+                                                            maxlength="20">
 
                                                     </div>
                                                     <div class="form-group col-4">
                                                         <label>Siglas<b title="Campo Obligatorio"
                                                                 style="color:red">*</b></label>
                                                         <input type="text" id="siglas" name="siglas"
-                                                            onkeyup="mayusculas(this);" class="form-control"
-                                                            placeholder="siglas" maxlength="12">
+                                                            class="form-control" placeholder="siglas" maxlength="12">
 
                                                     </div>
                                                     <div class="form-group col-4">
@@ -194,8 +196,8 @@
                                                             Máxima Autoridad o Cuentadante:<b title="Campo Obligatorio"
                                                                 style="color:red">*</b></label>
                                                         <input type="text" id="name_max_a_f" name="name_max_a_f"
-                                                            onkeyup="mayusculas(this);" maxlength="50"
-                                                            class="form-control" placeholder="Nombre completo">
+                                                            maxlength="50" class="form-control"
+                                                            placeholder="Nombre completo">
 
                                                     </div>
                                                     <div class="form-group col-4">
@@ -203,8 +205,7 @@
                                                                 title="Campo Obligatorio"
                                                                 style="color:red">*</b></label>
                                                         <input type="text" id="cargo__max_a_f" name="cargo__max_a_f"
-                                                            onkeyup="mayusculas(this);" maxlength="50"
-                                                            class="form-control" placeholder="Cargo">
+                                                            maxlength="50" class="form-control" placeholder="Cargo">
 
                                                     </div>
 
@@ -225,8 +226,7 @@
                                                     <div class="form-group col-6">
                                                         <label>Nombre completo <b title="Campo Obligatorio"
                                                                 style="color:red">*</b></label>
-                                                        <input type="text" id="name_f" name="name_f"
-                                                            onkeyup="mayusculas(this);" maxlength="50"
+                                                        <input type="text" id="name_f" name="name_f" maxlength="50"
                                                             class="form-control" placeholder="Nombre completo">
 
                                                     </div>
@@ -234,8 +234,8 @@
                                                         <label>Apellido Completo <b title="Campo Obligatorio"
                                                                 style="color:red">*</b></label>
                                                         <input type="text" id="apellido_f" name="apellido_f"
-                                                            onkeyup="mayusculas(this);" maxlength="50"
-                                                            class="form-control" placeholder="Nombre completo">
+                                                            maxlength="50" class="form-control"
+                                                            placeholder="Nombre completo">
 
                                                     </div>
 
@@ -243,8 +243,7 @@
                                                         <label>Cargo <b title="Campo Obligatorio"
                                                                 style="color:red">*</b></label>
                                                         <input type="text" id="cargo_f" name="cargo_f"
-                                                            placeholder="Cargo" onkeyup="mayusculas(this);"
-                                                            maxlength="50" class="form-control" />
+                                                            placeholder="Cargo" maxlength="50" class="form-control" />
 
 
                                                     </div>
