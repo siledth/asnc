@@ -138,7 +138,7 @@
                                                                 <label>Estado</label>
                                                                 <select class="form-control" name="id_estado_n1"
                                                                     id="id_estado_n1"
-                                                                    onclick="llenar_municipio();listar_ciudades();">
+                                                                    onclick="llenar_municipio1();listar_ciudades();">
                                                                     <option value="0">Seleccione</option>
                                                                     <?php foreach ($estados as $data): ?>
                                                                     <option value="<?=$data['id']?>">
@@ -149,7 +149,7 @@
                                                             <div class="form-group col-4">
                                                                 <label>Municipio</label>
                                                                 <select class="form-control" name="id_municipio_n1"
-                                                                    id="id_municipio_n1" onclick="llenar_parroquia();">
+                                                                    id="id_municipio_n1" onclick="llenar_parroquia2();">
                                                                     <option value="0">Seleccione</option>
                                                                 </select>
                                                             </div>

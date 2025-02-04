@@ -79,6 +79,44 @@ function llenar_municipio(){
         }
     });
 }
+function llenar_municipio2(){
+    var id_estado_n = $('#id_estado_n1').val();
+//    var base_url = window.location.origin+'/asnc/index.php/User/listar_municipio';
+    var base_url = '/index.php/User/listar_municipio';
+
+    $.ajax({
+        url: base_url,
+        method:'post',
+        data: {id_estado: id_estado_n},
+        dataType:'json',
+
+        success: function(response){
+            $('#id_municipio_n1').find('option').not(':first').remove();
+            $.each(response, function(index, data){
+                $('#id_municipio_n1').append('<option value="'+data['id']+'">'+data['descmun']+'</option>');
+            });
+        }
+    });
+}
+function llenar_parroquia2(){
+    var id_municipio_n = $('#id_estado_n1').val();
+//    var base_url = window.location.origin+'/asnc/index.php/User/listar_parroquia';
+    var base_url = '/index.php/User/listar_parroquia';
+
+    $.ajax({
+        url: base_url,
+        method:'post',
+        data: {id_municipio: id_municipio_n},
+        dataType:'json',
+
+        success: function(response){
+            $('#id_parroquia_n1').find('option').not(':first').remove();
+            $.each(response, function(index, data){
+                $('#id_parroquia_n1').append('<option value="'+data['id']+'">'+data['descparro']+'</option>');
+            });
+        }
+    });
+}
 function llenar_parroquia(){
     var id_municipio_n = $('#id_estado_n').val();
 //    var base_url = window.location.origin+'/asnc/index.php/User/listar_parroquia';
