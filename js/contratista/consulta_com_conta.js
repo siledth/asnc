@@ -104,7 +104,12 @@ function consultar_nombre() {
                     $('#tabla').DataTable({
                         "paging": true,
                         "pageLength": 10, // número de filas por página
-                        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]] // opciones de número de filas por página
+                        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                           dom: "Bfrtip",
+         buttons: [{
+            extend: "excel",
+            text: "Exportar Hoja de Cálculo"
+        }] // opciones de número de filas por página
                     });
                 }
             }
