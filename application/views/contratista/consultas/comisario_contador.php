@@ -30,9 +30,17 @@
                     <div class="col-12">
                         <h4 class="text-center mb-3 mt-3">Por Favor Ingrese estos datos</h4>
                     </div>
-                    <div class="form-group col-3">
+                    <div class="form-group col-6">
                         <label>Cedula Consultada <b title="Campo Obligatorio" style="color:red">*</b></label>
                         <input type="text" id="cedula" name="cedula" value="" class="form-control" readonly>
+                    </div>
+                    <div class="form-group col-6">
+                        <label>Nombre Consultado <b title="Campo Obligatorio" style="color:red">*</b></label>
+                        <input type="text" id="namec" name="namec" value="" class="form-control" readonly>
+                    </div>
+                    <div class="form-group col-6">
+                        <label>Apellido Consultado <b title="Campo Obligatorio" style="color:red">*</b></label>
+                        <input type="text" id="apellidoc" name="apellidoc" value="" class="form-control" readonly>
                     </div>
 
                     <div class="form-group col-3">
@@ -46,14 +54,7 @@
                         <textarea class="form-control" id="observacion" name="observacion" rows="4" cols="100"
                             required></textarea>
                     </div>
-                    <div class="form-group col-6">
-                        <label>Nombre Consultada <b title="Campo Obligatorio" style="color:red">*</b></label>
-                        <input type="text" id="namec" name="namec" value="" class="form-control" readonly>
-                    </div>
-                    <div class="form-group col-6">
-                        <label>Nombre Consultada <b title="Campo Obligatorio" style="color:red">*</b></label>
-                        <input type="text" id="apellidoc" name="apellidoc" value="" class="form-control" readonly>
-                    </div>
+
                     <div class="form-group col 12 text-center">
                         <button type="button" onclick="registrar();" id="registrar_eval" name="registrar_eval"
                             class="my-button2">Guardar</button>
