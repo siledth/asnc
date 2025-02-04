@@ -90,7 +90,7 @@ function consultar_nombre() {
                         $('#tabla tbody').append('<tr><td>' + response['rifced'] + '</td><td>'
                             + response['nombre'] + '</td><td>'
                             + response['nombre'] + '</td><td>'
-                            + response['apecom'] + '</td></tr>'
+                          
 							+ '<button class="boton2 btn"> <a href="llenar_contratista_nombre_ind?id='+ response['rifced'] +'">VER</button></td></tr>'
                         );
                         
