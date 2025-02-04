@@ -74,8 +74,10 @@
                                                             <div class="col-4">
                                                                 <label>RIF Órgano/Ente de Adscripción: <b ,
                                                                         style="color:red">*</b> </label>
+
                                                                 <input id="rifadscrito1" name="rifadscrito1"
-                                                                    class="form-control">
+                                                                    class="form-control" pattern="[A-Za-z0-9]+"
+                                                                    title="Solo se permiten letras y números" required>
                                                             </div>
 
                                                             <div class="col-8">
