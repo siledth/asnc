@@ -280,7 +280,7 @@ if (document.sav_ext.rif_b.value.length==0){
         document.sav_ext.rif_b.focus()
         return 0;
        }
-         if (document.sav_ext.rifadscrito1.value.length==0){
+         if (document.sav_ext.rifadscrito.value.length==0){
         swal.fire({
             title: 'Debe ingresar RIF Órgano/Ente de Adscripción',
             type: 'warning',
@@ -292,10 +292,10 @@ if (document.sav_ext.rif_b.value.length==0){
             }
         });
         //alert("No Puede dejar campo rif contratista vacio, ingrese un valor")
-        document.sav_ext.rifadscrito1.focus()
+        document.sav_ext.rifadscrito.focus()
         return 0;
        }
-       if (document.sav_ext.nameadscrito1.value.length==0){
+       if (document.sav_ext.nameadscrito.value.length==0){
         swal.fire({
             title: 'Debe ingresar Nombre Órgano/Ente de Adscripción',
             type: 'warning',
@@ -307,12 +307,12 @@ if (document.sav_ext.rif_b.value.length==0){
             }
         });
         //alert("No Puede dejar campo rif contratista vacio, ingrese un valor")
-        document.sav_ext.nameadscrito1.focus()
+        document.sav_ext.nameadscrito.focus()
         return 0;
        }
-       if (document.sav_ext.nameadscrito1.value.length==0){
+      if (document.sav_ext.cod_onapre.value.length==0){
         swal.fire({
-            title: 'Debe ingresar Nombre Órgano/Ente de Adscripción',
+            title: 'Debe ingresar Código ONAPRE',
             type: 'warning',
             showCancelButton: false,
             confirmButtonColor: '#3085d6',
@@ -322,9 +322,55 @@ if (document.sav_ext.rif_b.value.length==0){
             }
         });
         //alert("No Puede dejar campo rif contratista vacio, ingrese un valor")
-        document.sav_ext.nameadscrito1.focus()
+        document.sav_ext.cod_onapre.focus()
         return 0;
        }
+        if (document.sav_ext.siglas.value.length==0){
+        swal.fire({
+            title: 'Debe ingresar Siglas',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        //alert("No Puede dejar campo rif contratista vacio, ingrese un valor")
+        document.sav_ext.siglas.focus()
+        return 0;
+       }
+       if (document.sav_ext.tel_local.value.length==0){
+        swal.fire({
+            title: 'Debe ingresar telefono de contacto',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        //alert("No Puede dejar campo rif contratista vacio, ingrese un valor")
+        document.sav_ext.tel_local.focus()
+        return 0;
+       }
+        if (document.sav_ext.pag_web.value.length==0){
+        swal.fire({
+            title: 'Debe ingresar pagina web de contacto',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        //alert("No Puede dejar campo rif contratista vacio, ingrese un valor")
+        document.sav_ext.pag_web.focus()
+        return 0;
+       }
+      
          if (document.sav_ext.name_max_a_f.value.length==0){
         swal.fire({
             title: 'Debe ingresar Nombre de la maxima autorida o cuentadante',

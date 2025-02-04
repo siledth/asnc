@@ -1131,17 +1131,17 @@ class User_model extends CI_Model
                             'consulta_mb_comi'       => $consulta_mb_comi,
                             'ver_rnc'       => $ver_rnc,
                             'exit_rnc'       => $exit_rnc,  //debe guardar 1 si existe 
-                            'cod_onapre'	=> $data['cod_onapre1'],
-                    'siglas'	 	=> $data['siglas1'],
-                    'id_clasificacion'	 	=> $data['id_clasificacion1'],
-                    'tel_local'	 	=> $data['tel_local1'],
-                    'pag_web'	 	    => $data['pag_web1'],
-                    'id_estado_n'	 	=> $data['id_estado_n1'],
-                    'id_municipio_n'	 	=> $data['id_municipio_n1'],
-                    'id_parroquia_n'	 	=> $data['id_parroquia_n1'],
-                    'direccion_fiscal'	 	=> $data['direccion_fiscal1'],
-                    'rifadscrito'	 	=> $data['rifadscrito1'],
-                    'nameadscrito'	 	=> $data['nameadscrito1'],
+                            'cod_onapre'	=> $data['cod_onapre'],
+                    'siglas'	 	=> $data['siglas'],
+                    'id_clasificacion'	 	=> $data['id_clasificacion'],
+                    'tel_local'	 	=> $data['tel_local'],
+                    'pag_web'	 	    => $data['pag_web'],
+                    'id_estado_n'	 	=> $data['id_estado_n'],
+                    'id_municipio_n'	 	=> $data['id_municipio_n'],
+                    'id_parroquia_n'	 	=> $data['id_parroquia_n'],
+                    'direccion_fiscal'	 	=> $data['direccion_fiscal'],
+                    'rifadscrito'	 	=> $data['rifadscrito'],
+                    'nameadscrito'	 	=> $data['nameadscrito'],
                                              
                         );
             $x = $this->db->insert('public.solicitud_user',$data1);
