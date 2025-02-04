@@ -46,9 +46,13 @@
                         <textarea class="form-control" id="observacion" name="observacion" rows="4" cols="100"
                             required></textarea>
                     </div>
-                    <div class="form-group col-3">
+                    <div class="form-group col-6">
                         <label>Nombre Consultada <b title="Campo Obligatorio" style="color:red">*</b></label>
-                        <input type="text" id="name" name="name" value="" class="form-control" readonly>
+                        <input type="text" id="namec" name="namec" value="" class="form-control" readonly>
+                    </div>
+                    <div class="form-group col-6">
+                        <label>Nombre Consultada <b title="Campo Obligatorio" style="color:red">*</b></label>
+                        <input type="text" id="apellidoc" name="apellidoc" value="" class="form-control" readonly>
                     </div>
                     <div class="form-group col 12 text-center">
                         <button type="button" onclick="registrar();" id="registrar_eval" name="registrar_eval"
