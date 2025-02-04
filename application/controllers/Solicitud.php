@@ -141,7 +141,7 @@ if($exit_rnc1 == 1){ //si existe en el snc
                         $pdf->Cell(10,5,'',0,0,'L'); 
 
                         $pdf->SetFont('Arial','',9); 
-                        $pdf->MultiCell(125,5, utf8_decode($d->direccion_fiscal), 0, 'L');
+                        $pdf->MultiCell(180,5, utf8_decode($d->direccion_fiscal), 0, 'L');
                          $pdf->SetFont('Arial','B',9);
                         $pdf->Cell(50,5,utf8_decode('Máxima Autoridad o Cuentadante:'),0,0,'R'); 
                         $pdf->Cell(100,5,utf8_decode('Cargo Máxima Autoridad o Cuentadante:'),0,1,'R'); 
@@ -358,6 +358,6 @@ $pdf->SetY($y + 5);
 * Para el Módulo de Consulta de Contratista se crearán hasta un máximo de tres (3) Claves
 * Por cada Usuario o Usuaria debe remitirse una Planilla de Solicitud                  '), 0, 'J');
  
-     $pdf->Output('Solicitud Usuario SNC' , 'D' );
+     $pdf->Output('Solicitud Usuario SNC' , 'I' );
  }
 }
