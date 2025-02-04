@@ -295,6 +295,36 @@ if (document.sav_ext.rif_b.value.length==0){
         document.sav_ext.rifadscrito1.focus()
         return 0;
        }
+       if (document.sav_ext.nameadscrito1.value.length==0){
+        swal.fire({
+            title: 'Debe ingresar Nombre Órgano/Ente de Adscripción',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        //alert("No Puede dejar campo rif contratista vacio, ingrese un valor")
+        document.sav_ext.nameadscrito1.focus()
+        return 0;
+       }
+       if (document.sav_ext.nameadscrito1.value.length==0){
+        swal.fire({
+            title: 'Debe ingresar Nombre Órgano/Ente de Adscripción',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value == true) {
+            }
+        });
+        //alert("No Puede dejar campo rif contratista vacio, ingrese un valor")
+        document.sav_ext.nameadscrito1.focus()
+        return 0;
+       }
          if (document.sav_ext.name_max_a_f.value.length==0){
         swal.fire({
             title: 'Debe ingresar Nombre de la maxima autorida o cuentadante',
