@@ -15,11 +15,11 @@ function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
         $('#ueba').attr("disabled", true);
     }else{
         $("#items").show();
-        // var base_url  = window.location.origin+'/asnc/index.php/gestion/consulta_og';
-        // var base_url2 = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
+        var base_url  = window.location.origin+'/asnc/index.php/gestion/consulta_og';
+        var base_url2 = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
 
-      var base_url = '/index.php/gestion/consulta_og';
-        var base_url2 = '/index.php/evaluacion_desempenio/llenar_contratista_rp';
+    //   var base_url = '/index.php/gestion/consulta_og';
+    //     var base_url2 = '/index.php/evaluacion_desempenio/llenar_contratista_rp';
 
         $.ajax({
             url:base_url,
@@ -368,10 +368,10 @@ if (document.sav_ext.rif_b.value.length==0){
 
             if (result.value) {
                 var datos = new FormData($("#sav_ext")[0]);
-                // var base_url = window.location.origin + '/asnc/index.php/User/save_solicitud';
-                // var base_url_3 = window.location.origin + '/asnc/index.php/Solicitud/pdfrt?id=';
-                var base_url = '/index.php/User/save_solicitud';
-                var base_url_3 = '/index.php/Solicitud/pdfrt?id=';
+                var base_url = window.location.origin + '/asnc/index.php/User/save_solicitud';
+                var base_url_3 = window.location.origin + '/asnc/index.php/Solicitud/pdfrt?id=';
+                // var base_url = '/index.php/User/save_solicitud';
+                // var base_url_3 = '/index.php/Solicitud/pdfrt?id=';
 
 
                 $.ajax({

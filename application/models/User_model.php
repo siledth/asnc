@@ -1130,7 +1130,19 @@ class User_model extends CI_Model
                             'reg_cert_mb_comi'       => $reg_cert_mb_comi,
                             'consulta_mb_comi'       => $consulta_mb_comi,
                             'ver_rnc'       => $ver_rnc,
-                            'exit_rnc'       => $exit_rnc  //debe guardar 1 si existe                          
+                            'exit_rnc'       => $exit_rnc,  //debe guardar 1 si existe 
+                            'cod_onapre'	=> $data['cod_onapre1'],
+                    'siglas'	 	=> $data['siglas1'],
+                    'id_clasificacion'	 	=> $data['id_clasificacion1'],
+                    'tel_local'	 	=> $data['tel_local1'],
+                    'pag_web'	 	    => $data['pag_web1'],
+                    'id_estado_n'	 	=> $data['id_estado_n1'],
+                    'id_municipio_n'	 	=> $data['id_municipio_n1'],
+                    'id_parroquia_n'	 	=> $data['id_parroquia_n1'],
+                    'direccion_fiscal'	 	=> $data['direccion_fiscal1'],
+                    'rifadscrito'	 	=> $data['rifadscrito1'],
+                    'nameadscrito'	 	=> $data['nameadscrito1'],
+                                             
                         );
             $x = $this->db->insert('public.solicitud_user',$data1);
            if ($x) {
@@ -1166,18 +1178,16 @@ class User_model extends CI_Model
 
       function consulta_solictud($data1){ 
     
-            $query = $this->db->query("SELECT c.*, o.descripcion,o.id_estado, o.id_municipio, o.id_parroquia, o.siglas, 
-            o.direccion as dri,o.siglas,o.cod_onapre, o.id_clasificacion, o.tel1,
-            o.id_organoenteads, cl.desc_clasificacion, a.descripcion  as asdscrito, e.descedo, m.descmun, p.descparro, 
-            C.name_max_a_f, C.cargo__max_a_f
+            $query = $this->db->query("SELECT c.*, o.descripcion,  cl.desc_clasificacion, e.descedo, m.descmun, p.descparro
+          
             
                  FROM public.solicitud_user c 
                 join  public.organoente o on o.rif = c.rif	
-                join  public.estados e on e.id = o.id_estado	
-                join  public.municipios m on m.id = o.id_municipio	
-                join  public.parroquias p on p.id = o.id_parroquia	
-                join  public.clasificacion cl on cl.id_clasificacion = o.id_clasificacion
-                join  public.organoente a on a.id_organoente = o.id_organoenteads	
+                join  public.estados e on e.id = c.id_estado_n	
+                join  public.municipios m on m.id = c.id_municipio_n	
+                join  public.parroquias p on p.id = c.id_parroquia_n	
+                join  public.clasificacion cl on cl.id_clasificacion = c.id_clasificacion
+                -- join  public.organoente a on a.id_organoente = o.id_organoenteads	
 
                     
                  where c.id_solicitud_user = '$data1' 

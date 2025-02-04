@@ -61,8 +61,7 @@
                                                         <div class="row">
 
                                                             <div class="form-group col-6">
-                                                                <label>Rif del Órgano / Ente:
-                                                                    local</label>
+                                                                <label>Rif del Órgano / Ente</label>
                                                                 <input class="form-control" type="text"
                                                                     name="sel_rif_nombre5" id="sel_rif_nombre5"
                                                                     readonly>
@@ -72,8 +71,101 @@
                                                                 <input type="text" name="nombre_conta_5"
                                                                     id="nombre_conta_5" class="form-control" readonly>
                                                             </div>
+                                                            <div class="col-4">
+                                                                <label>RIF Órgano/Ente de Adscripción: <b ,
+                                                                        style="color:red">*</b> </label>
+                                                                <input id="rifadscrito1" name="rifadscrito1"
+                                                                    class="form-control">
+                                                            </div>
 
+                                                            <div class="col-8">
+                                                                <label>Nombre Órgano/Ente de Adscripción: <b
+                                                                        style="color:red">*</b> </label>
+                                                                <input id="nameadscrito1" name="nameadscrito1"
+                                                                    class="form-control">
+                                                            </div>
+                                                            <div class="form-group col-3">
+                                                                <label>Codigo ONAPRE<b title="Campo Obligatorio"
+                                                                        style="color:red">*</b></label>
+                                                                <input type="text" id="cod_onapre1" name="cod_onapre1"
+                                                                    onkeyup="mayusculas(this);" class="form-control"
+                                                                    placeholder="Codigo Onapre" maxlength="20">
 
+                                                            </div>
+                                                            <div class="form-group col-3">
+                                                                <label>Siglas<b title="Campo Obligatorio"
+                                                                        style="color:red">*</b></label>
+                                                                <input type="text" id="siglas1" name="siglas1"
+                                                                    onkeyup="mayusculas(this);" class="form-control"
+                                                                    placeholder="siglas" maxlength="12">
+
+                                                            </div>
+                                                            <div class="form-group col-4">
+                                                                <label>Clasificación</label><br>
+                                                                <select id="id_clasificacion1" name="id_clasificacion1"
+                                                                    class="default-select2 form-control"
+                                                                    style="width: 300px;">
+                                                                    <option value="0">-Seleccione -</option>
+                                                                    <?php foreach ($clasificacion as $data): ?>
+                                                                    <option value="<?=$data['id_clasificacion']?>">
+                                                                        <?=$data['desc_clasificacion']?>
+                                                                    </option>
+                                                                    <?php endforeach; ?>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-3 form-group">
+                                                                <label>Teléfono Local<b title="Campo Obligatorio"
+                                                                        style="color:red">*</b></label>
+                                                                <input type="number" id="tel_local1" name="tel_local1"
+                                                                    class="form-control" placeholder="042XXXXXXX">
+                                                                <p id="errorMsg"></p>
+
+                                                            </div>
+                                                            <div class="col-3 form-group">
+                                                                <label>Página Web<b title="Campo Obligatorio"
+                                                                        style="color:red">*</b></label>
+                                                                <input type="text" id="pag_web1" name="pag_web1"
+                                                                    class="form-control" placeholder="pagina web"
+                                                                    maxlength="20">
+
+                                                            </div>
+
+                                                            <div class="form-group col-12">
+                                                                <label>Dirección Fiscal<b title="Campo Obligatorio"
+                                                                        style="color:red">*</b></label><br>
+                                                            </div>
+                                                            <div class="form-group col-4">
+                                                                <label>Estado</label>
+                                                                <select class="form-control" name="id_estado_n1"
+                                                                    id="id_estado_n1"
+                                                                    onclick="llenar_municipio();listar_ciudades();">
+                                                                    <option value="0">Seleccione</option>
+                                                                    <?php foreach ($estados as $data): ?>
+                                                                    <option value="<?=$data['id']?>">
+                                                                        <?=$data['descedo']?></option>
+                                                                    <?php endforeach; ?>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group col-4">
+                                                                <label>Municipio</label>
+                                                                <select class="form-control" name="id_municipio_n1"
+                                                                    id="id_municipio_n1" onclick="llenar_parroquia();">
+                                                                    <option value="0">Seleccione</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group col-4">
+                                                                <label>Parroquia</label>
+                                                                <select class="form-control" name="id_parroquia_n1"
+                                                                    id="id_parroquia_n1">
+                                                                    <option value="0">Seleccione</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group col-12">
+                                                                <label>Dirección Fiscal</label>
+                                                                <textarea class="form-control" id="direccion_fiscal1"
+                                                                    name="direccion_fiscal1" rows="3"
+                                                                    cols="125"></textarea>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-12" id='no_existe'
