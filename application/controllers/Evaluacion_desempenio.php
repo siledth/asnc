@@ -715,7 +715,30 @@ class Evaluacion_desempenio extends CI_Controller {
         echo json_encode($data);
     }
  
+ public function llenar_evaluaciones_contratistas() {
+		if (!$this->session->userdata('session')) {
+			redirect('login');
+		}
+		
+		$cedula = $this->input->post('nombre');
+		$result = $this->Evaluacion_desempenio_model->llenar_contratista_comi_conta22($cedula);
+		
+		if (!empty($result)) {
+			echo json_encode($result);
+		} else {
+			// Handle error
+			echo json_encode(array('error' => 'No results found'));
+		}
+		
+	    }
 
+		 public function busquedallenar_evaluaciones_contratistas()
+	  {
+		  $this->load->view('templates/header.php');
+		  $this->load->view('templates/navigator.php');
+		  $this->load->view('contratista/consultas/evaluaciones_busqueda.php');
+		  $this->load->view('templates/footer.php');
+	  }
 		
 
 }

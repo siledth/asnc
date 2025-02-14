@@ -662,5 +662,30 @@ function consultar_lis(){
         return array();
     }
 }
+
+public function llenar_contratista_comi_conta24($cedula) {
+
+    $query = $this->db->query("
+        select pac.*, p.descripcion, ti.desc_tipo_doc_contrata, o.descripcion as ente
+        from  programacion.rendidicion pac
+        left JOIN public.organoente o ON o.rif = pac.rif_organoente 
+        JOIN evaluacion_desempenio.modalidad p ON p.id = pac.id_modalida_rendi  
+        JOIN programacion.tipo_doc_contrata ti ON ti.id_tipo_doc_contrata  = pac.selc_tipo_doc_contrata   
+        where pac.sel_rif_nombre = '$cedula' 
+
+    ");
+
+    if ($query) {
+        
+				 
+				  
+        return $query->result_array();
+    } else {
+        // Handle error
+        log_message('error', 'Error executing query: '. $this->db_b->_error_message());
+        return array();
+    }
+}
+ 
     
 }

@@ -56,7 +56,7 @@
 	        <div class="col-6">
 	            <br>
 	            <h3 class="text-center">Evaluaciones Registradas Nuevo Sistema</h3>
-	            <table id="tabla" class="table table-striped table-bordered">
+	            <table id="data2" class="table table-bordered table-hover">
 	                <thead style="background:#e4e7e8">
 	                    <tr class="text-center">
 	                        <th>Fecha Evaluación</th>

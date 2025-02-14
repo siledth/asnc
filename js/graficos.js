@@ -1,8 +1,14 @@
 function consultar_rif() {
 	var rif_b = $("#rif_b").val();
-	// var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/graficos';
-	// var base_url2 =window.location.origin+'/asnc/index.php/evaluacion_desempenio/inf_tabla';
-	// var base_url3 =window.location.origin+'/asnc/index.php/evaluacion_desempenio/inf_tabla2';
+	if ($.fn.DataTable.isDataTable('#data1')) {
+        $('#data1').DataTable().destroy();
+    }
+	if ($.fn.DataTable.isDataTable('#data2')) {
+        $('#data2').DataTable().destroy();
+    }
+	//  var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/graficos';
+	//  var base_url2 =window.location.origin+'/asnc/index.php/evaluacion_desempenio/inf_tabla';
+	//  var base_url3 =window.location.origin+'/asnc/index.php/evaluacion_desempenio/inf_tabla2';
 
 	var base_url = "/index.php/evaluacion_desempenio/graficos";
 	var base_url2 = "/index.php/evaluacion_desempenio/inf_tabla";
@@ -143,8 +149,19 @@ function consultar_rif() {
 						"</td></tr>"
 				);
 			});
+			 $('#data1').DataTable({
+                        "paging": true,
+                        "pageLength": 10,
+                        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                        dom: "Bfrtip",
+                        buttons: [{
+                            extend: "excel",
+                            text: "Exportar Hoja de Cálculo"
+                        }]
+                    });
 		},
 	});
+ 
 
 	$.ajax({
 		url: base_url3,
@@ -152,9 +169,9 @@ function consultar_rif() {
 		data: { rif_b: rif_b },
 		dataType: "json",
 		success: function (data) {
-			$("#tabla tbody").empty();
+			$("#data2 tbody").children().remove();
 			$.each(data, function (index, response) {
-				$("#tabla tbody").append(
+				$("#data2 tbody").append(
 					"<tr><td>" +
 						response["fecha_evaluacion"] +
 						"</td><td>" +
@@ -166,10 +183,10 @@ function consultar_rif() {
 						"</td></tr>"
 				);
 			});
-			 $('#tabla').DataTable({
+			 $('#data2').DataTable({
                         "paging": true,
-                        "pageLength": 10,
-                        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                        "pageLength": 2,
+                        //"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
                         dom: "Bfrtip",
                         buttons: [{
                             extend: "excel",

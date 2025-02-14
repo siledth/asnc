@@ -14,6 +14,10 @@
                                 <option value="0">Seleccione</option>
                                 <option value="1">Persona Natural</option>
                                 <option value="2">Persona Juridica</option>
+                                <option value="3">Persona Juridica Evaluaciones</option>
+                                <option value="4">Persona Juridica rendiciones</option>
+
+
                             </select>
 
                         </div>
@@ -39,6 +43,16 @@ function redirectToView() {
     } else if (value == "2") {
         // Redirigir a la vista de Persona Juridica
         window.location.href = "<?php echo base_url('index.php/Contratista/infor_contrat_comi_conta_rif'); ?>";
+        // echo base_url('index.php/Publicaciones/llamadointerno/'
+    } else if (value == "3") {
+        // Redirigir a la vista de Persona Juridica
+        window.location.href =
+            "<?php echo base_url('index.php/Evaluacion_desempenio/busquedallenar_evaluaciones_contratistas'); ?>";
+        // echo base_url('index.php/Publicaciones/llamadointerno/'
+    } else if (value == "4") {
+        // Redirigir a la vista de Persona Juridica
+        window.location.href =
+            "<?php echo base_url('index.php/Contratista/infor_contrat_rendiciones'); ?>";
         // echo base_url('index.php/Publicaciones/llamadointerno/'
     }
 }

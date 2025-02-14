@@ -199,6 +199,13 @@ public function planillaresumentodo()
 		  $this->load->view('contratista/consultas/comisario_rif.php');
 		  $this->load->view('templates/footer.php');
 	  }
+	   public function infor_contrat_rendiciones()
+	  {
+		  $this->load->view('templates/header.php');
+		  $this->load->view('templates/navigator.php');
+		  $this->load->view('contratista/consultas/rendiciones_busqueda.php');
+		  $this->load->view('templates/footer.php');
+	  }
 	  public function llenar_contratista_comi_conta2() {
 		if (!$this->session->userdata('session')) {
 			redirect('login');
@@ -206,6 +213,22 @@ public function planillaresumentodo()
 		
 		$cedula = $this->input->post('nombre');
 		$result = $this->Contratista_model->llenar_contratista_comi_conta23($cedula);
+		
+		if (!empty($result)) {
+			echo json_encode($result);
+		} else {
+			// Handle error
+			echo json_encode(array('error' => 'No results found'));
+		}
+		
+	    }
+		 public function busquedarendiciones() {
+		if (!$this->session->userdata('session')) {
+			redirect('login');
+		}
+		
+		$cedula = $this->input->post('nombre');
+		$result = $this->Contratista_model->llenar_contratista_comi_conta24($cedula);
 		
 		if (!empty($result)) {
 			echo json_encode($result);

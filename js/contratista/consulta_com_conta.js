@@ -288,6 +288,159 @@ function consultar_nombre2() {
         });
     }
 }
+function consultar_nombre5() {
+    // Destruir la tabla si ya está inicializada
+    if ($.fn.DataTable.isDataTable('#tabla')) {
+        $('#tabla').DataTable().destroy();
+    }
+
+  
+    var nombre = $('#nombre').val();
+    if (nombre == '') {
+        alert('Por favor ingrese un rif.');
+        return;
+    } else {
+        $("#items").show();
+        
+        // Mostrar el mensaje de cargando
+        $("#loading").show();
+        // var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_evaluaciones_contratistas';
+
+        var base_url = '/index.php/evaluacion_desempenio/llenar_evaluaciones_contratistas';
+       // var base_url_3 = '/index.php/Planilla_r_todo/pdfrt?id=';
+
+        $.ajax({
+            url: base_url,
+            method: 'post',
+            data: { nombre: nombre },
+            dataType: 'json',
+            success: function(data) {
+                // Ocultar el mensaje de cargando
+                $("#loading").hide();
+
+                if (data.error) {
+                    $('#tabla').hide();
+                    $('#items').hide();
+                    $('#inputs').show();
+                    $('#cedula').val(nombre);
+                    $('#existe').val(0);
+                } else {
+                    $('#tabla').show();
+                    $('#items').show();
+                    $('#inputs').show();
+                    $('#cedula').val(nombre);
+                    $('#existe').val(1);
+
+                    $('#tabla tbody').children().remove();
+                    $.each(data, function(index, response) {
+                        $('#tabla tbody').append('<tr><td>' + response['nombre_ente'] + '</td><td>'
+                            + response['razon_social'] + '</td><td>'
+                            + response['objeto'] + '</td><td>'
+                            + response['nombre_calificacion'] + '</td><td>'
+                             + response['tipo'] + '</td></tr>'
+                          );
+
+                       // $("#namec").val(response['nombre']);
+             
+                    });
+
+                    $('#tabla').DataTable({
+                        "paging": true,
+                        "pageLength": 10,
+                        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                        dom: "Bfrtip",
+                        buttons: [{
+                            extend: "excel",
+                            text: "Exportar Hoja de Cálculo"
+                        }]
+                    });
+                }
+            },
+            error: function() {
+                // Ocultar el mensaje de cargando en caso de error
+                $("#loading").hide();
+                alert('Error al cargar los datos.');
+            }
+        });
+    }
+}
+function consultar_nombre6() {
+    // Destruir la tabla si ya está inicializada
+    if ($.fn.DataTable.isDataTable('#tabla')) {
+        $('#tabla').DataTable().destroy();
+    }
+
+  
+    var nombre = $('#nombre').val();
+    if (nombre == '') {
+        alert('Por favor ingrese un rif.');
+        return;
+    } else {
+        $("#items").show();
+        
+        // Mostrar el mensaje de cargando
+        $("#loading").show();
+        // var base_url =window.location.origin+'/asnc/index.php/Contratista/busquedarendiciones';
+
+       // var base_url_3 = window.location.origin + '/asnc/index.php/Planilla_r_todo/pdfrt?id=';
+        var base_url = '/index.php/Contratista/busquedarendiciones';
+       // var base_url_3 = '/index.php/Planilla_r_todo/pdfrt?id=';
+
+        $.ajax({
+            url: base_url,
+            method: 'post',
+            data: { nombre: nombre },
+            dataType: 'json',
+            success: function(data) {
+                // Ocultar el mensaje de cargando
+                $("#loading").hide();
+
+                if (data.error) {
+                    $('#tabla').hide();
+                    $('#items').hide();
+                    $('#inputs').show();
+                    $('#cedula').val(nombre);
+                    $('#existe').val(0);
+                } else {
+                    $('#tabla').show();
+                    $('#items').show();
+                    $('#inputs').show();
+                    $('#cedula').val(nombre);
+                    $('#existe').val(1);
+
+                    $('#tabla tbody').children().remove();
+                    $.each(data, function(index, response) {
+                        $('#tabla tbody').append('<tr><td>' + response['ente'] + '</td><td>'
+                            + response['subtotal_rend_ejecu'] + '</td><td>'
+                            + response['descripcion'] + '</td><td>'
+                            + response['fecha_contrato'] + '</td><td>'
+                             + response['desc_tipo_doc_contrata'] + '</td></tr>'
+                          );
+
+                       // $("#namec").val(response['nombre']);
+             
+                    });
+
+                    $('#tabla').DataTable({
+                        "paging": true,
+                        "pageLength": 10,
+                        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                        dom: "Bfrtip",
+                        buttons: [{
+                            extend: "excel",
+                            text: "Exportar Hoja de Cálculo"
+                        }]
+                    });
+                }
+            },
+            error: function() {
+                // Ocultar el mensaje de cargando en caso de error
+                $("#loading").hide();
+                alert('Error al cargar los datos.');
+            }
+        });
+    }
+}
 // function consultar_nombre2(){
 //     var nombre = $('#nombre').val();
 //     if (nombre == '') {

@@ -5,6 +5,25 @@
             <div class="panel panel-inverse" data-sortable-id="form-validation-1">
                 <div class="panel-heading">
                 </div>
+                <div class="col-12 text-center mt-3 mb-3">
+                    <button
+                        onclick="location.href='<?php echo base_url()?>index.php/Contratista/infor_contrat_comi_conta_rif'"
+                        type="button" class="my-button3" name="button">
+                        Ir Busqueda JS
+                    </button>
+                    <button
+                        onclick="location.href='<?php echo base_url()?>index.php/evaluacion_desempenio/busquedallenar_evaluaciones_contratistas'"
+                        type="button" class="my-button3" name="button">
+                        Ir Busqueda Evaluaciones
+                    </button>
+                    <!-- <a class="my-button"
+                            href="javascript:history.back()"> Volver</a> -->
+                </div>
+
+                <div class="col-12 text-center mt-3 mb-3">
+                    <h4 class="text-center mb-3 mt-3">BUSQUEDA PERSONA NATURAL</h4>
+
+                </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-4">

@@ -1023,6 +1023,33 @@ return $query->result_array();
     //         }
     // }
 
+       public function llenar_contratista_comi_conta22($cedula) {
+
+    $query = $this->db->query("
+        select rif_contratista, razon_social,
+         nombre_ente, objeto,nombre_calificacion,
+                        	     'viejo' AS tipo
+        from evaluacion_desempenio.evaluacion_contratistas_ant
+        where rif_contratista = '$cedula'        
+        union        
+        select rif_contrat as rif_contratista, contratista_ev as razon_social,
+         organo_ente as nombre_ente, descr_contrato as objeto, calificacion as nombre_calificacion ,'nuevo' AS tipo
+        from evaluacion_desempenio.evaluaciones_view
+        where rif_contrat = '$cedula'
+    ");
+
+    if ($query) {
+        
+			
+				
+        return $query->result_array();
+    } else {
+        // Handle error
+        log_message('error', 'Error executing query: '. $this->db_b->_error_message());
+        return array();
+    }
+}
+
     }
 
 

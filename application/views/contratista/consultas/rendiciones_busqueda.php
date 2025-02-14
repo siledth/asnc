@@ -12,28 +12,27 @@
                         Ir Busqueda PN
                     </button>
                     <button
-                        onclick="location.href='<?php echo base_url()?>index.php/evaluacion_desempenio/busquedallenar_evaluaciones_contratistas'"
+                        onclick="location.href='<?php echo base_url()?>index.php/Contratista/infor_contrat_comi_conta_rif'"
                         type="button" class="my-button3" name="button">
-                        Ir Busqueda Evaluaciones
+                        Ir Busqueda Rif
                     </button>
                     <!-- <a class="my-button"
                             href="javascript:history.back()"> Volver</a> -->
                 </div>
-
                 <div class="col-12 text-center mt-3 mb-3">
-                    <h4 class="text-center mb-3 mt-3">BUSQUEDA PERSONA JURIDICA</h4>
+                    <h4 class="text-center mb-3 mt-3">RENDICIONES</h4>
 
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-4">
-                            <label>Ingrese número de RIF a consultar</label>
+                            <label>Ingrese número de rif a consultar</label>
                             <input class="form-control" type="text" name="nombre" id="nombre"
-                                oninput="validarInput2(this)" placeholder="rif a consultar">
+                                oninput="validarInput2(this)" placeholder="J0000000">
 
                         </div>
                         <div class="col- mt-4">
-                            <button type="button" class="btn btn-default" onclick="consultar_nombre2();" name="button">
+                            <button type="button" class="btn btn-default" onclick="consultar_nombre6();" name="button">
                                 <i class="fas fa-search"></i> </button>
                         </div>
                     </div>
@@ -45,7 +44,7 @@
             <!-- Puedes agregar un spinner aquí si lo deseas -->
         </div>
         <div id="inputs" style="display: none;">
-            <form class="form-horizontal" id="resgistrar_eva" data-parsley-validate="true" method="POST"
+            <!-- <form class="form-horizontal" id="resgistrar_eva" data-parsley-validate="true" method="POST"
                 enctype="multipart/form-data">
 
                 <div class="row">
@@ -53,9 +52,17 @@
                     <div class="col-12">
                         <h4 class="text-center mb-3 mt-3">Por Favor Ingrese estos datos</h4>
                     </div>
-                    <div class="form-group col-3">
-                        <label>Rif Consultado<b title="Campo Obligatorio" style="color:red">*</b></label>
+                    <div class="form-group col-6">
+                        <label>Cedula Consultada <b title="Campo Obligatorio" style="color:red">*</b></label>
                         <input type="text" id="cedula" name="cedula" value="" class="form-control" readonly>
+                    </div>
+                    <div class="form-group col-6">
+                        <label>Nombre Consultado <b title="Campo Obligatorio" style="color:red">*</b></label>
+                        <input type="text" id="namec" name="namec" value="" class="form-control" readonly>
+                    </div>
+                    <div class="form-group col-6">
+                        <label>Apellido Consultado <b title="Campo Obligatorio" style="color:red">*</b></label>
+                        <input type="text" id="apellidoc" name="apellidoc" value="" class="form-control" readonly>
                     </div>
 
                     <div class="form-group col-3">
@@ -69,19 +76,21 @@
                         <textarea class="form-control" id="observacion" name="observacion" rows="4" cols="100"
                             required></textarea>
                     </div>
+
                     <div class="form-group col 12 text-center">
                         <button type="button" onclick="registrar();" id="registrar_eval" name="registrar_eval"
                             class="my-button2">Guardar</button>
                     </div>
 
                 </div>
+            </form> -->
+
         </div>
-        </form>
 
         <div class="col-lg-12" style="display: none" id="items">
             <div class="panel panel-inverse">
                 <div class="panel-heading">
-                    <h4 class="panel-title text-center"><b>Información del Contratista </b></h4>
+                    <h4 class="panel-title text-center"><b>Información </b></h4>
                 </div>
                 <div class="panel-body" id="existe">
                     <div class="row">
@@ -89,13 +98,14 @@
                             <table id="tabla" class="table table-bordered table-hover">
                                 <thead style="background:#e4e7e8">
                                     <tr class="text-center">
-                                        <th>N Proceso</th>
-                                        <th>Rif</th>
-                                        <th>Razón Social</th>
-                                        <th>Persona Natural Asociada</th>
-                                        <th>Teléfono</th>
-                                        <th>Acción</th>
+                                        <th>Ente </th>
+                                        <th>Precio Ejecu</th>
+                                        <th>Modalidad</th>
+                                        <th>Fecha Contr.</th>
+                                        <th>Doc.Contra.</th>
 
+
+                                        <!-- <th>Acción</th> -->
                                         <!-- <th>n</th> -->
                                     </tr>
                                 </thead>
