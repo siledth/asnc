@@ -152,9 +152,9 @@ function consultar_rif() {
 		data: { rif_b: rif_b },
 		dataType: "json",
 		success: function (data) {
-			$("#data2 tbody").empty();
+			$("#tabla tbody").empty();
 			$.each(data, function (index, response) {
-				$("#data2 tbody").append(
+				$("#tabla tbody").append(
 					"<tr><td>" +
 						response["fecha_evaluacion"] +
 						"</td><td>" +
@@ -166,6 +166,16 @@ function consultar_rif() {
 						"</td></tr>"
 				);
 			});
+			 $('#tabla').DataTable({
+                        "paging": true,
+                        "pageLength": 10,
+                        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                        dom: "Bfrtip",
+                        buttons: [{
+                            extend: "excel",
+                            text: "Exportar Hoja de Cálculo"
+                        }]
+                    });
 		},
 	});
 }
