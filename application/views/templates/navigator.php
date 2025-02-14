@@ -523,17 +523,17 @@
                             <li class="has-sub">
                                 <a href="javascript:;">
                                     <b class="caret"></b>
-                                    <span>- Busqueda Investigación</span>
+                                    <span>- Consulta Avanzada</span>
                                 </a>
                                 <ul class="sub-menu">
                                     <li><a href="<?= base_url() ?>index.php/Contratista/comisario_busqueda">
-                                            -Busqueda Investigación </a></li>
+                                            -Consulta Avanzada </a></li>
                                     <!-- <li><a href="<?= base_url() ?>index.php/Contratista/infor_contrat_comi_conta">
-                                            -Busqueda Investigación Cédula</a></li>
+                                            -Busqueda Avanzada Cédula</a></li>
                                     <li><a href="<?= base_url() ?>index.php/Contratista/infor_contrat_comi_conta_rif">
-                                            -Busqueda Investigación Rif</a></li> -->
+                                            -Busqueda Avanzada Rif</a></li> -->
                                     <li><a href="<?= base_url() ?>index.php/Contratista/list">-Consulta de
-                                            resultado Investigación</a></li>
+                                            resultado Avanzada</a></li>
                                 </ul>
                             </li>
 

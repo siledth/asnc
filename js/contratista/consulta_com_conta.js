@@ -55,14 +55,102 @@
 //         });
 //     }
 // }
+// function consultar_nombre3() {
+//      if ($.fn.DataTable.isDataTable('#tabla')) {
+//                         $('#tabla').DataTable().destroy();
+//                     }
+
+//     $('#namec').val(''); // Reiniciar el input de nombre
+//     $('#apellidoc').val(''); // Reiniciar el input de apellido
+//     var nombre = $('#nombre').val();
+//     if (nombre == '') {
+//         alert('Por favor ingrese un número de cédula.');
+//         return;
+//     } else {
+//         $("#items").show();
+//         var base_url = window.location.origin + '/asnc/index.php/Contratista/llenar_contratista_comi_conta1';
+//         var base_url_3 = window.location.origin + '/asnc/index.php/Planilla_r_todo/pdfrt?id=';
+
+//         $.ajax({
+//             url: base_url,
+//             method: 'post',
+//             data: { nombre: nombre },
+//             dataType: 'json',
+//             success: function(data) {
+//                 if (data.error) {
+//                     // Mostrar inputs en lugar de la tabla
+//                     $('#tabla').hide();
+//                     $('#items').hide();
+//                     $('#inputs').show();
+//                     $('#cedula').val(nombre);
+//                     $('#existe').val(0);
+//                 } else {
+//                     $('#tabla').show();
+//                     $('#items').show();
+//                     $('#inputs').show();
+//                     $('#cedula').val(nombre);
+//                     $('#existe').val(1);
+
+//                     // Limpiar la tabla antes de llenarla
+//                     $('#tabla tbody').children().remove();
+//                     $.each(data, function(index, response) {
+//                         $('#tabla tbody').append('<tr><td>' + response['rifced'] + '</td><td>'
+//                             + response['nombre'] + '</td><td>'
+//                             + response['proceso_id'] + '</td><td>'
+//                             + '<button class="boton2 btn" onclick="window.location.href=\'' + base_url_3 + response['proceso_id'] + '\'">VER</button></td></tr>');
+
+//                         // Mostrar el nombre en el input fuera de la tabla
+//                         $("#namec").val(response['nomacc']); // Asignar el nombre al input
+//                         $("#apellidoc").val(response['apecom']); // Asignar el apellido al input
+//                     });
+
+//                     // Destruir la tabla si ya está inicializada
+//                     if ($.fn.DataTable.isDataTable('#tabla')) {
+//                         $('#tabla').DataTable().destroy();
+//                     }
+
+//                     // Inicializar DataTables y configurar la paginación
+//                     $('#tabla').DataTable({
+//                         "paging": true,
+//                         "pageLength": 10, // número de filas por página
+//                         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+//                         dom: "Bfrtip",
+//                         buttons: [{
+//                             extend: "excel",
+//                             text: "Exportar Hoja de Cálculo"
+//                         }]
+//                     });
+//                 }
+//             }
+//         });
+//     }
+// }
 function consultar_nombre() {
+    // Destruir la tabla si ya está inicializada
+    if ($.fn.DataTable.isDataTable('#tabla')) {
+        $('#tabla').DataTable().destroy();
+    }
+
+    // Reiniciar los inputs
+    $('#cedula').val('');
+    $('#namec').val('');
+    $('#apellidoc').val('');
+    $('#existe').val('');
+
     var nombre = $('#nombre').val();
     if (nombre == '') {
-        //...
+        alert('Por favor ingrese un número de cédula.');
+        return;
     } else {
         $("#items").show();
-        // var base_url = window.location.origin + '/asnc/index.php/Contratista/llenar_contratista_comi_conta1';
-        var base_url = '/index.php/Contratista/llenar_contratista_comi_conta1';
+        
+        // Mostrar el mensaje de cargando
+        $("#loading").show();
+
+        //var base_url = window.location.origin + '/asnc/index.php/Contratista/llenar_contratista_comi_conta1';
+        //var base_url_3 = window.location.origin + '/asnc/index.php/Planilla_r_todo/pdfrt?id=';
+         var base_url = '/index.php/Contratista/llenar_contratista_comi_conta1';
+         var base_url = '/index.php/Planilla_r_todo/pdfrt?id=';
 
         $.ajax({
             url: base_url,
@@ -70,8 +158,10 @@ function consultar_nombre() {
             data: { nombre: nombre },
             dataType: 'json',
             success: function(data) {
+                // Ocultar el mensaje de cargando
+                $("#loading").hide();
+
                 if (data.error) {
-                    // Mostrar inputs en lugar de la tabla
                     $('#tabla').hide();
                     $('#items').hide();
                     $('#inputs').show();
@@ -84,54 +174,75 @@ function consultar_nombre() {
                     $('#cedula').val(nombre);
                     $('#existe').val(1);
 
-                    // Limpiar la tabla antes de llenarla
                     $('#tabla tbody').children().remove();
                     $.each(data, function(index, response) {
                         $('#tabla tbody').append('<tr><td>' + response['rifced'] + '</td><td>'
                             + response['nombre'] + '</td><td>'
                             + response['proceso_id'] + '</td><td>'
-                          
-							+ '<button class="boton2 btn"> <a href="llenar_contratista_nombre_ind?id='+ response['rifced'] +'">VER</button></td></tr>'
-                        );
-                        
-                        // Mostrar el nombre en el input fuera de la tabla
-                        $("#namec").val(response['nomacc']); // Asignar el nombre al input
-                        $("#apellidoc").val(response['apecom']); // Asignar el nombre al input
+                             + response['tipo'] + '</td><td>'
+                            + '<button class="boton2 btn" onclick="window.location.href=\'' + base_url_3 + response['proceso_id'] + '\'">VER</button></td></tr>');
 
+                        $("#namec").val(response['nomacc']);
+                        $("#apellidoc").val(response['apecom']);
                     });
 
-                    // Inicializar DataTables y configurar la paginación
                     $('#tabla').DataTable({
                         "paging": true,
-                        "pageLength": 10, // número de filas por página
+                        "pageLength": 10,
                         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                           dom: "Bfrtip",
-         buttons: [{
-            extend: "excel",
-            text: "Exportar Hoja de Cálculo"
-        }] // opciones de número de filas por página
+                        dom: "Bfrtip",
+                        buttons: [{
+                            extend: "excel",
+                            text: "Exportar Hoja de Cálculo"
+                        }]
                     });
                 }
+            },
+            error: function() {
+                // Ocultar el mensaje de cargando en caso de error
+                $("#loading").hide();
+                alert('Error al cargar los datos.');
             }
         });
     }
 }
-function consultar_nombre2(){
+function consultar_nombre2() {
+    // Destruir la tabla si ya está inicializada
+    if ($.fn.DataTable.isDataTable('#tabla')) {
+        $('#tabla').DataTable().destroy();
+    }
+
+    // Reiniciar los inputs
+    $('#cedula').val('');
+    $('#namec').val('');
+    $('#apellidoc').val('');
+    $('#existe').val('');
+
     var nombre = $('#nombre').val();
     if (nombre == '') {
-        //...
+        alert('Por favor ingrese un número de cédula.');
+        return;
     } else {
         $("#items").show();
+        
+        // Mostrar el mensaje de cargando
+        $("#loading").show();
+       // var base_url =window.location.origin+'/asnc/index.php/Contratista/llenar_contratista_comi_conta2';
+
+       // var base_url_3 = window.location.origin + '/asnc/index.php/Planilla_r_todo/pdfrt?id=';
         var base_url = '/index.php/Contratista/llenar_contratista_comi_conta2';
-        // var base_url =window.location.origin+'/asnc/index.php/Contratista/llenar_contratista_comi_conta2';
+        var base_url = '/index.php/Planilla_r_todo/pdfrt?id=';
+
         $.ajax({
             url: base_url,
             method: 'post',
             data: { nombre: nombre },
             dataType: 'json',
             success: function(data) {
+                // Ocultar el mensaje de cargando
+                $("#loading").hide();
+
                 if (data.error) {
-                    // Mostrar inputs en lugar de la tabla
                     $('#tabla').hide();
                     $('#items').hide();
                     $('#inputs').show();
@@ -144,28 +255,94 @@ function consultar_nombre2(){
                     $('#cedula').val(nombre);
                     $('#existe').val(1);
 
-                    $('#tabla tbody').children().remove()
-                    $.each(data, function(index, response){
-                        $('#tabla tbody').append('<tr><td>' + response['rifced'] + '</td><td>'
-                                                        + response['nombre'] + '</td><td>'
-                                                        + response['percontacto'] + '</td><td>'
-                                                        + response['telf1'] + '</td></tr>'
+                    $('#tabla tbody').children().remove();
+                    $.each(data, function(index, response) {
+                        $('#tabla tbody').append('<tr><td>' + response['proceso_id'] + '</td><td>'
+                            + response['rifced'] + '</td><td>'
+                            + response['nombre'] + '</td><td>'
+                            + response['percontacto'] + '</td><td>'
+                             + response['telf1'] + '</td><td>'
+                            + '<button class="boton2 btn" onclick="window.location.href=\'' + base_url_3 + response['proceso_id'] + '\'">VER</button></td></tr>');
 
-                                                        // + '<button class="boton2 btn"> <a href="llenar_contratista_nombre_ind?id='+ response['rifced'] +'">VER</button></td></tr>'
-                                                    );
+                        $("#namec").val(response['nombre']);
+             
                     });
 
-                    // Inicializar DataTables y configurar la paginación
                     $('#tabla').DataTable({
                         "paging": true,
-                        "pageLength": 10, // número de filas por página
-                        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]] // opciones de número de filas por página
+                        "pageLength": 10,
+                        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                        dom: "Bfrtip",
+                        buttons: [{
+                            extend: "excel",
+                            text: "Exportar Hoja de Cálculo"
+                        }]
                     });
                 }
+            },
+            error: function() {
+                // Ocultar el mensaje de cargando en caso de error
+                $("#loading").hide();
+                alert('Error al cargar los datos.');
             }
         });
     }
 }
+// function consultar_nombre2(){
+//     var nombre = $('#nombre').val();
+//     if (nombre == '') {
+//         //...
+//     } else {
+//         $("#items").show();
+//         // var base_url = '/index.php/Contratista/llenar_contratista_comi_conta2';
+//         var base_url =window.location.origin+'/asnc/index.php/Contratista/llenar_contratista_comi_conta2';
+//         $.ajax({
+//             url: base_url,
+//             method: 'post',
+//             data: { nombre: nombre },
+//             dataType: 'json',
+//             success: function(data) {
+//                 if (data.error) {
+//                     // Mostrar inputs en lugar de la tabla
+//                     $('#tabla').hide();
+//                     $('#items').hide();
+//                     $('#inputs').show();
+//                     $('#cedula').val(nombre);
+//                     $('#existe').val(0);
+//                 } else {
+//                     $('#tabla').show();
+//                     $('#items').show();
+//                     $('#inputs').show();
+//                     $('#cedula').val(nombre);
+//                     $('#existe').val(1);
+
+//                     $('#tabla tbody').children().remove()
+//                     $.each(data, function(index, response){
+//                         $('#tabla tbody').append('<tr><td>' + response['rifced'] + '</td><td>'
+//                                                         + response['nombre'] + '</td><td>'
+//                                                         + response['percontacto'] + '</td><td>'
+//                                                         + response['telf1'] + '</td></tr>'
+
+//                                                         // + '<button class="boton2 btn"> <a href="llenar_contratista_nombre_ind?id='+ response['rifced'] +'">VER</button></td></tr>'
+//                                                     );
+//                     });
+
+//                     // Inicializar DataTables y configurar la paginación
+//                    $('#tabla').DataTable({
+//                         "paging": true,
+//                         "pageLength": 10, // número de filas por página
+//                         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+//                            dom: "Bfrtip",
+//          buttons: [{
+//             extend: "excel",
+//             text: "Exportar Hoja de Cálculo"
+//         }] // opciones de número de filas por página
+//                     });
+//                 }
+//             }
+//         });
+//     }
+// }
 
 function registrar(){
 		var cedula = $("#cedula").val();

@@ -24,7 +24,7 @@ class Contratista_model extends CI_Model
         $query = $this->db_b->get('public.objcontratistas');
         return $response = $query->result_array();
 	}
-    // se cambio la consulta xq pn no tiene acta contisturiva
+    // se cambio la consulta xq pn  persona natural no tiene acta contisturiva  revisar siled
     public function llenar_contratistas($data){
         $this->db_b->select('*');
         $this->db_b->where('rifced', $data['rif_b']);
@@ -91,8 +91,264 @@ class Contratista_model extends CI_Model
             return $result;
         }
     }
+    //   public function consulta_planillaresumen_todo1($data){
+    //     $this->db_b->select('c.id, c.contratista_id,p.edocontratista_id, e.descripcion');
+    //     $this->db_b->join('public.contratistas p', 'p.id = c.contratista_id');
+    //     $this->db_b->join('public.edocontratistas e', 'e.id = p.edocontratista_id');
 
 
+    //     $this->db_b->where('c.id', $data);
+    //     $query = $this->db_b->get('public.procesos c');
+    //     $result = $query->row_array();
+    //     if ($result == '') {
+    //         $this->db_b->select('*');
+    //         $this->db_b->where('proceso_id', $data);
+    //         $query = $this->db_b->get('public.pn');
+    //         return $result = $query->row_array();
+    //     }else {
+    //         return $result;
+    //     }
+    // }
+
+    function consulta_planillaresumen_todo1($data1){  // con esto estoy armando los plailla resumen de investigacion
+    
+            $query = $this->db_b->query("SELECT c.id, c.contratista_id,p.edocontratista_id, e.descripcion, p.rifced, p.nombre   , p.numcertrnc ,p.fecinscrnc_at,
+            p.fecvencrnc_at, p.tipopersona , p.dencomerciale_id, d.descdencom, g.nomprom, g.empseguro, g.vigilancia,g.prendamilitar, g.objcontratista_id,
+            o.descobjcont, g.provf, g.provd, g.prova,g.obras, g.servn, g.serva, g.dir1, g.dir2, g.dir3, g.dir4, g.ptoref,
+            g.estado_id, g.ciudade_id, g.municipio_id, g.parroquia_id , a.descedo, i.descciu, m.descmun, q.descparro, g.percontacto, g.telf1, g.telf2, g.email, g.website
+                FROM public.procesos c
+                join  public.contratistas p on p.id = c.contratista_id	
+                join  public.edocontratistas e on e.id = p.edocontratista_id	
+                join  public.dencomerciales d on d.id = p.dencomerciale_id	
+                join  public.datosgenerales g on g.proceso_id = c.id	
+                join  public.objcontratistas o on g.objcontratista_id = o.id	
+                left join  public.estados a on g.estado_id = a.id
+                left join  public.ciudades i on g.ciudade_id = i.id	
+                left join  public.municipios m on g.municipio_id = m.id	
+                left join  public.parroquias q on g.parroquia_id = q.id	                       
+                 where c.id = '$data1' 
+                  ");
+                if($query->num_rows()>0){
+                    return $query->result();
+                }
+                else{
+                    return NULL;
+                }
+    }  
+function consulta_planillaresumen_todo2($data1){  // con esto estoy armando los plailla resumen de investigacion
+    
+            $query = $this->db_b->query("SELECT c.id, r.domfiscal, r.objsocial, r.fecduremp_at, r.fecdurjd_at,
+        r.diaciefcal, r.mesciefcal, r.capsusc, r.cappagado
+                FROM public.procesos c
+                join  public.regmercantiles r on r.proceso_id = c.id	
+                                     
+                 where c.id = '$data1' 
+                  ");
+                if($query->num_rows()>0){
+                    return $query->result();
+                }
+                else{
+                    return NULL;
+                }
+    }  
+
+    function consulta_planillaresumen_todo3($data1){  
+    
+    $query = $this->db_b->query("SELECT c.id, m.proceso_id, m.cirjudiciale_id,  m.tipmodificacione_id, m.tipregmercantile_id, 
+                               m.numreg, m.fecreg_at, m.tomo, m.folio, j.desccirjudicial, t.descmodif, tp.descrm
+
+         FROM public.procesos c
+         join public.modificaciones m on  m.proceso_id = c.id	
+         join public.cirjudiciales j on  j.id = m.cirjudiciale_id	  
+         join public.tipmodificaciones t on  t.id = m.tipmodificacione_id
+         join public.tipregmercantiles tp on  tp.id = m.tipregmercantile_id
+
+            
+          where c.id = '$data1' 
+       ");
+        if($query->num_rows()>0){
+            return $query->result();
+        }
+        else{
+            return NULL;
+        }
+    }
+   function consulta_planillaresumen_todo4($data1){ 
+    
+    $query = $this->db_b->query("
+        SELECT c.id,
+               r.proceso_id,  
+               r.apeacc, 
+               r.nomacc, 
+               r.tipo, 
+               r.cedrif, 
+               r.edocivil,
+               CASE 
+                   WHEN r.acc = 1 THEN 'sí' 
+                   ELSE 'no' 
+               END AS acc_status,
+                CASE 
+                   WHEN r.jd = 1 THEN 'sí' 
+                   ELSE 'no' 
+               END AS jd_status,
+                CASE 
+                   WHEN r.rl = 1 THEN 'sí' 
+                   ELSE 'no' 
+               END AS rl_status,
+               r.porcacc, 
+               r.cargo, 
+               r.tipobl
+        FROM public.procesos c
+        JOIN public.accionistas r ON r.proceso_id = c.id          
+        WHERE c.id = '$data1' 
+    ");
+    
+    if($query->num_rows() > 0){
+        return $query->result();
+    } else {
+        return NULL;
+    }
+}
+function consulta_planillaresumen_todo5($data1){ 
+    
+    $query = $this->db_b->query("
+        SELECT c.id,
+               r.cedcom, r.nomcom, r.apecom, r.tipocom, r.cpc, r.fecdurcom_at
+        FROM public.procesos c
+        JOIN public.comisarios r ON r.proceso_id = c.id          
+        WHERE c.id = '$data1' 
+    ");
+    
+    if($query->num_rows() > 0){
+        return $query->result();
+    } else {
+        return NULL;
+    }
+}
+function consulta_planillaresumen_todo6($data1){ 
+    
+    $query = $this->db_b->query("
+        SELECT proceso_id, segmento_id,  desc_seg_mostrar, anoexp,  
+        CASE 
+                   WHEN tipexp = 'A' THEN 'AÑOS' 
+                   ELSE 'Meses' 
+               END AS tipexp_status, 
+         CASE 
+                   WHEN principal = 'f' THEN 'NO' 
+                   ELSE 'SI' 
+               END AS principal_status, 
+                  CASE 
+                   WHEN tipo = 'S' THEN 'Obras y/o Servicios' 
+                   ELSE 'Bienes' 
+               END AS tipo_status, 
+          articulo_id,  desc_arti_mostrar, infoprod, desctiprel
+        FROM public.actvyprodcdeclasifcompredo
+        WHERE proceso_id = '$data1' 
+    ");
+    
+    if($query->num_rows() > 0){
+        return $query->result();
+    } else {
+        return NULL;
+    }
+}
+function consulta_planillaresumen_todo7($data1){ 
+    
+    $query = $this->db_b->query("
+        SELECT proceso_id,cliente,  numcontrato, obraserv, fecini_at, fecfin_at, porcejec       
+        FROM public.relobras
+        WHERE proceso_id = '$data1'
+        
+    ");
+    
+    if($query->num_rows() > 0){
+        return $query->result();
+    } else {
+        return NULL;
+    }
+}
+function consulta_planillaresumen_todo8($data1){ 
+    
+    $query = $this->db_b->query("
+        SELECT proceso_id,cliente,  numcontrato,objcontrato, replegal,telf1,prodrel       
+        FROM public.relclientes
+        WHERE proceso_id = '$data1'
+        
+    ");
+    
+    if($query->num_rows() > 0){
+        return $query->result();
+    } else {
+        return NULL;
+    }
+}
+function consulta_planillaresumen_todo9($data1){ 
+    
+    $query = $this->db_b->query("
+        SELECT r.proceso_id, r.articulo_id, p.id, p.desc_arti_mostrar ,
+        r.marca, r.capalm, (r.merlocal + r.merreg + r.mernac + r.merexp) total     
+        FROM public.informes r
+        JOIN public.articulos p ON p.id = r.articulo_id         
+        WHERE r.proceso_id = '$data1'
+        
+    ");
+    
+    if($query->num_rows() > 0){
+        return $query->result();
+    } else {
+        return NULL;
+    }
+}
+function consulta_planillaresumen_todo10($data1){ 
+    
+    $query = $this->db_b->query("
+        SELECT proceso_id,  nomcont, apecont, cedcont, cpc, firmaaudit, revlimitada,
+        fecha_at, opilimpia, abstopinion, opinion     ,  
+        CASE 
+                   WHEN abstopinion = 1 THEN 'SI' 
+                   ELSE 'NO' 
+               END AS abstopinion_status,
+                    CASE 
+                   WHEN opilimpia = 1 THEN 'SI' 
+                   ELSE 'NO' 
+               END AS opilimpia_status
+        FROM public.dictamenes                 
+        WHERE proceso_id = '$data1'
+        
+    ");
+    
+    if($query->num_rows() > 0){
+        return $query->result();
+    } else {
+        return NULL;
+    }
+}
+function consulta_planillaresumen_todo11($data1){ 
+    
+    $query = $this->db_b->query("
+        SELECT *, CASE 
+                   WHEN apertura = 1 THEN 'SI' 
+                   ELSE 'NO' 
+               END AS apertura_status,
+               CASE 
+                   WHEN actecon = 1 THEN 'SI' 
+                   ELSE 'NO' 
+               END AS actecon_status,
+               CASE 
+                   WHEN costohist = 1 THEN 'SI' 
+                   ELSE 'NO' 
+               END AS costohist_status
+        FROM public.balances                
+        WHERE proceso_id = '$data1'
+        
+    ");
+    
+    if($query->num_rows() > 0){
+        return $query->result();
+    } else {
+        return NULL;
+    }
+}
     // public function consulta_planillaresumen($rifced){
     //     $this->db_b->select('*');
     //     $this->db_b->where('rifced', $rifced);
@@ -130,7 +386,8 @@ class Contratista_model extends CI_Model
       }
 
     public function consulta_comisarios($rif,$proceso_id){
-        $this->db_b->select('p.rifced, p.proceso_id, r.proceso_id, r.cedcom, r.nomcom, r.apecom, r.tipocom, r.cpc, r.fecdurcom_at');
+        $this->db_b->select('p.rifced, p.proceso_id, r.proceso_id, 
+        r.cedcom, r.nomcom, r.apecom, r.tipocom, r.cpc, r.fecdurcom_at');
         $this->db_b->join('public.planillapirmera2 p', 'p.proceso_id = r.proceso_id');
         $this->db_b->where('p.proceso_id', $proceso_id);
         $this->db_b->group_by('p.rifced, p.proceso_id, r.proceso_id, r.cedcom, r.nomcom, r.apecom, r.tipocom, r.cpc, r.fecdurcom_at');
@@ -139,7 +396,8 @@ class Contratista_model extends CI_Model
         return $query->result_array();
     }
     public function consulta_activ_prod_clasif_compr_edo($rif,$proceso_id){
-        $this->db_b->select('proceso_id, segmento_id,  desc_seg_mostrar, anoexp, tipexp, principal, tipo,  articulo_id,  desc_arti_mostrar, infoprod, desctiprel');
+        $this->db_b->select('proceso_id, segmento_id,  desc_seg_mostrar, anoexp, tipexp, principal, 
+        tipo,  articulo_id,  desc_arti_mostrar, infoprod, desctiprel');
         $this->db_b->where('proceso_id', $proceso_id);
         $this->db_b->order_by("segmento_id", "Asc");
         $query = $this->db_b->get('public.actvyprodcdeclasifcompredo');
@@ -251,22 +509,28 @@ class Contratista_model extends CI_Model
     $cedula_dictamenes = 'V0' . str_pad($cedula, 8, '0', STR_PAD_LEFT);
 
     $query = $this->db_b->query("
-        select d.rifced, d.nombre, a.cedcom, a.nomcom as nomacc, a.apecom as apecom, a.proceso_id
+        select d.rifced, d.nombre, a.cedcom, a.nomcom as nomacc, a.apecom as apecom, a.proceso_id,  'comisario' AS tipo
         from comisarios a, datosgenerales d 
         where a.proceso_id = d.proceso_id 
         and a.cedcom = '$cedula'        
         union        
-        select d.rifced, d.nombre, a.cedrif, a.nomacc as nomacc , a.apeacc as apecom, a.proceso_id
+        select d.rifced, d.nombre, a.cedrif, a.nomacc as nomacc , a.apeacc as apecom, a.proceso_id ,   
+        CASE 
+        WHEN a.acc = 1 THEN 'Accionista'
+        WHEN a.jd = 1 THEN 'Junta directiva'
+        WHEN a.rl = 1 THEN 'Representante legal'
+        ELSE 'accionista' 
+        END AS tipo
         from accionistas a, datosgenerales d 
         where a.proceso_id = d.proceso_id 
         and a.cedrif = '$cedula'
         union
-        select d.rifced, d.nombre, a.cedcont, a.nomcont as nomacc, a.apecont as apecom, a.proceso_id
+        select d.rifced, d.nombre, a.cedcont, a.nomcont as nomacc, a.apecont as apecom, a.proceso_id, 'comisario' AS tipo
         from dictamenes a, datosgenerales d 
         where a.proceso_id = d.proceso_id 
         and a.cedcont = '$cedula_dictamenes'
         union
-        select d.rifced, d.nombre, a.cedcont, a.nomcont as nomacc, a.apecont as apecom, a.proceso_id
+        select d.rifced, d.nombre, a.cedcont, a.nomcont as nomacc, a.apecont as apecom, a.proceso_id, 'comisario' AS tipo
         from dictamenes a, datosgenerales d 
         where a.proceso_id = d.proceso_id 
         and a.cedcont ilike '%$cedula_dictamenes%'
@@ -351,10 +615,10 @@ function consultar_lis(){
         public function llenar_contratista_comi_conta23($cedula) {
 
     $query = $this->db_b->query("
-        select rifced, nombre,percontacto,telf1
+        select rifced, nombre,percontacto,telf1, proceso_id
         from  datosgenerales 
         where rifced = '$cedula' 
-        GROUP BY rifced, nombre,percontacto,telf1    
+        GROUP BY rifced, nombre,percontacto,telf1  , proceso_id  
     ");
 
     if ($query) {

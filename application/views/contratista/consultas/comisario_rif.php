@@ -21,6 +21,10 @@
                 </div>
             </div>
         </div>
+        <div id="loading" style="display: none; text-align: center; margin: 20px;">
+            <h4 class="text-center mb-3 mt-3">Buscando, por favor espere...</h4>
+            <!-- Puedes agregar un spinner aquí si lo deseas -->
+        </div>
         <div id="inputs" style="display: none;">
             <form class="form-horizontal" id="resgistrar_eva" data-parsley-validate="true" method="POST"
                 enctype="multipart/form-data">
@@ -66,10 +70,13 @@
                             <table id="tabla" class="table table-bordered table-hover">
                                 <thead style="background:#e4e7e8">
                                     <tr class="text-center">
-                                        <th>RIF</th>
+                                        <th>N Proceso</th>
+                                        <th>Rif</th>
                                         <th>Razón Social</th>
-                                        <th>Contacto</th>
+                                        <th>Persona Natural Asociada</th>
                                         <th>Teléfono</th>
+                                        <th>Acción</th>
+
                                         <!-- <th>n</th> -->
                                     </tr>
                                 </thead>
