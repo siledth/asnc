@@ -150,7 +150,7 @@ function consultar_nombre() {
         //var base_url = window.location.origin + '/asnc/index.php/Contratista/llenar_contratista_comi_conta1';
         //var base_url_3 = window.location.origin + '/asnc/index.php/Planilla_r_todo/pdfrt?id=';
          var base_url = '/index.php/Contratista/llenar_contratista_comi_conta1';
-         var base_url = '/index.php/Planilla_r_todo/pdfrt?id=';
+         var base_url_3 = '/index.php/Planilla_r_todo/pdfrt?id=';
 
         $.ajax({
             url: base_url,
@@ -231,7 +231,7 @@ function consultar_nombre2() {
 
        // var base_url_3 = window.location.origin + '/asnc/index.php/Planilla_r_todo/pdfrt?id=';
         var base_url = '/index.php/Contratista/llenar_contratista_comi_conta2';
-        var base_url = '/index.php/Planilla_r_todo/pdfrt?id=';
+        var base_url_3 = '/index.php/Planilla_r_todo/pdfrt?id=';
 
         $.ajax({
             url: base_url,
