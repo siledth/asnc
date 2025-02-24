@@ -199,7 +199,10 @@ $pdf->Cell(50,5,utf8_decode('Órgano / Ente / Adscrito:'),0,0,'R');
         $pdf->SetFont('Arial','',8);
         
        $pdf->Cell(25,5, $d->cedula,0,0,'L');
+        $pdf->SetFont('Arial','',7);
+
        $pdf->Cell(65,5, utf8_decode($d->nombre_completo),0,0,'L');
+        $pdf->SetFont('Arial','',8);
        
        $pdf->Cell(33,5, utf8_decode($d->desc_area_miembro),0,0,'L');
        $pdf->Cell(20,5, utf8_decode($d->desc_tp_miembro),0,0,'L');
