@@ -89,7 +89,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('url','form','user_session'); //aca agregue 'user_session'
+$autoload['helper'] = array('url','form','user_session', 'auth'); //aca agregue 'user_session'
 
 /*
 | -------------------------------------------------------------------

@@ -156,9 +156,9 @@ body {
     color: #FFFFFF;
     border-radius: 20px;
     border: none;
-    padding: 20px 35px;
+    padding: 10px 35px;
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
 }
 

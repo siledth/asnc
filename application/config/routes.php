@@ -5,6 +5,16 @@ $route['default_controller'] = 'login';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+// $route['default_controller'] = 'auth';
+// $route['404_override'] = '';
+// $route['translate_uri_dashes'] = FALSE;
+
+// // Authentication routes
+// $route['login'] = 'auth/index';
+// $route['logout'] = 'auth/logout';
+// $route['Comision_contrata'] ['get'] = 'Comision_contrata/logger_type_snc';
+
+
 //******************************************************************************
 //***                 RUTAS DE LAS PAGINAS DE GESTION                        ***
 //******************************************************************************

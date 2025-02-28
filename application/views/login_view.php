@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="<?= base_url() ?>Plantilla/img/favicon.ico" type="image/vnd.microsoft.icon" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
@@ -34,7 +36,7 @@
                 </div>
 
 
-                <form class="form form-register" form action="<?php echo site_url('login/autenticar'); ?>" method="post"
+                <form class="form form-register" form action="<?php echo site_url('Login/autenticar'); ?>" method="post"
                     novalidate>
                     <div>
                         <label>
@@ -61,7 +63,13 @@
                         Llamados a Concursos</button>
 
                 </div>
-                <p>LLamados a Concursos</p>
+                <div class="icons">
+                    <button type="button" onclick="location.href='<?php echo base_url() ?>index.php/solicitud'"
+                        class="btn btn-grey btn-lg">Solicitud de Usuarios</button>
+
+                </div>
+
+
             </div>
         </div>
     </div>

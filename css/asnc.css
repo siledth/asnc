@@ -155,3 +155,8 @@ hr {
   background-color: #0056b3;
   /* Color al pasar el mouse */
 }
+
+.title1 {
+  font-size: 2rem;
+  color: #868585;
+}
