@@ -5,20 +5,22 @@
             <div class="panel panel-inverse" data-sortable-id="form-validation-1">
                 <div class="panel-heading">
                 </div>
-                <div class="col-12 text-center mt-3 mb-3">
-                    <button
-                        onclick="location.href='<?php echo base_url()?>index.php/Contratista/infor_contrat_comi_conta'"
-                        type="button" class="my-button3" name="button">
-                        Ir Busqueda PN
-                    </button>
-                    <button
-                        onclick="location.href='<?php echo base_url()?>index.php/Contratista/infor_contrat_comi_conta_rif'"
-                        type="button" class="my-button3" name="button">
-                        Ir Busqueda Rif
-                    </button>
-                    <!-- <a class="my-button"
-                            href="javascript:history.back()"> Volver</a> -->
-                </div>
+                <?php
+                $mostrar_botones = isset($tipo_persona) && in_array($tipo_persona, ['1', '2', '3', '4']);
+                if ($mostrar_botones): ?>
+                    <div class="col-12 text-center mt-3 mb-3">
+                        <button
+                            onclick="location.href='<?php echo base_url() ?>index.php/Contratista/infor_contrat_comi_conta'"
+                            type="button" class="my-button3" name="button">
+                            Ir Busqueda PN
+                        </button>
+                        <button
+                            onclick="location.href='<?php echo base_url() ?>index.php/Contratista/infor_contrat_comi_conta_rif'"
+                            type="button" class="my-button3" name="button">
+                            Ir Busqueda Rif
+                        </button>
+                    </div>
+                <?php endif; ?>
                 <div class="col-12 text-center mt-3 mb-3">
                     <h4 class="text-center mb-3 mt-3">EVALUACIONES DE DESEMPEÑO</h4>
 
@@ -121,8 +123,8 @@
 </div>
 
 <script type="text/javascript">
-function mayusculas(e) {
-    e.value = e.value.toUpperCase();
-}
+    function mayusculas(e) {
+        e.value = e.value.toUpperCase();
+    }
 </script>
-<script src="<?=base_url()?>/js/contratista/consulta_com_conta.js"></script>
+<script src="<?= base_url() ?>/js/contratista/consulta_com_conta.js"></script>

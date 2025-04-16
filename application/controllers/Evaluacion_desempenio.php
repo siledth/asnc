@@ -1,24 +1,38 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Evaluacion_desempenio extends CI_Controller {
+class Evaluacion_desempenio extends CI_Controller
+{
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->model('Preguntas_model'); // Cargar el modelo de preguntas
+	}
+	public function index()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
+		$user_id = $this->session->userdata('id_user');
+		if (!$this->Preguntas_model->tiene_preguntas($user_id)) {
+			// Si no tiene preguntas, redirigir a la vista de creación de preguntas
+			redirect(site_url('Preguntas_controller/preguntas1'));
+			//$this->load->view('user/crear_preguntas_view.php');
 
-	public function index(){
-		if(!$this->session->userdata('session'))redirect('login');
+		}
 		$data['estados'] 	 = $this->Configuracion_model->consulta_estados();
 		$data['pais'] 		 = $this->Configuracion_model->consulta_paises();
 		$data['edo_civil'] 	 = $this->Configuracion_model->consulta_edo_civil();
 		$data['operadora'] 	 = $this->Evaluacion_desempenio_model->consulta_operadora();
 		$data['modalidades'] = $this->Evaluacion_desempenio_model->consulta_modalidades();
 		$data['med_not'] 	 = $this->Evaluacion_desempenio_model->consulta_med_notf();
-		$data['time']=date("Y-m-d");
-        $this->load->view('templates/header.php');
-        $this->load->view('templates/navigator.php');
+		$data['time'] = date("Y-m-d");
+		$this->load->view('templates/header.php');
+		$this->load->view('templates/navigator.php');
 		$this->load->view('evaluacion_desempenio/registro.php', $data);
-        $this->load->view('templates/footer.php');
+		$this->load->view('templates/footer.php');
 	}
-	public function registro_snc(){
-		if(!$this->session->userdata('session'))redirect('login');
+	public function registro_snc()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 		$data['estados'] 	 = $this->Configuracion_model->consulta_estados();
 		$data['pais'] 		 = $this->Configuracion_model->consulta_paises();
 		$data['edo_civil'] 	 = $this->Configuracion_model->consulta_edo_civil();
@@ -26,75 +40,84 @@ class Evaluacion_desempenio extends CI_Controller {
 		$data['modalidades'] = $this->Evaluacion_desempenio_model->consulta_modalidades();
 		$data['med_not'] 	 = $this->Evaluacion_desempenio_model->consulta_med_notf();
 
-        $this->load->view('templates/header.php');
-        $this->load->view('templates/navigator.php');
+		$this->load->view('templates/header.php');
+		$this->load->view('templates/navigator.php');
 		$this->load->view('evaluacion_desempenio/evaluacion_snc/registrar_snc.php', $data);
-        $this->load->view('templates/footer.php');
+		$this->load->view('templates/footer.php');
 	}
-	
+
 	//Registro de Evaluacion Desempenio
-	public function listar_municipio(){
-		if(!$this->session->userdata('session'))redirect('login');
+	public function listar_municipio()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 		$data = $this->input->post();
 		$data =	$this->Configuracion_model->listar_municipio($data);
 		echo json_encode($data);
 	}
 
-	public function listar_parroquia(){
-		if(!$this->session->userdata('session'))redirect('login');
+	public function listar_parroquia()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 		$data = $this->input->post();
 		$data =	$this->Configuracion_model->listar_parroquia($data);
 		echo json_encode($data);
 	}
 
-	public function listar_ciudades(){
-		if(!$this->session->userdata('session'))redirect('login');
+	public function listar_ciudades()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 		$data = $this->input->post();
 		$data =	$this->Configuracion_model->listar_ciudades($data);
 		echo json_encode($data);
 	}
 
 	//Consulta si existe el contrastis
-	public function llenar_contratista(){
-		if(!$this->session->userdata('session'))redirect('login');
+	public function llenar_contratista()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 		$data = $this->input->post();
 		$data =	$this->Evaluacion_desempenio_model->llenar_contratista($data);
 		echo json_encode($data);
 	}
 
 	//Consulta si existe el contrastis2 para la rendicion se consulta la bd de rnc
-	public function llenar_contratista_2(){
-		if(!$this->session->userdata('session'))redirect('login');
+	public function llenar_contratista_2()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 		$data = $this->input->post();
 		$data =	$this->Evaluacion_desempenio_model->llenar_contratista_2($data);
 		echo json_encode($data);
 	}
 
-	public function llenar_contratista_rp_2(){
-		if(!$this->session->userdata('session'))redirect('login');
+	public function llenar_contratista_rp_2()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 		$data = $this->input->post();
 		$data =	$this->Evaluacion_desempenio_model->llenar_contratista_rp_2($data);
 		echo json_encode($data);
 	}
-/////////////////
+	/////////////////
 
-	public function llenar_contratista_rp(){
-		if(!$this->session->userdata('session'))redirect('login');
+	public function llenar_contratista_rp()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 		$data = $this->input->post();
 		$data =	$this->Evaluacion_desempenio_model->llenar_contratista_rp($data);
 		echo json_encode($data);
 	}
 	//-------------------------------------------------
 
-	public function llenar_sub_modalidad(){
-		if(!$this->session->userdata('session'))redirect('login');
+	public function llenar_sub_modalidad()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 		$data = $this->input->post();
 		$data =	$this->Evaluacion_desempenio_model->llenar_sub_modalidad($data);
 		echo json_encode($data);
 	}
 
-	public function registrar(){
-		if(!$this->session->userdata('session'))redirect('login');
+	public function registrar()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 
 		//los datos se traen de la vista Evaluación Desempeño medianto el js(AJAX)
 
@@ -105,7 +128,7 @@ class Evaluacion_desempenio extends CI_Controller {
 
 		if ($rif_cont == '') {
 			$rif_contrat = $rif_cont_n;
-		}else {
+		} else {
 			$rif_contrat = $rif_cont;
 		}
 
@@ -124,7 +147,7 @@ class Evaluacion_desempenio extends CI_Controller {
 			'nombre' 			 => $this->input->POST('nombre_n'),
 			'tipopersona' 		 => 0, //tipo de rif
 			'dencomerciale_id' 	 => 0,
-			'ultprocaprob' 		 =>0,
+			'ultprocaprob' 		 => 0,
 			'procactual' 		 => 0,
 			'dirfiscal' 		 => 'no',
 			'percontacto' 		 => 'N/A',
@@ -143,26 +166,26 @@ class Evaluacion_desempenio extends CI_Controller {
 			'recibido' 			 => '0'
 		);
 
-		$data_repr_legal= array(
-				'rif_contratista' => $rif_contrat,
-				'paise_id' 		  => $this->input->POST('id_pais_n'),
-				'apeacc' 		  => $this->input->POST('ape_rep_leg_n'),
-				'nomacc' 		  => $this->input->POST('nom_rep_leg_n'),
-				'tipo' 			  => '',
-				'cedrif' 		  => $this->input->POST('ced_rep_leg_n'),
-				'edocivil' 		  => $this->input->POST('ced_rep_leg_n'),
-				'acc' 			  => '0',
-				'jd' 			  => '0',
-				'rl' 			  => '0',
-				'porcacc' 		  => '0',
-				'cargo' 		  => $this->input->POST('cargo_rep_leg_n'),
-				'tipobl' 		  => '',
-				'id_operadora' 	  => $this->input->POST('operadora_n'),
-				'telf' 		      => $this->input->POST('numero_n'),
-				'correo' 		  => $this->input->POST('correo_rep_leg_n')
+		$data_repr_legal = array(
+			'rif_contratista' => $rif_contrat,
+			'paise_id' 		  => $this->input->POST('id_pais_n'),
+			'apeacc' 		  => $this->input->POST('ape_rep_leg_n'),
+			'nomacc' 		  => $this->input->POST('nom_rep_leg_n'),
+			'tipo' 			  => '',
+			'cedrif' 		  => $this->input->POST('ced_rep_leg_n'),
+			'edocivil' 		  => $this->input->POST('ced_rep_leg_n'),
+			'acc' 			  => '0',
+			'jd' 			  => '0',
+			'rl' 			  => '0',
+			'porcacc' 		  => '0',
+			'cargo' 		  => $this->input->POST('cargo_rep_leg_n'),
+			'tipobl' 		  => '',
+			'id_operadora' 	  => $this->input->POST('operadora_n'),
+			'telf' 		      => $this->input->POST('numero_n'),
+			'correo' 		  => $this->input->POST('correo_rep_leg_n')
 		);
 
-		if (!empty($_FILES['fileImagen']['name'])){
+		if (!empty($_FILES['fileImagen']['name'])) {
 			$config['upload_path'] = './imagenes';;
 			$config['allowed_types'] = 'jpg|png|jpeg|pdf';
 			// $config['max_size'] = '1000px';
@@ -170,44 +193,44 @@ class Evaluacion_desempenio extends CI_Controller {
 			// $config['max_height'] = '1000px';
 			$this->load->library('upload', $config);
 			$this->upload->initialize($config);
-			if ($this->upload->do_upload('fileImagen')){
+			if ($this->upload->do_upload('fileImagen')) {
 				$img = $this->upload->data();
-			}else{
+			} else {
 				$img = 'N/A';
 				echo $this->upload->display_errors();
 			}
 		}
-		if(!isset($img_1['file_name'])){$img_1['file_name'] = "";}
+		if (!isset($img_1['file_name'])) {
+			$img_1['file_name'] = "";
+		}
 
 		$dato = $_POST['radio_css'];
 
-		if ($dato == 1){
+		if ($dato == 1) {
 			$bolivares = 'on';
 			$petros  = '';
 			$dolar  = '';
 			$euro  = '';
 			$otro  = '';
-		}elseif ($dato == 2){
+		} elseif ($dato == 2) {
 			$bolivares = '';
 			$petros  = 'on';
 			$dolar  = '';
 			$euro  = '';
 			$otro  = '';
-		}
-		elseif ($dato == 3){
+		} elseif ($dato == 3) {
 			$bolivares = '';
 			$petros  = '';
 			$dolar  = 'on';
 			$euro  = '';
 			$otro  = '';
-		}
-		elseif ($dato == 4){
+		} elseif ($dato == 4) {
 			$bolivares = '';
 			$petros  = '';
 			$dolar  = '';
 			$euro  = 'on';
 			$otro  = '';
-		}elseif ($dato == 5){
+		} elseif ($dato == 5) {
 			$bolivares = '';
 			$petros  = '';
 			$dolar  = '';
@@ -215,40 +238,41 @@ class Evaluacion_desempenio extends CI_Controller {
 			$otro  = 'on';
 		}
 
-		$data_ev = array('rif_contrat' 			=> $rif_contrat,
-						 'id_modalidad' 		=> $this->input->POST('id_modalidad'),
-						 'id_sub_modalidad' 	=> $this->input->POST('id_sub_modalidad'),
-					 	 'fec_inicio_cont'	 	=> $this->input->POST('start'),
-				 	     'fec_fin_cont' 		=> $this->input->POST('end'),
-					 	 'nro_procedimiento' 	=> $this->input->POST('nro_procedimiento'),
-					 	 'nro_contrato' 		=> $this->input->POST('nro_cont_oc_os'),
-					 	 'id_estado_contrato' 	=> $this->input->POST('id_estado_dc'),
-				 		 'bienes' 				=> $this->input->POST('cssCheckbox1'),
-						 'servicios' 			=> $this->input->POST('cssCheckbox2'),
-						 'obras' 				=> $this->input->POST('cssCheckbox3'),
-						 'descr_contrato' 		=> $this->input->POST('desc_contratacion'),
-						 'monto' 				=> $this->input->POST('monto'),
-						 'dolar' 				=> $dolar,
-						 'euro' 				=> $euro,
-						 'petros' 				=> $petros,
-						 'bolivares' 			=> $bolivares,
-						 'calidad' 				=> $this->input->POST('calidad'),
-						 'responsabilidad' 		=> $this->input->POST('responsabilidad'),
-						 'conocimiento' 		=> $this->input->POST('conocimiento'),
-						 'oportunidad' 			=> $this->input->POST('oportunidad'),
-						 'total_calif' 			=> $this->input->POST('total_claf'),
-						 'calificacion' 		=> $this->input->POST('calificacion'),
-						 'notf_cont' 			=> 0,
-					 	 'fecha_not' 			=> $this->input->POST('fec_notificacion'),
-				 	  	 'medio' 				=> $this->input->POST('medio'),
-			 		 	 'nro_oc_os' 			=> $this->input->POST('nro_oc_os'),
-		 			 	 'fileimagen' 			=> $img['file_name'],
-						 'id_usuario' 			=> $this->session->userdata('id_user'),
-						 'id_estatus'			=> 1,
-						 'otro' 				=> $otro,
-						 'mod_otro' 			=> $this->input->POST('mod_otro')
+		$data_ev = array(
+			'rif_contrat' 			=> $rif_contrat,
+			'id_modalidad' 		=> $this->input->POST('id_modalidad'),
+			'id_sub_modalidad' 	=> $this->input->POST('id_sub_modalidad'),
+			'fec_inicio_cont'	 	=> $this->input->POST('start'),
+			'fec_fin_cont' 		=> $this->input->POST('end'),
+			'nro_procedimiento' 	=> $this->input->POST('nro_procedimiento'),
+			'nro_contrato' 		=> $this->input->POST('nro_cont_oc_os'),
+			'id_estado_contrato' 	=> $this->input->POST('id_estado_dc'),
+			'bienes' 				=> $this->input->POST('cssCheckbox1'),
+			'servicios' 			=> $this->input->POST('cssCheckbox2'),
+			'obras' 				=> $this->input->POST('cssCheckbox3'),
+			'descr_contrato' 		=> $this->input->POST('desc_contratacion'),
+			'monto' 				=> $this->input->POST('monto'),
+			'dolar' 				=> $dolar,
+			'euro' 				=> $euro,
+			'petros' 				=> $petros,
+			'bolivares' 			=> $bolivares,
+			'calidad' 				=> $this->input->POST('calidad'),
+			'responsabilidad' 		=> $this->input->POST('responsabilidad'),
+			'conocimiento' 		=> $this->input->POST('conocimiento'),
+			'oportunidad' 			=> $this->input->POST('oportunidad'),
+			'total_calif' 			=> $this->input->POST('total_claf'),
+			'calificacion' 		=> $this->input->POST('calificacion'),
+			'notf_cont' 			=> 0,
+			'fecha_not' 			=> $this->input->POST('fec_notificacion'),
+			'medio' 				=> $this->input->POST('medio'),
+			'nro_oc_os' 			=> $this->input->POST('nro_oc_os'),
+			'fileimagen' 			=> $img['file_name'],
+			'id_usuario' 			=> $this->session->userdata('id_user'),
+			'id_estatus'			=> 1,
+			'otro' 				=> $otro,
+			'mod_otro' 			=> $this->input->POST('mod_otro')
 		);
-		$data =	$this->Evaluacion_desempenio_model->registrar($exitte,$data,$data_ev,$data_repr_legal);
+		$data =	$this->Evaluacion_desempenio_model->registrar($exitte, $data, $data_ev, $data_repr_legal);
 		echo json_encode($data);
 	}
 
@@ -261,57 +285,60 @@ class Evaluacion_desempenio extends CI_Controller {
 	// 	//print_r($data['reportes']);die;
 	// 	$data['reportes_user'] 	= $this->Evaluacion_desempenio_model->consulta_evaluaciones2($usuario);
 	// 	$this->load->view('templates/header.php');
-    //     $this->load->view('templates/navigator.php');
+	//     $this->load->view('templates/navigator.php');
 	// 	$this->load->view('evaluacion_desempenio/reporte.php', $data);
-    //     $this->load->view('templates/footer.php');
+	//     $this->load->view('templates/footer.php');
 	// }
 
-	public function reporte($offset = 0) {
-    if (!$this->session->userdata('session')) redirect('login');
+	public function reporte($offset = 0)
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 
-    $date = date("d-m-Y");
-    $rif = $this->session->userdata['rif_organoente'];
-    
-    // Definir el límite de registros por página
-    $limit = 10;
-// Obtener el término de búsqueda
+		$date = date("d-m-Y");
+		$rif = $this->session->userdata['rif_organoente'];
 
-    $search = $this->input->get('search');
-    // Obtener los datos paginados
-    $data['reportes'] = $this->Evaluacion_desempenio_model->consultar_evaluacion_totales($date, $rif, $limit, $offset,$search);
-    
-    // Contar el total de registros
-    $data['total_rows'] = $this->Evaluacion_desempenio_model->count_evaluaciones_totales($date, $rif,$search);
-    
-    // Obtener otros datos necesarios
-    $data['estados'] = $this->Configuracion_model->consulta_estados();
-    $data['objeto'] = $this->Configuracion_model->objeto();
-    $generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
-    $generar3 = $this->Publicaciones_model->generar2(); // finalizar llamad
-    $generar4 = $this->Publicaciones_model->generar3(); // finalizar llamad
+		// Definir el límite de registros por página
+		$limit = 10;
+		// Obtener el término de búsqueda
 
-    // Cargar las vistas
-    $this->load->view('templates/header.php');
-    $this->load->view('templates/navigator.php');
-   	$this->load->view('evaluacion_desempenio/reporte.php', $data);
-    $this->load->view('templates/footer.php');
-}
+		$search = $this->input->get('search');
+		// Obtener los datos paginados
+		$data['reportes'] = $this->Evaluacion_desempenio_model->consultar_evaluacion_totales($date, $rif, $limit, $offset, $search);
 
-		public function reporte_externo(){
-		if(!$this->session->userdata('session'))redirect('login');
-		$data['rif_organoente']= $this->session->userdata('rif_organoente');
+		// Contar el total de registros
+		$data['total_rows'] = $this->Evaluacion_desempenio_model->count_evaluaciones_totales($date, $rif, $search);
+
+		// Obtener otros datos necesarios
+		$data['estados'] = $this->Configuracion_model->consulta_estados();
+		$data['objeto'] = $this->Configuracion_model->objeto();
+		$generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
+		$generar3 = $this->Publicaciones_model->generar2(); // finalizar llamad
+		$generar4 = $this->Publicaciones_model->generar3(); // finalizar llamad
+
+		// Cargar las vistas
+		$this->load->view('templates/header.php');
+		$this->load->view('templates/navigator.php');
+		$this->load->view('evaluacion_desempenio/reporte.php', $data);
+		$this->load->view('templates/footer.php');
+	}
+
+	public function reporte_externo()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
+		$data['rif_organoente'] = $this->session->userdata('rif_organoente');
 		$usuario = $this->session->userdata('id_user');
 		//print_r($data['reportes']);die;
 		$data['reportes_user'] 	= $this->Evaluacion_desempenio_model->consulta_evaluaciones2($usuario);
 		$this->load->view('templates/header.php');
-        $this->load->view('templates/navigator.php');
+		$this->load->view('templates/navigator.php');
 		$this->load->view('evaluacion_desempenio/consulta_externa.php', $data);
-        $this->load->view('templates/footer.php');
+		$this->load->view('templates/footer.php');
 	}
 
-	public function ver_evaluacion(){
-		if(!$this->session->userdata('session'))redirect('login');
-		
+	public function ver_evaluacion()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
+
 		$id_evaluacion = $this->input->get('id');
 
 		$data['eval_ind'] 	= $this->Evaluacion_desempenio_model->consulta_eval_ind($id_evaluacion);
@@ -330,15 +357,15 @@ class Evaluacion_desempenio extends CI_Controller {
 		$date_r = date("d-m-Y", strtotime($fecha_r));
 		$data['fecha_reg_eval'] = $date_r;
 
-       
-			// $img = $data['eval_ind']['fileimagen'];
-			// $separar  = explode(".", $img);
-			// $data['tipo_img'] = $separar['1'];
-			
+
+		// $img = $data['eval_ind']['fileimagen'];
+		// $separar  = explode(".", $img);
+		// $data['tipo_img'] = $separar['1'];
+
 		//print_r($data['eval_ind']);die;
-		 
-		
-	
+
+
+
 
 		$calidad = $data['eval_ind']['calidad'];
 		$data['calc_cald'] = $calidad * 25;
@@ -353,74 +380,80 @@ class Evaluacion_desempenio extends CI_Controller {
 		$data['calc_oportunidad'] = $oportunidad * 25;
 
 		$this->load->view('templates/header.php');
-        $this->load->view('templates/navigator.php');
+		$this->load->view('templates/navigator.php');
 		$this->load->view('evaluacion_desempenio/pdf_eval.php', $data);
-        $this->load->view('templates/footer.php');
+		$this->load->view('templates/footer.php');
 	}
-	public function ver_evaluacion_img(){
-		if(!$this->session->userdata('session'))redirect('login');
-		
+	public function ver_evaluacion_img()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
+
 		$id_evaluacion = $this->input->get('id');
 		$data['eval_ind'] 	= $this->Evaluacion_desempenio_model->consulta_eval_ind_img($id_evaluacion);
 		//$data['dt_eval']	= $this->Evaluacion_desempenio_model->consutar_dt_eval($id_evaluacion);
 
-		
-    
-			$img = $data['eval_ind']['fileimagen'];
-			if($img =='N') {
-				$data['eval_ind']['fileimagen'];
-			} else {
+
+
+		$img = $data['eval_ind']['fileimagen'];
+		if ($img == 'N') {
+			$data['eval_ind']['fileimagen'];
+		} else {
 
 			$separar  = explode(".", $img);
 			$data['tipo_img'] = $separar['1'];
-			}
-			
+		}
+
 		//print_r($data['eval_ind']);die;
 
 		$this->load->view('templates/header.php');
-        $this->load->view('templates/navigator.php');
+		$this->load->view('templates/navigator.php');
 		$this->load->view('evaluacion_desempenio/img_eval.php', $data);
-        $this->load->view('templates/footer.php');
+		$this->load->view('templates/footer.php');
 	}
-	public function descargar($nombre_archivo) {
-        $this->load->helper('download');
-        $this->load->model('Evaluacion_desempenio_model');
+	public function descargar($nombre_archivo)
+	{
+		$this->load->helper('download');
+		$this->load->model('Evaluacion_desempenio_model');
 
-        $archivo = $this->Evaluacion_desempenio_model->get_imagen($nombre_archivo);
+		$archivo = $this->Evaluacion_desempenio_model->get_imagen($nombre_archivo);
 
-        if ($archivo) {
-            force_download($archivo['id'], file_get_contents(base_url() . 'imagenes/' . $archivo['fileimagen']));
-        } else {
-            show_404();
-        }
-    }
+		if ($archivo) {
+			force_download($archivo['id'], file_get_contents(base_url() . 'imagenes/' . $archivo['fileimagen']));
+		} else {
+			show_404();
+		}
+	}
 
 
 	//Para La Consulta de Gráficos
-	public function consulta(){
-		if(!$this->session->userdata('session'))redirect('login');
+	public function consulta()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 		$this->load->view('templates/header.php');
-        $this->load->view('templates/navigator.php');
+		$this->load->view('templates/navigator.php');
 		$this->load->view('evaluacion_desempenio/consulta.php');
-        $this->load->view('templates/footer_g.php');
+		$this->load->view('templates/footer_g.php');
 	}
 
-	public function graficos(){
-		if(!$this->session->userdata('session'))redirect('login');
+	public function graficos()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 		$data = $this->input->post();
 		$data =	$this->Evaluacion_desempenio_model->graficos($data);
 		echo json_encode($data);
 	}
 
-	public function inf_tabla(){
-		if(!$this->session->userdata('session'))redirect('login');
+	public function inf_tabla()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 		$data = $this->input->post();
 		$data =	$this->Evaluacion_desempenio_model->inf_tabla($data);
 		echo json_encode($data);
 	}
 
-	public function inf_tabla2(){
-		if(!$this->session->userdata('session'))redirect('login');
+	public function inf_tabla2()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 		$data = $this->input->post();
 		$data =	$this->Evaluacion_desempenio_model->inf_tabla2($data);
 		echo json_encode($data);
@@ -428,8 +461,9 @@ class Evaluacion_desempenio extends CI_Controller {
 
 	// CONSULTA DE CONTRATISTAS QUE CONTRATARON A NOREG
 
-	public function estatus_contratista(){
-		if(!$this->session->userdata('session'))redirect('login');
+	public function estatus_contratista()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 
 		$data['contrat']	= $this->Evaluacion_desempenio_model->consulta_contr_nr();
 
@@ -440,8 +474,9 @@ class Evaluacion_desempenio extends CI_Controller {
 	}
 
 	//Anulacion de Evaluacion de Desempeños
-	public function anulacion(){
-		if(!$this->session->userdata('session'))redirect('login');
+	public function anulacion()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 		$usuario = $this->session->userdata('id_user');
 		$data['evaluaciones']	= $this->Evaluacion_desempenio_model->consulta_eval_anul($usuario);
 
@@ -451,37 +486,40 @@ class Evaluacion_desempenio extends CI_Controller {
 		$this->load->view('templates/footer.php');
 	}
 
-	public function resgistrar_anulacion(){
-		if(!$this->session->userdata('session'))redirect('login');
+	public function resgistrar_anulacion()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 		$id = $this->input->POST('id');
 		$d_anulacion = array(
 			'id_evaluacion'   => $this->input->POST('id'),
-            'nro_oficicio'    => $this->input->POST('nro_oficicio'),
-            'fecha_anulacion' => $this->input->POST('fec_solicitud'),
-            'nro_expediente'  => $this->input->POST('nro_expediente'),
+			'nro_oficicio'    => $this->input->POST('nro_oficicio'),
+			'fecha_anulacion' => $this->input->POST('fec_solicitud'),
+			'nro_expediente'  => $this->input->POST('nro_expediente'),
 			'nro_gacet_resol' => $this->input->POST('nro_gacet_resol'),
-            'cedula_solc'     => $this->input->POST('cedula_solc'),
+			'cedula_solc'     => $this->input->POST('cedula_solc'),
 			'nom_ape_solc'    => $this->input->POST('nom_ape_solc'),
 			'cargo'        	  => $this->input->POST('cargo'),
 			'telf_solc'       => $this->input->POST('telf_solc'),
 			'descp_anul'	  => $this->input->POST('descp_anul'),
 			'id_usuario' 	  => $this->session->userdata('id_user'),
 			'fecha_aprv_anul' => date('Y-m-d'),
-        );
+		);
 
 		$data = $this->Evaluacion_desempenio_model->save_anulacion($id, $d_anulacion);
-        echo json_encode($data);
+		echo json_encode($data);
 	}
 
-	public function consulta_anulacion(){
-		if(!$this->session->userdata('session'))redirect('login');
+	public function consulta_anulacion()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 		$data = $this->input->post();
 		$data =	$this->Evaluacion_desempenio_model->consulta_anulacion($data);
 		echo json_encode($data);
 	}
 
-	public function proc_anulacion(){
-		if(!$this->session->userdata('session'))redirect('login');
+	public function proc_anulacion()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 
 		$data['anulaciones']	= $this->Evaluacion_desempenio_model->consl_proc_anulacion();
 
@@ -491,17 +529,19 @@ class Evaluacion_desempenio extends CI_Controller {
 		$this->load->view('templates/footer.php');
 	}
 
-	public function resgistrar_aprv_anulacion(){
-		if(!$this->session->userdata('session'))redirect('login');
+	public function resgistrar_aprv_anulacion()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 		// $id_evaluacion = $this->input->POST('id_evaluacion');
 		$data = $this->input->post();
 		$data = $this->Evaluacion_desempenio_model->aprv_anulacion($data);
-        echo json_encode($data);
+		echo json_encode($data);
 	}
 
-// _______________________________________--evaluaciones realizadas por el snc
-	public function registrar_snc(){
-		if(!$this->session->userdata('session'))redirect('login');
+	// _______________________________________--evaluaciones realizadas por el snc
+	public function registrar_snc()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 
 		//los datos se traen de la vista Evaluación Desempeño medianto el js(AJAX)
 
@@ -512,7 +552,7 @@ class Evaluacion_desempenio extends CI_Controller {
 
 		if ($rif_cont == '') {
 			$rif_contrat = $rif_cont_n;
-		}else {
+		} else {
 			$rif_contrat = $rif_cont;
 		}
 
@@ -531,7 +571,7 @@ class Evaluacion_desempenio extends CI_Controller {
 			'nombre' 			 => $this->input->POST('nombre_n'),
 			'tipopersona' 		 => 0, //tipo de rif
 			'dencomerciale_id' 	 => 0,
-			'ultprocaprob' 		 =>0,
+			'ultprocaprob' 		 => 0,
 			'procactual' 		 => 0,
 			'dirfiscal' 		 => 'no',
 			'percontacto' 		 => 'N/A',
@@ -550,26 +590,26 @@ class Evaluacion_desempenio extends CI_Controller {
 			'recibido' 			 => '0'
 		);
 
-		$data_repr_legal= array(
-				'rif_contratista' => $rif_contrat,
-				'paise_id' 		  => $this->input->POST('id_pais_n'),
-				'apeacc' 		  => $this->input->POST('ape_rep_leg_n'),
-				'nomacc' 		  => $this->input->POST('nom_rep_leg_n'),
-				'tipo' 			  => '',
-				'cedrif' 		  => $this->input->POST('ced_rep_leg_n'),
-				'edocivil' 		  => $this->input->POST('ced_rep_leg_n'),
-				'acc' 			  => '0',
-				'jd' 			  => '0',
-				'rl' 			  => '0',
-				'porcacc' 		  => '0',
-				'cargo' 		  => $this->input->POST('cargo_rep_leg_n'),
-				'tipobl' 		  => '',
-				'id_operadora' 	  => $this->input->POST('operadora_n'),
-				'telf' 		      => $this->input->POST('numero_n'),
-				'correo' 		  => $this->input->POST('correo_rep_leg_n')
+		$data_repr_legal = array(
+			'rif_contratista' => $rif_contrat,
+			'paise_id' 		  => $this->input->POST('id_pais_n'),
+			'apeacc' 		  => $this->input->POST('ape_rep_leg_n'),
+			'nomacc' 		  => $this->input->POST('nom_rep_leg_n'),
+			'tipo' 			  => '',
+			'cedrif' 		  => $this->input->POST('ced_rep_leg_n'),
+			'edocivil' 		  => $this->input->POST('ced_rep_leg_n'),
+			'acc' 			  => '0',
+			'jd' 			  => '0',
+			'rl' 			  => '0',
+			'porcacc' 		  => '0',
+			'cargo' 		  => $this->input->POST('cargo_rep_leg_n'),
+			'tipobl' 		  => '',
+			'id_operadora' 	  => $this->input->POST('operadora_n'),
+			'telf' 		      => $this->input->POST('numero_n'),
+			'correo' 		  => $this->input->POST('correo_rep_leg_n')
 		);
 
-		if (!empty($_FILES['fileImagen']['name'])){
+		if (!empty($_FILES['fileImagen']['name'])) {
 			$config['upload_path'] = './imagenes';;
 			$config['allowed_types'] = 'jpg|png|jpeg|pdf';
 			// $config['max_size'] = '1000px';
@@ -577,44 +617,44 @@ class Evaluacion_desempenio extends CI_Controller {
 			// $config['max_height'] = '1000px';
 			$this->load->library('upload', $config);
 			$this->upload->initialize($config);
-			if ($this->upload->do_upload('fileImagen')){
+			if ($this->upload->do_upload('fileImagen')) {
 				$img = $this->upload->data();
-			}else{
+			} else {
 				$img = 'N/A';
 				echo $this->upload->display_errors();
 			}
 		}
-		if(!isset($img_1['file_name'])){$img_1['file_name'] = "";}
+		if (!isset($img_1['file_name'])) {
+			$img_1['file_name'] = "";
+		}
 
 		$dato = $_POST['radio_css'];
 
-		if ($dato == 1){
+		if ($dato == 1) {
 			$bolivares = 'on';
 			$petros  = '';
 			$dolar  = '';
 			$euro  = '';
 			$otro  = '';
-		}elseif ($dato == 2){
+		} elseif ($dato == 2) {
 			$bolivares = '';
 			$petros  = 'on';
 			$dolar  = '';
 			$euro  = '';
 			$otro  = '';
-		}
-		elseif ($dato == 3){
+		} elseif ($dato == 3) {
 			$bolivares = '';
 			$petros  = '';
 			$dolar  = 'on';
 			$euro  = '';
 			$otro  = '';
-		}
-		elseif ($dato == 4){
+		} elseif ($dato == 4) {
 			$bolivares = '';
 			$petros  = '';
 			$dolar  = '';
 			$euro  = 'on';
 			$otro  = '';
-		}elseif ($dato == 5){
+		} elseif ($dato == 5) {
 			$bolivares = '';
 			$petros  = '';
 			$dolar  = '';
@@ -622,68 +662,72 @@ class Evaluacion_desempenio extends CI_Controller {
 			$otro  = 'on';
 		}
 
-		$data_ev = array('rif_contrat' 			=> $rif_contrat,
-						 'id_modalidad' 		=> $this->input->POST('id_modalidad'),
-						 'id_sub_modalidad' 	=> $this->input->POST('id_sub_modalidad'),
-					 	 'fec_inicio_cont'	 	=> $this->input->POST('start'),
-				 	     'fec_fin_cont' 		=> $this->input->POST('end'),
-					 	 'nro_procedimiento' 	=> $this->input->POST('nro_procedimiento'),
-					 	 'nro_contrato' 		=> $this->input->POST('nro_cont_oc_os'),
-					 	 'id_estado_contrato' 	=> $this->input->POST('id_estado_dc'),
-				 		 'bienes' 				=> $this->input->POST('cssCheckbox1'),
-						 'servicios' 			=> $this->input->POST('cssCheckbox2'),
-						 'obras' 				=> $this->input->POST('cssCheckbox3'),
-						 'descr_contrato' 		=> $this->input->POST('desc_contratacion'),
-						 'monto' 				=> $this->input->POST('monto'),
-						 'dolar' 				=> $dolar,
-						 'euro' 				=> $euro,
-						 'petros' 				=> $petros,
-						 'bolivares' 			=> $bolivares,
-						 'calidad' 				=> $this->input->POST('calidad'),
-						 'responsabilidad' 		=> $this->input->POST('responsabilidad'),
-						 'conocimiento' 		=> $this->input->POST('conocimiento'),
-						 'oportunidad' 			=> $this->input->POST('oportunidad'),
-						 'total_calif' 			=> $this->input->POST('total_claf'),
-						 'calificacion' 		=> $this->input->POST('calificacion'),
-						 'notf_cont' 			=> 0,
-					 	 'fecha_not' 			=> '2023-01-01',
-				 	  	 'medio' 				=> 1,
-			 		 	 'nro_oc_os' 			=> 1,
-		 			 	 'fileimagen' 			=> 1,
-						 'id_usuario' 			=> $this->session->userdata('id_user'),
-						 'id_estatus'			=> 1,// snc
-						 'otro' 				=> $otro,
-						 'mod_otro' 			=> $this->input->POST('mod_otro')
+		$data_ev = array(
+			'rif_contrat' 			=> $rif_contrat,
+			'id_modalidad' 		=> $this->input->POST('id_modalidad'),
+			'id_sub_modalidad' 	=> $this->input->POST('id_sub_modalidad'),
+			'fec_inicio_cont'	 	=> $this->input->POST('start'),
+			'fec_fin_cont' 		=> $this->input->POST('end'),
+			'nro_procedimiento' 	=> $this->input->POST('nro_procedimiento'),
+			'nro_contrato' 		=> $this->input->POST('nro_cont_oc_os'),
+			'id_estado_contrato' 	=> $this->input->POST('id_estado_dc'),
+			'bienes' 				=> $this->input->POST('cssCheckbox1'),
+			'servicios' 			=> $this->input->POST('cssCheckbox2'),
+			'obras' 				=> $this->input->POST('cssCheckbox3'),
+			'descr_contrato' 		=> $this->input->POST('desc_contratacion'),
+			'monto' 				=> $this->input->POST('monto'),
+			'dolar' 				=> $dolar,
+			'euro' 				=> $euro,
+			'petros' 				=> $petros,
+			'bolivares' 			=> $bolivares,
+			'calidad' 				=> $this->input->POST('calidad'),
+			'responsabilidad' 		=> $this->input->POST('responsabilidad'),
+			'conocimiento' 		=> $this->input->POST('conocimiento'),
+			'oportunidad' 			=> $this->input->POST('oportunidad'),
+			'total_calif' 			=> $this->input->POST('total_claf'),
+			'calificacion' 		=> $this->input->POST('calificacion'),
+			'notf_cont' 			=> 0,
+			'fecha_not' 			=> '2023-01-01',
+			'medio' 				=> 1,
+			'nro_oc_os' 			=> 1,
+			'fileimagen' 			=> 1,
+			'id_usuario' 			=> $this->session->userdata('id_user'),
+			'id_estatus'			=> 1, // snc
+			'otro' 				=> $otro,
+			'mod_otro' 			=> $this->input->POST('mod_otro')
 		);
-		$data =	$this->Evaluacion_desempenio_model->registrar_sns($exitte,$data,$data_ev,$data_repr_legal);
+		$data =	$this->Evaluacion_desempenio_model->registrar_sns($exitte, $data, $data_ev, $data_repr_legal);
 		echo json_encode($data);
 	}
 
-	public function consulta_2() {
-        if (!$this->session->userdata('session'))
-            redirect('login');
-        $data = $this->input->post();
-        $data = $this->Evaluacion_desempenio_model->consulta_2($data);
-        echo json_encode($data);
-    }
-	public function consultar_snc(){ // consulta evaluaciones snc
-		if(!$this->session->userdata('session'))redirect('login');
-		$data['rif_organoente']= $this->session->userdata('rif_organoente');
+	public function consulta_2()
+	{
+		if (!$this->session->userdata('session'))
+			redirect('login');
+		$data = $this->input->post();
+		$data = $this->Evaluacion_desempenio_model->consulta_2($data);
+		echo json_encode($data);
+	}
+	public function consultar_snc()
+	{ // consulta evaluaciones snc
+		if (!$this->session->userdata('session')) redirect('login');
+		$data['rif_organoente'] = $this->session->userdata('rif_organoente');
 		$usuario = $this->session->userdata('id_user');
 		$data['reportes'] 	= $this->Evaluacion_desempenio_model->consultar_snc_evalu($usuario);
 		$data['reportes_user'] 	= $this->Evaluacion_desempenio_model->consulta_eval_user($usuario);
 		$data['med_not'] 	 = $this->Evaluacion_desempenio_model->consulta_med_notf();
-		$data['time']=date("Y-m-d");
+		$data['time'] = date("Y-m-d");
 		$this->load->view('templates/header.php');
-        $this->load->view('templates/navigator.php');
+		$this->load->view('templates/navigator.php');
 		$this->load->view('evaluacion_desempenio/evaluacion_snc/consulta_snc.php', $data);
-        $this->load->view('templates/footer.php');
+		$this->load->view('templates/footer.php');
 	}
- 
-	public function resgistrar_asnc(){
-		if(!$this->session->userdata('session'))redirect('login');
+
+	public function resgistrar_asnc()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 		$data = $this->input->post();
-		if (!empty($_FILES['fileImagen']['name'])){
+		if (!empty($_FILES['fileImagen']['name'])) {
 			$config['upload_path'] = './imagenes';;
 			$config['allowed_types'] = 'jpg|png|jpeg|pdf';
 			// $config['max_size'] = '1000px';
@@ -691,54 +735,73 @@ class Evaluacion_desempenio extends CI_Controller {
 			// $config['max_height'] = '1000px';
 			$this->load->library('upload', $config);
 			$this->upload->initialize($config);
-			if ($this->upload->do_upload('fileImagen')){
+			if ($this->upload->do_upload('fileImagen')) {
 				$img = $this->upload->data();
-			}else{
+			} else {
 				$img = 'N/A';
 				echo $this->upload->display_errors();
 			}
 		}
-		if(!isset($img_1['file_name'])){$img_1['file_name'] = "";}
+		if (!isset($img_1['file_name'])) {
+			$img_1['file_name'] = "";
+		}
 
 
-        $notifiacion = array(
-            'id'   => $this->input->POST('id'),
-            'fecha_not'    => $this->input->POST('fecha_not'),
+		$notifiacion = array(
+			'id'   => $this->input->POST('id'),
+			'fecha_not'    => $this->input->POST('fecha_not'),
 			'medio'       => $this->input->POST('medio'),
 			'nro_oc_os'	  => $this->input->POST('nro_oc_os'),
 			'fileimagen'  => $img['file_name'],
 			'id_usuario' 	  => $this->session->userdata('id_user'),
 			'snc' => 1,
-        );
+		);
 
-		$data = $this->Evaluacion_desempenio_model->save_notificacion( $notifiacion);
-        echo json_encode($data);
-    }
- 
- public function llenar_evaluaciones_contratistas() {
+		$data = $this->Evaluacion_desempenio_model->save_notificacion($notifiacion);
+		echo json_encode($data);
+	}
+
+	public function llenar_evaluaciones_contratistas()
+	{
 		if (!$this->session->userdata('session')) {
 			redirect('login');
 		}
-		
+
 		$cedula = $this->input->post('nombre');
 		$result = $this->Evaluacion_desempenio_model->llenar_contratista_comi_conta22($cedula);
-		
+
 		if (!empty($result)) {
 			echo json_encode($result);
 		} else {
 			// Handle error
 			echo json_encode(array('error' => 'No results found'));
 		}
-		
-	    }
+	}
 
-		 public function busquedallenar_evaluaciones_contratistas()
-	  {
-		  $this->load->view('templates/header.php');
-		  $this->load->view('templates/navigator.php');
-		  $this->load->view('contratista/consultas/evaluaciones_busqueda.php');
-		  $this->load->view('templates/footer.php');
-	  }
-		
+	public function busquedallenar_evaluaciones_contratistas()
+	{
 
+
+		// Obtener el valor del select (puede ser por URL o GET)
+		$tipo_persona = $this->input->get('tipo_persona'); // Si usas método GET
+		// O bien:
+		// $tipo_persona = $this->uri->segment(3); // Si pasas el valor como segmento de URL
+
+		// Pasar la variable a la vista
+		$data['tipo_persona'] = $tipo_persona ?? null; // Usamos null como valor por defecto
+
+		$this->load->view('templates/header.php');
+		$this->load->view('templates/navigator.php');
+		$this->load->view('contratista/consultas/evaluaciones_busqueda.php', $data);
+		$this->load->view('templates/footer.php');
+	}
+
+
+	public function estadistica()
+	{
+		$this->load->view('templates/header.php');
+		$this->load->view('templates/navigator.php');
+		$this->load->view('contratista/estadisticas/estadisticas2.php');
+		$this->load->view('templates/footer.php');
+	}
 }

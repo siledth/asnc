@@ -1,129 +1,140 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Publicaciones extends CI_Controller {
+class Publicaciones extends CI_Controller
+{
 
-    public function __construct() {
-        parent :: __construct();
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->library('pagination');
         //$this->load->model('Tablas_model');
     }
-    public function consultar_numeropro(){
-        if(!$this->session->userdata('session'))redirect('login');
+    public function consultar_numeropro()
+    {
+        if (!$this->session->userdata('session')) redirect('login');
         $data = $this->input->post();
-        $data =	$this->Publicaciones_model->consultar_numeropro($data);
+        $data =    $this->Publicaciones_model->consultar_numeropro($data);
         echo json_encode($data);
     }
 
     //aca anulacion de un llamdo a consulros 
 
-    public function anulacion(){
-		if(!$this->session->userdata('session'))redirect('login');
+    public function anulacion()
+    {
+        if (!$this->session->userdata('session')) redirect('login');
         $data['descripcion'] = $this->session->userdata('unidad');
         $data['rif'] = $this->session->userdata('rif');
         $rif = $this->session->userdata['rif_organoente'];
-        $data['time']=date("Y-m-d");
+        $data['time'] = date("Y-m-d");
         $data['llamados'] = $this->Publicaciones_model->consulta_llamados($rif);
         $data['causa_suspencion'] = $this->Publicaciones_model->causa_suspencion();
         $data['supuestos'] = $this->Publicaciones_model->supuestos();
         $data['terminar_manual'] = $this->Publicaciones_model->terminar_manual();
-		$this->load->view('templates/header.php');
+        $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
-		$this->load->view('anularllamado/anularllamado.php', $data);
+        $this->load->view('anularllamado/anularllamado.php', $data);
         $this->load->view('templates/footer.php');
-	}
-    public function acciones(){
-		if(!$this->session->userdata('session'))redirect('login');
+    }
+    public function acciones()
+    {
+        if (!$this->session->userdata('session')) redirect('login');
         $data['descripcion'] = $this->session->userdata('unidad');
         $data['rif'] = $this->session->userdata('rif');
         $rif = $this->session->userdata['rif_organoente'];
-        $data['time']=date("Y-m-d");
+        $data['time'] = date("Y-m-d");
         $data['llamados'] = $this->Publicaciones_model->consulta_llamadosfinal($rif);
         $data['causa_suspencion'] = $this->Publicaciones_model->causa_suspencion();
         $data['supuestos'] = $this->Publicaciones_model->supuestos();
         $data['terminar_manual'] = $this->Publicaciones_model->terminar_manual();
-		$this->load->view('templates/header.php');
+        $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
-		$this->load->view('anularllamado/acciones.php', $data);
+        $this->load->view('anularllamado/acciones.php', $data);
         $this->load->view('templates/footer.php');
-	}
+    }
 
-// lo vera solo el snc o perfil 1 
-    public function anulaciones_general(){
-		if(!$this->session->userdata('session'))redirect('login');
+    // lo vera solo el snc o perfil 1 
+    public function anulaciones_general()
+    {
+        if (!$this->session->userdata('session')) redirect('login');
         $data['descripcion'] = $this->session->userdata('unidad');
-      $data['rif'] = $this->session->userdata('rif');
-       $rif = $this->session->userdata['rif_organoente'];
+        $data['rif'] = $this->session->userdata('rif');
+        $rif = $this->session->userdata['rif_organoente'];
         $data['llamados'] = $this->Publicaciones_model->consulta_anulacion_general();
-		$this->load->view('templates/header.php');
+        $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
-		$this->load->view('anularllamado/anulados_general.php', $data);
+        $this->load->view('anularllamado/anulados_general.php', $data);
         $this->load->view('templates/footer.php');
-	}
-   
-    public function anular(){
-        if(!$this->session->userdata('session'))
-        redirect('login');
+    }
+
+    public function anular()
+    {
+        if (!$this->session->userdata('session'))
+            redirect('login');
         $data['descripcion'] = $this->session->userdata('unidad');
         $data['rif'] = $this->session->userdata('rif');
         $parametros = $this->input->get('id');
-        $data['numero_proceso']=$this->input->get('id');
+        $data['numero_proceso'] = $this->input->get('id');
         $data['causas'] = $this->Publicaciones_model->causa_b();
 
         $data['inf_1'] = $this->Publicaciones_model->inf_1($data['numero_proceso']);
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
-        
-          $this->load->view('anularllamado/anular.php', $data);
-        
+
+        $this->load->view('anularllamado/anular.php', $data);
+
         $this->load->view('templates/footer.php');
     }
-    public function guardar_anulacion(){
-		if(!$this->session->userdata('session'))redirect('login');
-        
+    public function guardar_anulacion()
+    {
+        if (!$this->session->userdata('session')) redirect('login');
+
         $numero_proceso = $this->input->post("numero_proceso");
         $numero_proceso2 = $this->input->post("numero_proceso2");
         $estatus = '2';
-        $observaciones = $this->input->post("observaciones"); 
-        $especifique_anulacion = $this->input->post("especifique_anulacion"); 
-        
+        $observaciones = $this->input->post("observaciones");
+        $especifique_anulacion = $this->input->post("especifique_anulacion");
+
         $anular = array(
-                
+
             "numero_proceso"     => $numero_proceso2,
             "estatus"     => $estatus,
             "observaciones"     => $observaciones,
-            "especifique_anulacion"     => $especifique_anulacion              
-        ); 
-       $data = $this->Publicaciones_model->guardar_anulaciones($anular, $numero_proceso,$numero_proceso2);
-	 
-	   if ($data) {
-		   $this->session->set_flashdata('sa-success2', 'Se guardo los datos correctamente');
-		   redirect('Publicaciones/anulacion');
-	   }else{
-			 $this->session->set_flashdata('sa-error', 'error');
-			redirect('Publicaciones/anulacion');
-		 }
-	}
+            "especifique_anulacion"     => $especifique_anulacion
+        );
+        $data = $this->Publicaciones_model->guardar_anulaciones($anular, $numero_proceso, $numero_proceso2);
+
+        if ($data) {
+            $this->session->set_flashdata('sa-success2', 'Se guardo los datos correctamente');
+            redirect('Publicaciones/anulacion');
+        } else {
+            $this->session->set_flashdata('sa-error', 'error');
+            redirect('Publicaciones/anulacion');
+        }
+    }
 
     ////////////////////////////////////Prorroga
-    public function prorroga(){
-        if(!$this->session->userdata('session'))
-        redirect('login');
+    public function prorroga()
+    {
+        if (!$this->session->userdata('session'))
+            redirect('login');
         $data['descripcion'] = $this->session->userdata('unidad');
         $data['rif'] = $this->session->userdata('rif');
         $parametros = $this->input->get('id');
-        $data['numero_proceso']=$this->input->get('id');
+        $data['numero_proceso'] = $this->input->get('id');
         $data['causa_prorroga'] = $this->Publicaciones_model->causa_prorroga();
-        $data['time']=date("Y-m-d");
+        $data['time'] = date("Y-m-d");
 
         $data['inf_1'] = $this->Publicaciones_model->inf_1($data['numero_proceso']);
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
-          $this->load->view('publicaciones/prorroga/prorroga.php', $data);
-        
+        $this->load->view('publicaciones/prorroga/prorroga.php', $data);
+
         $this->load->view('templates/footer.php');
     }
-    public function guardar_Prorroga() {
+    public function guardar_Prorroga()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = array(
@@ -138,98 +149,103 @@ class Publicaciones extends CI_Controller {
             'especifique_anulacion' => $this->input->POST('especifique_anulacion'),
             'fecha_cam_estatus' => date("Y-m-d"),
             'estatus' => 5,
-            
+
         );
         $data = $this->Publicaciones_model->guardar_Prorroga($data);
         echo json_encode($data);
     }
-    public function guardar_Prorroga12(){
-		if(!$this->session->userdata('session'))redirect('login');
-        $data['time']=date("Y-m-d");
+    public function guardar_Prorroga12()
+    {
+        if (!$this->session->userdata('session')) redirect('login');
+        $data['time'] = date("Y-m-d");
         $numero_proceso = $this->input->post("numero_proceso");
-      //  $numero_proceso2 = $this->input->post("numero_proceso2");
+        //  $numero_proceso2 = $this->input->post("numero_proceso2");
         $estatus = '5';
-        $fecha_fin_llamado=$this->input->post("fecha_fin_llamado");
-        $fecha_tope=$this->input->post("fecha_tope");
-        $articulo=$this->input->post("articulo");
-       
-        $especifique_anulacion = $this->input->post("especifique_anulacion"); 
-        $fecha_cam_estatus=date("Y-m-d");
+        $fecha_fin_llamado = $this->input->post("fecha_fin_llamado");
+        $fecha_tope = $this->input->post("fecha_tope");
+        $articulo = $this->input->post("articulo");
+
+        $especifique_anulacion = $this->input->post("especifique_anulacion");
+        $fecha_cam_estatus = date("Y-m-d");
         $prorroga = array(
-                
+
             "numero_proceso"     => $numero_proceso,
             "estatus"     => $estatus,
             "fecha_fin_llamado"     => $fecha_fin_llamado,
             "fecha_tope"     => $fecha_tope,
             "articulo"     => $articulo,
             "fecha_cam_estatus"     => $fecha_cam_estatus,
-            "especifique_anulacion"     => $especifique_anulacion              
-        ); 
-       $data = $this->Publicaciones_model->guardar_Prorroga1($prorroga, $numero_proceso,$numero_proceso2);
-	 
-	   if ($data) {
-		   $this->session->set_flashdata('sa-success2', 'Se guardo los datos correctamente');
-		   redirect('Publicaciones/anulacion');
-	   }else{
-			 $this->session->set_flashdata('sa-error', 'error');
-			redirect('Publicaciones/anulacion');
-		 }
-	}
-///////////////SUSPENCION//////////////////////////
-public function suspension(){
-    if(!$this->session->userdata('session'))
-    redirect('login');
-    $data['descripcion'] = $this->session->userdata('unidad');
-    $data['rif'] = $this->session->userdata('rif');
-    $parametros = $this->input->get('id');
-    $data['numero_proceso']=$this->input->get('id');
-    $data['causa_prorroga'] = $this->Publicaciones_model->causa_prorroga();
-    $data['time']=date("Y-m-d");
-    $data['causa_suspencion'] = $this->Publicaciones_model->causa_suspencion();
-    $data['supuestos'] = $this->Publicaciones_model->supuestos();
-    $data['inf_1'] = $this->Publicaciones_model->inf_1($data['numero_proceso']);
-    
-    $this->load->view('templates/header.php');
-    $this->load->view('templates/navigator.php');
-      $this->load->view('publicaciones/suspension/suspension.php', $data);
-    
-    $this->load->view('templates/footer.php');
-}
+            "especifique_anulacion"     => $especifique_anulacion
+        );
+        $data = $this->Publicaciones_model->guardar_Prorroga1($prorroga, $numero_proceso, $numero_proceso2);
 
-    public function guardar_suspencion() {
+        if ($data) {
+            $this->session->set_flashdata('sa-success2', 'Se guardo los datos correctamente');
+            redirect('Publicaciones/anulacion');
+        } else {
+            $this->session->set_flashdata('sa-error', 'error');
+            redirect('Publicaciones/anulacion');
+        }
+    }
+    ///////////////SUSPENCION//////////////////////////
+    public function suspension()
+    {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $data['rif'] = $this->session->userdata('rif');
+        $parametros = $this->input->get('id');
+        $data['numero_proceso'] = $this->input->get('id');
+        $data['causa_prorroga'] = $this->Publicaciones_model->causa_prorroga();
+        $data['time'] = date("Y-m-d");
+        $data['causa_suspencion'] = $this->Publicaciones_model->causa_suspencion();
+        $data['supuestos'] = $this->Publicaciones_model->supuestos();
+        $data['inf_1'] = $this->Publicaciones_model->inf_1($data['numero_proceso']);
+
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('publicaciones/suspension/suspension.php', $data);
+
+        $this->load->view('templates/footer.php');
+    }
+
+    public function guardar_suspencion()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = array(
             'numero_proceso' => $this->input->POST('numero_proceso'),
-            'fecha_cam_estatus' =>date("Y-m-d"),
+            'fecha_cam_estatus' => date("Y-m-d"),
             'especifique_anulacion' => $this->input->POST('especifique_anulacion'),
             'articulo' => $this->input->POST('supuesto'),
             'estatus' => 7,
 
-            
+
         );
         $data = $this->Publicaciones_model->guardar_suspencion($data);
         echo json_encode($data);
     }
     //////////////////////RE-iniciar////////////////////////////////
-    public function re_iniciar(){
-        if(!$this->session->userdata('session'))
-        redirect('login');
+    public function re_iniciar()
+    {
+        if (!$this->session->userdata('session'))
+            redirect('login');
         $data['descripcion'] = $this->session->userdata('unidad');
         $data['rif'] = $this->session->userdata('rif');
         $parametros = $this->input->get('id');
-        $data['numero_proceso']=$this->input->get('id');
+        $data['numero_proceso'] = $this->input->get('id');
         $data['causa_reiniciado'] = $this->Publicaciones_model->causa_reiniciado();
-        $data['time']=date("Y-m-d");
+        $data['time'] = date("Y-m-d");
 
         $data['inf_1'] = $this->Publicaciones_model->inf_1($data['numero_proceso']);
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
-          $this->load->view('publicaciones/reiniciar/reiniciar.php', $data);
-        
+        $this->load->view('publicaciones/reiniciar/reiniciar.php', $data);
+
         $this->load->view('templates/footer.php');
     }
-    public function guardar_reinicio() {
+    public function guardar_reinicio()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = array(
@@ -246,51 +262,54 @@ public function suspension(){
             'especifique_anulacion' => $this->input->POST('especifique_anulacion'),
             'estatus' => 6,
             'fecha_cam_estatus' => date("Y-m-d"),
-            
+
         );
         $data = $this->Publicaciones_model->guardar_reinicio($data);
         echo json_encode($data);
     }
     ///////////////////////////////terminacion manual///////////////////////
-    public function terminado(){
-        if(!$this->session->userdata('session'))
-        redirect('login');
+    public function terminado()
+    {
+        if (!$this->session->userdata('session'))
+            redirect('login');
         $data['descripcion'] = $this->session->userdata('unidad');
         $data['rif'] = $this->session->userdata('rif');
         $parametros = $this->input->get('id');
-        $data['numero_proceso']=$this->input->get('id');
+        $data['numero_proceso'] = $this->input->get('id');
         $data['causa_prorroga'] = $this->Publicaciones_model->causa_prorroga();
-        $data['time']=date("Y-m-d");
+        $data['time'] = date("Y-m-d");
         $data['causa_suspencion'] = $this->Publicaciones_model->causa_suspencion();
         $data['supuestos'] = $this->Publicaciones_model->supuestos();
         $data['inf_1'] = $this->Publicaciones_model->inf_1($data['numero_proceso']);
         $data['terminar_manual'] = $this->Publicaciones_model->terminar_manual();
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
-          $this->load->view('publicaciones/terminado/terminado.php', $data);
-        
+        $this->load->view('publicaciones/terminado/terminado.php', $data);
+
         $this->load->view('templates/footer.php');
     }
-   
-   
-    public function guardar_terminados() {
+
+
+    public function guardar_terminados()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
-            $estatus = '0';
+        $estatus = '0';
         $data = array(
             'numero_proceso' => $this->input->POST('numero_proceso'),
-            'fecha_cam_estatus' =>date("Y-m-d"),
+            'fecha_cam_estatus' => date("Y-m-d"),
             'especifique_anulacion' => $this->input->POST('especifique_anulacion'),
             'articulo' => $this->input->POST('causa_termino'),
             "estatus"     => $this->input->POST('estatus'),
 
-            
+
         );
         $data = $this->Publicaciones_model->guar_termino($data);
         echo json_encode($data);
     }
     //CRUD BANCO
-    public function banco() {
+    public function banco()
+    {
         $data['bancos'] = $this->Publicaciones_model->consultar_b();
 
         $this->load->view('templates/header.php');
@@ -300,7 +319,8 @@ public function suspension(){
     }
 
     //GUARDAR
-    public function registrar_b() {
+    public function registrar_b()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = array(
@@ -313,7 +333,8 @@ public function suspension(){
     }
 
     //LLENAR MODAL PARA EDITAR
-    public function consulta_b() {
+    public function consulta_b()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -322,7 +343,8 @@ public function suspension(){
     }
 
     //EDITAR
-    public function editar_b() {
+    public function editar_b()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -339,7 +361,8 @@ public function suspension(){
     }
 
     //ELIMINAR
-    public function eliminar_b() {
+    public function eliminar_b()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -349,7 +372,8 @@ public function suspension(){
 
     /////////////////////
     //CRUD TIPO DE CUENTA
-    public function tipo_cuenta() {
+    public function tipo_cuenta()
+    {
         $data['tipocuenta'] = $this->Publicaciones_model->consultar_tc();
 
         $this->load->view('templates/header.php');
@@ -359,7 +383,8 @@ public function suspension(){
     }
 
     //GUARDAR
-    public function registrar_tc() {
+    public function registrar_tc()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = array(
@@ -372,7 +397,8 @@ public function suspension(){
     }
 
     //LLENAR MODAL PARA EDITAR
-    public function consulta_tc() {
+    public function consulta_tc()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -380,9 +406,10 @@ public function suspension(){
         echo json_encode($data);
     }
 
-//EDITAR
+    //EDITAR
 
-    public function editar_tc() {
+    public function editar_tc()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -398,7 +425,8 @@ public function suspension(){
     }
 
     //ELIMINAR
-    public function eliminar_tc() {
+    public function eliminar_tc()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -408,7 +436,8 @@ public function suspension(){
 
     //////////////
     //CRUD DE DATOS BANCARIOS
-    public function datosbancarios() {
+    public function datosbancarios()
+    {
         $data['bancos'] = $this->Publicaciones_model->consultar_b();
         $data['tipocuenta'] = $this->Publicaciones_model->consultar_tc();
 
@@ -422,7 +451,8 @@ public function suspension(){
     }
 
     //GUARDAR
-    public function registrar_datosb() {
+    public function registrar_datosb()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = array(
@@ -437,7 +467,8 @@ public function suspension(){
     }
 
     //CONSULTAR DATOS
-    public function consulta_datosb() {
+    public function consulta_datosb()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -445,7 +476,8 @@ public function suspension(){
         echo json_encode($data);
     }
 
-    public function consulta_tipocentae() {
+    public function consulta_tipocentae()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -453,7 +485,8 @@ public function suspension(){
         echo json_encode($data);
     }
 
-    public function consulta_bancoe() {
+    public function consulta_bancoe()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -461,7 +494,8 @@ public function suspension(){
         echo json_encode($data);
     }
 
-    public function editar_datosb() {
+    public function editar_datosb()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -481,7 +515,8 @@ public function suspension(){
     }
 
     //ELIMINAR
-    public function eliminar_datosb() {
+    public function eliminar_datosb()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -491,7 +526,8 @@ public function suspension(){
 
     //////////////
     //CRUD DE MODALIDAD
-    public function modalidad() {
+    public function modalidad()
+    {
         $data['modalidad'] = $this->Publicaciones_model->consultar_m();
 
         $this->load->view('templates/header.php');
@@ -501,7 +537,8 @@ public function suspension(){
     }
 
     //GUARDAR
-    public function registrar_modalidad() {
+    public function registrar_modalidad()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = array(
@@ -513,7 +550,8 @@ public function suspension(){
     }
 
     //LLENAR MODAL PARA EDITAR
-    public function consulta_mod() {
+    public function consulta_mod()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -522,7 +560,8 @@ public function suspension(){
     }
 
     //EDITAR
-    public function editar_m() {
+    public function editar_m()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -531,7 +570,8 @@ public function suspension(){
     }
 
     //ELIMINAR
-    public function eliminar_m() {
+    public function eliminar_m()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -541,7 +581,8 @@ public function suspension(){
 
     ///////////////
     //CRUD DE MECANISMO
-    public function mecanismo() {
+    public function mecanismo()
+    {
         $data['modalidad'] = $this->Publicaciones_model->consultar_m();
         $data['mecanismos'] = $this->Publicaciones_model->consultar_mec();
 
@@ -552,7 +593,8 @@ public function suspension(){
     }
 
     //GUARDAR
-    public function registrar_mec() {
+    public function registrar_mec()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = array(
@@ -565,7 +607,8 @@ public function suspension(){
     }
 
     //CONSULTAR DATOS
-    public function consulta_modalidades() {
+    public function consulta_modalidades()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -573,7 +616,8 @@ public function suspension(){
         echo json_encode($data);
     }
 
-    public function consulta_mec() {
+    public function consulta_mec()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -582,7 +626,8 @@ public function suspension(){
     }
 
     //EDITAR
-    public function editar_mec() {
+    public function editar_mec()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -599,7 +644,8 @@ public function suspension(){
     }
 
     //ELIMINAR
-    public function eliminar_mec() {
+    public function eliminar_mec()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -609,7 +655,8 @@ public function suspension(){
 
     /////////////////////
     //CRUD DE ACTIVIDAD
-    public function actividad() {
+    public function actividad()
+    {
         $data['modalidad'] = $this->Publicaciones_model->consultar_m();
         $data['obj_contrat'] = $this->Publicaciones_model->consulta_obj_cont();
 
@@ -622,7 +669,8 @@ public function suspension(){
     }
 
     //BUSCAR DATOS
-    public function buscar_mec() {
+    public function buscar_mec()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -631,7 +679,8 @@ public function suspension(){
     }
 
     //GUARDAR
-    public function registrar_act() {
+    public function registrar_act()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = array(
@@ -646,7 +695,8 @@ public function suspension(){
     }
 
     //CONSULTAS
-    public function consulta_mecanismos() {
+    public function consulta_mecanismos()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -654,7 +704,8 @@ public function suspension(){
         echo json_encode($data);
     }
 
-    public function consulta_objconta() {
+    public function consulta_objconta()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -662,7 +713,8 @@ public function suspension(){
         echo json_encode($data);
     }
 
-    public function consulta_act() {
+    public function consulta_act()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -671,7 +723,8 @@ public function suspension(){
     }
 
     //EDITAR
-    public function editar_act() {
+    public function editar_act()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -690,7 +743,8 @@ public function suspension(){
     }
 
     //ELIMINAR
-    public function eliminar_act() {
+    public function eliminar_act()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -700,7 +754,8 @@ public function suspension(){
 
     ///////////////////////////////////
     //CRUD FERIADOS NACIONALES
-    public function feriados() {
+    public function feriados()
+    {
         $data['dias'] = $this->Publicaciones_model->consultar_d();
 
         $this->load->view('templates/header.php');
@@ -710,7 +765,8 @@ public function suspension(){
     }
 
     //GUARDAR
-    public function registrar_fer() {
+    public function registrar_fer()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = array(
@@ -723,7 +779,8 @@ public function suspension(){
     }
 
     //LLENAR MODAL PARA EDITAR
-    public function consulta_d() {
+    public function consulta_d()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -732,7 +789,8 @@ public function suspension(){
     }
 
     //EDITAR
-    public function editar_d() {
+    public function editar_d()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -749,7 +807,8 @@ public function suspension(){
     }
 
     //ELIMINAR
-    public function eliminar_d() {
+    public function eliminar_d()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -758,7 +817,8 @@ public function suspension(){
     }
 
     //REGISTRO DE LLAMADO A CONCURSO
-    public function registro_p() {
+    public function registro_p()
+    {
         $data['obj_contrat'] = $this->Publicaciones_model->consulta_obj_cont();
         $data['modalidades'] = $this->Publicaciones_model->consultar_m();
 
@@ -768,7 +828,8 @@ public function suspension(){
         $this->load->view('templates/footer.php');
     }
 
-    public function buscar_act() {
+    public function buscar_act()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -776,565 +837,600 @@ public function suspension(){
         echo json_encode($data);
     }
 
-    public function buscar_act_e() {
+    public function buscar_act_e()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
         $data = $this->Publicaciones_model->buscar_act_e($data);
         echo json_encode($data);
     }
-///////////////////////////////Reportes estatus llc
-public function rp_estatus(){
-    if(!$this->session->userdata('session'))redirect('login');
-    $data['final']  = $this->User_model->consulta_organoente();
-    $rif = $this->session->userdata['rif_organoente'];
-    $hasta     = $this->input->post("hasta");
-    $desde     = $this->input->post("desde");
-    $data['desde'] = date('Y-m-d', strtotime($desde));
-    $data['hasta'] = date('Y-m-d', strtotime($hasta)); 
-    $rif = $this->session->userdata['rif_organoente'];
-    $data['historial'] = $this->Publicaciones_model->consultar_historico_llamados_externos2($data,$rif);
-//	$this->form_validation->set_rules('t_pago', 't_pago', 'required|callback_select_validate');
-    $this->form_validation->set_rules('hasta', 'Fecha hasta', 'required|min_length[1]');
-    $this->form_validation->set_rules('desde', 'Fecha Desde ', 'required|min_length[1]');
-    
-    if ($this->form_validation->run() == FALSE) {
+    ///////////////////////////////Reportes estatus llc
+    public function rp_estatus()
+    {
+        if (!$this->session->userdata('session')) redirect('login');
+        $data['final']  = $this->User_model->consulta_organoente();
+        $rif = $this->session->userdata['rif_organoente'];
+        $hasta     = $this->input->post("hasta");
+        $desde     = $this->input->post("desde");
+        $data['desde'] = date('Y-m-d', strtotime($desde));
+        $data['hasta'] = date('Y-m-d', strtotime($hasta));
+        $rif = $this->session->userdata['rif_organoente'];
+        $data['historial'] = $this->Publicaciones_model->consultar_historico_llamados_externos2($data, $rif);
+        //	$this->form_validation->set_rules('t_pago', 't_pago', 'required|callback_select_validate');
+        $this->form_validation->set_rules('hasta', 'Fecha hasta', 'required|min_length[1]');
+        $this->form_validation->set_rules('desde', 'Fecha Desde ', 'required|min_length[1]');
+
+        if ($this->form_validation->run() == FALSE) {
 
             $data['descripcion'] = $this->session->userdata('unidad');
             $data['rif'] = $this->session->userdata['rif_organoente'];
-            $data['final']  = $this->User_model->consulta_organoente();  
-            $data['historial'] = $this->Publicaciones_model->consultar_historico_llamados_externos2($data,$rif);
+            $data['final']  = $this->User_model->consulta_organoente();
+            $data['historial'] = $this->Publicaciones_model->consultar_historico_llamados_externos2($data, $rif);
             $this->load->view('templates/header.php');
             $this->load->view('templates/navigator.php');
-            $this->load->view('publicaciones/reporte_estatusllamado/estatus_llamado.php', $data,$rif);
-            
+            $this->load->view('publicaciones/reporte_estatusllamado/estatus_llamado.php', $data, $rif);
+
             $this->load->view('templates/footer.php');
         } else {
-           
-            $date=date("d-m-Y");
-           
+
+            $date = date("d-m-Y");
+
             $data['descripcion'] = $this->session->userdata('unidad');
-           
+
             $data['id_unidad']     = $this->input->post("id_unidad");
-    
+
             $data['desde'] = date('Y-m-d', strtotime($desde));
-            $data['hasta'] = date('Y-m-d', strtotime($hasta)); 
+            $data['hasta'] = date('Y-m-d', strtotime($hasta));
             $data['historial'] = $this->Publicaciones_model->consultar_historico_llamados_externos($data);
             $this->load->view('templates/header.php');
             $this->load->view('templates/navigator.php');
             $this->load->view('publicaciones/reporte_estatusllamado/resul_rep_estatus.php', $data);
             $this->load->view('templates/footer.php');
-    }
-
-}
-        public function consulta_estatu() {
-            if (!$this->session->userdata('session'))
-            redirect('login');
-            $data = $this->input->post();
-            $data = $this->Publicaciones_model->consulta_llamado_statu($data);
-            echo json_encode($data);
-            
-
         }
-        public function filtro(){
-            if (!$this->session->userdata('session')) {
-                        $date=date("d-m-Y");
-                        $id_estado = $this->input->post("id_estado");
-                        $id_objeto = $this->input->post("id_objeto");
-                        $data['historial'] = $this->Publicaciones_model->consultar_llamados_externos12($id_objeto,$date,$id_estado);
-                        $this->load->view('templates/header.php');
-                        $this->load->view('templates/navsinsesion.php');
-                        $this->load->view('publicaciones/reporte/ver_llamado.php', $data);                        
-                        $this->load->view('templates/footer.php');
-            }
-         else {
-                    $date=date("d-m-Y");           
-                    $id_estado= $this->input->post("id_estado");
-                    $id_objeto = $this->input->post("id_objeto");
-                    $data['historial'] = $this->Publicaciones_model->consultar_llamados_externos12($id_objeto,$date,$id_estado);
-                    $this->load->view('templates/header.php');
-                    $this->load->view('templates/navsinsesion.php');
-                    $this->load->view('publicaciones/reporte/ver_llamado.php', $data);                    
-                    $this->load->view('templates/footer.php');
-        }  }
-        
-     
-        
-
-///////////////////////////consulta interna
-// public function llamadointerno() {
-//     if(!$this->session->userdata('session'))redirect('login');
-//       $date=date("d-m-Y");
-//       $rif = $this->session->userdata['rif_organoente'];
-//       $data['exonerado'] = $this->Publicaciones_model->consultar_llamados_internos($date,$rif);
-//       $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
-//       $data['objeto'] 	 = $this->Configuracion_model->objeto();
-//       $generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
-//       $generar3 = $this->Publicaciones_model->generar2(); // finalizar llamad
-//       $generar4 = $this->Publicaciones_model->generar3(); // finalizar llamad
-
-//       $this->load->view('templates/header.php');
-//       $this->load->view('templates/navigator.php');
-//       $this->load->view('publicaciones/reporte/llamadointerno.php', $data);
-//       $this->load->view('templates/footer.php');
-   
-
-//   }
-
-public function llamadointerno($offset = 0) {
-    if (!$this->session->userdata('session')) redirect('login');
-
-    $date = date("d-m-Y");
-    $rif = $this->session->userdata['rif_organoente'];
-    
-    // Definir el límite de registros por página
-    $limit = 10;
-
-    // Obtener los datos paginados
-    $data['exonerado'] = $this->Publicaciones_model->consultar_llamados_internos($date, $rif, $limit, $offset);
-    
-    // Contar el total de registros
-    $data['total_rows'] = $this->Publicaciones_model->count_llamados_internos($date, $rif);
-    
-    // Obtener otros datos necesarios
-    $data['estados'] = $this->Configuracion_model->consulta_estados();
-    $data['objeto'] = $this->Configuracion_model->objeto();
-    $generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
-    $generar3 = $this->Publicaciones_model->generar2(); // finalizar llamad
-    $generar4 = $this->Publicaciones_model->generar3(); // finalizar llamad
-
-    // Cargar las vistas
-    $this->load->view('templates/header.php');
-    $this->load->view('templates/navigator.php');
-    $this->load->view('publicaciones/reporte/llamadointerno.php', $data);
-    $this->load->view('templates/footer.php');
-}
-
-  public function Llamado() //hacer un pdf
-  {
-    //  $data['ver_programaciones'] = $this->Programacion_model->consultar_reprogramacion($unidad);
-       //Se agrega la clase desde thirdparty para usar FPDF
-       require_once APPPATH.'third_party/fpdf/fpdf.php';
-     //  $unidad
-       
-       $pdf = new FPDF();
-       $pdf->AliasNbPages();
-       $pdf->AddPage('P','A4',0);
-       $pdf->SetMargins(8,8,8,8);
-       $pdf->SetFont('Arial','B',12);
-       //$pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');            
-       $pdf->Image(base_url().'imagenes/logosnc.png',10,6,50);
-       $pdf->Ln(10);
-       
-       $pdf->Cell(195,5,'LLamado a Concurso',0,1,'C');
-       
-       $pdf->Image(base_url().'imagenes/logosnc.png',140,6,50);
-       $pdf->SetFont('Arial','I',8);
-
-       $pdf->Cell(350,4,'Pagina '.$pdf->PageNo().'/{nb}',0,1,'C');
-       $pdf->SetFont('Arial','B',12);
-
-       $pdf->Cell(195,3,'____________________________________________________________________________',0,1,'C');
-       $pdf->Cell(195,10,'Datos del Organo o Ente',0,1,'C');
-
-          $data1 = $this->input->get('id');
-          $data = $this->Publicaciones_model->consulta_llamado($data1);
-          foreach($data as $d){
-              
-              $pdf->Cell(60,10,'Rif:',0,0,'C');
-              $pdf->SetFont('Arial','',10);
-
-              $pdf->Cell(60,10, $d->rif_organoente,0,1,'C');
-              $pdf->SetFont('Arial','B',12);
-
-              $pdf->Cell(70,10,'Denominacion social:',0,0,'C');                  
-              $pdf->SetFont('Arial','',10);
-              $pdf->MultiCell(125, 5, utf8_decode($d->organoente), 0, 'L');
-
-            //   $pdf->Cell(100,10, utf8_decode($d->organoente),0,1,'C');
-              
-              $pdf->SetFont('Arial','B',12);
-              $pdf->Cell(60,10,'Siglas:',0,0,'C'); 
-              $pdf->Cell(100,10,'Pagina Web',0,1,'C'); 
-              $pdf->SetFont('Arial','',10);
-              $pdf->Cell(60,10, $d->siglas,0,0,'C');
-             // $pdf->Cell(85,10,'Pagina Web:',0,0,'C'); 
-             // $pdf->SetFont('Arial','',8);                  
-                 $pdf->MultiCell(100,5, utf8_decode($d->web_contratante), 0, 'L');
-             // $pdf->Cell(100,10, $d->web_contratante,0,1,'C');
-              $pdf->Cell(195,10,'____________________________________________________________________________________________________',0,1,'C');
-           $pdf->SetFont('Arial','B',12);
-           $pdf->Cell(195,10,'Llamados a Concurso',0,1,'C');               
-              $pdf->Cell(80,10,'Numero de Proceso:',0,0,'C'); 
-           $pdf->SetFont('Arial','B',10);
-              $pdf->Cell(48,10, $d->numero_proceso,0,1,'C');
-           $pdf->SetFont('Arial','B',12);
-              $pdf->Cell(85,10,'Denominacion del proceso:',0,0,'C'); 
-           $pdf->SetFont('Arial','',8);                  
-              $pdf->MultiCell(100,5, utf8_decode($d->denominacion_proceso), 0, 'L');
-              $pdf->SetFont('Arial','B',12);
-             
-              $pdf->Cell(80,10,'Fecha de Llamado:',0,0,'C');
-              $pdf->Cell(60,10,'Estatus:',0,1,'C'); 
-
-          $pdf->SetFont('Arial','',10);
-                 $pdf->Cell(80,10, date("d/m/Y", strtotime($d->fecha_llamado)),0,0,'C');
-                 $pdf->Cell(60,10, $d->estatus,0,1,'C');
-          $pdf->SetFont('Arial','B',12);
-                 $pdf->Cell(90,10,utf8_decode('Descripcion de Contratación:'),0,1,'C'); 
-           $pdf->SetFont('Arial','',8);                  
-                 $pdf->MultiCell(180,5, utf8_decode($d->descripcion_contratacion), 0);
-          $pdf->SetFont('Arial','B',12);
-          $pdf->Cell(195,10,'_______________________________________________________________________________________',0,1,'C');
-                 $pdf->Cell(195,5,'Lapsos',0,1,'C'); 
-                 $pdf->SetFont('Arial','B',12);
-             
-              $pdf->Cell(60,5,'Modalidad:',0,0,'C');
-              $pdf->Cell(60,5,'Mecanismo:',0,0,'C');
-              $pdf->Cell(60,5,utf8_decode('Objeto de Contratación:'),0,1,'C'); 
-
-
-          $pdf->SetFont('Arial','',10);
-                 $pdf->Cell(60,10, utf8_decode($d->modalidad),0,0,'C');
-                 $pdf->Cell(60,10, utf8_decode($d->mecanismo),0,0,'C');   
-                 $pdf->Cell(60,10, $d->objeto_contratacion,0,1,'C');        
-          
-          $pdf->SetFont('Arial','B',12);
-             
-                //  $pdf->Cell(100,10,' ',0,0,'C');
-                 $pdf->Cell(180,10,utf8_decode('Acto Público:'),0,1,'C');   
-
-          $pdf->SetFont('Arial','',10);
-                    // $pdf->Cell(100,5, date("d/m/Y", strtotime($d->fecha_disponible_llamado)),0,0,'C');
-                    $pdf->Cell(180,5, date("d/m/Y", strtotime($d->fecha_fin_llamado)),0,1,'C');   
-          $pdf->SetFont('Arial','B',12);
-                  $pdf->Cell(195,10,'_______________________________________________________________________________________',0,1,'C');
-                  $pdf->SetFont('Arial','B',12);
-             
-                  $pdf->Cell(180,5,'Fecha de disponibilidad:',0,1,'C');
-                  $pdf->SetFont('Arial','',10);
-                  $pdf->Cell(80,5,'Desde:',0,0,'C');
-                  $pdf->Cell(5,5, date("d/m/Y", strtotime($d->fecha_disponible_llamado)),0,0,'C');
-                  $pdf->Cell(50,5,'Hasta:',0,0,'C');
-                  $pdf->Cell(10,5, date("d/m/Y", strtotime($d->fecha_tope)),0,1,'C'); 
-                  $pdf->SetFont('Arial','B',12);
-                  $pdf->Cell(195,5,utf8_decode('Dirección Para Adquisición de Retiro de Pliego'),0,1,'C'); 
-          $pdf->SetFont('Arial','B',12);
-                  $pdf->Cell(100,5,'Hora desde:',0,0,'C');
-                  $pdf->Cell(60,5,'Hora hasta:',0,1,'C');   
-           $pdf->SetFont('Arial','',10);
-                     $pdf->Cell(100,5, $d->hora_desde,0,0,'C');
-                     $pdf->Cell(60,5, $d->hora_hasta,0,1,'C');
-          $pdf->SetFont('Arial','B',12);
-                     $pdf->Cell(60,5,utf8_decode('Dirección:'),0,0,'C'); 
-          $pdf->SetFont('Arial','',8);        
-                     $pdf->MultiCell(130,5, utf8_decode($d->direccion), 0, 'L');
-          $pdf->SetFont('Arial','B',12);
-          $pdf->Cell(195,10,'_______________________________________________________________________________________',0,1,'C');
-                      $pdf->Cell(195,10,utf8_decode('Períodos de Aclaratoria'),0,1,'C'); 
-          $pdf->SetFont('Arial','B',12);
-                         $pdf->Cell(80,5,'Fecha Inicio de Aclaratoria:',0,0,'C');
-                         $pdf->Cell(40,5,'Fecha Fin de Aclaratoria:',0,0,'C');
-                         $pdf->Cell(55,5,'Fecha Tope:',0,1,'C'); 
-          $pdf->SetFont('Arial','',10);
-                        $pdf->Cell(60,5, date("d/m/Y", strtotime($d->fecha_inicio_aclaratoria)),0,0,'C');
-                        $pdf->Cell(60,5, date("d/m/Y", strtotime($d->fecha_fin_aclaratoria)),0,0,'C');   
-                        $pdf->Cell(60,5, date("d/m/Y", strtotime($d->fecha_tope)),0,1,'C');        
-          $pdf->SetFont('Arial','B',12);
-                      $pdf->Cell(195,5,'_______________________________________________________________________________________',0,1,'C');
-                      $pdf->Cell(195,10,utf8_decode('Apertura de Sobres'),0,1,'C'); 
-          $pdf->SetFont('Arial','B',12);
-                            $pdf->Cell(100,5,'Fecha de Entrega:',0,0,'C');
-                            $pdf->Cell(60,5,'Hora Desde:',0,1,'C');   
-          $pdf->SetFont('Arial','',10);
-                               $pdf->Cell(100,8, date("d/m/Y", strtotime($d->fecha_fin_llamado)),0,0,'C');
-                               $pdf->Cell(60,8, $d->hora_desde_sobre,0,1,'C');
-          $pdf->SetFont('Arial','B',12);
-                               $pdf->Cell(60,5,'Lugar de Entrega:',0,0,'C'); 
-          $pdf->SetFont('Arial','',10);        
-                               $pdf->MultiCell(130,5, utf8_decode($d->lugar_entrega), 0, 'L');
-          $pdf->SetFont('Arial','B',12);
-                               $pdf->Cell(60,5,utf8_decode('Dirección:'),0,0,'C'); 
-          $pdf->SetFont('Arial','',10);        
-                               $pdf->MultiCell(130,5, utf8_decode($d->direccion_sobre), 0, 'L');
-                               $pdf->SetFont('Arial','B',12);
-                               $pdf->Cell(60,5,utf8_decode('Observaciones:'),0,0,'C'); 
-          $pdf->SetFont('Arial','',10);        
-                               $pdf->MultiCell(130,5, utf8_decode($d->observaciones), 0, 'L');
-
-                              
-          $pdf->Ln(10);
-         $curdate = date('d-m-Y H:i:s');
-                               $pdf->SetFont('Arial','B',12);
-                               $pdf->Cell(60,10,utf8_decode('Fecha de Impresión:'),0,0,'C'); 
-                               $pdf->Cell(30,10, $curdate,0,1,'C');
-                               $pdf->SetX(-15);
-                              // Arial italic 8
-                              $pdf->SetFont('Arial','I',8);
-                              // Número de página
-                              $pdf->Cell(0,10,'Pagina '.$pdf->PageNo().'/{nb}',0,0,'C');
-          }
-         // $pdf->Ln(10);
-        
-          // $curdate = date('d-m-Y H:i:s');
-          // $pdf->SetFont('Arial','B',12);
-          // $pdf->Cell(60,10,utf8_decode('Fecha de Impresión:'),0,0,'C'); 
-          // $pdf->Cell(30,10, $curdate,0,1,'C');
-     //  $pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');            
-// Posición: a 1,5 cm del final
-          // $pdf->SetX(-15);
-          // // Arial italic 8
-          // $pdf->SetFont('Arial','I',8);
-          // // Número de página
-          // $pdf->Cell(0,10,'Pagina '.$pdf->PageNo().'/{nb}',0,0,'C');
-         // $pdf->SetX(10);
-          ///$pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');
- // $this->SetFont('Arial','I',8); 
-  //$pdf->Cell(0,10,'Servicio Nacional de Contrataciones','T',1,'C');
-  //$pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');
-          $pdf->Output('llamado_concurso '.$curdate.'.pdf', 'D');
-         // $this->load->view('headfoot/header', $datos);
-  }
-  public function Llamado_1() //hacer un pdf externo
-  {
-    //  $data['ver_programaciones'] = $this->Programacion_model->consultar_reprogramacion($unidad);
-       //Se agrega la clase desde thirdparty para usar FPDF
-       require_once APPPATH.'third_party/fpdf/fpdf.php';
-     //  $unidad
-       
-       $pdf = new FPDF();
-       $pdf->AliasNbPages();
-       $pdf->AddPage('P','A4',0);
-       $pdf->SetMargins(8,8,8,8);
-       $pdf->SetFont('Arial','B',12);
-       //$pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');            
-       $pdf->Image(base_url().'imagenes/logosnc.png',10,6,50);
-       $pdf->Ln(10);
-       
-       $pdf->Cell(195,5,'LLamado a Concurso',0,1,'C');
-       
-       $pdf->Image(base_url().'imagenes/logosnc.png',140,6,50);
-       $pdf->SetFont('Arial','I',8);
-
-       $pdf->Cell(350,4,'Pagina '.$pdf->PageNo().'/{nb}',0,1,'C');
-       $pdf->SetFont('Arial','B',12);
-
-       $pdf->Cell(195,3,'____________________________________________________________________________',0,1,'C');
-       $pdf->Cell(195,10,'Datos del Organo o Ente',0,1,'C');
-
-          $data1 = $this->input->get('id');
-          $data = $this->Publicaciones_model->consulta_llamado($data1);
-          foreach($data as $d){
-              
-              $pdf->Cell(60,10,'Rif:',0,0,'C'); 
-              $pdf->Cell(100,10,'Denominacion social:',0,1,'C');                  
-              $pdf->SetFont('Arial','',10);
-              $pdf->Cell(60,10, $d->rif_organoente,0,0,'C');
-              $pdf->Cell(100,10, utf8_decode($d->organoente),0,1,'C');
-              
-              $pdf->SetFont('Arial','B',12);
-              $pdf->Cell(60,10,'Siglas:',0,0,'C'); 
-             
-              $pdf->SetFont('Arial','',10);
-              $pdf->Cell(60,10, $d->siglas,0,0,'C');
-            
-              $pdf->Cell(85,10,'Pagina Web:',0,0,'C'); 
-              $pdf->SetFont('Arial','',8);                  
-                 $pdf->MultiCell(100,5, utf8_decode($d->web_contratante), 0, 'L');
-                 $pdf->SetFont('Arial','B',12);
-              $pdf->Cell(195,10,'____________________________________________________________________________________________________',0,1,'C');
-           $pdf->SetFont('Arial','B',12);
-           $pdf->Cell(195,10,'Llamados a Concurso',0,1,'C');               
-              $pdf->Cell(80,10,'Numero de Proceso:',0,0,'C'); 
-           $pdf->SetFont('Arial','B',10);
-              $pdf->Cell(48,10, $d->numero_proceso,0,1,'C');
-           $pdf->SetFont('Arial','B',12);
-              $pdf->Cell(85,10,'Denominacion del proceso:',0,0,'C'); 
-           $pdf->SetFont('Arial','',8);                  
-              $pdf->MultiCell(100,5, utf8_decode($d->denominacion_proceso), 0, 'L');
-              $pdf->SetFont('Arial','B',12);
-             
-              $pdf->Cell(80,10,'Fecha de Llamado:',0,0,'C');
-              $pdf->Cell(60,10,'Estatus:',0,1,'C'); 
-
-          $pdf->SetFont('Arial','',10);
-                 $pdf->Cell(80,10, date("d/m/Y", strtotime($d->fecha_llamado)),0,0,'C');
-                 $pdf->Cell(60,10, $d->estatus,0,1,'C');
-          $pdf->SetFont('Arial','B',12);
-                 $pdf->Cell(90,10,utf8_decode('Descripcion de Contratación:'),0,1,'C'); 
-           $pdf->SetFont('Arial','',8);                  
-                 $pdf->MultiCell(180,5, utf8_decode($d->descripcion_contratacion), 0);
-          $pdf->SetFont('Arial','B',12);
-          $pdf->Cell(195,10,'_______________________________________________________________________________________',0,1,'C');
-                 $pdf->Cell(195,5,'Lapsos',0,1,'C'); 
-                 $pdf->SetFont('Arial','B',12);
-             
-              $pdf->Cell(60,5,'Modalidad:',0,0,'C');
-              $pdf->Cell(60,5,'Mecanismo:',0,0,'C');
-              $pdf->Cell(60,5,utf8_decode('Objeto de Contratación:'),0,1,'C'); 
-
-
-          $pdf->SetFont('Arial','',10);
-                 $pdf->Cell(60,10, utf8_decode($d->modalidad),0,0,'C');
-                 $pdf->Cell(60,10, utf8_decode($d->mecanismo),0,0,'C');   
-                 $pdf->Cell(60,10, $d->objeto_contratacion,0,1,'C');        
-          
-          $pdf->SetFont('Arial','B',12);
-             
-                 $pdf->Cell(100,10,'Fecha de disponibilidad:',0,0,'C');
-                 $pdf->Cell(60,10,'Fecha Fin:',0,1,'C');   
-
-          $pdf->SetFont('Arial','',10);
-                    $pdf->Cell(100,5, date("d/m/Y", strtotime($d->fecha_disponible_llamado)),0,0,'C');
-                    $pdf->Cell(60,5, date("d/m/Y", strtotime($d->fecha_fin_llamado)),0,1,'C');   
-          $pdf->SetFont('Arial','B',12);
-                  $pdf->Cell(195,10,'_______________________________________________________________________________________',0,1,'C');
-                  $pdf->Cell(195,10,utf8_decode('Dirección Para Adquisición de Retiro de Pliego'),0,1,'C'); 
-          $pdf->SetFont('Arial','B',12);
-                  $pdf->Cell(100,5,'Hora desde:',0,0,'C');
-                  $pdf->Cell(60,5,'Hora hasta:',0,1,'C');   
-           $pdf->SetFont('Arial','',10);
-                     $pdf->Cell(100,5, $d->hora_desde,0,0,'C');
-                     $pdf->Cell(60,5, $d->hora_hasta,0,1,'C');
-          $pdf->SetFont('Arial','B',12);
-                     $pdf->Cell(60,5,utf8_decode('Dirección:'),0,0,'C'); 
-          $pdf->SetFont('Arial','',8);        
-                     $pdf->MultiCell(130,5, utf8_decode($d->direccion), 0, 'L');
-          $pdf->SetFont('Arial','B',12);
-          $pdf->Cell(195,10,'_______________________________________________________________________________________',0,1,'C');
-                      $pdf->Cell(195,10,utf8_decode('Períodos de Aclaratoria'),0,1,'C'); 
-          $pdf->SetFont('Arial','B',12);
-                         $pdf->Cell(80,5,'Fecha Inicio de Aclaratoria:',0,0,'C');
-                         $pdf->Cell(40,5,'Fecha Fin de Aclaratoria:',0,0,'C');
-                         $pdf->Cell(55,5,'Fecha Tope:',0,1,'C'); 
-          $pdf->SetFont('Arial','',10);
-                        $pdf->Cell(60,5, date("d/m/Y", strtotime($d->fecha_inicio_aclaratoria)),0,0,'C');
-                        $pdf->Cell(60,5, date("d/m/Y", strtotime($d->fecha_fin_aclaratoria)),0,0,'C');   
-                        $pdf->Cell(60,5, date("d/m/Y", strtotime($d->fecha_tope)),0,1,'C');        
-          $pdf->SetFont('Arial','B',12);
-                      $pdf->Cell(195,5,'_______________________________________________________________________________________',0,1,'C');
-                      $pdf->Cell(195,10,utf8_decode('Apertura de Sobres'),0,1,'C'); 
-          $pdf->SetFont('Arial','B',12);
-                            $pdf->Cell(100,5,'Fecha de Entrega:',0,0,'C');
-                            $pdf->Cell(60,5,'Hora Desde:',0,1,'C');   
-          $pdf->SetFont('Arial','',10);
-                               $pdf->Cell(100,8, date("d/m/Y", strtotime($d->fecha_fin_llamado)),0,0,'C');
-                               $pdf->Cell(60,8, $d->hora_desde_sobre,0,1,'C');
-          $pdf->SetFont('Arial','B',12);
-                               $pdf->Cell(60,5,'Lugar de Entrega:',0,0,'C'); 
-          $pdf->SetFont('Arial','',10);        
-                               $pdf->MultiCell(130,5, utf8_decode($d->lugar_entrega), 0, 'L');
-          $pdf->SetFont('Arial','B',12);
-                               $pdf->Cell(60,5,utf8_decode('Dirección:'),0,0,'C'); 
-          $pdf->SetFont('Arial','',10);        
-                               $pdf->MultiCell(130,5, utf8_decode($d->direccion_sobre), 0, 'L');
-                               $pdf->SetFont('Arial','B',12);
-                               $pdf->Cell(60,5,utf8_decode('Observaciones:'),0,0,'C'); 
-          $pdf->SetFont('Arial','',10);        
-                               $pdf->MultiCell(130,5, utf8_decode($d->observaciones), 0, 'L');
-
-                              
-          $pdf->Ln(10);
-         $curdate = date('d-m-Y H:i:s');
-                               $pdf->SetFont('Arial','B',12);
-                               $pdf->Cell(60,10,utf8_decode('Fecha de Impresión:'),0,0,'C'); 
-                               $pdf->Cell(30,10, $curdate,0,1,'C');
-                               $pdf->SetX(-15);
-                              // Arial italic 8
-                              $pdf->SetFont('Arial','I',8);
-                              // Número de página
-                              $pdf->Cell(0,10,'Pagina '.$pdf->PageNo().'/{nb}',0,0,'C');
-          }
-         // $pdf->Ln(10);
-        
-          // $curdate = date('d-m-Y H:i:s');
-          // $pdf->SetFont('Arial','B',12);
-          // $pdf->Cell(60,10,utf8_decode('Fecha de Impresión:'),0,0,'C'); 
-          // $pdf->Cell(30,10, $curdate,0,1,'C');
-     //  $pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');            
-// Posición: a 1,5 cm del final
-          // $pdf->SetX(-15);
-          // // Arial italic 8
-          // $pdf->SetFont('Arial','I',8);
-          // // Número de página
-          // $pdf->Cell(0,10,'Pagina '.$pdf->PageNo().'/{nb}',0,0,'C');
-         // $pdf->SetX(10);
-          ///$pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');
- // $this->SetFont('Arial','I',8); 
-  //$pdf->Cell(0,10,'Servicio Nacional de Contrataciones','T',1,'C');
-  //$pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');
-          $pdf->Output('llamado_concurso '.$curdate.'.pdf', 'D');
-         // $this->load->view('headfoot/header', $datos);
-  }
-
-
-    public function v_estatus_llamado(){
-        if(!$this->session->userdata('session'))
-        redirect('login');
-        $data['descripcion'] = $this->session->userdata('unidad');
-        $data['rif'] = $this->session->userdata('rif');
-        $parametros = $this->input->get('id');
-        $data['id']=$this->input->get('id');
-         
-        $data['time']=date("Y-m-d");
-        $data['inf_2'] = $this->Publicaciones_model->consulta_llamado_statu_detalle($parametros);
-  
-        $this->load->view('templates/header.php');
-        $this->load->view('templates/navigator.php');
-          $this->load->view('publicaciones/reporte_estatusllamado/est_llamado.php', $data);
-        
-        $this->load->view('templates/footer.php');
     }
-    public function Accion2(){
-        if(!$this->session->userdata('session'))
-        redirect('login');
-        $data['descripcion'] = $this->session->userdata('unidad');
-        $rif_organoente = $this->session->userdata('rif_organoente');
-
-        $data['rif'] = $this->session->userdata('rif');
-        $parametros = $this->input->get('id');
-        $data['numero_proceso']=$this->input->get('id');
-        $data['llamadot'] = $this->Publicaciones_model->check_logger_accion($rif_organoente,$data['numero_proceso']);
-
-        $data['time']=date("Y-m-d");
-
-        $data['inf_1'] = $this->Publicaciones_model->inf_1($data['numero_proceso']);
-        $data['results_2']      =  $this->Publicaciones_model->consultar_cxc_client3($data['numero_proceso']);
-
-        $this->load->view('templates/header.php');
-        $this->load->view('templates/navigator.php');
-          $this->load->view('publicaciones/acciones/acciones2.php', $data);
-        
-        $this->load->view('templates/footer.php');
-    }
-    public function Accion2_snc(){
-        if(!$this->session->userdata('session'))
-        redirect('login');
-        $data['descripcion'] = $this->session->userdata('unidad');
-        $rif_organoente = $this->session->userdata('rif_organoente');
-
-        $data['rif'] = $this->session->userdata('rif');
-        $parametros = $this->input->get('id');
-        $data['numero_proceso']=$this->input->get('id');
-        $data['llamadot'] = $this->Publicaciones_model->check_logger_accion_snc();
-
-        $data['time']=date("Y-m-d");
-
-        $data['inf_1'] = $this->Publicaciones_model->inf_1($data['numero_proceso']);
-        $data['results_2']      =  $this->Publicaciones_model->consultar_cxc_client3($data['numero_proceso']);
-
-        $this->load->view('templates/header.php');
-        $this->load->view('templates/navigator.php');
-          $this->load->view('publicaciones/acciones/accionesnc.php', $data);
-        
-        $this->load->view('templates/footer.php');
-    }
-    
-    public function acciones3() {
+    public function consulta_estatu()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
-            $rif_organoente = $this->session->userdata('rif_organoente');
-        $data = array(       
+        $data = $this->input->post();
+        $data = $this->Publicaciones_model->consulta_llamado_statu($data);
+        echo json_encode($data);
+    }
+    public function filtro()
+    {
+        if (!$this->session->userdata('session')) {
+            $date = date("d-m-Y");
+            $id_estado = $this->input->post("id_estado");
+            $id_objeto = $this->input->post("id_objeto");
+            $data['historial'] = $this->Publicaciones_model->consultar_llamados_externos12($id_objeto, $date, $id_estado);
+            $this->load->view('templates/header.php');
+            $this->load->view('templates/navsinsesion.php');
+            $this->load->view('publicaciones/reporte/ver_llamado.php', $data);
+            $this->load->view('templates/footer.php');
+        } else {
+            $date = date("d-m-Y");
+            $id_estado = $this->input->post("id_estado");
+            $id_objeto = $this->input->post("id_objeto");
+            $data['historial'] = $this->Publicaciones_model->consultar_llamados_externos12($id_objeto, $date, $id_estado);
+            $this->load->view('templates/header.php');
+            $this->load->view('templates/navsinsesion.php');
+            $this->load->view('publicaciones/reporte/ver_llamado.php', $data);
+            $this->load->view('templates/footer.php');
+        }
+    }
+
+
+
+
+    ///////////////////////////consulta interna
+    // public function llamadointerno() {
+    //     if(!$this->session->userdata('session'))redirect('login');
+    //       $date=date("d-m-Y");
+    //       $rif = $this->session->userdata['rif_organoente'];
+    //       $data['exonerado'] = $this->Publicaciones_model->consultar_llamados_internos($date,$rif);
+    //       $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
+    //       $data['objeto'] 	 = $this->Configuracion_model->objeto();
+    //       $generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
+    //       $generar3 = $this->Publicaciones_model->generar2(); // finalizar llamad
+    //       $generar4 = $this->Publicaciones_model->generar3(); // finalizar llamad
+
+    //       $this->load->view('templates/header.php');
+    //       $this->load->view('templates/navigator.php');
+    //       $this->load->view('publicaciones/reporte/llamadointerno.php', $data);
+    //       $this->load->view('templates/footer.php');
+
+
+    //   }
+
+    // public function llamadointerno($offset = 0) { 04032025 ultimosss
+    //     if (!$this->session->userdata('session')) redirect('login');
+    //     $date = date("d-m-Y");
+    //     $rif = $this->session->userdata['rif_organoente'];    
+    //     // Definir el límite de registros por página
+    //     $limit = 10;
+    //     // Obtener los datos paginados
+    //     $data['exonerado'] = $this->Publicaciones_model->consultar_llamados_internos($date, $rif, $limit, $offset);    
+    //     // Contar el total de registros
+    //     $data['total_rows'] = $this->Publicaciones_model->count_llamados_internos($date, $rif);
+
+    //     // Obtener otros datos necesarios
+    //     $data['estados'] = $this->Configuracion_model->consulta_estados();
+    //     $data['objeto'] = $this->Configuracion_model->objeto();
+    //     $generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
+    //     $generar3 = $this->Publicaciones_model->generar2(); // finalizar llamad
+    //     $generar4 = $this->Publicaciones_model->generar3(); // finalizar llamad
+
+    //     // Cargar las vistas
+    //     $this->load->view('templates/header.php');
+    //     $this->load->view('templates/navigator.php');
+    //     $this->load->view('publicaciones/reporte/llamadointerno.php', $data);
+    //     $this->load->view('templates/footer.php');
+    // }
+    public function llamadointerno($offset = 0)
+    {
+        if (!$this->session->userdata('session')) redirect('login');
+
+        $date = date("d-m-Y");
+        $rif = $this->session->userdata['rif_organoente'];
+        $search = $this->input->get('search'); // Obtener el término de búsqueda
+
+        // Definir el límite de registros por página
+        $limit = 10;
+
+        // Obtener los datos paginados (con búsqueda si existe)
+        $data['exonerado'] = $this->Publicaciones_model->consultar_llamados_internos($date, $rif, $limit, $offset, $search);
+        // var_dump($data['exonerado']); exit;
+        // Contar el total de registros (con búsqueda si existe)
+        $data['total_rows'] = $this->Publicaciones_model->count_llamados_internos($date, $rif, $search);
+        //var_dump($data['total_rows']); exit;
+        $data['search'] = $search; // Esto es importante
+        // Configurar la paginación
+        $config['base_url'] = base_url('index.php/Publicaciones/llamadointerno');
+        $config['total_rows'] = $data['total_rows'];
+        $config['per_page'] = $limit;
+        $config['uri_segment'] = 3;
+        $config['reuse_query_string'] = TRUE; // Mantener el término de búsqueda en la paginación
+
+        $this->pagination->initialize($config);
+        $data['pagination'] = $this->pagination->create_links();
+
+        // Cargar las vistas
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('publicaciones/reporte/llamadointerno.php', $data);
+        $this->load->view('templates/footer.php');
+    }
+    public function Llamado() //hacer un pdf
+    {
+        //  $data['ver_programaciones'] = $this->Programacion_model->consultar_reprogramacion($unidad);
+        //Se agrega la clase desde thirdparty para usar FPDF
+        require_once APPPATH . 'third_party/fpdf/fpdf.php';
+        //  $unidad
+
+        $pdf = new FPDF();
+        $pdf->AliasNbPages();
+        $pdf->AddPage('P', 'A4', 0);
+        $pdf->SetMargins(8, 8, 8, 8);
+        $pdf->SetFont('Arial', 'B', 12);
+        //$pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');            
+        $pdf->Image(base_url() . 'imagenes/logosnc.png', 10, 6, 50);
+        $pdf->Ln(10);
+
+        $pdf->Cell(195, 5, 'LLamado a Concurso', 0, 1, 'C');
+
+        $pdf->Image(base_url() . 'imagenes/logosnc.png', 140, 6, 50);
+        $pdf->SetFont('Arial', 'I', 8);
+
+        $pdf->Cell(350, 4, 'Pagina ' . $pdf->PageNo() . '/{nb}', 0, 1, 'C');
+        $pdf->SetFont('Arial', 'B', 12);
+
+        $pdf->Cell(195, 3, '____________________________________________________________________________', 0, 1, 'C');
+        $pdf->Cell(195, 10, 'Datos del Organo o Ente', 0, 1, 'C');
+
+        $data1 = $this->input->get('id');
+        $data = $this->Publicaciones_model->consulta_llamado($data1);
+        foreach ($data as $d) {
+
+            $pdf->Cell(60, 10, 'Rif:', 0, 0, 'C');
+            $pdf->SetFont('Arial', '', 10);
+
+            $pdf->Cell(60, 10, $d->rif_organoente, 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+
+            $pdf->Cell(70, 10, 'Denominacion social:', 0, 0, 'C');
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->MultiCell(125, 5, utf8_decode($d->organoente), 0, 'L');
+
+            //   $pdf->Cell(100,10, utf8_decode($d->organoente),0,1,'C');
+
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(60, 10, 'Siglas:', 0, 0, 'C');
+            $pdf->Cell(100, 10, 'Pagina Web', 0, 1, 'C');
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(60, 10, $d->siglas, 0, 0, 'C');
+            // $pdf->Cell(85,10,'Pagina Web:',0,0,'C'); 
+            // $pdf->SetFont('Arial','',8);                  
+            $pdf->MultiCell(100, 5, utf8_decode($d->web_contratante), 0, 'L');
+            // $pdf->Cell(100,10, $d->web_contratante,0,1,'C');
+            $pdf->Cell(195, 10, '____________________________________________________________________________________________________', 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(195, 10, 'Llamados a Concurso', 0, 1, 'C');
+            $pdf->Cell(80, 10, 'Numero de Proceso:', 0, 0, 'C');
+            $pdf->SetFont('Arial', 'B', 10);
+            $pdf->Cell(48, 10, $d->numero_proceso, 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(85, 10, 'Denominacion del proceso:', 0, 0, 'C');
+            $pdf->SetFont('Arial', '', 8);
+            $pdf->MultiCell(100, 5, utf8_decode($d->denominacion_proceso), 0, 'L');
+            $pdf->SetFont('Arial', 'B', 12);
+
+            $pdf->Cell(80, 10, 'Fecha de Llamado:', 0, 0, 'C');
+            $pdf->Cell(60, 10, 'Estatus:', 0, 1, 'C');
+
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(80, 10, date("d/m/Y", strtotime($d->fecha_llamado)), 0, 0, 'C');
+            $pdf->Cell(60, 10, $d->estatus, 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(90, 10, utf8_decode('Descripcion de Contratación:'), 0, 1, 'C');
+            $pdf->SetFont('Arial', '', 8);
+            $pdf->MultiCell(180, 5, utf8_decode($d->descripcion_contratacion), 0);
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(195, 10, '_______________________________________________________________________________________', 0, 1, 'C');
+            $pdf->Cell(195, 5, 'Lapsos', 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+
+            $pdf->Cell(60, 5, 'Modalidad:', 0, 0, 'C');
+            $pdf->Cell(60, 5, 'Mecanismo:', 0, 0, 'C');
+            $pdf->Cell(60, 5, utf8_decode('Objeto de Contratación:'), 0, 1, 'C');
+
+
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(60, 10, utf8_decode($d->modalidad), 0, 0, 'C');
+            $pdf->Cell(60, 10, utf8_decode($d->mecanismo), 0, 0, 'C');
+            $pdf->Cell(60, 10, $d->objeto_contratacion, 0, 1, 'C');
+
+            $pdf->SetFont('Arial', 'B', 12);
+
+            //  $pdf->Cell(100,10,' ',0,0,'C');
+            $pdf->Cell(180, 10, utf8_decode('Acto Público:'), 0, 1, 'C');
+
+            $pdf->SetFont('Arial', '', 10);
+            // $pdf->Cell(100,5, date("d/m/Y", strtotime($d->fecha_disponible_llamado)),0,0,'C');
+            $pdf->Cell(180, 5, date("d/m/Y", strtotime($d->fecha_fin_llamado)), 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(195, 10, '_______________________________________________________________________________________', 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+
+            $pdf->Cell(180, 5, 'Fecha de disponibilidad:', 0, 1, 'C');
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(80, 5, 'Desde:', 0, 0, 'C');
+            $pdf->Cell(5, 5, date("d/m/Y", strtotime($d->fecha_disponible_llamado)), 0, 0, 'C');
+            $pdf->Cell(50, 5, 'Hasta:', 0, 0, 'C');
+            $pdf->Cell(10, 5, date("d/m/Y", strtotime($d->fecha_tope)), 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(195, 5, utf8_decode('Dirección Para Adquisición de Retiro de Pliego'), 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(100, 5, 'Hora desde:', 0, 0, 'C');
+            $pdf->Cell(60, 5, 'Hora hasta:', 0, 1, 'C');
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(100, 5, $d->hora_desde, 0, 0, 'C');
+            $pdf->Cell(60, 5, $d->hora_hasta, 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(60, 5, utf8_decode('Dirección:'), 0, 0, 'C');
+            $pdf->SetFont('Arial', '', 8);
+            $pdf->MultiCell(130, 5, utf8_decode($d->direccion), 0, 'L');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(195, 10, '_______________________________________________________________________________________', 0, 1, 'C');
+            $pdf->Cell(195, 10, utf8_decode('Períodos de Aclaratoria'), 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(80, 5, 'Fecha Inicio de Aclaratoria:', 0, 0, 'C');
+            $pdf->Cell(40, 5, 'Fecha Fin de Aclaratoria:', 0, 0, 'C');
+            $pdf->Cell(55, 5, 'Fecha Tope:', 0, 1, 'C');
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(60, 5, date("d/m/Y", strtotime($d->fecha_inicio_aclaratoria)), 0, 0, 'C');
+            $pdf->Cell(60, 5, date("d/m/Y", strtotime($d->fecha_fin_aclaratoria)), 0, 0, 'C');
+            $pdf->Cell(60, 5, date("d/m/Y", strtotime($d->fecha_tope)), 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(195, 5, '_______________________________________________________________________________________', 0, 1, 'C');
+            $pdf->Cell(195, 10, utf8_decode('Apertura de Sobres'), 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(100, 5, 'Fecha de Entrega:', 0, 0, 'C');
+            $pdf->Cell(60, 5, 'Hora Desde:', 0, 1, 'C');
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(100, 8, date("d/m/Y", strtotime($d->fecha_fin_llamado)), 0, 0, 'C');
+            $pdf->Cell(60, 8, $d->hora_desde_sobre, 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(60, 5, 'Lugar de Entrega:', 0, 0, 'C');
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->MultiCell(130, 5, utf8_decode($d->lugar_entrega), 0, 'L');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(60, 5, utf8_decode('Dirección:'), 0, 0, 'C');
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->MultiCell(130, 5, utf8_decode($d->direccion_sobre), 0, 'L');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(60, 5, utf8_decode('Observaciones:'), 0, 0, 'C');
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->MultiCell(130, 5, utf8_decode($d->observaciones), 0, 'L');
+
+
+            $pdf->Ln(10);
+            $curdate = date('d-m-Y H:i:s');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(60, 10, utf8_decode('Fecha de Impresión:'), 0, 0, 'C');
+            $pdf->Cell(30, 10, $curdate, 0, 1, 'C');
+            $pdf->SetX(-15);
+            // Arial italic 8
+            $pdf->SetFont('Arial', 'I', 8);
+            // Número de página
+            $pdf->Cell(0, 10, 'Pagina ' . $pdf->PageNo() . '/{nb}', 0, 0, 'C');
+        }
+        // $pdf->Ln(10);
+
+        // $curdate = date('d-m-Y H:i:s');
+        // $pdf->SetFont('Arial','B',12);
+        // $pdf->Cell(60,10,utf8_decode('Fecha de Impresión:'),0,0,'C'); 
+        // $pdf->Cell(30,10, $curdate,0,1,'C');
+        //  $pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');            
+        // Posición: a 1,5 cm del final
+        // $pdf->SetX(-15);
+        // // Arial italic 8
+        // $pdf->SetFont('Arial','I',8);
+        // // Número de página
+        // $pdf->Cell(0,10,'Pagina '.$pdf->PageNo().'/{nb}',0,0,'C');
+        // $pdf->SetX(10);
+        ///$pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');
+        // $this->SetFont('Arial','I',8); 
+        //$pdf->Cell(0,10,'Servicio Nacional de Contrataciones','T',1,'C');
+        //$pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');
+        $pdf->Output('llamado_concurso ' . $curdate . '.pdf', 'D');
+        // $this->load->view('headfoot/header', $datos);
+    }
+    public function Llamado_1() //hacer un pdf externo
+    {
+        //  $data['ver_programaciones'] = $this->Programacion_model->consultar_reprogramacion($unidad);
+        //Se agrega la clase desde thirdparty para usar FPDF
+        require_once APPPATH . 'third_party/fpdf/fpdf.php';
+        //  $unidad
+
+        $pdf = new FPDF();
+        $pdf->AliasNbPages();
+        $pdf->AddPage('P', 'A4', 0);
+        $pdf->SetMargins(8, 8, 8, 8);
+        $pdf->SetFont('Arial', 'B', 12);
+        //$pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');            
+        $pdf->Image(base_url() . 'imagenes/logosnc.png', 10, 6, 50);
+        $pdf->Ln(10);
+
+        $pdf->Cell(195, 5, 'LLamado a Concurso', 0, 1, 'C');
+
+        $pdf->Image(base_url() . 'imagenes/logosnc.png', 140, 6, 50);
+        $pdf->SetFont('Arial', 'I', 8);
+
+        $pdf->Cell(350, 4, 'Pagina ' . $pdf->PageNo() . '/{nb}', 0, 1, 'C');
+        $pdf->SetFont('Arial', 'B', 12);
+
+        $pdf->Cell(195, 3, '____________________________________________________________________________', 0, 1, 'C');
+        $pdf->Cell(195, 10, 'Datos del Organo o Ente', 0, 1, 'C');
+
+        $data1 = $this->input->get('id');
+        $data = $this->Publicaciones_model->consulta_llamado($data1);
+        foreach ($data as $d) {
+
+            $pdf->Cell(60, 10, 'Rif:', 0, 0, 'C');
+            $pdf->Cell(100, 10, 'Denominacion social:', 0, 1, 'C');
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(60, 10, $d->rif_organoente, 0, 0, 'C');
+            $pdf->Cell(100, 10, utf8_decode($d->organoente), 0, 1, 'C');
+
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(60, 10, 'Siglas:', 0, 0, 'C');
+
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(60, 10, $d->siglas, 0, 0, 'C');
+
+            $pdf->Cell(85, 10, 'Pagina Web:', 0, 0, 'C');
+            $pdf->SetFont('Arial', '', 8);
+            $pdf->MultiCell(100, 5, utf8_decode($d->web_contratante), 0, 'L');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(195, 10, '____________________________________________________________________________________________________', 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(195, 10, 'Llamados a Concurso', 0, 1, 'C');
+            $pdf->Cell(80, 10, 'Numero de Proceso:', 0, 0, 'C');
+            $pdf->SetFont('Arial', 'B', 10);
+            $pdf->Cell(48, 10, $d->numero_proceso, 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(85, 10, 'Denominacion del proceso:', 0, 0, 'C');
+            $pdf->SetFont('Arial', '', 8);
+            $pdf->MultiCell(100, 5, utf8_decode($d->denominacion_proceso), 0, 'L');
+            $pdf->SetFont('Arial', 'B', 12);
+
+            $pdf->Cell(80, 10, 'Fecha de Llamado:', 0, 0, 'C');
+            $pdf->Cell(60, 10, 'Estatus:', 0, 1, 'C');
+
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(80, 10, date("d/m/Y", strtotime($d->fecha_llamado)), 0, 0, 'C');
+            $pdf->Cell(60, 10, $d->estatus, 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(90, 10, utf8_decode('Descripcion de Contratación:'), 0, 1, 'C');
+            $pdf->SetFont('Arial', '', 8);
+            $pdf->MultiCell(180, 5, utf8_decode($d->descripcion_contratacion), 0);
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(195, 10, '_______________________________________________________________________________________', 0, 1, 'C');
+            $pdf->Cell(195, 5, 'Lapsos', 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+
+            $pdf->Cell(60, 5, 'Modalidad:', 0, 0, 'C');
+            $pdf->Cell(60, 5, 'Mecanismo:', 0, 0, 'C');
+            $pdf->Cell(60, 5, utf8_decode('Objeto de Contratación:'), 0, 1, 'C');
+
+
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(60, 10, utf8_decode($d->modalidad), 0, 0, 'C');
+            $pdf->Cell(60, 10, utf8_decode($d->mecanismo), 0, 0, 'C');
+            $pdf->Cell(60, 10, $d->objeto_contratacion, 0, 1, 'C');
+
+            $pdf->SetFont('Arial', 'B', 12);
+
+            $pdf->Cell(100, 10, 'Fecha de disponibilidad:', 0, 0, 'C');
+            $pdf->Cell(60, 10, 'Fecha Fin:', 0, 1, 'C');
+
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(100, 5, date("d/m/Y", strtotime($d->fecha_disponible_llamado)), 0, 0, 'C');
+            $pdf->Cell(60, 5, date("d/m/Y", strtotime($d->fecha_fin_llamado)), 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(195, 10, '_______________________________________________________________________________________', 0, 1, 'C');
+            $pdf->Cell(195, 10, utf8_decode('Dirección Para Adquisición de Retiro de Pliego'), 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(100, 5, 'Hora desde:', 0, 0, 'C');
+            $pdf->Cell(60, 5, 'Hora hasta:', 0, 1, 'C');
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(100, 5, $d->hora_desde, 0, 0, 'C');
+            $pdf->Cell(60, 5, $d->hora_hasta, 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(60, 5, utf8_decode('Dirección:'), 0, 0, 'C');
+            $pdf->SetFont('Arial', '', 8);
+            $pdf->MultiCell(130, 5, utf8_decode($d->direccion), 0, 'L');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(195, 10, '_______________________________________________________________________________________', 0, 1, 'C');
+            $pdf->Cell(195, 10, utf8_decode('Períodos de Aclaratoria'), 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(80, 5, 'Fecha Inicio de Aclaratoria:', 0, 0, 'C');
+            $pdf->Cell(40, 5, 'Fecha Fin de Aclaratoria:', 0, 0, 'C');
+            $pdf->Cell(55, 5, 'Fecha Tope:', 0, 1, 'C');
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(60, 5, date("d/m/Y", strtotime($d->fecha_inicio_aclaratoria)), 0, 0, 'C');
+            $pdf->Cell(60, 5, date("d/m/Y", strtotime($d->fecha_fin_aclaratoria)), 0, 0, 'C');
+            $pdf->Cell(60, 5, date("d/m/Y", strtotime($d->fecha_tope)), 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(195, 5, '_______________________________________________________________________________________', 0, 1, 'C');
+            $pdf->Cell(195, 10, utf8_decode('Apertura de Sobres'), 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(100, 5, 'Fecha de Entrega:', 0, 0, 'C');
+            $pdf->Cell(60, 5, 'Hora Desde:', 0, 1, 'C');
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(100, 8, date("d/m/Y", strtotime($d->fecha_fin_llamado)), 0, 0, 'C');
+            $pdf->Cell(60, 8, $d->hora_desde_sobre, 0, 1, 'C');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(60, 5, 'Lugar de Entrega:', 0, 0, 'C');
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->MultiCell(130, 5, utf8_decode($d->lugar_entrega), 0, 'L');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(60, 5, utf8_decode('Dirección:'), 0, 0, 'C');
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->MultiCell(130, 5, utf8_decode($d->direccion_sobre), 0, 'L');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(60, 5, utf8_decode('Observaciones:'), 0, 0, 'C');
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->MultiCell(130, 5, utf8_decode($d->observaciones), 0, 'L');
+
+
+            $pdf->Ln(10);
+            $curdate = date('d-m-Y H:i:s');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(60, 10, utf8_decode('Fecha de Impresión:'), 0, 0, 'C');
+            $pdf->Cell(30, 10, $curdate, 0, 1, 'C');
+            $pdf->SetX(-15);
+            // Arial italic 8
+            $pdf->SetFont('Arial', 'I', 8);
+            // Número de página
+            $pdf->Cell(0, 10, 'Pagina ' . $pdf->PageNo() . '/{nb}', 0, 0, 'C');
+        }
+        // $pdf->Ln(10);
+
+        // $curdate = date('d-m-Y H:i:s');
+        // $pdf->SetFont('Arial','B',12);
+        // $pdf->Cell(60,10,utf8_decode('Fecha de Impresión:'),0,0,'C'); 
+        // $pdf->Cell(30,10, $curdate,0,1,'C');
+        //  $pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');            
+        // Posición: a 1,5 cm del final
+        // $pdf->SetX(-15);
+        // // Arial italic 8
+        // $pdf->SetFont('Arial','I',8);
+        // // Número de página
+        // $pdf->Cell(0,10,'Pagina '.$pdf->PageNo().'/{nb}',0,0,'C');
+        // $pdf->SetX(10);
+        ///$pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');
+        // $this->SetFont('Arial','I',8); 
+        //$pdf->Cell(0,10,'Servicio Nacional de Contrataciones','T',1,'C');
+        //$pdf->Cell(0,10,'Pagina '.$pdf->PageNo(),0,0,'C');
+        $pdf->Output('llamado_concurso ' . $curdate . '.pdf', 'D');
+        // $this->load->view('headfoot/header', $datos);
+    }
+
+
+    public function v_estatus_llamado()
+    {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $data['rif'] = $this->session->userdata('rif');
+        $parametros = $this->input->get('id');
+        $data['id'] = $this->input->get('id');
+
+        $data['time'] = date("Y-m-d");
+        $data['inf_2'] = $this->Publicaciones_model->consulta_llamado_statu_detalle($parametros);
+
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('publicaciones/reporte_estatusllamado/est_llamado.php', $data);
+
+        $this->load->view('templates/footer.php');
+    }
+    public function Accion2()
+    {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $rif_organoente = $this->session->userdata('rif_organoente');
+
+        $data['rif'] = $this->session->userdata('rif');
+        $parametros = $this->input->get('id');
+        $data['numero_proceso'] = $this->input->get('id');
+        $data['llamadot'] = $this->Publicaciones_model->check_logger_accion($rif_organoente, $data['numero_proceso']);
+
+        $data['time'] = date("Y-m-d");
+
+        $data['inf_1'] = $this->Publicaciones_model->inf_1($data['numero_proceso']);
+        $data['results_2']      =  $this->Publicaciones_model->consultar_cxc_client3($data['numero_proceso']);
+
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('publicaciones/acciones/acciones2.php', $data);
+
+        $this->load->view('templates/footer.php');
+    }
+    public function Accion2_snc()
+    {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $rif_organoente = $this->session->userdata('rif_organoente');
+
+        $data['rif'] = $this->session->userdata('rif');
+        $parametros = $this->input->get('id');
+        $data['numero_proceso'] = $this->input->get('id');
+        $data['llamadot'] = $this->Publicaciones_model->check_logger_accion_snc();
+
+        $data['time'] = date("Y-m-d");
+
+        $data['inf_1'] = $this->Publicaciones_model->inf_1($data['numero_proceso']);
+        $data['results_2']      =  $this->Publicaciones_model->consultar_cxc_client3($data['numero_proceso']);
+
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('publicaciones/acciones/accionesnc.php', $data);
+
+        $this->load->view('templates/footer.php');
+    }
+
+
+    public function acciones3()
+    {
+        if (!$this->session->userdata('session'))
+            redirect('login');
+        $rif_organoente = $this->session->userdata('rif_organoente');
+        $data = array(
             'rif_organoente' => $rif_organoente,
 
             'numero_proceso' => $this->input->POST('numero_proceso'),
@@ -1355,10 +1451,10 @@ public function llamadointerno($offset = 0) {
             'paridad' => $this->input->POST('paridad_rendi5'),
             'total_contrato' => $this->input->POST('subtotal_rendi5'),
             'fecha_paridad' => $this->input->POST('fecha_paridad'),
-         
+
             'id_usuario' => $this->session->userdata('id_user'),
-            'fecha_creacion' => date("Y-m-d"), 
-            'snc' => 1, 
+            'fecha_creacion' => date("Y-m-d"),
+            'snc' => 1,
             'exit_rnc' => 0
 
         );
@@ -1366,14 +1462,16 @@ public function llamadointerno($offset = 0) {
         $data = $this->Publicaciones_model->saveacciones3($data);
         echo json_encode($data);
     }
-    public function consulta_accll() {
+    public function consulta_accll()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
         $data = $this->Publicaciones_model->consulta_accll($data);
         echo json_encode($data);
     }
-    public function editar_accll() {
+    public function editar_accll()
+    {
         if (!$this->session->userdata('session'))
             redirect('login');
         $data = $this->input->post();
@@ -1389,22 +1487,97 @@ public function llamadointerno($offset = 0) {
     }
     public function enviar_notificar_llc()
     {
-        if(!$this->session->userdata('session')) {
+        if (!$this->session->userdata('session')) {
             redirect('login');
         }
         $data = $this->input->post();
-        
+
         $des_unidad = $this->session->userdata('unidad');
         $codigo_onapre = $this->session->userdata('codigo_onapre');
         $rif = $this->session->userdata('rif_organoente');
         $numero_proceso = $data['id'];
-         
-        
+
+
         $data = $this->Publicaciones_model->updateAccionesLlamadosAndNotifyLlc($data, $des_unidad);
-        print_r($data);die;
+        print_r($data);
+        die;
         //echo json_encode($data);
     }
-}
+    public function llcp()
+    {
+        if (!$this->session->userdata('session')) redirect('login');
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $data['rif'] = $this->session->userdata('rif');
+        $rif = $this->session->userdata['rif_organoente'];
+        $data['time'] = date("Y-m-d");
+        $data['llamados'] = $this->Publicaciones_model->consulta_llamados_prorrogados();
+        $data['causa_suspencion'] = $this->Publicaciones_model->causa_suspencion();
+        $data['supuestos'] = $this->Publicaciones_model->supuestos();
+        $data['terminar_manual'] = $this->Publicaciones_model->terminar_manual();
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('anularllamado/estatusllc.php', $data);
+        $this->load->view('templates/footer.php');
+    }
+    public function enviar_snc()
+    {
+        if (!$this->session->userdata('session')) {
+            redirect('login');
+        }
 
-    
-?>
+        $numero_proceso = $this->input->post('numero_proceso');
+
+        if (empty($numero_proceso)) {
+            echo json_encode(['success' => 0, 'error' => 'Número de proceso no recibido']);
+            return;
+        }
+
+        $result = $this->Publicaciones_model->enviar_snc1($numero_proceso);
+        // Devuelve 1 para éxito, 0 para fallo
+        echo json_encode(['success' => $result ? 1 : 0]);
+        return;
+    }
+    public function infor_llcacciones()
+    {
+
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('publicaciones/acciones/llcaccion.php');
+        $this->load->view('templates/footer.php');
+    }
+    public function busquedallcacciones()
+    {
+        if (!$this->session->userdata('session')) {
+            redirect('login');
+        }
+
+        $cedula = $this->input->post('nombre');
+        $result = $this->Publicaciones_model->check_logger_accion_sncn($cedula);
+
+        if (!empty($result)) {
+            echo json_encode($result);
+        } else {
+            // Formato consistente para el frontend
+            echo json_encode([
+                'error' => true,  // Asegurar que tenga esta propiedad
+                'message' => 'No se encontraron resultados para la búsqueda'
+            ]);
+        }
+    }
+    public function eliminarRegistro()
+    {
+        if (!$this->session->userdata('session')) redirect('login');
+
+        $numero_proceso = $this->input->post('numero_proceso');
+
+        $result = $this->Publicaciones_model->eliminarPorNumeroProceso($numero_proceso);
+
+        if ($result) {
+            $response = ['success' => true, 'message' => 'Registro eliminado y auditado'];
+        } else {
+            $response = ['success' => false, 'message' => 'Error al procesar la eliminación'];
+        }
+
+        echo json_encode($response);
+    }
+}

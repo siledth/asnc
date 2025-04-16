@@ -304,7 +304,7 @@ function consultar_nombre5() {
         
         // Mostrar el mensaje de cargando
         $("#loading").show();
-        // var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_evaluaciones_contratistas';
+        //  var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_evaluaciones_contratistas';
 
         var base_url = '/index.php/evaluacion_desempenio/llenar_evaluaciones_contratistas';
        // var base_url_3 = '/index.php/Planilla_r_todo/pdfrt?id=';
@@ -364,6 +364,196 @@ function consultar_nombre5() {
         });
     }
 }
+
+// Función para generar el gráfico
+function generarGraficoCalificaciones(data) {
+    // Filtrar solo las evaluaciones actuales
+    const evaluacionesActuales = data.filter(item => item.tipo === 'Actual');
+    
+    // Si no hay evaluaciones actuales, ocultar el gráfico
+    if (evaluacionesActuales.length === 0) {
+        $("#chart-container").hide();
+        return;
+    }
+    
+    // Contar las calificaciones
+    const conteoCalificaciones = {};
+    evaluacionesActuales.forEach(item => {
+        const calificacion = item.nombre_calificacion || 'Sin calificación';
+        conteoCalificaciones[calificacion] = (conteoCalificaciones[calificacion] || 0) + 1;
+    });
+    
+    // Convertir a formato que amCharts entiende
+    const chartData = Object.keys(conteoCalificaciones).map(calificacion => {
+        return {
+            calificacion: calificacion,
+            cantidad: conteoCalificaciones[calificacion],
+            color: getColorForCalificacion(calificacion)
+        };
+    });
+    
+    // Si hay datos, mostrar el gráfico
+    if (chartData.length > 0) {
+        $("#chart-container").show();
+        
+        // Crear el gráfico
+        am5.ready(function() {
+            // Create root element
+            var root = am5.Root.new("chartdiv");
+            
+            // Set themes
+            root.setThemes([
+                am5themes_Animated.new(root)
+            ]);
+            
+            // Create chart
+            var chart = root.container.children.push(am5percent.PieChart.new(root, {
+                layout: root.verticalLayout
+            }));
+            
+            // Create series
+          var series = chart.series.push(am5percent.PieSeries.new(root, {
+            name: "Calificaciones",
+            valueField: "cantidad",
+            categoryField: "calificacion",
+            legendLabelText: "{category}: {value} ({valuePercentTotal.formatNumber('#.0')}%)",
+            legendValueText: "{value}",
+        }));
+
+        // Asignar colores personalizados usando `template.setAll`
+        series.slices.template.setAll({
+          //  fill: am5.color("#607D8B"), // Color por defecto (opcional)
+        });
+
+        // Asignar colores específicos para cada categoría
+        series.data.setAll(chartData.map(item => ({
+            ...item,
+            fill: am5.color(item.color) // Usar el color definido en `getColorForCalificacion`
+        })));
+            series.data.setAll(chartData);
+            
+            // Add legend
+            var legend = chart.children.push(am5.Legend.new(root, {
+                centerX: am5.percent(50),
+                x: am5.percent(50),
+                marginTop: 15,
+                marginBottom: 15
+            }));
+            
+            legend.data.setAll(series.dataItems);
+            
+            // Add title
+            chart.children.unshift(am5.Label.new(root, {
+                text: "Distribución de Calificaciones Actuales",
+                fontSize: 18,
+                fontWeight: "500",
+                textAlign: "center",
+                x: am5.percent(50),
+                centerX: am5.percent(50),
+                paddingTop: 0,
+                paddingBottom: 0
+            }));
+        });
+    } else {
+        $("#chart-container").hide();
+    }
+}
+
+// Función auxiliar para asignar colores según la calificación
+function getColorForCalificacion(calificacion) {
+    const colores = {
+        "EXCELENTE": "#4CAF50",
+        "Muy Bueno": "#8BC34A",
+        "Bueno": "#FFC107",
+        "Regular": "#FF9800",
+        "Deficiente": "#F44336",
+        "Sin calificación": "#607D8B"
+    };
+    
+    // Coincidencia exacta (cambia a includes si necesitas coincidencia parcial)
+    return am5.color(colores[calificacion] || colores["Sin calificación"]);
+}
+// Modificación de tu función consultar_nombre5 para incluir el gráfico
+function consultar_grafico() {
+    // Destruir la tabla si ya está inicializada
+    if ($.fn.DataTable.isDataTable('#tabla')) {
+        $('#tabla').DataTable().destroy();
+    }
+    
+    // Ocultar gráfico y contenedores al inicio
+    $("#chart-container").hide();
+    $("#items").hide();
+  
+    var nombre = $('#nombre').val();
+    if (nombre == '') {
+        alert('Por favor ingrese un rif.');
+        return;
+    } else {
+        $("#items").show();
+        
+        // Mostrar el mensaje de cargando
+        $("#loading").show();
+        var base_url = window.location.origin + '/asnc/index.php/evaluacion_desempenio/llenar_evaluaciones_contratistas';
+        // var base_url = '/index.php/evaluacion_desempenio/llenar_evaluaciones_contratistas';
+
+        $.ajax({
+            url: base_url,
+            method: 'post',
+            data: { nombre: nombre },
+            dataType: 'json',
+            success: function(data) {
+                // Ocultar el mensaje de cargando
+                $("#loading").hide();
+
+                if (data.error) {
+                    $('#tabla').hide();
+                    $('#items').hide();
+                    $('#inputs').show();
+                    $('#cedula').val(nombre);
+                    $('#existe').val(0);
+                    $("#chart-container").hide();
+                } else {
+                    $('#tabla').show();
+                    $('#items').show();
+                    $('#inputs').show();
+                    $('#cedula').val(nombre);
+                    $('#existe').val(1);
+
+                    $('#tabla tbody').children().remove();
+                    $.each(data, function(index, response) {
+                        $('#tabla tbody').append('<tr><td>' + response['nombre_ente'] + '</td><td>'
+                            + response['razon_social'] + '</td><td>'
+                            + response['objeto'] + '</td><td>'
+                            + response['nombre_calificacion'] + '</td><td>'
+                            + response['tipo'] + '</td></tr>'
+                        );
+                    });
+
+                    $('#tabla').DataTable({
+                        "paging": true,
+                        "pageLength": 10,
+                        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                        dom: "Bfrtip",
+                        buttons: [{
+                            extend: "excel",
+                            text: "Exportar Hoja de Cálculo"
+                        }]
+                    });
+                    
+                    // Generar el gráfico con los datos recibidos
+                    generarGraficoCalificaciones(data);
+                }
+            },
+            error: function() {
+                // Ocultar el mensaje de cargando en caso de error
+                $("#loading").hide();
+                alert('Error al cargar los datos.');
+                $("#chart-container").hide();
+            }
+        });
+    }
+}
+
 function consultar_nombre6() {
     // Destruir la tabla si ya está inicializada
     if ($.fn.DataTable.isDataTable('#tabla')) {

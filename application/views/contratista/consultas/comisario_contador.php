@@ -5,31 +5,35 @@
             <div class="panel panel-inverse" data-sortable-id="form-validation-1">
                 <div class="panel-heading">
                 </div>
+                <?php
+                $mostrar_botones = isset($tipo_persona) && in_array($tipo_persona, ['1', '2', '3', '4']);
+                if ($mostrar_botones): ?>
                 <div class="col-12 text-center mt-3 mb-3">
                     <button
-                        onclick="location.href='<?php echo base_url()?>index.php/Contratista/infor_contrat_comi_conta_rif'"
+                        onclick="location.href='<?php echo base_url() ?>index.php/Contratista/infor_contrat_comi_conta_rif'"
                         type="button" class="my-button3" name="button">
                         Ir Busqueda JS
                     </button>
                     <button
-                        onclick="location.href='<?php echo base_url()?>index.php/evaluacion_desempenio/busquedallenar_evaluaciones_contratistas'"
+                        onclick="location.href='<?php echo base_url() ?>index.php/evaluacion_desempenio/busquedallenar_evaluaciones_contratistas'"
                         type="button" class="my-button3" name="button">
                         Ir Busqueda Evaluaciones
                     </button>
                     <!-- <a class="my-button"
                             href="javascript:history.back()"> Volver</a> -->
                 </div>
+                <?php endif; ?>
 
                 <div class="col-12 text-center mt-3 mb-3">
-                    <h4 class="text-center mb-3 mt-3">BUSQUEDA PERSONA NATURAL</h4>
+                    <h4 class="text-center mb-3 mt-3">Busqueda por Persona Natural</h4>
 
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-4">
-                            <label>Ingrese número de Cédula a consultar</label>
+                            <label>Ingrese número de Cedula </label>
                             <input class="form-control" type="text" name="nombre" id="nombre"
-                                oninput="validarInput(this)" placeholder="Cédula a consultar">
+                                oninput="validarInput(this)" placeholder="">
 
                         </div>
                         <div class="col- mt-4">
@@ -123,4 +127,4 @@ function mayusculas(e) {
     e.value = e.value.toUpperCase();
 }
 </script>
-<script src="<?=base_url()?>/js/contratista/consulta_com_conta.js"></script>
+<script src="<?= base_url() ?>/js/contratista/consulta_com_conta.js"></script>

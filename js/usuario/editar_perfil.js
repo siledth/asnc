@@ -38,10 +38,11 @@ function perfiles(id) {
             $("#ver_user_desb1").val(data["ver_user_desb"]);
             $("#ver_user_lista1").val(data["ver_user_lista"]);
             $("#ver_user_perfil1").val(data["ver_user_perfil"]);
-            $("#invest_contratista1").val(data["invest_contratista"]);
-
-
-
+            $("#ver_avanzado1").val(data["ver_avanzado"]);
+            $("#avanz_rnce1").val(data["avanz_rnce"]);
+            $("#avanz_rnc1").val(data["avanz_rnc"]);
+            $("#avanz_gne1").val(data["avanz_gne"]);
+            $("#resultados_avza1").val(data["resultados_avza"]);
             var id_perfil = data['id_perfil'];
              
             $.ajax({
@@ -74,7 +75,11 @@ function perfiles(id) {
                     $("#ver_user_desb3").val(data["ver_user_desb"]);
                     $("#ver_user_lista3").val(data["ver_user_lista"]);
                     $("#ver_user_perfil3").val(data["ver_user_perfil"]);
-                    $("#invest_contratista3").val(data["invest_contratista"]);
+                    $("#ver_avanzado3").val(data["ver_avanzado"]);
+                    $("#avanz_rnce3").val(data["avanz_rnce"]);
+                    $("#avanz_rnc3").val(data["avanz_rnc"]);
+                    $("#avanz_gne3").val(data["avanz_gne"]);
+                    $("#resultados_avza3").val(data["resultados_avza"]);
 
                 }
             })
@@ -150,8 +155,16 @@ function edit_perfil(){////////////////////////////////
             var ver_rnc = $('#ver_rnc3').val();
             var camb_ver_rnc = $('#ver_rnc2').val();
 
-             var ver_invest_contratista = $('#invest_contratista3').val();
-            var camb_invest_contratista = $('#invest_contratista2').val();
+            var ver_ver_avanzado= $('#ver_avanzado3').val();
+            var camb_ver_avanzado = $('#ver_avanzado2').val();
+            var ver_avanz_rnce= $('#avanz_rnce3').val();
+            var camb_avanz_rnce = $('#avanz_rnce2').val();
+            var ver_avanz_rnc= $('#avanz_rnc3').val();
+            var camb_avanz_rnc = $('#avanz_rnc2').val();
+            var ver_avanz_gne= $('#avanz_gne3').val();
+            var camb_avanz_gne = $('#avanz_gne2').val();
+            var ver_resultados_avza= $('#resultados_avza3').val();
+            var camb_resultados_avza = $('#resultados_avza2').val();
 
             var ver_conf = $('#ver_conf3').val();
             var camb_ver_conf = $('#ver_conf2').val(); var ver_rnc = $('#ver_rnc3').val();
@@ -222,9 +235,17 @@ function edit_perfil(){////////////////////////////////
 
                     ver_rnc: ver_rnc,                   
                     camb_ver_rnc: camb_ver_rnc,     
+                    ver_ver_avanzado: ver_ver_avanzado,                   
+                    camb_ver_avanzado: camb_ver_avanzado, 
+                    ver_avanz_rnce: ver_avanz_rnce,                   
+                    camb_avanz_rnce: camb_avanz_rnce,                    
+                    ver_avanz_rnc: ver_avanz_rnc,                   
+                    camb_avanz_rnc: camb_avanz_rnc, 
+                    ver_avanz_gne: ver_avanz_gne,                   
+                    camb_avanz_gne: camb_avanz_gne,        
 
-                    ver_invest_contratista: ver_invest_contratista,                   
-                    camb_invest_contratista: camb_invest_contratista,  
+                    ver_resultados_avza: ver_resultados_avza,                   
+                    camb_resultados_avza: camb_resultados_avza,  
 
                     ver_conf: ver_conf,  
                     camb_ver_conf: camb_ver_conf,                   

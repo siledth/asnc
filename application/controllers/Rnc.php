@@ -15,4 +15,19 @@ class Rnc extends CI_Controller {
     $this->load->view('RNC/consulta_pay.php', $data);
     $this->load->view('templates/footer.php');
 }
+ public function auditoria_rnc(){
+    if(!$this->session->userdata('session'))redirect('login');
+
+   
+
+    $data['read'] = $this->Rnc_model->read_sending_audit();
+    $data['fecha'] = date('yy');
+
+    $this->load->view('templates/header.php');
+    $this->load->view('templates/navigator.php');
+    $this->load->view('RNC/auditoria_rnc.php', $data);
+    $this->load->view('templates/footer.php');
+}
+
+ 
 }

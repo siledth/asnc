@@ -13,6 +13,7 @@ body {
     /* background-image: url(img/2.jpg); */
     background-size: cover;
 }
+
 .background {
     display: flex;
     align-items: center;
@@ -46,7 +47,7 @@ body {
 }
 
 .info-childs h2 {
-    font-size: 2rem;
+    font-size: 1.9rem;
     color: #9e6161;
 }
 
@@ -151,7 +152,9 @@ body {
     color: #a7a7a7;
 }
 
-.form input[type="submit"] {
+/* Estilo para el input submit (Continuar) */
+input[type="submit"],
+.my-button5 {
     background-color: #8B0000;
     color: #FFFFFF;
     border-radius: 20px;
@@ -160,10 +163,15 @@ body {
     cursor: pointer;
     margin-top: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
+    font-family: sans-serif;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
 }
 
-.form input[type="submit"]:hover {
+input[type="submit"]:hover,
+.my-button5:hover {
     background-color: #b3b3c4;
+    color: #fff;
 }
 
 .hide {
@@ -224,7 +232,11 @@ body {
         height: auto;
         flex-direction: column;
     }
-
+.login-logo {
+    align-self: flex-start;
+    /* Alinea a la izquierda */
+    margin-bottom: 20px;
+}
     .information {
         width: 100%;
         padding: 20px;
@@ -240,4 +252,20 @@ body {
         border-bottom-left-radius: 20px;
         border-top-right-radius: 0;
     }
+           /* ===== ESTILO PARA EL BOTÓN CANCELAR ===== */
+                   .my-button5 {
+                       background-color: #8B0000;
+                       color: #FFFFFF;
+                       border-radius: 20px;
+                       border: none;
+                       padding: 10px 35px;
+                       cursor: pointer;
+                       margin-top: 10px;
+                       box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
+                       transition: background-color 0.3s ease;
+                   }
+        
+                   .my-button5:hover {
+                       background-color: #b3b3c4;
+                   }
 }

@@ -13,6 +13,11 @@ $route['translate_uri_dashes'] = FALSE;
 // $route['login'] = 'auth/index';
 // $route['logout'] = 'auth/logout';
 // $route['Comision_contrata'] ['get'] = 'Comision_contrata/logger_type_snc';
+$route['login1'] = 'login/index';
+
+$route['llamado_concurso'] = 'llamado_concurso/index';
+$route['llamado_concurso/index'] = 'llamado_concurso/index';
+$route['llamado_concurso/index/(:num)'] = 'llamado_concurso/index/$1';
 
 
 //******************************************************************************
@@ -29,6 +34,10 @@ $route['llamadoconcurso']['get'] = 'Gestion/llamadoconcurso';
 //$route['certificacion1']['get'] = 'Gestion/certificacion1';// pagina de la consulta es el cotrolador /el nombre de la funcion
 $route['llamadoxterno']['get'] = 'Gestion/llamadoxterno';
 $route['solicitud']['get'] = 'Gestion/solicitud';
+$route['recuperar']['get'] = 'Validacion_controller/recuperar';
+$route['re_user']['get'] = 'Validacion_controller/re_user';
+
+
 
 $route['pdf']['get'] = 'Gestion/pdf';
 $route['llamadointerno/(:num)'] = 'Gestion/llamadointerno/$1';

@@ -333,3 +333,21 @@ function desbloquear_usuario(id_fact) {
             $("#campos8").hide();    }  
     
     }
+     function selectipo7() {
+        
+        var tipo_comi = $("#ver_rnc").val();
+        if (tipo_comi == "1") {
+            $("#campos9").show();
+        } else {
+            $("#campos9").hide();    }  
+    
+    }
+     function selectipo8() {
+        
+        var tipo_comi = $("#ver_avanzado").val();
+        if (tipo_comi == "1") {
+            $("#campos10").show();
+        } else {
+            $("#campos10").hide();    }  
+    
+    }

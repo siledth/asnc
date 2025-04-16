@@ -2,11 +2,20 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Programacion extends CI_Controller {
-
+    public function __construct() {
+        parent::__construct();
+        $this->load->model('Preguntas_model'); // Cargar el modelo de preguntas
+    }
     //----Carga todos los años ya registrados y para registrar----
     public function index(){
         if(!$this->session->userdata('session'))redirect('login');
+        $user_id = $this->session->userdata('id_user');
+         if (!$this->Preguntas_model->tiene_preguntas($user_id)) {
+            // Si no tiene preguntas, redirigir a la vista de creación de preguntas
+            redirect(site_url('Preguntas_controller/preguntas1'));
+        //$this->load->view('user/crear_preguntas_view.php');
 
+        }
         $data['unidad'] = $this->session->userdata('id_unidad');
         $data['des_unidad'] = $this->session->userdata('unidad');
         $data['rif'] = $this->session->userdata('rif');
@@ -2269,7 +2278,13 @@ public function enviar_rendi()
  
         public function reprogramar(){
             if(!$this->session->userdata('session'))redirect('login');
-    
+    $user_id = $this->session->userdata('id_user');
+         if (!$this->Preguntas_model->tiene_preguntas($user_id)) {
+            // Si no tiene preguntas, redirigir a la vista de creación de preguntas
+            redirect(site_url('Preguntas_controller/preguntas1'));
+        //$this->load->view('user/crear_preguntas_view.php');
+
+        }
             $data['unidad'] = $this->session->userdata('id_unidad');
             $data['des_unidad'] = $this->session->userdata('unidad');
             $data['rif'] = $this->session->userdata('rif');
@@ -2685,7 +2700,13 @@ public function enviar_rendi()
 ///////////////////////////////////rendiciones solo se deben de ver aquellas que puedan ser rendidas osea en estatus 2  o estatus 3
         public function rendiciones(){
             if(!$this->session->userdata('session'))redirect('login');                                                  
-    
+            $user_id = $this->session->userdata('id_user');
+                if (!$this->Preguntas_model->tiene_preguntas($user_id)) {
+                    // Si no tiene preguntas, redirigir a la vista de creación de preguntas
+                    redirect(site_url('Preguntas_controller/preguntas1'));
+                //$this->load->view('user/crear_preguntas_view.php');
+
+                }
             $data['unidad'] = $this->session->userdata('id_unidad');
             $data['des_unidad'] = $this->session->userdata('unidad');
             $data['rif'] = $this->session->userdata('rif');

@@ -1,3 +1,45 @@
+:root {
+  --color-primary: #25285A;
+  --color-secondary: #E42322;
+}
+/* Cambia el fondo del navbar y el texto a blanco */
+.header.navbar-default {
+  background-color: #25285A !important;
+  /* Fondo azul oscuro */
+    font-size: 15px;
+  color: white !important;
+  /* Color general del texto */
+  border: none;
+  /* Opcional: elimina bordes si los hay */
+}
+
+/* Color del texto del brand (SNC) y enlaces */
+.header.navbar-default .navbar-brand,
+.header.navbar-default .navbar-nav>li>a {
+  color: white !important;
+  font-size: 15px;
+    /* Tamaño más grande para el título principal */
+    font-weight: bold;
+    /* Opcional: negrita */
+}
+
+/* Color del ícono del navbar (opcional) */
+/* .header.navbar-default .navbar-logo i {
+  color: rgb(80, 2, 2) !important;
+} */
+
+/* Estilo al pasar el mouse sobre enlaces */
+.header.navbar-default .navbar-nav>li>a:hover {
+  background-color: rgba(161, 7, 7, 0.1) !important;
+  font-size: 16px;
+    /* Ajusta según necesidad */
+}
+
+/* navegador horizontal  */
+
+
+
+/* hasta aca */
 .nav-link {
 	font-size: 16px;
 }
@@ -29,8 +71,9 @@ hr {
 	overflow-y: scroll;
 	height: 60vh;
   }
-  body {
-	background: rgb(212, 243, 224);
+  /* este es el fondo  */
+  body {  
+	background: rgb(255, 255, 255);
   }
   .sinborde {
 	border: 0;
@@ -156,7 +199,120 @@ hr {
   /* Color al pasar el mouse */
 }
 
-.title1 {
-  font-size: 2rem;
-  color: #868585;
+
+
+
+
+/* ----- Navbar Horizontal ----- */
+div[data-scrollbar="true"] {
+  background-color: white !important;
+  background-image: none !important;
+  color: #333 !important;
+  position: relative;
+  transition: all 0.3s ease;
 }
+
+/* Borde animado */
+div[data-scrollbar="true"]:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3px;
+  height: 100%;
+  background: #25285A;
+  transition: all 0.3s ease;
+}
+
+/* Efecto hover para el borde */
+div[data-scrollbar="true"]:hover:after {
+  width: 5px;
+  background: linear-gradient(to bottom, #25285A, #ff6b6b);
+}
+
+/* ----- Texto y elementos interactivos ----- */
+.nav-header,
+.nav li a,
+.nav li a span,
+.nav li a i,
+.nav .caret {
+  color: #333 !important;
+}
+
+/* ----- Íconos ----- */
+.nav li a i[style*="background:darkred"] {
+  background: transparent !important;
+  color: darkred !important;
+}
+
+/* ----- Hover effects ----- */
+.nav li a:hover,
+.nav li:hover>a,
+.nav .sub-menu li:hover {
+  background-color: #f5f5f5 !important;
+}
+
+/* ----- Bordes y separadores ----- */
+.nav-header {
+  border-bottom: 1px solid #E42322 !important;
+}
+
+.nav .sub-menu {
+  border: 1px solid #ddd !important;
+}
+
+/* ----- Flechas de submenús ----- */
+.nav .has-sub>a:after {
+  color: #333 !important;
+}
+
+/* esto es el home */
+#content2.content2 {
+  transform: translateY(-100px); /* Mueve hacia arriba */
+  margin-left: 250px; 
+  /* min-height: calc(100vh + 50px); Aumenta la altura */
+  padding-top: 30px; /* Espacio interno */
+  box-sizing: border-box; /* Incluye padding en la altura */
+}
+.header-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* Reduje el espacio entre elementos */
+  padding: 10px 0;
+}
+
+/* logo home */
+.nav-logo {
+  display: inline-block;
+  width: 100px;
+  /* Ajusta según el ancho real de tu logo */
+  height: 80px;
+  /* Ajusta según la proporción de tu logo */
+  background-image: url("../baner/logo2.jpeg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-right: 0;
+  /* Eliminé el margen derecho grande */
+}
+
+.title1 {
+  margin: 0;
+  color: var(--color-primary);
+  font-family: 'Ronnia', sans-serif;
+  font-size: 1.9rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+  /* Evita que el texto se divida en varias líneas */
+}
+
+/* .title1 {
+  color: var(--color-primary);
+  font-family: 'Ronnia', sans-serif;
+  font-weight: 700;
+  font-size: 1.8rem;
+  text-align: center;
+  margin: 0.5rem 0;
+  text-transform: uppercase;
+
+} */

@@ -37,27 +37,27 @@
                                         </thead>
                                         <tbody>
                                             <?php foreach ($ver_perfil as $data) : ?>
-                                            <tr class="odd gradeX">
-                                                <td><?= $data['nombrep'] ?></td>
-                                                <td><?= date("d-m-Y", strtotime($data['fecha_creacion'])); ?></td>
+                                                <tr class="odd gradeX">
+                                                    <td><?= $data['nombrep'] ?></td>
+                                                    <td><?= date("d-m-Y", strtotime($data['fecha_creacion'])); ?></td>
 
-                                                <td>
-                                                    <a class="button"
-                                                        href="<?php echo base_url() ?>index.php/User/verPerfil?id=<?php echo $data['id_perfil']; ?>">
-                                                        <i title="Ver Pago" class="fas fa-lg fa-fw fa-eye"
-                                                            style="color: midnightblue;"></i>
-                                                        <a />
+                                                    <td>
+                                                        <a class="button"
+                                                            href="<?php echo base_url() ?>index.php/User/verPerfil?id=<?php echo $data['id_perfil']; ?>">
+                                                            <i title="Ver Pago" class="fas fa-lg fa-fw fa-eye"
+                                                                style="color: midnightblue;"></i>
+                                                            <a />
 
-                                                        <a onclick="perfiles(<?php echo $data['id_perfil'] ?>);"
-                                                            data-toggle="modal" data-target="#perfilm"
-                                                            style="color: white">
-                                                            <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
-                                                                style="color: darkgreen;"></i>
-                                                        </a>
+                                                            <a onclick="perfiles(<?php echo $data['id_perfil'] ?>);"
+                                                                data-toggle="modal" data-target="#perfilm"
+                                                                style="color: white">
+                                                                <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
+                                                                    style="color: darkgreen;"></i>
+                                                            </a>
 
 
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                </tr>
                                             <?php endforeach; ?>
                                         </tbody>
                                     </table>
@@ -96,10 +96,10 @@
                                 data-show-subtext="true" data-live-search="true">
 
                                 <option value="0">Seleccione</option>
-                                <?php foreach ($final as $data):?>
-                                <option value="<?=$data['id']?>/<?=$data['nombre']?>"><?=$data['nombre']?>
-                                </option>
-                                <?php endforeach;?>
+                                <?php foreach ($final as $data): ?>
+                                    <option value="<?= $data['id'] ?>/<?= $data['nombre'] ?>"><?= $data['nombre'] ?>
+                                    </option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
 
@@ -421,13 +421,73 @@
 
                         <div class="form-group col-12">
                             <label>Visualizar Menú RNC <b title="Campo Obligatorio" style="color:red">*</b></label>
-                            <select class=" form-control " id="ver_rnc" name="ver_rnc">
+                            <select class=" form-control " id="ver_rnc" name="ver_rnc" onclick="selectipo7();">
                                 <option value="0">No</option>
                                 <option value="1">Si</option>
                             </select>
                         </div>
+                        <div class="form-group col-12" id='campos9' style="display: none;">
+                            <div class="row">
+                                <div class="card card-outline-black">
+                                    <div class="form-group col-6">
+                                        <label>Ver Menú Busquedas Avanzadas <b title="Campo Obligatorio"
+                                                style="color:red">*</b></label>
+                                        <select class=" form-control " id="ver_avanzado" name="ver_avanzado"
+                                            onclick="selectipo8();">
+                                            <option value="0">No</option>
+                                            <option value="1">Si</option>
+                                        </select>
+                                    </div>
 
-                        <div class="form-group col-8">
+                                    <div class="form-group col-12" id='campos10' style="display: none;">
+                                        <div class="row">
+
+                                            <div class="form-group col-3">
+                                                <label>Busqueda Avanzada RNCE<b title="Campo Obligatorio"
+                                                        style="color:red"></b></label>
+                                                <select class=" form-control " id="avanz_rnce" name="avanz_rnce">
+                                                    <option value="0">No</option>
+                                                    <option value="1">Si</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-3">
+                                                <label>Busqueda Avanzada RNC <b title="Campo Obligatorio"
+                                                        style="color:red"></b></label>
+                                                <select class=" form-control " id="avanz_rnc" name="avanz_rnc">
+                                                    <option value="0">No</option>
+                                                    <option value="1">Si</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-4">
+                                                <label>Busqueda Avanzada <b title="Campo Obligatorio"
+                                                        style="color:red"></b></label>
+                                                <select class=" form-control " id="avanz_gne" name="avanz_gne">
+                                                    <option value="0">No</option>
+                                                    <option value="1">Si</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-3">
+                                                <label>Resultado de Busqusqueda Avanzada<b title="Campo Obligatorio"
+                                                        style="color:red"></b></label>
+                                                <select class=" form-control " id="resultados_avza"
+                                                    name="resultados_avza">
+                                                    <option value="0">No</option>
+                                                    <option value="1">Si</option>
+                                                </select>
+                                            </div>
+
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="form-group col-12">
                             <label>Visualizar Menú Configuración<b title="Campo Obligatorio"
                                     style="color:red">*</b></label>
                             <select class=" form-control " id="ver_conf" name="ver_conf" onclick="selectipo6();">
@@ -797,13 +857,13 @@
                             </select>
                         </div>
                         <div class="form-group col-2">
-                            <label>Visualizar Menu RNC <b title="Campo Obligatorio" style="color:red">*</b></label>
+                            <label>Visualizar Menú RNC <b title="Campo Obligatorio" style="color:red">*</b></label>
                             <input type="text" name="ver_rnc1" id="ver_rnc1" class="form-control" readonly>
                             <input type="text" name="ver_rnc3" id="ver_rnc3" class="form-control" readonly>
 
                         </div>
                         <div class="form-group col-2">
-                            <label>Camb.Visualizar Menu RNC <b title="Campo Obligatorio" style="color:red">*</b></label>
+                            <label>Camb.Visualizar Menú RNC <b title="Campo Obligatorio" style="color:red">*</b></label>
                             <select class=" form-control " id="ver_rnc2" name="ver_rnc2">
                                 <option value="2">Sel</option>
                                 <option value="0">No</option>
@@ -811,18 +871,81 @@
                             </select>
                         </div>
                         <div class="form-group col-2">
-                            <label>Visualizar Busqueda Investigación <b title="Campo Obligatorio"
+                            <label>Visualizar Menú Busquedas Avanzadas <b title="Campo Obligatorio"
                                     style="color:red">*</b></label>
-                            <input type="text" name="invest_contratista1" id="invest_contratista1" class="form-control"
+                            <input type="text" name="ver_avanzado1" id="ver_avanzado1" class="form-control" readonly>
+                            <input type="text" name="ver_avanzado3" id="ver_avanzado3" class="form-control" readonly>
+
+                        </div>
+                        <div class="form-group col-2">
+                            <label>Camb.Menú Busquedas Avanzadas <b title="Campo Obligatorio"
+                                    style="color:red">*</b></label>
+                            <select class=" form-control " id="ver_avanzado2" name="ver_avanzado2">
+                                <option value="2">Sel</option>
+                                <option value="0">No</option>
+                                <option value="1">Si</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-2">
+                            <label>Visualizar Busqueda Avanzada RNCE <b title="Campo Obligatorio"
+                                    style="color:red">*</b></label>
+                            <input type="text" name="avanz_rnce1" id="avanz_rnce1" class="form-control" readonly>
+                            <input type="text" name="avanz_rnce3" id="avanz_rnce3" class="form-control" readonly>
+
+                        </div>
+                        <div class="form-group col-2">
+                            <label>Camb.Busqueda Avanzada RNCE <b title="Campo Obligatorio"
+                                    style="color:red">*</b></label>
+                            <select class=" form-control " id="avanz_rnce2" name="avanz_rnce2">
+                                <option value="2">Sel</option>
+                                <option value="0">No</option>
+                                <option value="1">Si</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-2">
+                            <label>Visualizar Busqueda Avanzada RNC <b title="Campo Obligatorio"
+                                    style="color:red">*</b></label>
+                            <input type="text" name="avanz_rnc1" id="avanz_rnc1" class="form-control" readonly>
+                            <input type="text" name="avanz_rnc3" id="avanz_rnc3" class="form-control" readonly>
+
+                        </div>
+                        <div class="form-group col-2">
+                            <label>Camb.Busqueda Avanzada RNC <b title="Campo Obligatorio"
+                                    style="color:red">*</b></label>
+                            <select class=" form-control " id="avanz_rnc2" name="avanz_rnc2">
+                                <option value="2">Sel</option>
+                                <option value="0">No</option>
+                                <option value="1">Si</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-2">
+                            <label>Visualizar Busqueda Avanzada <b title="Campo Obligatorio"
+                                    style="color:red">*</b></label>
+                            <input type="text" name="avanz_gne1" id="avanz_gne1" class="form-control" readonly>
+                            <input type="text" name="avanz_gne3" id="avanz_gne3" class="form-control" readonly>
+
+                        </div>
+                        <div class="form-group col-2">
+                            <label>Camb.Busqueda Avanzada <b title="Campo Obligatorio" style="color:red">*</b></label>
+                            <select class=" form-control " id="avanz_gne2" name="avanz_gne2">
+                                <option value="2">Sel</option>
+                                <option value="0">No</option>
+                                <option value="1">Si</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-2">
+                            <label>Visualizar Resultado de Busqusqueda Avanzada <b title="Campo Obligatorio"
+                                    style="color:red">*</b></label>
+                            <input type="text" name="resultados_avza1" id="resultados_avza1" class="form-control"
                                 readonly>
-                            <input type="text" name="invest_contratista3" id="invest_contratista3" class="form-control"
+                            <input type="text" name="resultados_avza3" id="resultados_avza3" class="form-control"
                                 readonly>
 
                         </div>
                         <div class="form-group col-2">
-                            <label>Camb.Busqueda Investigación <b title="Campo Obligatorio"
+                            <label>Camb.Resultado de Busqusqueda Avanzada <b title="Campo Obligatorio"
                                     style="color:red">*</b></label>
-                            <select class=" form-control " id="invest_contratista2" name="invest_contratista2">
+                            <select class=" form-control " id="resultados_avza2" name="resultados_avza2">
                                 <option value="2">Sel</option>
                                 <option value="0">No</option>
                                 <option value="1">Si</option>
@@ -970,9 +1093,9 @@
 
 
 <script type="text/javascript">
-$(document).ready(function() {
-    $("#id_user").select2({
-        dropdownParent: $("#guardar_perfiles")
+    $(document).ready(function() {
+        $("#id_user").select2({
+            dropdownParent: $("#guardar_perfiles")
+        });
     });
-});
 </script>

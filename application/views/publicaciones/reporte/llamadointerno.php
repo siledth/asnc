@@ -37,6 +37,18 @@
                         <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
                         <h2> Llamados a Concurso </h2>
                     </div>
+                    <!-- application/views/llamado_concurso_view.php -->
+                    <div class="col-12 mb-3">
+                        <form method="get" action="<?php echo base_url('index.php/Publicaciones/llamadointerno'); ?>">
+                            <div class="input-group">
+                                <input type="text" name="search" class="form-control" placeholder="Buscar..."
+                                    value="<?php echo $this->input->get('search'); ?>">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary">Buscar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                     <div class="panel panel-inverse">
                         <div class="panel-heading"></div>
                         <div class="table-responsive">
@@ -119,15 +131,15 @@
                             <nav aria-label="Page navigation">
                                 <ul class="pagination justify-content-center">
                                     <?php
-        $limit = 10; // Número de registros por página
-        $total_pages = ceil($total_rows / $limit); // Total de páginas
-        $current_page = ($this->uri->segment(2) ? (int)$this->uri->segment(2) / $limit : 0); // Página actual
+                                $limit = 10; // Número de registros por página
+                                $total_pages = ceil($total_rows / $limit); // Total de páginas
+                                $current_page = ($this->uri->segment(3) ? (int)$this->uri->segment(3) / $limit : 0); // Página actual
 
-        // Enlace a la página anterior
-        if ($current_page > 0): ?>
+                                // Enlace a la página anterior
+                                if ($current_page > 0): ?>
                                     <li class="page-item">
                                         <a class="page-link"
-                                            href="<?php echo base_url('index.php/Publicaciones/llamadointerno/'. (($current_page - 1) * $limit)) ?>">«
+                                            href="<?php echo base_url('index.php/Publicaciones/llamadointerno/' . (($current_page - 1) * $limit) . '?search=' . $search); ?>">«
                                             Anterior</a>
                                     </li>
                                     <?php endif; ?>
@@ -136,7 +148,7 @@
                                     <?php for ($i = 0; $i < min(10, $total_pages); $i++): ?>
                                     <li class="page-item <?= ($i == $current_page) ? 'active' : '' ?>">
                                         <a class="page-link"
-                                            href="<?php echo base_url('index.php/Publicaciones/llamadointerno/'. ($i * $limit)) ?>">
+                                            href="<?php echo base_url('index.php/Publicaciones/llamadointerno/'. ($i * $limit) . '?search=' . $search); ?>">
                                             <?= $i + 1 ?>
                                         </a>
                                     </li>
@@ -146,7 +158,7 @@
                                     <?php if ($total_pages > 10): ?>
                                     <li class="page-item">
                                         <a class="page-link"
-                                            href="<?php echo base_url('index.php/Publicaciones/llamadointerno/'. (5 * $limit)) ?>">Siguiente
+                                            href="<?php echo base_url('index.php/Publicaciones/llamadointerno/'. (5 * $limit). '?search=' . $search);?>">Siguiente
                                             »</a>
                                     </li>
                                     <?php endif; ?>

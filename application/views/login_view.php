@@ -1,83 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="<?= base_url() ?>Plantilla/img/favicon.ico" type="image/vnd.microsoft.icon" />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link href="<?= base_url() ?>css/style1.css" rel="stylesheet" rel="stylesheet" type="text/css">
-
-
-    <title> INICIAR SESIÓN</title>
-</head>
-
-<body style="background-image: url('<?php echo base_url('baner/123456.jpg'); ?>');">
-    <div class="container-form register">
-        <div class="information">
-            <div class="info-childs">
-                <h2>Bienvenidos</h2>
-                <p>Inicia Sesión ingresando con sus datos</p>
-                <!-- <input type="button" value="Iniciar Sesión" id="sign-in"> -->
-            </div>
-        </div>
-        <div class="form-information">
-            <div class="form-information-childs">
-                <div class="login-logo">
+<body class="hold-transition login-page fondo">
+    <div class="login-box r">
+        <div class="card r">
+            <div class="card-body r login-card-body">
+                <div class="login-logo text-center">
                     <a href="https://www.snc.gob.ve/" target="_blank">
-                        <img class="img" src="<?php echo base_url('baner/logo2.png'); ?>" alt="">
+                        <img class="img" src="<?php echo base_url('baner/logo2.png'); ?>" alt="Logo SNC">
                     </a>
                 </div>
-
-
+                <h2 class="login-box-msg ">Sistema Integrado SNC</h2>
+                <h5 class="login-box-msg ">Ingrese con sus datos para iniciar sesión</h5>
                 <form class="form form-register" form action="<?php echo site_url('Login/autenticar'); ?>" method="post"
                     novalidate>
-                    <div>
-                        <label>
-                            <i class='bx bx-user'></i>
-                            <input type="text" placeholder="Nombre Usuario" name="username" required>
-                        </label>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="input-group mb-3">
+                                <input type="text" name="username" class="form-control" placeholder="Nombre Usuario">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-user"></span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="input-group mb-3">
+                                <input type="password" name="password" class="form-control" placeholder="Contraseña">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-lock"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div>
-                        <label>
-                            <i class='bx bx-lock-alt'></i>
-                            <input type="password" placeholder="Contraseña" name="password" required>
-                        </label>
-                    </div>
+                    <div class="mb-4">
+                        <button type="button" onclick="location.href='<?php echo base_url() ?>index.php/recuperar'"
+                            class="btn btn-grey btn-lg"
+                            style="background: none; border: none; color: #0000EE; text-decoration: underline; cursor: pointer;">
+                            ¿Olvidaste tu clave?
+                        </button>
+                        <div class="col-6 center">
 
-                    <input type="submit" value="Iniciar Sesión">
-                    <?php if (isset($error)): ?>
-                    <div style="color: red;"><?php echo $error; ?></div>
-                    <?php endif; ?>
+
+                            <button class="btn btn-success btn-block" type="submit">Ingresar</button>
+                            <?php if (isset($error)): ?>
+                            <div style="color: red;"><?php echo $error; ?>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
                 </form>
+                <div class="row">
+                    <div class="col-6">
+                        <button class="btn btn-info btn-block r"
+                            onclick="location.href='<?php echo base_url() ?>index.php/llamadoxterno'">
+                            <a style="color: white;" class="text-center">Llamados a Concursos</a>
+                        </button>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-info btn-block r"
+                            onclick="location.href='<?php echo base_url() ?>index.php/solicitud'"
+                            style="color: white;">Gestión
+                            de Usuarios
+                        </button>
+                    </div>
 
-                <div class="icons">
-                    <button type="button" onclick="location.href='<?php echo base_url() ?>index.php/llamadoxterno'">Ver
-                        Llamados a Concursos</button>
 
                 </div>
-                <div class="icons">
-                    <button type="button" onclick="location.href='<?php echo base_url() ?>index.php/solicitud'"
-                        class="btn btn-grey btn-lg">Solicitud de Usuarios</button>
-
-                </div>
-
 
             </div>
         </div>
     </div>
-
-
-
-    <!-- <script src="js/script.js"></script> -->
-
 </body>
-
-</html>

@@ -15,7 +15,7 @@
                                 <option value="1">Persona Natural</option>
                                 <option value="2">Persona Juridica</option>
                                 <option value="3">Persona Juridica Evaluaciones</option>
-                                <option value="4">Persona Juridica rendiciones</option>
+                                <option value="4">Persona Juridica Rendiciones</option>
 
 
                             </select>
@@ -33,27 +33,33 @@
 </div>
 
 <script>
-function redirectToView() {
-    var select = document.getElementById("id_estado_n");
-    var value = select.value;
+    function redirectToView() {
+        var select = document.getElementById("id_estado_n");
+        var value = select.value;
 
-    if (value == "1") {
-        // Redirigir a la vista de Persona Natural
-        window.location.href = "<?php echo base_url('index.php/Contratista/infor_contrat_comi_conta'); ?>";
-    } else if (value == "2") {
-        // Redirigir a la vista de Persona Juridica
-        window.location.href = "<?php echo base_url('index.php/Contratista/infor_contrat_comi_conta_rif'); ?>";
-        // echo base_url('index.php/Publicaciones/llamadointerno/'
-    } else if (value == "3") {
-        // Redirigir a la vista de Persona Juridica
-        window.location.href =
-            "<?php echo base_url('index.php/Evaluacion_desempenio/busquedallenar_evaluaciones_contratistas'); ?>";
-        // echo base_url('index.php/Publicaciones/llamadointerno/'
-    } else if (value == "4") {
-        // Redirigir a la vista de Persona Juridica
-        window.location.href =
-            "<?php echo base_url('index.php/Contratista/infor_contrat_rendiciones'); ?>";
-        // echo base_url('index.php/Publicaciones/llamadointerno/'
+        if (value == "1") {
+            // Redirigir a la vista de Persona Natural
+            window.location.href =
+                "<?php echo base_url('index.php/Contratista/infor_contrat_comi_conta?tipo_persona='); ?>" +
+                value;
+        } else if (value == "2") {
+            // Redirigir a la vista de Persona Juridica
+            window.location.href =
+                "<?php echo base_url('index.php/Contratista/infor_contrat_comi_conta_rif?tipo_persona='); ?>" +
+                value;
+            // echo base_url('index.php/Publicaciones/llamadointerno/'
+        } else if (value == "3") {
+            // Redirigir a la vista de Persona Juridica
+            window.location.href =
+                "<?php echo base_url('index.php/Evaluacion_desempenio/busquedallenar_evaluaciones_contratistas?tipo_persona='); ?>" +
+                value;
+            // echo base_url('index.php/Publicaciones/llamadointerno/'
+        } else if (value == "4") {
+            // Redirigir a la vista de Persona Juridica
+            window.location.href =
+                "<?php echo base_url('index.php/Contratista/infor_contrat_rendiciones?tipo_persona='); ?>" +
+                value;
+            // echo base_url('index.php/Publicaciones/llamadointerno/'
+        }
     }
-}
 </script>

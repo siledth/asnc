@@ -117,7 +117,8 @@ class Gestion extends CI_Controller {
       $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
       $data['objeto'] 	 = $this->Configuracion_model->objeto();
       $this->load->view('templates/header.php');
-      $this->load->view('templates/navsinsesion.php');
+            $this->load->view('templates/navbarlog');
+
       $this->load->view('publicaciones/reporte/llamadoexterno.php', $data);
       $this->load->view('templates/footer.php');
     } else {
@@ -219,16 +220,22 @@ class Gestion extends CI_Controller {
       
       $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
       $data['objeto'] 	 = $this->Configuracion_model->objeto();
-      $this->load->view('templates/header.php');
-      $this->load->view('templates/navsinsesion.php');
+      // $this->load->view('templates/header.php');
+      // $this->load->view('templates/navsinsesion.php');
+        $this->load->view('templates/headerlog');
+            $this->load->view('templates/navbarlog');
       $this->load->view('solicitud/solicitud.php', $data);
-      $this->load->view('templates/footer.php');
+            $this->load->view('templates/footerlog');
+
+      // $this->load->view('templates/footer.php');
     } else {
       
        
     } 
 
   }
+
+
   public function consulta_og(){
 		$data = $this->input->post();
 		$data =	$this->User_model->llenar_organos($data);
