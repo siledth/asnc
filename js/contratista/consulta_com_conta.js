@@ -493,8 +493,8 @@ function consultar_grafico() {
         
         // Mostrar el mensaje de cargando
         $("#loading").show();
-        var base_url = window.location.origin + '/asnc/index.php/evaluacion_desempenio/llenar_evaluaciones_contratistas';
-        // var base_url = '/index.php/evaluacion_desempenio/llenar_evaluaciones_contratistas';
+        // var base_url = window.location.origin + '/asnc/index.php/evaluacion_desempenio/llenar_evaluaciones_contratistas';
+        var base_url = '/index.php/evaluacion_desempenio/llenar_evaluaciones_contratistas';
 
         $.ajax({
             url: base_url,
