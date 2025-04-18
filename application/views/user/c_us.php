@@ -16,8 +16,9 @@
                                     <option value="0">Seleccione</option>
 
                                     <?php foreach ($final as $data): ?>
-                                    <option value="<?=$data['codigo']?>/<?=$data['rif']?>"><?=$data['descripcion']?> /
-                                        <?=$data['rif']?></option>
+                                        <option value="<?= $data['codigo'] ?>/<?= $data['rif'] ?>">
+                                            <?= $data['descripcion'] ?> /
+                                            <?= $data['rif'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                                 <input type="hidden" nid="perfil" name="perfil" value="0" class="form-control">
@@ -137,85 +138,208 @@
     </div>
 
 
-    <script src="<?=base_url()?>/js/usuario/user.js">
+    <script src="<?= base_url() ?>/js/usuario/user.js">
 
 
 
     </script>
     <script type="text/javascript">
-    $(document).ready(function() {
-        $('#usuario').on('blur', function() {
-            // url(http://localhost/asnc/Plantilla/img/images.jpeg);
-            $('#result-usuario').html('<img src="http://localhost/asnc/Plantilla/img/5.gif"/>')
-                .fadeOut(1000);
+        $(document).ready(function() {
+            // Función para capitalizar la primera letra
+            function capitalizar(str) {
+                return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+            }
 
-            var usuario = $(this).val();
-            var dataString = 'usuario=' + usuario;
-            var no = 0;
+            // Función para generar nombres de usuario
+            function generarUsuario(nombre, apellido) {
+                let nombres = nombre.split(' ');
+                let apellidos = apellido.split(' ');
 
-            // var base_url = window.location.origin + '/asnc/index.php/Login/validad_correo'
-            var base_url = '/index.php/User/validad_users';
-            $.ajax({
-                type: "POST",
-                url: base_url,
-                data: dataString,
-                success: function(data) {
-                    // console.log(data);
-                    if (data == no) {
+                // Primera letra del primer nombre + primer apellido completo
+                let primeraOpcion = capitalizar(nombres[0].charAt(0).toLowerCase() + apellidos[0].toLowerCase());
+
+                // Primera letra del primer nombre + primer apellido + primera letra segundo apellido
+                let segundaOpcion = apellidos.length > 1 ?
+                    capitalizar(nombres[0].charAt(0).toLowerCase() + apellidos[0].toLowerCase() + apellidos[1]
+                        .charAt(0).toLowerCase()) :
+                    primeraOpcion;
+
+                return [primeraOpcion, segundaOpcion];
+            }
+
+            // Cuando se llenen nombre y apellido, generar usuario
+            $('#nombrefun, #apellido').on('blur', function() {
+                let nombre = $('#nombrefun').val().trim();
+                let apellido = $('#apellido').val().trim();
+
+                if (nombre && apellido) {
+                    // Generar opciones de usuario
+                    let opciones = generarUsuario(nombre, apellido);
+
+                    // Verificar disponibilidad
+                    verificarDisponibilidad(opciones, 0);
+                }
+            });
+
+            // Función recursiva para verificar disponibilidad
+            function verificarDisponibilidad(opciones, index, contador = 1) {
+                if (index >= opciones.length) {
+                    // Si no hay más opciones, probar con número
+                    let ultimaOpcion = opciones[opciones.length - 1] + contador;
+                    verificarUsuario(ultimaOpcion, function(disponible) {
+                        if (disponible) {
+                            $('#usuario').val(ultimaOpcion);
+                            $('#result-usuario').fadeIn(1600).html(
+                                '<div class="alert alert-success"><strong>Bien!</strong> Usuario disponible.</div>'
+                            );
+                            $("#guardar_user").prop('disabled', false);
+                        } else {
+                            verificarDisponibilidad(opciones, index, contador + 1);
+                        }
+                    });
+                    return;
+                }
+
+                verificarUsuario(opciones[index], function(disponible) {
+                    if (disponible) {
+                        $('#usuario').val(opciones[index]);
                         $('#result-usuario').fadeIn(1600).html(
                             '<div class="alert alert-success"><strong>Bien!</strong> Usuario disponible.</div>'
                         );
-                        $("#guardar_user").prop('disabled', false)
-
+                        $("#guardar_user").prop('disabled', false);
                     } else {
-                        $('#result-usuario').fadeIn(1600).html(
-                            '<div class="alert alert-danger"><strong>Usuario ya Registrado!</strong> Ingrese otro Usuario.</div>'
-                        );
-                        $("#guardar_user").prop('disabled', true)
-
+                        verificarDisponibilidad(opciones, index + 1);
                     }
-                }
+                });
+            }
+
+            // Función para verificar un usuario específico
+            function verificarUsuario(usuario, callback) {
+                // var base_url = window.location.origin + '/asnc/index.php/User/validad_users'
+                var base_url = '/index.php/User/validad_users';
+                $.ajax({
+                    type: "POST",
+                    url: base_url,
+                    data: {
+                        usuario: usuario
+                    },
+                    success: function(data) {
+                        callback(data == 0);
+                    },
+                    error: function() {
+                        callback(false);
+                    }
+                });
+            }
+
+            // Mantener la validación original cuando el usuario edita manualmente
+            $('#usuario').on('blur', function() {
+                if ($(this).val().trim() === '') return;
+
+                // Capitalizar la primera letra si el usuario escribe manualmente
+                let usuario = capitalizar($(this).val());
+                $(this).val(usuario);
+
+                $('#result-usuario').html('<img src="http://localhost/asnc/Plantilla/img/5.gif"/>')
+                    .fadeOut(1000);
+
+                var dataString = 'usuario=' + usuario;
+                var no = 0;
+                // var base_url = window.location.origin + '/asnc/index.php/User/validad_users'
+                var base_url = '/index.php/User/validad_users';
+                $.ajax({
+                    type: "POST",
+                    url: base_url,
+                    data: dataString,
+                    success: function(data) {
+                        if (data == no) {
+                            $('#result-usuario').fadeIn(1600).html(
+                                '<div class="alert alert-success"><strong>Bien!</strong> Usuario disponible.</div>'
+                            );
+                            $("#guardar_user").prop('disabled', false)
+                        } else {
+                            $('#result-usuario').fadeIn(1600).html(
+                                '<div class="alert alert-danger"><strong>Usuario ya Registrado!</strong> Ingrese otro Usuario.</div>'
+                            );
+                            $("#guardar_user").prop('disabled', true)
+                        }
+                    }
+                });
             });
         });
-    });
+        // $(document).ready(function() {
+        //     $('#usuario').on('blur', function() {
+        //         // url(http://localhost/asnc/Plantilla/img/images.jpeg);
+        //         $('#result-usuario').html('<img src="http://localhost/asnc/Plantilla/img/5.gif"/>')
+        //             .fadeOut(1000);
+
+        //         var usuario = $(this).val();
+        //         var dataString = 'usuario=' + usuario;
+        //         var no = 0;
+
+        //         // var base_url = window.location.origin + '/asnc/index.php/Login/validad_correo'
+        //         var base_url = '/index.php/User/validad_users';
+        //         $.ajax({
+        //             type: "POST",
+        //             url: base_url,
+        //             data: dataString,
+        //             success: function(data) {
+        //                 // console.log(data);
+        //                 if (data == no) {
+        //                     $('#result-usuario').fadeIn(1600).html(
+        //                         '<div class="alert alert-success"><strong>Bien!</strong> Usuario disponible.</div>'
+        //                     );
+        //                     $("#guardar_user").prop('disabled', false)
+
+        //                 } else {
+        //                     $('#result-usuario').fadeIn(1600).html(
+        //                         '<div class="alert alert-danger"><strong>Usuario ya Registrado!</strong> Ingrese otro Usuario.</div>'
+        //                     );
+        //                     $("#guardar_user").prop('disabled', true)
+
+        //                 }
+        //             }
+        //         });
+        //     });
+        // });
     </script>
     <script type="text/javascript">
-    $(document).ready(function() {
-        $('#email').on('blur', function() {
-            // url(http://localhost/asnc/Plantilla/img/images.jpeg);
-            $('#result-email').html('<img src="http://localhost/asnc/Plantilla/img/5.gif"/>')
-                .fadeOut(1000);
-            var no = 0;
-            var email = $(this).val();
-            var dataString = 'email=' + email;
-            // var base_url = window.location.origin + '/asnc/index.php/Login/validad_correo'
-            var base_url = '/index.php/User/validad_correo1';
-            $.ajax({
-                type: "POST",
-                url: base_url,
-                data: dataString,
-                success: function(data) {
-                    // console.log(data);
-                    if (data == no) {
-                        $('#result-email').fadeIn(1600).html(
-                            '<div class="alert alert-success"><strong>Bien!</strong> Correo disponible.</div>'
-                        );
-                        $("#guardar_user").prop('disabled', false)
+        $(document).ready(function() {
+            $('#email').on('blur', function() {
+                // url(http://localhost/asnc/Plantilla/img/images.jpeg);
+                $('#result-email').html('<img src="http://localhost/asnc/Plantilla/img/5.gif"/>')
+                    .fadeOut(1000);
+                var no = 0;
+                var email = $(this).val();
+                var dataString = 'email=' + email;
+                // var base_url = window.location.origin + '/asnc/index.php/Login/validad_correo'
+                var base_url = '/index.php/User/validad_correo1';
+                $.ajax({
+                    type: "POST",
+                    url: base_url,
+                    data: dataString,
+                    success: function(data) {
+                        // console.log(data);
+                        if (data == no) {
+                            $('#result-email').fadeIn(1600).html(
+                                '<div class="alert alert-success"><strong>Bien!</strong> Correo disponible.</div>'
+                            );
+                            $("#guardar_user").prop('disabled', false)
 
-                    } else {
-                        $('#result-email').fadeIn(1600).html(
-                            '<div class="alert alert-danger"><strong>Correo ya Registrado!</strong> Ingrese otro Correo.</div>'
-                        );
-                        $("#guardar_user").prop('disabled', true)
+                        } else {
+                            $('#result-email').fadeIn(1600).html(
+                                '<div class="alert alert-danger"><strong>Correo ya Registrado!</strong> Ingrese otro Correo.</div>'
+                            );
+                            $("#guardar_user").prop('disabled', true)
+
+                        }
+
+
+
+
 
                     }
-
-
-
-
-
-                }
+                });
             });
         });
-    });
     </script>

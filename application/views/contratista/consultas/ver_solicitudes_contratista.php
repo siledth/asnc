@@ -20,6 +20,8 @@
                             <tr style="text-align:center">
                                 <th style="color:white;">Cédula</th>
                                 <th style="color:white;">N° de Oficio</th>
+                                <th style="color:white;">Causa</th>
+                                <th style="color:white;">Tipo inv.</th>
                                 <th style="color:white;">Observación</th>
                                 <th style="color:white;">Información</th>
                                 <th style="color:white;">Fecha de Consulta</th>
@@ -28,21 +30,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach($list as $data):?>
-                            <tr class="odd gradeX" style="text-align:center">
-                                <td><?=$data['cedula_c']?> </td>
-                                <td><?=$data['n_oficio']?> </td>
-                                <td><?=$data['observacion']?> </td>
-                                <td> <?= $data['existe'] == 1 ? "sí" : "no"; ?></td>
-                                <td><?=$data['datecreat']?> </td>
-                                <td><?=$data['nombrefun']?> </td>
+                            <?php foreach ($list as $data): ?>
+                                <tr class="odd gradeX" style="text-align:center">
+                                    <td><?= $data['cedula_c'] ?> </td>
+                                    <td><?= $data['n_oficio'] ?> </td>
+                                    <td><?= $data['causa'] ?> </td>
+                                    <td><?= $data['desc_tipo_invs'] ?> </td>
+                                    <td><?= $data['observacion'] ?> </td>
+                                    <td> <?= $data['existe'] == 1 ? "sí" : "no"; ?></td>
+                                    <td><?= $data['datecreat'] ?> </td>
+                                    <td><?= $data['nombrefun'] ?> </td>
+                                    <td><?= $data['id_contadorbusqueda_'] ?> </td>
 
-                                <td><?=$data['id_contadorbusqueda_']?> </td>
 
 
-
-                            </tr>
-                            <?php endforeach;?>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -55,4 +58,4 @@
 
 
     <!-- /////////////////////////////editar items de bienes este-->
-    <script src="<?=base_url()?>/js/configuracion/updatelist.js"></script>
+    <script src="<?= base_url() ?>/js/configuracion/updatelist.js"></script>

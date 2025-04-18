@@ -9,12 +9,12 @@
                         <div class="card card-outline-danger text-center bg-white">
                             <div class="card-block">
                                 <blockquote class="card-blockquote" style="margin-bottom: -19px;">
-                                    <p class="f-s-18 text-inverse f-w-600">Nombre Órgano / Ente: <?=$des_unidad?>.</p>
-                                    <p class="f-s-16">RIF.: <?=$rif?> <br>
-                                        Código ONAPRE: <?=$codigo_onapre?> <br>
-                                        Año: <b><?=$anio?></b></p>
+                                    <p class="f-s-18 text-inverse f-w-600">Nombre Órgano / Ente: <?= $des_unidad ?>.</p>
+                                    <p class="f-s-16">RIF.: <?= $rif ?> <br>
+                                        Código ONAPRE: <?= $codigo_onapre ?> <br>
+                                        Año: <b><?= $anio ?></b></p>
                                     <input type="hidden" id="id_programacion" name="id_programacion"
-                                        value="<?=$id_programacion?>">
+                                        value="<?= $id_programacion ?>">
                                 </blockquote>
                             </div>
                         </div>
@@ -23,12 +23,12 @@
                         <div class="row">
                             <div class="col-4">
                                 <button
-                                    onclick="location.href='<?php echo base_url()?>index.php/Programacion/ver_rendicion_realizadas?id=<?php echo $id_programacion;?>'"
+                                    onclick="location.href='<?php echo base_url() ?>index.php/Programacion/ver_rendicion_realizadas?id=<?php echo $id_programacion; ?>'"
                                     type="button" class="btn btn-lg btn-default" name="button">
                                     Ver items Rendidos
                                 </button>
                                 <input type="hidden" id="id_programacion" name="id_programacion"
-                                    value="<?=$id_programacion?>">
+                                    value="<?= $id_programacion ?>">
                             </div>
                             <div class="col-4">
                                 <div class="col-1 mb-3">
@@ -46,9 +46,16 @@
 
                             <div class="col-4 mb-3">
                                 <button type="button" class="my-button5"
-                                    onclick="modal1(<?php echo $id_programacion?>);" data-toggle="modal"
+                                    onclick="modal1(<?php echo $id_programacion ?>);" data-toggle="modal"
                                     data-target="#notif">
                                     Notificar al SNC
+                                </button>
+                            </div>
+                            <div class="col-4 mb-3">
+                                <button type="button" class="my-button5"
+                                    onclick="modal10(<?php echo $id_programacion ?>);" data-toggle="modal"
+                                    data-target="#rendir0">
+                                    Rendir sin movimientos
                                 </button>
                             </div>
                         </div>
@@ -76,31 +83,31 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach($rendir as $data):?>
-                                <tr class="odd gradeX" style="text-align:center">
-                                    <td><?=$data['id_rendicion']?> </td>
-                                    <td><?=$data['id_p_items']?> </td>
-                                    <td><?=$data['desc_objeto_contrata']?> </td>
-                                    <td><?=$data['descripcion_trimestre']?> </td>
-                                    <td><?=$data['desc_partida_presupuestaria']?> </td>
-                                    <td><?=$data['especificacion']?> </td>
-                                    <td><?=$data['desc_ccnu']?> </td>
-                                    <td><?=$data['total_rendi']?> </td>
-                                    <td class="center">
-                                        <a onclick="editar_factura(<?php echo $data['id_rendicion'] ?>);"
-                                            data-toggle="modal" data-target="#editar_factura" style="color: white">
-                                            <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
-                                                style="color: darkgreen;"></i>
-                                        </a>
-                                        <a class="button"><i
-                                                onclick="eliminar_rendiciones(<?php echo $data['id_rendicion']?>);"
-                                                class="fas fa-lg fa-fw fa-trash-alt" style="color:red"></i><a />
+                                <?php foreach ($rendir as $data): ?>
+                                    <tr class="odd gradeX" style="text-align:center">
+                                        <td><?= $data['id_rendicion'] ?> </td>
+                                        <td><?= $data['id_p_items'] ?> </td>
+                                        <td><?= $data['desc_objeto_contrata'] ?> </td>
+                                        <td><?= $data['descripcion_trimestre'] ?> </td>
+                                        <td><?= $data['desc_partida_presupuestaria'] ?> </td>
+                                        <td><?= $data['especificacion'] ?> </td>
+                                        <td><?= $data['desc_ccnu'] ?> </td>
+                                        <td><?= $data['total_rendi'] ?> </td>
+                                        <td class="center">
+                                            <a onclick="editar_factura(<?php echo $data['id_rendicion'] ?>);"
+                                                data-toggle="modal" data-target="#editar_factura" style="color: white">
+                                                <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
+                                                    style="color: darkgreen;"></i>
+                                            </a>
+                                            <a class="button"><i
+                                                    onclick="eliminar_rendiciones(<?php echo $data['id_rendicion'] ?>);"
+                                                    class="fas fa-lg fa-fw fa-trash-alt" style="color:red"></i><a />
 
-                                    </td>
+                                        </td>
 
-                                </tr>
+                                    </tr>
 
-                                <?php endforeach;?>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
@@ -155,8 +162,8 @@
                                 class="form-control" data-show-subtext="true" data-live-search="true">
                                 <option value="0">Seleccione</option>
                                 <?php foreach ($mat as $data) : ?>
-                                <option value="<?= $data['id_p_items']?>">
-                                    <?= $data['especificacion']?></option>
+                                    <option value="<?= $data['id_p_items'] ?>">
+                                        <?= $data['especificacion'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -606,8 +613,8 @@
                                 class="form-control" data-show-subtext="true" data-live-search="true">
                                 <option value="0">Seleccione</option>
                                 <?php foreach ($py as $data) : ?>
-                                <option value="<?= $data['id_p_items']?>">
-                                    <?= $data['especificacion']?></option>
+                                    <option value="<?= $data['id_p_items'] ?>">
+                                        <?= $data['especificacion'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -1051,7 +1058,7 @@
                                     style="color:red">*</b></label><i style="color: red;"
                                 title="Seleccione un Trimestre." class="fas fa-question-circle"></i>
 
-                            <select class="form-control" name="llenar_trimestre77" id="llenar_trimestre77">
+                            <!-- <select class="form-control" name="llenar_trimestre77" id="llenar_trimestre77">
                                 <option value="0">Seleccione</option>
                                 <option value="1">Primer Trimestre</option>
                                 <option value="2">Segundo Trimestre</option>
@@ -1060,6 +1067,22 @@
 
 
 
+                            </select> -->
+                            <select class="form-control" name="llenar_trimestre77" id="llenar_trimestre77" required>
+                                <option value="0">Seleccione</option>
+                                <?php
+                                $all_trimesters = [
+                                    1 => 'Primer Trimestre',
+                                    2 => 'Segundo Trimestre',
+                                    3 => 'Tercer Trimestre',
+                                    4 => 'Cuarto Trimestre'
+                                ];
+
+                                foreach ($all_trimesters as $value => $label):
+                                    if (!in_array($value, $declared_zero)): ?>
+                                        <option value="<?= $value ?>"><?= $label ?></option>
+                                <?php endif;
+                                endforeach; ?>
                             </select>
                         </div>
 
@@ -1182,40 +1205,112 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="rendir0" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Notificar Rendición en Cero</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="rendir_0" name="rendir_0" data-parsley-validate="true" method="POST"
+                    enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-12"></div>
+                        <div class="col-12">
+                            <input class="form-control" type="text" name="id_programacion777" id="id_programacion777"
+                                readonly>
 
-<script src="<?=base_url()?>/js/programacion/yield.js"></script>
-<script src="<?=base_url()?>/js/programacion/rendpy.js"></script>
-<script src="<?=base_url()?>/js/programacion/editar_factu.js"></script>
+                            <label style="color:red;">Seleccione Trimestre a Rendir (Obligatorio).leer <b
+                                    style="color:red">*</b></label><i style="color: red;"
+                                title="Seleccione un Trimestre." class="fas fa-question-circle"></i>
+
+                            <select class="form-control" name="llenar_trimestre777" id="llenar_trimestre777" required>
+                                <option value="0">Seleccione</option>
+                                <?php
+                                $all_trimesters = [
+                                    1 => 'Primer Trimestre',
+                                    2 => 'Segundo Trimestre',
+                                    3 => 'Tercer Trimestre',
+                                    4 => 'Cuarto Trimestre'
+                                ];
+
+                                foreach ($all_trimesters as $value => $label):
+                                    if (!in_array($value, $declared_zero)): ?>
+                                        <option value="<?= $value ?>"><?= $label ?></option>
+                                <?php endif;
+                                endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-group col-12">
+                            <label for="comentario">Por favor ingrese una Observación:</label><br>
+                            <textarea id="comentario" name="comentario" rows="5" cols="40" placeholder="Escribe aquí..."
+                                maxlength="200" required></textarea><br>
+                            <div id="contador">200 caracteres restantes</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="javascript:window.location.reload()" class="my-button"
+                    data-dismiss="modal">Cerrar</button>
+                <button type="button" id="notificar_snc" onclick="enviar0();" class="my-button">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="<?= base_url() ?>/js/programacion/yield.js"></script>
+<script src="<?= base_url() ?>/js/programacion/rendpy.js"></script>
+<script src="<?= base_url() ?>/js/programacion/editar_factu.js"></script>
 
 
-<script src="<?=base_url()?>/js/programacion/enviar_rendi.js"></script>
+<script src="<?= base_url() ?>/js/programacion/enviar_rendi.js"></script>
+<script>
+    document.getElementById('comentario').addEventListener('input', function() {
+        var maxLength = this.getAttribute('maxlength');
+        var currentLength = this.value.length;
+        var remaining = maxLength - currentLength;
+
+        document.getElementById('contador').textContent =
+            remaining + ' caracteres restantes';
+
+        // Opcional: Cambiar color cuando quedan pocos caracteres
+        if (remaining < 50) {
+            document.getElementById('contador').style.color = 'red';
+        } else {
+            document.getElementById('contador').style.color = 'black';
+        }
+    });
+</script>
 
 
 
 
 
 
-<script src="<?=base_url()?>/js/eliminar.js"></script>
+<script src="<?= base_url() ?>/js/eliminar.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {
-    $("#matricular").select2({
-        dropdownParent: $("#exampleModal1")
+    $(document).ready(function() {
+        $("#matricular").select2({
+            dropdownParent: $("#exampleModal1")
+        });
     });
-});
-$(document).ready(function() {
-    $("#ccnu").select2({
-        dropdownParent: $("#proyecto")
+    $(document).ready(function() {
+        $("#ccnu").select2({
+            dropdownParent: $("#proyecto")
+        });
     });
-});
 
-function valideKey(evt) {
-    var code = (evt.which) ? evt.which : evt.keyCode;
-    if (code == 8) { // backspace.
-        return true;
-    } else if (code >= 48 && code <= 57) { // is a number.
-        return true;
-    } else { // other keys.
-        return false;
+    function valideKey(evt) {
+        var code = (evt.which) ? evt.which : evt.keyCode;
+        if (code == 8) { // backspace.
+            return true;
+        } else if (code >= 48 && code <= 57) { // is a number.
+            return true;
+        } else { // other keys.
+            return false;
+        }
     }
-}
 </script>

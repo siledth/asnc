@@ -290,6 +290,9 @@ class Contratista extends CI_Controller
 			'cedula_c' => $this->input->POST('cedula'),
 			'n_oficio' => $this->input->POST('numero_oficio'),
 			'observacion' => $this->input->POST('observacion'),
+			'causa' => $this->input->POST('causa'),
+			'tipo_invs' => $this->input->POST('tipo_invs'),
+
 			'existe' => $this->input->POST('existe'),
 			'id_usuario' => $this->session->userdata('id_user'),
 		);

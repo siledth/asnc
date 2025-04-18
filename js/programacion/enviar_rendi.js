@@ -37,7 +37,7 @@ function modal1(id_programacion) {
                 var trimestre = $('#llenar_trimestre77').val();
 
                var base_url = '/index.php/Programacion/enviar_rendi';
-             //  var base_url =window.location.origin+'/asnc/index.php/Programacion/enviar_rendi';
+            //   var base_url =window.location.origin+'/asnc/index.php/Programacion/enviar_rendi';
 
                 $.ajax({
                     url: base_url,
@@ -146,3 +146,90 @@ function modal1(id_programacion) {
         
     }
     
+
+function modal10(id_programacion) {
+    // Asigna el valor al input id_programacion
+    document.getElementById('id_programacion777').value = id_programacion;
+    // Muestra el modal
+    $('#rendir0').modal('show');
+  }
+
+    function enviar0() {
+    event.preventDefault();
+    swal
+       .fire({
+            title: "¿Seguro que desea rendir en cero y notificar al SNC.",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "¡Si, Enviar!",
+        })
+       .then((result) => {
+        if (document.rendir_0.llenar_trimestre777.selectedIndex==0){
+            swal.fire({
+                title: 'Debe seleccionar un Trimestre, para continuar',
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+            }).then((result) => {
+                if (result.value == true) {
+                }
+            });
+           // alert("Debe seleccionar un Trimestre.")
+            document.rendir_0.llenar_trimestre777.focus()
+            return 0;
+     }
+            if (result.value == true) {
+                var id = $('#id_programacion777').val();
+                var trimestre = $('#llenar_trimestre777').val();
+                var observacion = $('#comentario').val();
+
+
+               var base_url = '/index.php/Programacion/rendir_cero';
+            //   var base_url =window.location.origin+'/asnc/index.php/Programacion/rendir_cero';
+
+                $.ajax({
+                    url: base_url,
+                    method: "post",
+                    data: {
+                        id: id,
+                        trimestre: trimestre,
+                        observacion: observacion,
+
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        if (response == 1) {
+                            swal
+                               .fire({
+                                    title: "Proceso Enviado, para visualizar su comprobante diríjase al menú programación luego en consultas seleccione el trimestre deseado ",
+                                    type: "success",
+                                    showCancelButton: false,
+                                    confirmButtonColor: "#3085d6",
+                                    confirmButtonText: "Ok",
+                                })
+                               .then((result) => {
+                                    if (result.value == true) {
+                                        location.reload();
+                                    }
+                                });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        swal
+                           .fire({
+                                title: "Error al guardar datos",
+                                text: "No se pudieron guardar los datos Intente nuevamente.",
+                                type: "error",
+                                showCancelButton: false,
+                                confirmButtonColor: "#3085d6",
+                                confirmButtonText: "Ok",
+                            });
+                    },
+                });
+            }
+        });
+}

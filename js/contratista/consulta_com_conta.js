@@ -147,8 +147,8 @@ function consultar_nombre() {
         // Mostrar el mensaje de cargando
         $("#loading").show();
 
-        //var base_url = window.location.origin + '/asnc/index.php/Contratista/llenar_contratista_comi_conta1';
-        //var base_url_3 = window.location.origin + '/asnc/index.php/Planilla_r_todo/pdfrt?id=';
+        // var base_url = window.location.origin + '/asnc/index.php/Contratista/llenar_contratista_comi_conta1';
+        // var base_url_3 = window.location.origin + '/asnc/index.php/Planilla_r_todo/pdfrt?id=';
          var base_url = '/index.php/Contratista/llenar_contratista_comi_conta1';
          var base_url_3 = '/index.php/Planilla_r_todo/pdfrt?id=';
 
@@ -690,6 +690,9 @@ function consultar_nombre6() {
 function registrar(){
 		var cedula = $("#cedula").val();
 		var numero_oficio = $("#numero_oficio").val();
+		var causa = $("#causa").val();
+		var tipo_invs = $("#tipo_invs").val();
+
 		var observacion = $("#observacion").val();
 		var existe = $("#existe").val();
 

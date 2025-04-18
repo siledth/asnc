@@ -633,10 +633,12 @@ class Contratista_model extends CI_Model
     }
     function consultar_lis()
     {
-        $this->db->select('b.cedula_c, b.n_oficio, b.observacion, b.id_usuario, b.existe,
-             b.datecreat, c2.id_contadorbusqueda_, f.nombrefun, f.apellido');
+        $this->db->select('b.cedula_c, b.n_oficio, b.observacion, b.id_usuario, b.existe, b.causa,
+                          b.tipo_invs,t.desc_tipo_invs, b.datecreat, c2.id_contadorbusqueda_, f.nombrefun, f.apellido');
         $this->db->join('rnc.contadorbusqueda_ c2', 'c2.cedula_c = b.cedula_c', 'left');
         $this->db->join('seguridad.funcionarios f', 'f.id_usuario = b.id_usuario');
+        $this->db->join('rnc.tipo_invs t', 't.id_tipo_invs = b.tipo_invs');
+
         $this->db->from('rnc.busqueda_ b');
         $query = $this->db->get();
         return $query->result_array();
