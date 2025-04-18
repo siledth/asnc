@@ -99,13 +99,14 @@ class Contratista extends CI_Controller
 		$data1['anafinancieros'] = $this->Contratista_model->consulta_anafinancieros($rif, $proceso_id);
 
 		$data1['proceso_id'] = $this->Contratista_model->llenar_contratista_rp($proceso_id);
+		$data1['dat'] = $this->Contratista_model->consulta_obser($rif);
+
 
 		$this->load->view('templates/header.php');
 		$this->load->view('templates/navigator.php');
 		$this->load->view('contratista/planillaresumen.php', $data1);
 		$this->load->view('templates/footer.php');
 		//redirect('contratista/infor_contratista', 'refresh');
-
 
 	}
 

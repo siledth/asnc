@@ -458,6 +458,19 @@ class Contratista_model extends CI_Model
         $query = $this->db_b->get('public.dictamenes');
         return $response = $query->row_array(); // sin el foreach
     }
+    public function consulta_obser($rif)
+    {
+        $this->db_b->select('o.observacion,o.fecreg_at, t.desctipobs');
+        $this->db_b->join('public.obscontratistas o', 'o.contratista_id = c.id');
+        $this->db_b->join('public.tipobservaciones t', 't.id = o.tipobservacione_id');
+        $this->db_b->where('c.rifced', $rif);
+        $this->db_b->where('o.activa', "t");
+        $this->db_b->order_by("o.id", "Desc"); // Ordenar por ID de observación descendente
+        $this->db_b->limit(1); // Limitar a solo 1 resultado
+        $query = $this->db_b->get('public.contratistas c');
+
+        return $query->row_array(); // Devuelve solo un registro
+    }
     public function consulta_Balance($rif, $proceso_id)
     {
         $this->db_b->select('*');
