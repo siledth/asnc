@@ -325,6 +325,11 @@ class Evaluacion_desempenio extends CI_Controller
 	public function reporte_externo()
 	{
 		if (!$this->session->userdata('session')) redirect('login');
+		$user_id = $this->session->userdata('id_user');
+		if (!$this->Preguntas_model->tiene_preguntas($user_id)) {
+			// Si no tiene preguntas, redirigir a la vista de creación de preguntas
+			redirect(site_url('Preguntas_controller/preguntas1'));
+		}
 		$data['rif_organoente'] = $this->session->userdata('rif_organoente');
 		$usuario = $this->session->userdata('id_user');
 		//print_r($data['reportes']);die;
@@ -799,6 +804,11 @@ class Evaluacion_desempenio extends CI_Controller
 
 	public function estadistica()
 	{
+		$user_id = $this->session->userdata('id_user');
+		if (!$this->Preguntas_model->tiene_preguntas($user_id)) {
+			// Si no tiene preguntas, redirigir a la vista de creación de preguntas
+			redirect(site_url('Preguntas_controller/preguntas1'));
+		}
 		$this->load->view('templates/header.php');
 		$this->load->view('templates/navigator.php');
 		$this->load->view('contratista/estadisticas/estadisticas2.php');

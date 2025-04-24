@@ -16,8 +16,8 @@ class Preguntas_controller extends CI_Controller
         if (!$this->session->userdata('session')) {
             redirect('login');
         }
-
-        $data['preguntas'] = $this->Preguntas_model->preguntas_();
+        $id_usuario = $this->session->userdata('id_user');
+        $data['preguntas'] = $this->Preguntas_model->preguntas_($id_usuario);
 
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');

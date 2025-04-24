@@ -385,10 +385,10 @@
                                                                     Comprobante Evaluaciones de Desempeño</a></li>
                                                         <?php endif; ?>
                                                         <?php if (($this->session->userdata('menu_estdi_eval_desem') == 1)) : ?>
-                                                            <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/consulta">-
-                                                                    Estadistica</a></li>
+                                                            <!-- <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/consulta">-
+                                                                    Estadistica</a></li> -->
                                                             <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/estadistica">-
-                                                                    Estadistica2</a></li>
+                                                                    Estadistica</a></li>
                                                         <?php endif; ?>
                                                         <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
                                                             <li><a

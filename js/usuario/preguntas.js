@@ -70,8 +70,8 @@ function guardar_b() {
         if (data.success) {
             // Actualizar el contador después de guardar
             actualizarContador();
-             var base_url2 = '/index.php/Home/index';
-            //  var base_url2 = window.location.origin + '/asnc/index.php/Home/index';
+          //   var base_url2 = '/index.php/Home/index';
+              var base_url2 = window.location.origin + '/asnc/index.php/Home/index';
                     if (data.completed) {
                 Swal.fire({
                // icon: 'success',
@@ -90,10 +90,13 @@ function guardar_b() {
                     html: `Pregunta guardada correctamente.<br><b>(${data.count}/3)</b>`,
                     timer: 2000,
                     timerProgressBar: true
+
                 });
                 // Limpiar los campos para la siguiente pregunta
-                document.getElementById('pregunta').value = "0";
+                 $('#pregunta').val('0').trigger('change'); // Esto es para select2
                 document.getElementById('nombre_b').value = "";
+                                location.reload();
+
             }
         } else {
             alert("Error al guardar la pregunta: " + data.message);
@@ -105,6 +108,17 @@ function guardar_b() {
     });
 }
 
+// function actualizarPreguntasDisponibles() {
+//     fetch(contarPreguntasUrl) // Asegúrate de tener esta variable definida
+//         .then(response => response.json())
+//         .then(data => {
+//             // Aquí podrías actualizar dinámicamente el select si lo prefieres
+//           //  console.log("Preguntas actualizadas:", data);
+//         })
+//         .catch(error => {
+//             console.error('Error al actualizar preguntas:', error);
+//         });
+// }
 // Función para actualizar el contador de preguntas
 // function actualizarContador() {
 //     fetch("<?= base_url('index.php/Preguntas_controller/contar_preguntas') ?>")

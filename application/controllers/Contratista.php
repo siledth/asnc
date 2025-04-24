@@ -3,10 +3,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Contratista extends CI_Controller
 {
-
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->model('Preguntas_model'); // Cargar el modelo de preguntas
+	}
 	/** @var Contratista_model */
 	public function infor_contratista()
 	{
+		$user_id = $this->session->userdata('id_user');
+		if (!$this->Preguntas_model->tiene_preguntas($user_id)) {
+			// Si no tiene preguntas, redirigir a la vista de creación de preguntas
+			redirect(site_url('Preguntas_controller/preguntas1'));
+		}
 		$this->load->view('templates/header.php');
 		$this->load->view('templates/navigator.php');
 		$this->load->view('contratista/infor_contratista.php');
@@ -16,6 +25,11 @@ class Contratista extends CI_Controller
 	///VISTAS PARA INFORMACION POR NOMBRE
 	public function infor_contrat_nombre()
 	{
+		$user_id = $this->session->userdata('id_user');
+		if (!$this->Preguntas_model->tiene_preguntas($user_id)) {
+			// Si no tiene preguntas, redirigir a la vista de creación de preguntas
+			redirect(site_url('Preguntas_controller/preguntas1'));
+		}
 		$this->load->view('templates/header.php');
 		$this->load->view('templates/navigator.php');
 		$this->load->view('contratista/infor_contrat_nombre.php');
@@ -47,7 +61,11 @@ class Contratista extends CI_Controller
 	{
 		$data['estados'] 	 = $this->Contratista_model->consulta_estados();
 		$data['objcon'] 	 = $this->Contratista_model->consulta_objcon();
-
+		$user_id = $this->session->userdata('id_user');
+		if (!$this->Preguntas_model->tiene_preguntas($user_id)) {
+			// Si no tiene preguntas, redirigir a la vista de creación de preguntas
+			redirect(site_url('Preguntas_controller/preguntas1'));
+		}
 		$this->load->view('templates/header.php');
 		$this->load->view('templates/navigator.php');
 		$this->load->view('contratista/infor_contrat_objCont.php', $data);

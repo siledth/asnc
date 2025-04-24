@@ -17,13 +17,27 @@ class Preguntas_model extends CI_Model
         return $query->num_rows() >= 3; // Verificar si tiene al menos 3 preguntas
     }
 
-    public function preguntas_()
-    {
-        $this->db->select('*');
-        $query = $this->db->get('seguridad.preguntas');
-        return $result = $query->result_array();
-    }
+    // public function preguntas_()
+    // {
+    //     $this->db->select('*');
+    //     $query = $this->db->get('seguridad.preguntas');
+    //     return $result = $query->result_array();
+    // }
 
+    public function preguntas_($id_usuario = null)
+    {
+        $this->db->select('p.*');
+        $this->db->from('seguridad.preguntas p');
+
+        // Excluir preguntas ya respondidas por el usuario
+        if ($id_usuario) {
+            $this->db->join('seguridad.respuestas_seguridad r', 'p.id = r.id_despregunta AND r.id_usuario = ' . $id_usuario, 'left');
+            $this->db->where('r.id_despregunta IS NULL');
+        }
+
+        $query = $this->db->get();
+        return $query->result_array();
+    }
     public function guardar_respuesta($data)
     {
         // Insertar los datos en la tabla 'seguridad.respuestas_seguridad'
