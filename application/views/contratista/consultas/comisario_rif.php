@@ -8,20 +8,20 @@
                 <?php
                 $mostrar_botones = isset($tipo_persona) && in_array($tipo_persona, ['1', '2', '3', '4']);
                 if ($mostrar_botones): ?>
-                <div class="col-12 text-center mt-3 mb-3">
-                    <button
-                        onclick="location.href='<?php echo base_url() ?>index.php/Contratista/infor_contrat_comi_conta'"
-                        type="button" class="my-button3" name="button">
-                        Ir Busqueda PN
-                    </button>
-                    <button
-                        onclick="location.href='<?php echo base_url() ?>index.php/evaluacion_desempenio/busquedallenar_evaluaciones_contratistas'"
-                        type="button" class="my-button3" name="button">
-                        Ir Busqueda Evaluaciones
-                    </button>
-                    <!-- <a class="my-button"
+                    <div class="col-12 text-center mt-3 mb-3">
+                        <button
+                            onclick="location.href='<?php echo base_url() ?>index.php/Contratista/infor_contrat_comi_conta'"
+                            type="button" class="my-button3" name="button">
+                            Ir Busqueda PN
+                        </button>
+                        <button
+                            onclick="location.href='<?php echo base_url() ?>index.php/evaluacion_desempenio/busquedallenar_evaluaciones_contratistas'"
+                            type="button" class="my-button3" name="button">
+                            Ir Busqueda Evaluaciones
+                        </button>
+                        <!-- <a class="my-button"
                             href="javascript:history.back()"> Volver</a> -->
-                </div>
+                    </div>
                 <?php endif; ?>
 
                 <div class="col-12 text-center mt-3 mb-3">
@@ -67,6 +67,21 @@
                         <input type="text" name="numero_oficio" id="numero_oficio" class="form-control"
                             placeholder="numero_oficio">
                         <input type="hidden" name="existe" id="existe" class="form-control" readonly>
+                    </div>
+                    <div class="form-group col-3">
+                        <label>Causa<b title="Campo Obligatorio" style="color:red">*</b></label>
+                        <input type="text" name="causa" id="causa" class="form-control" placeholder="Causa">
+                    </div>
+
+                    <div class="form-group col-3">
+                        <label>Tipo de investigación <b title="Campo Obligatorio" style="color:red">*</b></label>
+
+                        <select class="form-control" name="tipo_invs" id="tipo_invs">
+                            <option value="0">Seleccione</option>
+                            <option value="1">Simple</option>
+                            <option value="2">Extrema Urgencia</option>
+                        </select>
+
                     </div>
                     <div class="form-group col-3">
                         <label>Observación <b title="Campo Obligatorio" style="color:red">*</b></label>
@@ -115,8 +130,8 @@
 </div>
 
 <script type="text/javascript">
-function mayusculas(e) {
-    e.value = e.value.toUpperCase();
-}
+    function mayusculas(e) {
+        e.value = e.value.toUpperCase();
+    }
 </script>
 <script src="<?= base_url() ?>/js/contratista/consulta_com_conta.js"></script>
