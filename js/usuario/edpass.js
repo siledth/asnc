@@ -58,8 +58,12 @@ function camb_clave() {
             if (result.value == true) {
                 event.preventDefault();
                 var datos = new FormData($("#camb_clave")[0]);
-                var base_url = window.location.origin + '/asnc/index.php/Validacion_controller/cambiar_clave';
-                var base_url2 = window.location.origin + '/asnc/index.php/Login/index';
+                var base_url = '/index.php/Validacion_controller/cambiar_clave';
+                var base_url2 = '/index.php/Login/index';
+
+
+                // var base_url = window.location.origin + '/asnc/index.php/Validacion_controller/cambiar_clave';
+                // var base_url2 = window.location.origin + '/asnc/index.php/Login/index';
 
                 $.ajax({
                     url: base_url,
