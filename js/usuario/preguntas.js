@@ -70,8 +70,8 @@ function guardar_b() {
         if (data.success) {
             // Actualizar el contador después de guardar
             actualizarContador();
-          //   var base_url2 = '/index.php/Home/index';
-              var base_url2 = window.location.origin + '/asnc/index.php/Home/index';
+             var base_url2 = '/index.php/Home/index';
+          //    var base_url2 = window.location.origin + '/asnc/index.php/Home/index';
                     if (data.completed) {
                 Swal.fire({
                // icon: 'success',
