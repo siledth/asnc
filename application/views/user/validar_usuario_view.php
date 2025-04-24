@@ -38,8 +38,8 @@
 
                             <button class="btn btn-success btn-block" type="submit">Validar</button>
                             <?php if (isset($error)): ?>
-                            <div style="color: red;"><?php echo $error; ?>
-                            </div>
+                                <div style="color: red;"><?php echo $error; ?>
+                                </div>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -50,54 +50,74 @@
         </div>
     </div>
     <script>
-    document.getElementById('validarUsuarioForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Evitar el envío tradicional del formulario
-        validarUsuario(); // Llamar a la función de validación
-    });
+        document.getElementById('validarUsuarioForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evitar el envío tradicional del formulario
+            validarUsuario(); // Llamar a la función de validación
+        });
 
-    function validarUsuario() {
-        const username = document.getElementById('username').value.trim(); // Eliminar espacios en blanco
+        function validarUsuario() {
+            const username = document.getElementById('username').value.trim(); // Eliminar espacios en blanco
 
-        // Validar que el campo no esté vacío
-        if (username === "") {
-            Swal.fire({
-                icon: 'error',
-                title: 'Upss!',
-                text: 'El campo Nombre de Usuario es obligatorio.',
-                timer: 2000, // Mostrar el mensaje durante 5 segundos
-                timerProgressBar: true, // Mostrar una barra de progreso
-                showConfirmButton: false // Ocultar el botón de confirmación
-            }).then((result) => {
-                // Recargar la vista después de que el mensaje desaparezca
-                if (result.dismiss === Swal.DismissReason.timer) {
-                    location.reload();
-                }
-            });
-            document.getElementById('username').focus(); // Enfocar el campo
-            return; // Detener la ejecución
-        }
+            // Validar que el campo no esté vacío
+            if (username === "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Importante',
+                    text: 'El campo Nombre de Usuario es obligatorio.',
+                    timer: 2000, // Mostrar el mensaje durante 5 segundos
+                    timerProgressBar: true, // Mostrar una barra de progreso
+                    showConfirmButton: false // Ocultar el botón de confirmación
+                }).then((result) => {
+                    // Recargar la vista después de que el mensaje desaparezca
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        location.reload();
+                    }
+                });
+                document.getElementById('username').focus(); // Enfocar el campo
+                return; // Detener la ejecución
+            }
 
-        // Si el campo no está vacío, continuar con la solicitud
-        fetch('<?= base_url() ?>index.php/Validacion_controller/validar_usuario', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    username: username
+            // Si el campo no está vacío, continuar con la solicitud
+            fetch('<?= base_url() ?>index.php/Validacion_controller/validar_usuario', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: username
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Redirigir a la vista de preguntas de seguridad
-                    window.location.href = "<?= base_url() ?>index.php/Validacion_controller/mostrar_preguntas/" +
-                        data.id_usuario;
-                } else {
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Redirigir a la vista de preguntas de seguridad
+                        // window.location.href = "<?= base_url() ?>index.php/Validacion_controller/mostrar_preguntas/" +
+                        //     data.id_usuario;
+                        window.location.href =
+                            "<?= base_url() ?>index.php/Validacion_controller/mostrar_preguntas?token=" + data
+                            .token;
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.message,
+                            timer: 5000, // Mostrar el mensaje durante 5 segundos
+                            timerProgressBar: true, // Mostrar una barra de progreso
+                            showConfirmButton: false // Ocultar el botón de confirmación
+                        }).then((result) => {
+                            // Recargar la vista después de que el mensaje desaparezca
+                            if (result.dismiss === Swal.DismissReason.timer) {
+                                location.reload();
+                            }
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: data.message,
+                        text: 'Ocurrió un error al procesar la solicitud.',
                         timer: 5000, // Mostrar el mensaje durante 5 segundos
                         timerProgressBar: true, // Mostrar una barra de progreso
                         showConfirmButton: false // Ocultar el botón de confirmación
@@ -107,24 +127,7 @@
                             location.reload();
                         }
                     });
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Ocurrió un error al procesar la solicitud.',
-                    timer: 5000, // Mostrar el mensaje durante 5 segundos
-                    timerProgressBar: true, // Mostrar una barra de progreso
-                    showConfirmButton: false // Ocultar el botón de confirmación
-                }).then((result) => {
-                    // Recargar la vista después de que el mensaje desaparezca
-                    if (result.dismiss === Swal.DismissReason.timer) {
-                        location.reload();
-                    }
                 });
-            });
-    }
+        }
     </script>
 </body>
