@@ -59,9 +59,9 @@ function selectipo() {
 				if (result.value == true) {
 					event.preventDefault();
 					var datos = new FormData($("#guardar_ba")[0]);
-            var base_url = window.location.origin+'/asnc/index.php/Publicaciones/acciones3';
+            // var base_url = window.location.origin+'/asnc/index.php/Publicaciones/acciones3';
 
-					// var base_url = '/index.php/Publicaciones/acciones3';
+					var base_url = '/index.php/Publicaciones/acciones3';
 					$.ajax({
 						url:base_url,
 						method: 'POST',
