@@ -33,7 +33,7 @@ function buscar() {
     
     // Obtener la ruta base del formulario
     // const baseUrl = window.location.origin + '/asnc/index.php/';
-    const baseUrl = '/asnc/index.php/';
+    const baseUrl = '/index.php/';
     
     // Realizar petición AJAX
     fetch(baseUrl + 'ReporteRNCE/generarReporte', {
