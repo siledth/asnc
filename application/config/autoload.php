@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------
@@ -58,7 +58,7 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array('session','form_validation', 'database');
+$autoload['libraries'] = array('session', 'form_validation', 'database');
 
 /*
 | -------------------------------------------------------------------
@@ -89,7 +89,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('url','form','user_session', 'auth'); //aca agregue 'user_session'
+$autoload['helper'] = array('url', 'form', 'user_session', 'auth'); //aca agregue 'user_session'
 
 /*
 | -------------------------------------------------------------------
@@ -145,7 +145,9 @@ $autoload['model'] = array(
     'Comision_contrata_model',
     'Auth_prog_model',
     'Tablas_comi_model',
-    'Rnc_model'
+    'Rnc_model',
+    'ReporteG_model'
+    // 'reportegeneral_model'
 
-   
+
 );

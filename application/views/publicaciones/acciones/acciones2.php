@@ -14,32 +14,32 @@
                                 <hr style="border-top: 1px solid rgba(0, 0, 0, 0.17);">
                             </div>
                             <?php foreach ($inf_1 as $inf_1): ?>
-                                <div class="col-12  form-group">
+                            <div class="col-12  form-group">
 
-                                    <label>Número de Proceso <b style="color:red">*</b></label>
-                                    <input id="numero_proceso" name="numero_proceso" value="<?= $inf_1['numero_proceso'] ?>"
-                                        type="text" class="form-control" readonly>
+                                <label>Número de Proceso <b style="color:red">*</b></label>
+                                <input id="numero_proceso" name="numero_proceso" value="<?= $inf_1['numero_proceso'] ?>"
+                                    type="text" class="form-control" readonly>
 
-                                </div>
-                                <div class="col-12  form-group">
-                                    <label>Para Enviar (Notificar) la Información ingresada <b
-                                            style="color:red">*</b></label>
+                            </div>
+                            <div class="col-12  form-group">
+                                <label>Para Enviar (Notificar) la Información ingresada <b
+                                        style="color:red">*</b></label>
 
-                                    <!-- <a title="Enviar" onclick="enviar(<?php echo $inf_1['numero_proceso']; ?>);"
+                                <!-- <a title="Enviar" onclick="enviar(<?php echo $inf_1['numero_proceso']; ?>);"
                                                 class="button">
                                                 <i class="fas fa-lg fa-fw fa-upload" style="color: green;"></i>
                                                 <a /> -->
-                                    <a title="Enviar" onclick="enviar('<?php echo $inf_1['numero_proceso']; ?>');"
-                                        class="button">
-                                        <i class="fas fa-lg fa-fw fa-upload" style="color: green;"></i>
-                                        <a />
-                                        <!-- <a href="#" onclick="show_modal('Accion2?id=ISA-2023-31', 'Acción 2', 'modal-100p');" class="btn btn-primary btn-sm">Acción 2</a> -->
+                                <a title="Enviar" onclick="enviar('<?php echo $inf_1['numero_proceso']; ?>');"
+                                    class="button">
+                                    <i class="fas fa-lg fa-fw fa-upload" style="color: green;"></i>
+                                    <a />
+                                    <!-- <a href="#" onclick="show_modal('Accion2?id=ISA-2023-31', 'Acción 2', 'modal-100p');" class="btn btn-primary btn-sm">Acción 2</a> -->
 
 
 
-                                        <hr style="border-top: 1px solid rgba(0, 0, 0, 0.17);">
+                                    <hr style="border-top: 1px solid rgba(0, 0, 0, 0.17);">
 
-                                </div>
+                            </div>
                             <?php endforeach; ?>
                             <div class="col-12  form-group">
                                 <div class="row">
@@ -247,78 +247,78 @@
                             </thead>
                             <tbody>
                                 <?php foreach ($llamadot as $data): ?>
-                                    <tr class="odd gradeX" style="text-align:center">
-                                        <td><?= $data['rif_organoente'] ?> </td>
-                                        <td><?= $data['numero_proceso'] ?> </td>
-                                        <td><?= $data['desc_acciones'] ?> </td>
+                                <tr class="odd gradeX" style="text-align:center">
+                                    <td><?= $data['rif_organoente'] ?> </td>
+                                    <td><?= $data['numero_proceso'] ?> </td>
+                                    <td><?= $data['desc_acciones'] ?> </td>
+                                    <?php if ($data['id_accion_cargar'] == 2) : ?>
+                                    <td><?= $data['desc_articulo113'] ?> /<?= $data['observacion_desierto'] ?> </td>
+
+                                    <?php else: ?>
+
+                                    <td>No Aplica</td>
+
+                                    <?php endif; ?>
+
+                                    <td><?= $data['desc_adjudicado'] ?> </td>
+                                    <?php if ($data['exit_rnc'] == 1) : ?>
+                                    <td><?= $data['sel_rif_nombre'] ?> /<?= $data['nombre_contratista'] ?> </td>
+
+                                    <?php else: ?>
+
+                                    <td style="color: red;"><?= $data['rif_contr_no_rnc'] ?>
+                                        /<?= $data['razon_social_no_rnc'] ?> </td>
+
+
+                                    <?php endif; ?>
+                                    <?php if ($data['id_accion_cargar'] == 2) : ?>
+                                    <td>No Aplica</td>
+                                    <td>No Aplica</td>
+                                    <td>No Aplica</td>
+                                    <td>No Aplica</td>
+                                    <td>No Aplica</td>
+                                    <td>No Aplica</td>
+                                    <?php else: ?>
+                                    <td><?= $data['desc_objeto_contrata'] ?></td>
+                                    <td><?= $data['num_contrato'] ?></td>
+                                    <td><?= $data['monto_contrato'] ?></td>
+                                    <td><?= $data['paridad'] ?></td>
+                                    <td><?= $data['total_contrato'] ?></td>
+                                    <td><?= $data['fecha_paridad'] ?></td>
+
+
+
+
+                                    <?php endif; ?>
+                                    <?php if ($data['id_accion_cargar'] == 2) : ?>
+                                    <td>No Aplica</td>
+
+
+                                    <?php else: ?>
+
+                                    <td><?= number_format($results_2['total_mas_iva'], 2, ',', '.') ?></td>
+
+                                    <?php endif; ?>
+
+
+                                    <td><?= $data['desc_status_snc'] ?> </td>
+
+
+                                    <td>
                                         <?php if ($data['id_accion_cargar'] == 2) : ?>
-                                            <td><?= $data['desc_articulo113'] ?> /<?= $data['observacion_desierto'] ?> </td>
-
-                                        <?php else: ?>
-
-                                            <td>No Aplica</td>
-
-                                        <?php endif; ?>
-
-                                        <td><?= $data['desc_adjudicado'] ?> </td>
-                                        <?php if ($data['exit_rnc'] == 1) : ?>
-                                            <td><?= $data['sel_rif_nombre'] ?> /<?= $data['nombre_contratista'] ?> </td>
-
-                                        <?php else: ?>
-
-                                            <td style="color: red;"><?= $data['rif_contr_no_rnc'] ?>
-                                                /<?= $data['razon_social_no_rnc'] ?> </td>
-
-
-                                        <?php endif; ?>
-                                        <?php if ($data['id_accion_cargar'] == 2) : ?>
-                                            <td>No Aplica</td>
-                                            <td>No Aplica</td>
-                                            <td>No Aplica</td>
-                                            <td>No Aplica</td>
-                                            <td>No Aplica</td>
-                                            <td>No Aplica</td>
-                                        <?php else: ?>
-                                            <td><?= $data['desc_objeto_contrata'] ?></td>
-                                            <td><?= $data['num_contrato'] ?></td>
-                                            <td><?= $data['monto_contrato'] ?></td>
-                                            <td><?= $data['paridad'] ?></td>
-                                            <td><?= $data['total_contrato'] ?></td>
-                                            <td><?= $data['fecha_paridad'] ?></td>
-
-
-
-
-                                        <?php endif; ?>
-                                        <?php if ($data['id_accion_cargar'] == 2) : ?>
-                                            <td>No Aplica</td>
 
 
                                         <?php else: ?>
+                                        <a class="button">
+                                            <i title="Editar" onclick="modal_ver(<?php echo $data['id_accion'] ?>);"
+                                                data-toggle="modal" data-target="#exampleModal"
+                                                class="fas fa-lg fa-fw fa-edit" style="color:green"></i>
+                                            <a />
+                                            <?php endif; ?>
 
-                                            <td><?= number_format($results_2['total_mas_iva'], 2, ',', '.') ?></td>
-
-                                        <?php endif; ?>
-
-
-                                        <td><?= $data['desc_status_snc'] ?> </td>
-
-
-                                        <td>
-                                            <?php if ($data['id_accion_cargar'] == 2) : ?>
-
-
-                                            <?php else: ?>
-                                                <a class="button">
-                                                    <i title="Editar" onclick="modal_ver(<?php echo $data['id_accion'] ?>);"
-                                                        data-toggle="modal" data-target="#exampleModal"
-                                                        class="fas fa-lg fa-fw fa-edit" style="color:green"></i>
-                                                    <a />
-                                                <?php endif; ?>
-
-                                                <!-- <a class="button"><i onclick="eliminar_b(<?php echo $data['id_accion'] ?>);" class="fas fa-lg fa-fw fa-trash-alt" style="color:red"></i><a/> -->
-                                        </td>
-                                    </tr>
+                                            <!-- <a class="button"><i onclick="eliminar_b(<?php echo $data['id_accion'] ?>);" class="fas fa-lg fa-fw fa-trash-alt" style="color:red"></i><a/> -->
+                                    </td>
+                                </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
@@ -387,9 +387,9 @@
 
     </script>
     <script type="text/javascript">
-        $(document).ready(function() {
-            $("#id_miembro4").select2({
-                dropdownParent: $("#academico")
-            });
+    $(document).ready(function() {
+        $("#id_miembro4").select2({
+            dropdownParent: $("#academico")
         });
+    });
     </script>

@@ -661,6 +661,34 @@
 
             </li>
         <?php endif; ?>
+        <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
+            <li class="has-sub">
+                <a href="javascript:;">
+                    <b class="caret"></b>
+                    <i class="fa fa-list-ol" style="background:darkred;"></i>
+                    <span>Reportes Generales</span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                            <b class="caret"></b>
+                            <span>RNCE</span>
+                        </a>
+                        <ul class="sub-menu">
+
+                            <li><a href="<?= base_url() ?>index.php/ReporteRNCE/reporteG">- Reporte RNCE</a></li>
+
+
+
+
+                        </ul>
+                    </li>
+
+
+                </ul>
+
+            </li>
+        <?php endif; ?>
         <?php if (($this->session->userdata('ver_conf') == 1)) : ?>
             <li class="has-sub">
                 <a href="javascript:;">
