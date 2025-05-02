@@ -29,8 +29,11 @@ function buscar() {
     document.getElementById('loading').style.display = 'block';
     document.getElementById('items').style.display = 'none';
     
+    //var base_url = '/index.php/Publicaciones/busquedallcacciones';
+    
     // Obtener la ruta base del formulario
-    const baseUrl = window.location.origin + '/asnc/index.php/';
+    // const baseUrl = window.location.origin + '/asnc/index.php/';
+    const baseUrl = '/asnc/index.php/';
     
     // Realizar petición AJAX
     fetch(baseUrl + 'ReporteRNCE/generarReporte', {
