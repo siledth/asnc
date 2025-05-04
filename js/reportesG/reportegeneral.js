@@ -33,7 +33,7 @@ function buscar() {
     
     // Obtener la ruta base del formulario
     // const baseUrl = window.location.origin + '/asnc/index.php/';
-    const baseUrl = '/index.php/';
+   const baseUrl = '/index.php/';
     
     // Realizar petición AJAX
     fetch(baseUrl + 'ReporteRNCE/generarReporte', {
@@ -157,4 +157,114 @@ function buscar() {
 // Función auxiliar para formatear moneda (añadir al final del archivo JS)
 function formatCurrency(amount) {
     return 'Bs' + parseFloat(amount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+}
+
+// Función para exportar a Excel
+function exportToExcel() {
+    // Verificar si hay datos mostrados
+    if (document.getElementById('items').style.display === 'none') {
+        Swal.fire({
+            icon: 'warning',
+            title: 'No hay datos',
+            text: 'Primero realice una búsqueda para exportar',
+            confirmButtonText: 'Entendido'
+        });
+        return;
+    }
+
+    // Crear un nuevo libro de trabajo
+    const wb = XLSX.utils.book_new();
+    
+    // Obtener datos de todas las tablas
+    const tables = [
+        { name: 'Programación', id: 'tabla-programacion' },
+        { name: 'Proyectos', id: 'tabla-proyectos' },
+        { name: 'Acciones', id: 'tabla-acciones' },
+        { name: 'Top_Productos', id: 'tabla-top-productos' }
+    ];
+    
+    tables.forEach(table => {
+        const tableEl = document.getElementById(table.id);
+        if (tableEl) {
+            const ws = XLSX.utils.table_to_sheet(tableEl);
+            XLSX.utils.book_append_sheet(wb, ws, table.name);
+        }
+    });
+    
+    // Generar el archivo Excel
+    const fechaReporte = new Date().toISOString().slice(0, 10);
+    XLSX.writeFile(wb, `Reporte_General_${fechaReporte}.xlsx`);
+}
+
+// Función para exportar a PDF
+function exportToPDF() {
+    // Verificar si hay datos mostrados
+    if (document.getElementById('items').style.display === 'none') {
+        Swal.fire({
+            icon: 'warning',
+            title: 'No hay datos',
+            text: 'Primero realice una búsqueda para exportar',
+            confirmButtonText: 'Entendido'
+        });
+        return;
+    }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({
+        orientation: 'landscape',
+        unit: 'mm'
+    });
+    
+    // Título del reporte
+    const fechaReporte = new Date().toLocaleDateString();
+    doc.setFontSize(16);
+    doc.text('Reporte General de Programación', 105, 15, { align: 'center' });
+    doc.setFontSize(12);
+    doc.text(`Generado el: ${fechaReporte}`, 105, 22, { align: 'center' });
+    
+    // Configuración común para las tablas
+    const tableConfig = {
+        headStyles: {
+            fillColor: [228, 231, 232],
+            textColor: 0,
+            fontStyle: 'bold'
+        },
+        margin: { top: 30 },
+        styles: { fontSize: 9 }
+    };
+    
+    // Agregar cada tabla al PDF
+    let startY = 30;
+    
+    // Tabla de Programación
+    doc.autoTable({
+        html: '#tabla-programacion',
+        startY: startY,
+        ...tableConfig
+    });
+    
+    // Tabla de Proyectos
+    doc.autoTable({
+        html: '#tabla-proyectos',
+        startY: doc.lastAutoTable.finalY + 10,
+        ...tableConfig
+    });
+    
+    // Tabla de Acciones
+    doc.autoTable({
+        html: '#tabla-acciones',
+        startY: doc.lastAutoTable.finalY + 10,
+        ...tableConfig
+    });
+    
+    // Tabla de Top Productos (puede ser larga, manejamos paginación)
+    doc.autoTable({
+        html: '#tabla-top-productos',
+        startY: doc.lastAutoTable.finalY + 10,
+        ...tableConfig,
+        pageBreak: 'auto'
+    });
+    
+    // Guardar el PDF
+    doc.save(`Reporte_General_${new Date().toISOString().slice(0, 10)}.pdf`);
 }

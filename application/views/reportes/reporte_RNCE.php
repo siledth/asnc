@@ -1,3 +1,8 @@
+<!-- Para Excel -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<!-- Para PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 <div class="sidebar-bg"></div>
 <div id="content" class="content">
     <div class="row">
@@ -21,9 +26,15 @@
                             <label>Ingrese fecha Hasta</label>
                             <input class="form-control" type="date" name="fechah" id="fechah">
                         </div>
-                        <div class="col- mt-4">
-                            <button type="button" class="btn btn-default" onclick="buscar();" name="button">
+                        <div class="col-4 mt-4">
+                            <button type="button" class="btn btn-primary" onclick="buscar();" name="button">
                                 <i class="fas fa-search"></i> Buscar
+                            </button>
+                            <button type="button" class="btn btn-success" onclick="exportToExcel();">
+                                <i class="fas fa-file-excel"></i> Cal
+                            </button>
+                            <button type="button" class="btn btn-danger" onclick="exportToPDF();">
+                                <i class="fas fa-file-pdf"></i> PDF
                             </button>
                         </div>
                     </div>
