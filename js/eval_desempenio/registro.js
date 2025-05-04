@@ -1,5 +1,15 @@
 function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
     var rif_b = $('#rif_b').val();
+    //  const rifInput = document.getElementById('rif_b');
+    //  const rifValue = rifInput.value.trim();
+    // const regex = /^[JGV][0-9]{9}$/;
+
+    //   if (!regex.test(rifValue)) {
+    //     const errorElement = document.getElementById('rifError');
+    //     errorElement.classList.remove('d-none');
+    //     rifInput.focus();
+    //     return false; // Evita que la consulta continúe
+    // }
     if (rif_b == ''){
         swal({
             title: "¡ATENCION!",
@@ -696,4 +706,72 @@ function registrar(){
             }
         }
     }
+}
+
+// function validarRIF(input) {
+//     const errorElement = document.getElementById('rifError');
+//     const missingCharsElement = document.getElementById('missingChars');
+//     const btnBuscar = document.querySelector('button[onclick="consultar_rif()"]');
+//     let valor = input.value.toUpperCase();
+
+//     // Filtramos caracteres no permitidos
+//     valor = valor.replace(/[^JGV0-9]/g, '');
+
+//     // Validar primera letra
+//     if (valor.length > 0 && !['J', 'G', 'V'].includes(valor[0])) {
+//         errorElement.textContent = "Debe comenzar con J, G o V";
+//         errorElement.classList.remove('d-none');
+//         input.value = valor.substring(1);
+//         btnBuscar.disabled = true;
+//         return false;
+//     }
+
+//     // Validar longitud
+//     const caracteresFaltantes = 10 - valor.length;
+//     if (valor.length < 10) {
+//         missingCharsElement.textContent = caracteresFaltantes;
+//         errorElement.textContent = ` Por favor para continuar el RIF debe tener ${caracteresFaltantes} caracteres (Letra J/G/V + 9 números) Ej.J123456789`;
+//         errorElement.classList.remove('d-none');
+//         btnBuscar.disabled = true;
+//         return false;
+//     } else {
+//         errorElement.classList.add('d-none');
+//     }
+
+//     // Limitar a 10 caracteres
+//     if (valor.length > 10) {
+//         valor = valor.substring(0, 10);
+//     }
+
+//     input.value = valor;
+//     btnBuscar.disabled = valor.length !== 10;
+//     return valor.length === 10;
+// }
+function validarRIF(input) {
+    const errorElement = document.getElementById('rifError');
+    const btnBuscar = document.querySelector('button[onclick="consultar_rif()"]');
+    let valor = input.value.toUpperCase().replace(/[^JGV0-9]/g, '');  
+
+    // Validación 1: Primer carácter debe ser J, G o V
+    if (valor.length > 0 && !['J', 'G', 'V'].includes(valor[0])) {
+        errorElement.textContent = "El RIF debe comenzar con J, G o V";
+        errorElement.classList.remove('d-none');
+        btnBuscar.disabled = true;
+        input.value = valor = valor.replace(/[^JGV]/g, '');  
+        return;
+    }
+
+    // Validación 2: Longitud exacta de 10 caracteres
+    if (valor.length !== 10) {
+        const faltantes = 10 - valor.length;
+        errorElement.innerHTML = `Faltan <strong>${faltantes}</strong> caracteres (Ej: J123456789)`;
+        errorElement.classList.remove('d-none');
+        btnBuscar.disabled = true;
+        return;
+    }
+
+    // Si pasa todas las validaciones:
+    errorElement.classList.add('d-none');
+    btnBuscar.disabled = false;
+    input.value = valor; // Asegura el formato correcto
 }
