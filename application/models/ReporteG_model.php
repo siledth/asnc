@@ -149,13 +149,33 @@ class ReporteG_model extends CI_Model
     ", [$fechad, $fechah]);
         $total_programacion = $query1->row()->total_programacion;
 
-        // 2. Total de programaciones notificadas
+        // 2. Consulta combinada para notificaciones y rendiciones 
         $query2 = $this->db->query("
-        SELECT COUNT(DISTINCT id_programacion) AS total_notificadas
-        FROM programacion.inf_enviada
-        WHERE fecha BETWEEN ? AND ?
-    ", [$fechad, $fechah]);
-        $total_notificadas = $query2->row()->total_notificadas;
+        SELECT 
+            COUNT(DISTINCT n.id_programacion) AS total_notificadas,
+            COUNT(DISTINCT r.id_programacion) AS total_rendidas,
+            COUNT(DISTINCT CASE WHEN r.id_programacion IS NOT NULL THEN n.id_programacion END) AS notificadas_y_rendidas
+        FROM programacion.inf_enviada n
+        LEFT JOIN programacion.inf_enviada_rendi r ON n.id_programacion = r.id_programacion
+            AND r.fecha BETWEEN ? AND ?
+        WHERE n.fecha BETWEEN ? AND ?
+    ", [$fechad, $fechah, $fechad, $fechah]);
+        $notif_rend_data = $query2->row();
+
+        //     // 2. Total de programaciones notificadas
+        //     $query2 = $this->db->query("
+        //     SELECT COUNT(DISTINCT id_programacion) AS total_notificadas
+        //     FROM programacion.inf_enviada
+        //     WHERE fecha BETWEEN ? AND ?
+        // ", [$fechad, $fechah]);
+        //     $total_notificadas = $query2->row()->total_notificadas;
+        //     // 3. Total de programaciones rendidas 
+        //     $query3 = $this->db->query("
+        //     SELECT COUNT(DISTINCT id_programacion) AS total_rendida
+        //     FROM programacion.inf_enviada_rendi
+        //     WHERE fecha BETWEEN ? AND ?
+        // ", [$fechad, $fechah]);
+        //     $total_rendida = $query3->row()->total_rendida;
 
         // 3. Totales de proyectos
         $query3 = $this->db->query("
@@ -210,10 +230,27 @@ class ReporteG_model extends CI_Model
         LIMIT 10
     ", [$fechad, $fechah]);
         $top_productos = $query5->result_array();
+        $queryComisiones = $this->db->query("
+        SELECT COUNT(*) AS total_comision
+        FROM comisiones.comision
+        WHERE fecha_creacion BETWEEN ? AND ?
+        AND snc = 2 
+        AND id_status = 1
+    ", [$fechad, $fechah]);
+        $total_comisiones = $queryComisiones->row()->total_comision;
 
+        // Consulta para miembros certificados
+        $queryMiembros = $this->db->query("
+        SELECT COUNT(*) AS total_miembros
+        FROM comisiones.miembros
+        WHERE fecha_cambi_statu BETWEEN ? AND ?
+        AND id_cert = '2'
+    ", [$fechad, $fechah]);
+        $total_miembros = $queryMiembros->row()->total_miembros;
         return [
             'total_programacion' => $total_programacion,
-            'total_notificadas' => $total_notificadas,
+            'total_notificadas' => $notif_rend_data->total_notificadas,
+            'total_rendida' => $notif_rend_data->total_rendidas,
             'proyectos' => [
                 'total' => $proyectos_data->total_proyectos,
                 'bienes' => $proyectos_data->total_bienes_p,
@@ -226,7 +263,11 @@ class ReporteG_model extends CI_Model
                 'servicios' => $acciones_data->total_servicios_a,
                 'obras' => $acciones_data->total_obras_a
             ],
-            'top_productos' => $top_productos
+            'top_productos' => $top_productos,
+            'comisiones' => [
+                'total_comisiones' => $total_comisiones,
+                'total_miembros' => $total_miembros
+            ]
         ];
     }
 }

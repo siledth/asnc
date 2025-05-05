@@ -32,7 +32,7 @@ function buscar() {
     //var base_url = '/index.php/Publicaciones/busquedallcacciones';
     
     // Obtener la ruta base del formulario
-    // const baseUrl = window.location.origin + '/asnc/index.php/';
+     //const baseUrl = window.location.origin + '/asnc/index.php/';
    const baseUrl = '/index.php/';
     
     // Realizar petición AJAX
@@ -57,11 +57,17 @@ function buscar() {
             // Extraer datos
             const programacion = data.data.total_programacion || 0;
             const notificadas = data.data.total_notificadas || 0;
-            
+            const rendida = data.data.total_rendida || 0;
+
             const proyectos = data.data.proyectos || {};
             const acciones = data.data.acciones || {};
             const topProductos = data.data.top_productos || [];
             
+            // Datos de comisiones
+        const comisiones = data.data.comisiones || {};
+        const totalComisiones = comisiones.total_comisiones || 0;
+        const totalMiembros = comisiones.total_miembros || 0;
+
             // Verificar si hay datos
             const hasData = programacion > 0 || notificadas > 0 || 
                           proyectos.total > 0 || acciones.total > 0 ||
@@ -84,8 +90,9 @@ function buscar() {
             // Tabla Programación
             document.querySelector('#tabla-programacion tbody').innerHTML = `
                 <tr>
-                    <td>${programacion}</td>
-                    <td>${notificadas}</td>
+                     <td>${programacion}</td>
+                     <td>${notificadas}</td>
+                     <td>${rendida}</td>
                 </tr>
             `;
             
@@ -125,6 +132,9 @@ function buscar() {
                         </tr>
                     `;
                 });
+
+
+                
             } else {
                 tbodyTopProductos.innerHTML = `
                     <tr>
@@ -132,7 +142,14 @@ function buscar() {
                     </tr>
                 `;
             }
-            
+        
+                // Mostrar tabla de comisiones
+        document.querySelector('#tabla-comisiones tbody').innerHTML = `
+            <tr>
+                <td>${totalComisiones}</td>
+                <td>${totalMiembros}</td>
+            </tr>
+        `;
         } else {
             Swal.fire({
                 icon: 'error',
@@ -180,7 +197,9 @@ function exportToExcel() {
         { name: 'Programación', id: 'tabla-programacion' },
         { name: 'Proyectos', id: 'tabla-proyectos' },
         { name: 'Acciones', id: 'tabla-acciones' },
-        { name: 'Top_Productos', id: 'tabla-top-productos' }
+        { name: 'Top_Productos', id: 'tabla-top-productos' },
+        { name: 'Comisiones', id: 'tabla-comisiones' }
+
     ];
     
     tables.forEach(table => {
@@ -260,6 +279,13 @@ function exportToPDF() {
     // Tabla de Top Productos (puede ser larga, manejamos paginación)
     doc.autoTable({
         html: '#tabla-top-productos',
+        startY: doc.lastAutoTable.finalY + 10,
+        ...tableConfig,
+        pageBreak: 'auto'
+    });
+       // Tabla de Top Productos (puede ser larga, manejamos paginación)
+    doc.autoTable({
+        html: '#tabla-comisiones',
         startY: doc.lastAutoTable.finalY + 10,
         ...tableConfig,
         pageBreak: 'auto'

@@ -60,6 +60,7 @@
                                     <tr class="text-center">
                                         <th>Total Programación</th>
                                         <th>Total Notificadas</th>
+                                        <th>Total Rendidas</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
@@ -72,7 +73,7 @@
                             <table id="tabla-proyectos" class="table table-bordered table-hover">
                                 <thead style="background:#e4e7e8">
                                     <tr class="text-center">
-                                        <th>Total</th>
+                                        <th>Total Proyectos</th>
                                         <th>Bienes</th>
                                         <th>Servicios</th>
                                         <th>Obras</th>
@@ -88,7 +89,7 @@
                             <table id="tabla-acciones" class="table table-bordered table-hover">
                                 <thead style="background:#e4e7e8">
                                     <tr class="text-center">
-                                        <th>Total</th>
+                                        <th>Total ACC</th>
                                         <th>Bienes</th>
                                         <th>Servicios</th>
                                         <th>Obras</th>
@@ -111,6 +112,19 @@
                                 </thead>
                                 <tbody class="text-center">
                                     <!-- Los resultados se insertarán aquí via JavaScript -->
+                                </tbody>
+                            </table>
+                            <!-- Tabla de Comisiones -->
+                            <h5 class="mt-4">Comisiones de Contratación</h5>
+                            <table id="tabla-comisiones" class="table table-bordered table-hover">
+                                <thead style="background:#e4e7e8">
+                                    <tr class="text-center">
+                                        <th>Total Comisiones</th>
+                                        <th>Total Miembros Certificados</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    <!-- JS insertará datos aquí -->
                                 </tbody>
                             </table>
                         </div>
