@@ -50,7 +50,7 @@ class ReporteRNCE extends CI_Controller
                 'success' => true,
                 'data' => $data,
                 'total_programacion' => $data['total_programacion'] ?? 0,
-                'total_notificadas' => $data['total_notificadas'] ?? 0
+                // 'total_notificadas' => $data['total_notificadas'] ?? 0
             ]);
         } catch (Exception $e) {
             echo json_encode([

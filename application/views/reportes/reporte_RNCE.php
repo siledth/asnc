@@ -20,11 +20,11 @@
                     <div class="row">
                         <div class="col-4">
                             <label>Ingrese Fecha Desde</label>
-                            <input class="form-control" type="date" name="fechad" id="fechad">
+                            <input class="form-control" type="date" name="fechad" id="fechad" value="01-01-2025">
                         </div>
                         <div class="col-4">
                             <label>Ingrese fecha Hasta</label>
-                            <input class="form-control" type="date" name="fechah" id="fechah">
+                            <input class="form-control" type="date" name="fechah" id="fechah" value="30-04-2025">
                         </div>
                         <div class="col-4 mt-4">
                             <button type="button" class="btn btn-primary" onclick="buscar();" name="button">
@@ -60,7 +60,25 @@
                                     <tr class="text-center">
                                         <th>Total Programación</th>
                                         <th>Total Notificadas</th>
+                                        <th>Faltantes por Notificadas</th>
                                         <th>Total Rendidas</th>
+                                        <th>Faltantes por rendir</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    <!-- JS insertará datos aquí -->
+                                </tbody>
+                            </table>
+
+                            <!-- Tabla de Programación -->
+                            <h5 class="mt-3">Programación por años</h5>
+                            <table id="tabla-registrost" class="table table-bordered table-hover">
+                                <thead style="background:#e4e7e8">
+                                    <tr class="text-center">
+                                        <th>Programaciones </th>
+                                        <th>Total registros</th>
+
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
@@ -99,7 +117,7 @@
                                     <!-- JS insertará datos aquí -->
                                 </tbody>
                             </table>
-                            <h5 class="mt-4">Top 10 Productos más utilizados</h5>
+                            <h5 class="mt-4">Top 10 Productos más Programado</h5>
                             <table id="tabla-top-productos" class="table table-bordered table-hover">
                                 <thead style="background:#e4e7e8">
                                     <tr class="text-center">
@@ -114,6 +132,7 @@
                                     <!-- Los resultados se insertarán aquí via JavaScript -->
                                 </tbody>
                             </table>
+
                             <!-- Tabla de Comisiones -->
                             <h5 class="mt-4">Comisiones de Contratación</h5>
                             <table id="tabla-comisiones" class="table table-bordered table-hover">

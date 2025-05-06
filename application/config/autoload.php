@@ -146,7 +146,9 @@ $autoload['model'] = array(
     'Auth_prog_model',
     'Tablas_comi_model',
     'Rnc_model',
-    'ReporteG_model'
+    'ReporteG_model',
+    'Diplomado_model'
+
     // 'reportegeneral_model'
 
 

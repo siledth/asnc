@@ -3,14 +3,17 @@
 
 
 
-class Gestion extends CI_Controller {
-  private function sesionIniciada() {
+class Gestion extends CI_Controller
+{
+  private function sesionIniciada()
+  {
     if (!$this->session->userdata('session')) {
       redirect('login');
     }
   }
 
-  public function dias_feriados() {
+  public function dias_feriados()
+  {
     $this->sesionIniciada();
     $this->load->view('templates/header.php');
     $this->load->view('templates/navigator.php');
@@ -18,7 +21,8 @@ class Gestion extends CI_Controller {
     $this->load->view('templates/footer.php');
   }
 
-  public function lapsos() {
+  public function lapsos()
+  {
     $this->sesionIniciada();
     $this->load->view('templates/header.php');
     $this->load->view('templates/navigator.php');
@@ -26,7 +30,8 @@ class Gestion extends CI_Controller {
     $this->load->view('templates/footer.php');
   }
 
-  public function perfilinstitucional() {
+  public function perfilinstitucional()
+  {
     $this->sesionIniciada();
     $this->load->view('templates/header.php');
     $this->load->view('templates/navigator.php');
@@ -34,16 +39,18 @@ class Gestion extends CI_Controller {
     $this->load->view('templates/footer.php');
   }
 
-  public function registrollamado() {
+  public function registrollamado()
+  {
     $this->sesionIniciada();
-    $data['time']=date("Y-m-d");
+    $data['time'] = date("Y-m-d");
     $this->load->view('templates/header.php');
     $this->load->view('templates/navigator.php');
     $this->load->view('gestion/regllamadoconcurso.php', $data);
     $this->load->view('templates/footer.php');
   }
 
-  public function editarllamado($numeroProceso) {
+  public function editarllamado($numeroProceso)
+  {
     $this->sesionIniciada();
     $this->load->view('templates/header.php');
     $this->load->view('templates/navigator.php');
@@ -51,7 +58,8 @@ class Gestion extends CI_Controller {
     $this->load->view('templates/footer.php');
   }
 
-  public function llamadoconcurso() {
+  public function llamadoconcurso()
+  {
     if (!$this->session->userdata('session')) {
       $this->load->view('templates/header.php');
       $this->load->view('templates/navsinsesion.php');
@@ -63,7 +71,6 @@ class Gestion extends CI_Controller {
       $this->load->view('gestion/llamadoconcurso.php');
       $this->load->view('templates/footer.php');
     }
-    
   }
   /////////////////////////////////////////////////////// cosulta externa de certificacion privada
   // public function certificacion1() {
@@ -74,7 +81,7 @@ class Gestion extends CI_Controller {
   //     $this->load->view('certificacion/cert_publ.php', $data);
   //     $this->load->view('templates/footer.php');
   //   } else {
-     
+
   //     $this->load->view('templates/header.php');
   //     $this->load->view('templates/navsinsesion.php');
   //     $this->load->view('certificacion/cert_publ.php');
@@ -93,31 +100,32 @@ class Gestion extends CI_Controller {
 
   //       $this->load->view('templates/header.php');
   //       $this->load->view('templates/navsinsesion.php');
-	// 	$this->load->view('certificacion/pdf_ext.php', $data);
+  // 	$this->load->view('certificacion/pdf_ext.php', $data);
   //       $this->load->view('templates/footer.php');
   //   } else {
-     
+
   //     $this->load->view('templates/header.php');
   //     $this->load->view('templates/navsinsesion.php');
   //     $this->load->view('certificacion/cert_publ.php');
   //     $this->load->view('templates/footer.php');
   //   }
-      
-    
-    
+
+
+
   // }
   /////////////////////////////////////vista de llamado a concurso modificado
-  public function llamadoxterno() {
+  public function llamadoxterno()
+  {
     if (!$this->session->userdata('session')) {
       $generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
       $generar3 = $this->Publicaciones_model->generar2(); // finalizar llamad
       $generar4 = $this->Publicaciones_model->generar3(); // finalizar llamad
-      $date=date("Y-m-d");
+      $date = date("Y-m-d");
       $data['exonerado'] = $this->Certificacion_model->consultar_llamados_externos($date);
-      $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
-      $data['objeto'] 	 = $this->Configuracion_model->objeto();
+      $data['estados']    = $this->Configuracion_model->consulta_estados();
+      $data['objeto']    = $this->Configuracion_model->objeto();
       $this->load->view('templates/header.php');
-            $this->load->view('templates/navbarlog');
+      $this->load->view('templates/navbarlog');
 
       $this->load->view('publicaciones/reporte/llamadoexterno.php', $data);
       $this->load->view('templates/footer.php');
@@ -125,32 +133,32 @@ class Gestion extends CI_Controller {
       $generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
       $generar3 = $this->Publicaciones_model->generar2(); // finalizar llamad
       $generar4 = $this->Publicaciones_model->generar3(); // finalizar llamad
-      $date=date("d-m-Y");
+      $date = date("d-m-Y");
       $data['exonerado'] = $this->Certificacion_model->consultar_llamados_externos($date);
-      $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
-      $data['objeto'] 	 = $this->Configuracion_model->objeto();
+      $data['estados']    = $this->Configuracion_model->consulta_estados();
+      $data['objeto']    = $this->Configuracion_model->objeto();
       $this->load->view('templates/header.php');
       $this->load->view('templates/navigator.php');
       $this->load->view('publicaciones/reporte/llamadoexterno.php', $data);
       $this->load->view('templates/footer.php');
-    } 
-
+    }
   }
-  public function evaluaciones_internas($offset = 0) {
+  public function evaluaciones_internas($offset = 0)
+  {
     if (!$this->session->userdata('session')) redirect('login');
 
     $date = date("d-m-Y");
     $rif = $this->session->userdata['rif_organoente'];
-    
+
     // Definir el límite de registros por página
     $limit = 10;
 
     // Obtener los datos paginados
     $data['exonerado'] = $this->Publicaciones_model->consultar_llamados_internos($date, $rif, $limit, $offset);
-    
+
     // Contar el total de registros
     $data['total_rows'] = $this->Publicaciones_model->count_llamados_internos($date, $rif);
-    
+
     // Obtener otros datos necesarios
     $data['estados'] = $this->Configuracion_model->consulta_estados();
     $data['objeto'] = $this->Configuracion_model->objeto();
@@ -163,18 +171,19 @@ class Gestion extends CI_Controller {
     $this->load->view('templates/navigator.php');
     $this->load->view('publicaciones/reporte/llamadointerno.php', $data);
     $this->load->view('templates/footer.php');
-}
-  public function llamadoxternot() {
+  }
+  public function llamadoxternot()
+  {
     if (!$this->session->userdata('session')) {
       $generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
       $generar3 = $this->Publicaciones_model->generar2(); // finalizar llamad
       $generar4 = $this->Publicaciones_model->generar3(); // finalizar llamad
-      $date=date("d-m-Y");
+      $date = date("d-m-Y");
       $data['exonerado'] = $this->Certificacion_model->consultar_llamados_externos($date);
-      $data['estado']= $this->input->post("estado");
+      $data['estado'] = $this->input->post("estado");
       $data['objetos']     = $this->input->post("objeto");
-      $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
-      $objeto	 = $this->Configuracion_model->objeto();
+      $data['estados']    = $this->Configuracion_model->consulta_estados();
+      $objeto   = $this->Configuracion_model->objeto();
       $this->load->view('templates/header.php');
       $this->load->view('templates/navsinsesion.php');
       $this->load->view('publicaciones/reporte/llamadoexterno.php', $data, $objeto);
@@ -183,62 +192,60 @@ class Gestion extends CI_Controller {
       $generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
       $generar3 = $this->Publicaciones_model->generar2(); // finalizar llamad
       $generar4 = $this->Publicaciones_model->generar3(); // finalizar llamad
-      $date=date("d-m-Y");
-      $data['estado']= $this->input->post("estado");
+      $date = date("d-m-Y");
+      $data['estado'] = $this->input->post("estado");
       $data['objetos']     = $this->input->post("objeto");
-      $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
-      $data['objeto'] 	 = $this->Configuracion_model->objeto();
+      $data['estados']    = $this->Configuracion_model->consulta_estados();
+      $data['objeto']    = $this->Configuracion_model->objeto();
       $data['exonerado'] = $this->Certificacion_model->consultar_llamados_externos($date);
       $this->load->view('templates/header.php');
       $this->load->view('templates/navigator.php');
       $this->load->view('publicaciones/reporte/llamadoexterno.php', $data);
       $this->load->view('templates/footer.php');
-    } 
-
+    }
   }
 
-  public function consulta_t() {
+  public function consulta_t()
+  {
     if (!$this->session->userdata('session')) {
       $data = $this->input->post();
       $data = $this->Certificacion_model->consulta_llamado($data);
       echo json_encode($data);
     } else {
-      
+
       $data = $this->input->post();
       $data = $this->Certificacion_model->consulta_llamado($data);
       echo json_encode($data);
-    } 
-
+    }
   }
-  
+
   ///////////////////////solicitud de claves 
-   public function solicitud() {
+  public function solicitud()
+  {
     if (!$this->session->userdata('session')) {
-     
+
       $data['final']  = $this->User_model->consulta_organoente();
-    $data['clasificacion'] = $this->Configuracion_model->consulta_clasificacion();
-      
-      $data['estados'] 	 = $this->Configuracion_model->consulta_estados();
-      $data['objeto'] 	 = $this->Configuracion_model->objeto();
+      $data['clasificacion'] = $this->Configuracion_model->consulta_clasificacion();
+
+      $data['estados']    = $this->Configuracion_model->consulta_estados();
+      $data['objeto']    = $this->Configuracion_model->objeto();
       // $this->load->view('templates/header.php');
       // $this->load->view('templates/navsinsesion.php');
-        $this->load->view('templates/headerlog');
-            $this->load->view('templates/navbarlog');
+      $this->load->view('templates/headerlog');
+      $this->load->view('templates/navbarlog');
       $this->load->view('solicitud/solicitud.php', $data);
-            $this->load->view('templates/footerlog');
+      $this->load->view('templates/footerlog');
 
       // $this->load->view('templates/footer.php');
     } else {
-      
-       
-    } 
-
+    }
   }
 
 
-  public function consulta_og(){
-		$data = $this->input->post();
-		$data =	$this->User_model->llenar_organos($data);
-		echo json_encode($data);
-	}
+  public function consulta_og()
+  {
+    $data = $this->input->post();
+    $data =  $this->User_model->llenar_organos($data);
+    echo json_encode($data);
+  }
 }

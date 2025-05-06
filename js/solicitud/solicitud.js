@@ -15,11 +15,11 @@ function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
         $('#ueba').attr("disabled", true);
     }else{
         $("#items").show();
-        // var base_url  = window.location.origin+'/asnc/index.php/gestion/consulta_og';
-        // var base_url2 = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
+        var base_url  = window.location.origin+'/asnc/index.php/gestion/consulta_og';
+        var base_url2 = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
 
-      var base_url = '/index.php/gestion/consulta_og';
-        var base_url2 = '/index.php/evaluacion_desempenio/llenar_contratista_rp';
+    //   var base_url = '/index.php/gestion/consulta_og';
+    //     var base_url2 = '/index.php/evaluacion_desempenio/llenar_contratista_rp';
 
         $.ajax({
             url:base_url,
@@ -571,3 +571,189 @@ function validateEmail() {
             confirmButtonText: 'Ok'
         });
     }
+
+
+
+
+      function llenar_() {
+      
+        var factura = $("#trabajo").val();
+        if (factura <= "1") {
+            $("#campos7").show();
+        } else {
+            $("#campos7").hide();
+        }
+        }
+
+    
+    
+    
+   
+ 
+  function loadDiplomadoInfo(idDiplomado) {
+            if(idDiplomado == 0) {
+                $('#diplomadoInfoContainer').hide();
+                return;
+            }
+        var base_url = window.location.origin+'/asnc/index.php/diplomado/getDiplomadoInfo/' + idDiplomado;
+            
+            $.ajax({
+                url: base_url,
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    if(response.success) {
+                        $('#diplomadoTitle').text(response.data.name_d);
+                        $('#diplomadoFechaInicio').text(formatDate(response.data.fdesde));
+                        $('#diplomadoFechaFin').text(formatDate(response.data.fhasta));
+                        $('#diplomadoModalidad').text(getModalidadText(response.data.id_modalidad));
+                        
+                        // Calcular duración
+                        const fechaInicio = new Date(response.data.fdesde);
+                        const fechaFin = new Date(response.data.fhasta);
+                        const diffTime = Math.abs(fechaFin - fechaInicio);
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+                        
+                        $('#diplomadoDuracion').text(diffDays + ' días');
+                        
+                        $('#diplomadoInfoContainer').show();
+                    } else {
+                        alert('Error al cargar la información del diplomado');
+                        $('#diplomadoInfoContainer').hide();
+                    }
+                },
+                error: function() {
+                    alert('Error en la conexión con el servidor');
+                    $('#diplomadoInfoContainer').hide();
+                }
+            });
+        }
+        
+        // Función para formatear fechas
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('es-ES', options);
+        }
+        
+        // Función para obtener el texto de la modalidad
+        function getModalidadText(idModalidad) {
+            const modalidades = {
+                1: 'Presencial',
+                2: 'Virtual',
+                3: 'Bimodal'
+                // Agrega más modalidades según corresponda
+            };
+            return modalidades[idModalidad] || 'No especificado';
+        }
+ // Función para mostrar/ocultar campos según tipo de pago
+    function togglePagoFields() {
+        const tipoPago = $('#tipo_pago').val();
+        
+        // Ocultar todos primero
+        $('#pagoContadoFields').hide();
+        $('#pagoCreditoFields').hide();
+        
+        // Mostrar los correspondientes
+        if(tipoPago == 1) {
+            $('#pagoContadoFields').show();
+        } else if(tipoPago == 2) {
+            $('#pagoCreditoFields').show();
+        }
+    }
+    
+    // Validar que el importe no sea mayor al total
+    $('#importe').on('change', function() {
+        const total = parseFloat($('#total_pago').val()) || 0;
+        const importe = parseFloat($(this).val()) || 0;
+        
+        if(importe > total) {
+            alert('El importe cancelado no puede ser mayor al total a pagar');
+            $(this).val(total.toFixed(2));
+        }
+    });
+
+    function verificarPago() {
+    if($('#tipo_pago').val() != 1) {
+        alert('Esta función solo aplica para pagos al contado');
+        return;
+    }
+
+    // Validar campos obligatorios
+    const camposRequeridos = ['total_pago', 'bancoo', 'cedulaPagador', 'telefonoPagador', 'referencia', 'fechaPago', 'importe'];
+    let validacionOk = true;
+    
+    camposRequeridos.forEach(campo => {
+        if(!$(`#${campo}`).val()) {
+            $(`#${campo}`).addClass('is-invalid');
+            validacionOk = false;
+        } else {
+            $(`#${campo}`).removeClass('is-invalid');
+        }
+    });
+    
+    if(!validacionOk) {
+        alert('Por favor complete todos los campos requeridos');
+        return;
+    }
+
+    // Mostrar loader
+    $('#guardar').prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-2"></i>Verificando pago...');
+
+    // Preparar datos para enviar
+    const datosPago = {
+        cedulaPagador: $('#cedulaPagador').val(),
+        telefonoPagador: $('#telefonoPagador').val(),
+        telefonoDestino: $('#telefonoDestino').val() || '',
+        referencia: $('#referencia').val(),
+        fechaPago: $('#fechaPago').val(),
+        importe: $('#importe').val(),
+        bancoOrigen: $('#bancoo').val()
+    };
+        var base_url = window.location.origin+'/asnc/index.php/diplomado/verificar_pago/';
+
+    // Enviar a tu backend de CodeIgniter
+    $.ajax({
+        url: base_url,
+        type: 'POST',
+        dataType: 'json',
+        data: datosPago,
+        success: function(response) {
+            if(response.success) {
+                // Pago verificado correctamente
+                alert('Pago verificado correctamente. Puede continuar con la inscripción.');
+                $('#pagoVerificado').val('1'); // Campo oculto para marcar como verificado
+                $('#guardar').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar Inscripción');
+            } else {
+                // Error en la verificación
+                alert(response.message || 'Error al verificar el pago: ' + (response.error || ''));
+                $('#guardar').prop('disabled', true).html('<i class="fas fa-save mr-2"></i>Guardar Inscripción');
+            }
+        },
+        error: function(xhr) {
+            alert('Error de conexión con el servidor');
+            $('#guardar').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar Inscripción');
+        }
+    });
+}
+ 
+  function savei(event) {
+    // Si es pago al contado y no está verificado
+    if($('#tipo_pago').val() == 1 && $('#pagoVerificado').val() != '1') {
+        event.preventDefault();
+        alert('Debe verificar el pago antes de continuar');
+        verificarPago();
+        return false;
+    }
+    
+    // Si es crédito o pago ya verificado, continuar
+    if($('#sav_ext').parsley().validate()) {
+        // Mostrar loader
+        $('#guardar').prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-2"></i>Procesando...');
+        
+        // Continuar con el envío del formulario
+       // $('#sav_ext').submit();
+    } else {
+        alert('Por favor complete todos los campos requeridos');
+    }
+}
+ 

@@ -661,6 +661,42 @@
 
             </li>
         <?php endif; ?>
+        <?php if (($this->session->userdata('menu_certi') == 1)) : ?>
+            <li class="has-sub">
+                <a href="javascript:;">
+                    <b class="caret"></b>
+                    <i class="fas fa-paste fa-lg" style="background:darkred;"></i>
+                    <span>Diplomado</span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                        </a>
+
+
+                        <?php if (($this->session->userdata('certificacion') == 1)) : ?>
+
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                            <b class="caret"></b>
+                            General
+                        </a>
+                        <ul class="sub-menu">
+
+                            <li><a href="<?= base_url() ?>index.php/Diplomado/Registrar_diplomado"><i
+                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Crear Un Diplomado </a>
+                            </li>
+
+
+
+                        </ul>
+                    </li>
+                <?php endif; ?>
+            </li>
+            </ul>
+
+            </li>
+        <?php endif; ?>
         <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
             <li class="has-sub">
                 <a href="javascript:;">

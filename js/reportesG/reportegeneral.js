@@ -32,8 +32,8 @@ function buscar() {
     //var base_url = '/index.php/Publicaciones/busquedallcacciones';
     
     // Obtener la ruta base del formulario
-     //const baseUrl = window.location.origin + '/asnc/index.php/';
-   const baseUrl = '/index.php/';
+   const baseUrl = window.location.origin + '/asnc/index.php/';
+   //const baseUrl = '/index.php/';
     
     // Realizar petición AJAX
     fetch(baseUrl + 'ReporteRNCE/generarReporte', {
@@ -56,12 +56,20 @@ function buscar() {
         if (data.success) {
             // Extraer datos
             const programacion = data.data.total_programacion || 0;
+           const registrosPorAnio = data.data.registros_por_anio || [];
+
             const notificadas = data.data.total_notificadas || 0;
+            //const total_creadas_no_notificadas = data.data.total_creadas_no_notificadas || 0;
+
             const rendida = data.data.total_rendida || 0;
+          //  const total_creadas_no_rendidas = data.data.total_creadas_no_rendidas || 0;
+
 
             const proyectos = data.data.proyectos || {};
             const acciones = data.data.acciones || {};
             const topProductos = data.data.top_productos || [];
+            const top_productosrendi = data.data.top_productosrendi || [];
+
             
             // Datos de comisiones
         const comisiones = data.data.comisiones || {};
@@ -69,9 +77,10 @@ function buscar() {
         const totalMiembros = comisiones.total_miembros || 0;
 
             // Verificar si hay datos
-            const hasData = programacion > 0 || notificadas > 0 || 
+            const hasData = programacion > 0 || registrosPorAnio > 0  || notificadas > 0 || 
                           proyectos.total > 0 || acciones.total > 0 ||
-                          topProductos.length > 0;
+                          topProductos.length > 0 ||
+                          top_productosrendi.length > 0;
             
             if (!hasData) {
                 Swal.fire({
@@ -91,11 +100,25 @@ function buscar() {
             document.querySelector('#tabla-programacion tbody').innerHTML = `
                 <tr>
                      <td>${programacion}</td>
-                     <td>${notificadas}</td>
+                     <td>${notificadas}</td>  
+                     <td>${Number(programacion) - Number(notificadas)}</td>              
                      <td>${rendida}</td>
+                   <td>${Number(programacion) - Number(rendida)}</td>   
+
                 </tr>
             `;
+              // Tabla registros
+           let tablaHTML = '';
+            registrosPorAnio.forEach(item => {
+                tablaHTML += `
+                    <tr>
+                        <td>${item.anio}</td>
+                        <td>${item.total_registros}</td>
+                    </tr>
+                `;
+            });
             
+            document.querySelector('#tabla-registrost tbody').innerHTML = tablaHTML;
             // Tabla Proyectos
             document.querySelector('#tabla-proyectos tbody').innerHTML = `
                 <tr>
@@ -142,6 +165,8 @@ function buscar() {
                     </tr>
                 `;
             }
+
+      
         
                 // Mostrar tabla de comisiones
         document.querySelector('#tabla-comisiones tbody').innerHTML = `
@@ -195,9 +220,12 @@ function exportToExcel() {
     // Obtener datos de todas las tablas
     const tables = [
         { name: 'Programación', id: 'tabla-programacion' },
+        { name: 'registros', id: 'tabla-registrost' },
+
         { name: 'Proyectos', id: 'tabla-proyectos' },
         { name: 'Acciones', id: 'tabla-acciones' },
         { name: 'Top_Productos', id: 'tabla-top-productos' },
+
         { name: 'Comisiones', id: 'tabla-comisiones' }
 
     ];
@@ -261,6 +289,12 @@ function exportToPDF() {
         startY: startY,
         ...tableConfig
     });
+     // Tabla de registros 
+    doc.autoTable({
+        html: '#tabla-registrost',
+        startY: doc.lastAutoTable.finalY + 10,
+        ...tableConfig
+    });
     
     // Tabla de Proyectos
     doc.autoTable({
@@ -283,6 +317,8 @@ function exportToPDF() {
         ...tableConfig,
         pageBreak: 'auto'
     });
+
+    
        // Tabla de Top Productos (puede ser larga, manejamos paginación)
     doc.autoTable({
         html: '#tabla-comisiones',
