@@ -36,7 +36,18 @@ $route['llamadoxterno']['get'] = 'Gestion/llamadoxterno';
 $route['solicitud']['get'] = 'Gestion/solicitud';
 $route['recuperar']['get'] = 'Validacion_controller/recuperar';
 $route['re_user']['get'] = 'Validacion_controller/re_user';
-$route['solc_dipl']['get'] = 'Diplomado/solic';
+//$route['solc_dipl']['get'] = 'Diplomado/solic';
+$route['preins']['get'] = 'Diplomado/preinscrip';
+
+$route['solc_dipl'] = 'Diplomado/solic';
+$route['solic_juridica'] = 'Diplomado/solic_juridica';
+
+$route['Diplomado/solic'] = 'Diplomado/solic';
+$route['Diplomado/solic_juridica'] = 'Diplomado/solic_juridica';
+
+$route['Diplomado/pago'] = 'Diplomado/pago';
+
+
 
 
 

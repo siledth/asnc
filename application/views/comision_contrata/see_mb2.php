@@ -29,101 +29,101 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach($ver as $data):?>
-                            <tr class="odd gradeX" style="text-align:center">
-                                <td><?=$data['cedula']?> </td>
-                                <td><?=$data['nombre']?> <?=$data['apellido']?></td>
-                                <td><?=$data['desc_area_miembro']?> </td>
-                                <td><?=$data['desc_tp_miembro']?> </td>
-                                <td><?=$data['desc_status_miembro']?> </td>
+                            <?php foreach ($ver as $data): ?>
+                                <tr class="odd gradeX" style="text-align:center">
+                                    <td><?= $data['cedula'] ?> </td>
+                                    <td><?= $data['nombre'] ?> <?= $data['apellido'] ?></td>
+                                    <td><?= $data['desc_area_miembro'] ?> </td>
+                                    <td><?= $data['desc_tp_miembro'] ?> </td>
+                                    <td><?= $data['desc_status_miembro'] ?> </td>
 
-                                <td>
-                                    <?php if ($data['id_cert'] == 1) : ?>
-                                    <a href="<?php echo base_url();?>index.php/Comision_contrata/miemb_inf?id=<?php echo $data['id_miembros'];?>"
-                                        class="button">
-                                        <i title="ver Información" class="fas fa-2x fa-fw fa-clipboard-list"
-                                            style="color: black;"></i>
-                                        <a />
-                                        <a onclick="modal(<?php echo $data['id_miembros'] ?>);" data-toggle="modal"
-                                            data-target="#dede" style="color: white">
-                                            <i title="Información Académica" class="fas fa-2x fa-fw fa-address-card"
-                                                style="color: darkblue;"></i>
-
-                                        </a>
-                                        <a onclick="modal_(<?php echo $data['id_miembros'] ?>);" data-toggle="modal"
-                                            data-target="#exp" style="color: white">
-                                            <i title="Experiencia (Últimos 5 años) " class="fas fa-2x fa-business-time"
-                                                style="color: red;"></i>
-
-                                        </a>
-                                        <a onclick="modal_contrata(<?php echo $data['id_miembros'] ?>);"
-                                            data-toggle="modal" data-target="#cont" style="color: white">
-                                            <i title=" Capacitación Relacionada con Contrataciones Públicas (35%)"
-                                                class="fas fa-2x far fa-clipboard" style="color: blue;"></i>
-
-                                        </a>
-                                        <a onclick="modal_comis(<?php echo $data['id_miembros'] ?>);"
-                                            data-toggle="modal" data-target="#comi" style="color: white">
-                                            <i title="  Capacitación en Comisión de Contrataciones (15%)"
-                                                class="fas fa-2x   fas fa-archive" style="color: green;"></i>
-
-                                        </a>
-                                        <a title="Informaciòn Cargada"
-                                            onclick="enviar(<?php echo $data['id_miembros'];?>);" class="button">
-                                            <i class="fas fa-2x  fa-fw fa-check" style="color: black;"></i>
-                                            <a />
-                                            <?php elseif ($data['id_cert'] > 2) : ?>
-
-                                            <a onclick="modal(<?php echo $data['id_miembros'] ?>);" data-toggle="modal"
-                                                data-target="#dede" style="color: white">
-                                                <i title="Información Académica" class="fas fa-2x fa-fw fa-address-card"
-                                                    style="color: darkblue;"></i>
-
-                                            </a>
-                                            <a onclick="modal_(<?php echo $data['id_miembros'] ?>);" data-toggle="modal"
-                                                data-target="#exp" style="color: white">
-                                                <i title="Experiencia (Últimos 5 años) "
-                                                    class="fas fa-2x fa-business-time" style="color: red;"></i>
-
-                                            </a>
-                                            <a onclick="modal_contrata(<?php echo $data['id_miembros'] ?>);"
-                                                data-toggle="modal" data-target="#cont" style="color: white">
-                                                <i title=" Capacitación Relacionada con Contrataciones Públicas (35%)"
-                                                    class="fas fa-2x far fa-clipboard" style="color: blue;"></i>
-
-                                            </a>
-                                            <a onclick="modal_comis(<?php echo $data['id_miembros'] ?>);"
-                                                data-toggle="modal" data-target="#comi" style="color: white">
-                                                <i title="  Capacitación en Comisión de Contrataciones (15%)"
-                                                    class="fas fa-2x   fas fa-archive" style="color: green;"></i>
-
-                                            </a>
-
-                                            <a onclick="modal_ce(<?php echo $data['id_miembros']?>);"
-                                                data-toggle="modal" data-target="#exampleModal" style="color: white">
-                                                <i title="Certificar Miembro 2 años"
-                                                    class="fas fa-2x fa-fw fa-file-import" style="color: crimson;"></i>
-
-                                            </a>
-                                            <a href="<?php echo base_url();?>index.php/Comision_contrata/miemb_inf?id=<?php echo $data['id_miembros'];?>"
+                                    <td>
+                                        <?php if ($data['id_cert'] == 1) : ?>
+                                            <a href="<?php echo base_url(); ?>index.php/Comision_contrata/miemb_inf?id=<?php echo $data['id_miembros']; ?>"
                                                 class="button">
                                                 <i title="ver Información" class="fas fa-2x fa-fw fa-clipboard-list"
                                                     style="color: black;"></i>
                                                 <a />
-                                                <?php else: ?>
+                                                <a onclick="modal(<?php echo $data['id_miembros'] ?>);" data-toggle="modal"
+                                                    data-target="#dede" style="color: white">
+                                                    <i title="Información Académica" class="fas fa-2x fa-fw fa-address-card"
+                                                        style="color: darkblue;"></i>
 
-                                                <a href="<?php echo base_url();?>index.php/Comision_contrata/miemb_inf?id=<?php echo $data['id_miembros'];?>"
-                                                    class="button">
-                                                    <i title="ver Información" class="fas fa-2x fa-fw fa-clipboard-list"
-                                                        style="color: black;"></i>
+                                                </a>
+                                                <a onclick="modal_(<?php echo $data['id_miembros'] ?>);" data-toggle="modal"
+                                                    data-target="#exp" style="color: white">
+                                                    <i title="Experiencia (Últimos 5 años) " class="fas fa-2x fa-business-time"
+                                                        style="color: red;"></i>
+
+                                                </a>
+                                                <a onclick="modal_contrata(<?php echo $data['id_miembros'] ?>);"
+                                                    data-toggle="modal" data-target="#cont" style="color: white">
+                                                    <i title=" Capacitación Relacionada con Contrataciones Públicas (35%)"
+                                                        class="fas fa-2x far fa-clipboard" style="color: blue;"></i>
+
+                                                </a>
+                                                <a onclick="modal_comis(<?php echo $data['id_miembros'] ?>);"
+                                                    data-toggle="modal" data-target="#comi" style="color: white">
+                                                    <i title="  Capacitación en Comisión de Contrataciones (15%)"
+                                                        class="fas fa-2x   fas fa-archive" style="color: green;"></i>
+
+                                                </a>
+                                                <a title="Informaciòn Cargada"
+                                                    onclick="enviar(<?php echo $data['id_miembros']; ?>);" class="button">
+                                                    <i class="fas fa-2x  fa-fw fa-check" style="color: black;"></i>
                                                     <a />
+                                                <?php elseif ($data['id_cert'] > 2) : ?>
+
+                                                    <a onclick="modal(<?php echo $data['id_miembros'] ?>);" data-toggle="modal"
+                                                        data-target="#dede" style="color: white">
+                                                        <i title="Información Académica" class="fas fa-2x fa-fw fa-address-card"
+                                                            style="color: darkblue;"></i>
+
+                                                    </a>
+                                                    <a onclick="modal_(<?php echo $data['id_miembros'] ?>);" data-toggle="modal"
+                                                        data-target="#exp" style="color: white">
+                                                        <i title="Experiencia (Últimos 5 años) "
+                                                            class="fas fa-2x fa-business-time" style="color: red;"></i>
+
+                                                    </a>
+                                                    <a onclick="modal_contrata(<?php echo $data['id_miembros'] ?>);"
+                                                        data-toggle="modal" data-target="#cont" style="color: white">
+                                                        <i title=" Capacitación Relacionada con Contrataciones Públicas (35%)"
+                                                            class="fas fa-2x far fa-clipboard" style="color: blue;"></i>
+
+                                                    </a>
+                                                    <a onclick="modal_comis(<?php echo $data['id_miembros'] ?>);"
+                                                        data-toggle="modal" data-target="#comi" style="color: white">
+                                                        <i title="  Capacitación en Comisión de Contrataciones (15%)"
+                                                            class="fas fa-2x   fas fa-archive" style="color: green;"></i>
+
+                                                    </a>
+
+                                                    <a onclick="modal_ce(<?php echo $data['id_miembros'] ?>);"
+                                                        data-toggle="modal" data-target="#exampleModal" style="color: white">
+                                                        <i title="Certificar Miembro 2 años"
+                                                            class="fas fa-2x fa-fw fa-file-import" style="color: crimson;"></i>
+
+                                                    </a>
+                                                    <a href="<?php echo base_url(); ?>index.php/Comision_contrata/miemb_inf?id=<?php echo $data['id_miembros']; ?>"
+                                                        class="button">
+                                                        <i title="ver Información" class="fas fa-2x fa-fw fa-clipboard-list"
+                                                            style="color: black;"></i>
+                                                        <a />
+                                                    <?php else: ?>
+
+                                                        <a href="<?php echo base_url(); ?>index.php/Comision_contrata/miemb_inf?id=<?php echo $data['id_miembros']; ?>"
+                                                            class="button">
+                                                            <i title="ver Información" class="fas fa-2x fa-fw fa-clipboard-list"
+                                                                style="color: black;"></i>
+                                                            <a />
 
 
-                                </td>
+                                    </td>
                                 <?php endif; ?>
 
-                            </tr>
-                            <?php endforeach;?>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -159,8 +159,8 @@
                                             data-show-subtext="true" data-live-search="true">
                                             <option value="0">Seleccione</option>
                                             <?php foreach ($carrera as $data) : ?>
-                                            <option value="<?= $data['id_academico']?>"><?= $data['desc_academico']?>
-                                            </option>
+                                                <option value="<?= $data['id_academico'] ?>"><?= $data['desc_academico'] ?>
+                                                </option>
                                             <?php endforeach; ?>
                                         </select>
                                         <input class="form-control" type="hidden" name="id_comision" id="id_comision"
@@ -246,11 +246,11 @@
                                             class="form-control" data-show-subtext="true" data-live-search="true">
 
                                             <option value="0">Seleccione</option>
-                                            <?php foreach ($final as $data):?>
-                                            <option value="<?=$data['rif']?>"><?=$data['descripcion']?> /
-                                                <?=$data['rif']?>
-                                            </option>
-                                            <?php endforeach;?>
+                                            <?php foreach ($final as $data): ?>
+                                                <option value="<?= $data['rif'] ?>"><?= $data['descripcion'] ?> /
+                                                    <?= $data['rif'] ?>
+                                                </option>
+                                            <?php endforeach; ?>
                                         </select>
                                         <input class="form-control" type="hidden" name="id_comision3" id="id_comision3"
                                             readonly>
@@ -646,7 +646,7 @@
                             <div class="form-group col-3">
 
                                 <input type="hidden" id="vigen_cert_desde" name="vigen_cert_desde" class="form-control"
-                                    value="<?=$time?>" />
+                                    value="<?= $time ?>" />
                                 <input type="hidden" id="vigen_cert_hasta" name="vigen_cert_hasta"
                                     class="form-control" />
 
@@ -664,18 +664,18 @@
             </div>
         </div>
     </div>
-    <script src="<?=base_url()?>/js/comision/inf_ac.js">
-    < script type = "text/javascript" >
-        $(document).ready(function() {
-            $("#id_miembro4").select2({
-                dropdownParent: $("#academico")
+    <script src="<?= base_url() ?>/js/comision/inf_ac.js">
+        < script type = "text/javascript" >
+            $(document).ready(function() {
+                $("#id_miembro4").select2({
+                    dropdownParent: $("#academico")
+                });
             });
-        });
     </script>
     <script type="text/javascript">
-    $(document).ready(function() {
-        $("#id_unidad").select2({
-            dropdownParent: $("#guardar_expe")
+        $(document).ready(function() {
+            $("#id_unidad").select2({
+                dropdownParent: $("#guardar_expe")
+            });
         });
-    });
     </script>

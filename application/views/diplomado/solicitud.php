@@ -12,187 +12,8 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="<?= base_url('css/diplomado.css') ?>" rel="stylesheet">
 
-    <style>
-        :root {
-            /* --color-primary: #25285A;
-            --color-secondary: #E42322; */
-
-            --primary-color: #E42322;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --light-gray: #f8f9fa;
-            --dark-gray: #343a40;
-        }
-
-        body {
-            background-color: #f5f7fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .card-container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .card-header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .card-header img {
-            width: 1550px;
-            max-height: 80px;
-            margin-bottom: 1rem;
-        }
-
-        .card-body {
-            padding: 2rem;
-        }
-
-        .form-section {
-            background-color: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .form-section h5 {
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--secondary-color);
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .required-field::after {
-            content: " *";
-            color: var(--accent-color);
-        }
-
-        .btn-primary {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
-            padding: 0.5rem 2rem;
-            font-weight: 500;
-        }
-
-        .btn-primary:hover {
-            background-color: #2980b9;
-            border-color: #2980b9;
-        }
-
-        .form-control {
-            border-radius: 4px;
-            padding: 0.75rem 1rem;
-            border: 1px solid #ced4da;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-control:focus {
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
-        }
-
-        label {
-            font-weight: 500;
-            color: var(--dark-gray);
-            margin-bottom: 0.5rem;
-        }
-
-        .section-divider {
-            border-top: 1px dashed #ddd;
-            margin: 1.5rem 0;
-        }
-
-        .info-text {
-            color: var(--secondary-color);
-            font-size: 0.9rem;
-        }
-
-        .diplomado-info {
-            background-color: #f8f9fa;
-            border-left: 4px solid var(--secondary-color);
-            padding: 1rem;
-            margin-top: 1rem;
-            border-radius: 4px;
-        }
-
-        .diplomado-info h6 {
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-
-        .info-item {
-            margin-bottom: 0.5rem;
-        }
-
-        .info-item strong {
-            min-width: 120px;
-            display: inline-block;
-        }
-
-        @media (max-width: 768px) {
-            .card-body {
-                padding: 1rem;
-            }
-
-            .form-section {
-                padding: 1rem;
-            }
-
-            .info-item strong {
-                min-width: 100px;
-            }
-        }
-
-        /* Estilos para la sección de pago */
-        .payment-image {
-            max-height: 200px;
-            margin: 0 auto 40px;
-            display: block;
-        }
-
-        .payment-field-group {
-            margin-bottom: 1rem;
-        }
-
-        .payment-field-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .currency-input {
-            position: relative;
-        }
-
-        .currency-input .input-group-text {
-            background-color: #f8f9fa;
-            font-weight: bold;
-        }
-
-        .is-invalid {
-            border-color: #dc3545 !important;
-        }
-
-        .invalid-feedback {
-            display: none;
-            width: 100%;
-            margin-top: 0.25rem;
-            font-size: 80%;
-            color: #dc3545;
-        }
-
-        .is-invalid~.invalid-feedback {
-            display: block;
-        }
-    </style>
 </head>
 
 <body>
@@ -200,9 +21,10 @@
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <div class="card-container">
+                    <img src="<?= base_url() ?>Plantilla/img/loij.png" alt="Logo" class="img-fluid">
+
                     <div class="card-header">
-                        <img src="<?= base_url() ?>Plantilla/img/loij.png" alt="Logo" class="img-fluid">
-                        <h4>Preinscripción Inscripción del Diplomado</h4>
+                        <h4>Persona Natural Solicitud de Inscripción Diplomado</h4>
                         <h6 class="mb-0">Sistema Integrado SNC</h6>
                     </div>
 
@@ -221,9 +43,9 @@
                                             onchange="loadDiplomadoInfo(this.value)">
                                             <option value="0">Seleccione una opción</option>
                                             <?php foreach ($diplomado as $data): ?>
-                                                <option value="<?= $data['id_diplomado'] ?>">
-                                                    <?= $data['name_d'] ?>
-                                                </option>
+                                            <option value="<?= $data['id_diplomado'] ?>">
+                                                <?= $data['name_d'] ?>
+                                            </option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -238,8 +60,9 @@
                                             id="diplomadoFechaFin"></span></div>
                                     <div class="info-item"><strong>Modalidad:</strong> <span
                                             id="diplomadoModalidad"></span></div>
-                                    <div class="info-item"><strong>Duración:</strong> <span
-                                            id="diplomadoDuracion"></span></div>
+                                    <div class="info-item"><strong>Costo por persona:</strong> <span
+                                            id="diplomadoM"></span></div>
+
                                 </div>
                             </div>
                             <!-- Sección de Datos Personales -->
@@ -252,7 +75,9 @@
                                         <input type="text" id="cedula_f" name="cedula_f" maxlength="8"
                                             onblur="validateUsers();" placeholder="Ej: 12345678" class="form-control"
                                             required />
-                                        <small class="form-text text-muted">Sin puntos ni comas</small>
+                                        <small class="form-text text-muted">8 dígitos sin puntos</small>
+                                        <div class="invalid-feedback">La cédula debe tener exactamente 8 dígitos
+                                            numéricos</div>
                                     </div>
 
                                     <div class="col-md-4 form-group">
@@ -287,21 +112,103 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4 form-group">
-                                        <label for="id_clasificacion">Grado de instruccion</label>
-                                        <select id="id_clasificacion" name="id_clasificacion" class="form-control">
-                                            <option value="0">Seleccione una opción</option>
-                                            <?php foreach ($clasificacion as $data): ?>
-                                                <option value="<?= $data['id_academico'] ?>">
-                                                    <?= $data['desc_academico'] ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
+                                        <label for="id_clasificacion">Edad</label>
+                                        <input type="number" id="edad" name="edad" class="form-control">
                                     </div>
+
+
+
                                     <div class="col-md-8 form-group">
                                         <label for="direccion_fiscal" class="required-field">Dirección Completa</label>
                                         <textarea class="form-control" id="direccion_fiscal_" name="direccion_fiscal_"
                                             rows="3"
                                             placeholder="Ej: Av. Principal, Edificio XYZ, Piso 3, Oficina 301"></textarea>
+                                    </div>
+
+                                    <div class="col-md-8 form-group">
+                                        <label for="direccion_fiscal" class="required-field">Observación</label>
+                                        <textarea class="form-control" id="obser" name="obser" rows="3"
+                                            placeholder="Ej: puede ingresar una observacion"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-section">
+                                    <h5><i class="fas fa-graduation-cap mr-2"></i>Información Curricular</h5>
+
+                                    <div class="row">
+                                        <div class="col-md-4 form-group">
+                                            <label for="grado_instruccion" class="required-field">Grado de
+                                                Instrucción</label>
+                                            <select id="grado_instruccion" name="grado_instruccion" class="form-control"
+                                                required>
+                                                <option value="">Seleccione una opción</option>
+                                                <?php foreach ($clasificacion as $data): ?>
+                                                <option value="<?= $data['id_academico'] ?>">
+                                                    <?= $data['desc_academico'] ?>
+                                                </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-4 form-group">
+                                            <label for="titulo_obtenido" class="required-field">Título Obtenido</label>
+                                            <input type="text" id="titulo_obtenido" name="titulo_obtenido"
+                                                class="form-control" required>
+                                        </div>
+
+
+                                        <div class="col-md-4 form-group">
+                                            <label for="trabajo"> Tiene experiencia en contrataciones
+                                                públicas</label>
+                                            <select class="form-control" name="t_contrata_p" id="t_contrata_p"
+                                                onclick="llenar_2();">
+                                                <option value="0">Seleccione una opción</option>
+                                                <option value="1">Sí</option>
+                                                <option value="2">No</option>
+                                            </select>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="form-section" id='cmp1' style="display: none;">
+                                        <div class="col-md-4 form-group">
+                                            <label for="experiencia_publicas" class="required-field">Experiencia en
+                                                Contrataciones Públicas (años)</label>
+                                            <input type="number" id="experiencia_publicas" name="experiencia_publicas"
+                                                class="form-control" min="1" max="4" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 form-group">
+                                            <label for="tiene_capacitacion" class="required-field">¿Tiene capacitación
+                                                en
+                                                Contrataciones Públicas?</label>
+                                            <select class="form-control" name="tiene_capacitacion"
+                                                id="tiene_capacitacion" required>
+                                                <option value="">Seleccione una opción</option>
+                                                <option value="1">Sí</option>
+                                                <option value="2">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Sección de Capacitaciones (se muestra solo si selecciona "Sí") -->
+                                    <div id="capacitaciones-container" style="display: none;">
+                                        <div class="alert alert-info">
+                                            <i class="fas fa-info-circle mr-2"></i>Debe agregar al menos una
+                                            capacitación
+                                            relacionada con Contrataciones Públicas (máximo 3).
+                                        </div>
+
+                                        <!-- Lista de capacitaciones -->
+                                        <div id="lista-capacitaciones">
+                                            <!-- Las capacitaciones se agregarán aquí dinámicamente -->
+                                        </div>
+
+                                        <!-- Botón para agregar nueva capacitación -->
+                                        <button type="button" id="btn-add-capacitacion"
+                                            class="btn btn-primary btn-sm btn-add-capacitacion">
+                                            <i class="fas fa-plus mr-2"></i>Agregar otra capacitación
+                                        </button>
                                     </div>
                                 </div>
 
@@ -316,6 +223,8 @@
                                     </div>
                                 </div>
                             </div>
+
+
 
                             <!-- Sección de Datos Laborales (oculta inicialmente) -->
                             <div class="form-section" id='campos7' style="display: none;">
@@ -334,6 +243,7 @@
                                         oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/,'')"
                                         onKeyUp="this.value=this.value.toUpperCase();" onblur="consultar_rif();">
                                     <small class="form-text text-muted">Ingrese el RIF sin guiones ni puntos</small>
+                                    <div class="invalid-feedback">Debe ingresar el RIF de la institución</div>
                                 </div>
 
                                 <!-- Sección si existe RIF -->
@@ -394,35 +304,6 @@
                                     <div class="section-divider"></div>
                                     <h6><i class="fas fa-map-marker-alt mr-2"></i>Dirección Fiscal</h6>
 
-                                    <div class="row">
-                                        <div class="col-md-4 form-group">
-                                            <label for="id_estado_n">Estado</label>
-                                            <select class="form-control" name="id_estado_n" id="id_estado_n"
-                                                onclick="llenar_municipio();listar_ciudades();">
-                                                <option value="0">Seleccione</option>
-                                                <?php foreach ($estados as $data): ?>
-                                                    <option value="<?= $data['id'] ?>">
-                                                        <?= $data['descedo'] ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-
-                                        <div class="col-md-4 form-group">
-                                            <label for="id_municipio_n">Municipio</label>
-                                            <select class="form-control" name="id_municipio_n" id="id_municipio_n"
-                                                onclick="llenar_parroquia();">
-                                                <option value="0">Seleccione</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="col-md-4 form-group">
-                                            <label for="id_parroquia_n">Parroquia</label>
-                                            <select class="form-control" name="id_parroquia_n" id="id_parroquia_n">
-                                                <option value="0">Seleccione</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
                                     <div class="form-group">
                                         <label for="direccion_fiscal" class="required-field">Dirección Completa</label>
                                         <textarea class="form-control" id="direccion_fiscal" name="direccion_fiscal"
@@ -431,117 +312,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Sección de Forma de Pago  -->
-                            <!-- <div class="form-section">
-                                <h5><i class="fas fa-credit-card mr-2"></i>Forma de Pago</h5>
 
-
-                                <div class="row">
-                                    <div class="col-md-6 form-group">
-                                        <label for="tipo_pago" class="required-field">Tipo de Pago</label>
-                                        <select class="form-control" name="tipo_pago" id="tipo_pago"
-                                            onchange="togglePagoFields()">
-                                            <option value="0">Seleccione una opción</option>
-                                            <option value="1">Pago al Contado</option>
-                                            <option value="2">Crédito</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <!-- Campos para Pago al Contado (inicialmente ocultos) -->
-                            <div id="pagoContadoFields" style="display: none;">
-                                <!-- Imagen de encabezado -->
-                                <div class="text-center mb-4">
-                                    <img src="<?= base_url() ?>baner/bdv.jpeg" alt="Métodos de pago" class="img-fluid"
-                                        style="max-height: 390px;">
-                                </div>
-
-                                <div class="alert alert-info">
-                                    <i class="fas fa-info-circle mr-2"></i>Complete los datos del pago al contado.
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6 form-group">
-                                        <label for="total_pago" class="required-field">Total a Pagar</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">$</span>
-                                            </div>
-                                            <input type="number" step="0.01" id="total_pago" name="total_pago"
-                                                class="form-control" placeholder="0.00">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label for="bancoo" class="required-field">Banco de Origen</label>
-                                        <select id="bancoo" name="bancoo" class="form-control">
-                                            <option value="0">Seleccione una opción</option>
-                                            <?php foreach ($banco as $data): ?>
-                                                <option value="<?= $data['cod_banc'] ?>">
-                                                    <?= $data['des_banco'] ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-4 form-group">
-                                        <label for="cedulaPagador" class="required-field">Cédula del Pagador</label>
-                                        <input type="text" id="cedulaPagador" name="cedulaPagador" class="form-control"
-                                            placeholder="Ej: 12345678" maxlength="12">
-                                    </div>
-
-                                    <div class="col-md-4 form-group">
-                                        <label for="telefonoPagador" class="required-field">Teléfono del
-                                            Pagador</label>
-                                        <input type="text" id="telefonoPagador" name="telefonoPagador"
-                                            class="form-control" placeholder="Ej: 04121234567">
-                                    </div>
-
-                                    <div class="col-md-4 form-group">
-                                        <label for="telefonoDestino">Teléfono Destino (opcional)</label>
-                                        <input type="text" id="telefonoDestino" name="telefonoDestino"
-                                            class="form-control" placeholder="Ej: 02121234567">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6 form-group">
-                                        <label for="referencia" class="required-field">Número de Referencia</label>
-                                        <input type="text" id="referencia" name="referencia" class="form-control"
-                                            placeholder="Número de referencia del pago">
-                                    </div>
-
-                                    <div class="col-md-3 form-group">
-                                        <label for="fechaPago" class="required-field">Fecha de Pago</label>
-                                        <input type="date" id="fechaPago" name="fechaPago" class="form-control">
-                                    </div>
-
-                                    <div class="col-md-3 form-group">
-                                        <label for="importe" class="required-field">Importe Cancelado</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">$</span>
-                                            </div>
-                                            <input type="number" step="0.01" id="importe" name="importe"
-                                                class="form-control" placeholder="0.00">
-                                        </div>
-                                    </div>
-                                    <input type="hidden" id="pagoVerificado" name="pagoVerificado" value="0">
-                                </div>
-                            </div>
-
-                            <!-- Campos para Crédito   -->
-                            <div id="pagoCreditoFields" style="display: none;">
-                                <div class="alert alert-warning">
-                                    <i class="fas fa-exclamation-triangle mr-2"></i>Para pagos a crédito, nuestro
-                                    equipo se comunicará con usted para acordar los términos.
-                                </div>
-                            </div>
-                    </div> -->
+                    </div>
                     <div class="text-center mt-4">
-                        <button type="button" id="guardar" onclick="savei(event);" class="btn btn-primary btn-lg">
+                        <button type="button" id="guardar" onclick="Inscribir(event);" class="btn btn-primary btn-lg">
                             <i class="fas fa-save mr-2"></i>Guardar Inscripción
                         </button>
                     </div>
@@ -558,6 +332,22 @@
 
     <!-- Tu script personalizado -->
     <script src="<?= base_url() ?>/js/solicitud/solicitud.js"></script>
+
+
+    <script>
+    // Validación antes de enviar el formulario
+    // function Inscribir(event) {
+    //     // Validar que si seleccionó "Sí" en capacitación, tenga al menos una
+    //     if ($('#tiene_capacitacion').val() === '1' && capacitacionCount === 0) {
+    //         alert('Debe agregar al menos una capacitación relacionada con Contrataciones Públicas.');
+    //         event.preventDefault();
+    //         return false;
+    //     }
+
+    //     // Resto de tu lógica de validación...
+    //     // ...
+    // }
+    </script>
 </body>
 
 </html>

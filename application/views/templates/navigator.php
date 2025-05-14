@@ -614,28 +614,28 @@
                         </a>
                         <?php if (($this->session->userdata('certificacion') == 1)) : ?>
                     <li class="has-sub">
-                    <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion"><i
+                        <!-- <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion"><i
                                 class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Solicitud de
-                            Certificación de Privado</a>
+                            Certificación de Privado</a> -->
                     </li>
-                    <li><a href="<?= base_url() ?>index.php/certificacion/ver_facilitador"><i
-                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Facilitador</a>
-                    </li>
-                    <li>
-                    </li>
-                <?php endif; ?>
-                <?php if (($this->session->userdata('certi_externo') == 1)) : ?>
-                    <li class="has-sub">
+                    <!-- <li><a href="<?= base_url() ?>index.php/certificacion/ver_facilitador"><i
+                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Facilitador</a> -->
+            </li>
+            <li>
+            </li>
+        <?php endif; ?>
+        <?php if (($this->session->userdata('certi_externo') == 1)) : ?>
+            <!-- <li class="has-sub">
                     <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion_exter"><i
                                 class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Certificación de Privado</a>
                     </li>
                     <li><a href="<?= base_url() ?>index.php/certificacion/ver_facilitador"><i
                                 class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Facilitador</a>
-                    </li>
-                <?php endif; ?>
-                <?php if (($this->session->userdata('certificacion') == 1)) : ?>
+                    </li> -->
+        <?php endif; ?>
+        <?php if (($this->session->userdata('certificacion') == 1)) : ?>
 
-                    <li class="has-sub">
+            <!-- <li class="has-sub">
                         <a href="javascript:;">
                             <b class="caret"></b>
                             Reportes
@@ -654,385 +654,376 @@
                             </li>
 
                         </ul>
-                    </li>
-                <?php endif; ?>
-            </li>
+                    </li> -->
+        <?php endif; ?>
+
+        <li class="has-sub">
+            <a href="javascript:;">
+                <b class="caret"></b>
+                Diplomado
+            </a>
+            <ul class="sub-menu">
+
+                <li><a href="<?= base_url() ?>index.php/Diplomado/Registrar_diplomado"><i
+                            class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Crear Un Diplomado </a>
+                </li>
+                <li><a href="<?= base_url() ?>index.php/Diplomado/sel_participantes"><i
+                            class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Selección de participantes </a>
+                </li>
+                <li><a href="<?= base_url() ?>index.php/Diplomado/sel_participantes_juridico"><i
+                            class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Selección de participantes
+                        Juridico </a>
+                </li>
+                <li><a href="<?= base_url() ?>index.php/Diplomado/participanteselec"><i
+                            class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Participante seleccionado </a>
+                </li>
+
+
+
+            </ul>
+        </li>
+        </li>
+        </ul>
+
+        </li>
+    <?php endif; ?>
+
+    <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
+        <li class="has-sub">
+            <a href="javascript:;">
+                <b class="caret"></b>
+                <i class="fa fa-list-ol" style="background:darkred;"></i>
+                <span>Reportes Generales</span>
+            </a>
+            <ul class="sub-menu">
+                <li class="has-sub">
+                    <a href="javascript:;">
+                        <b class="caret"></b>
+                        <span>RNCE</span>
+                    </a>
+                    <ul class="sub-menu">
+
+                        <li><a href="<?= base_url() ?>index.php/ReporteRNCE/reporteG">- Reporte RNCE</a></li>
+
+
+
+
+                    </ul>
+                </li>
+
+
             </ul>
 
-            </li>
-        <?php endif; ?>
-        <?php if (($this->session->userdata('menu_certi') == 1)) : ?>
-            <li class="has-sub">
-                <a href="javascript:;">
-                    <b class="caret"></b>
-                    <i class="fas fa-paste fa-lg" style="background:darkred;"></i>
-                    <span>Diplomado</span>
-                </a>
-                <ul class="sub-menu">
-                    <li class="has-sub">
-                        <a href="javascript:;">
-                        </a>
+        </li>
+    <?php endif; ?>
+    <?php if (($this->session->userdata('ver_conf') == 1)) : ?>
+        <li class="has-sub">
+            <a href="javascript:;">
+                <b class="caret"></b>
+                <i class="ion-gear-b fa-spin" style="background:darkred;"></i>
+                <span>Configuración</span>
+            </a>
 
+            <ul class="sub-menu">
 
-                        <?php if (($this->session->userdata('certificacion') == 1)) : ?>
+                <li class="has-sub">
+                    <a href="javascript:;">
+                        <b class="caret"></b>
+                        Entes
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="has-sub">
+                            <?php if ($this->session->userdata('perfil') == 1 || $this->session->userdata('perfil') == 14) : ?>
 
-                    <li class="has-sub">
-                        <a href="javascript:;">
-                            <b class="caret"></b>
-                            General
-                        </a>
-                        <ul class="sub-menu">
-
-                            <li><a href="<?= base_url() ?>index.php/Diplomado/Registrar_diplomado"><i
-                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Crear Un Diplomado </a>
-                            </li>
-
-
-
-                        </ul>
-                    </li>
-                <?php endif; ?>
-            </li>
-            </ul>
-
-            </li>
-        <?php endif; ?>
-        <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
-            <li class="has-sub">
-                <a href="javascript:;">
-                    <b class="caret"></b>
-                    <i class="fa fa-list-ol" style="background:darkred;"></i>
-                    <span>Reportes Generales</span>
-                </a>
-                <ul class="sub-menu">
-                    <li class="has-sub">
-                        <a href="javascript:;">
-                            <b class="caret"></b>
-                            <span>RNCE</span>
-                        </a>
-                        <ul class="sub-menu">
-
-                            <li><a href="<?= base_url() ?>index.php/ReporteRNCE/reporteG">- Reporte RNCE</a></li>
-
-
-
-
-                        </ul>
-                    </li>
-
-
-                </ul>
-
-            </li>
-        <?php endif; ?>
-        <?php if (($this->session->userdata('ver_conf') == 1)) : ?>
-            <li class="has-sub">
-                <a href="javascript:;">
-                    <b class="caret"></b>
-                    <i class="ion-gear-b fa-spin" style="background:darkred;"></i>
-                    <span>Configuración</span>
-                </a>
-
-                <ul class="sub-menu">
-
-                    <li class="has-sub">
-                        <a href="javascript:;">
-                            <b class="caret"></b>
-                            Entes
-                        </a>
-                        <ul class="sub-menu">
-                            <li class="has-sub">
-                                <?php if ($this->session->userdata('perfil') == 1 || $this->session->userdata('perfil') == 14) : ?>
-
-                            <li>
-                                <a href="<?= base_url() ?>index.php/configuracion/orga">
-                                    <i class="fas fa-lg fa-fw m-r-10 fa-landmark"></i>Organo
-                                </a>
-                            </li>
-
-
-                            <li>
-                                <a href="<?= base_url() ?>index.php/configuracion/ent">
-                                    <i class="fas fa-lg fa-fw m-r-10 fa-building"></i>Entes
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="<?= base_url() ?>index.php/configuracion/entes_adscrito">
-                                    <i class="fas fa-lg fa-fw m-r-10 fa-city"></i>Entes Adscritos
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?= base_url() ?>index.php/configuracion/filiares">
-                                    <i class="fas fa-lg fa-fw m-r-10 fa-city"></i>Unidades Ejecutoras locales
-                                </a>
-                            </li>
-                        <?php endif; ?>
                         <li>
-                            <a href="<?= base_url() ?>index.php/configuracion/list">
-                                <i class="fas fa-lg fa-fw m-r-10 fa-city"></i>Listado
+                            <a href="<?= base_url() ?>index.php/configuracion/orga">
+                                <i class="fas fa-lg fa-fw m-r-10 fa-landmark"></i>Organo
                             </a>
                         </li>
-                    </li>
-                </ul>
-            </li>
-        <?php endif; ?>
 
-        <?php if (($this->session->userdata('ver_parametro') == 1)) : ?>
-            <li class="has-sub">
-                <a href="javascript:;">
-                    <b class="caret"></b>
-                    <span>Tablas Parametros</span>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Certificacion/registrar_exonerado">
-                            - Exonerados
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Fuentefinanc/index">
-                            - Fuente de Financiamiento
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Fuentefinanc/alicuotaiva">
-                            - Alicuota
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Fuentefinanc/registrar_pa">
-                            - Partida Presupuestaria
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Fuentefinanc/centra">
-                            - Acción Centralizada
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Fuentefinanc/und">
-                            - Unidad de Medida
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Fuentefinanc/ccnu">
-                            - CCNU
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/diasferiados">
-                            - Dias Feriados
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Fuentefinanc/estado">
-                            - Estado
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Fuentefinanc/municipio">
-                            - Municipio
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Fuentefinanc/parroquia">
-                            - Parroquia
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Fuentefinanc/ciudades">
-                            - Ciudades
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Fuentefinanc/operador">
-                            - Operadora
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Fuentefinanc/proce">
-                            - Procedimiento Selección de Contratista
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Fuentefinanc/supuestos">
-                            - Supuestos de Procedimientos
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Fuentefinanc/edocivil">
-                            - Estado Civil
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Fuentefinanc/Casificacion">
-                            - Clasificación
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Tablas_com/registrar_cm">
-                            - Nivel Academico
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Tablas_com/actoadmin">
-                            - Acto Administrativo
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Tablas_com/area_mb">
-                            - Area Miembros
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Tablas_com/estatus_mb">
-                            - Estatus Miembros Certificado
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        <?php endif; ?>
-        <?php if (($this->session->userdata('ver_conf_publ') == 1)) : ?>
-            <li class="has-sub">
-                <a href="javascript:;">
-                    <b class="caret"></b>
-                    <span>Configuración de Públicaciones</span>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Publicaciones/banco">
-                            - Banco
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Publicaciones/tipo_cuenta">
-                            - Tipo de Cuenta
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Publicaciones/datosbancarios">
-                            - Datos Bancarios
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Publicaciones/modalidad">
-                            - Modalidad
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Publicaciones/mecanismo">
-                            - Mécanismo
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/Publicaciones/actividad">
-                            - Actividad
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url() ?>index.php/gestionlapsos">
-                            - Gestion: Lapsos
-                        </a>
-                    </li>
 
-                </ul>
-            </li>
-        <?php endif; ?>
+                        <li>
+                            <a href="<?= base_url() ?>index.php/configuracion/ent">
+                                <i class="fas fa-lg fa-fw m-r-10 fa-building"></i>Entes
+                            </a>
+                        </li>
 
-        <?php if (($this->session->userdata('ver_user') == 1)) : ?>
-            <li class="has-sub">
-                <a href="javascript:;">
-                    <b class="caret"></b>
+                        <li>
+                            <a href="<?= base_url() ?>index.php/configuracion/entes_adscrito">
+                                <i class="fas fa-lg fa-fw m-r-10 fa-city"></i>Entes Adscritos
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?= base_url() ?>index.php/configuracion/filiares">
+                                <i class="fas fa-lg fa-fw m-r-10 fa-city"></i>Unidades Ejecutoras locales
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                    <li>
+                        <a href="<?= base_url() ?>index.php/configuracion/list">
+                            <i class="fas fa-lg fa-fw m-r-10 fa-city"></i>Listado
+                        </a>
+                    </li>
+                </li>
+            </ul>
+        </li>
+    <?php endif; ?>
 
-                    <span>Usuarios</span>
-                </a>
-                <ul class="sub-menu">
-                    <?php if ($this->session->userdata('perfil') == 1 || $this->session->userdata('perfil') == 14) : ?>
+    <?php if (($this->session->userdata('ver_parametro') == 1)) : ?>
+        <li class="has-sub">
+            <a href="javascript:;">
+                <b class="caret"></b>
+                <span>Tablas Parametros</span>
+            </a>
+            <ul class="sub-menu">
+                <li>
+                    <a href="<?= base_url() ?>index.php/Certificacion/registrar_exonerado">
+                        - Exonerados
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Fuentefinanc/index">
+                        - Fuente de Financiamiento
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Fuentefinanc/alicuotaiva">
+                        - Alicuota
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Fuentefinanc/registrar_pa">
+                        - Partida Presupuestaria
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Fuentefinanc/centra">
+                        - Acción Centralizada
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Fuentefinanc/und">
+                        - Unidad de Medida
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Fuentefinanc/ccnu">
+                        - CCNU
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/diasferiados">
+                        - Dias Feriados
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Fuentefinanc/estado">
+                        - Estado
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Fuentefinanc/municipio">
+                        - Municipio
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Fuentefinanc/parroquia">
+                        - Parroquia
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Fuentefinanc/ciudades">
+                        - Ciudades
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Fuentefinanc/operador">
+                        - Operadora
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Fuentefinanc/proce">
+                        - Procedimiento Selección de Contratista
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Fuentefinanc/supuestos">
+                        - Supuestos de Procedimientos
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Fuentefinanc/edocivil">
+                        - Estado Civil
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Fuentefinanc/Casificacion">
+                        - Clasificación
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Tablas_com/registrar_cm">
+                        - Nivel Academico
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Tablas_com/actoadmin">
+                        - Acto Administrativo
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Tablas_com/area_mb">
+                        - Area Miembros
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Tablas_com/estatus_mb">
+                        - Estatus Miembros Certificado
+                    </a>
+                </li>
+            </ul>
+        </li>
+    <?php endif; ?>
+    <?php if (($this->session->userdata('ver_conf_publ') == 1)) : ?>
+        <li class="has-sub">
+            <a href="javascript:;">
+                <b class="caret"></b>
+                <span>Configuración de Públicaciones</span>
+            </a>
+            <ul class="sub-menu">
+                <li>
+                    <a href="<?= base_url() ?>index.php/Publicaciones/banco">
+                        - Banco
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Publicaciones/tipo_cuenta">
+                        - Tipo de Cuenta
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Publicaciones/datosbancarios">
+                        - Datos Bancarios
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Publicaciones/modalidad">
+                        - Modalidad
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Publicaciones/mecanismo">
+                        - Mécanismo
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/Publicaciones/actividad">
+                        - Actividad
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url() ?>index.php/gestionlapsos">
+                        - Gestion: Lapsos
+                    </a>
+                </li>
 
-                        <?php if (($this->session->userdata('ver_user_exter') == 1)) : ?>
-                            <!-- <li>
+            </ul>
+        </li>
+    <?php endif; ?>
+
+    <?php if (($this->session->userdata('ver_user') == 1)) : ?>
+        <li class="has-sub">
+            <a href="javascript:;">
+                <b class="caret"></b>
+
+                <span>Usuarios</span>
+            </a>
+            <ul class="sub-menu">
+                <?php if ($this->session->userdata('perfil') == 1 || $this->session->userdata('perfil') == 14) : ?>
+
+                    <?php if (($this->session->userdata('ver_user_exter') == 1)) : ?>
+                        <!-- <li>
                             <a href="<?= base_url() ?>index.php/user">
                                 <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Registros
                             </a>
                         </li> -->
 
 
-                            <!-- <li>
+                        <!-- <li>
                         <a href="<?= base_url() ?>index.php/user/int">
                             <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Registros Usuarios
                         </a>
                     </li> -->
 
-                            <li>
-                                <a href="<?= base_url() ?>index.php/user/create_user">
-                                    <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Registro Usuarios
-                                </a>
-                            </li>
-                        <?php endif; ?>
-                        <?php if (($this->session->userdata('ver_user_desb') == 1)) : ?>
-                            <li>
-                                <a href="<?= base_url() ?>index.php/user/bloquear_usuario">
-                                    <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Inhabilitar Usuarios
-                                </a>
-                            </li>
-                        <?php endif; ?>
-                        <?php if (($this->session->userdata('ver_user_desb') == 1)) : ?>
-                            <li>
-                                <a href="<?= base_url() ?>index.php/user/desblo_usuario">
-                                    <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Desbloqueo de Usuarios
-                                </a>
-                            </li>
-                        <?php endif; ?>
-                        <?php if (($this->session->userdata('ver_user_lista') == 1)) : ?>
-                            <li>
-                                <a href="<?= base_url() ?>index.php/user/modif_usuarios">
-                                    <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Lista Usuarios SNC activos
-                                </a>
-                            </li>
-                        <?php endif; ?>
-                        <?php if (($this->session->userdata('ver_user_lista') == 1)) : ?>
-                            <li>
-                                <a href="<?= base_url() ?>index.php/user/lista_user_inactivos_snc">
-                                    <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Lista Usuarios SNC inactivos
-                                </a>
-                            </li>
-                        <?php endif; ?>
-
-                        <?php if (($this->session->userdata('ver_user_perfil') == 1)) : ?>
-                            <li>
-                                <a href="<?= base_url() ?>index.php/user/perfil_">
-                                    <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Asignación de Permisos
-                                </a>
-                            </li>
-                        <?php endif; ?>
-                        <?php if (($this->session->userdata('ver_user_perfil') == 1)) : ?>
-                            <li>
-                                <a href="<?= base_url() ?>index.php/User/see_ses">
-                                    <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Sesiones Abiertas
-                                </a>
-                            </li>
-                        <?php endif; ?>
-
-                    <?php endif; ?>
-                    <?php if (($this->session->userdata('ver_user_lista') == 1)) : ?>
                         <li>
-                            <a href="<?= base_url() ?>index.php/user/listado_usuarios">
-                                <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Lista Usuarios externos
+                            <a href="<?= base_url() ?>index.php/user/create_user">
+                                <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Registro Usuarios
                             </a>
                         </li>
                     <?php endif; ?>
-                </ul>
-            </li>
+                    <?php if (($this->session->userdata('ver_user_desb') == 1)) : ?>
+                        <li>
+                            <a href="<?= base_url() ?>index.php/user/bloquear_usuario">
+                                <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Inhabilitar Usuarios
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                    <?php if (($this->session->userdata('ver_user_desb') == 1)) : ?>
+                        <li>
+                            <a href="<?= base_url() ?>index.php/user/desblo_usuario">
+                                <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Desbloqueo de Usuarios
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                    <?php if (($this->session->userdata('ver_user_lista') == 1)) : ?>
+                        <li>
+                            <a href="<?= base_url() ?>index.php/user/modif_usuarios">
+                                <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Lista Usuarios SNC activos
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                    <?php if (($this->session->userdata('ver_user_lista') == 1)) : ?>
+                        <li>
+                            <a href="<?= base_url() ?>index.php/user/lista_user_inactivos_snc">
+                                <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Lista Usuarios SNC inactivos
+                            </a>
+                        </li>
+                    <?php endif; ?>
 
+                    <?php if (($this->session->userdata('ver_user_perfil') == 1)) : ?>
+                        <li>
+                            <a href="<?= base_url() ?>index.php/user/perfil_">
+                                <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Asignación de Permisos
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                    <?php if (($this->session->userdata('ver_user_perfil') == 1)) : ?>
+                        <li>
+                            <a href="<?= base_url() ?>index.php/User/see_ses">
+                                <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Sesiones Abiertas
+                            </a>
+                        </li>
+                    <?php endif; ?>
+
+                <?php endif; ?>
+                <?php if (($this->session->userdata('ver_user_lista') == 1)) : ?>
+                    <li>
+                        <a href="<?= base_url() ?>index.php/user/listado_usuarios">
+                            <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Lista Usuarios externos
+                        </a>
+                    </li>
+                <?php endif; ?>
             </ul>
-            </li>
+        </li>
 
-        <?php endif; ?>
-
-        <li class="mt-5"><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i
-                    class="ion-ios-arrow-back"></i> <span>Cerrar Navegador</span></a></li>
         </ul>
+        </li>
+
+    <?php endif; ?>
+
+    <li class="mt-5"><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i
+                class="ion-ios-arrow-back"></i> <span>Cerrar Navegador</span></a></li>
+    </ul>
         </div>
     </div>
     <div class="sidebar-bg"></div>

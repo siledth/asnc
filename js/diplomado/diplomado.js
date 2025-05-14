@@ -194,3 +194,76 @@ function valideKey(evt){
 			}
 		});
 	}
+
+
+function save_inf_ac() {
+    var id_inscripcion = $('#id_inscripcion').val();
+    var estatus = $('#fm_ac').val(); // 2 (Aceptada) o 3 (No Califica) 4 aprobado/ exonerado de pago
+    var observacion = $('#obser').val();
+    // var id_usuario = <?php echo $_SESSION['id_usuario'] ?>; // Asegúrate de tener la sesión
+
+    if (estatus == "0") {
+        alert("Seleccione una opción válida");
+        return false;
+    }
+	var base_url =window.location.origin+'/asnc/index.php/Diplomado/actualizar_inscripcion';
+
+    $.ajax({
+        url: base_url,
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            id_inscripcion: id_inscripcion,
+            estatus: estatus,
+            observacion: observacion,
+            // id_usuario: id_usuario
+        },
+        success: function(response) {
+            if (response.success) {
+                alert(response.message);
+                window.location.reload();
+            } else {
+                alert(response.message);
+            }
+        },
+        error: function(xhr) {
+            alert("Error en la conexión");
+        }
+    });
+}
+
+function save_dec_pj() {
+    var id_inscripcion = $('#id_inscripcion').val();
+    var estatus = $('#fm_ac').val(); // 2 (Aceptada) o 3 (No Califica) 4 aprobado/ exonerado de pago
+    var observacion = $('#obser').val();
+    // var id_usuario = <?php echo $_SESSION['id_usuario'] ?>; // Asegúrate de tener la sesión
+
+    if (estatus == "0") {
+        alert("Seleccione una opción válida");
+        return false;
+    }
+	var base_url =window.location.origin+'/asnc/index.php/Diplomado/actualizar_inscripcion_pj';
+
+    $.ajax({
+        url: base_url,
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            id_inscripcion: id_inscripcion,
+            estatus: estatus,
+            observacion: observacion,
+            // id_usuario: id_usuario
+        },
+        success: function(response) {
+            if (response.success) {
+                alert(response.message);
+                window.location.reload();
+            } else {
+                alert(response.message);
+            }
+        },
+        error: function(xhr) {
+            alert("Error en la conexión");
+        }
+    });
+}

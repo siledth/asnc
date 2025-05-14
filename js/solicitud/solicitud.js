@@ -1,3 +1,5 @@
+let capacitacionCount = 0;
+const maxCapacitaciones = 3;
 function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
     var rif_b = $('#rif_b').val();
     if (rif_b == ''){
@@ -15,11 +17,11 @@ function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
         $('#ueba').attr("disabled", true);
     }else{
         $("#items").show();
-        var base_url  = window.location.origin+'/asnc/index.php/gestion/consulta_og';
-        var base_url2 = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
+         var base_url  = window.location.origin+'/asnc/index.php/gestion/consulta_og';
+         var base_url2 = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
 
-    //   var base_url = '/index.php/gestion/consulta_og';
-    //     var base_url2 = '/index.php/evaluacion_desempenio/llenar_contratista_rp';
+      //var base_url = '/index.php/gestion/consulta_og';
+        //var base_url2 = '/index.php/evaluacion_desempenio/llenar_contratista_rp';
 
         $.ajax({
             url:base_url,
@@ -585,6 +587,26 @@ function validateEmail() {
         }
         }
 
+           function llenar_2() {
+      
+        var factura = $("#t_contrata_p").val();
+        if (factura <= "1") {
+            $("#cmp1").show();
+        } else {
+            $("#cmp1").hide();
+        }
+        }
+
+ 
+function llenar_3() {
+    var seleccion = $("#t_contrata_p").val();
+    if (seleccion == "1") {
+        $("#cmp1").show();
+    } else {
+        $("#cmp1").hide();
+        $("#experiencia_publicas").val("");
+    }
+}
     
     
     
@@ -607,6 +629,8 @@ function validateEmail() {
                         $('#diplomadoFechaInicio').text(formatDate(response.data.fdesde));
                         $('#diplomadoFechaFin').text(formatDate(response.data.fhasta));
                         $('#diplomadoModalidad').text(getModalidadText(response.data.id_modalidad));
+                         $('#diplomadoM').text(response.data.pay);
+
                         
                         // Calcular duración
                         const fechaInicio = new Date(response.data.fdesde);
@@ -645,21 +669,7 @@ function validateEmail() {
             };
             return modalidades[idModalidad] || 'No especificado';
         }
- // Función para mostrar/ocultar campos según tipo de pago
-    function togglePagoFields() {
-        const tipoPago = $('#tipo_pago').val();
-        
-        // Ocultar todos primero
-        $('#pagoContadoFields').hide();
-        $('#pagoCreditoFields').hide();
-        
-        // Mostrar los correspondientes
-        if(tipoPago == 1) {
-            $('#pagoContadoFields').show();
-        } else if(tipoPago == 2) {
-            $('#pagoCreditoFields').show();
-        }
-    }
+
     
     // Validar que el importe no sea mayor al total
     $('#importe').on('change', function() {
@@ -720,40 +730,621 @@ function validateEmail() {
         success: function(response) {
             if(response.success) {
                 // Pago verificado correctamente
-                alert('Pago verificado correctamente. Puede continuar con la inscripción.');
+                alert('Pago verificado correctamente. Puede continuar .');
                 $('#pagoVerificado').val('1'); // Campo oculto para marcar como verificado
-                $('#guardar').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar Inscripción');
+                $('#guardar').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar ');
             } else {
                 // Error en la verificación
                 alert(response.message || 'Error al verificar el pago: ' + (response.error || ''));
-                $('#guardar').prop('disabled', true).html('<i class="fas fa-save mr-2"></i>Guardar Inscripción');
+                $('#guardar').prop('disabled', true).html('<i class="fas fa-save mr-2"></i>Guardar ');
             }
         },
         error: function(xhr) {
             alert('Error de conexión con el servidor');
-            $('#guardar').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar Inscripción');
+            $('#guardar').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar ');
         }
     });
 }
  
-  function savei(event) {
-    // Si es pago al contado y no está verificado
+function savei(event) {
+    event.preventDefault();
+    
+    // 1. Validar pago al contado
     if($('#tipo_pago').val() == 1 && $('#pagoVerificado').val() != '1') {
-        event.preventDefault();
         alert('Debe verificar el pago antes de continuar');
         verificarPago();
         return false;
     }
     
-    // Si es crédito o pago ya verificado, continuar
-    if($('#sav_ext').parsley().validate()) {
-        // Mostrar loader
-        $('#guardar').prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-2"></i>Procesando...');
+    // 2. Validación manual de campos requeridos
+    if(!validarFormulario()) {
+        return false;
+    }
+    
+    // 3. Mostrar estado de carga
+    $('#guardar').prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-2"></i>Procesando...');
+    
+    // 4. Obtener datos del formulario
+    let formData = {
+        id_inscripcion: $('#id_inscripcion').val(),
+        codigo_planilla: $('#rif_b').val(),
+        importe: $('#importe').val(),
+        fechaPago: $('#fechaPago').val(),
+        referencia: $('#referencia').val(),
+        cedulaPagador: $('#cedulaPagador').val(),
+        telefonoPagador: $('#telefonoPagador').val(),
+        telefonoDestino: $('#telefonoDestino').val(),
+        banco: $('#banco').val(),
+
+        //banco: $('#banco').val() || null
+    };
+
+    // 5. Enviar datos por AJAX
+    var base_url = window.location.origin + '/asnc/index.php/Diplomado/guardar_pago';
+        var base_url2 = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; //redirigir
+
+    $.ajax({
+        url: base_url,
+        type: 'POST',
+        dataType: 'json',
+        data: formData,
+        success: function(response) {
+            if(response.success) {
+                alert('Pago registrado exitosamente');
+                // Redirigir a comprobante o página de éxito
+                if(response.pago_id) {
+                     setTimeout(function() {
+        window.location.href = base_url2 ; // Asegúrate que esta sea la ruta correcta
+    }, 1000);
+                    // window.location.href = base_url.replace('guardar_pago', 'comprobante') + '/' + response.pago_id;
+                }
+            } else {
+                alert('Error: ' + response.message);
+                $('#guardar').prop('disabled', false).html('Guardar');
+            }
+        },
+        error: function(xhr, status, error) {
+            alert('Error al conectar con el servidor: ' + error);
+            $('#guardar').prop('disabled', false).html('Guardar');
+        }
+    });
+}
+
+// Función de validación manual completa
+function validarFormulario() {
+    let isValid = true;
+    
+    // Limpiar errores previos
+    $('.is-invalid').removeClass('is-invalid');
+    $('.invalid-feedback').remove();
+    
+    // Validar cada campo requerido
+    const camposRequeridos = [
+        // { id: '#id_inscripcion', nombre: 'ID Inscripción' },
+        { id: '#rif_b', nombre: 'Código Planilla' },
+        { id: '#importe', nombre: 'Importe', tipo: 'numero', min: 0.01 },
+        { id: '#fechaPago', nombre: 'Fecha de Pago', tipo: 'fecha' },
+        { id: '#referencia', nombre: 'Referencia' },
+        { id: '#cedulaPagador', nombre: 'Cédula Pagador', tipo: 'cedula' },
+        { id: '#telefonoPagador', nombre: 'Teléfono Pagador', tipo: 'telefono' }
+    ];
+    
+    camposRequeridos.forEach(campo => {
+        // const $element = $(campo.id);
         
-        // Continuar con el envío del formulario
-       // $('#sav_ext').submit();
+        // Verificar si el elemento existe en el DOM
+        // if($element.length === 0) {
+        //     console.error(`Elemento no encontrado: ${campo.id}`);
+        //     mostrarError($(`[name="${campo.id.substring(1)}"]`), `Campo ${campo.nombre} no encontrado`);
+        //     isValid = false;
+        //     return;
+        // }
+        
+        // Obtener valor y hacer trim solo si existe
+        // const valor = $element.val() ? $element.val().trim() : '';
+        
+        // // Validar campo vacío
+        // if(valor === '') {
+        //     mostrarError($element, `${campo.nombre} es requerido`);
+        //     isValid = false;
+        //     return;
+        // }
+        
+        // Validaciones específicas por tipo
+        // switch(campo.tipo) {
+            // case 'numero':
+            //     if(isNaN(valor)) {
+            //         mostrarError($element, `${campo.nombre} debe ser un número`);
+            //         isValid = false;
+            //     } else if(campo.min && parseFloat(valor) < campo.min) {
+            //         mostrarError($element, `${campo.nombre} debe ser mayor a ${campo.min}`);
+            //         isValid = false;
+            //     }
+            //     break;
+                
+            // case 'fecha':
+            //     if(!isValidDate(valor)) {
+            //         mostrarError($element, 'Fecha inválida (Formato: YYYY-MM-DD)');
+            //         isValid = false;
+            //     }
+            //     break;
+                
+            // case 'cedula':
+            //     if(!/^[VEJPGvejpg]?\d{5,9}$/.test(valor)) {
+            //         mostrarError($element, 'Cédula inválida. Ej: V12345678');
+            //         isValid = false;
+            //     }
+            //     break;
+                
+            // case 'telefono':
+            //     if(!/^0[0-9]{10}$/.test(valor)) {
+            //         mostrarError($element, 'Teléfono inválido. Ej: 04121234567');
+            //         isValid = false;
+            //     }
+            //     break;
+        // }
+    });
+    
+    return isValid;
+}
+// Función auxiliar para mostrar errores
+function mostrarError($element, mensaje) {
+    $element.addClass('is-invalid');
+    if($element.next('.invalid-feedback').length === 0) {
+        $element.after(`<div class="invalid-feedback">${mensaje}</div>`);
     } else {
-        alert('Por favor complete todos los campos requeridos');
+        $element.next('.invalid-feedback').text(mensaje);
     }
 }
+
+// Validar formato de fecha (YYYY-MM-DD)
+function isValidDate(dateString) {
+    const regEx = /^\d{4}-\d{2}-\d{2}$/;
+    if(!dateString.match(regEx)) return false;
+    const d = new Date(dateString);
+    return !isNaN(d.getTime());
+}
  
+
+// function redirectToForm() {
+//     const tipoPersona = $('#id_tipop').val();
+    
+//     if(!tipoPersona) {
+//         alert('Por favor seleccione una opción');
+//         return;
+//     }
+    
+//     // Configurar el formulario oculto
+//     $('#tipo_persona').val(tipoPersona);
+//         var base_url = window.location.origin+'/asnc/index.php/Diplomado/solic';
+    
+//     // Determinar la ruta según la selección
+//     let actionUrl = '';
+//     if(tipoPersona == '1') {
+//         actionUrl = base_url;
+//     } else if(tipoPersona == '2') {
+//         actionUrl = '<?php echo site_url("solic_juridica"); ?>';
+//     }
+    
+//     console.log('Redirigiendo a:', actionUrl); // Para depuración
+    
+//     // Configurar y enviar el formulario
+//     $('#redirectForm').attr('action', actionUrl);
+//     $('#redirectForm').submit();
+    
+//     // Forzar el envío si es necesario
+//     document.getElementById('redirectForm').submit();
+// }
+
+
+
+ 
+function redirectToForm() {
+    const tipoPersona = $('#id_tipop').val();
+    
+    if(!tipoPersona) {
+        alert('Por favor seleccione una opción');
+        return;
+    }
+        var base_url = window.location.origin+'/asnc/index.php/Diplomado/solic';
+    
+    // Crear formulario dinámico
+    const form = document.createElement('form');
+    form.method = 'POST';
+    
+    if(tipoPersona == '1') {
+        form.action = base_url;
+    } else {
+        form.action = '<?php echo site_url("solic_juridica"); ?>';
+    }
+    
+    // Agregar campos ocultos
+    const tipoField = document.createElement('input');
+    tipoField.type = 'hidden';
+    tipoField.name = 'tipo_persona';
+    tipoField.value = tipoPersona;
+    form.appendChild(tipoField);
+    
+    const csrfField = document.createElement('input');
+    csrfField.type = 'hidden';
+    csrfField.name = '<?php echo $this->security->get_csrf_token_name(); ?>';
+    csrfField.value = '<?php echo $this->security->get_csrf_hash(); ?>';
+    form.appendChild(csrfField);
+    
+    // Agregar al documento y enviar
+    document.body.appendChild(form);
+    form.submit();
+}
+
+ $(document).ready(function() {
+            // Contador de capacitaciones
+            let capacitacionCount = 0;
+            const maxCapacitaciones = 3;
+
+            // Mostrar/ocultar sección de capacitaciones según selección
+            $('#tiene_capacitacion').change(function() {
+                if ($(this).val() === '1') {
+                    $('#capacitaciones-container').show();
+                    // Agregar primera capacitación automáticamente
+                    if (capacitacionCount === 0) {
+                        agregarCapacitacion();
+                    }
+                } else {
+                    $('#capacitaciones-container').hide();
+                    // Limpiar capacitaciones si selecciona "No"
+                    $('#lista-capacitaciones').empty();
+                    capacitacionCount = 0;
+                }
+            });
+
+            // Agregar nueva capacitación
+            $('#btn-add-capacitacion').click(function() {
+                if (capacitacionCount < maxCapacitaciones) {
+                    agregarCapacitacion();
+                } else {
+                    alert('Solo puede agregar hasta ' + maxCapacitaciones + ' capacitaciones.');
+                }
+            });
+
+            // Función para agregar un nuevo formulario de capacitación
+            function agregarCapacitacion() {
+                if (capacitacionCount >= maxCapacitaciones) return;
+
+                capacitacionCount++;
+                const newId = 'capacitacion-' + capacitacionCount;
+
+                const html = `
+                    <div class="capacitacion-item" id="${newId}">
+                        <h6>Capacitación #${capacitacionCount}</h6>
+                        
+                        <div class="row">
+                            <div class="col-md-4 form-group">
+                                <label for="nombre_curso_${capacitacionCount}" class="required-field">Nombre del Curso</label>
+                                <input type="text" id="nombre_curso_${capacitacionCount}" name="capacitaciones[${capacitacionCount}][nombre_curso]" class="form-control" required>
+                            </div>
+                            
+                            <div class="col-md-4 form-group">
+                                <label for="institucion_${capacitacionCount}" class="required-field">Institución Formadora</label>
+                                <input type="text" id="institucion_${capacitacionCount}" name="capacitaciones[${capacitacionCount}][institucion]" class="form-control" required>
+                            </div>
+                            
+                            <div class="col-md-4 form-group">
+                                <label for="anio_${capacitacionCount}" class="required-field">Año de Realización</label>
+                                <input type="number" id="anio_${capacitacionCount}" name="capacitaciones[${capacitacionCount}][anio]" class="form-control" min="1900" max="${new Date().getFullYear()}" required>
+                            </div>
+                        </div>
+                        
+                        ${capacitacionCount > 1 ? `
+                        <button type="button" class="btn btn-danger btn-sm btn-remove-capacitacion" onclick="eliminarCapacitacion('${newId}')">
+                            <i class="fas fa-trash mr-1"></i>Eliminar esta capacitación
+                        </button>
+                        ` : ''}
+                    </div>
+                `;
+
+                $('#lista-capacitaciones').append(html);
+
+                // Ocultar botón de agregar si llegamos al máximo
+                if (capacitacionCount >= maxCapacitaciones) {
+                    $('#btn-add-capacitacion').hide();
+                }
+            }
+        });
+
+        // Función para eliminar una capacitación (definida en ámbito global)
+        function eliminarCapacitacion(id) {
+            $('#' + id).remove();
+
+            // Reorganizar los números de las capacitaciones restantes
+            const items = $('.capacitacion-item');
+            capacitacionCount = items.length;
+
+            items.each(function(index) {
+                const newNum = index + 1;
+                $(this).find('h6').text('Capacitación #' + newNum);
+
+                // Actualizar los IDs y names de los inputs
+                $(this).find('input, select').each(function() {
+                    const oldName = $(this).attr('name');
+                    if (oldName) {
+                        const newName = oldName.replace(/capacitaciones\[\d+\]/,
+                            `capacitaciones[${newNum}]`);
+                        $(this).attr('name', newName);
+                    }
+
+                    const oldId = $(this).attr('id');
+                    if (oldId) {
+                        const newId = oldId.replace(/_(\d+)_/, `_${newNum}_`);
+                        $(this).attr('id', newId);
+                    }
+                });
+            });
+
+            // Mostrar botón de agregar si no estamos en el máximo
+            if (capacitacionCount < maxCapacitaciones) {
+                $('#btn-add-capacitacion').show();
+            }
+        }
+
+function Inscribir(event) {
+    event.preventDefault();
+    // Al inicio del archivo solicitud.js
+  // Calcular el número de capacitaciones dinámicamente
+    const capacitacionCount = $('#lista-capacitaciones .capacitacion-item').length;
+    // Validar campos obligatorios base
+    const requiredFields = [
+        'id_diplomado', 'cedula_f', 'name_f', 'apellido_f', 
+        'telefono_f', 'direccion_fiscal_', 'trabajo'
+    ];
+    
+    let isValid = true;
+    
+    // Reset validaciones
+    $('.is-invalid').removeClass('is-invalid');
+    
+    // Validar campos requeridos
+    requiredFields.forEach(field => {
+        const element = $(`[name="${field}"]`);
+        if (!element.val()) {
+            element.addClass('is-invalid');
+            isValid = false;
+        }
+    });
+     
+    // Validar si tiene capacitación pero no ha agregado ninguna
+    if ($('#tiene_capacitacion').val() === '1' && capacitacionCount === 0) {
+        alert('Debe agregar al menos una capacitación relacionada con Contrataciones Públicas.');
+        isValid = false;
+    }
+    // Validar formato cédula
+    if (!/^\d{8}$/.test($('#cedula_f').val())) {
+        $('#cedula_f').addClass('is-invalid');
+        isValid = false;
+    }
+    
+    // Validar email si está presente
+    if ($('#correo').val() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('#correo').val())) {
+        $('#correo').addClass('is-invalid');
+        isValid = false;
+    }
+    
+    
+    // Validar datos laborales si trabaja
+    // if ($('#trabajo').val() == '1') {
+    //     if (!$('#rif_b').val()) {
+    //         $('#rif_b').addClass('is-invalid');
+    //         isValid = false;
+    //     } else if ($('#no_existe').is(':visible')) {
+    //         // Validar campos de empresa si RIF no existe
+    //         const requiredEmpresa = [
+    //             'razon_social', 'tel_local',  'direccion_fiscal'
+    //         ];
+            
+    //         requiredEmpresa.forEach(field => {
+    //             const element = $(`[name="${field}"]`);
+    //             if (!element.val()) {
+    //                 element.addClass('is-invalid');
+    //                 isValid = false;
+    //             }
+    //         });
+    //     }
+    // }
+     if ($('#trabajo').val() == '1') {
+        const rifIngresado = $('#rif_b').val();
+        const rifExistente = $('#sel_rif_nombre5').val();
+        
+        if (!rifIngresado && !rifExistente) {
+            $('#rif_b').addClass('is-invalid');
+            isValid = false;
+        } else if (!rifExistente && $('#no_existe').is(':visible')) {
+            // Validar solo si no hay RIF existente y está visible no_existe
+            const requiredEmpresa = [
+                'razon_social', 'tel_local', 'id_estado_n',
+                'id_municipio_n', 'id_parroquia_n', 'direccion_fiscal'
+            ];
+            
+            requiredEmpresa.forEach(field => {
+                const element = $(`[name="${field}"]`);
+                if (!element.val()) {
+                    element.addClass('is-invalid');
+                    isValid = false;
+                }
+            });
+        }
+    }
+    
+    if (!isValid) {
+        alert('Por favor complete todos los campos requeridos correctamente');
+        return;
+    }
+    
+    // Mostrar loader
+    $('#guardar').prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-2"></i>Guardando...');
+        var base_url = window.location.origin+'/asnc/index.php/Diplomado/guardar_inscripcion';//guardar
+        var base_url2 = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; //redirigir
+        var base_url3 = window.location.origin+'/asnc/index.php/Preinscripcionnatural/pdfrt?id=';//ver la planilla despues de guardar
+// Preparar datos para enviar
+    
+    // Enviar datos
+    $.ajax({
+        url: base_url,
+        type: 'POST',
+        dataType: 'json',
+        data: $('#sav_ext').serialize(),
+        success: function(response) {
+            if (response.success) {
+                alert('Inscripción registrada con éxito. Código: ' + response.codigo);
+                // Redirigir o limpiar formulario
+                var link = document.createElement('a');
+           var pdfUrl = base_url3 + response.codigo; // URL completa para el PDF
+            var link = document.createElement('a');
+            link.href = pdfUrl;
+           //link.download = 'inscripcion_' + response.codigo ;
+            // link.download = 'inscripcion_' + response.codigo + '.pdf';
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+    
+    // Redirigir después de 2 segundos
+    setTimeout(function() {
+        window.location.href = base_url2 ; // Asegúrate que esta sea la ruta correcta
+    }, 1000);
+            } else {
+                alert('Error: ' + response.message);
+            }
+            $('#guardar').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar Inscripción');
+        },
+        error: function(xhr) {
+            alert('Error en la conexión con el servidor');
+            $('#guardar').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar Inscripción');
+        }
+    });
+}
+
+// function Consultarplanilla(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
+//     var rif_b = $('#rif_b').val();
+//     if (rif_b == ''){
+//         swal({
+//             title: "¡ATENCION!",
+//             text: "El campo no puede estar vacio.",
+//             type: "warning",
+//             showCancelButton: false,
+//             confirmButtonColor: "#00897b",
+//             confirmButtonText: "CONTINUAR",
+//             closeOnConfirm: false
+//         }, function(){
+//             swal("Deleted!", "Your imaginary file has been deleted.", "success");
+//         });
+//         $('#ueba').attr("disabled", true);
+//     }else{
+//         $("#items").show();
+//         var base_url  = window.location.origin+'/asnc/index.php/Diplomado/consulta_og';
+//        // var base_url2 = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
+
+//     //   var base_url = '/index.php/gestion/consulta_og';
+//     //     var base_url2 = '/index.php/evaluacion_desempenio/llenar_contratista_rp';
+
+//         $.ajax({
+//             url:base_url,
+//             method: 'post',
+//             data: {rif_b: rif_b},
+//             dataType: 'json',
+//             success: function(data){
+//                 if (data == null) {
+//                     $("#no_existe").show();
+//                     $("#existe").hide();
+
+//                    // $('#exitte').val(0);
+
+//                 }else{
+//                     $("#existe").show();
+//                     $("#no_existe").hide();                  
+
+//                     $('#total_pago').val(data['pay']);
+//                     $('#fecha_limite_pago').val(data['fecha_limite_pago']);
+                    
+
+                    
+                     
+//                 }
+//             }
+//         })
+//     }
+// }
+
+function Consultarplanilla() {
+    var rif_b = $('#rif_b').val();
+    
+    if (!rif_b) {
+        swal("¡ATENCION!", "El campo no puede estar vacío.", "warning");
+        return;
+    }
+
+    // Mostrar loader mientras se consulta
+    $('#loading').show();
+    $("#existe").hide();
+    $("#no_existe").hide();
+
+    $.ajax({
+        url: window.location.origin + '/asnc/index.php/Diplomado/consulta_og',
+        method: 'POST',
+        data: { rif_b: rif_b },
+        dataType: 'json',
+        success: function(response) {
+            console.log("Respuesta del servidor:", response); // Para depuración
+            $('#loading').hide();
+            
+            if (response.success) {
+                // Caso cuando EXISTE la planilla
+                $("#existe").show();
+                $("#no_existe").hide();
+                
+                // Llenar campos
+                if(response.data) {
+                    $('#fecha_limite_pago').val(response.data.fecha_limite_pago || '');
+                    $('#id_inscripcion').val(response.data.id_inscripcion || '');
+                    $('#total_pago').val(response.data.pronto_pago || '');
+                    $('#pay').val(response.data.pay || '');
+                    $('#codigo_planilla').val(response.data.codigo_planilla || '');
+
+                }
+            } else {
+                // Caso cuando NO EXISTE la planilla
+                $("#no_existe").show();
+                $("#existe").hide();
+                
+                // Limpiar campos
+                $('#fecha_limite_pago').val('');
+                $('#id_inscripcion').val('');
+                $('#total_pago').val('');
+                $('#codigo_planilla').val('');
+
+                $('#pay').val('');
+                
+                swal("No encontrado", response.message || 'Planilla no encontrada', "info");
+            }
+        },
+        error: function(xhr) {
+            $('#loading').hide();
+            console.error("Error en la consulta:", xhr); // Para depuración
+            swal("Error", "Ocurrió un error al consultar", "error");
+        }
+    });
+}
+
+
+ // Función para mostrar/ocultar campos según tipo de pago
+ function togglePagoFields() {
+    var tipoPago = $('#tipo_pago').val();
+    
+    $('#prontoPagoField').hide();
+    $('#creditoPagoField').hide();
+    
+    if (tipoPago == '1') { // Pronto Pago
+        $('#prontoPagoField').show();
+    } else if (tipoPago == '2') { // Crédito
+        $('#creditoPagoField').show();
+    }
+}
+

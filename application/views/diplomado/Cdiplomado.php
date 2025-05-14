@@ -37,26 +37,54 @@
                             <div class="form-group col-6">
                                 <label>Numero de Participantes Maximo<b title="Campo Obligatorio"
                                         style="color:red">*</b></label>
-                                <input class="form-control" type="texto" name="fhasta" id="fhasta"
+                                <input class="form-control" type="number" name="topmax" id="topmax"
                                     placeholder="Denominacion social">
                             </div>
                             <div class="form-group col-6">
                                 <label>Numero de Participantes Exonerados<b title="Campo Obligatorio"
                                         style="color:red">*</b></label>
-                                <input class="form-control" type="texto" name="fhasta" id="fhasta"
+                                <input class="form-control" type="number" name="topmin" id="topmin"
                                     placeholder="Denominacion social">
                             </div>
 
                             <div class="form-group col-6">
                                 <label>Costo del Diplomado<b title="Campo Obligatorio" style="color:red">*</b></label>
-                                <input class="form-control" type="texto" name="fhasta" id="fhasta"
-                                    placeholder="Denominacion social">
+                                <input class="form-control" type="number" name="pay" id="pay" placeholder=" "
+                                    oninput="dividirCosto()">
+                            </div>
+                            <div class="form-group col-6">
+                                <label>Costo pronto pago<b title="Campo Obligatorio" style="color:red">*</b></label>
+                                <input class="form-control" type="number" name="pronto_pago" id="pronto_pago"
+                                    placeholder=" ">
+                            </div>
+                            <div class="form-group col-6">
+                                <label>Primer Pago (50%)</label>
+                                <input class="form-control" type="number" name="pay1" id="pay1" placeholder=" "
+                                    readonly>
+                            </div>
+
+                            <div class="form-group col-6">
+                                <label>Segundo Pago (50%)</label>
+                                <input class="form-control" type="number" name="pay2" id="pay2" placeholder=" "
+                                    readonly>
+                            </div>
+                            <div class="form-group col-6">
+                                <label>Fecha desde SEGUNDO PAGO CREDITO<b title="Campo Obligatorio"
+                                        style="color:red">*</b></label>
+                                <input class="form-control" type="date" name="pago2desde" id="pago2desde"
+                                    placeholder=" ">
+                            </div>
+
+                            <div class="form-group col-6">
+                                <label>Fecha hasta SEGUNDO PAGO CREDITO<b title="Campo Obligatorio"
+                                        style="color:red">*</b></label>
+                                <input class="form-control" type="date" name="pago2hasta" id="pago2hasta"
+                                    placeholder=" ">
                             </div>
 
                             <div class="form-group col-6">
                                 <label>Duración horas<b title="Campo Obligatorio" style="color:red">*</b></label>
-                                <input class="form-control" type="texto" name="fhasta" id="fhasta"
-                                    placeholder="Denominacion social">
+                                <input class="form-control" type="number" name="d_hrs" id="d_hrs">
                             </div>
 
 
@@ -152,3 +180,17 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function dividirCosto() {
+            // Obtener el valor del campo principal
+            const costoTotal = document.getElementById('pay').value;
+
+            // Calcular la mitad
+            const mitad = costoTotal / 2;
+
+            // Asignar el valor a los otros dos campos
+            document.getElementById('pay1').value = mitad;
+            document.getElementById('pay2').value = mitad;
+        }
+    </script>

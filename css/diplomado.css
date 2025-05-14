@@ -1,0 +1,200 @@
+ :root {
+     /* --color-primary: #25285A;
+            --color-secondary: #E42322; */
+
+     --primary-color: #E42322;
+     --secondary-color: #3498db;
+     --accent-color: #e74c3c;
+     --light-gray: #f8f9fa;
+     --dark-gray: #343a40;
+ }
+
+ body {
+     background-color: #f5f7fa;
+     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ }
+
+ .card-container {
+     max-width: 1200px;
+     margin: 2rem auto;
+     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+     border-radius: 10px;
+     overflow: hidden;
+ }
+
+ .card-header {
+     background-color: var(--primary-color);
+     color: white;
+     padding: 0.5rem;
+     text-align: center;
+ }
+
+ .card-header img {
+     width: 100px;
+     max-height: 80px;
+     margin-bottom: 1rem;
+ }
+
+ .card-body {
+     padding: 2rem;
+ }
+
+ .form-section {
+     background-color: white;
+     border-radius: 8px;
+     padding: 1.5rem;
+     margin-bottom: 1.5rem;
+     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+ }
+
+ .form-section h5 {
+     color: var(--primary-color);
+     border-bottom: 2px solid var(--secondary-color);
+     padding-bottom: 0.5rem;
+     margin-bottom: 1.5rem;
+ }
+
+ .required-field::after {
+     content: " *";
+     color: var(--accent-color);
+ }
+
+ .btn-primary {
+     background-color: var(--secondary-color);
+     border-color: var(--secondary-color);
+     padding: 0.5rem 2rem;
+     font-weight: 500;
+ }
+
+ .btn-primary:hover {
+     background-color: #2980b9;
+     border-color: #2980b9;
+ }
+
+ .form-control {
+     border-radius: 4px;
+     padding: 0.75rem 1rem;
+     border: 1px solid #ced4da;
+     transition: border-color 0.3s ease;
+ }
+
+ .form-control:focus {
+     border-color: var(--secondary-color);
+     box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+ }
+
+ label {
+     font-weight: 500;
+     color: var(--dark-gray);
+     margin-bottom: 0.5rem;
+ }
+
+ .section-divider {
+     border-top: 1px dashed #ddd;
+     margin: 1.5rem 0;
+ }
+
+ .info-text {
+     color: var(--secondary-color);
+     font-size: 0.9rem;
+ }
+
+ .diplomado-info {
+     background-color: #f8f9fa;
+     border-left: 4px solid var(--secondary-color);
+     padding: 1rem;
+     margin-top: 1rem;
+     border-radius: 4px;
+ }
+
+ .diplomado-info h6 {
+     color: var(--primary-color);
+     font-weight: 600;
+ }
+
+ .info-item {
+     margin-bottom: 0.5rem;
+ }
+
+ .info-item strong {
+     min-width: 120px;
+     display: inline-block;
+ }
+
+ @media (max-width: 768px) {
+     .card-body {
+         padding: 1rem;
+     }
+
+     .form-section {
+         padding: 1rem;
+     }
+
+     .info-item strong {
+         min-width: 100px;
+     }
+ }
+
+ /* Estilos para la sección de pago */
+ .payment-image {
+     max-height: 200px;
+     margin: 0 auto 40px;
+     display: block;
+ }
+
+ .payment-field-group {
+     margin-bottom: 1rem;
+ }
+
+ .payment-field-group label {
+     display: block;
+     margin-bottom: 0.5rem;
+     font-weight: 500;
+ }
+
+ .currency-input {
+     position: relative;
+ }
+
+ .currency-input .input-group-text {
+     background-color: #f8f9fa;
+     font-weight: bold;
+ }
+
+ .is-invalid {
+     border-color: #dc3545 !important;
+ }
+
+ .invalid-feedback {
+     display: none;
+     width: 100%;
+     margin-top: 0.25rem;
+     font-size: 80%;
+     color: #dc3545;
+ }
+
+ .is-invalid~.invalid-feedback {
+     display: block;
+ }
+
+ .capacitacion-item {
+     border: 1px solid #ddd;
+     border-radius: 5px;
+     padding: 15px;
+     margin-bottom: 15px;
+     background-color: #f9f9f9;
+ }
+
+ .capacitacion-item h6 {
+     border-bottom: 1px solid #eee;
+     padding-bottom: 10px;
+     margin-bottom: 15px;
+ }
+
+ .btn-add-capacitacion {
+     margin-bottom: 20px;
+ }
+
+ .btn-remove-capacitacion {
+     margin-top: 10px;
+ }
