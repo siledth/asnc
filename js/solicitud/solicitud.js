@@ -17,11 +17,11 @@ function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
         $('#ueba').attr("disabled", true);
     }else{
         $("#items").show();
-         var base_url  = window.location.origin+'/asnc/index.php/gestion/consulta_og';
-         var base_url2 = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
+        //  var base_url  = window.location.origin+'/asnc/index.php/gestion/consulta_og';
+        //  var base_url2 = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
 
-      //var base_url = '/index.php/gestion/consulta_og';
-        //var base_url2 = '/index.php/evaluacion_desempenio/llenar_contratista_rp';
+      var base_url = '/index.php/gestion/consulta_og';
+        var base_url2 = '/index.php/evaluacion_desempenio/llenar_contratista_rp';
 
         $.ajax({
             url:base_url,
@@ -617,7 +617,9 @@ function llenar_3() {
                 $('#diplomadoInfoContainer').hide();
                 return;
             }
-        var base_url = window.location.origin+'/asnc/index.php/diplomado/getDiplomadoInfo/' + idDiplomado;
+					var base_url = '/index.php/Diplomado/getDiplomadoInfo/' + idDiplomado;
+
+        // var base_url = window.location.origin+'/asnc/index.php/diplomado/getDiplomadoInfo/' + idDiplomado;
             
             $.ajax({
                 url: base_url,
@@ -719,7 +721,8 @@ function llenar_3() {
         importe: $('#importe').val(),
         bancoOrigen: $('#bancoo').val()
     };
-        var base_url = window.location.origin+'/asnc/index.php/diplomado/verificar_pago/';
+        // var base_url = window.location.origin+'/asnc/index.php/diplomado/verificar_pago/';
+					var base_url = '/index.php/Diplomado/verificar_pago/';
 
     // Enviar a tu backend de CodeIgniter
     $.ajax({
@@ -780,8 +783,11 @@ function savei(event) {
     };
 
     // 5. Enviar datos por AJAX
-    var base_url = window.location.origin + '/asnc/index.php/Diplomado/guardar_pago';
-        var base_url2 = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; //redirigir
+    // var base_url = window.location.origin + '/asnc/index.php/Diplomado/guardar_pago';
+    //     var base_url2 = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; //redirigir
+					var base_url = '/index.php/Diplomado/guardar_pago/';
+					var base_url2 = '/index.php/Diplomado/preinscrip/';
+
 
     $.ajax({
         url: base_url,
@@ -1180,10 +1186,14 @@ function Inscribir(event) {
     
     // Mostrar loader
     $('#guardar').prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-2"></i>Guardando...');
-        var base_url = window.location.origin+'/asnc/index.php/Diplomado/guardar_inscripcion';//guardar
-        var base_url2 = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; //redirigir
-        var base_url3 = window.location.origin+'/asnc/index.php/Preinscripcionnatural/pdfrt?id=';//ver la planilla despues de guardar
-// Preparar datos para enviar
+        // var base_url = window.location.origin+'/asnc/index.php/Diplomado/guardar_inscripcion';//guardar
+        // var base_url2 = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; //redirigir
+        // var base_url3 = window.location.origin+'/asnc/index.php/Preinscripcionnatural/pdfrt?id=';//ver la planilla despues de guardar
+					var base_url = '/index.php/Diplomado/guardar_inscripcion/';
+					var base_url2 = '/index.php/Diplomado/preinscrip/';
+					var base_url3 = '/index.php/Preinscripcionnatural/pdfrt?id=';
+    
+        // Preparar datos para enviar
     
     // Enviar datos
     $.ajax({
@@ -1285,9 +1295,13 @@ function Consultarplanilla() {
     $('#loading').show();
     $("#existe").hide();
     $("#no_existe").hide();
+    //  var base_ur = window.location.origin+'/asnc/index.php/Diplomado/consulta_og';
+
+					var base_ur = '/index.php/Diplomado/consulta_og/';
+
 
     $.ajax({
-        url: window.location.origin + '/asnc/index.php/Diplomado/consulta_og',
+        url: base_ur,
         method: 'POST',
         data: { rif_b: rif_b },
         dataType: 'json',

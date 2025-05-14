@@ -206,7 +206,8 @@ function save_inf_ac() {
         alert("Seleccione una opción válida");
         return false;
     }
-	var base_url =window.location.origin+'/asnc/index.php/Diplomado/actualizar_inscripcion';
+	// var base_url =window.location.origin+'/asnc/index.php/Diplomado/actualizar_inscripcion';
+					var base_url = '/index.php/Diplomado/actualizar_inscripcion';
 
     $.ajax({
         url: base_url,
@@ -242,7 +243,10 @@ function save_dec_pj() {
         alert("Seleccione una opción válida");
         return false;
     }
-	var base_url =window.location.origin+'/asnc/index.php/Diplomado/actualizar_inscripcion_pj';
+	// var base_url =window.location.origin+'/asnc/index.php/Diplomado/actualizar_inscripcion_pj';
+					var base_url = '/index.php/Diplomado/actualizar_inscripcion_pj';
+
+	
 
     $.ajax({
         url: base_url,
