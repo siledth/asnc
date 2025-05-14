@@ -519,30 +519,31 @@ function enviarDatos() {
 
 
     // Enviar datos al servidor
-    $.ajax({
+   $.ajax({
         url: base_url,
         type: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
-        beforeSend: function() {
-            $('#btn-finalizar').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Procesando...');
-        },
+        dataType: 'json',
+        data: $('#sav_ext').serialize(),
         success: function(response) {
-       if (response.success) {
-        Swal.fire({
-            title: 'Éxito',
-            html: `Inscripción registrada correctamente para ${response.total_participantes} participantes.<br><br>
-                  <strong>Código de planilla:</strong> ${response.codigo_planilla}`,
-            icon: 'success'
-        }).then(() => {
-            window.location.href = base_url3 + response.codigo_planilla;
-        });
-         // Redirigir después de 2 segundos
+            if (response.success) {
+                alert('Inscripción registrada con éxito. Código: ' + response.codigo);
+                // Redirigir o limpiar formulario
+                var link = document.createElement('a');
+           var pdfUrl = base_url3 + response.codigo; // URL completa para el PDF
+            var link = document.createElement('a');
+            link.href = pdfUrl;
+           //link.download = 'inscripcion_' + response.codigo ;
+            // link.download = 'inscripcion_' + response.codigo + '.pdf';
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+    
+    // Redirigir después de 2 segundos
     setTimeout(function() {
         window.location.href = base_url2 ; // Asegúrate que esta sea la ruta correcta
-    }, 8000);
-    } else {
+    }, 1000);
+            } else {
                 Swal.fire('Error', response.message || 'Error al procesar la solicitud', 'error');
                 $('#btn-finalizar').prop('disabled', false).html('Finalizar Inscripción');
             }
