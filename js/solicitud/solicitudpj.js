@@ -10,8 +10,9 @@ function loadDiplomadoInfo(idDiplomado) {
         $('#diplomadoInfoContainer').hide();
         return;
     }
+					var base_url = '/index.php/Diplomado/getDiplomadoInfo/' + idDiplomado;
     
-    var base_url = window.location.origin+'/asnc/index.php/diplomado/getDiplomadoInfo/' + idDiplomado;
+    // var base_url = window.location.origin+'/asnc/index.php/diplomado/getDiplomadoInfo/' + idDiplomado;
         
     $.ajax({
         url: base_url,
@@ -506,9 +507,16 @@ function enviarDatos() {
     });
 
     // URL para enviar los datos
-    var base_url = window.location.origin + '/asnc/index.php/Diplomado/guardar_inscripcion_persona_juridica';
-     var base_url3 = window.location.origin + '/asnc/index.php/Prei_juridico/pdfrt?id=';
-        var base_url2 = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; //redirigir
+    // var base_url = window.location.origin + '/asnc/index.php/Diplomado/guardar_inscripcion_persona_juridica';
+    //  var base_url3 = window.location.origin + '/asnc/index.php/Prei_juridico/pdfrt?id=';
+    //     var base_url2 = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; //redirigir
+
+					var base_url = '/index.php/Diplomado/guardar_inscripcion_persona_juridica';
+					var base_url3 = '/index.php/Diplomado/Prei_juridico/pdfrt?id=';
+					var base_url2 = '/index.php/Diplomado/preinscrip';
+
+                    
+
 
     // Enviar datos al servidor
     $.ajax({
