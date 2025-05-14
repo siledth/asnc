@@ -619,7 +619,7 @@ function llenar_3() {
             }
 					var base_url = '/index.php/Diplomado/getDiplomadoInfo/' + idDiplomado;
 
-        // var base_url = window.location.origin+'/asnc/index.php/diplomado/getDiplomadoInfo/' + idDiplomado;
+        //var base_url = window.location.origin+'/asnc/index.php/diplomado/getDiplomadoInfo/' + idDiplomado;
             
             $.ajax({
                 url: base_url,
