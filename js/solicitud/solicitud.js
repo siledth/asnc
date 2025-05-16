@@ -1295,9 +1295,12 @@ function Consultarplanilla() {
     $('#loading').show();
     $("#existe").hide();
     $("#no_existe").hide();
+        var base_url = '/index.php/Diplomado/consulta_og';
 
+    base_url
     $.ajax({
-        url: window.location.origin + '/asnc/index.php/Diplomado/consulta_og',
+        url: base_url,
+        
         method: 'POST',
         data: { rif_b: rif_b },
         dataType: 'json',
