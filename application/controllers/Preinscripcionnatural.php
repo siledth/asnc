@@ -199,6 +199,8 @@ class Preinscripcionnatural extends CI_Controller
                 $pdf->Cell(40, 5, utf8_decode('Nombre(s), Apellido(s):'), 0, 0, 'R');
 
                 $pdf->SetFont('Arial', '', 12);
+                $pdf->MultiCell(125, 5, $d->nombres . ' ' . $d->apellidos, 0, 'L');
+
                 $pdf->SetFont('Arial', 'B', 12);
                 $pdf->Cell(40, 5, utf8_decode('Cédula:'), 0, 0, 'R');
                 $pdf->SetFont('Arial', '', 12);
