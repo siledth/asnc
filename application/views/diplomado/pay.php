@@ -207,7 +207,7 @@
                                                 Pagador</label>
                                             <input type="text" id="cedulaPagador" name="cedulaPagador"
                                                 class="form-control" placeholder="Ej: 12345678" maxlength="12" required
-                                                data-parsley-trigger="change" value="21151374">
+                                                data-parsley-trigger="change">
                                         </div>
 
                                         <div class="col-md-4 form-group">
@@ -215,13 +215,13 @@
                                                 Pagador</label>
                                             <input type="text" id="telefonoPagador" name="telefonoPagador"
                                                 class="form-control" placeholder="Ej: 04121234567" maxlength="12"
-                                                required data-parsley-trigger="change" value="04148400858">
+                                                required data-parsley-trigger="change">
                                         </div>
                                         <div class="col-md-4 form-group">
-                                            <label for="telefonoDestino">Teléfono Destino (opcional)</label>
+                                            <label for="telefonoDestino">Teléfono Destino</label>
                                             <input type="text" id="telefonoDestino" name="telefonoDestino"
                                                 class="form-control" placeholder="Ej: 02121234567" maxlength="12"
-                                                required data-parsley-trigger="change" value="04169284709">
+                                                required data-parsley-trigger="change">
                                         </div>
 
                                         <div class="col-md-6 form-group">

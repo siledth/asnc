@@ -182,15 +182,12 @@ class Diplomado extends CI_Controller
 
     public function preinscrip()
     {
-        if (!$this->session->userdata('session')) {
 
 
-            $this->load->view('templates/headerlog');
-            $this->load->view('templates/navbarlog');
-            $this->load->view('diplomado/preins.php');
-            $this->load->view('templates/footerlog');
-        } else {
-        }
+        $this->load->view('templates/headerlog');
+        $this->load->view('templates/navbarlog');
+        $this->load->view('diplomado/preins.php');
+        $this->load->view('templates/footerlog');
     }
 
     // public function solic()
@@ -350,11 +347,11 @@ class Diplomado extends CI_Controller
         }
 
         // Validaciones específicas
-        if (!preg_match('/^\d{8}$/', $this->input->post('cedula_f'))) {
-            $this->output->set_status_header(400);
-            echo json_encode(['success' => false, 'message' => 'La cédula debe tener 8 dígitos numéricos']);
-            return;
-        }
+        // if (!preg_match('/^\d{8}$/', $this->input->post('cedula_f'))) {
+        //     $this->output->set_status_header(400);
+        //     echo json_encode(['success' => false, 'message' => 'La cédula debe tener 8 dígitos numéricos']);
+        //     return;
+        // }
 
         if (!empty($this->input->post('correo')) && !filter_var($this->input->post('correo'), FILTER_VALIDATE_EMAIL)) {
             $this->output->set_status_header(400);

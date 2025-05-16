@@ -352,6 +352,19 @@ class Diplomado_model extends CI_model
             return NULL;
         }
     }
+    function obtener_datos_codigo($id_inscripcion)
+    {
+        $query = $this->db->query("SELECT id_inscripcion, id_participante, id_diplomado, codigo_planilla
+                              FROM diplomado.inscripciones 
+                              WHERE id_inscripcion = '$id_inscripcion' 
+                              ORDER BY fecha_pago DESC LIMIT 1");
+
+        if ($query->num_rows() > 0) {
+            return $query->row();
+        } else {
+            return NULL;
+        }
+    }
     public function get_capacitaciones($id_curriculum)
     {
         return $this->db->query("

@@ -39,7 +39,7 @@
 
 
 
-                                            <a onclick="cargarIdInscripcion(<?php echo $data['id_inscripcion'] ?>);"
+                                            <a onclick="cargarIdInscripcion(<?php echo $data['codigo_planilla'] ?>);"
                                                 data-toggle="modal" data-target="#dede" style="color: white">
                                                 <i title="Decisión" class="fas fa-2x fa-fw fa-address-card"
                                                     style="color: darkred;"></i>
