@@ -384,8 +384,9 @@ class Preinscripcionnatural extends CI_Controller
         //    $pdf->Ln(1);
         $pdf->SetFont('Arial', 'B', 12);
         $pdf->SetTextColor(255, 0, 0);
+        $pdf->Cell(160, 5, utf8_decode('DECLARACIÓN JURADA:'), 0, 1, 'C');
 
-        $pdf->Cell(25, 5, utf8_decode('Declaración Jurada:'), 0, 1, 'L');
+        // $pdf->Cell(25, 5, utf8_decode('DECLARACIÓN JURADA:'), 0, 1, 'L');
         $pdf->SetTextColor(0, 0, 0);
 
         $pdf->SetFont('Arial', '', 9);
