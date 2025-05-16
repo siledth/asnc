@@ -87,7 +87,7 @@
 
 
                                         </select>
-                                        <input class="form-control" type="hidden" name="id_inscripcion"
+                                        <input class="form-control" type="text" name="id_inscripcion"
                                             id="id_inscripcion" readonly>
 
 
