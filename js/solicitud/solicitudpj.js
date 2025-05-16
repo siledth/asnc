@@ -10,9 +10,8 @@ function loadDiplomadoInfo(idDiplomado) {
         $('#diplomadoInfoContainer').hide();
         return;
     }
-					var base_url = '/index.php/Diplomado/getDiplomadoInfo/' + idDiplomado;
     
-    // var base_url = window.location.origin+'/asnc/index.php/diplomado/getDiplomadoInfo/' + idDiplomado;
+    var base_url = window.location.origin+'/asnc/index.php/diplomado/getDiplomadoInfo/' + idDiplomado;
         
     $.ajax({
         url: base_url,
@@ -507,43 +506,30 @@ function enviarDatos() {
     });
 
     // URL para enviar los datos
-    // var base_url = window.location.origin + '/asnc/index.php/Diplomado/guardar_inscripcion_persona_juridica';
-    //  var base_url3 = window.location.origin + '/asnc/index.php/Prei_juridico/pdfrt?id=';
-    //     var base_url2 = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; //redirigir
-
-					var base_url = '/index.php/Diplomado/guardar_inscripcion_persona_juridica/';
-					var base_url3 = '/index.php/Diplomado/Prei_juridico/pdfrt?id=';
-					var base_url2 = '/index.php/Diplomado/preinscrip/';
-
-                    
-
-
+    var base_url = window.location.origin + '/asnc/index.php/Diplomado/guardar_inscripcion_persona_juridica';
+     var base_url3 = window.location.origin + '/asnc/index.php/Preinscripcionnatural/pdfrt?id=';
+     
     // Enviar datos al servidor
-   $.ajax({
+    $.ajax({
         url: base_url,
         type: 'POST',
-        dataType: 'json',
-        data: $('#sav_ext').serialize(),
+        data: formData,
+        processData: false,
+        contentType: false,
+        beforeSend: function() {
+            $('#btn-finalizar').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Procesando...');
+        },
         success: function(response) {
-            if (response.success) {
-                alert('Inscripción registrada con éxito. Código: ' + response.codigo);
-                // Redirigir o limpiar formulario
-                var link = document.createElement('a');
-           var pdfUrl = base_url3 + response.codigo; // URL completa para el PDF
-            var link = document.createElement('a');
-            link.href = pdfUrl;
-           //link.download = 'inscripcion_' + response.codigo ;
-            // link.download = 'inscripcion_' + response.codigo + '.pdf';
-
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-    
-    // Redirigir después de 2 segundos
-    setTimeout(function() {
-        window.location.href = base_url2 ; // Asegúrate que esta sea la ruta correcta
-    }, 1000);
-            } else {
+       if (response.success) {
+        Swal.fire({
+            title: 'Éxito',
+            html: `Inscripción registrada correctamente para ${response.total_participantes} participantes.<br><br>
+                  <strong>Código de planilla:</strong> ${response.codigo_planilla}`,
+            icon: 'success'
+        }).then(() => {
+            window.location.href = base_url3 + response.codigo_planilla;
+        });
+    } else {
                 Swal.fire('Error', response.message || 'Error al procesar la solicitud', 'error');
                 $('#btn-finalizar').prop('disabled', false).html('Finalizar Inscripción');
             }

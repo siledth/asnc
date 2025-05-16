@@ -114,6 +114,7 @@ class Diplomado_model extends CI_model
         $this->db->select('*');
         $this->db->where('codigo_planilla', $rif_b);
 
+
         // 3. Log de la consulta SQL generada (útil para ver si hay filtros incorrectos)
         //log_message('debug', 'SQL: ' . $this->db->get_compiled_select('diplomado.ver_cod_pay'));
 
@@ -317,8 +318,8 @@ class Diplomado_model extends CI_model
 
     function nombre_diplomado($data1)
     {
-
-        $query = $this->db->query("SELECT i.id_inscripcion, i.id_participante, i.id_diplomado, i.codigo_planilla, i.fecha_inscripcion, i.fecha_limite_pago, i.estatus, 
+        $query = $this->db->query("SELECT i.id_inscripcion, i.id_participante, i.id_diplomado, i.codigo_planilla, 
+        i.fecha_inscripcion, i.fecha_limite_pago, i.estatus, 
         i.id_pago, i.observaciones, d.name_d, d.id_modalidad , d.fdesde,  d.fhasta, d.pay, p.cedula, p.nombres, p.apellidos, 
         p.telefono as tel_p, p.correo, p.edad,  p.direccion, p.trabaja_actualmente, p.observacion,t.nombre as des_estatus,
        c.grado_instruccion, c.titulo_obtenido,  a.desc_academico, c.experiencia_contrataciones_publicas, c.tiene_capacitacion_contrataciones ,e.rif, 
@@ -329,8 +330,7 @@ class Diplomado_model extends CI_model
                  join  diplomado.curriculum_participante c on c.id_participante = i.id_participante
                  join  comisiones.academico a on a.id_academico = c.grado_instruccion
                 join  diplomado.empresas e on e.id_empresa = p.id_empresa	
-                join  diplomado.estatus_inscripcion t on t.id_estatus = i.estatus	
- 
+                join  diplomado.estatus_inscripcion t on t.id_estatus = i.estatus 
                  where i.codigo_planilla = '$data1' 
                   ");
         if ($query->num_rows() > 0) {
@@ -339,7 +339,19 @@ class Diplomado_model extends CI_model
             return NULL;
         }
     }
+    function obtener_datos_pago($id_inscripcion)
+    {
+        $query = $this->db->query("SELECT id_pago, monto, fecha_pago, referencia, banco, observaciones 
+                              FROM diplomado.pagos 
+                              WHERE id_inscripcion = '$id_inscripcion' 
+                              ORDER BY fecha_pago DESC LIMIT 1");
 
+        if ($query->num_rows() > 0) {
+            return $query->row();
+        } else {
+            return NULL;
+        }
+    }
     public function get_capacitaciones($id_curriculum)
     {
         return $this->db->query("
@@ -369,6 +381,8 @@ class Diplomado_model extends CI_model
             'id_inscripcion' => $data['id_inscripcion'],
             'id_estatus' => $data['estatus'],
             'observacion' => $data['observacion'],
+            'tipo_pago' => $data['tipo_pago'],
+
             'id_usuario' => $data['id_usuario']
         );
 

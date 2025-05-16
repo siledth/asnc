@@ -89,32 +89,90 @@
 
 
                                 <div class="row">
-                                    <div class="col-md-6 form-group" id="prontoPagoField" style="display: none;">
-                                        <label for="total_pago" class="required-field">Total a Pagar (Pronto
-                                            Pago)</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">$</span>
+                                    <div class="col-md-12 form-group" id="prontoPagoField" style="display: none;">
+                                        <label for="total_pago" class="required-field">Pronto
+                                            Pago</label>
+                                        <div class="row align-items-center mb-3">
+                                            <div class="col-md-4 mb-4 mb-md-0">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Bs.</span>
+                                                    </div>
+                                                    <input type="text" id="total_pago" name="total_pago"
+                                                        class="form-control text-right font-weight-bold"
+                                                        style="font-size: 1.2rem;" readonly>
+                                                </div>
                                             </div>
-                                            <input type="text" id="total_pago" name="total_pago"
-                                                class="form-control text-right font-weight-bold"
-                                                style="font-size: 1.2rem;" readonly>
+
+                                            <div class="col-md-4 mb-2 mb-md-0">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">IVA</span>
+                                                    </div>
+                                                    <input type="text" id="iva" name="iva"
+                                                        class="form-control text-right font-weight-bold"
+                                                        style="font-size: 1.2rem;" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 mb-2 mb-md-0">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Total + IVA</span>
+                                                    </div>
+                                                    <input type="text" id="total_iva" name="total_iva"
+                                                        class="form-control text-right font-weight-bold"
+                                                        style="font-size: 1.2rem;" readonly>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6 form-group" id="creditoPagoField" style="display: none;">
-                                        <label for="pay" class="required-field">Total a Pagar (Crédito)</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">Bs</span>
+                                    <div class="col-lg-6 form-group" id="creditoPagoField" style="display: none;">
+                                        <!-- Campo principal - Total a Pagar -->
+                                        <div class="mb-3">
+                                            <label for="pay" class="form-label required-field fw-semibold">Total a Pagar
+                                                (Crédito)</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text bg-light">Bs.</span>
+                                                <input type="text" id="pay" name="pay"
+                                                    class="form-control text-end fw-bold py-2"
+                                                    style="font-size: 1.1rem; background-color: #f8f9fa;" readonly>
                                             </div>
-                                            <input type="text" id="pay" name="pay"
-                                                class="form-control text-right font-weight-bold"
-                                                style="font-size: 1.2rem;" readonly>
                                         </div>
-                                    </div>
 
-                                    <!-- Campos comunes (siempre visibles) -->
+                                        <!-- Sección de desglose en fila -->
+                                        <div class="row g-6">
+                                            <!-- IVA Crédito -->
+                                            <div class="col-xl-6 col-lg-6 col-md-6">
+                                                <label class="form-label fw-semibold">IVA (16%) Crédito:</label>
+                                                <input type="text" id="iva_credito" name="iva_credito"
+                                                    class="form-control text-end fw-bold py-2"
+                                                    style="font-size: 1.1rem; background-color: #f8f9fa;" readonly>
+                                            </div>
+
+                                            <!-- Total con IVA -->
+                                            <div class="col-xl-6 col-lg-6 col-md-6">
+                                                <label class="form-label fw-semibold">Total con IVA (Crédito):</label>
+                                                <input type="text" id="total_iva_credito" name="total_iva_credito"
+                                                    class="form-control text-end fw-bold py-2"
+                                                    style="font-size: 1.1rem; background-color: #f8f9fa;" readonly>
+                                            </div>
+
+                                            <!-- 1ra Cuota -->
+                                            <div class="col-xl-6 col-lg-6">
+                                                <label class="form-label fw-semibold">Total a pagar 1 cuota
+                                                    (Crédito):</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text bg-light">Bs.</span>
+                                                    <input type="text" id="mitad_total_credito"
+                                                        name="mitad_total_credito"
+                                                        class="form-control text-end fw-bold py-2"
+                                                        style="font-size: 1.1rem; background-color: #f8f9fa;" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> <!-- Campos comunes (siempre visibles) -->
                                     <div class="col-md-6 form-group">
 
                                         <div class="col-md-6 form-group">
@@ -132,7 +190,7 @@
                                         <div class="col-md-6 form-group">
                                             <label for="bancoo" class="required-field">Banco de
                                                 Origen</label>
-                                            <select id="banco" name="banco" class="form-control">
+                                            <select id="bancoOrigen" name="bancoOrigen" class="form-control">
                                                 <option value="0">Seleccione una opción</option>
                                                 <option value="0102">Banco de venezuela </option>
                                                 <option value="0114">Bancaribe </option>
@@ -193,10 +251,18 @@
                                         </div>
                                         <input type="hidden" id="pagoVerificado" name="pagoVerificado" value="0">
                                     </form>
-                                    <button type="button" id="guardar" class="btn btn-primary"
-                                        onclick="savei(event)">Guardar</button>
+                                    <!-- <button type="button" id="guardar" class="btn btn-primary"
+                                        onclick="enviarDatos(event)">Guardar</button> -->
+                                    <div class="text-center mt-4">
+                                        <button type="button" id="guardar" onclick="savei(event);"
+                                            class="btn btn-primary btn-lg">
+                                            <i class="fas fa-save mr-2"></i>Guardar Inscripción
+                                        </button>
+                                    </div>
+
 
                                 </div>
+
 
 
                             </div>

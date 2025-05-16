@@ -125,37 +125,67 @@ class Preinscripcionnatural extends CI_Controller
                 $pdf->Cell(35, 5, utf8_decode('Hasta:'), 0, 0, 'R');
                 $pdf->Cell(20, 5, $d->fhasta, 0, 1, 'C');
                 $pdf->Cell(35, 5, utf8_decode('Modalidad:'), 0, 0, 'R');
+
                 if ($d->id_modalidad == '1') {
-                    $pdf->Cell(70, 5,  utf8_decode('OnLine'), 0, 0, 'L');
+                    $pdf->Cell(70, 5,  utf8_decode('OnLine'), 0, 1, 'L');
                 } else {
-                    $pdf->Cell(70, 5,  utf8_decode('Bimodal'), 0, 0, 'L');
+                    $pdf->Cell(70, 5,  utf8_decode('Bimodal'), 0, 1, 'L');
                 }
-                $pdf->Cell(18, 5, utf8_decode('Costo por persona Bs:'), 0, 0, 'R');
-                $pdf->Cell(20, 5, $d->pay, 0, 1, 'C');
 
-                // Calcular los valores primero
-                $costo_persona = $d->pay;
-                $iva = $costo_persona * 0.16;
-                $total = $costo_persona + $iva;
 
-                // Formatear los números con 2 decimales
-                $costo_formateado = number_format($costo_persona, 2, ',', '.');
-                $iva_formateado = number_format($iva, 2, ',', '.');
-                $total_formateado = number_format($total, 2, ',', '.');
+                $datos_pago = $this->Diplomado_model->obtener_datos_pago($d->id_inscripcion);
+                if ($d->estatus == '1') {
+                    $pdf->Cell(40, 5, utf8_decode('Costo estimado por persona Bs:'), 0, 0, 'R');
+                    $pdf->Cell(20, 5, $d->pay, 0, 1, 'C');
 
-                // Mostrar en el PDF
-                $pdf->Cell(35, 5, utf8_decode('Base imponible Bs:'), 0, 0, 'R');
-                $pdf->Cell(20, 5, $costo_formateado, 0, 1, 'C');
+                    // Calcular los valores primero
+                    $costo_persona = $d->pay;
+                    $iva = $costo_persona * 0.16;
+                    $total = $costo_persona + $iva;
 
-                $pdf->Cell(35, 5, utf8_decode('IVA (16%) Bs:'), 0, 0, 'R');
-                $pdf->Cell(20, 5, $iva_formateado, 0, 1, 'C');
+                    // Formatear los números con 2 decimales
+                    $costo_formateado = number_format($costo_persona, 2, ',', '.');
+                    $iva_formateado = number_format($iva, 2, ',', '.');
+                    $total_formateado = number_format($total, 2, ',', '.');
 
-                $pdf->Cell(35, 5, utf8_decode('Total + IVA Bs:'), 0, 0, 'R');
-                $pdf->SetFont('Arial', 'B', 12); // Puedes poner en negrita el total
-                $pdf->Cell(20, 5, $total_formateado, 0, 1, 'C');
-                $pdf->SetFont('Arial', '', 12); // Volver a la fuente normal
+                    // Mostrar en el PDF
+                    $pdf->Cell(35, 5, utf8_decode('Base imponible Bs:'), 0, 0, 'R');
+                    $pdf->Cell(20, 5, $costo_formateado, 0, 1, 'C');
+
+                    $pdf->Cell(35, 5, utf8_decode('IVA (16%) Bs:'), 0, 0, 'R');
+                    $pdf->Cell(20, 5, $iva_formateado, 0, 1, 'C');
+
+                    $pdf->Cell(35, 5, utf8_decode('Total + IVA Bs:'), 0, 0, 'R');
+                    $pdf->SetFont('Arial', 'B', 12); // Puedes poner en negrita el total
+                    $pdf->Cell(20, 5, $total_formateado, 0, 1, 'C');
+                    $pdf->SetFont('Arial', '', 12); // Volver a la fuente normal
+
+
+                } elseif ($d->estatus == '4') {
+                    // Mostrar monto cancelado (usando el monto de pagos si existe)
+                    $monto_mostrar = ($datos_pago && $datos_pago->monto) ? $datos_pago->monto : $d->monto;
+
+                    $pdf->Cell(35, 5, utf8_decode('Monto Cancelado Bs:'), 0, 0, 'R');
+                    $pdf->Cell(20, 5, $monto_mostrar, 0, 1, 'C');
+
+                    // Mostrar detalles del pago si existen
+                    if ($datos_pago) {
+                        $pdf->Cell(35, 5, utf8_decode('Fecha de Pago:'), 0, 0, 'R');
+                        $pdf->Cell(20, 5, $datos_pago->fecha_pago, 0, 1, 'C');
+
+                        $pdf->Cell(35, 5, utf8_decode('Referencia:'), 0, 0, 'R');
+                        $pdf->Cell(20, 5, $datos_pago->referencia, 0, 1, 'C');
+
+                        // $pdf->Cell(18, 5, utf8_decode('Banco:'), 0, 0, 'R');
+                        // $pdf->Cell(20, 5, $datos_pago->banco, 0, 1, 'C');
+                        $pdf->Cell(35, 5, utf8_decode('infomacion:'), 0, 0, 'R');
+
+                        $pdf->MultiCell(125, 5, utf8_decode($datos_pago->observaciones), 0, 'L');
+                    }
+                }
+
+
                 $pdf->Cell(160, 5, utf8_decode('_______________________________________________________________________________'), 0, 1, 'C');
-
 
                 $pdf->SetTextColor(255, 0, 0);
                 $pdf->Ln(1);
@@ -169,7 +199,6 @@ class Preinscripcionnatural extends CI_Controller
                 $pdf->Cell(40, 5, utf8_decode('Nombre(s), Apellido(s):'), 0, 0, 'R');
 
                 $pdf->SetFont('Arial', '', 12);
-                $pdf->MultiCell(125, 5, utf8_decode($d->nombres . ' ' . $d->apellidos), 0, 'L');
                 $pdf->SetFont('Arial', 'B', 12);
                 $pdf->Cell(40, 5, utf8_decode('Cédula:'), 0, 0, 'R');
                 $pdf->SetFont('Arial', '', 12);
@@ -177,7 +206,7 @@ class Preinscripcionnatural extends CI_Controller
                 $pdf->Cell(50, 5, utf8_decode($d->cedula), 0, 0, 'L');
                 $pdf->SetFont('Arial', 'B', 12);
 
-                $pdf->Cell(30, 5, utf8_decode('Teléfono:'), 0, 0, 'R');
+                $pdf->Cell(20, 5, utf8_decode('Teléfono:'), 0, 0, 'R');
                 $pdf->SetFont('Arial', '', 12);
 
                 $pdf->Cell(60, 5, utf8_decode($d->tel_p), 0, 1, 'L');

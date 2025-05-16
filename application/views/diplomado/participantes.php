@@ -79,12 +79,15 @@
                                     <div class="form-group col-6">
                                         <label> Aceptado<b title="Campo Obligatorio" style="color:red">*</b></label>
                                         <select style="width: 100%;" id="fm_ac" name="fm_ac" class="form-control"
-                                            data-show-subtext="true" data-live-search="true">
+                                            onchange="llenar_20()" data-show-subtext="true" data-live-search="true">
                                             <option value="0">Seleccione</option>
                                             <option value="2">Aceptada Solicitud</option>
+                                            <option value="6">Aprobado/Proxima Corte</option>
                                             <option value="3">No Califica</option>
+
+
                                         </select>
-                                        <input class="form-control" type="text" name="id_inscripcion"
+                                        <input class="form-control" type="hidden" name="id_inscripcion"
                                             id="id_inscripcion" readonly>
 
 
@@ -95,8 +98,18 @@
                                         <textarea class="form-control" id="obser" name="obser" rows="3" cols="80"
                                             placeholder="Ej: puede ingresar una observacion"></textarea>
                                     </div>
-                                    <div class="form-group col-4">
 
+                                    <div class="form-section" id='cmp1' style="display: none;">
+                                        <div class="col-md-12 form-group">
+                                            <label for="experiencia_publicas" class="required-field">Forma de
+                                                pago</label>
+                                            <select style="width: 100%;" id="tipo_pago" name="tipo_pago"
+                                                class="form-control" data-show-subtext="true" data-live-search="true">
+                                                <option value="0">Seleccione</option>
+                                                <option value="1">Pronto Pago</option>
+                                                <option value="2">Crédito</option>
+                                            </select>
+                                        </div>
                                     </div>
 
                                 </div>

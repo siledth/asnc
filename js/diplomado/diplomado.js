@@ -49,7 +49,7 @@ function valideKey(evt){
 				if (result.value == true) {
 					event.preventDefault();
 					var datos = new FormData($("#guardar_ba")[0]);
-					//var base_url =window.location.origin+'/asnc/index.php/Diplomado/registrar_b';
+					// var base_url =window.location.origin+'/asnc/index.php/Diplomado/registrar_b';
 					var base_url = '/index.php/Diplomado/registrar_b';
 					$.ajax({
 						url:base_url,
@@ -200,13 +200,15 @@ function save_inf_ac() {
     var id_inscripcion = $('#id_inscripcion').val();
     var estatus = $('#fm_ac').val(); // 2 (Aceptada) o 3 (No Califica) 4 aprobado/ exonerado de pago
     var observacion = $('#obser').val();
+    var tipo_pago = $('#tipo_pago').val();
+
     // var id_usuario = <?php echo $_SESSION['id_usuario'] ?>; // Asegúrate de tener la sesión
 
     if (estatus == "0") {
         alert("Seleccione una opción válida");
         return false;
     }
-	// var base_url =window.location.origin+'/asnc/index.php/Diplomado/actualizar_inscripcion';
+	   //var base_url =window.location.origin+'/asnc/index.php/Diplomado/actualizar_inscripcion';
 					var base_url = '/index.php/Diplomado/actualizar_inscripcion';
 
     $.ajax({
@@ -217,6 +219,8 @@ function save_inf_ac() {
             id_inscripcion: id_inscripcion,
             estatus: estatus,
             observacion: observacion,
+            tipo_pago: tipo_pago,
+
             // id_usuario: id_usuario
         },
         success: function(response) {
@@ -243,8 +247,8 @@ function save_dec_pj() {
         alert("Seleccione una opción válida");
         return false;
     }
-	// var base_url =window.location.origin+'/asnc/index.php/Diplomado/actualizar_inscripcion_pj';
-					var base_url = '/index.php/Diplomado/actualizar_inscripcion_pj';
+	              //var base_url =window.location.origin+'/asnc/index.php/Diplomado/actualizar_inscripcion_pj';
+					 var base_url = '/index.php/Diplomado/actualizar_inscripcion_pj';
 
 	
 
@@ -271,3 +275,13 @@ function save_dec_pj() {
         }
     });
 }
+
+ function llenar_20() {
+      
+        var factura = $("#fm_ac").val();
+        if (factura == "2") {
+            $("#cmp1").show();
+        } else {
+            $("#cmp1").hide();
+        }
+        }

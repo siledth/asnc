@@ -678,6 +678,10 @@
                             class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Participante seleccionado </a>
                 </li>
 
+                <li><a href="<?= base_url() ?>index.php/Diplomado/conciliado"><i
+                            class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Conciliar</a>
+                </li>
+
 
 
             </ul>

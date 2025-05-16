@@ -617,9 +617,8 @@ function llenar_3() {
                 $('#diplomadoInfoContainer').hide();
                 return;
             }
-					var base_url = '/index.php/Diplomado/getDiplomadoInfo/' + idDiplomado;
-
-        //var base_url = window.location.origin+'/asnc/index.php/diplomado/getDiplomadoInfo/' + idDiplomado;
+        // var base_url = window.location.origin+'/asnc/index.php/diplomado/getDiplomadoInfo/' + idDiplomado;
+        var base_url = '/index.php/Diplomado/getDiplomadoInfo' + idDiplomado;
             
             $.ajax({
                 url: base_url,
@@ -675,7 +674,7 @@ function llenar_3() {
     
     // Validar que el importe no sea mayor al total
     $('#importe').on('change', function() {
-        const total = parseFloat($('#total_pago').val()) || 0;
+        const total = parseFloat($('#total_iva').val()) || 0;
         const importe = parseFloat($(this).val()) || 0;
         
         if(importe > total) {
@@ -691,7 +690,7 @@ function llenar_3() {
     }
 
     // Validar campos obligatorios
-    const camposRequeridos = ['total_pago', 'bancoo', 'cedulaPagador', 'telefonoPagador', 'referencia', 'fechaPago', 'importe'];
+    const camposRequeridos = ['total_pago', 'bancoOrigen', 'cedulaPagador', 'telefonoPagador', 'referencia', 'fechaPago', 'importe'];
     let validacionOk = true;
     
     camposRequeridos.forEach(campo => {
@@ -719,10 +718,10 @@ function llenar_3() {
         referencia: $('#referencia').val(),
         fechaPago: $('#fechaPago').val(),
         importe: $('#importe').val(),
-        bancoOrigen: $('#bancoo').val()
+        bancoOrigen: $('#bancoOrigen').val()
     };
         // var base_url = window.location.origin+'/asnc/index.php/diplomado/verificar_pago/';
-					var base_url = '/index.php/Diplomado/verificar_pago/';
+        var base_url = '/index.php/diplomado/verificar_pago';
 
     // Enviar a tu backend de CodeIgniter
     $.ajax({
@@ -785,9 +784,10 @@ function savei(event) {
     // 5. Enviar datos por AJAX
     // var base_url = window.location.origin + '/asnc/index.php/Diplomado/guardar_pago';
     //     var base_url2 = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; //redirigir
-					var base_url = '/index.php/Diplomado/guardar_pago/';
-					var base_url2 = '/index.php/Diplomado/preinscrip/';
 
+        var base_url = '/index.php/Diplomado/guardar_pago';
+        var base_url2 = '/index.php/Diplomado/preinscrip';
+        
 
     $.ajax({
         url: base_url,
@@ -1189,11 +1189,11 @@ function Inscribir(event) {
         // var base_url = window.location.origin+'/asnc/index.php/Diplomado/guardar_inscripcion';//guardar
         // var base_url2 = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; //redirigir
         // var base_url3 = window.location.origin+'/asnc/index.php/Preinscripcionnatural/pdfrt?id=';//ver la planilla despues de guardar
-					var base_url = '/index.php/Diplomado/guardar_inscripcion/';
-					var base_url2 = '/index.php/Diplomado/preinscrip/';
-					var base_url3 = '/index.php/Preinscripcionnatural/pdfrt?id=';
-    
-        // Preparar datos para enviar
+// Preparar datos para enviar
+        var base_url = '/index.php/Diplomado/guardar_inscripcion';
+        var base_url2 = '/index.php/Diplomado/preinscrip';
+        var base_url3 = '/index.php/Preinscripcionnatural/pdfrt?id=';
+         
     
     // Enviar datos
     $.ajax({
@@ -1295,26 +1295,20 @@ function Consultarplanilla() {
     $('#loading').show();
     $("#existe").hide();
     $("#no_existe").hide();
-    //  var base_ur = window.location.origin+'/asnc/index.php/Diplomado/consulta_og';
-
-					var base_ur = '/index.php/Diplomado/consulta_og/';
-
 
     $.ajax({
-        url: base_ur,
+        url: window.location.origin + '/asnc/index.php/Diplomado/consulta_og',
         method: 'POST',
         data: { rif_b: rif_b },
         dataType: 'json',
         success: function(response) {
-            console.log("Respuesta del servidor:", response); // Para depuración
+            console.log("Respuesta del servidor:", response);
             $('#loading').hide();
             
             if (response.success) {
-                // Caso cuando EXISTE la planilla
                 $("#existe").show();
                 $("#no_existe").hide();
                 
-                // Llenar campos
                 if(response.data) {
                     $('#fecha_limite_pago').val(response.data.fecha_limite_pago || '');
                     $('#id_inscripcion').val(response.data.id_inscripcion || '');
@@ -1322,31 +1316,86 @@ function Consultarplanilla() {
                     $('#pay').val(response.data.pay || '');
                     $('#codigo_planilla').val(response.data.codigo_planilla || '');
 
+                    // Calcular para contado (total_pago)
+                    calcularContado();
+                    
+                    // Calcular para crédito (pay)
+                    calcularCredito();
                 }
             } else {
-                // Caso cuando NO EXISTE la planilla
                 $("#no_existe").show();
                 $("#existe").hide();
                 
-                // Limpiar campos
+                // Limpiar todos los campos
                 $('#fecha_limite_pago').val('');
                 $('#id_inscripcion').val('');
                 $('#total_pago').val('');
                 $('#codigo_planilla').val('');
-
                 $('#pay').val('');
+                
+                // Limpiar campos de contado
+                $('#iva').val('');
+                $('#total_iva').val('');
+                
+                // Limpiar campos de crédito
+                $('#iva_credito').val('');
+                $('#total_iva_credito').val('');
+                $('#mitad_total_credito').val('');
                 
                 swal("No encontrado", response.message || 'Planilla no encontrada', "info");
             }
         },
         error: function(xhr) {
             $('#loading').hide();
-            console.error("Error en la consulta:", xhr); // Para depuración
+            console.error("Error en la consulta:", xhr);
             swal("Error", "Ocurrió un error al consultar", "error");
         }
     });
 }
 
+// Función para calcular contado (total_pago)
+function calcularContado() {
+    var totalPagoStr = $('#total_pago').val().replace(/[^0-9.-]/g, '');
+    var totalPago = parseFloat(totalPagoStr) || 0;
+    
+    var iva = totalPago * 0.16;
+    var totalConIVA = totalPago + iva;
+    
+    $('#iva').val(iva.toFixed(2));
+    $('#total_iva').val(totalConIVA.toFixed(2));
+}
+
+// Función para calcular crédito (pay)
+function calcularCredito() {
+    // Obtener valor del crédito
+    var creditoStr = $('#pay').val().replace(/[^0-9.-]/g, '');
+    var credito = parseFloat(creditoStr) || 0;
+    
+    // Calcular IVA (16%)
+    var ivaCredito = credito * 0.16;
+    
+    // Calcular total con IVA
+    var totalConIVACredito = credito + ivaCredito;
+    
+    // Calcular la mitad del total
+    var mitadTotal = totalConIVACredito / 2;
+    
+    // Mostrar resultados
+    $('#iva_credito').val(ivaCredito.toFixed(2));
+    $('#total_iva_credito').val(totalConIVACredito.toFixed(2));
+    $('#mitad_total_credito').val(mitadTotal.toFixed(2));
+}
+
+// Opcional: Escuchar cambios en los campos
+$(document).ready(function() {
+    $('#total_pago').on('change input', function() {
+        calcularContado();
+    });
+    
+    $('#pay').on('change input', function() {
+        calcularCredito();
+    });
+});
 
  // Función para mostrar/ocultar campos según tipo de pago
  function togglePagoFields() {

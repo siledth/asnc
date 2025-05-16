@@ -26,6 +26,19 @@ class Diplomado extends CI_Controller
         $this->load->view('diplomado/Cdiplomado.php', $data);
         $this->load->view('templates/footer.php');
     }
+    public function  conciliado()
+    {
+        if (!$this->session->userdata('session')) {
+            redirect('login');
+        }
+        // $data['contratista'] =	$this->Certificacion_model->llenar_contratista_exonerado();
+        $data['exonerado'] = $this->Diplomado_model->consultar_dip();
+        $usuario = $this->session->userdata('id_user');
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('diplomado/conciliado.php', $data);
+        $this->load->view('templates/footer.php');
+    }
     public function registrar_b()
     {
         if (!$this->session->userdata('session'))
@@ -559,6 +572,8 @@ class Diplomado extends CI_Controller
             'id_inscripcion' => $this->input->post('id_inscripcion'),
             'estatus' => $this->input->post('estatus'),
             'observacion' => $this->input->post('observacion'),
+            'tipo_pago' => $this->input->post('tipo_pago'),
+
             'id_usuario' => $usuario
         );
 
