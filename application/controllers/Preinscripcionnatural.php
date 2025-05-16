@@ -388,7 +388,7 @@ class Preinscripcionnatural extends CI_Controller
         $pdf->Cell(25, 5, utf8_decode('Declaración Jurada:'), 0, 1, 'L');
         $pdf->SetTextColor(0, 0, 0);
 
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Arial', '', 9);
         $pdf->Cell(-10, 5, '', 0, 0, 'L');
         $pdf->MultiCell(180, 4, utf8_decode('Declaro que la información y datos suministrados en esta Ficha son fidedignos, por lo que autorizo la pertinencia de su verificación. Convengo que de llegar a comprobarse que se ha incurrido en inexactitud o falsedad en los datos aquí suministrados, quedará sin efecto la Preinscripción'), 0, 'J');
 
