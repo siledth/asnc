@@ -38,14 +38,24 @@
                     </div>
 
                     <form id="sav_ext" method="POST" action="tu_url_de_procesamiento">
-                        <div class="form-group">
-                            <label for="rif_b"><i class="fas fa-question-circle text-danger mr-1"></i>Codigo de la
-                                planilla <span class="text-danger">*</span></label>
-                            <input class="form-control" type="text" name="rif_b" id="rif_b"
-                                onKeyUp="this.value=this.value.toUpperCase();" onblur="Consultarplanilla();">
-                            <small class="form-text text-muted">Ingrese </small>
-                            <div class="invalid-feedback">Debe ingresar </div>
+                        <div class="row">
+
+                            <div class="form-group">
+                                <label for="rif_b"><i class="fas fa-question-circle text-danger mr-1"></i>Codigo de la
+                                    planilla <span class="text-danger">*</span></label>
+                                <input class="form-control" type="text" name="rif_b" id="rif_b"
+                                    onKeyUp="this.value=this.value.toUpperCase();">
+                                <small class="form-text text-muted">Ingrese </small>
+                                <div class="invalid-feedback">Debe ingresar </div>
+                            </div>
+                            <div class="col mt-4">
+                                <button type="button" class="btn btn-default" onclick="Consultarplanilla()"
+                                    name="button">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
                         </div>
+
 
                         <!-- Loader -->
                         <div id="loading" style="display: none;">
