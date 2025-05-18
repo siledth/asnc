@@ -82,6 +82,7 @@
                                             data-show-subtext="true" data-live-search="true">
                                             <option value="0">Seleccione</option>
                                             <option value="2">Aceptada Solicitud</option>
+                                            <option value="6">Aprobado/Proxima Corte</option>
                                             <option value="3">No Califica</option>
                                             <option value="5">Aprobado/Exonerado de pago</option>
 

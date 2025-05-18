@@ -720,8 +720,8 @@ function llenar_3() {
         importe: $('#importe').val(),
         bancoOrigen: $('#bancoOrigen').val()
     };
-    //  var base_url = window.location.origin+'/asnc/index.php/diplomado/verificar_pago/';
-       var base_url = '/index.php/diplomado/verificar_pago';
+    var base_url = window.location.origin+'/asnc/index.php/diplomado/verificar_pago/';
+      // var base_url = '/index.php/diplomado/verificar_pago';
 
     // Enviar a tu backend de CodeIgniter
     $.ajax({
