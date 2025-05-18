@@ -671,4 +671,22 @@ class Diplomado_model extends CI_model
         ORDER BY id_capacitacion
     ", [$id_curriculum])->result();
     }
+
+    public function verificarCedulaEnDiplomado($cedula, $id_diplomado)
+    {
+        // Primero validamos que la cédula tenga el formato correcto
+        if (!is_numeric($cedula) || strlen($cedula) < 5 || strlen($cedula) > 10) {
+            return false;
+        }
+
+        // Consulta para verificar si la cédula ya está registrada en el mismo diplomado
+        $query = $this->db->query("
+            SELECT COUNT(*) as total 
+            FROM diplomado.participantes 
+            WHERE cedula = ? AND id_diplomado = ?
+        ", array($cedula, $id_diplomado));
+
+        $resultado = $query->row();
+        return ($resultado->total > 0);
+    }
 }

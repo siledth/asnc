@@ -246,7 +246,7 @@ class Diplomado extends CI_Controller
         $data['diplomado'] = $this->Diplomado_model->consulta_diplomado();
         $data['estados'] = $this->Configuracion_model->consulta_estados();
         $data['objeto'] = $this->Configuracion_model->objeto();
-        // $data['banco'] = $this->Configuracion_model->get_bancos();
+        $data['banco'] = $this->Configuracion_model->get_bancos();
 
         // Cargar vistas
         $this->load->view('templates/headerlog');
@@ -651,7 +651,9 @@ class Diplomado extends CI_Controller
         $cedula_pagador = $this->input->post('cedulaPagador');
         $telefono_pagador = $this->input->post('telefonoPagador');
         $telefono_destino = $this->input->post('telefonoDestino');
-        $banco = $this->input->post('banco'); // Asegúrate de agregar este campo al formulario si es necesario
+        $banco = $this->input->post('bancoOrigen');
+        $tipo_pago = $this->input->post('tipo_pago');
+
 
         // Validar datos requeridos
         if (empty($id_inscripcion) || empty($monto) || empty($fecha_pago) || empty($referencia)) {
@@ -666,6 +668,7 @@ class Diplomado extends CI_Controller
             'fecha_pago' => $fecha_pago,
             'referencia' => $referencia,
             'banco' => $banco,
+            'tipo_pago' => $tipo_pago,
             'estatus' => 4, // 4=Confirmado (asumiendo que ya fue validado)
             'observaciones' => "Pago registrado por cédula: $cedula_pagador, tel: $telefono_pagador"
         ];
@@ -1014,5 +1017,23 @@ class Diplomado extends CI_Controller
         $this->output
             ->set_content_type('application/json')
             ->set_output(json_encode($response));
+    }
+
+    //validar existencias de cedulas
+    public function validarCedula()
+    {
+        $cedula = $this->input->post('cedula');
+        $id_diplomado = $this->input->post('id_diplomado');
+
+        // Validar datos de entrada
+        if (empty($cedula) || empty($id_diplomado)) {
+            echo json_encode(['error' => 'Datos incompletos']);
+            return;
+        }
+
+        // Llamar al modelo para verificar
+        $existe = $this->Diplomado_model->verificarCedulaEnDiplomado($cedula, $id_diplomado);
+
+        echo json_encode(['existe' => $existe]);
     }
 }

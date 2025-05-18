@@ -43,9 +43,9 @@
                                             onchange="loadDiplomadoInfo(this.value)">
                                             <option value="0">Seleccione una opción</option>
                                             <?php foreach ($diplomado as $data): ?>
-                                            <option value="<?= $data['id_diplomado'] ?>">
-                                                <?= $data['name_d'] ?>
-                                            </option>
+                                                <option value="<?= $data['id_diplomado'] ?>">
+                                                    <?= $data['name_d'] ?>
+                                                </option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -72,12 +72,13 @@
                                 <div class="row">
                                     <div class="col-md-4 form-group">
                                         <label for="cedula_f" class="required-field">Cédula de Identidad</label>
-                                        <input type="text" id="cedula_f" name="cedula_f" maxlength="8"
-                                            onblur="validateUsers();" placeholder="Ej: 12345678" class="form-control"
+                                        <input type="number" id="cedula_f" name="cedula_f" onblur="validateUsers();"
+                                            placeholder="Ej: 12345678" class="form-control" min="10000" max="9999999999"
                                             required />
-                                        <small class="form-text text-muted">8 dígitos sin puntos</small>
-                                        <div class="invalid-feedback">La cédula debe tener exactamente 8 dígitos
-                                            numéricos</div>
+                                        <small class="form-text text-muted">Solo números, entre 5 y 10 dígitos</small>
+                                        <div class="invalid-feedback">
+                                            <span id="cedula-error">La cédula debe tener entre 5 y 10 dígitos</span>
+                                        </div>
                                     </div>
 
                                     <div class="col-md-4 form-group">
@@ -142,9 +143,9 @@
                                                 required>
                                                 <option value="">Seleccione una opción</option>
                                                 <?php foreach ($clasificacion as $data): ?>
-                                                <option value="<?= $data['id_academico'] ?>">
-                                                    <?= $data['desc_academico'] ?>
-                                                </option>
+                                                    <option value="<?= $data['id_academico'] ?>">
+                                                        <?= $data['desc_academico'] ?>
+                                                    </option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
@@ -234,17 +235,28 @@
                                     <i class="fas fa-info-circle mr-2"></i>Complete la información de su lugar de
                                     trabajo.
                                 </div>
+                                <div class="row">
 
-                                <div class="form-group">
-                                    <label for="rif_b"><i class="fas fa-question-circle text-danger mr-1"></i>RIF de la
-                                        Institución <span class="text-danger">*</span></label>
-                                    <input class="form-control" type="text" name="rif_b" id="rif_b"
-                                        onkeypress="may(this);" placeholder="Ej: G123456789"
-                                        oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/,'')"
-                                        onKeyUp="this.value=this.value.toUpperCase();" onblur="consultar_rif();">
-                                    <small class="form-text text-muted">Ingrese el RIF sin guiones ni puntos</small>
-                                    <div class="invalid-feedback">Debe ingresar el RIF de la institución</div>
+                                    <div class="form-group">
+                                        <label for="rif_b"><i class="fas fa-question-circle text-danger mr-1"></i>RIF de
+                                            la
+                                            Institución <span class="text-danger">*</span></label>
+                                        <input class="form-control" type="text" name="rif_b" id="rif_b"
+                                            placeholder="J123456789" maxlength="10" oninput="validarRIF(this)" required>
+                                        <small id="rifError" class="text-danger d-none">
+                                            El RIF debe tener <span id="missingChars">10</span> caracteres exactos (Ej:
+                                            J123456789)
+                                        </small>
+                                        <div class="invalid-feedback">Debe ingresar el RIF de la institución</div>
+                                    </div>
+                                    <div class="col mt-4">
+                                        <button type="button" class="btn btn-default" onclick="consultar_rif()"
+                                            name="button" disabled>
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
                                 </div>
+
 
                                 <!-- Sección si existe RIF -->
                                 <div id='existe' style="display: none;">
@@ -315,7 +327,8 @@
 
                     </div>
                     <div class="text-center mt-4">
-                        <button type="button" id="guardar" onclick="Inscribir(event);" class="btn btn-primary btn-lg">
+                        <button type="button" id="guardar" onclick="Inscribir(event);" class="btn btn-primary btn-lg"
+                            disabled>
                             <i class="fas fa-save mr-2"></i>Guardar Inscripción
                         </button>
                     </div>
@@ -332,21 +345,23 @@
 
     <!-- Tu script personalizado -->
     <script src="<?= base_url() ?>/js/solicitud/solicitud.js"></script>
+    <script src="<?= base_url() ?>/js/diplomado/val_user.js"></script>
+
 
 
     <script>
-    // Validación antes de enviar el formulario
-    // function Inscribir(event) {
-    //     // Validar que si seleccionó "Sí" en capacitación, tenga al menos una
-    //     if ($('#tiene_capacitacion').val() === '1' && capacitacionCount === 0) {
-    //         alert('Debe agregar al menos una capacitación relacionada con Contrataciones Públicas.');
-    //         event.preventDefault();
-    //         return false;
-    //     }
+        // Validación antes de enviar el formulario
+        // function Inscribir(event) {
+        //     // Validar que si seleccionó "Sí" en capacitación, tenga al menos una
+        //     if ($('#tiene_capacitacion').val() === '1' && capacitacionCount === 0) {
+        //         alert('Debe agregar al menos una capacitación relacionada con Contrataciones Públicas.');
+        //         event.preventDefault();
+        //         return false;
+        //     }
 
-    //     // Resto de tu lógica de validación...
-    //     // ...
-    // }
+        //     // Resto de tu lógica de validación...
+        //     // ...
+        // }
     </script>
 </body>
 

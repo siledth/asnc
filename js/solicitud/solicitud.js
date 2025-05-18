@@ -720,8 +720,8 @@ function llenar_3() {
         importe: $('#importe').val(),
         bancoOrigen: $('#bancoOrigen').val()
     };
-        // var base_url = window.location.origin+'/asnc/index.php/diplomado/verificar_pago/';
-        var base_url = '/index.php/diplomado/verificar_pago';
+    //  var base_url = window.location.origin+'/asnc/index.php/diplomado/verificar_pago/';
+       var base_url = '/index.php/diplomado/verificar_pago';
 
     // Enviar a tu backend de CodeIgniter
     $.ajax({
@@ -776,16 +776,19 @@ function savei(event) {
         cedulaPagador: $('#cedulaPagador').val(),
         telefonoPagador: $('#telefonoPagador').val(),
         telefonoDestino: $('#telefonoDestino').val(),
-        banco: $('#banco').val(),
+        banco: $('#bancoOrigen').val(),
+        tipo_pago: $('#tipo_pago').val(),
+        
+
 
         //banco: $('#banco').val() || null
     };
 
     // 5. Enviar datos por AJAX
-    // var base_url = window.location.origin + '/asnc/index.php/Diplomado/guardar_pago';
+    //  var base_url = window.location.origin + '/asnc/index.php/Diplomado/guardar_pago';
     //     var base_url2 = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; //redirigir
 
-        var base_url = '/index.php/Diplomado/guardar_pago';
+       var base_url = '/index.php/Diplomado/guardar_pago';
         var base_url2 = '/index.php/Diplomado/preinscrip';
         
 
@@ -800,7 +803,7 @@ function savei(event) {
                 // Redirigir a comprobante o página de éxito
                 if(response.pago_id) {
                      setTimeout(function() {
-        window.location.href = base_url2 ; // Asegúrate que esta sea la ruta correcta
+        window.location.href = base_url2 ; 
     }, 1000);
                     // window.location.href = base_url.replace('guardar_pago', 'comprobante') + '/' + response.pago_id;
                 }
@@ -1295,7 +1298,10 @@ function Consultarplanilla() {
     $('#loading').show();
     $("#existe").hide();
     $("#no_existe").hide();
+        // var base_url = '/index.php/Diplomado/consulta_og';
+        // var base_url = window.location.origin+'/asnc/index.php/Diplomado/consulta_og';
         var base_url = '/index.php/Diplomado/consulta_og';
+
 
     base_url
     $.ajax({
@@ -1412,5 +1418,34 @@ $(document).ready(function() {
     } else if (tipoPago == '2') { // Crédito
         $('#creditoPagoField').show();
     }
+}
+
+function validarRIF(input) {
+    const errorElement = document.getElementById('rifError');
+    const btnBuscar = document.querySelector('button[onclick="consultar_rif()"]');
+    let valor = input.value.toUpperCase().replace(/[^JGV0-9]/g, '');  
+
+    // Validación 1: Primer carácter debe ser J, G o V
+    if (valor.length > 0 && !['J', 'G', 'V'].includes(valor[0])) {
+        errorElement.textContent = "El RIF debe comenzar con J, G o V";
+        errorElement.classList.remove('d-none');
+        btnBuscar.disabled = true;
+        input.value = valor = valor.replace(/[^JGV]/g, '');  
+        return;
+    }
+
+    // Validación 2: Longitud exacta de 10 caracteres
+    if (valor.length !== 10) {
+        const faltantes = 10 - valor.length;
+        errorElement.innerHTML = `Faltan <strong>${faltantes}</strong> caracteres (Ej: J123456789)`;
+        errorElement.classList.remove('d-none');
+        btnBuscar.disabled = true;
+        return;
+    }
+
+    // Si pasa todas las validaciones:
+    errorElement.classList.add('d-none');
+    btnBuscar.disabled = false;
+    input.value = valor; // Asegura el formato correcto
 }
 
