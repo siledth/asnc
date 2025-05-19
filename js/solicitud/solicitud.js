@@ -912,6 +912,8 @@ function savei(event) {
     let formData = {
         id_inscripcion: $('#id_inscripcion').val(),
         codigo_planilla: $('#rif_b').val(),
+
+        codigo_planilla: $('#rif_b').val(),
         importe: $('#importe').val(),
         fechaPago: $('#fechaPago').val(),
         referencia: $('#referencia').val(),
@@ -924,7 +926,7 @@ function savei(event) {
 
     // 5. Enviar datos por AJAX
     var base_url = '/index.php/Diplomado/guardar_pago';
-    var pdf_url = '/index.php/reciboa_pnatural/pdfrt?id=' + $('#id_inscripcion').val();
+    var pdf_url = '/index.php/reciboa_pnatural/pdfrt?id=' + $('#rif_b').val();
 
     $.ajax({
         url: base_url,
