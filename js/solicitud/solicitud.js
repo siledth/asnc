@@ -926,7 +926,7 @@ function savei(event) {
 
     // 5. Enviar datos por AJAX
     var base_url = '/index.php/Diplomado/guardar_pago';
-    var pdf_url = '/index.php/Preinscripcionnatural/pdfrt?id=' + $('#rif_b').val();
+    var pdf_url = '/index.php/recibonatural/pdfrt?id=' + $('#rif_b').val();
 
     $.ajax({
         url: base_url,
