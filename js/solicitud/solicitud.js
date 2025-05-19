@@ -683,75 +683,9 @@ function llenar_3() {
         }
     });
 
-//     function verificarPago() { ////este es el bueno 
-//     if($('#tipo_pago').val() != 1) {
-//         alert('Esta función solo aplica para pagos al contado');
-//         return;
-//     }
-
-//     // Validar campos obligatorios
-//     const camposRequeridos = ['total_pago', 'bancoOrigen', 'cedulaPagador', 'telefonoPagador', 'referencia', 'fechaPago', 'importe'];
-//     let validacionOk = true;
-    
-//     camposRequeridos.forEach(campo => {
-//         if(!$(`#${campo}`).val()) {
-//             $(`#${campo}`).addClass('is-invalid');
-//             validacionOk = false;
-//         } else {
-//             $(`#${campo}`).removeClass('is-invalid');
-//         }
-//     });
-    
-//     if(!validacionOk) {
-//         alert('Por favor complete todos los campos requeridos');
-//         return;
-//     }
-
-//     // Mostrar loader
-//     $('#guardar').prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-2"></i>Verificando pago...');
-
-//     // Preparar datos para enviar
-//     const datosPago = {
-//         cedulaPagador: $('#cedulaPagador').val(),
-//         telefonoPagador: $('#telefonoPagador').val(),
-//         telefonoDestino: $('#telefonoDestino').val() || '',
-//         referencia: $('#referencia').val(),
-//         fechaPago: $('#fechaPago').val(),
-//         importe: $('#importe').val(),
-//         bancoOrigen: $('#bancoOrigen').val()
-//     };
-//    // var base_url = window.location.origin+'/asnc/index.php/diplomado/verificar_pago/';
-//       var base_url = '/index.php/diplomado/verificar_pago';
-
-//     // Enviar a tu backend de CodeIgniter.
-//     $.ajax({
-//         url: base_url,
-//         type: 'POST',
-//         dataType: 'json',
-//         data: datosPago,
-//         success: function(response) {
-//             if(response.success) {
-//                 // Pago verificado correctamente
-//                 alert('Pago verificado correctamente. Puede continuar .');
-//                 $('#pagoVerificado').val('1'); // Campo oculto para marcar como verificado
-//                 $('#guardar').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar ');
-//             } else {
-//                 // Error en la verificación
-//                 alert(response.message || 'Error al verificar el pago: ' + (response.error || ''));
-//                 $('#guardar').prop('disabled', true).html('<i class="fas fa-save mr-2"></i>Guardar ');
-//             }
-//         },
-//         error: function(xhr) {
-//             alert('Error de conexión con el servidor');
-//             $('#guardar').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar ');
-//         }
-//     });
-// }
-
-function verificarPago() {
-    // Validar tipo de pago
+    function verificarPago() {
     if($('#tipo_pago').val() != 1) {
-        mostrarError('Esta función solo aplica para pagos al contado');
+        alert('Esta función solo aplica para pagos al contado');
         return;
     }
 
@@ -760,104 +694,60 @@ function verificarPago() {
     let validacionOk = true;
     
     camposRequeridos.forEach(campo => {
-        const $campo = $(`#${campo}`);
-        if(!$campo.val()) {
-            $campo.addClass('is-invalid');
+        if(!$(`#${campo}`).val()) {
+            $(`#${campo}`).addClass('is-invalid');
             validacionOk = false;
         } else {
-            $campo.removeClass('is-invalid');
+            $(`#${campo}`).removeClass('is-invalid');
         }
     });
     
     if(!validacionOk) {
-        mostrarError('Por favor complete todos los campos requeridos');
+        alert('Por favor complete todos los campos requeridos');
         return;
     }
 
-    // Mostrar loader y deshabilitar botón
-    const $btnGuardar = $('#guardar');
-    $btnGuardar.prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-2"></i>Verificando pago...');
+    // Mostrar loader
+    $('#guardar').prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-2"></i>Verificando pago...');
 
-    // Preparar datos para enviar (con formato exacto que espera la API)
+    // Preparar datos para enviar
     const datosPago = {
-        cedulaPagador: $('#cedulaPagador').val().toString(),
-        telefonoPagador: $('#telefonoPagador').val().toString(),
-        telefonoDestino: $('#telefonoDestino').val()?.toString() || '',
-        referencia: $('#referencia').val().toString(),
+        cedulaPagador: $('#cedulaPagador').val(),
+        telefonoPagador: $('#telefonoPagador').val(),
+        telefonoDestino: $('#telefonoDestino').val() || '',
+        referencia: $('#referencia').val(),
         fechaPago: $('#fechaPago').val(),
-        importe: parseFloat($('#importe').val()).toFixed(2), // Formato 2 decimales
-        bancoOrigen: $('#bancoOrigen').val().padStart(4, '0'), // Asegurar 4 dígitos
-        idempotency_key: 'pago-' + Date.now()
+        importe: $('#importe').val(),
+        bancoOrigen: $('#bancoOrigen').val()
     };
+   // var base_url = window.location.origin+'/asnc/index.php/diplomado/verificar_pago/';
+      var base_url = '/index.php/diplomado/verificar_pago';
 
-    console.log('Datos a enviar:', datosPago); // Para debugging
-    var base_url = '/index.php/diplomado/verificar_pago';
-    // Enviar a tu backend
+    // Enviar a tu backend de CodeIgniter.
     $.ajax({
         url: base_url,
         type: 'POST',
         dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(datosPago),
+        data: datosPago,
         success: function(response) {
             if(response.success) {
-                mostrarMensajeExito(response.message || 'Pago verificado correctamente');
-                $('#pagoVerificado').val('1');
-                $btnGuardar.prop('disabled', false);
+                // Pago verificado correctamente
+                alert('Pago verificado correctamente. Puede continuar .');
+                $('#pagoVerificado').val('1'); // Campo oculto para marcar como verificado
+                $('#guardar').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar ');
             } else {
-                manejarErrorAPI(response);
-                $btnGuardar.prop('disabled', true); // Mantener deshabilitado hasta corrección
+                // Error en la verificación
+                alert(response.message || 'Error al verificar el pago: ' + (response.error || ''));
+                $('#guardar').prop('disabled', true).html('<i class="fas fa-save mr-2"></i>Guardar ');
             }
         },
         error: function(xhr) {
-            mostrarError(`Error ${xhr.status}: ${xhr.statusText || 'Error de conexión'}`);
-            $btnGuardar.prop('disabled', false);
+            alert('Error de conexión con el servidor');
+            $('#guardar').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar ');
         }
     });
 }
-
-// Funciones auxiliares mejoradas
-function manejarErrorAPI(response) {
-    let mensaje = '';
-    
-    switch(response.code) {
-        case 'VALIDATION_ERROR':
-            mensaje = response.message;
-            resaltarCampoError(response.message);
-            break;
-        case 'DUPLICATED_TRANSACTION':
-            mensaje = 'Esta referencia ya fue procesada. Use una nueva.';
-            $('#referencia').addClass('is-invalid');
-            break;
-        case 'HTTP_400':
-            mensaje = 'Error en datos enviados: ' + (response.error || 'Datos inválidos');
-            break;
-        default:
-            mensaje = response.message || 'Error desconocido al verificar pago';
-    }
-    
-    mostrarError(mensaje);
-}
-
-function resaltarCampoError(mensaje) {
-    // Extrae el nombre del campo del mensaje de error
-    const match = mensaje.match(/campo (\w+)/i);
-    if(match && match[1]) {
-        const campo = match[1];
-        $(`#${campo}`).addClass('is-invalid');
-    }
-}
-
-function mostrarError(mensaje) {
-    // Usar toast o modal en lugar de alert para mejor UX
-    console.error('Error:', mensaje);
-    alert('Error: ' + mensaje);
-}
-
-function mostrarMensajeExito(mensaje) {
-    console.log('Éxito:', mensaje);
-    alert(mensaje);
-} 
+ 
 function savei(event) {
     event.preventDefault();
     
