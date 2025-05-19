@@ -132,52 +132,105 @@ class Diplomado extends CI_Controller
             echo json_encode(['success' => false, 'message' => 'Diplomado no encontrado']);
         }
     }
+    // public function verificar_pago()
+    // {
+    //     $this->output->set_content_type('application/json');
+
+    //     // Validar que sea una petición POST
+    //     if ($this->input->server('REQUEST_METHOD') !== 'POST') {
+    //         echo json_encode(['success' => false, 'message' => 'Método no permitido']);
+    //         return;
+    //     }
+
+    //     // Validar campos requeridos
+    //     $required_fields = ['cedulaPagador', 'telefonoPagador', 'referencia', 'fechaPago', 'importe', 'bancoOrigen'];
+    //     foreach ($required_fields as $field) {
+    //         if (empty($this->input->post($field))) {
+    //             echo json_encode(['success' => false, 'message' => 'Faltan campos requeridos']);
+    //             return;
+    //         }
+    //     }
+
+    //     // Preparar datos para la API
+    //     $datos_api = [
+    //         'cedulaPagador' => $this->input->post('cedulaPagador'),
+    //         'telefonoPagador' => $this->input->post('telefonoPagador'),
+    //         'telefonoDestino' => $this->input->post('telefonoDestino') ?: '',
+    //         'referencia' => $this->input->post('referencia'),
+    //         'fechaPago' => $this->input->post('fechaPago'),
+    //         'importe' => $this->input->post('importe'),
+    //         'bancoOrigen' => $this->input->post('bancoOrigen')
+    //         // 'reqCed' => true
+    //     ];
+
+    //     // Configurar la API key de forma segura
+    //     $api_key = $this->config->item('banvenez_api_key'); // Configurada en application/config/config.php
+
+    //     // Llamar al helper que hará la petición
+    //     $this->load->helper('banvenez_api');
+    //     $response = verify_payment_with_banvenez($datos_api, $api_key);
+
+    //     // Procesar respuesta
+    //     if ($response['code'] == 1000) {
+    //         echo json_encode(['success' => true, 'message' => 'Pago verificado correctamente']);
+    //     } else {
+    //         echo json_encode(['success' => false, 'message' => 'Pago no verificado', 'error' => $response['message'] ?? 'Error desconocido']);
+    //     }
+    // }
+
     public function verificar_pago()
     {
         $this->output->set_content_type('application/json');
 
-        // Validar que sea una petición POST
-        if ($this->input->server('REQUEST_METHOD') !== 'POST') {
-            echo json_encode(['success' => false, 'message' => 'Método no permitido']);
-            return;
-        }
-
-        // Validar campos requeridos
-        $required_fields = ['cedulaPagador', 'telefonoPagador', 'referencia', 'fechaPago', 'importe', 'bancoOrigen'];
-        foreach ($required_fields as $field) {
-            if (empty($this->input->post($field))) {
-                echo json_encode(['success' => false, 'message' => 'Faltan campos requeridos']);
-                return;
+        try {
+            // Validación de campos requeridos
+            $required = ['cedulaPagador', 'telefonoPagador', 'referencia', 'fechaPago', 'importe', 'bancoOrigen'];
+            foreach ($required as $field) {
+                if (empty($this->input->post($field))) {
+                    throw new Exception("El campo $field es requerido");
+                }
             }
+
+            $datos_api = [
+                'cedulaPagador' => $this->input->post('cedulaPagador'),
+                'telefonoPagador' => $this->input->post('telefonoPagador'),
+                'referencia' => $this->input->post('referencia'),
+                'fechaPago' => $this->input->post('fechaPago'),
+                'importe' => (float)$this->input->post('importe'),
+                'bancoOrigen' => $this->input->post('bancoOrigen'),
+                'idempotency_key' => uniqid() // Clave única para evitar duplicados
+            ];
+
+            $this->load->helper('banvenez_api');
+            $api_key = $this->config->item('banvenez_api_key');
+            $response = verify_payment_with_banvenez($datos_api, $api_key);
+
+            // Manejo mejorado de la respuesta
+            if (isset($response['success']) && $response['success']) {
+                $output = [
+                    'success' => true,
+                    'message' => $response['message'] ?? 'Pago verificado correctamente',
+                    'data' => $response['data'] ?? null
+                ];
+            } else {
+                $output = [
+                    'success' => false,
+                    'message' => $response['message'] ?? 'Error al verificar el pago',
+                    'error' => $response['error'] ?? null,
+                    'code' => $response['code'] ?? 'UNKNOWN_ERROR',
+                    'http_code' => $response['http_code'] ?? null
+                ];
+            }
+        } catch (Exception $e) {
+            $output = [
+                'success' => false,
+                'message' => $e->getMessage(),
+                'code' => 'VALIDATION_ERROR'
+            ];
         }
 
-        // Preparar datos para la API
-        $datos_api = [
-            'cedulaPagador' => $this->input->post('cedulaPagador'),
-            'telefonoPagador' => $this->input->post('telefonoPagador'),
-            'telefonoDestino' => $this->input->post('telefonoDestino') ?: '',
-            'referencia' => $this->input->post('referencia'),
-            'fechaPago' => $this->input->post('fechaPago'),
-            'importe' => $this->input->post('importe'),
-            'bancoOrigen' => $this->input->post('bancoOrigen')
-            // 'reqCed' => true
-        ];
-
-        // Configurar la API key de forma segura
-        $api_key = $this->config->item('banvenez_api_key'); // Configurada en application/config/config.php
-
-        // Llamar al helper que hará la petición
-        $this->load->helper('banvenez_api');
-        $response = verify_payment_with_banvenez($datos_api, $api_key);
-
-        // Procesar respuesta
-        if ($response['code'] == 1000) {
-            echo json_encode(['success' => true, 'message' => 'Pago verificado correctamente']);
-        } else {
-            echo json_encode(['success' => false, 'message' => 'Pago no verificado', 'error' => $response['message'] ?? 'Error desconocido']);
-        }
+        $this->output->set_output(json_encode($output));
     }
-
 
 
     public function preinscrip()
