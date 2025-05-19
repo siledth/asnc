@@ -683,22 +683,87 @@ function llenar_3() {
         }
     });
 
-    function verificarPago() {
+//     function verificarPago() {
+//     if($('#tipo_pago').val() != 1) {
+//         alert('Esta función solo aplica para pagos al contado');
+//         return;
+//         }
+
+//     // Validar campos obligatorios
+//     const camposRequeridos = ['total_pago', 'bancoOrigen', 'cedulaPagador', 'telefonoPagador', 'referencia', 'fechaPago', 'importe'];
+//     let validacionOk = true;
+    
+//     camposRequeridos.forEach(campo => {
+//         if(!$(`#${campo}`).val()) {
+//             $(`#${campo}`).addClass('is-invalid');
+//             validacionOk = false;
+//         } else {
+//             $(`#${campo}`).removeClass('is-invalid');
+//         }
+//     });
+    
+//     if(!validacionOk) {
+//         alert('Por favor complete todos los campos requeridos');
+//         return;
+//     }
+
+//     // Mostrar loader
+//     $('#guardar').prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-2"></i>Verificando pago...');
+
+//     // Preparar datos para enviar
+//     const datosPago = {
+//         cedulaPagador: $('#cedulaPagador').val(),
+//         telefonoPagador: $('#telefonoPagador').val(),
+//         telefonoDestino: $('#telefonoDestino').val() || '',
+//         referencia: $('#referencia').val(),
+//         fechaPago: $('#fechaPago').val(),
+//         importe: $('#importe').val(),
+//         bancoOrigen: $('#bancoOrigen').val()
+//     };
+//     //  var base_url = window.location.origin+'/asnc/index.php/diplomado/verificar_pago/';
+//        var base_url = '/index.php/diplomado/verificar_pago';
+
+//     // Enviar a tu backend de CodeIgniter
+//     $.ajax({
+//         url: base_url,
+//         type: 'POST',
+//         dataType: 'json',
+//         data: datosPago,
+//         success: function(response) {
+//             if(response.success) {
+//                 // Pago verificado correctamente
+//                 alert('Pago verificado correctamente. Puede continuar .');
+//                 $('#pagoVerificado').val('1'); // Campo oculto para marcar como verificado
+//                 $('#guardar').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar ');
+//             } else {
+//                 // Error en la verificación
+//                 alert(response.message || 'Error al verificar el pago: ' + (response.error || ''));
+//                 $('#guardar').prop('disabled', true).html('<i class="fas fa-save mr-2"></i>Guardar ');
+//             }
+//         },
+//         error: function(xhr) {
+//             alert('Error de conexión con el servidor');
+//             $('#guardar').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar ');
+//         }
+//     });
+// }
+ function verificarPago() {
+    // Limpiar errores previos
+    $('.is-invalid').removeClass('is-invalid');
+    
     if($('#tipo_pago').val() != 1) {
         alert('Esta función solo aplica para pagos al contado');
         return;
     }
 
     // Validar campos obligatorios
-    const camposRequeridos = ['total_pago', 'bancoOrigen', 'cedulaPagador', 'telefonoPagador', 'referencia', 'fechaPago', 'importe'];
+    const camposRequeridos = ['bancoOrigen', 'telefonoPagador', 'referencia', 'fechaPago', 'importe'];
     let validacionOk = true;
     
     camposRequeridos.forEach(campo => {
         if(!$(`#${campo}`).val()) {
             $(`#${campo}`).addClass('is-invalid');
             validacionOk = false;
-        } else {
-            $(`#${campo}`).removeClass('is-invalid');
         }
     });
     
@@ -710,9 +775,8 @@ function llenar_3() {
     // Mostrar loader
     $('#guardar').prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-2"></i>Verificando pago...');
 
-    // Preparar datos para enviar
+    // Preparar datos para enviar (usando los mismos nombres que en el ejemplo funcional)
     const datosPago = {
-        cedulaPagador: $('#cedulaPagador').val(),
         telefonoPagador: $('#telefonoPagador').val(),
         telefonoDestino: $('#telefonoDestino').val() || '',
         referencia: $('#referencia').val(),
@@ -720,10 +784,9 @@ function llenar_3() {
         importe: $('#importe').val(),
         bancoOrigen: $('#bancoOrigen').val()
     };
-    //  var base_url = window.location.origin+'/asnc/index.php/diplomado/verificar_pago/';
-       var base_url = '/index.php/diplomado/verificar_pago';
+        var base_url = '/index.php/diplomado/verificar_pago';
 
-    // Enviar a tu backend de CodeIgniter
+
     $.ajax({
         url: base_url,
         type: 'POST',
@@ -731,23 +794,30 @@ function llenar_3() {
         data: datosPago,
         success: function(response) {
             if(response.success) {
-                // Pago verificado correctamente
-                alert('Pago verificado correctamente. Puede continuar .');
-                $('#pagoVerificado').val('1'); // Campo oculto para marcar como verificado
-                $('#guardar').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar ');
+                alert('Pago verificado correctamente. Puede continuar.');
+                $('#pagoVerificado').val('1');
             } else {
-                // Error en la verificación
-                alert(response.message || 'Error al verificar el pago: ' + (response.error || ''));
-                $('#guardar').prop('disabled', true).html('<i class="fas fa-save mr-2"></i>Guardar ');
+                let errorMsg = response.message || 'Error al verificar el pago';
+                if (response.code) errorMsg += ` (Código: ${response.code})`;
+                if (response.error && typeof response.error === 'object') {
+                    errorMsg += '\n' + JSON.stringify(response.error);
+                } else if (response.error) {
+                    errorMsg += '\n' + response.error;
+                }
+                alert(errorMsg);
             }
+            $('#guardar').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar');
         },
         error: function(xhr) {
-            alert('Error de conexión con el servidor');
-            $('#guardar').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar ');
+            let errorMsg = 'Error de conexión con el servidor';
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                errorMsg = xhr.responseJSON.message;
+            }
+            alert(errorMsg);
+            $('#guardar').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar');
         }
     });
 }
- 
 function savei(event) {
     event.preventDefault();
     
