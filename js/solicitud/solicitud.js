@@ -751,7 +751,7 @@ function llenar_3() {
     // Limpiar errores previos
     $('.is-invalid').removeClass('is-invalid');
     
-    if($('#tipo_pago').val() != 1) {
+    if($('#tipo_pago').val() >= 1) {
         alert('Esta función solo aplica para pagos al contado');
         return;
     }
