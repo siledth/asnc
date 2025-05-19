@@ -1260,11 +1260,11 @@ function Inscribir(event) {
         alert('Debe agregar al menos una capacitación relacionada con Contrataciones Públicas.');
         isValid = false;
     }
-    // Validar formato cédula
-    if (!/^\d{8}$/.test($('#cedula_f').val())) {
-        $('#cedula_f').addClass('is-invalid');
-        isValid = false;
-    }
+    // // Validar formato cédula
+    // if (!/^\d{8}$/.test($('#cedula_f').val())) {
+    //     $('#cedula_f').addClass('is-invalid');
+    //     isValid = false;
+    // }
     
     // Validar email si está presente
     if ($('#correo').val() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('#correo').val())) {
