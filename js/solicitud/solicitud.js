@@ -1299,8 +1299,8 @@ function Consultarplanilla() {
     $("#existe").hide();
     $("#no_existe").hide();
         // var base_url = '/index.php/Diplomado/consulta_og';
-        // var base_url = window.location.origin+'/asnc/index.php/Diplomado/consulta_og';
-        var base_url = '/index.php/Diplomado/consulta_og';
+       // var base_url = window.location.origin+'/asnc/index.php/Diplomado/consulta_og';
+         var base_url = '/index.php/Diplomado/consulta_og';
 
 
     base_url
