@@ -341,7 +341,7 @@ class Diplomado_model extends CI_model
     }
     function obtener_datos_pago($id_inscripcion)
     {
-        $query = $this->db->query("SELECT id_pago, monto, fecha_pago, referencia, banco, observaciones 
+        $query = $this->db->query("SELECT id_pago, monto, fecha_pago, referencia, banco, observaciones ,tipo_pago, id_banco
                               FROM diplomado.pagos 
                               WHERE id_inscripcion = '$id_inscripcion' 
                               ORDER BY fecha_pago DESC LIMIT 1");

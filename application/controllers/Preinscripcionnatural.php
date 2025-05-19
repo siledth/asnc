@@ -175,7 +175,13 @@ class Preinscripcionnatural extends CI_Controller
 
                         $pdf->Cell(35, 5, utf8_decode('Referencia:'), 0, 0, 'R');
                         $pdf->Cell(20, 5, $datos_pago->referencia, 0, 1, 'C');
+                        $pdf->Cell(35, 5, utf8_decode('tipo de pago:'), 0, 0, 'R');
 
+                        if ($d->tipo_pago == '1') {
+                            $pdf->Cell(70, 5,  utf8_decode('Prontopago'), 0, 1, 'L');
+                        } else {
+                            $pdf->Cell(70, 5,  utf8_decode('Credito'), 0, 1, 'L');
+                        }
                         // $pdf->Cell(18, 5, utf8_decode('Banco:'), 0, 0, 'R');
                         // $pdf->Cell(20, 5, $datos_pago->banco, 0, 1, 'C');
                         $pdf->Cell(35, 5, utf8_decode('infomacion:'), 0, 0, 'R');
