@@ -30,7 +30,7 @@ class Pdf extends FPDF
         //$this->Image(base_url() . 'Plantilla/img/loij.png', 30, 1, 150);
         $this->Ln(20);
         // Add a new cell with the header text
-        $this->Cell(0, 5, utf8_decode('PLANILLA  DE SOLICITUD DE INSCRIPCIÓN'), 0, 1, 'C');
+        $this->Cell(0, 5, utf8_decode('RECIBO INSCRIPCIÓN'), 0, 1, 'C');
         // $this->Cell(0,5,utf8_decode('SISTEMA INTEGRADO SNC'),0,1,'C');
 
         $this->SetFont('Arial', 'B', 9);
