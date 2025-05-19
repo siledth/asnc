@@ -784,7 +784,7 @@ function verificarPago() {
         telefonoDestino: $('#telefonoDestino').val() || '',
         referencia: $('#referencia').val(),
         fechaPago: $('#fechaPago').val(),
-        importe: $('#importe').val(),
+         importe: $('#importe').val().toString(),
         bancoOrigen: $('#bancoOrigen').val(),
         idempotency_key: 'pago-' + Date.now() // Clave única para evitar duplicados
     };
@@ -797,8 +797,8 @@ function verificarPago() {
         url: base_url,
         type: 'POST',
         dataType: 'json',
-        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-        data: datosPago,
+        contentType: 'application/json',
+        data: JSON.stringify(datosPago),
         success: function(response) {
             if(response.success) {
                 // Pago verificado correctamente

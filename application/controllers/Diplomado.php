@@ -201,6 +201,7 @@ class Diplomado extends CI_Controller
                 'idempotency_key' => uniqid() // Clave única para evitar duplicados
             ];
 
+            log_message('debug', 'Datos a enviar a API: ' . print_r($this->input->post(), true));
             $this->load->helper('banvenez_api');
             $api_key = $this->config->item('banvenez_api_key');
             $response = verify_payment_with_banvenez($datos_api, $api_key);
