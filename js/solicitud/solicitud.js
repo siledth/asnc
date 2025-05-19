@@ -818,15 +818,87 @@ function llenar_3() {
         }
     });
 }
+// function savei(event) {
+//     event.preventDefault();
+    
+//     // 1. Validar pago al contado
+//     if($('#tipo_pago').val() == 1 && $('#pagoVerificado').val() != '1') {
+//         alert('Debe verificar el pago antes de continuar');
+//         verificarPago();
+//         return false;
+//     }
+    
+//     // 2. Validación manual de campos requeridos
+//     if(!validarFormulario()) {
+//         return false;
+//     }
+    
+//     // 3. Mostrar estado de carga
+//     $('#guardar').prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-2"></i>Procesando...');
+    
+//     // 4. Obtener datos del formulario
+//     let formData = {
+//         id_inscripcion: $('#id_inscripcion').val(),
+//         codigo_planilla: $('#rif_b').val(),
+//         importe: $('#importe').val(),
+//         fechaPago: $('#fechaPago').val(),
+//         referencia: $('#referencia').val(),
+//         cedulaPagador: $('#cedulaPagador').val(),
+//         telefonoPagador: $('#telefonoPagador').val(),
+//         telefonoDestino: $('#telefonoDestino').val(),
+//         banco: $('#bancoOrigen').val(),
+//         tipo_pago: $('#tipo_pago').val(),
+        
+
+
+//         //banco: $('#banco').val() || null
+//     };
+
+//     // 5. Enviar datos por AJAX
+//     //  var base_url = window.location.origin + '/asnc/index.php/Diplomado/guardar_pago';
+//     //     var base_url2 = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; //redirigir
+
+//        var base_url = '/index.php/Diplomado/guardar_pago';
+//         var base_url2 = '/index.php/Diplomado/preinscrip';
+        
+
+//     $.ajax({
+//         url: base_url,
+//         type: 'POST',
+//         dataType: 'json',
+//         data: formData,
+//         success: function(response) {
+//             if(response.success) {
+//                 alert('Pago registrado exitosamente');
+//                 // Redirigir a comprobante o página de éxito
+//                 if(response.pago_id) {
+//                      setTimeout(function() {
+//         window.location.href = base_url2 ; 
+//     }, 1000);
+//                     // window.location.href = base_url.replace('guardar_pago', 'comprobante') + '/' + response.pago_id;
+//                 }
+//             } else {
+//                 alert('Error: ' + response.message);
+//                 $('#guardar').prop('disabled', false).html('Guardar');
+//             }
+//         },
+//         error: function(xhr, status, error) {
+//             alert('Error al conectar con el servidor: ' + error);
+//             $('#guardar').prop('disabled', false).html('Guardar');
+//         }
+//     });
+// }
+
+// Función de validación manual completa
 function savei(event) {
     event.preventDefault();
     
-    // 1. Validar pago al contado
-    if($('#tipo_pago').val() == 1 && $('#pagoVerificado').val() != '1') {
-        alert('Debe verificar el pago antes de continuar');
-        verificarPago();
-        return false;
-    }
+    // // 1. Validar pago al contado
+    // if($('#tipo_pago').val() == 1 && $('#pagoVerificado').val() != '1') {
+    //     alert('Debe verificar el pago antes de continuar');
+    //     verificarPago();
+    //     return false;
+    // }
     
     // 2. Validación manual de campos requeridos
     if(!validarFormulario()) {
@@ -847,20 +919,12 @@ function savei(event) {
         telefonoPagador: $('#telefonoPagador').val(),
         telefonoDestino: $('#telefonoDestino').val(),
         banco: $('#bancoOrigen').val(),
-        tipo_pago: $('#tipo_pago').val(),
-        
-
-
-        //banco: $('#banco').val() || null
+        tipo_pago: $('#tipo_pago').val()
     };
 
     // 5. Enviar datos por AJAX
-    //  var base_url = window.location.origin + '/asnc/index.php/Diplomado/guardar_pago';
-    //     var base_url2 = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; //redirigir
-
-       var base_url = '/index.php/Diplomado/guardar_pago';
-        var base_url2 = '/index.php/Diplomado/preinscrip';
-        
+    var base_url = '/index.php/Diplomado/guardar_pago';
+    var pdf_url = '/index.php/reciboa_pnatural/pdfrt?id=' + $('#id_inscripcion').val();
 
     $.ajax({
         url: base_url,
@@ -870,13 +934,13 @@ function savei(event) {
         success: function(response) {
             if(response.success) {
                 alert('Pago registrado exitosamente');
-                // Redirigir a comprobante o página de éxito
-                if(response.pago_id) {
-                     setTimeout(function() {
-        window.location.href = base_url2 ; 
-    }, 1000);
-                    // window.location.href = base_url.replace('guardar_pago', 'comprobante') + '/' + response.pago_id;
-                }
+                // Abrir el PDF en una nueva pestaña
+               window.location.href = pdf_url;
+                
+                // Redirigir después de mostrar el PDF
+                setTimeout(function() {
+                    window.location.href = '/index.php/Diplomado/preinscrip'; 
+                }, 1000);
             } else {
                 alert('Error: ' + response.message);
                 $('#guardar').prop('disabled', false).html('Guardar');
@@ -889,7 +953,6 @@ function savei(event) {
     });
 }
 
-// Función de validación manual completa
 function validarFormulario() {
     let isValid = true;
     
