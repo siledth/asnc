@@ -51,7 +51,7 @@ Página Web: http://www.snc.gob.ve'), 0, 1, 'C');
     }
 }
 
-class recibonatural extends CI_Controller
+class Recibonatural extends CI_Controller
 {
 
     public function __construct()
