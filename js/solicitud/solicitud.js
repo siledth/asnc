@@ -751,10 +751,10 @@ function llenar_3() {
     // Limpiar errores previos
     $('.is-invalid').removeClass('is-invalid');
     
-    if($('#tipo_pago').val() >= 1) {
-        alert('Esta función solo aplica para pagos al contado');
-        return;
-    }
+    // if($('#tipo_pago').val() >= 1) {
+    //     alert('Esta función solo aplica para pagos al contado');
+    //     return;
+    // }
 
     // Validar campos obligatorios
     const camposRequeridos = ['bancoOrigen', 'telefonoPagador', 'referencia', 'fechaPago', 'importe'];
