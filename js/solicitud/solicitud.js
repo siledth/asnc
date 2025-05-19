@@ -894,11 +894,11 @@ function savei(event) {
     event.preventDefault();
     
     // // 1. Validar pago al contado
-    // if($('#tipo_pago').val() == 1 && $('#pagoVerificado').val() != '1') {
-    //     alert('Debe verificar el pago antes de continuar');
-    //     verificarPago();
-    //     return false;
-    // }
+    if($('#tipo_pago').val() >= 1 && $('#pagoVerificado').val() != '1') {
+        alert('Debe verificar el pago antes de continuar');
+        verificarPago();
+        return false;
+    }
     
     // 2. Validación manual de campos requeridos
     if(!validarFormulario()) {
