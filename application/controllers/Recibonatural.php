@@ -30,7 +30,7 @@ class Pdf extends FPDF
         //$this->Image(base_url() . 'Plantilla/img/loij.png', 30, 1, 150);
         $this->Ln(20);
         // Add a new cell with the header text
-        $this->Cell(0, 5, utf8_decode('RECIBO INSCRIPCIÓN'), 0, 1, 'C');
+        $this->Cell(0, 5, utf8_decode('RECIBO DE INSCRIPCIÓN'), 0, 1, 'C');
         // $this->Cell(0,5,utf8_decode('SISTEMA INTEGRADO SNC'),0,1,'C');
 
         $this->SetFont('Arial', 'B', 9);
@@ -44,14 +44,16 @@ class Pdf extends FPDF
         $this->SetY(-15);
         // Add footer section
         $this->SetFont('Arial', '', 9);
-        $this->Cell(150, 5, utf8_decode('Avenida Lecuna, Parque Central, Torre Oeste, Piso 6., (0212) 508.55.99. Twitter: @snc_info 
+        $this->Cell(150, 5, utf8_decode('Edificio Nova, Final del Bulevar de Sabana Grande, 
+        al lado del Metro de Chacaíto. Punto de Referencia: Frente al C.C. Chacaíto. Caracas,
+         Venezuela, (0212) 508.55.99. Twitter: @snc_info 
 Página Web: http://www.snc.gob.ve'), 0, 1, 'C');
 
         $this->Cell(150, 5, utf8_decode('RIF. G-200024518               Pagina') . $this->PageNo() . '/' . $this->AliasNbPages, 0, 0, 'C');
     }
 }
 
-class Recibonatural extends CI_Controller
+class Preinscripcionnatural extends CI_Controller
 {
 
     public function __construct()
@@ -175,7 +177,13 @@ class Recibonatural extends CI_Controller
 
                         $pdf->Cell(35, 5, utf8_decode('Referencia:'), 0, 0, 'R');
                         $pdf->Cell(20, 5, $datos_pago->referencia, 0, 1, 'C');
+                        $pdf->Cell(35, 5, utf8_decode('tipo de pago:'), 0, 0, 'R');
 
+                        if ($datos_pago->tipo_pago == '1') {
+                            $pdf->Cell(70, 5,  utf8_decode('Prontopago'), 0, 1, 'L');
+                        } else {
+                            $pdf->Cell(70, 5,  utf8_decode('Credito'), 0, 1, 'L');
+                        }
                         // $pdf->Cell(18, 5, utf8_decode('Banco:'), 0, 0, 'R');
                         // $pdf->Cell(20, 5, $datos_pago->banco, 0, 1, 'C');
                         $pdf->Cell(35, 5, utf8_decode('infomacion:'), 0, 0, 'R');
@@ -199,7 +207,7 @@ class Recibonatural extends CI_Controller
                 $pdf->Cell(40, 5, utf8_decode('Nombre(s), Apellido(s):'), 0, 0, 'R');
 
                 $pdf->SetFont('Arial', '', 12);
-                $pdf->MultiCell(125, 5, $d->nombres . ' ' . $d->apellidos, 0, 'L');
+                $pdf->MultiCell(125, 5, utf8_decode($d->nombres . ' ' . $d->apellidos), 0, 'L');
 
                 $pdf->SetFont('Arial', 'B', 12);
                 $pdf->Cell(40, 5, utf8_decode('Cédula:'), 0, 0, 'R');
