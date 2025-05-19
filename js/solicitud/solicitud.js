@@ -751,7 +751,7 @@ function llenar_3() {
 function verificarPago() {
     // Validar tipo de pago
     if($('#tipo_pago').val() != 1) {
-        alert('Esta función solo aplica para pagos al contado');
+        mostrarError('Esta función solo aplica para pagos al contado');
         return;
     }
 
@@ -760,16 +760,17 @@ function verificarPago() {
     let validacionOk = true;
     
     camposRequeridos.forEach(campo => {
-        if(!$(`#${campo}`).val()) {
-            $(`#${campo}`).addClass('is-invalid');
+        const $campo = $(`#${campo}`);
+        if(!$campo.val()) {
+            $campo.addClass('is-invalid');
             validacionOk = false;
         } else {
-            $(`#${campo}`).removeClass('is-invalid');
+            $campo.removeClass('is-invalid');
         }
     });
     
     if(!validacionOk) {
-        alert('Por favor complete todos los campos requeridos');
+        mostrarError('Por favor complete todos los campos requeridos');
         return;
     }
 
@@ -777,21 +778,20 @@ function verificarPago() {
     const $btnGuardar = $('#guardar');
     $btnGuardar.prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-2"></i>Verificando pago...');
 
-    // Preparar datos para enviar
+    // Preparar datos para enviar (con formato exacto que espera la API)
     const datosPago = {
-        cedulaPagador: $('#cedulaPagador').val(),
-        telefonoPagador: $('#telefonoPagador').val(),
-        telefonoDestino: $('#telefonoDestino').val() || '',
-        referencia: $('#referencia').val(),
+        cedulaPagador: $('#cedulaPagador').val().toString(),
+        telefonoPagador: $('#telefonoPagador').val().toString(),
+        telefonoDestino: $('#telefonoDestino').val()?.toString() || '',
+        referencia: $('#referencia').val().toString(),
         fechaPago: $('#fechaPago').val(),
-         importe: $('#importe').val().toString(),
-        bancoOrigen: $('#bancoOrigen').val(),
-        idempotency_key: 'pago-' + Date.now() // Clave única para evitar duplicados
+        importe: parseFloat($('#importe').val()).toFixed(2), // Formato 2 decimales
+        bancoOrigen: $('#bancoOrigen').val().padStart(4, '0'), // Asegurar 4 dígitos
+        idempotency_key: 'pago-' + Date.now()
     };
 
-    // URL del endpoint
-    const base_url = '/index.php/diplomado/verificar_pago';
-
+    console.log('Datos a enviar:', datosPago); // Para debugging
+    var base_url = '/index.php/diplomado/verificar_pago';
     // Enviar a tu backend
     $.ajax({
         url: base_url,
@@ -801,47 +801,63 @@ function verificarPago() {
         data: JSON.stringify(datosPago),
         success: function(response) {
             if(response.success) {
-                // Pago verificado correctamente
+                mostrarMensajeExito(response.message || 'Pago verificado correctamente');
                 $('#pagoVerificado').val('1');
-                mostrarMensajeExito(response.message || 'Pago verificado correctamente. Puede continuar.');
+                $btnGuardar.prop('disabled', false);
             } else {
-                // Manejo específico de errores conocidos
-                if(response.code === 'DUPLICATED_TRANSACTION') {
-                    mostrarError('Esta transacción ya fue procesada anteriormente. Verifique su referencia.');
-                } else if(response.code === 'HTTP_400') {
-                    mostrarError('Datos inválidos: ' + (response.error || ''));
-                } else {
-                    mostrarError(response.message || 'Error al verificar el pago');
-                }
+                manejarErrorAPI(response);
+                $btnGuardar.prop('disabled', true); // Mantener deshabilitado hasta corrección
             }
         },
         error: function(xhr) {
-            let errorMsg = 'Error de conexión con el servidor';
-            if(xhr.responseJSON && xhr.responseJSON.message) {
-                errorMsg += ': ' + xhr.responseJSON.message;
-            }
-            mostrarError(errorMsg);
-        },
-        complete: function() {
-            $btnGuardar.prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar');
+            mostrarError(`Error ${xhr.status}: ${xhr.statusText || 'Error de conexión'}`);
+            $btnGuardar.prop('disabled', false);
         }
     });
 }
 
-// Funciones auxiliares para mostrar mensajes
+// Funciones auxiliares mejoradas
+function manejarErrorAPI(response) {
+    let mensaje = '';
+    
+    switch(response.code) {
+        case 'VALIDATION_ERROR':
+            mensaje = response.message;
+            resaltarCampoError(response.message);
+            break;
+        case 'DUPLICATED_TRANSACTION':
+            mensaje = 'Esta referencia ya fue procesada. Use una nueva.';
+            $('#referencia').addClass('is-invalid');
+            break;
+        case 'HTTP_400':
+            mensaje = 'Error en datos enviados: ' + (response.error || 'Datos inválidos');
+            break;
+        default:
+            mensaje = response.message || 'Error desconocido al verificar pago';
+    }
+    
+    mostrarError(mensaje);
+}
+
+function resaltarCampoError(mensaje) {
+    // Extrae el nombre del campo del mensaje de error
+    const match = mensaje.match(/campo (\w+)/i);
+    if(match && match[1]) {
+        const campo = match[1];
+        $(`#${campo}`).addClass('is-invalid');
+    }
+}
+
 function mostrarError(mensaje) {
-    // Puedes reemplazar esto con un toast o modal más elegante
+    // Usar toast o modal en lugar de alert para mejor UX
     console.error('Error:', mensaje);
     alert('Error: ' + mensaje);
-    $('#guardar').prop('disabled', true); // Mantener deshabilitado hasta corregir
 }
 
 function mostrarMensajeExito(mensaje) {
     console.log('Éxito:', mensaje);
     alert(mensaje);
-    $('#guardar').prop('disabled', false);
-}
- 
+} 
 function savei(event) {
     event.preventDefault();
     
