@@ -44,7 +44,9 @@ class Pdf extends FPDF
         $this->SetY(-15);
         // Add footer section
         $this->SetFont('Arial', '', 9);
-        $this->Cell(150, 5, utf8_decode('Avenida Lecuna, Parque Central, Torre Oeste, Piso 6., (0212) 508.55.99. Twitter: @snc_info 
+        $this->Cell(150, 5, utf8_decode('Edificio Nova, Final del Bulevar de Sabana Grande, 
+        al lado del Metro de Chacaíto. Punto de Referencia: Frente al C.C. Chacaíto. Caracas,
+         Venezuela, (0212) 508.55.99. Twitter: @snc_info 
 Página Web: http://www.snc.gob.ve'), 0, 1, 'C');
 
         $this->Cell(150, 5, utf8_decode('RIF. G-200024518               Pagina') . $this->PageNo() . '/' . $this->AliasNbPages, 0, 0, 'C');
@@ -205,7 +207,7 @@ class Preinscripcionnatural extends CI_Controller
                 $pdf->Cell(40, 5, utf8_decode('Nombre(s), Apellido(s):'), 0, 0, 'R');
 
                 $pdf->SetFont('Arial', '', 12);
-                $pdf->MultiCell(125, 5, $d->nombres . ' ' . $d->apellidos, 0, 'L');
+                $pdf->MultiCell(125, 5, utf8_decode($d->nombres . ' ' . $d->apellidos), 0, 'L');
 
                 $pdf->SetFont('Arial', 'B', 12);
                 $pdf->Cell(40, 5, utf8_decode('Cédula:'), 0, 0, 'R');
