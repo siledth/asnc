@@ -266,7 +266,7 @@
                                     <div class="text-center mt-4">
                                         <button type="button" id="guardar" onclick="savei(event);"
                                             class="btn btn-primary btn-lg">
-                                            <i class="fas fa-save mr-2"></i>Guardar Inscripción
+                                            <i class="fas fa-save mr-2"></i>Verificar Pago
                                         </button>
                                     </div>
 
