@@ -222,7 +222,7 @@ class Diplomado_model extends CI_model
     }
     public function get_diplomado_by_id($idDiplomado)
     {
-        $this->db->select('id_diplomado, name_d, fdesde, fhasta, id_modalidad, pay, topmax');
+        $this->db->select('*');
         $this->db->where('id_diplomado', $idDiplomado);
         $query = $this->db->get('diplomado.diplomado');
         return $query->row_array();

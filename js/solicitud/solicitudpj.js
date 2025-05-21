@@ -5,47 +5,48 @@ const cacheFormulario = {
 };
 
 // Función para cargar información del diplomado
-function loadDiplomadoInfo(idDiplomado) {
-    if(idDiplomado == 0) {
-        $('#diplomadoInfoContainer').hide();
-        return;
-    }
-    
-   // var base_url = window.location.origin+'/asnc/index.php/diplomado/getDiplomadoInfo/' + idDiplomado;
-     var base_url = '/index.php/Diplomado/getDiplomadoInfo/' + idDiplomado;
-
-        
-    $.ajax({
-        url: base_url,
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-            if(response.success) {
-                $('#diplomadoTitle').text(response.data.name_d);
-                $('#diplomadoFechaInicio').text(formatDate(response.data.fdesde));
-                $('#diplomadoFechaFin').text(formatDate(response.data.fhasta));
-                $('#diplomadoModalidad').text(getModalidadText(response.data.id_modalidad));
-                $('#diplomadoM').text(response.data.pay);
-
-                // Calcular duración
-                const fechaInicio = new Date(response.data.fdesde);
-                const fechaFin = new Date(response.data.fhasta);
-                const diffTime = Math.abs(fechaFin - fechaInicio);
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-                
-                $('#diplomadoDuracion').text(diffDays + ' días');
-                $('#diplomadoInfoContainer').show();
-            } else {
-                alert('Error al cargar la información del diplomado');
+ 
+  function loadDiplomadoInfo(idDiplomado) {
+            if(idDiplomado == 0) {
                 $('#diplomadoInfoContainer').hide();
+                return;
             }
-        },
-        error: function() {
-            alert('Error en la conexión con el servidor');
-            $('#diplomadoInfoContainer').hide();
+        // var base_url = window.location.origin+'/asnc/index.php/diplomado/getDiplomadoInfo/' + idDiplomado;
+        var base_url = '/index.php/diplomado/getDiplomadoInfo/' + idDiplomado;
+            
+            $.ajax({
+                url: base_url,
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    if(response.success) {
+                        $('#diplomadoTitle').text(response.data.name_d);
+                        $('#diplomadoFechaInicio').text(formatDate(response.data.fdesde));
+                        $('#diplomadoFechaFin').text(formatDate(response.data.fhasta));
+                        $('#diplomadoModalidad').text(getModalidadText(response.data.id_modalidad));
+                         $('#diplomadoM').text(response.data.pay);
+
+                        
+                        // Calcular duración
+                        const fechaInicio = new Date(response.data.fdesde);
+                        const fechaFin = new Date(response.data.fhasta);
+                        const diffTime = Math.abs(fechaFin - fechaInicio);
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+                        
+                        $('#diplomadoDuracion').text(diffDays + ' días');
+                        
+                        $('#diplomadoInfoContainer').show();
+                    } else {
+                        alert('Error al cargar la información del diplomado');
+                        $('#diplomadoInfoContainer').hide();
+                    }
+                },
+                error: function() {
+                    alert('Error en la conexión con el servidor');
+                    $('#diplomadoInfoContainer').hide();
+                }
+            });
         }
-    });
-}
 
 // Función para formatear fechas
 function formatDate(dateString) {
