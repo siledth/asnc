@@ -202,6 +202,7 @@
 </body>
 <!-- <script src="<?= base_url() ?>/js/solicitud/solicitudpj.js"></script> -->
 <script src="<?= base_url() ?>/js/solicitud/solicitud.js"></script>
+<!-- test -->
 
 
 <!-- Modal para Curriculum -->
