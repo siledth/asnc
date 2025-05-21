@@ -200,7 +200,9 @@
     </div>
     </div>
 </body>
-<script src="<?= base_url() ?>/js/solicitud/solicitudpj.js"></script>
+<!-- <script src="<?= base_url() ?>/js/solicitud/solicitudpj.js"></script> -->
+<script src="<?= base_url() ?>/js/solicitud/solicitud.js"></script>
+
 
 <!-- Modal para Curriculum -->
 <div class="modal fade" id="modalCurriculum" tabindex="-1" aria-labelledby="modalCurriculumLabel" aria-hidden="true">
