@@ -311,14 +311,31 @@ class Evaluacion_desempenio extends CI_Controller
 		// Obtener otros datos necesarios
 		$data['estados'] = $this->Configuracion_model->consulta_estados();
 		$data['objeto'] = $this->Configuracion_model->objeto();
-		$generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
-		$generar3 = $this->Publicaciones_model->generar2(); // finalizar llamad
-		$generar4 = $this->Publicaciones_model->generar3(); // finalizar llamad
+		// $generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
+		// $generar3 = $this->Publicaciones_model->generar2(); // finalizar llamad
+		// $generar4 = $this->Publicaciones_model->generar3(); // finalizar llamad
 
 		// Cargar las vistas
 		$this->load->view('templates/header.php');
 		$this->load->view('templates/navigator.php');
 		$this->load->view('evaluacion_desempenio/reporte.php', $data);
+		$this->load->view('templates/footer.php');
+	}
+	public function reporte_final()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
+		$user_id = $this->session->userdata('id_user');
+		if (!$this->Preguntas_model->tiene_preguntas($user_id)) {
+			// Si no tiene preguntas, redirigir a la vista de creación de preguntas
+			redirect(site_url('Preguntas_controller/preguntas1'));
+		}
+		$data['rif_organoente'] = $this->session->userdata('rif_organoente');
+		$usuario = $this->session->userdata('id_user');
+		//print_r($data['reportes']);die;
+		$data['reportes_user'] 	= $this->Evaluacion_desempenio_model->consulta_evaluaciones2($usuario);
+		$this->load->view('templates/header.php');
+		$this->load->view('templates/navigator.php');
+		$this->load->view('evaluacion_desempenio/consulta_tdo.php', $data);
 		$this->load->view('templates/footer.php');
 	}
 
