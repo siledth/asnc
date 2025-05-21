@@ -44,10 +44,7 @@ class Pdf extends FPDF
         $this->SetY(-15);
         // Add footer section
         $this->SetFont('Arial', '', 9);
-        $this->Cell(150, 5, utf8_decode('Edificio Nova, Final del Bulevar de Sabana Grande, 
-        al lado del Metro de Chacaíto. Punto de Referencia: Frente al C.C. Chacaíto. Caracas,
-         Venezuela, (0212) 508.55.99. Twitter: @snc_info 
-Página Web: http://www.snc.gob.ve'), 0, 1, 'C');
+        $this->MultiCell(150, 5, utf8_decode('Edificio Nova, Final del Bulevar de Sabana Grande, al lado del Metro de Chacaíto. Punto de Referencia: Frente al C.C. Chacaíto. Caracas,Venezuela, (0212) 508.55.99. Twitter: @snc_info Página Web: http://www.snc.gob.ve'), 0,  'C');
 
         $this->Cell(150, 5, utf8_decode('RIF. G-200024518               Pagina') . $this->PageNo() . '/' . $this->AliasNbPages, 0, 0, 'C');
     }

@@ -241,14 +241,16 @@ function save_dec_pj() {
     var id_inscripcion = $('#id_inscripcion').val();
     var estatus = $('#fm_ac').val(); // 2 (Aceptada) o 3 (No Califica) 4 aprobado/ exonerado de pago
     var observacion = $('#obser').val();
+    var tipo_pago = $('#tipo_pago').val();
+
     // var id_usuario = <?php echo $_SESSION['id_usuario'] ?>; // Asegúrate de tener la sesión
 
     if (estatus == "0") {
         alert("Seleccione una opción válida");
         return false;
     }
-	var base_url =window.location.origin+'/asnc/index.php/Diplomado/actualizar_inscripcion_pj';
-					// var base_url = '/index.php/Diplomado/actualizar_inscripcion_pj';
+	//var base_url =window.location.origin+'/asnc/index.php/Diplomado/actualizar_inscripcion_pj';
+					var base_url = '/index.php/Diplomado/actualizar_inscripcion_pj';
 
 	
 
@@ -260,7 +262,7 @@ function save_dec_pj() {
             id_inscripcion: id_inscripcion,
             estatus: estatus,
             observacion: observacion,
-            // id_usuario: id_usuario
+             tipo_pago: tipo_pago
         },
         success: function(response) {
             if (response.success) {

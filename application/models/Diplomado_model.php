@@ -127,7 +127,31 @@ class Diplomado_model extends CI_model
             return null;
         }
     }
+    public function planilla_pay2($data)
+    {
+        // 1. Log del valor recibido (verifica en tu archivo de logs)
+        log_message('debug', 'Valor recibido en planilla_pay(): ' . print_r($data, true));
 
+        // 2. Verifica el valor exacto de rif_b
+        $rif_b = $data['rif_b'];
+        log_message('debug', 'Buscando planilla: ' . $rif_b);
+
+        $this->db->select('*');
+        $this->db->where('codigo_planilla', $rif_b);
+
+
+        // 3. Log de la consulta SQL generada (útil para ver si hay filtros incorrectos)
+        //log_message('debug', 'SQL: ' . $this->db->get_compiled_select('diplomado.ver_cod_pay'));
+
+        $query = $this->db->get('diplomado.ver_cod_pay_juridico');
+
+        if ($query->num_rows() > 0) {
+            return $query->row_array();
+        } else {
+            log_message('debug', 'No se encontró la planilla: ' . $rif_b);
+            return null;
+        }
+    }
     public function registar_pago($data)
     {
         $this->db->trans_start(); // Iniciar transacción
@@ -409,39 +433,142 @@ class Diplomado_model extends CI_model
             return array('success' => true, 'message' => 'Registro actualizado correctamente');
         }
     }
+    // public function procesar_decision_pj($data)
+    // {
+    //     $this->db->trans_start(); // Inicia transacción
+
+    //     // 1. Actualizar tabla inscripciones
+    //     $update_data = array('estatus' => $data['estatus']);
+
+    //     if ($data['estatus'] == 2) { // Solo si es Aceptada
+    //         // $update_data['fecha_limite_pago'] = date('Y-m-d', strtotime('+5 days'));
+    //     }
+
+    //     $this->db->where('id_participante', $data['id_inscripcion']);
+    //     $this->db->update('diplomado.inscripciones_participantes', $update_data);
+
+    //     // 2. Insertar en tabla resultados
+    //     $resultado_data = array(
+    //         'id_inscripcion' => $data['id_inscripcion'],
+    //         'id_estatus' => $data['estatus'],
+    //         'observacion' => $data['observacion'],
+    //         'id_usuario' => $data['id_usuario']
+    //     );
+
+    //     $this->db->insert('diplomado.resultados', $resultado_data);
+
+    //     $this->db->trans_complete(); // Completa transacción
+
+    //     if ($this->db->trans_status() === FALSE) {
+    //         return array('success' => false, 'message' => 'Error al procesar');
+    //     } else {
+    //         return array('success' => true, 'message' => 'Registro actualizado correctamente');
+    //     }
+    // }
+    // public function procesar_decision_pj($data)
+    // {
+    //     $this->db->trans_start();
+
+    //     // 1. Actualizar el participante
+    //     $this->db->where('id_participante', $data['id_inscripcion']);
+    //     $this->db->update('diplomado.inscripciones_participantes', ['estatus' => $data['estatus']]);
+
+    //     // 2. Insertar en resultados
+    //     $this->db->insert('diplomado.resultados', [
+    //         'id_inscripcion' => $data['id_inscripcion'],
+    //         'id_estatus'     => $data['estatus'],
+    //         'observacion'    => $data['observacion'],
+    //         'tipo_pago' => $data['tipo_pago'],
+
+    //         'id_usuario'     => $data['id_usuario']
+    //     ]);
+
+    //     // 3. Verificar si es el último participante sin decisión
+    //     $id_inscripcion_grupal = $this->db->query("
+    //     SELECT id_inscripcion_grupal 
+    //     FROM diplomado.inscripciones_participantes 
+    //     WHERE id_participante = " . $data['id_inscripcion'])->row()->id_inscripcion_grupal;
+
+    //     $pendientes = $this->db->query("
+    //     SELECT COUNT(*) as total 
+    //     FROM diplomado.inscripciones_participantes 
+    //     WHERE id_inscripcion_grupal = $id_inscripcion_grupal 
+    //     AND estatus IS NULL OR estatus = 0")->row()->total;
+
+    //     $aceptados = $this->db->query("
+    //     SELECT COUNT(*) as total 
+    //     FROM diplomado.inscripciones_participantes 
+    //     WHERE id_inscripcion_grupal = $id_inscripcion_grupal 
+    //     AND estatus = 2")->row()->total;
+
+    //     // Si es el último participante y hay al menos 1 aceptado, actualizar inscripción grupal
+    //     if ($pendientes == 0 && $aceptados > 0) {
+    //         $this->db->where('id_inscripcion_grupal', $id_inscripcion_grupal);
+    //         $this->db->update('diplomado.inscripciones_grupales', ['estatus' => 2]);
+    //     } 
+
+    //     $this->db->trans_complete();
+
+    //     return [
+    //         'success' => $this->db->trans_status(),
+    //         'message' => $this->db->trans_status()
+    //             ? 'Registro actualizado correctamente'
+    //             : 'Error al procesar'
+    //     ];
+    // }
     public function procesar_decision_pj($data)
     {
-        $this->db->trans_start(); // Inicia transacción
+        $this->db->trans_start();
 
-        // 1. Actualizar tabla inscripciones
-        $update_data = array('estatus' => $data['estatus']);
-
-        if ($data['estatus'] == 2) { // Solo si es Aceptada
-            // $update_data['fecha_limite_pago'] = date('Y-m-d', strtotime('+5 days'));
-        }
-
+        // 1. Actualizar el participante
         $this->db->where('id_participante', $data['id_inscripcion']);
-        $this->db->update('diplomado.inscripciones_participantes', $update_data);
+        $this->db->update('diplomado.inscripciones_participantes', ['estatus' => $data['estatus']]);
 
-        // 2. Insertar en tabla resultados
-        $resultado_data = array(
+        // 2. Insertar en resultados
+        $this->db->insert('diplomado.resultados', [
             'id_inscripcion' => $data['id_inscripcion'],
-            'id_estatus' => $data['estatus'],
-            'observacion' => $data['observacion'],
-            'id_usuario' => $data['id_usuario']
-        );
+            'id_estatus'     => $data['estatus'],
+            'observacion'    => $data['observacion'],
+            'tipo_pago'      => $data['tipo_pago'],
+            'id_usuario'     => $data['id_usuario']
+        ]);
 
-        $this->db->insert('diplomado.resultados', $resultado_data);
+        // 3. Obtener ID de inscripción grupal
+        $id_inscripcion_grupal = $this->db->query("
+        SELECT id_inscripcion_grupal 
+        FROM diplomado.inscripciones_participantes 
+        WHERE id_participante = ?", [$data['id_inscripcion']])->row()->id_inscripcion_grupal;
 
-        $this->db->trans_complete(); // Completa transacción
+        // 4. Verificar participantes pendientes y aceptados (optimizado)
+        $query = $this->db->query("
+        SELECT 
+            SUM(CASE WHEN estatus IS NULL OR estatus = 0 THEN 1 ELSE 0 END) as pendientes,
+            SUM(CASE WHEN estatus = 2 THEN 1 ELSE 0 END) as aceptados
+        FROM diplomado.inscripciones_participantes 
+        WHERE id_inscripcion_grupal = ?", [$id_inscripcion_grupal]);
 
-        if ($this->db->trans_status() === FALSE) {
-            return array('success' => false, 'message' => 'Error al procesar');
-        } else {
-            return array('success' => true, 'message' => 'Registro actualizado correctamente');
+        $result = $query->row();
+
+        // 5. Actualizar inscripción grupal si es necesario
+        if ($result->pendientes == 0 && $result->aceptados > 0) {
+            $update_data = [
+                'estatus' => 2,
+                'tipo_pago' => $data['tipo_pago'] // Aquí se incluye el tipo_pago correctamente
+            ];
+
+            $this->db->where('id_inscripcion_grupal', $id_inscripcion_grupal);
+            $this->db->update('diplomado.inscripciones_grupales', $update_data);
         }
-    }
 
+        $this->db->trans_complete();
+
+        return [
+            'success' => $this->db->trans_status(),
+            'message' => $this->db->trans_status()
+                ? 'Registro actualizado correctamente'
+                : 'Error al procesar'
+        ];
+    }
     public function get_bancos()
     {
         $this->db->select('*');
@@ -602,15 +729,39 @@ class Diplomado_model extends CI_model
         return $codigo_planilla;
     }
     // Obtener información del diplomado y la empresa (solo 1 registro)
+    // function get_info_inscripcion_grupal($codigo_planilla)
+    // {
+    //     $query = $this->db->query("
+    //     SELECT 
+    //         i.id_inscripcion_grupal, i.id_diplomado, i.codigo_planilla, 
+    //         i.fecha_inscripcion, i.fecha_limite_pago, i.estatus, 
+    //         d.name_d, d.id_modalidad, d.fdesde, d.fhasta, d.pay,
+    //         t.nombre as des_estatus,
+    //         e.rif, e.razon_social, e.telefono, e.direccion_fiscal
+    //     FROM diplomado.inscripciones_grupales i
+    //     JOIN diplomado.diplomado d ON d.id_diplomado = i.id_diplomado
+    //     JOIN diplomado.empresas e ON e.id_empresa = i.id_empresa
+    //     JOIN diplomado.estatus_inscripcion t ON t.id_estatus = i.estatus
+    //     WHERE i.codigo_planilla = ?
+    // ", [$codigo_planilla]);
+
+    //     return $query->row();
+    // }
+
     function get_info_inscripcion_grupal($codigo_planilla)
     {
         $query = $this->db->query("
         SELECT 
             i.id_inscripcion_grupal, i.id_diplomado, i.codigo_planilla, 
-            i.fecha_inscripcion, i.fecha_limite_pago, i.estatus, 
-            d.name_d, d.id_modalidad, d.fdesde, d.fhasta, d.pay,
+            i.fecha_inscripcion, i.fecha_limite_pago, i.estatus, i.id_pago,
+            d.name_d, d.id_modalidad, d.fdesde, d.fhasta, d.pay, d.pronto_pago,
             t.nombre as des_estatus,
-            e.rif, e.razon_social, e.telefono, e.direccion_fiscal
+            e.rif, e.razon_social, e.telefono, e.direccion_fiscal,
+            e.ente_gubernamental,
+            (SELECT COUNT(*) 
+             FROM diplomado.inscripciones_participantes p 
+             WHERE p.id_inscripcion_grupal = i.id_inscripcion_grupal 
+             AND p.estatus = 2) as participantes_aceptados
         FROM diplomado.inscripciones_grupales i
         JOIN diplomado.diplomado d ON d.id_diplomado = i.id_diplomado
         JOIN diplomado.empresas e ON e.id_empresa = i.id_empresa
@@ -621,21 +772,31 @@ class Diplomado_model extends CI_model
         return $query->row();
     }
 
-    function consultar_participantes_juridico1()
+    function consultar_participantes_juridico1($id_inscripcion_grupal)
     {
         $this->db->select(' i.id_inscripcion_grupal, i.id_diplomado, i.codigo_planilla, i.id_empresa,
             i.fecha_inscripcion, i.fecha_limite_pago, i.estatus, 
             d.name_d, d.id_modalidad, d.fdesde, d.fhasta, d.pay,
-            e.rif, e.razon_social, e.telefono, e.direccion_fiscal, part.cedula, part.nombres, part.apellidos, p.id_participante ');
-
+            part.cedula, part.nombres, part.apellidos, p.id_participante ');
         $this->db->from('diplomado.inscripciones_grupales i');
         $this->db->join('diplomado.diplomado d', 'd.id_diplomado = i.id_diplomado');
         $this->db->join('diplomado.inscripciones_participantes p', 'p.id_inscripcion_grupal = i.id_inscripcion_grupal');
         $this->db->join('diplomado.participantes part', 'part.id_participante = p.id_participante');
-
-        // $this->db->join('comisiones.academico a ', 'a.id_academico = p.grado_instruccion');
+        $this->db->where('i.id_inscripcion_grupal', $id_inscripcion_grupal);
+        $this->db->where('p.estatus', '1');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    function consultar_empresa()
+    {
+        $this->db->select(' i.id_inscripcion_grupal, i.id_diplomado, i.codigo_planilla, i.id_empresa,
+            i.fecha_inscripcion, i.fecha_limite_pago, i.estatus, 
+            d.name_d, d.id_modalidad, d.fdesde, d.fhasta, d.pay,
+            e.rif, e.razon_social, e.telefono, e.direccion_fiscal');
+        $this->db->from('diplomado.inscripciones_grupales i');
+        $this->db->join('diplomado.diplomado d', 'd.id_diplomado = i.id_diplomado');
         $this->db->join('diplomado.empresas e ', 'e.id_empresa = i.id_empresa');
-        $this->db->where('i.estatus', 1);
+        $this->db->where('i.estatus', '1');
         $query = $this->db->get();
         return $query->result_array();
     }

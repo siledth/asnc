@@ -39,6 +39,35 @@ class Diplomado extends CI_Controller
         $this->load->view('diplomado/conciliado.php', $data);
         $this->load->view('templates/footer.php');
     }
+    public function consulta_planilla()
+    {
+        $rif_b = $this->input->post('rif_b');
+        $result = $this->Diplomado_model->planilla_pay2(['rif_b' => $rif_b]);
+
+        if ($result) {
+            echo json_encode([
+                'success' => true,
+                'data' => [
+                    'fecha_limite_pago' => $result['fecha_limite_pago'],
+                    'id_inscripcion_grupal' => $result['id_inscripcion_grupal'],
+                    'pronto_pago' => $result['pronto_pago'],
+                    'pay' => $result['pay'],
+                    'codigo_planilla' => $result['codigo_planilla'],
+                    'ente_gubernamental' => $result['ente_gubernamental'],
+
+
+
+                ]
+            ]);
+        } else {
+            // Asegúrate de que el status HTTP sea 200 aunque falle
+            http_response_code(200);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Planilla no encontrada'
+            ]);
+        }
+    }
     public function registrar_b()
     {
         if (!$this->session->userdata('session'))
@@ -637,15 +666,31 @@ class Diplomado extends CI_Controller
         if (!$this->session->userdata('session')) {
             redirect('login');
         }
-        // $data['contratista'] =	$this->Certificacion_model->llenar_contratista_exonerado();
-        $data['participantes'] = $this->Diplomado_model->consultar_participantes_juridico1();
+        // $data['participantes'] = $this->Diplomado_model->consultar_participantes_juridico1();
+        $data['empresas'] = $this->Diplomado_model->consultar_empresa();
+
         $usuario = $this->session->userdata('id_user');
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
-        $this->load->view('diplomado/participantes_juridico.php', $data);
+        //   $this->load->view('diplomado/participantes_juridico.php', $data);
+        $this->load->view('diplomado/empresa_juridica.php', $data);
         $this->load->view('templates/footer.php');
     }
 
+    public function miemb()
+    {
+        if (!$this->session->userdata('session')) redirect('login');
+        //Información traido por el session de usuario para mostrar inf
+
+        $data['id_inscripcion_grupal'] = $this->input->get('id');
+
+        $data['participantes'] = $this->Diplomado_model->consultar_participantes_juridico1($data['id_inscripcion_grupal']);
+
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('diplomado/slect_p_j.php', $data);
+        $this->load->view('templates/footer.php');
+    }
     public function actualizar_inscripcion()
     {
         $this->load->model('Diplomado_model');
@@ -673,6 +718,8 @@ class Diplomado extends CI_Controller
             'id_inscripcion' => $this->input->post('id_inscripcion'),
             'estatus' => $this->input->post('estatus'),
             'observacion' => $this->input->post('observacion'),
+            'tipo_pago' => $this->input->post('tipo_pago'),
+
             'id_usuario' => $usuario
         );
 
@@ -969,10 +1016,10 @@ class Diplomado extends CI_Controller
                     }
                 }
 
-                // Validar cédula
-                if (!preg_match('/^\d{8}$/', $participante['cedula'])) {
-                    throw new Exception("Participante #{$index}: La cédula debe tener 8 dígitos");
-                }
+                // // Validar cédula
+                // if (!preg_match('/^\d{8}$/', $participante['cedula'])) {
+                //     throw new Exception("Participante #{$index}: La cédula debe tener 8 dígitos");
+                // }
 
                 // Validar email si existe
                 if (!empty($participante['correo']) && !filter_var($participante['correo'], FILTER_VALIDATE_EMAIL)) {

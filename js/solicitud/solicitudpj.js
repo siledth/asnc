@@ -12,6 +12,8 @@ function loadDiplomadoInfo(idDiplomado) {
     }
     
     var base_url = window.location.origin+'/asnc/index.php/diplomado/getDiplomadoInfo/' + idDiplomado;
+    // var base_url = '/index.php/Diplomado/getDiplomadoInfo/' + idDiplomado;
+
         
     $.ajax({
         url: base_url,
@@ -507,7 +509,9 @@ function enviarDatos() {
 
     // URL para enviar los datos
     var base_url = window.location.origin + '/asnc/index.php/Diplomado/guardar_inscripcion_persona_juridica';
-     var base_url3 = window.location.origin + '/asnc/index.php/Preinscripcionnatural/pdfrt?id=';
+     var base_url3 = window.location.origin + '/asnc/index.php/Prei_juridico/pdfrt?id=';
+     var base_url2 = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; //redirigir
+
      
     // Enviar datos al servidor
     $.ajax({
@@ -528,7 +532,11 @@ function enviarDatos() {
             icon: 'success'
         }).then(() => {
             window.location.href = base_url3 + response.codigo_planilla;
+
         });
+        setTimeout(function() {
+        window.location.href = base_url2 ; // Asegúrate que esta sea la ruta correcta
+    }, 9000);
     } else {
                 Swal.fire('Error', response.message || 'Error al procesar la solicitud', 'error');
                 $('#btn-finalizar').prop('disabled', false).html('Finalizar Inscripción');

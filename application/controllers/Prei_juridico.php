@@ -43,8 +43,8 @@ class Pdf extends FPDF
         $this->SetY(-15);
         // Add footer section
         $this->SetFont('Arial', '', 9);
-        $this->Cell(150, 5, utf8_decode('Avenida Lecuna, Parque Central, Torre Oeste, Piso 6., (0212) 508.55.99. Twitter: @snc_info
-Página Web: http://www.snc.gob.ve'), 0, 1, 'C');
+        $this->MultiCell(150, 5, utf8_decode('Edificio Nova, Final del Bulevar de Sabana Grande, al lado del Metro de Chacaíto. Punto de Referencia: Frente al C.C. Chacaíto. Caracas,Venezuela, (0212) 508.55.99. Twitter: @snc_info Página Web: http://www.snc.gob.ve'), 0,  'C');
+
 
         $this->Cell(150, 5, utf8_decode('RIF. G-200024518               Pagina') . $this->PageNo() . '/' . $this->AliasNbPages, 0, 0, 'C');
     }
@@ -60,6 +60,7 @@ class Prei_juridico extends CI_Controller
 
     public function pdfrt()
     {
+
         $codigo_planilla = $this->input->get('id');
         $pdf = new Pdf($codigo_planilla);
         $pdf->AliasNbPages();
@@ -71,7 +72,7 @@ class Prei_juridico extends CI_Controller
 
         if (!$info_general) {
             $pdf->Cell(0, 10, 'No se encontró la inscripcion solicitada', 0, 1);
-            $pdf->Output('Solicitud Inscripcion.pdf', 'D');
+            $pdf->Output('Solicitud Inscripcion.pdf', 'I');
             return;
         }
 
@@ -93,7 +94,7 @@ class Prei_juridico extends CI_Controller
         // 4. MOSTRAR DECLARACIÓN JURADA (AL FINAL)
         $this->mostrarDeclaracionJurada($pdf);
 
-        $pdf->Output('Solicitud Inscripcion.pdf', 'D');
+        $pdf->Output('Solicitud Inscripcion.pdf', 'I');
     }
 
     // ============ FUNCIONES AUXILIARES ============ //
@@ -102,7 +103,7 @@ class Prei_juridico extends CI_Controller
     {
         $pdf->SetFont('Arial', 'B', 12);
         $pdf->Ln(5);
-        $pdf->Cell(35, 5, utf8_decode('Código planilla:'), 0, 0, 'C');
+        $pdf->Cell(10, 5, utf8_decode('Código planilla:'), 0, 0, 'C');
         $pdf->SetTextColor(255, 0, 0);
         $pdf->Cell(70, 5, $data->codigo_planilla, 0, 0, 'C');
         $pdf->SetTextColor(0, 0, 0);
@@ -110,7 +111,7 @@ class Prei_juridico extends CI_Controller
         $pdf->SetTextColor(255, 0, 0);
         $pdf->Cell(40, 5, $data->des_estatus, 0, 1, 'L');
         $pdf->SetTextColor(0, 0, 0);
-        $pdf->Cell(160, 5, '_________________________________________________________', 0, 1, 'C');
+        $pdf->Cell(160, 5, '_________________________________________________________________________________', 0, 1, 'C');
         $pdf->Ln(1);
     }
 
@@ -138,6 +139,58 @@ class Prei_juridico extends CI_Controller
 
         $pdf->Cell(18, 5, 'Costo por persona Bs:', 0, 0, 'R');
         $pdf->Cell(20, 5, $data->pay, 0, 1, 'C');
+        if ($data->id_pago == '2') { // 2 es credito  / 1 es prontopago
+            // Calcular montos
+
+            $pdf->Cell(58, 5, 'Forma de pago :', 0, 0, 'R');
+            $pdf->Cell(20, 5, 'Credito', 0, 1, 'C');
+
+            $subtotal = $data->pay * $data->participantes_aceptados;
+            $iva_percent = ($data->ente_gubernamental == 1) ? 8 : 16; // 8% o 16%
+            $iva = $subtotal * ($iva_percent / 100);
+            $total = $subtotal + $iva;
+
+            // Mostrar en el PDF
+            $pdf->Cell(58, 5, 'Costo por persona Bs:', 0, 0, 'R');
+            $pdf->Cell(20, 5, number_format($data->pay, 2, ',', '.'), 0, 1, 'C');
+
+            $pdf->Cell(58, 5, 'Participantes aceptados:', 0, 0, 'R');
+            $pdf->Cell(20, 5, $data->participantes_aceptados, 0, 1, 'C');
+
+            $pdf->Cell(58, 5, 'Subtotal estimado Bs:', 0, 0, 'R');
+            $pdf->Cell(20, 5, number_format($subtotal, 2, ',', '.'), 0, 1, 'C');
+
+            $pdf->Cell(58, 5, 'IVA estimado (' . $iva_percent . '%) Bs:', 0, 0, 'R');
+            $pdf->Cell(20, 5, number_format($iva, 2, ',', '.'), 0, 1, 'C');
+
+            $pdf->Cell(58, 5, 'Total a pagar  estimado Bs:', 0, 0, 'R');
+            $pdf->Cell(20, 5, number_format($total, 2, ',', '.'), 0, 1, 'C');
+        } elseif ($data->id_pago == '1') { //ponto pago
+            // Calcular montos
+            $pdf->Cell(58, 5, 'Forma de pago :', 0, 0, 'R');
+            $pdf->Cell(20, 5, 'Pronto Pago', 0, 1, 'C');
+
+            $subtotal = $data->pronto_pago * $data->participantes_aceptados;
+            $iva_percent = ($data->ente_gubernamental == 1) ? 8 : 16; // 8% o 16%
+            $iva = $subtotal * ($iva_percent / 100);
+            $total = $subtotal + $iva;
+
+            // Mostrar en el PDF
+            $pdf->Cell(58, 5, 'Costo por persona Bs:', 0, 0, 'R');
+            $pdf->Cell(20, 5, number_format($data->pronto_pago, 2, ',', '.'), 0, 1, 'C');
+
+            $pdf->Cell(58, 5, 'Participantes aceptados:', 0, 0, 'R');
+            $pdf->Cell(20, 5, $data->participantes_aceptados, 0, 1, 'C');
+
+            $pdf->Cell(58, 5, 'Subtotal estimado Bs:', 0, 0, 'R');
+            $pdf->Cell(20, 5, number_format($subtotal, 2, ',', '.'), 0, 1, 'C');
+
+            $pdf->Cell(58, 5, 'IVA estimado (' . $iva_percent . '%) Bs:', 0, 0, 'R');
+            $pdf->Cell(20, 5, number_format($iva, 2, ',', '.'), 0, 1, 'C');
+
+            $pdf->Cell(58, 5, 'Total a pagar  estimado Bs:', 0, 0, 'R');
+            $pdf->Cell(20, 5, number_format($total, 2, ',', '.'), 0, 1, 'C');
+        }
         $pdf->Cell(160, 5, '_________________________________________________________', 0, 1, 'C');
     }
 
@@ -252,7 +305,7 @@ class Prei_juridico extends CI_Controller
         $pdf->SetTextColor(255, 0, 0);
         $pdf->Cell(25, 5, utf8_decode('Declaración Jurada:'), 0, 1, 'L');
         $pdf->SetTextColor(0, 0, 0);
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Arial', '', 9);
         $pdf->Cell(-10, 5, '', 0, 0, 'L');
         $pdf->MultiCell(180, 4, utf8_decode('Declaro que la información y datos suministrados en esta Ficha son fidedignos, por lo que autorizo la pertinencia de su verificación. Convengo que de llegar a comprobarse que se ha incurrido en inexactitud o falsedad en los datos aquí suministrados, quedará sin efecto la Preinscripción'), 0, 'J');
     }

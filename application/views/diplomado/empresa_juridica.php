@@ -1,6 +1,6 @@
 <div class="sidebar-bg"></div>
 <div id="content" class="content">
-    <h2>Participantes para seleccionar Persona Juridica</h2>
+    <h2>Juridico para seleccionar Persona Juridica</h2>
     <div class="row">
 
 
@@ -13,20 +13,20 @@
                         <thead style="background:#01cdb2">
                             <tr style="text-align:center">
                                 <th style="color:white;">Nombre del Diplomado</th>
-                                <th style="color:white;">Cedula</th>
-                                <th style="color:white;">Nombres</th>
+                                <th style="color:white;">Empresa</th>
+                                <th style="color:white;">rif</th>
 
                                 <!-- <th style="color:white;">estatus</th> -->
                                 <th style="color:white;">Acción</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($participantes as $data): ?>
+                            <?php foreach ($empresas as $data): ?>
                                 <tr class="odd gradeX" style="text-align:center">
                                     <td><?= $data['name_d'] ?> </td>
-                                    <td><?= $data['cedula'] ?> </td>
+                                    <td><?= $data['razon_social'] ?> </td>
 
-                                    <td><?= $data['nombres'] ?> <?= $data['apellidos'] ?></td>
+                                    <td><?= $data['rif'] ?></td>
 
 
                                     <td>
@@ -38,12 +38,18 @@
                                             <a />
 
 
-
+                                            <!-- 
                                             <a onclick="cargarIdInscripcion(<?php echo $data['id_participante'] ?>);"
                                                 data-toggle="modal" data-target="#dede" style="color: white">
                                                 <i title="Decisión" class="fas fa-2x fa-fw fa-address-card"
                                                     style="color: darkred;"></i>
-                                            </a>
+                                            </a> -->
+
+                                            <a href="<?php echo base_url(); ?>index.php/Diplomado/miemb?id=<?php echo $data['id_inscripcion_grupal']; ?>"
+                                                class="button">
+                                                <i title="ver Integrantes" class="fas fa-2x fa-fw fa-clipboard-list"
+                                                    style="color: pink;"></i>
+                                                <a />
                                     </td>
 
                                 </tr>
