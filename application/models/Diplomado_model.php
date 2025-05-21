@@ -99,6 +99,8 @@ class Diplomado_model extends CI_model
         $this->db->join('diplomado.estatus_inscripcion es ', 'es.id_estatus = p.estatus');
 
         $this->db->where('p.estatus >', 1);
+        $this->db->where('p.estatus !=', 3);
+        // $this->db->where('p.estatus !=', 3);
         $query = $this->db->get();
         return $query->result_array();
     }

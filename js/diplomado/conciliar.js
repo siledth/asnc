@@ -10,8 +10,8 @@ function Consultarplanilla() {
     $('#loading').show();
     $("#existe").hide();
     $("#no_existe").hide();
-        var base_url = '/index.php/Diplomado/consulta_planilla';
-        //  var base_url = window.location.origin+'/asnc/index.php/Diplomado/consulta_planilla';
+      //  var base_url = '/index.php/Diplomado/consulta_planilla';
+          var base_url = window.location.origin+'/asnc/index.php/Diplomado/consulta_planilla';
        //var base_url = '/index.php/Diplomado/consulta_og';
 
 
@@ -188,3 +188,85 @@ function togglePagoFields() {
 $('#retencion1, #retencion2, #retencion3').on('input', function() {
     calcularRetenciones();
 });
+
+// Función para validar la referencia
+
+function validarReferencia() {
+    const referencia = $('#referencia').val().trim();
+    
+    if (!referencia) {
+        swal("Error", "Por favor ingrese un número de referencia", "warning");
+        return;
+    }
+
+    // Mostrar loader
+    $('#validarReferencia').html('<i class="fas fa-spinner fa-spin"></i> Validando...');
+    $('#validarReferencia').prop('disabled', true);
+    
+    // Usar base_url de CodeIgniter para evitar problemas de ruta
+    var base_url = '<?= base_url("Diplomado/verificar_referencia") ?>';
+
+    console.log("Enviando solicitud a:", base_url); // Depuración
+    
+    $.ajax({
+        url: base_url,
+        type: 'POST',
+        dataType: 'json',
+        data: { 
+            referencia: referencia,
+            _token: '<?= $this->security->get_csrf_hash() ?>' // Protección CSRF
+        },
+        success: function(response, status, xhr) {
+            console.log("Respuesta recibida:", response); // Depuración
+            
+            $('#validarReferencia').html('<i class="fas fa-check"></i> Validar');
+            $('#validarReferencia').prop('disabled', false);
+
+            if (response && response.success) {
+                // Mostrar información del movimiento
+                const mov = response.data;
+                $('#referenciaInfo').show();
+                $('#referenciaDetails').html(`
+                    <p><strong>Referencia:</strong> ${mov.referencia || 'N/A'}</p>
+                    <p><strong>Descripción:</strong> ${mov.descripcion || 'N/A'}</p>
+                    <p><strong>Fecha:</strong> ${mov.fecha || 'N/A'}</p>
+                    <p><strong>Hora:</strong> ${mov.hora || 'N/A'}</p>
+                    <p><strong>Tipo:</strong> ${mov.mov || 'N/A'}</p>
+                    <p><strong>Importe:</strong> ${mov.importe || 'N/A'}</p>
+                    <p><strong>Saldo:</strong> ${mov.saldo || 'N/A'}</p>
+                `);
+                
+                $('#guardar').show();
+                
+                if (mov.importe) {
+                    $('#monto').val(Math.abs(parseFloat(mov.importe))).trigger('change');
+                }
+                if (mov.fecha) {
+                    $('#fechaPago').val(mov.fecha.split(' ')[0]); // Tomar solo la fecha si viene con hora
+                }
+                
+                swal("Éxito", response.message || "Referencia validada correctamente", "success");
+            } else {
+                $('#referenciaInfo').hide();
+                $('#guardar').hide();
+                swal("Error", response.message || "No se encontró la referencia", "error");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error en la solicitud:", status, error, xhr.responseText); // Depuración
+            
+            $('#validarReferencia').html('<i class="fas fa-check"></i> Validar');
+            $('#validarReferencia').prop('disabled', false);
+            
+            let errorMsg = "Ocurrió un error al validar la referencia";
+            try {
+                const response = JSON.parse(xhr.responseText);
+                errorMsg = response.message || errorMsg;
+            } catch (e) {
+                errorMsg += ` (${xhr.status}: ${error})`;
+            }
+            
+            swal("Error", errorMsg, "error");
+        }
+    });
+}

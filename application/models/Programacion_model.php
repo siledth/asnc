@@ -5549,8 +5549,8 @@ class Programacion_model extends CI_model
     public function read_sending_pdvsa()
     {
         $this->db->select('i.id_ainf_enviada, i.id_programacion, i.anio,i.des_unidad,i.rif');
-        $this->db->join('programacion.pdvsa or', 'or.rif = i.rif');
-        $this->db->where('i.rif!=', 'G200004088');
+        $this->db->join('programacion.pdvsaf or', 'or.rif = i.rif');
+        //$this->db->where('i.rif!=', 'G200004088');
         // $this->db->where('or.id_organoenteads', '13');//acc
         $query = $this->db->get('programacion.inf_enviada i');
         return $query->result_array();
@@ -5558,8 +5558,8 @@ class Programacion_model extends CI_model
     public function read_sending_pdvsa_rendi()
     {
         $this->db->select('i.id_ainf_enviada, i.id_programacion, i.anio,i.des_unidad,i.rif');
-        $this->db->join('programacion.pdvsa or', 'or.rif = i.rif');
-        $this->db->where('i.rif!=', 'G200004088');
+        $this->db->join('programacion.pdvsaf or', 'or.rif = i.rif');
+        // $this->db->where('i.rif!=', 'G200004088');
         // $this->db->where('or.id_organoenteads', '13');//acc
         $query = $this->db->get('programacion.inf_enviada_rendi i');
         return $query->result_array();
@@ -5842,8 +5842,8 @@ class Programacion_model extends CI_model
     public function read_sending_upd_pdvsa()
     {
         $this->db->select('i.id_ainf_enviada, i.id_programacion, i.anio,i.des_unidad,i.rif,i.fecha');
-        $this->db->join('programacion.pdvsa or', 'or.rif = i.rif');
-        $this->db->where('i.rif!=', 'G200004088');
+        $this->db->join('programacion.pdvsaf or', 'or.rif = i.rif');
+        //  $this->db->where('i.rif!=', 'G200004088');
         $query = $this->db->get('programacion.inf_modif i');
         return $query->result_array();
     }
