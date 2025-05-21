@@ -72,7 +72,7 @@ class Prei_juridico extends CI_Controller
 
         if (!$info_general) {
             $pdf->Cell(0, 10, 'No se encontró la inscripcion solicitada', 0, 1);
-            $pdf->Output('Solicitud Inscripcion.pdf', 'I');
+            $pdf->Output('Solicitud Inscripcion.pdf', 'D');
             return;
         }
 
@@ -94,7 +94,7 @@ class Prei_juridico extends CI_Controller
         // 4. MOSTRAR DECLARACIÓN JURADA (AL FINAL)
         $this->mostrarDeclaracionJurada($pdf);
 
-        $pdf->Output('Solicitud Inscripcion.pdf', 'I');
+        $pdf->Output('Solicitud Inscripcion.pdf', 'D');
     }
 
     // ============ FUNCIONES AUXILIARES ============ //
