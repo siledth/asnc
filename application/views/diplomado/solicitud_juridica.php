@@ -15,31 +15,31 @@
     <link href="<?= base_url('css/diplomado.css') ?>" rel="stylesheet">
 
     <style>
-        .participante-item,
-        .capacitacion-item {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 15px;
-            background-color: #f9f9f9;
-        }
+    .participante-item,
+    .capacitacion-item {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 15px;
+        background-color: #f9f9f9;
+    }
 
-        .participante-item h5,
-        .capacitacion-item h6 {
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-        }
+    .participante-item h5,
+    .capacitacion-item h6 {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+    }
 
-        .btn-add-participante,
-        .btn-add-capacitacion {
-            margin-bottom: 20px;
-        }
+    .btn-add-participante,
+    .btn-add-capacitacion {
+        margin-bottom: 20px;
+    }
 
-        .btn-remove-participante,
-        .btn-remove-capacitacion {
-            margin-top: 10px;
-        }
+    .btn-remove-participante,
+    .btn-remove-capacitacion {
+        margin-top: 10px;
+    }
     </style>
 </head>
 
@@ -64,9 +64,9 @@
                                     onchange="loadDiplomadoInfo(this.value)">
                                     <option value="0">Seleccione una opción</option>
                                     <?php foreach ($diplomado as $data): ?>
-                                        <option value="<?= $data['id_diplomado'] ?>">
-                                            <?= $data['name_d'] ?>
-                                        </option>
+                                    <option value="<?= $data['id_diplomado'] ?>">
+                                        <?= $data['name_d'] ?>
+                                    </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -226,7 +226,7 @@
                         <select id="grado_instruccion" class="form-control" required>
                             <option value="">Seleccione...</option>
                             <?php foreach ($clasificacion as $data): ?>
-                                <option value="<?= $data['id_academico'] ?>"><?= $data['desc_academico'] ?></option>
+                            <option value="<?= $data['id_academico'] ?>"><?= $data['desc_academico'] ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
