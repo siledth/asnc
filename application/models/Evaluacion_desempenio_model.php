@@ -499,6 +499,8 @@ class Evaluacion_desempenio_model extends CI_model
     {
         $this->db->from('evaluacion_desempenio.evaluaciones_view');
         $this->db->where('snc', 1);
+        $this->db->limit(100);
+
         if ($search) {
 
             $this->db->like('calificacion', $search); // Cambia 'objeto_contratacion' por el campo que deseas buscar
