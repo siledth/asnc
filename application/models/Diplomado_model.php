@@ -553,7 +553,8 @@ class Diplomado_model extends CI_model
         if ($result->pendientes == 0 && $result->aceptados > 0) {
             $update_data = [
                 'estatus' => 2,
-                'tipo_pago' => $data['tipo_pago'] // Aquí se incluye el tipo_pago correctamente
+                'tipo_pago' => $data['tipo_pago'], // Aquí se incluye el tipo_pago correctamente
+                'id_pago' => $data['tipo_pago']
             ];
 
             $this->db->where('id_inscripcion_grupal', $id_inscripcion_grupal);
