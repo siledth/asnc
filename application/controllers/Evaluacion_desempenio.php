@@ -290,37 +290,98 @@ class Evaluacion_desempenio extends CI_Controller
 	//     $this->load->view('templates/footer.php');
 	// }
 
-	public function reporte($offset = 0)
-	{
-		if (!$this->session->userdata('session')) redirect('login');
+	// public function reporte($offset = 0)
+	// {
+	// 	if (!$this->session->userdata('session')) redirect('login');
 
-		$date = date("d-m-Y");
-		$rif = $this->session->userdata['rif_organoente'];
+	// 	$date = date("d-m-Y");
+	// 	$rif = $this->session->userdata['rif_organoente'];
 
-		// Definir el límite de registros por página
-		$limit = 10;
-		// Obtener el término de búsqueda
+	// 	// Definir el límite de registros por página
+	// 	$limit = 10;
+	// 	// Obtener el término de búsqueda
 
-		$search = $this->input->get('search');
-		// Obtener los datos paginados
-		$data['reportes'] = $this->Evaluacion_desempenio_model->consultar_evaluacion_totales($date, $rif, $limit, $offset, $search);
+	// 	$search = $this->input->get('search');
+	// 	// Obtener los datos paginados
+	// 	$data['reportes'] = $this->Evaluacion_desempenio_model->consultar_evaluacion_totales($date, $rif, $limit, $offset, $search);
 
-		// Contar el total de registros
-		$data['total_rows'] = $this->Evaluacion_desempenio_model->count_evaluaciones_totales($date, $rif, $search);
+	// 	// Contar el total de registros
+	// 	$data['total_rows'] = $this->Evaluacion_desempenio_model->count_evaluaciones_totales($date, $rif, $search);
 
-		// Obtener otros datos necesarios
-		$data['estados'] = $this->Configuracion_model->consulta_estados();
-		$data['objeto'] = $this->Configuracion_model->objeto();
-		// $generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
-		// $generar3 = $this->Publicaciones_model->generar2(); // finalizar llamad
-		// $generar4 = $this->Publicaciones_model->generar3(); // finalizar llamad
+	// 	// Obtener otros datos necesarios
+	// 	$data['estados'] = $this->Configuracion_model->consulta_estados();
+	// 	$data['objeto'] = $this->Configuracion_model->objeto();
+	// 	// $generar2 = $this->Publicaciones_model->generar1(); // finalizar llamad
+	// 	// $generar3 = $this->Publicaciones_model->generar2(); // finalizar llamad
+	// 	// $generar4 = $this->Publicaciones_model->generar3(); // finalizar llamad
 
-		// Cargar las vistas
-		$this->load->view('templates/header.php');
-		$this->load->view('templates/navigator.php');
-		$this->load->view('evaluacion_desempenio/reporte.php', $data);
-		$this->load->view('templates/footer.php');
-	}
+	// 	// Cargar las vistas
+	// 	$this->load->view('templates/header.php');
+	// 	$this->load->view('templates/navigator.php');
+	// 	$this->load->view('evaluacion_desempenio/reporte.php', $data);
+	// 	$this->load->view('templates/footer.php');
+	// }
+
+
+
+	// public function reporte()
+	// {
+	// 	if (!$this->session->userdata('session')) redirect('login');
+
+
+	// 	$data['reportes_user'] 	= $this->Evaluacion_desempenio_model->consulta_evaluacionestd();
+
+	// 	$this->load->view('templates/header.php');
+	// 	$this->load->view('templates/navigator.php');
+	// 	$this->load->view('evaluacion_desempenio/reporte.php', $data);
+	// 	$this->load->view('templates/footer.php');
+	// }
+	// public function get_evaluaciones_datatable()
+	// {
+	// 	if (!$this->session->userdata('session')) {
+	// 		echo json_encode(['error' => 'No autorizado']);
+	// 		return;
+	// 	}
+
+	// 	$date = date("d-m-Y");
+	// 	$rif = $this->session->userdata['rif_organoente'];
+
+	// 	// Parámetros de DataTables
+	// 	$start = $this->input->post('start');
+	// 	$length = $this->input->post('length');
+	// 	$search = $this->input->post('search')['value'];
+	// 	$order_column = $this->input->post('order')[0]['column'];
+	// 	$order_dir = $this->input->post('order')[0]['dir'];
+
+	// 	// Obtener datos
+	// 	$data['data'] = $this->Evaluacion_desempenio_model->get_evaluaciones_for_datatable(
+	// 		$date,
+	// 		$rif,
+	// 		$start,
+	// 		$length,
+	// 		$search,
+	// 		$order_column,
+	// 		$order_dir
+	// 	);
+
+	// 	$total_records = $this->Evaluacion_desempenio_model->count_all_evaluaciones($date, $rif);
+	// 	$total_filtered = $this->Evaluacion_desempenio_model->count_filtered_evaluaciones($date, $rif, $search);
+
+	// 	$data['draw'] = $this->input->post('draw');
+	// 	$data['recordsTotal'] = $total_records;
+	// 	$data['recordsFiltered'] = $total_filtered;
+
+	// 	echo json_encode($data);
+	// }
+
+
+
+
+
+
+	/////////////////////////////////////////////////////////
+
+
 	public function reporte_final()
 	{
 		if (!$this->session->userdata('session')) redirect('login');
@@ -830,5 +891,82 @@ class Evaluacion_desempenio extends CI_Controller
 		$this->load->view('templates/navigator.php');
 		$this->load->view('contratista/estadisticas/estadisticas2.php');
 		$this->load->view('templates/footer.php');
+	}
+
+	public function reporte()
+	{
+		if (!$this->session->userdata('session')) {
+			redirect('login');
+		}
+		$this->load->view('templates/header.php');
+		$this->load->view('templates/navigator.php');
+		$this->load->view('evaluacion_desempenio/reporte.php');
+		$this->load->view('templates/footer.php');
+	}
+
+	public function get_evaluaciones_ajax()
+	{
+		// Asegúrate de que la solicitud sea AJAX y de que haya sesión activa
+		if (!$this->input->is_ajax_request()) {
+			echo json_encode(['error' => 'Acceso denegado. Solicitud no AJAX.']);
+			return;
+		}
+		if (!$this->session->userdata('session')) {
+			echo json_encode(['error' => 'Sesión expirada. Por favor, inicie sesión nuevamente.', 'redirect' => base_url('login')]);
+			return;
+		}
+
+		// Obtener los parámetros enviados por DataTables
+		$draw = $this->input->post('draw');
+		$start = $this->input->post('start');
+		$length = $this->input->post('length');
+		$search_value = $this->input->post('search')['value'] ?? ''; // Usa el operador null coalesce para evitar el error si 'value' no existe
+
+		// Inicializa los valores de ordenación con valores por defecto
+		$order_column_name = 'id'; // Columna por defecto para ordenar
+		$order_direction = 'desc'; // Dirección por defecto
+
+		// Verifica si los parámetros de ordenación existen antes de acceder a ellos
+		$order_array = $this->input->post('order');
+		$columns_array = $this->input->post('columns');
+
+		if (!empty($order_array) && isset($order_array[0]['column']) && !empty($columns_array) && isset($columns_array[$order_array[0]['column']]['data'])) {
+			$order_column_index = $order_array[0]['column'];
+			$order_direction = $order_array[0]['dir'];
+			$order_column_name = $columns_array[$order_column_index]['data'];
+		}
+
+		try {
+			// Obtener el total de registros sin filtrar
+			$total_records = $this->Evaluacion_desempenio_model->count_all_evaluaciones();
+
+			// Obtener los registros filtrados y paginados
+			$filtered_data = $this->Evaluacion_desempenio_model->get_evaluaciones_datatables($start, $length, $search_value, $order_column_name, $order_direction);
+			$total_filtered_records = $this->Evaluacion_desempenio_model->count_filtered_evaluaciones($search_value);
+
+			// Preparar la respuesta en formato JSON para DataTables
+			$output = array(
+				"draw" => intval($draw), // Convertir a entero para seguridad
+				"recordsTotal" => intval($total_records),
+				"recordsFiltered" => intval($total_filtered_records),
+				"data" => $filtered_data
+			);
+
+			// Establecer el encabezado Content-Type a application/json
+			$this->output->set_content_type('application/json');
+			echo json_encode($output);
+		} catch (Exception $e) {
+			// Capturar cualquier excepción y devolver un JSON de error
+			$error_message = 'Error en el servidor: ' . $e->getMessage();
+			log_message('error', 'Error en get_evaluaciones_ajax: ' . $e->getMessage() . ' - Trace: ' . $e->getTraceAsString()); // Loguea el error completo
+			$this->output->set_content_type('application/json');
+			echo json_encode([
+				"draw" => intval($draw),
+				"recordsTotal" => 0,
+				"recordsFiltered" => 0,
+				"data" => [],
+				"error" => $error_message
+			]);
+		}
 	}
 }

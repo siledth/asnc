@@ -237,16 +237,18 @@
 
 
                                      </select>
-                                     <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>"
-                                         value="<?= $this->security->get_csrf_hash() ?>">
+
                                  </div>
 
                                  <div class="col-md-4 form-group">
                                      <label for="cedulaPagador" class="required-field">Número Referencia</label>
                                      <div class="input-group">
                                          <input type="text" id="referencia" name="referencia" class="form-control"
-                                             placeholder="" maxlength="12" required data-parsley-trigger="change"
-                                             value="020532914395">
+                                             placeholder="" maxlength="18" required data-parsley-trigger="change"
+                                             value="0205329143958">
+                                         <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>"
+                                             value="<?= $this->security->get_csrf_hash() ?>">
+                                         <input type="hidden" id="pagoVerificado" name="pagoVerificado" value="0">
                                          <div class="input-group-append">
                                              <button class="btn btn-outline-secondary" type="button"
                                                  id="validarReferencia">
@@ -318,7 +320,6 @@
          </div>
      </div>
 
-     <script src="<?= base_url() ?>/js/diplomado/diplomado.js"></script>
 
 
      <script src="<?= base_url() ?>/js/diplomado/conciliar.js"></script>

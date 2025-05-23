@@ -512,6 +512,92 @@ class Evaluacion_desempenio_model extends CI_model
         }
         return $this->db->count_all_results();
     }
+
+    // function consulta_evaluacionestd()
+    // {
+    //     $this->db->select('id, rif_organoente, organo_ente, rif_contrat,
+    //             contratista_ev, id_modalidad, descripcion_modalidad,
+    //             id_sub_modalidad, desc_submodalidad, fec_inicio_cont, fec_fin_cont,
+    //             nro_procedimiento, nro_contrato, id_estado_contrato,  descr_contrato,
+    //             bienes, servicios, obras, monto, dolar, euro, petros, bolivares, calidad, responsabilidad, 
+    //             conocimiento, oportunidad, total_calif, calificacion, notf_cont, fecha_not, medio, nro_oc_os,
+    //             fecha_reg_eval, id_estatus, mod_otro, otro, snc, id_usuario, nombrefun');
+    //     $this->db->from('evaluacion_desempenio.evaluaciones_view');
+    //     $this->db->where('snc', 1);
+    //     // $this->db->where('id_estatus', 1);
+
+
+    //     $this->db->order_by("id", "desc");
+    //     $this->db->limit(50);
+    //     $query = $this->db->get();
+    //     return $query->result_array();
+    // }
+
+
+    /////////////aca voy nuevo evaluacion
+    // Nuevo método para obtener el total de registros sin filtrar
+
+    public function count_all_evaluaciones()
+    {
+        $this->db->from('evaluacion_desempenio.evaluaciones_view');
+        $this->db->where('snc', 1);
+        return $this->db->count_all_results();
+    }
+
+    public function count_filtered_evaluaciones($search_value)
+    {
+        $this->db->from('evaluacion_desempenio.evaluaciones_view');
+        $this->db->where('snc', 1);
+
+        if (!empty($search_value)) {
+            $this->db->group_start();
+            $this->db->like('CAST(id AS TEXT)', $search_value); // Convertir a texto para buscar si ID es numérico
+            $this->db->or_like('fecha_reg_eval', $search_value);
+            $this->db->or_like('rif_organoente', $search_value);
+            $this->db->or_like('organo_ente', $search_value);
+            $this->db->or_like('rif_contrat', $search_value);
+            $this->db->or_like('contratista_ev', $search_value);
+            $this->db->or_like('CAST(calificacion AS TEXT)', $search_value); // Convertir a texto para buscar si calif es numérico
+            $this->db->group_end();
+        }
+        return $this->db->count_all_results();
+    }
+
+    public function get_evaluaciones_datatables($start, $length, $search_value, $order_column_name, $order_direction)
+    {
+        $this->db->select('id, fecha_reg_eval, rif_organoente, organo_ente, rif_contrat,
+                           contratista_ev, calificacion');
+        $this->db->from('evaluacion_desempenio.evaluaciones_view');
+        $this->db->where('snc', 1);
+
+        if (!empty($search_value)) {
+            $this->db->group_start();
+            $this->db->like('CAST(id AS TEXT)', $search_value);
+            $this->db->or_like('fecha_reg_eval', $search_value);
+            $this->db->or_like('rif_organoente', $search_value);
+            $this->db->or_like('organo_ente', $search_value);
+            $this->db->or_like('rif_contrat', $search_value);
+            $this->db->or_like('contratista_ev', $search_value);
+            $this->db->or_like('CAST(calificacion AS TEXT)', $search_value);
+            $this->db->group_end();
+        }
+
+        // Validación y manejo seguro de la columna de ordenación
+        // Asegúrate de que order_column_name sea una columna válida en tu vista/tabla
+        $valid_columns = ['id', 'fecha_reg_eval', 'rif_organoente', 'organo_ente', 'rif_contrat', 'contratista_ev', 'calificacion'];
+        if (in_array($order_column_name, $valid_columns)) {
+            $this->db->order_by($order_column_name, $order_direction);
+        } else {
+            // Orden por defecto si la columna no es válida o está vacía
+            $this->db->order_by('id', 'desc');
+        }
+
+        $this->db->limit($length, $start);
+
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    //////////////////
     function consulta_evaluaciones2($usuario)
     {
         $this->db->select('id, rif_organoente, organo_ente, rif_contrat,
@@ -1084,4 +1170,12 @@ class Evaluacion_desempenio_model extends CI_model
             return array();
         }
     }
+
+
+    ////////////////////////////////////////////////////////////
+
+
+
+
+
 }

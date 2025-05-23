@@ -1169,107 +1169,161 @@ class Diplomado extends CI_Controller
 
         echo json_encode(['existe' => $existe]);
     }
-    public function verificar_referencia()
+    // public function verificar_referencia()
+    // {
+    //     $this->output->set_content_type('application/json');
+
+    //     // Log de depuración
+    //     log_message('debug', 'Solicitud de verificación recibida: ' . print_r($this->input->post(), true));
+
+    //     $referencia = $this->input->post('referencia');
+
+    //     if (empty($referencia)) {
+    //         log_message('debug', 'Referencia vacía recibida');
+    //         return $this->output->set_output(json_encode([
+    //             'success' => false,
+    //             'message' => 'Debe proporcionar una referencia'
+    //         ]));
+    //     }
+
+    //     // Configurar API
+    //     $api_key = $this->config->item('banvenez_api_key2');
+    //     $url = 'https://bdvconciliacionqa.banvenez.com:444/apis/bdv/consulta/movimientos/v2';
+
+    //     $data = [
+    //         'cuenta' => '01020501830003283374',
+    //         'fechaIni' => date('d/m/Y', strtotime('-1 month')),
+    //         'fechaFin' => date('d/m/Y'),
+    //         'tipoMoneda' => 'VES',
+    //         'nroMovimiento' => ''
+    //     ];
+
+    //     log_message('debug', 'Datos enviados a API: ' . print_r($data, true));
+
+    //     $options = [
+    //         'http' => [
+    //             'header'  => "Content-Type: application/json\r\nX-API-KEY: $api_key\r\n",
+    //             'method'  => 'POST',
+    //             'content' => json_encode($data),
+    //             'ignore_errors' => true
+    //         ],
+    //         'ssl' => [
+    //             'verify_peer' => false,
+    //             'verify_peer_name' => false
+    //         ]
+    //     ];
+
+    //     $context = stream_context_create($options);
+
+    //     try {
+    //         log_message('debug', 'Intentando conectar con API...');
+    //         $result = file_get_contents($url, false, $context);
+
+    //         if ($result === FALSE) {
+    //             $error = error_get_last();
+    //             log_message('error', 'Error al conectar con API: ' . print_r($error, true));
+    //             return $this->output->set_output(json_encode([
+    //                 'success' => false,
+    //                 'message' => 'Error al conectar con el servicio de verificación',
+    //                 'error' => $error['message'] ?? 'Desconocido'
+    //             ]));
+    //         }
+
+    //         log_message('debug', 'Respuesta cruda de API: ' . $result);
+
+    //         $response = json_decode($result, true);
+
+    //         if (json_last_error() !== JSON_ERROR_NONE) {
+    //             log_message('error', 'Error decodificando JSON: ' . json_last_error_msg());
+    //             return $this->output->set_output(json_encode([
+    //                 'success' => false,
+    //                 'message' => 'Respuesta no válida del servidor',
+    //                 'raw_response' => $result
+    //             ]));
+    //         }
+
+    //         log_message('debug', 'Respuesta decodificada: ' . print_r($response, true));
+
+    //         if (isset($response['code']) && $response['code'] == '1000' && !empty($response['data'])) {
+    //             foreach ($response['data'] as $movimiento) {
+    //                 if (isset($movimiento['referencia']) && $movimiento['referencia'] == $referencia) {
+    //                     log_message('debug', 'Referencia encontrada: ' . $referencia);
+    //                     return $this->output->set_output(json_encode([
+    //                         'success' => true,
+    //                         'message' => 'Referencia encontrada',
+    //                         'data' => $movimiento
+    //                     ]));
+    //                 }
+    //             }
+    //             log_message('debug', 'Referencia no encontrada en los datos');
+    //         } else {
+    //             log_message('debug', 'Respuesta API no exitosa o sin datos');
+    //         }
+
+    //         return $this->output->set_output(json_encode([
+    //             'success' => false,
+    //             'message' => 'No se encontró la referencia en los registros del período consultado',
+    //             'api_response' => $response
+    //         ]));
+    //     } catch (Exception $e) {
+    //         log_message('error', 'Excepción al validar referencia: ' . $e->getMessage());
+    //         return $this->output->set_output(json_encode([
+    //             'success' => false,
+    //             'message' => 'Error al validar la referencia: ' . $e->getMessage()
+    //         ]));
+    //     }
+    // }
+
+    public function verificar_referencia_v2()
     {
         $this->output->set_content_type('application/json');
 
-        // Log de depuración
-        log_message('debug', 'Solicitud de verificación recibida: ' . print_r($this->input->post(), true));
+        // Verificar CSRF
+        // Considera que el token CSRF debería manejarse de forma más robusta,
+        // pero para el ejemplo, tu implementación actual es funcional.
+        // if (!$this->input->post($this->security->get_csrf_token_name())) {
+        //     return $this->output->set_output(json_encode([
+        //         'success' => false,
+        //         'message' => 'Token de seguridad inválido o expirado. Por favor, recargue la página.'
+        //     ]));
+        // }
 
         $referencia = $this->input->post('referencia');
 
         if (empty($referencia)) {
-            log_message('debug', 'Referencia vacía recibida');
             return $this->output->set_output(json_encode([
                 'success' => false,
-                'message' => 'Debe proporcionar una referencia'
+                'message' => 'Debe proporcionar un número de referencia.'
             ]));
         }
 
-        // Configurar API
+        // Cargar helper y config
+        $this->load->helper('banvenez_api');
+        // Asegúrate de que 'banvenez_api_key2' esté configurada en application/config/config.php
         $api_key = $this->config->item('banvenez_api_key2');
-        $url = 'https://bdvconciliacionqa.banvenez.com:444/apis/bdv/consulta/movimientos/v2';
 
-        $data = [
-            'cuenta' => '01020501830003283374',
-            'fechaIni' => date('d/m/Y', strtotime('-1 month')),
-            'fechaFin' => date('d/m/Y'),
-            'tipoMoneda' => 'VES',
-            'nroMovimiento' => ''
-        ];
+        // Usar helper para consultar y filtrar
+        $result = consulta_movimientos_banvenez_v2($api_key, $referencia);
 
-        log_message('debug', 'Datos enviados a API: ' . print_r($data, true));
-
-        $options = [
-            'http' => [
-                'header'  => "Content-Type: application/json\r\nX-API-KEY: $api_key\r\n",
-                'method'  => 'POST',
-                'content' => json_encode($data),
-                'ignore_errors' => true
-            ],
-            'ssl' => [
-                'verify_peer' => false,
-                'verify_peer_name' => false
-            ]
-        ];
-
-        $context = stream_context_create($options);
-
-        try {
-            log_message('debug', 'Intentando conectar con API...');
-            $result = file_get_contents($url, false, $context);
-
-            if ($result === FALSE) {
-                $error = error_get_last();
-                log_message('error', 'Error al conectar con API: ' . print_r($error, true));
-                return $this->output->set_output(json_encode([
-                    'success' => false,
-                    'message' => 'Error al conectar con el servicio de verificación',
-                    'error' => $error['message'] ?? 'Desconocido'
-                ]));
-            }
-
-            log_message('debug', 'Respuesta cruda de API: ' . $result);
-
-            $response = json_decode($result, true);
-
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                log_message('error', 'Error decodificando JSON: ' . json_last_error_msg());
-                return $this->output->set_output(json_encode([
-                    'success' => false,
-                    'message' => 'Respuesta no válida del servidor',
-                    'raw_response' => $result
-                ]));
-            }
-
-            log_message('debug', 'Respuesta decodificada: ' . print_r($response, true));
-
-            if (isset($response['code']) && $response['code'] == '1000' && !empty($response['data'])) {
-                foreach ($response['data'] as $movimiento) {
-                    if (isset($movimiento['referencia']) && $movimiento['referencia'] == $referencia) {
-                        log_message('debug', 'Referencia encontrada: ' . $referencia);
-                        return $this->output->set_output(json_encode([
-                            'success' => true,
-                            'message' => 'Referencia encontrada',
-                            'data' => $movimiento
-                        ]));
-                    }
-                }
-                log_message('debug', 'Referencia no encontrada en los datos');
-            } else {
-                log_message('debug', 'Respuesta API no exitosa o sin datos');
-            }
-
+        if ($result['success']) {
             return $this->output->set_output(json_encode([
-                'success' => false,
-                'message' => 'No se encontró la referencia en los registros del período consultado',
-                'api_response' => $response
+                'success' => true,
+                'message' => $result['message'] ?? 'Referencia encontrada.',
+                'data'    => $result['data'] // Esto ahora será el objeto del movimiento coincidente
             ]));
-        } catch (Exception $e) {
-            log_message('error', 'Excepción al validar referencia: ' . $e->getMessage());
+        } else {
+            // Maneja los diferentes tipos de errores desde el helper
+            $errorMessage = 'Error al verificar referencia.';
+            if (isset($result['error']['message'])) {
+                $errorMessage = $result['error']['message'];
+            } elseif (isset($result['message'])) {
+                $errorMessage = $result['message']; // En caso de que el helper use 'message' para errores también
+            }
+
             return $this->output->set_output(json_encode([
                 'success' => false,
-                'message' => 'Error al validar la referencia: ' . $e->getMessage()
+                'message' => $errorMessage,
+                'error'   => $result['error'] ?? null // Puedes enviar el objeto de error para depuración
             ]));
         }
     }
