@@ -489,13 +489,59 @@ class Diplomado extends CI_Controller
                 return;
             }
         }
-        // Validar capacitaciones si tiene
+        // Validar capacitaciones si 'tiene_capacitacion' es '1'
         if ($this->input->post('tiene_capacitacion') == '1') {
             $capacitaciones = $this->input->post('capacitaciones');
-            if (empty($capacitaciones)) {  // Aquí faltaba el paréntesis de cierre
+            if (empty($capacitaciones)) {
                 $this->output->set_status_header(400);
-                echo json_encode(['success' => false, 'message' => 'Debe agregar al menos una capacitación']);
+                echo json_encode(['success' => false, 'message' => 'Debe agregar al menos una capacitación en Contrataciones Públicas.']);
                 return;
+            }
+            // Validar cada capacitación
+            foreach ($capacitaciones as $idx => $capacitacion) {
+                if (empty($capacitacion['id_curso'])) {
+                    $this->output->set_status_header(400);
+                    echo json_encode(['success' => false, 'message' => 'Seleccione un curso para la capacitación #' . ($idx + 1)]);
+                    return;
+                }
+                // Si el curso seleccionado es "Otros" (ID 8), validar el campo de texto
+                if ($capacitacion['id_curso'] == '8' && empty($capacitacion['nombre_curso_otro'])) {
+                    $this->output->set_status_header(400);
+                    echo json_encode(['success' => false, 'message' => 'Especifique el nombre del curso para la capacitación #' . ($idx + 1)]);
+                    return;
+                }
+                if (empty($capacitacion['institucion']) || empty($capacitacion['anio'])) {
+                    $this->output->set_status_header(400);
+                    echo json_encode(['success' => false, 'message' => 'Complete todos los campos para la capacitación #' . ($idx + 1)]);
+                    return;
+                }
+            }
+        }
+
+
+        // Validar experiencias laborales si 'tiene_experiencia_laboral' es '1'
+        if ($this->input->post('tiene_experiencia_laboral') == '1') {
+            $experiencias = $this->input->post('experiencias');
+            if (empty($experiencias)) {
+                $this->output->set_status_header(400);
+                echo json_encode(['success' => false, 'message' => 'Debe agregar al menos una experiencia laboral.']);
+                return;
+            }
+            // Validar campos de cada experiencia
+            foreach ($experiencias as $idx => $experiencia) {
+                if (empty($experiencia['institucion']) || empty($experiencia['cargo']) || empty($experiencia['tiempo_cargo']) || empty($experiencia['desde']) || empty($experiencia['hasta'])) {
+                    $this->output->set_status_header(400);
+                    echo json_encode(['success' => false, 'message' => 'Complete todos los campos para la experiencia laboral #' . ($idx + 1)]);
+                    return;
+                }
+                // Opcional: Validar que fecha 'hasta' no sea mayor a hoy
+                $fecha_hasta = new DateTime($experiencia['hasta']);
+                $hoy = new DateTime();
+                if ($fecha_hasta > $hoy) {
+                    $this->output->set_status_header(400);
+                    echo json_encode(['success' => false, 'message' => 'La fecha de fin para la experiencia laboral #' . ($idx + 1) . ' no puede ser mayor a la fecha actual.']);
+                    return;
+                }
             }
         }
 
@@ -598,7 +644,9 @@ class Diplomado extends CI_Controller
             'titulo_obtenido' => $this->security->xss_clean($this->input->post('titulo_obtenido')),
             'experiencia_contrataciones_publicas' => $experiencia_contrataciones_publicas,
             't_contrata_p' => $this->security->xss_clean($this->input->post('t_contrata_p')),
-            'tiene_capacitacion_contrataciones' => $this->security->xss_clean($this->input->post('tiene_capacitacion'))
+            'tiene_capacitacion_contrataciones' => $this->security->xss_clean($this->input->post('tiene_capacitacion')),
+            'exp_5_anio' => $this->security->xss_clean($this->input->post('tiene_experiencia_laboral')),
+
         ];
 
         $id_curriculum = $this->Diplomado_model->registrar_curriculum($curriculum_data);
@@ -608,23 +656,68 @@ class Diplomado extends CI_Controller
             echo json_encode(['success' => false, 'message' => 'Error al registrar información curricular']);
             return;
         }
+        // Registrar capacitaciones si 'tiene_capacitacion' es '1'
         if ($this->input->post('tiene_capacitacion') == '1') {
             $capacitaciones = $this->input->post('capacitaciones');
             foreach ($capacitaciones as $capacitacion) {
+                $nombre_curso_a_guardar = '';
+                $id_curso_a_guardar = $this->security->xss_clean($capacitacion['id_curso']);
+
+                if ($id_curso_a_guardar == '8') { // Si es "Otros"
+                    $nombre_curso_a_guardar = $this->security->xss_clean($capacitacion['nombre_curso_otro']);
+                } else {
+                    // Obtener la descripción del curso seleccionado de la lista cargada
+                    $curso_seleccionado = array_filter($this->Diplomado_model->obtener_todos_los_cursos(), function ($curso) use ($id_curso_a_guardar) {
+                        return $curso['id_cursos'] == $id_curso_a_guardar;
+                    });
+                    $curso_seleccionado = reset($curso_seleccionado); // Obtener el primer (y único) resultado
+
+                    if ($curso_seleccionado) {
+                        $nombre_curso_a_guardar = $curso_seleccionado['descripcion_cursos'];
+                    } else {
+                        // Fallback o error si no se encuentra el curso
+                        $nombre_curso_a_guardar = "Curso Desconocido (ID: " . $id_curso_a_guardar . ")";
+                    }
+                }
+
                 $capacitacion_data = [
                     'id_curriculum' => $id_curriculum,
-                    'nombre_curso' => $this->security->xss_clean($capacitacion['nombre_curso']),
+                    'nombre_curso' => $nombre_curso_a_guardar, // Este campo ahora contendrá el texto del curso
                     'institucion_formadora' => $this->security->xss_clean($capacitacion['institucion']),
-                    'anio_realizacion' => $this->security->xss_clean($capacitacion['anio'])
+                    'anio_realizacion' => $this->security->xss_clean($capacitacion['anio']),
+                    'horas' => $this->security->xss_clean($capacitacion['horas'])
+
                 ];
 
                 if (!$this->Diplomado_model->registrar_capacitacion($capacitacion_data)) {
                     $this->output->set_status_header(500);
-                    echo json_encode(['success' => false, 'message' => 'Error al registrar capacitaciones']);
+                    echo json_encode(['success' => false, 'message' => 'Error al registrar una o más capacitaciones.']);
                     return;
                 }
             }
         }
+
+        // *** NUEVA LÓGICA: Registrar experiencias laborales si 'tiene_experiencia_laboral' es '1' ***
+        if ($this->input->post('tiene_experiencia_laboral') == '1') {
+            $experiencias = $this->input->post('experiencias');
+            foreach ($experiencias as $experiencia) {
+                $experiencia_data = [
+                    'id_curriculum' => $id_curriculum,
+                    'nombreinstitucion' => $this->security->xss_clean($experiencia['institucion']),
+                    'cargo' => $this->security->xss_clean($experiencia['cargo']),
+                    'tiempo' => $this->security->xss_clean($experiencia['tiempo_cargo']),
+                    'desde' => $this->security->xss_clean($experiencia['desde']),
+                    'hasta' => $this->security->xss_clean($experiencia['hasta'])
+                ];
+
+                if (!$this->Diplomado_model->registrar_experiencia_laboral($experiencia_data)) {
+                    $this->output->set_status_header(500);
+                    echo json_encode(['success' => false, 'message' => 'Error al registrar una o más experiencias laborales.']);
+                    return;
+                }
+            }
+        }
+
         // Registrar inscripción
         $result = $this->Diplomado_model->registrar_inscripcion(
             $id_participante,
@@ -648,6 +741,18 @@ class Diplomado extends CI_Controller
         }
     }
 
+
+    ////////////CURSOS
+    public function obtener_cursos_json()
+    {
+        $cursos = $this->Diplomado_model->obtener_todos_los_cursos();
+        if ($cursos) {
+            echo json_encode(['success' => true, 'cursos' => $cursos]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'No se encontraron cursos.']);
+        }
+    }
+    //////////////////
     public function sel_participantes()
     {
         if (!$this->session->userdata('session')) {

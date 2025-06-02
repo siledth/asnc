@@ -683,6 +683,21 @@
                 </li>
 
 
+                <li class="has-sub">
+                    <a href="javascript:;">
+                        <b class="caret"></b>
+                        Reportes
+                    </a>
+                    <ul class="sub-menu">
+
+                        <li><a href="<?= base_url() ?>index.php/Diplomado/logger_type_snc">-
+                                Consulta Cuenta CCP</a></li>
+                        <!-- <li><a href="<?= base_url() ?>index.php/Comision_contrata/certificadosnc">-
+                                    Certificar por SNC</a></li> -->
+
+
+                    </ul>
+                </li>
 
             </ul>
         </li>

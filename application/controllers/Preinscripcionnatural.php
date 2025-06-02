@@ -134,7 +134,7 @@ class Preinscripcionnatural extends CI_Controller
 
                 $datos_pago = $this->Diplomado_model->obtener_datos_pago($d->id_inscripcion);
                 if ($d->estatus == '1') {
-                    $pdf->Cell(40, 5, utf8_decode('Costo estimado por persona Bs:'), 0, 0, 'R');
+                    $pdf->Cell(70, 5, utf8_decode('Costo estimado por persona Bs sin iva:'), 0, 0, 'R');
                     $pdf->Cell(20, 5, $d->pay, 0, 1, 'C');
 
                     // Calcular los valores primero
@@ -314,6 +314,60 @@ class Preinscripcionnatural extends CI_Controller
                         $pdf->SetFont('Arial', '', 12);
                         $pdf->MultiCell(125, 5, utf8_decode($cap->anio_realizacion), 0, 'L');
 
+                        $pdf->SetFont('Arial', 'B', 12);
+                        $pdf->Cell(40, 5, utf8_decode('Horas:'), 0, 0, 'R');
+                        $pdf->SetFont('Arial', '', 12);
+                        $pdf->MultiCell(125, 5, utf8_decode($cap->horas . 'hrs '), 0, 'L');
+
+                        // Espacio entre capacitaciones
+                        $pdf->Ln(2);
+                    }
+                } else {
+                    $pdf->Cell(80, 5,  utf8_decode('NO'), 0, 1, 'L');
+                }
+                //////////////
+                $pdf->SetFont('Arial', 'B', 12);
+                $pdf->Cell(60, 5, '', 0, 0, 'R');
+
+                $pdf->Cell(40, 5, utf8_decode('¿Tiene  Experiencia laboral en los últimos 5 años?:'), 0, 0, 'R');
+                $pdf->SetFont('Arial', '', 12);
+
+                if ($d->exp_5_anio == '1') {
+                    $pdf->Cell(80, 5, utf8_decode('SI'), 0, 1, 'L');
+
+                    // Obtener el modelo correctamente (elimina el $ antes de d)
+                    $id_curriculum = $d->id_curriculum;
+
+                    // Obtener las experiencia
+                    $experiencia = $this->Diplomado_model->get_experiencia($id_curriculum);
+
+                    $pdf->Ln(3);
+                    // Mostrar cada capacitación
+                    foreach ($experiencia as $exp) {
+                        $pdf->SetFont('Arial', 'B', 12);
+                        $pdf->Cell(40, 5, utf8_decode('Nombre instirución:'), 0, 0, 'R');
+                        $pdf->SetFont('Arial', '', 12);
+                        $pdf->MultiCell(125, 5, utf8_decode($exp->nombreinstitucion), 0, 'L');
+
+                        $pdf->SetFont('Arial', 'B', 12);
+                        $pdf->Cell(40, 5, utf8_decode('Cargo:'), 0, 0, 'R');
+                        $pdf->SetFont('Arial', '', 12);
+                        $pdf->MultiCell(125, 5, utf8_decode($exp->cargo), 0, 'L');
+
+                        $pdf->SetFont('Arial', 'B', 12);
+                        $pdf->Cell(40, 5, utf8_decode('Año:'), 0, 0, 'R');
+                        $pdf->SetFont('Arial', '', 12);
+                        $pdf->MultiCell(125, 5, utf8_decode($exp->tiempo), 0, 'L');
+
+                        $pdf->SetFont('Arial', 'B', 12);
+                        $pdf->Cell(40, 5, utf8_decode('Desde:'), 0, 0, 'R');
+                        $pdf->SetFont('Arial', '', 12);
+                        $pdf->MultiCell(125, 5, utf8_decode($exp->desde), 0, 'L');
+
+                        $pdf->SetFont('Arial', 'B', 12);
+                        $pdf->Cell(40, 5, utf8_decode('Hasta:'), 0, 0, 'R');
+                        $pdf->SetFont('Arial', '', 12);
+                        $pdf->MultiCell(125, 5, utf8_decode($exp->hasta), 0, 'L');
                         // Espacio entre capacitaciones
                         $pdf->Ln(3);
                     }

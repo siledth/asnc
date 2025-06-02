@@ -309,6 +309,13 @@ class Diplomado_model extends CI_model
     {
         return $this->db->insert('diplomado.capacitaciones_participante', $data);
     }
+
+    public function registrar_experiencia_laboral($data)
+    {
+
+        $this->db->insert('diplomado.experienci_5_anio', $data);
+        return $this->db->affected_rows() > 0;
+    }
     public function registrar_inscripcion($id_participante, $id_diplomado)
     {
         // Generar código de planilla (ej: DIP-2023-001)
@@ -349,7 +356,7 @@ class Diplomado_model extends CI_model
         i.id_pago, i.observaciones, d.name_d, d.id_modalidad , d.fdesde,  d.fhasta, d.pay, p.cedula, p.nombres, p.apellidos, 
         p.telefono as tel_p, p.correo, p.edad,  p.direccion, p.trabaja_actualmente, p.observacion,t.nombre as des_estatus,
        c.grado_instruccion, c.titulo_obtenido,  a.desc_academico, c.experiencia_contrataciones_publicas, c.tiene_capacitacion_contrataciones ,e.rif, 
-       e.razon_social, e.telefono, e.direccion_fiscal, c.id_curriculum, c.t_contrata_p
+       e.razon_social, e.telefono, e.direccion_fiscal, c.id_curriculum, c.t_contrata_p, c.exp_5_anio
                                 FROM diplomado.inscripciones i      
                 join  diplomado.diplomado d on d.id_diplomado = i.id_diplomado	
                 join  diplomado.participantes p on p.id_participante = i.id_participante                	
@@ -394,10 +401,20 @@ class Diplomado_model extends CI_model
     public function get_capacitaciones($id_curriculum)
     {
         return $this->db->query("
-        SELECT nombre_curso, institucion_formadora, anio_realizacion 
+        SELECT nombre_curso, institucion_formadora, anio_realizacion , horas
         FROM diplomado.capacitaciones_participante 
         WHERE id_curriculum = ?
         ORDER BY id_capacitacion
+    ", [$id_curriculum])->result();
+    }
+    ////experiencia 5 años
+    public function get_experiencia($id_curriculum)
+    {
+        return $this->db->query("
+        SELECT id_experienci_5_anio, id_curriculum, nombreinstitucion, cargo, tiempo, desde, hasta
+        FROM diplomado.experienci_5_anio 
+        WHERE id_curriculum = ?
+        ORDER BY id_experienci_5_anio
     ", [$id_curriculum])->result();
     }
 
@@ -852,5 +869,14 @@ class Diplomado_model extends CI_model
 
         $resultado = $query->row();
         return ($resultado->total > 0);
+    }
+
+    ////////////OBTENER CURSOS 
+    public function obtener_todos_los_cursos()
+    {
+        $this->db->select('id_cursos, descripcion_cursos');
+        $this->db->order_by('descripcion_cursos', 'ASC');
+        $query = $this->db->get('diplomado.cursos'); // Asegúrate que 'diplomado.cursos' es el nombre correcto de tu tabla
+        return $query->result_array();
     }
 }

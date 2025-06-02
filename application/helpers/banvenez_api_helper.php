@@ -109,14 +109,17 @@ function verify_payment_with_banvenez($data, $api_key)
 
 function consulta_movimientos_banvenez_v2($api_key, $referencia = '')
 {
-    $url = 'https://bdvconciliacionqa.banvenez.com:444/apis/bdv/consulta/movimientos/v2';
+    // $url = 'https://bdvconciliacionqa.banvenez.com:444/apis/bdv/consulta/movimientos/v2';//desarrollo
+    $url = ' https://bdvconciliacion.banvenez.com/apis/bdv/consulta/movimientos/'; // produccion
+
+
 
     $data = [
-        'cuenta'      => '01020501830003283374',
-        // 'fechaIni'    => date('d/m/Y', strtotime('-1 month')),
-        'fechaIni'    => '01/01/2025',
-        'fechaFin'    => '28/01/2025',
-        // 'fechaFin'    => date('d/m/Y'),
+        'cuenta'      => '01020552270000042877',
+        'fechaIni'    => date('d/m/Y', strtotime('-1 month')),
+        // 'fechaIni'    => '01/06/2025',
+        // 'fechaFin'    => '30/06/2025',
+        'fechaFin'    => date('d/m/Y'),
         'tipoMoneda'  => 'VES',
         'nroMovimiento' => '' // Se envía vacío según tu necesidad
     ];

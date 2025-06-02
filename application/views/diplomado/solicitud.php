@@ -60,7 +60,7 @@
                                             id="diplomadoFechaFin"></span></div>
                                     <div class="info-item"><strong>Modalidad:</strong> <span
                                             id="diplomadoModalidad"></span></div>
-                                    <div class="info-item"><strong>Costo por persona:</strong> <span
+                                    <div class="info-item"><strong>Costo por persona sin IVA:</strong> <span
                                             id="diplomadoM"></span></div>
 
                                 </div>
@@ -209,6 +209,34 @@
                                         <button type="button" id="btn-add-capacitacion"
                                             class="btn btn-primary btn-sm btn-add-capacitacion">
                                             <i class="fas fa-plus mr-2"></i>Agregar otra capacitación
+                                        </button>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 form-group">
+                                            <label for="tiene_experiencia_laboral" class="required-field">¿Tiene
+                                                experiencia laboral en los últimos 5 años?</label>
+                                            <select class="form-control" name="tiene_experiencia_laboral"
+                                                id="tiene_experiencia_laboral" required>
+                                                <option value="">Seleccione una opción</option>
+                                                <option value="1">Sí</option>
+                                                <option value="2">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div id="experiencia-laboral-container" style="display: none;">
+                                        <div class="alert alert-info">
+                                            <i class="fas fa-info-circle mr-2"></i>Debe agregar al menos una experiencia
+                                            laboral (máximo 3).
+                                        </div>
+
+                                        <div id="lista-experiencias">
+                                        </div>
+
+                                        <button type="button" id="btn-add-experiencia"
+                                            class="btn btn-primary btn-sm btn-add-experiencia">
+                                            <i class="fas fa-plus mr-2"></i>Agregar otra experiencia laboral
                                         </button>
                                     </div>
                                 </div>

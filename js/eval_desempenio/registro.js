@@ -25,11 +25,11 @@ function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
         $('#ueba').attr("disabled", true);
     }else{
         $("#items").show();
-        // var base_url  = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista';
-        // var base_url2 = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
+        var base_url  = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista';
+        var base_url2 = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
 
-      var base_url = '/index.php/evaluacion_desempenio/llenar_contratista';
-        var base_url2 = '/index.php/evaluacion_desempenio/llenar_contratista_rp';
+    //   var base_url = '/index.php/evaluacion_desempenio/llenar_contratista';
+    //     var base_url2 = '/index.php/evaluacion_desempenio/llenar_contratista_rp';
 
         $.ajax({
             url:base_url,
@@ -171,8 +171,8 @@ function listar_ciudades(){
 
 function llenar_sub_mod(){
     var id_modalidad = $('#id_modalidad').val();
-    // var base_url = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_sub_modalidad';
-    var base_url = '/index.php/evaluacion_desempenio/llenar_sub_modalidad';
+    var base_url = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_sub_modalidad';
+    // var base_url = '/index.php/evaluacion_desempenio/llenar_sub_modalidad';
 
     $.ajax({
         url: base_url,
@@ -491,8 +491,8 @@ function registrar(){
                     if (result.value == true) {
                         event.preventDefault();
                         var datos = new FormData($("#resgistrar_eva")[0]);
-                        // var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
-                        var base_url = '/index.php/evaluacion_desempenio/registrar';
+                        var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
+                        // var base_url = '/index.php/evaluacion_desempenio/registrar';
                         $.ajax({
                             url:base_url,
                             method: 'POST',
@@ -535,8 +535,8 @@ function registrar(){
                     if (result.value == true) {
                         event.preventDefault();
                         var datos = new FormData($("#resgistrar_eva")[0]);
-                        // var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
-                        var base_url = '/index.php/evaluacion_desempenio/registrar';
+                        var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
+                        // var base_url = '/index.php/evaluacion_desempenio/registrar';
                         $.ajax({
                             url:base_url,
                             method: 'POST',
@@ -671,8 +671,8 @@ function registrar(){
 
                         event.preventDefault();
                         var datos = new FormData($("#resgistrar_eva")[0]);
-                    //    var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
-                        var base_url = '/index.php/evaluacion_desempenio/registrar';
+                       var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
+                        // var base_url = '/index.php/evaluacion_desempenio/registrar';
                         $.ajax({
                             url:base_url,
                             method: 'POST',
@@ -765,6 +765,35 @@ function validarRIF(input) {
     if (valor.length !== 10) {
         const faltantes = 10 - valor.length;
         errorElement.innerHTML = `Faltan <strong>${faltantes}</strong> caracteres (Ej: J123456789)`;
+        errorElement.classList.remove('d-none');
+        btnBuscar.disabled = true;
+        return;
+    }
+
+    // Si pasa todas las validaciones:
+    errorElement.classList.add('d-none');
+    btnBuscar.disabled = false;
+    input.value = valor; // Asegura el formato correcto
+}
+
+function validarRIF2(input) {
+    const errorElement = document.getElementById('rifErrors');
+    const btnBuscar = document.querySelector('button[onclick="registrar()"]');
+    let valor = input.value.toUpperCase().replace(/[^JGV0-9]/g, '');  
+
+    // Validación 1: Primer carácter debe ser J, G o V
+    if (valor.length > 0 && !['J', 'G', 'V'].includes(valor[0])) {
+        errorElement.textContent = "El RIF debe comenzar con J, G o V";
+        errorElement.classList.remove('d-none');
+        btnBuscar.disabled = true;
+        input.value = valor = valor.replace(/[^JGV]/g, '');  
+        return;
+    }
+
+    // Validación 2: Longitud exacta de 10 caracteres
+    if (valor.length !== 10) {
+        const faltantes = 10 - valor.length;
+        errorElement.innerHTML = `Faltan <strong>${faltantes}</strong> caracteres (Ej: J123456789) no colocar caracteres especiales`;
         errorElement.classList.remove('d-none');
         btnBuscar.disabled = true;
         return;

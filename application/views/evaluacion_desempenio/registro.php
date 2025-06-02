@@ -78,7 +78,11 @@
                             <div class="form-group col-3">
                                 <label>Rif del Contratista <b title="Campo Obligatorio" style="color:red">*</b></label>
                                 <input class="form-control" type="text" name="rif_cont_n" id="rif_cont_n"
-                                    placeholder="Rif">
+                                    placeholder="J123456789" maxlength="10" oninput="validarRIF2(this)">
+                                <small id="rifErrors" class="text-danger d-none">
+                                    El RIF debe tener <span id="missingCharss">10</span> caracteres exactos (Ej:
+                                    J123456789)
+                                </small>
                             </div>
                             <div class="form-group col-9">
                                 <label>Nombre completo <b title="Campo Obligatorio" style="color:red">*</b></label>

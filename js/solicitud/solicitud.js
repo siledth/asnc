@@ -1121,7 +1121,61 @@ function redirectToForm() {
 }
 
  $(document).ready(function() {
+
+      // Variable para almacenar los cursos disponibles (se llenará vía AJAX)
+    let cursosDisponibles = [];
+
+    // Función para cargar los cursos desde el backend
+    // Asegúrate de que 'obtener_cursos_json' sea un método público en tu controlador 'Diplomado'
+    function cargarCursos() {
+        //  var base_url = window.location.origin+'/asnc/index.php/Diplomado/obtener_cursos_json'; //redirigir
+
+       var base_url = '/index.php/Diplomado/obtener_cursos_json';
+        //const urlCursos = '<?= base_url("Diplomado/obtener_cursos_json") ?>';
+        $.ajax({
+            url: base_url,
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    cursosDisponibles = response.cursos;
+                    console.log('Cursos cargados:', cursosDisponibles); // Para depuración
+                    // Si ya hay capacitaciones en el DOM (ej. si se recarga la página con datos previos),
+                    // asegúrate de que sus selects se llenen correctamente.
+                    // Esto es útil si el formulario se renderiza con datos ya existentes.
+                    $('.curso-select').each(function() {
+                        const currentSelect = $(this);
+                        const selectedValue = currentSelect.val();
+                        let optionsHtml = '<option value="">Seleccione un curso</option>';
+                        cursosDisponibles.forEach(curso => {
+                            optionsHtml += `<option value="${curso.id_cursos}">${curso.descripcion_cursos}</option>`;
+                        });
+                        currentSelect.html(optionsHtml); // Rellenar las opciones
+
+                        // Re-seleccionar el valor si ya existía
+                        if (selectedValue) {
+                            currentSelect.val(selectedValue);
+                            // Y disparar el evento change para mostrar/ocultar el campo "Otros"
+                            currentSelect.trigger('change');
+                        }
+                    });
+                } else {
+                    console.error('Error al cargar los cursos:', response.message);
+                    alert('No se pudieron cargar los cursos disponibles. Por favor, intente de nuevo.');
+                }
+            },
+            error: function(xhr) {
+                console.error('Error AJAX al cargar cursos:', xhr.responseText);
+                alert('Hubo un problema de conexión al cargar los cursos.');
+            }
+        });
+    }
+
+    // Llama a la función para cargar los cursos al inicio, una vez que el DOM esté listo
+    cargarCursos();
+
             // Contador de capacitaciones
+            
             let capacitacionCount = 0;
             const maxCapacitaciones = 3;
 
@@ -1151,90 +1205,254 @@ function redirectToForm() {
             });
 
             // Función para agregar un nuevo formulario de capacitación
-            function agregarCapacitacion() {
-                if (capacitacionCount >= maxCapacitaciones) return;
+    function agregarCapacitacion() {
+        if (capacitacionCount >= maxCapacitaciones) return;
 
-                capacitacionCount++;
-                const newId = 'capacitacion-' + capacitacionCount;
+        capacitacionCount++;
+        const newId = 'capacitacion-' + capacitacionCount;
 
-                const html = `
-                    <div class="capacitacion-item" id="${newId}">
-                        <h6>Capacitación #${capacitacionCount}</h6>
-                        
-                        <div class="row">
-                            <div class="col-md-4 form-group">
-                                <label for="nombre_curso_${capacitacionCount}" class="required-field">Nombre del Curso</label>
-                                <input type="text" id="nombre_curso_${capacitacionCount}" name="capacitaciones[${capacitacionCount}][nombre_curso]" class="form-control" required>
-                            </div>
-                            
-                            <div class="col-md-4 form-group">
-                                <label for="institucion_${capacitacionCount}" class="required-field">Institución Formadora</label>
-                                <input type="text" id="institucion_${capacitacionCount}" name="capacitaciones[${capacitacionCount}][institucion]" class="form-control" required>
-                            </div>
-                            
-                            <div class="col-md-4 form-group">
-                                <label for="anio_${capacitacionCount}" class="required-field">Año de Realización</label>
-                                <input type="number" id="anio_${capacitacionCount}" name="capacitaciones[${capacitacionCount}][anio]" class="form-control" min="1900" max="${new Date().getFullYear()}" required>
-                            </div>
-                        </div>
-                        
-                        ${capacitacionCount > 1 ? `
-                        <button type="button" class="btn btn-danger btn-sm btn-remove-capacitacion" onclick="eliminarCapacitacion('${newId}')">
-                            <i class="fas fa-trash mr-1"></i>Eliminar esta capacitación
-                        </button>
-                        ` : ''}
+        // Construye las opciones para el select de cursos
+        let optionsHtml = '<option value="">Seleccione un curso</option>';
+        cursosDisponibles.forEach(curso => {
+            optionsHtml += `<option value="${curso.id_cursos}">${curso.descripcion_cursos}</option>`;
+        });
+
+        const html = `
+            <div class="capacitacion-item" id="${newId}">
+                <h6>Capacitación #${capacitacionCount}</h6>
+
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label for="id_curso_${capacitacionCount}" class="required-field">Nombre del Curso</label>
+                        <select id="id_curso_${capacitacionCount}" name="capacitaciones[${capacitacionCount}][id_curso]" class="form-control curso-select" required>
+                            ${optionsHtml}
+                        </select>
                     </div>
-                `;
 
-                $('#lista-capacitaciones').append(html);
+                    <div class="col-md-4 form-group" id="otros_cursos_container_${capacitacionCount}" style="display: none;">
+                        <label for="nombre_curso_otro_${capacitacionCount}" class="required-field">Especifique el Curso</label>
+                        <input type="text" id="nombre_curso_otro_${capacitacionCount}" name="capacitaciones[${capacitacionCount}][nombre_curso_otro]" class="form-control">
+                    </div>
 
-                // Ocultar botón de agregar si llegamos al máximo
-                if (capacitacionCount >= maxCapacitaciones) {
-                    $('#btn-add-capacitacion').hide();
-                }
+                    <div class="col-md-4 form-group">
+                        <label for="institucion_${capacitacionCount}" class="required-field">Institución Formadora</label>
+                        <input type="text" id="institucion_${capacitacionCount}" name="capacitaciones[${capacitacionCount}][institucion]" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+                        <label for="anio_${capacitacionCount}" class="required-field">Año de Realización</label>
+                        <input type="number" id="anio_${capacitacionCount}" name="capacitaciones[${capacitacionCount}][anio]" class="form-control" min="1900" max="${new Date().getFullYear()}" required>
+                    </div>
+                     <div class="col-md-4 form-group">
+                        <label for="horas${capacitacionCount}" class="required-field">Total Horas Académicas</label>
+                        <input type="number" id="horas${capacitacionCount}" name="capacitaciones[${capacitacionCount}][horas]" class="form-control" min="1900" max="${new Date().getFullYear()}" required>
+                    </div>
+                </div>
+
+                ${capacitacionCount > 1 ? `
+                <button type="button" class="btn btn-danger btn-sm btn-remove-capacitacion" onclick="eliminarCapacitacion('${newId}')">
+                    <i class="fas fa-trash mr-1"></i>Eliminar esta capacitación
+                </button>
+                ` : ''}
+                <hr> </div>
+        `;
+
+        $('#lista-capacitaciones').append(html);
+
+        // Agrega el evento change para el select de curso recién añadido
+        $(`#id_curso_${capacitacionCount}`).on('change', function() {
+            const selectedValue = $(this).val();
+            const currentCapacitacionNum = $(this).attr('id').replace('id_curso_', '');
+            // El ID '8' es el que tienes para "Otros" en tu tabla diplomado.cursos
+            if (selectedValue === '8') {
+                $(`#otros_cursos_container_${currentCapacitacionNum}`).show();
+                $(`#nombre_curso_otro_${currentCapacitacionNum}`).prop('required', true);
+            } else {
+                $(`#otros_cursos_container_${currentCapacitacionNum}`).hide();
+                $(`#nombre_curso_otro_${currentCapacitacionNum}`).prop('required', false).val(''); // Limpia y hace no requerido
             }
         });
 
-        // Función para eliminar una capacitación (definida en ámbito global)
-        function eliminarCapacitacion(id) {
-            $('#' + id).remove();
 
-            // Reorganizar los números de las capacitaciones restantes
-            const items = $('.capacitacion-item');
-            capacitacionCount = items.length;
-
-            items.each(function(index) {
-                const newNum = index + 1;
-                $(this).find('h6').text('Capacitación #' + newNum);
-
-                // Actualizar los IDs y names de los inputs
-                $(this).find('input, select').each(function() {
-                    const oldName = $(this).attr('name');
-                    if (oldName) {
-                        const newName = oldName.replace(/capacitaciones\[\d+\]/,
-                            `capacitaciones[${newNum}]`);
-                        $(this).attr('name', newName);
-                    }
-
-                    const oldId = $(this).attr('id');
-                    if (oldId) {
-                        const newId = oldId.replace(/_(\d+)_/, `_${newNum}_`);
-                        $(this).attr('id', newId);
-                    }
-                });
-            });
-
-            // Mostrar botón de agregar si no estamos en el máximo
-            if (capacitacionCount < maxCapacitaciones) {
-                $('#btn-add-capacitacion').show();
-            }
+        // Ocultar botón de agregar si llegamos al máximo
+        if (capacitacionCount >= maxCapacitaciones) {
+            $('#btn-add-capacitacion').hide();
         }
+    }
 
+
+             // Contador de experiencias laborales
+    let experienciaCount = 0;
+    const maxExperiencias = 3;
+
+    // Obtener la fecha actual en formato YYYY-MM-DD para la validación de fecha 'Hasta'
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Meses son 0-index
+    const day = today.getDate().toString().padStart(2, '0');
+    const maxDate = `${year}-${month}-${day}`;
+
+    // Mostrar/ocultar sección de experiencia laboral según selección
+    $('#tiene_experiencia_laboral').change(function() {
+        if ($(this).val() === '1') {
+            $('#experiencia-laboral-container').show();
+            // Agregar primera experiencia laboral automáticamente
+            if (experienciaCount === 0) {
+                agregarExperienciaLaboral();
+            }
+        } else {
+            $('#experiencia-laboral-container').hide();
+            // Limpiar experiencias laborales si selecciona "No"
+            $('#lista-experiencias').empty();
+            experienciaCount = 0;
+        }
+    });
+
+    // Agregar nueva experiencia laboral
+    $('#btn-add-experiencia').click(function() {
+        if (experienciaCount < maxExperiencias) {
+            agregarExperienciaLaboral();
+        } else {
+            alert('Solo puedes agregar hasta ' + maxExperiencias + ' experiencias laborales.');
+        }
+    });
+
+    // Función para agregar un nuevo formulario de experiencia laboral
+    function agregarExperienciaLaboral() {
+        if (experienciaCount >= maxExperiencias) return;
+
+        experienciaCount++;
+        const newId = 'experiencia-' + experienciaCount;
+
+        const html = `
+            <div class="experiencia-item" id="${newId}">
+                <h6>Experiencia Laboral #${experienciaCount}</h6>
+                
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label for="institucion_laboral_${experienciaCount}" class="required-field">Nombre de la Institución</label>
+                        <input type="text" id="institucion_laboral_${experienciaCount}" name="experiencias[${experienciaCount}][institucion]" class="form-control" required>
+                    </div>
+                    
+                    <div class="col-md-4 form-group">
+                        <label for="cargo_laboral_${experienciaCount}" class="required-field">Cargo Desempeñado</label>
+                        <input type="text" id="cargo_laboral_${experienciaCount}" name="experiencias[${experienciaCount}][cargo]" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+                        <label for="tiempo_cargo_${experienciaCount}" class="required-field">Tiempo en el Cargo (años)</label>
+                        <input type="number" id="tiempo_cargo_${experienciaCount}" name="experiencias[${experienciaCount}][tiempo_cargo]" class="form-control" min="0" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="desde_laboral_${experienciaCount}" class="required-field">Fecha de Inicio</label>
+                        <input type="date" id="desde_laboral_${experienciaCount}" name="experiencias[${experienciaCount}][desde]" class="form-control" required>
+                    </div>
+                    
+                    <div class="col-md-6 form-group">
+                        <label for="hasta_laboral_${experienciaCount}" class="required-field">Fecha de Fin</label>
+                        <input type="date" id="hasta_laboral_${experienciaCount}" name="experiencias[${experienciaCount}][hasta]" class="form-control" max="${maxDate}" required>
+                    </div>
+                </div>
+                
+                ${experienciaCount > 1 ? `
+                <button type="button" class="btn btn-danger btn-sm btn-remove-experiencia" onclick="eliminarExperienciaLaboral('${newId}')">
+                    <i class="fas fa-trash mr-1"></i>Eliminar esta experiencia
+                </button>
+                ` : ''}
+                <hr>
+            </div>
+        `;
+
+        $('#lista-experiencias').append(html);
+
+        // Ocultar botón de agregar si llegamos al máximo
+        if (experienciaCount >= maxExperiencias) {
+            $('#btn-add-experiencia').hide();
+        }
+    }
+        });
+
+        // Función para eliminar una capacitación (definida en ámbito global)
+      // Función para eliminar una capacitación (DEBE ESTAR FUERA DEL $(document).ready para ser accesible globalmente por el onclick)
+function eliminarCapacitacion(id) {
+    $('#' + id).remove();
+
+    // Reorganizar los números de las capacitaciones restantes
+    const items = $('.capacitacion-item');
+    capacitacionCount = items.length; // Asegúrate de que capacitacionCount sea global o pasada como argumento
+
+    items.each(function(index) {
+        const newNum = index + 1;
+        $(this).find('h6').text('Capacitación #' + newNum);
+
+        // Actualizar los IDs y names de los inputs
+        $(this).find('input, select').each(function() {
+            const oldName = $(this).attr('name');
+            if (oldName) {
+                const newName = oldName.replace(/capacitaciones\[\d+\]/,
+                    `capacitaciones[${newNum}]`);
+                $(this).attr('name', newName);
+            }
+
+            const oldId = $(this).attr('id');
+            if (oldId) {
+                const newId = oldId.replace(/_(\d+)_/, `_${newNum}_`);
+                $(this).attr('id', newId);
+            }
+        });
+    });
+
+    // Mostrar botón de agregar si no estamos en el máximo
+    if (capacitacionCount < maxCapacitaciones) { // Asegúrate de que maxCapacitaciones sea global o pasada como argumento
+        $('#btn-add-capacitacion').show();
+    }
+}
+
+        // Función para eliminar una experiencia laboral (definida en ámbito global)
+function eliminarExperienciaLaboral(id) {
+    $('#' + id).remove();
+
+    // Reorganizar los números de las experiencias laborales restantes
+    const items = $('.experiencia-item');
+    experienciaCount = items.length;
+
+    items.each(function(index) {
+        const newNum = index + 1;
+        $(this).find('h6').text('Experiencia Laboral #' + newNum);
+
+        // Actualizar los IDs y names de los inputs
+        $(this).find('input, select').each(function() {
+            const oldName = $(this).attr('name');
+            if (oldName) {
+                const newName = oldName.replace(/experiencias\[\d+\]/,
+                    `experiencias[${newNum}]`);
+                $(this).attr('name', newName);
+            }
+
+            const oldId = $(this).attr('id');
+            if (oldId) {
+                const newId = oldId.replace(/_(\d+)_/, `_${newNum}_`);
+                $(this).attr('id', newId);
+            }
+        });
+    });
+
+    // Mostrar botón de agregar si no estamos en el máximo
+    if (experienciaCount < maxExperiencias) {
+        $('#btn-add-experiencia').show();
+    }
+}
 function Inscribir(event) {
     event.preventDefault();
     // Al inicio del archivo solicitud.js
   // Calcular el número de capacitaciones dinámicamente
     const capacitacionCount = $('#lista-capacitaciones .capacitacion-item').length;
+    // Calcular el número de experiencias laborales dinámicamente
+    const experienciaCount = $('#lista-experiencias .experiencia-item').length;
+
     // Validar campos obligatorios base
     const requiredFields = [
         'id_diplomado', 'cedula_f', 'name_f', 'apellido_f', 
@@ -1258,6 +1476,11 @@ function Inscribir(event) {
     // Validar si tiene capacitación pero no ha agregado ninguna
     if ($('#tiene_capacitacion').val() === '1' && capacitacionCount === 0) {
         alert('Debe agregar al menos una capacitación relacionada con Contrataciones Públicas.');
+        isValid = false;
+    }
+     // Validar si tiene experiencia laboral pero no ha agregado ninguna
+    if ($('#tiene_experiencia_laboral').val() === '1' && experienciaCount === 0) {
+        alert('Debe agregar al menos una experiencia laboral.');
         isValid = false;
     }
     // // Validar formato cédula
