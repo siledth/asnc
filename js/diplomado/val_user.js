@@ -23,8 +23,8 @@ function validateUsers() {
         guardarBtn.disabled = true;
         return;
     }
-        var base_url = window.location.origin+'/asnc/index.php/Diplomado/validarCedula';
-            // var base_url = '/index.php/Diplomado/validarCedula';
+        // var base_url = window.location.origin+'/asnc/index.php/Diplomado/validarCedula';
+            var base_url = '/index.php/Diplomado/validarCedula';
 
 
     // Validación de existencia en el mismo diplomado
