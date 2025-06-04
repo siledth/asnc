@@ -20,7 +20,7 @@
                                         <h4>Lista de Usuarios </h4>
                                     </div>
 
-                                    <table id="data-table" data-order='[[ 0, "desc" ]]'
+                                    <table id="data-table" data-order='[[ 3, "asc" ]]'
                                         class="table table-bordered table-hover">
                                         <thead style="background:#01cdb2">
                                             <tr>
