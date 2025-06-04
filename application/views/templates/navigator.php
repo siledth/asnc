@@ -690,7 +690,7 @@
                     </a>
                     <ul class="sub-menu">
 
-                        <li><a href="<?= base_url() ?>index.php/Diplomado/logger_type_snc">-
+                        <li><a href="<?= base_url() ?>index.php/Diplomado/reporteG">-
                                 Consulta Cuenta CCP</a></li>
                         <!-- <li><a href="<?= base_url() ?>index.php/Comision_contrata/certificadosnc">-
                                     Certificar por SNC</a></li> -->

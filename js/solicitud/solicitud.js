@@ -61,7 +61,140 @@ function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
         })
     }
 }
+//////////////esto es algo de solicitud persona natural
 
+      function validarRIFExperiencia(inputElement, experienciaNum) {
+    const rif = inputElement.value;
+    const rifError = $(`#rifError_laboral_${experienciaNum}`);
+    const consultarBtn = $(`#consultar_rif_laboral_btn_${experienciaNum}`);
+    const missingCharsSpan = $(`#missingChars_laboral_${experienciaNum}`);
+
+    if (rif.length === 10 && /^[JGVCEPDWjgvcepdw]\d{9}$/i.test(rif)) { // Agregué /i para insensible a mayúsculas/minúsculas
+        rifError.addClass('d-none');
+        consultarBtn.prop('disabled', false);
+    } else {
+        rifError.removeClass('d-none');
+        const missingChars = 10 - rif.length;
+        missingCharsSpan.text(missingChars > 0 ? missingChars : 0);
+        consultarBtn.prop('disabled', true);
+    }
+}
+// Función para consultar el RIF en el backend (ADAPTADA DE TU CONSULTAR_RIF ORIGINAL)
+function consultar_rif_experiencia(experienciaNum) {
+    // Referencias a elementos específicos de esta experiencia laboral
+    const rifInput = $(`#rif_laboral_${experienciaNum}`);
+    const existeDiv = $(`#existe_laboral_${experienciaNum}`);
+    const noExisteDiv = $(`#no_existe_laboral_${experienciaNum}`);
+    const selRifNombre5 = $(`#sel_rif_nombre5_laboral_${experienciaNum}`); // Para el RIF que existe
+    const nombreConta5 = $(`#nombre_conta_5_laboral_${experienciaNum}`);   // Para el nombre que existe
+    const rif55 = $(`#rif_55_laboral_${experienciaNum}`);                   // Para el RIF si no existe
+    const razonSocialNoExiste = $(`#razon_social_laboral_${experienciaNum}`); // Razón Social si no existe
+    const telLocalNoExiste = $(`#tel_local_laboral_${experienciaNum}`);
+    const direccionFiscalNoExiste = $(`#direccion_fiscal_laboral_${experienciaNum}`);
+    const consultarBtn = $(`#consultar_rif_laboral_btn_${experienciaNum}`);
+
+    const rif_b = rifInput.val();
+
+    if (rif_b === '') {
+        swal({
+            title: "¡ATENCION!",
+            text: "El campo RIF no puede estar vacío.",
+            type: "warning",
+            showCancelButton: false,
+            confirmButtonColor: "#00897b",
+            confirmButtonText: "CONTINUAR",
+            closeOnConfirm: true // Cambiado a true para que se cierre el swal
+        });
+        consultarBtn.prop("disabled", true); // Asegura que el botón esté deshabilitado si está vacío
+        return; // Detener la ejecución si el campo está vacío
+    } else {
+        // Deshabilitar botón de consulta y mostrar spinner
+        consultarBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Consultando...');
+        // Ocultar ambas secciones inicialmente
+        existeDiv.hide();
+        noExisteDiv.hide();
+
+        // Limpiar campos de ambas secciones
+        selRifNombre5.val('');
+        nombreConta5.val('');
+        rif55.val('');
+        razonSocialNoExiste.val('');
+        telLocalNoExiste.val('');
+        direccionFiscalNoExiste.val('');
+
+        // Rutas base (asegúrate de que sean las correctas para tu entorno CodeIgniter)
+        // Puedes usar base_url() de PHP en la vista si está disponible.
+        var base_url_gestion = window.location.origin + '/asnc/index.php/gestion/consulta_og';
+        var base_url_evaluacion = window.location.origin + '/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
+        // var base_url_gestion = '<?= base_url("gestion/consulta_og") ?>'; // Usa base_url de CI
+        // var base_url_evaluacion = '<?= base_url("evaluacion_desempenio/llenar_contratista_rp") ?>'; // Usa base_url de CI
+
+        $.ajax({
+            url: base_url_gestion,
+            method: 'post',
+            data: { rif_b: rif_b },
+            dataType: 'json',
+            success: function(data) {
+                if (data === null || data.error) { // Si no se encuentra en gestion/consulta_og
+                    noExisteDiv.show();
+                    // Pre-llenar el RIF en la sección "no existe"
+                    rif55.val(rif_b);
+                    // Hacer requeridos los campos de la sección "no existe"
+                    razonSocialNoExiste.prop('required', true);
+                    telLocalNoExiste.prop('required', true);
+                    direccionFiscalNoExiste.prop('required', true);
+                    // Opcional: mostrar un mensaje de que no se encontró
+                    // swal("Información", "La institución no se encontró en nuestros registros. Por favor, complete los datos.", "info");
+
+                } else { // Si se encuentra en gestion/consulta_og
+                    existeDiv.show();
+                    selRifNombre5.val(data['rif']);
+                    nombreConta5.val(data['descripcion']);
+
+                    // Deshabilitar/hacer no requeridos los campos de la sección "no existe"
+                    razonSocialNoExiste.prop('required', false).val('');
+                    telLocalNoExiste.prop('required', false).val('');
+                    direccionFiscalNoExiste.prop('required', false).val('');
+
+                    var rif_cont_nr = data['rifced']; // Asumo que esto es lo que necesitas para la segunda consulta
+                    var ultprocaprob = data['ultprocaprob']; // Asumo que esto es lo que necesitas para la segunda consulta
+
+                    // SEGUNDA CONSULTA (tu lógica original)
+                    $.ajax({
+                        url: base_url_evaluacion,
+                        method: 'post',
+                        data: {
+                            ultprocaprob: ultprocaprob,
+                            rif_cont_nr: rif_cont_nr
+                        },
+                        dataType: 'json',
+                        success: function(data2) {
+                            // Aquí puedes manejar la respuesta de la segunda consulta si es necesario
+                            // Por ahora, solo se ejecuta como en tu código original
+                            // $.each(data2, function(index, response) { });
+                        },
+                        error: function(xhr2) {
+                            console.error("Error en la segunda consulta AJAX:", xhr2.responseText);
+                            // Opcional: Manejar errores de la segunda consulta
+                        }
+                    });
+                }
+            },
+            error: function(xhr) {
+                console.error("Error AJAX al consultar RIF de gestión:", xhr.responseText);
+                swal("Error", "Hubo un problema al consultar el RIF. Intente de nuevo.", "error");
+                noExisteDiv.show(); // Mostrar sección de no existe para que complete manualmente
+                rif55.val(rif_b);
+                razonSocialNoExiste.prop('required', true);
+                telLocalNoExiste.prop('required', true);
+                direccionFiscalNoExiste.prop('required', true);
+            },
+            complete: function() {
+                consultarBtn.prop('disabled', false).html('<i class="fas fa-search"></i> Consultar');
+            }
+        });
+    }
+}
 function llenar_municipio(){
     var id_estado_n = $('#id_estado_n').val();
 //    var base_url = window.location.origin+'/asnc/index.php/User/listar_municipio';
@@ -1119,7 +1252,7 @@ function redirectToForm() {
     document.body.appendChild(form);
     form.submit();
 }
-
+////////////esto es solicitud de persona juridica
  $(document).ready(function() {
 
       // Variable para almacenar los cursos disponibles (se llenará vía AJAX)
@@ -1280,9 +1413,11 @@ function redirectToForm() {
         }
     }
 
+        /////////////esperiencia laboral
+  
 
              // Contador de experiencias laborales
-    let experienciaCount = 0;
+     let experienciaCount = 0;
     const maxExperiencias = 3;
 
     // Obtener la fecha actual en formato YYYY-MM-DD para la validación de fecha 'Hasta'
@@ -1296,7 +1431,7 @@ function redirectToForm() {
     $('#tiene_experiencia_laboral').change(function() {
         if ($(this).val() === '1') {
             $('#experiencia-laboral-container').show();
-            // Agregar primera experiencia laboral automáticamente
+            // Agregar primera experiencia laboral automáticamente si no hay ninguna
             if (experienciaCount === 0) {
                 agregarExperienciaLaboral();
             }
@@ -1327,13 +1462,8 @@ function redirectToForm() {
         const html = `
             <div class="experiencia-item" id="${newId}">
                 <h6>Experiencia Laboral #${experienciaCount}</h6>
-                
+
                 <div class="row">
-                    <div class="col-md-4 form-group">
-                        <label for="institucion_laboral_${experienciaCount}" class="required-field">Nombre de la Institución</label>
-                        <input type="text" id="institucion_laboral_${experienciaCount}" name="experiencias[${experienciaCount}][institucion]" class="form-control" required>
-                    </div>
-                    
                     <div class="col-md-4 form-group">
                         <label for="cargo_laboral_${experienciaCount}" class="required-field">Cargo Desempeñado</label>
                         <input type="text" id="cargo_laboral_${experienciaCount}" name="experiencias[${experienciaCount}][cargo]" class="form-control" required>
@@ -1350,13 +1480,97 @@ function redirectToForm() {
                         <label for="desde_laboral_${experienciaCount}" class="required-field">Fecha de Inicio</label>
                         <input type="date" id="desde_laboral_${experienciaCount}" name="experiencias[${experienciaCount}][desde]" class="form-control" required>
                     </div>
-                    
+
                     <div class="col-md-6 form-group">
                         <label for="hasta_laboral_${experienciaCount}" class="required-field">Fecha de Fin</label>
                         <input type="date" id="hasta_laboral_${experienciaCount}" name="experiencias[${experienciaCount}][hasta]" class="form-control" max="${maxDate}" required>
                     </div>
                 </div>
-                
+
+                <div class="card p-3 mt-3">
+                    <h6>Datos de la Institución donde Laboró</h6>
+                    <div class="row">
+                        <div class="col-md-8 form-group">
+                            <label for="rif_laboral_${experienciaCount}" class="required-field">RIF de la Institución</label>
+                            <input class="form-control" type="text" name="experiencias[${experienciaCount}][rif_institucion]"
+                                id="rif_laboral_${experienciaCount}" placeholder="J123456789" maxlength="10"
+                                oninput="validarRIFExperiencia(this, ${experienciaCount})" required>
+                            <small id="rifError_laboral_${experienciaCount}" class="text-danger d-none">
+                                El RIF debe tener <span id="missingChars_laboral_${experienciaCount}">10</span> caracteres exactos (Ej: J123456789)
+                            </small>
+                            <div class="invalid-feedback">Debe ingresar el RIF de la institución</div>
+                        </div>
+                        <div class="col-md-4 form-group d-flex align-items-end">
+                            <button type="button" class="btn btn-default w-100" onclick="consultar_rif_experiencia(${experienciaCount})"
+                                id="consultar_rif_laboral_btn_${experienciaCount}" disabled>
+                                <i class="fas fa-search"></i> Consultar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id='existe_laboral_${experienciaCount}' style="display: none;">
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle mr-2"></i>La institución está registrada en nuestro sistema.
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label>RIF del Órgano / Ente</label>
+                                <input class="form-control" type="text" name="experiencias[${experienciaCount}][rif_existente]"
+                                    id="sel_rif_nombre5_laboral_${experienciaCount}" readonly>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Nombre del Órgano / Ente</label>
+                                <input type="text" name="experiencias[${experienciaCount}][razon_social_existente]"
+                                    id="nombre_conta_5_laboral_${experienciaCount}" class="form-control" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id='no_existe_laboral_${experienciaCount}' style="display: none;">
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>Complete los datos de la institución.
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 form-group">
+                                <label for="rif_55_laboral_${experienciaCount}"><i
+                                        class="fas fa-question-circle text-danger mr-1"></i>RIF</label>
+                                <input type="text" class="form-control"
+                                    onKeyUp="this.value=this.value.toUpperCase();" name="experiencias[${experienciaCount}][rif_nuevo]"
+                                    id="rif_55_laboral_${experienciaCount}" placeholder="Ej: J123456789"
+                                    oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/,'')">
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <label for="razon_social_laboral_${experienciaCount}" class="required-field">Razón Social</label>
+                                <input id="razon_social_laboral_${experienciaCount}" name="experiencias[${experienciaCount}][razon_social_nueva]" class="form-control"
+                                    placeholder="Nombre completo de la institución">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 form-group">
+                                <label for="tel_local_laboral_${experienciaCount}" class="required-field">Teléfono Local</label>
+                                <input type="number" id="tel_local_laboral_${experienciaCount}" name="experiencias[${experienciaCount}][tel_local_nuevo]" class="form-control"
+                                    placeholder="Ej: 02121234567">
+                                <p id="errorMsg_laboral_${experienciaCount}" class="text-danger"></p>
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <label for="direccion_fiscal_laboral_${experienciaCount}" class="required-field">Dirección Completa</label>
+                                <textarea class="form-control" id="direccion_fiscal_laboral_${experienciaCount}" name="experiencias[${experienciaCount}][direccion_fiscal_nueva]"
+                                    rows="3" placeholder="Ej: Av. Principal, Edificio XYZ, Piso 3, Oficina 301"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mt-3">
+                    <div class="form-check">
+                        <input class="form-check-input es-actual-checkbox" type="checkbox" value="1"
+                            id="es_actual_${experienciaCount}" name="experiencias[${experienciaCount}][es_actual]">
+                        <label class="form-check-label" for="es_actual_${experienciaCount}">
+                            ¿Es su empleo actual? (Esta será la empresa asociada a su inscripción)
+                        </label>
+                    </div>
+                </div>
+
                 ${experienciaCount > 1 ? `
                 <button type="button" class="btn btn-danger btn-sm btn-remove-experiencia" onclick="eliminarExperienciaLaboral('${newId}')">
                     <i class="fas fa-trash mr-1"></i>Eliminar esta experiencia
@@ -1368,12 +1582,27 @@ function redirectToForm() {
 
         $('#lista-experiencias').append(html);
 
-        // Ocultar botón de agregar si llegamos al máximo
-        if (experienciaCount >= maxExperiencias) {
-            $('#btn-add-experiencia').hide();
-        }
-    }
+        // Agrega el evento change para el checkbox "Es su empleo actual?"
+        $(`#es_actual_${experienciaCount}`).on('change', function() {
+            if ($(this).is(':checked')) {
+                // Desmarca y "resetea" otros checkboxes si solo se permite un empleo actual
+                // .not(this) asegura que no se desmarque a sí mismo
+                // .trigger('change') asegura que la lógica de mostrar/ocultar de otros checkboxes se ejecute
+                $('.es-actual-checkbox').not(this).prop('checked', false).trigger('change');
+            }
         });
+
+        // Habilita el botón de consulta de RIF inicialmente si el RIF ya está validado
+        // (Esto es útil si precargas datos o si el usuario escribe y luego el campo se "autovalida")
+        const rifInput = $(`#rif_laboral_${experienciaCount}`);
+        validarRIFExperiencia(rifInput[0], experienciaCount);
+    }
+
+    // Asegúrate de que eliminarCapacitacion y eliminarExperienciaLaboral estén fuera
+    // o que las variables capacitacionCount/experienciaCount sean globales.
+    // Para este ejemplo, asumiremos que están dentro del ready y ajustaremos
+    // el acceso a los contadores en las funciones de eliminación.
+});
 
         // Función para eliminar una capacitación (definida en ámbito global)
       // Función para eliminar una capacitación (DEBE ESTAR FUERA DEL $(document).ready para ser accesible globalmente por el onclick)
@@ -1412,36 +1641,53 @@ function eliminarCapacitacion(id) {
 }
 
         // Función para eliminar una experiencia laboral (definida en ámbito global)
+   // Función para eliminar una experiencia laboral (adaptada)
 function eliminarExperienciaLaboral(id) {
     $('#' + id).remove();
-
-    // Reorganizar los números de las experiencias laborales restantes
-    const items = $('.experiencia-item');
-    experienciaCount = items.length;
-
-    items.each(function(index) {
+    // Vuelve a calcular el count después de eliminar
+    const experienciaCount = $('#lista-experiencias .experiencia-item').length;
+    $('.experiencia-item').each(function(index) {
         const newNum = index + 1;
-        $(this).find('h6').text('Experiencia Laboral #' + newNum);
+        const oldIdPrefix = $(this).attr('id').match(/experiencia-(\d+)/)[1]; // Obtener el número original del ID
+        const currentItem = $(this);
 
-        // Actualizar los IDs y names de los inputs
-        $(this).find('input, select').each(function() {
+        currentItem.attr('id', 'experiencia-' + newNum);
+        currentItem.find('h6').text('Experiencia Laboral #' + newNum);
+
+        currentItem.find('input, select, textarea').each(function() {
             const oldName = $(this).attr('name');
             if (oldName) {
-                const newName = oldName.replace(/experiencias\[\d+\]/,
-                    `experiencias[${newNum}]`);
+                // Regex para reemplazar el número de la experiencia en el name del array
+                const newName = oldName.replace(`experiencias[${oldIdPrefix}]`, `experiencias[${newNum}]`);
                 $(this).attr('name', newName);
             }
-
             const oldId = $(this).attr('id');
             if (oldId) {
-                const newId = oldId.replace(/_(\d+)_/, `_${newNum}_`);
+                // Regex para reemplazar el número de la experiencia en el ID
+                const newId = oldId.replace(new RegExp(`_(${oldIdPrefix})$`), `_${newNum}`);
                 $(this).attr('id', newId);
             }
         });
-    });
+        // Si hay botones de eliminar, actualizar su onclick
+        currentItem.find('.btn-remove-experiencia').attr('onclick', `eliminarExperienciaLaboral('experiencia-${newNum}')`);
 
-    // Mostrar botón de agregar si no estamos en el máximo
-    if (experienciaCount < maxExperiencias) {
+        // Re-adjuntar el evento change para el checkbox "Es su empleo actual?"
+        $(`#es_actual_${newNum}`).off('change').on('change', function() {
+            if ($(this).is(':checked')) {
+                $('.es-actual-checkbox').not(this).prop('checked', false).trigger('change');
+            }
+        });
+
+        // Re-adjuntar el evento oninput y onclick para la validación/consulta de RIF
+        $(`#rif_laboral_${newNum}`).off('input').on('input', function() {
+            validarRIFExperiencia(this, newNum);
+        });
+        $(`#consultar_rif_laboral_btn_${newNum}`).off('click').on('click', function() {
+            consultar_rif_experiencia(newNum);
+        });
+    });
+    // Si el contador es menor que el máximo, mostrar el botón de añadir
+    if (experienciaCount < 3) { // Asume maxExperiencias = 3
         $('#btn-add-experiencia').show();
     }
 }
@@ -1483,11 +1729,7 @@ function Inscribir(event) {
         alert('Debe agregar al menos una experiencia laboral.');
         isValid = false;
     }
-    // // Validar formato cédula
-    // if (!/^\d{8}$/.test($('#cedula_f').val())) {
-    //     $('#cedula_f').addClass('is-invalid');
-    //     isValid = false;
-    // }
+    
     
     // Validar email si está presente
     if ($('#correo').val() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('#correo').val())) {
@@ -1496,26 +1738,6 @@ function Inscribir(event) {
     }
     
     
-    // Validar datos laborales si trabaja
-    // if ($('#trabajo').val() == '1') {
-    //     if (!$('#rif_b').val()) {
-    //         $('#rif_b').addClass('is-invalid');
-    //         isValid = false;
-    //     } else if ($('#no_existe').is(':visible')) {
-    //         // Validar campos de empresa si RIF no existe
-    //         const requiredEmpresa = [
-    //             'razon_social', 'tel_local',  'direccion_fiscal'
-    //         ];
-            
-    //         requiredEmpresa.forEach(field => {
-    //             const element = $(`[name="${field}"]`);
-    //             if (!element.val()) {
-    //                 element.addClass('is-invalid');
-    //                 isValid = false;
-    //             }
-    //         });
-    //     }
-    // }
      if ($('#trabajo').val() == '1') {
         const rifIngresado = $('#rif_b').val();
         const rifExistente = $('#sel_rif_nombre5').val();
@@ -1592,7 +1814,7 @@ function Inscribir(event) {
         }
     });
 }
-
+///////////////////persona juridica fin 
 // function Consultarplanilla(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
 //     var rif_b = $('#rif_b').val();
 //     if (rif_b == ''){

@@ -269,20 +269,48 @@ class Diplomado_model extends CI_model
         $empresa = array(
             'rif' => $this->security->xss_clean($rif),
             'razon_social' => $this->security->xss_clean($razon_social),
-            'telefono' => $telefono,
-            'direccion_fiscal' => $direccion
+            'telefono' => $this->security->xss_clean($telefono), // Aplica XSS clean aquí también
+            'direccion_fiscal' => $this->security->xss_clean($direccion) // Aplica XSS clean aquí también
         );
+
+        // Agrega la fecha de registro y el ente_gubernamental si no están definidos
+        // en tu función, y asegúrate de que coincida con tu CREATE TABLE
+        $empresa['fecha_registro'] = date('Y-m-d');
+        $empresa['ente_gubernamental'] = 2; // O el valor por defecto que uses
 
         $this->db->insert('diplomado.empresas', $empresa);
         return $this->db->insert_id();
     }
 
+
+    // public function registrar_participante($data, $id_empresa)
+    // {
+    //     $participante = array(
+    //         'id_diplomado' => $this->security->xss_clean($data['id_diplomado']),
+    //         'id_tipo' => 1, // Persona natural
+    //         'id_empresa' => $id_empresa,
+    //         'cedula' => $this->security->xss_clean($data['cedula_f']),
+    //         'nombres' => $this->security->xss_clean($data['name_f']),
+    //         'apellidos' => $this->security->xss_clean($data['apellido_f']),
+    //         'telefono' => $this->security->xss_clean($data['telefono_f']),
+    //         'correo' => filter_var($data['correo'], FILTER_SANITIZE_EMAIL),
+    //         'edad' => $this->security->xss_clean($data['edad']),
+    //         // 'grado_instruccion' => $this->security->xss_clean($data['id_clasificacion']),
+    //         // 'titulo_obtenido' => $this->security->xss_clean($data['tutulo']),
+    //         'direccion' => $this->security->xss_clean($data['direccion_fiscal_']),
+    //         'trabaja_actualmente' => ($data['trabajo'] == '1') ? 1 : 0,
+    //         'observacion' => $this->security->xss_clean($data['obser'])
+    //     );
+
+    //     $this->db->insert('diplomado.participantes', $participante);
+    //     return $this->db->insert_id();
+    // }
     public function registrar_participante($data, $id_empresa)
     {
         $participante = array(
             'id_diplomado' => $this->security->xss_clean($data['id_diplomado']),
             'id_tipo' => 1, // Persona natural
-            'id_empresa' => $id_empresa,
+            'id_empresa' => $id_empresa, // Este es el ID de la empresa inicial, se puede actualizar
             'cedula' => $this->security->xss_clean($data['cedula_f']),
             'nombres' => $this->security->xss_clean($data['name_f']),
             'apellidos' => $this->security->xss_clean($data['apellido_f']),
@@ -292,12 +320,23 @@ class Diplomado_model extends CI_model
             // 'grado_instruccion' => $this->security->xss_clean($data['id_clasificacion']),
             // 'titulo_obtenido' => $this->security->xss_clean($data['tutulo']),
             'direccion' => $this->security->xss_clean($data['direccion_fiscal_']),
-            'trabaja_actualmente' => ($data['trabajo'] == '1') ? 1 : 0,
-            'observacion' => $this->security->xss_clean($data['obser'])
+            'trabaja_actualmente' => 0, // ELIMINAR ESTO, YA NO SE USA
+            // 'trabaja_actualmente' se inferirá por si id_empresa es 1 o un ID de empresa real
+            'observacion' => $this->security->xss_clean($data['obser'] ?? '') // Usar null coalescing para observación opcional
         );
 
         $this->db->insert('diplomado.participantes', $participante);
         return $this->db->insert_id();
+    }
+
+    public function actualizar_id_empresa_participante($id_participante, $id_empresa)
+    {
+        $data = [
+            'id_empresa' => $this->security->xss_clean($id_empresa) // Asegura limpiar antes de usar
+        ];
+        $this->db->where('id_participante', $this->security->xss_clean($id_participante));
+        $this->db->update('diplomado.participantes', $data);
+        return $this->db->affected_rows() > 0;
     }
     public function registrar_curriculum($data)
     {
@@ -305,6 +344,14 @@ class Diplomado_model extends CI_model
         return $this->db->insert_id();
     }
 
+    public function obtener_institucion_por_id($id_inst_formadora)
+    {
+        $this->db->select('descripcion_f'); // Selecciona solo la columna con el nombre de la institución
+        $this->db->from('diplomado.inst_formadora');
+        $this->db->where('id_inst_formadora', $id_inst_formadora);
+        $query = $this->db->get();
+        return $query->row_array(); // Devuelve una fila como array asociativo
+    }
     public function registrar_capacitacion($data)
     {
         return $this->db->insert('diplomado.capacitaciones_participante', $data);
@@ -875,8 +922,67 @@ class Diplomado_model extends CI_model
     public function obtener_todos_los_cursos()
     {
         $this->db->select('id_cursos, descripcion_cursos');
-        $this->db->order_by('descripcion_cursos', 'ASC');
+        $this->db->order_by('id_cursos', 'ASC');
         $query = $this->db->get('diplomado.cursos'); // Asegúrate que 'diplomado.cursos' es el nombre correcto de tu tabla
         return $query->result_array();
+    }
+
+    ////////////////guardar conciliacion empresas juridicas
+    public function guardar_pago_conciliado($data)
+    {
+        // Limpiar y preparar los datos antes de insertar
+        // Esto es crucial para la seguridad (evitar SQL Injection)
+        // y para asegurar que los números se guarden correctamente.
+
+        $insert_data = [
+            'codigo_planilla' => $data['codigo_planilla'] ?? null,
+            'id_inscripcion' => $data['id_inscripcion'] ?? null,
+            'id_ente' => $data['id_ente'] ?? null,
+            'tipo_pago' => $data['tipo_pago'] ?? null,
+            'total_pago' => isset($data['total_pago']) ? floatval(str_replace(',', '.', str_replace('.', '', $data['total_pago']))) : null,
+            'iva' => isset($data['iva']) ? floatval(str_replace(',', '.', str_replace('.', '', $data['iva']))) : null,
+            'total_iva' => isset($data['total_iva']) ? floatval(str_replace(',', '.', str_replace('.', '', $data['total_iva']))) : null,
+            'pay' => isset($data['pay']) ? floatval(str_replace(',', '.', str_replace('.', '', $data['pay']))) : null,
+            'iva_credito' => isset($data['iva_credito']) ? floatval(str_replace(',', '.', str_replace('.', '', $data['iva_credito']))) : null,
+            'total_iva_credito' => isset($data['total_iva_credito']) ? floatval(str_replace(',', '.', str_replace('.', '', $data['total_iva_credito']))) : null,
+            'mitad_total_credito' => isset($data['mitad_total_credito']) ? floatval(str_replace(',', '.', str_replace('.', '', $data['mitad_total_credito']))) : null,
+            'fecha_limite_pago' => $data['fecha_limite_pago'] ?? null,
+            'retencion1' => isset($data['retencion1']) ? floatval(str_replace(',', '.', str_replace('.', '', $data['retencion1']))) : null,
+            'retencion2' => isset($data['retencion2']) ? floatval(str_replace(',', '.', str_replace('.', '', $data['retencion2']))) : null,
+            'retencion3' => isset($data['retencion3']) ? floatval(str_replace(',', '.', str_replace('.', '', $data['retencion3']))) : null,
+            'total_despues_retenciones' => isset($data['total_despues_retenciones']) ? floatval(str_replace(',', '.', str_replace('.', '', $data['total_despues_retenciones']))) : null,
+            'total_despues_retenciones_credito' => isset($data['total_despues_retenciones_credito']) ? floatval(str_replace(',', '.', str_replace('.', '', $data['total_despues_retenciones_credito']))) : null,
+            'bancoorigen' => $data['bancoOrigen'] ?? null,
+            'referencia' => $data['referencia'] ?? null,
+            'fechapago' => $data['fechaPago'] ?? null,
+            'nfsiges' => $data['nfsiges'] ?? null,
+            'monto' => isset($data['monto']) ? floatval(str_replace(',', '.', str_replace('.', '', $data['monto']))) : null,
+            'pago_verificado' => (int)($data['pagoVerificado'] ?? 0), // Convertir a entero
+        ];
+
+        // Eliminar valores nulos para columnas que no aceptan NULL si estás usando un ORM que lo requiera o para evitar errores
+        foreach ($insert_data as $key => $value) {
+            if ($value === null && $key !== 'id_inscripcion' && $key !== 'id_ente' && $key !== 'descripcion' && $key !== 'nroMov') { // Ajusta las columnas que pueden ser NULL en tu BD
+                unset($insert_data[$key]);
+            }
+        }
+
+
+        // Insertar los datos en la tabla 'pagos_conciliados'
+        $this->db->insert('diplomado.pagos_conciliados', $insert_data);
+
+        // Devolver el ID del último insert, o false si falla
+        return $this->db->insert_id();
+    }
+
+    ///instituciones 
+    public function obtener_instituciones_formadoras()
+    {
+        $this->db->select('id_inst_formadora, descripcion_f, id_otros, otros'); // Selecciona las columnas relevantes
+        $this->db->from('diplomado.inst_formadora');
+        // Opcional: ordenar si quieres que "OTROS" aparezca al final
+        $this->db->order_by('CASE WHEN descripcion_f = \'OTROS\' THEN 1 ELSE 0 END, descripcion_f');
+        $query = $this->db->get();
+        return $query->result_array(); // Devuelve como array de arrays
     }
 }

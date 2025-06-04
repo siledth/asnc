@@ -102,8 +102,10 @@ class Preinscripcionnatural extends CI_Controller
                 $pdf->MultiCell(40, 5, utf8_decode($d->des_estatus), 0, 'L');
                 $pdf->SetTextColor(0, 0, 0);
 
-                $pdf->Cell(160, 5, utf8_decode('_______________________________________________________________________________'), 0, 1, 'C');
+
                 $pdf->Ln(1);
+
+                $pdf->Cell(160, 5, utf8_decode('_______________________________________________________________________________________________'), 0, 1, 'C');
 
                 $pdf->SetFont('Arial', 'B', 12);
                 $pdf->SetTextColor(255, 0, 0);
@@ -120,9 +122,9 @@ class Preinscripcionnatural extends CI_Controller
 
                 $pdf->MultiCell(125, 5, utf8_decode($d->name_d), 0, 'L');
                 $pdf->Cell(35, 5, utf8_decode('Desde:'), 0, 0, 'R');
-                $pdf->Cell(20, 5, $d->fdesde, 0, 0, 'C');
+                $pdf->Cell(20, 5, date('d/m/Y', strtotime($d->fdesde)), 0, 0, 'C');
                 $pdf->Cell(35, 5, utf8_decode('Hasta:'), 0, 0, 'R');
-                $pdf->Cell(20, 5, $d->fhasta, 0, 1, 'C');
+                $pdf->Cell(20, 5, date('d/m/Y', strtotime($d->fhasta)), 0, 1, 'C');
                 $pdf->Cell(35, 5, utf8_decode('Modalidad:'), 0, 0, 'R');
 
                 if ($d->id_modalidad == '1') {
@@ -134,8 +136,8 @@ class Preinscripcionnatural extends CI_Controller
 
                 $datos_pago = $this->Diplomado_model->obtener_datos_pago($d->id_inscripcion);
                 if ($d->estatus == '1') {
-                    $pdf->Cell(70, 5, utf8_decode('Costo estimado por persona Bs sin iva:'), 0, 0, 'R');
-                    $pdf->Cell(20, 5, $d->pay, 0, 1, 'C');
+                    $pdf->Cell(70, 5, utf8_decode('Costo estimado por persona Bs sin IVA:'), 0, 0, 'R');
+                    $pdf->Cell(20, 5, number_format($d->pay, 2, ',', '.'), 0, 1, 'C');
 
                     // Calcular los valores primero
                     $costo_persona = $d->pay;
@@ -170,7 +172,8 @@ class Preinscripcionnatural extends CI_Controller
                     // Mostrar detalles del pago si existen
                     if ($datos_pago) {
                         $pdf->Cell(35, 5, utf8_decode('Fecha de Pago:'), 0, 0, 'R');
-                        $pdf->Cell(20, 5, $datos_pago->fecha_pago, 0, 1, 'C');
+
+                        $pdf->Cell(20, 5, date('d/m/Y', strtotime($datos_pago->fecha_pago)), 0, 1, 'C');
 
                         $pdf->Cell(35, 5, utf8_decode('Referencia:'), 0, 0, 'R');
                         $pdf->Cell(20, 5, $datos_pago->referencia, 0, 1, 'C');
@@ -189,8 +192,8 @@ class Preinscripcionnatural extends CI_Controller
                     }
                 }
 
-
                 $pdf->Cell(160, 5, utf8_decode('_______________________________________________________________________________'), 0, 1, 'C');
+
 
                 $pdf->SetTextColor(255, 0, 0);
                 $pdf->Ln(1);
@@ -242,8 +245,8 @@ class Preinscripcionnatural extends CI_Controller
                 $pdf->Cell(40, 5, utf8_decode('Dirección:'), 0, 0, 'R');
                 $pdf->SetFont('Arial', '', 12);
                 $pdf->MultiCell(125, 5, utf8_decode($d->direccion), 0, 'L');
-
                 $pdf->Cell(160, 5, utf8_decode('_______________________________________________________________________________'), 0, 1, 'C');
+
 
                 $pdf->SetTextColor(255, 0, 0);
                 $pdf->Ln(1);
@@ -256,12 +259,12 @@ class Preinscripcionnatural extends CI_Controller
 
 
                 $pdf->SetFont('Arial', 'B', 12);
-                $pdf->Cell(40, 5, utf8_decode('Grado de instrucción:'), 0, 0, 'R');
+                $pdf->Cell(31, 5, utf8_decode('Grado de instrucción:'), 0, 0, 'R');
                 $pdf->SetFont('Arial', '', 12);
                 $pdf->MultiCell(125, 5, utf8_decode($d->desc_academico), 0, 'L');
 
                 $pdf->SetFont('Arial', 'B', 12);
-                $pdf->Cell(40, 5, utf8_decode('Titulo obtenido:'), 0, 0, 'R');
+                $pdf->Cell(19, 5, utf8_decode('Titulo obtenido:'), 0, 0, 'R');
                 $pdf->SetFont('Arial', '', 12);
                 $pdf->MultiCell(125, 5, utf8_decode($d->titulo_obtenido), 0, 'L');
                 $pdf->SetFont('Arial', 'B', 12);
@@ -273,7 +276,7 @@ class Preinscripcionnatural extends CI_Controller
                     $pdf->Cell(70, 5,  utf8_decode('Si'), 0, 1, 'L');
                     $pdf->SetFont('Arial', 'B', 12);
 
-                    $pdf->Cell(80, 5, utf8_decode('Tiempo de experiencia en contrataciones públicas:'), 0, 0, 'R');
+                    $pdf->Cell(90, 5, utf8_decode('Tiempo de experiencia en contrataciones públicas:'), 0, 0, 'R');
                     $pdf->SetFont('Arial', '', 12);
                     $pdf->MultiCell(125, 5, utf8_decode($d->experiencia_contrataciones_publicas) . ' ' . utf8_decode('años'), 0, 'L');
                 } else {
@@ -327,7 +330,7 @@ class Preinscripcionnatural extends CI_Controller
                 }
                 //////////////
                 $pdf->SetFont('Arial', 'B', 12);
-                $pdf->Cell(60, 5, '', 0, 0, 'R');
+                $pdf->Cell(50, 5, '', 0, 0, 'R');
 
                 $pdf->Cell(40, 5, utf8_decode('¿Tiene  Experiencia laboral en los últimos 5 años?:'), 0, 0, 'R');
                 $pdf->SetFont('Arial', '', 12);
@@ -362,51 +365,52 @@ class Preinscripcionnatural extends CI_Controller
                         $pdf->SetFont('Arial', 'B', 12);
                         $pdf->Cell(40, 5, utf8_decode('Desde:'), 0, 0, 'R');
                         $pdf->SetFont('Arial', '', 12);
-                        $pdf->MultiCell(125, 5, utf8_decode($exp->desde), 0, 'L');
+                        $pdf->MultiCell(125, 5, date('d/m/Y', strtotime($exp->desde)), 0, 'L');
 
                         $pdf->SetFont('Arial', 'B', 12);
                         $pdf->Cell(40, 5, utf8_decode('Hasta:'), 0, 0, 'R');
                         $pdf->SetFont('Arial', '', 12);
-                        $pdf->MultiCell(125, 5, utf8_decode($exp->hasta), 0, 'L');
+                        $pdf->MultiCell(125, 5, date('d/m/Y', strtotime($exp->hasta)), 0, 'L');
+
                         // Espacio entre capacitaciones
                         $pdf->Ln(3);
                     }
                 } else {
                     $pdf->Cell(80, 5,  utf8_decode('NO'), 0, 1, 'L');
                 }
-                $pdf->Cell(160, 5, utf8_decode('_______________________________________________________________________________'), 0, 1, 'C');
+                // $pdf->Cell(160, 5, utf8_decode('_______________________________________________________________________________'), 0, 1, 'C');
 
-                $pdf->SetTextColor(255, 0, 0);
-                $pdf->Ln(1);
-                $pdf->SetFont('Arial', 'B', 12);
-
-
-                $pdf->Cell(160, 5, utf8_decode('INFORMACIÓN DE LA EMPRESA '), 0, 1, 'C');
-                $pdf->SetTextColor(0, 0, 0);
-
-                $pdf->Ln(1);
-                if ($d->trabaja_actualmente == '0') {
-                    $pdf->Cell(80, 5,  utf8_decode('No Trabaja'), 0, 1, 'L');
-                } else {
-                    $pdf->SetTextColor(255, 0, 0);
+                // $pdf->SetTextColor(255, 0, 0);
+                // $pdf->Ln(1);
+                // $pdf->SetFont('Arial', 'B', 12);
 
 
+                // $pdf->Cell(160, 5, utf8_decode('INFORMACIÓN DE LA EMPRESA '), 0, 1, 'C');
+                // // $pdf->SetTextColor(0, 0, 0);
+
+                // $pdf->Ln(1);
+                // if ($d->trabaja_actualmente == '0') {
+                //     $pdf->Cell(80, 5,  utf8_decode('No Trabaja'), 0, 1, 'L');
+                // } else {
+                //     $pdf->SetTextColor(255, 0, 0);
 
 
-                    $pdf->SetTextColor(0, 0, 0);
-                    $pdf->SetFont('Arial', 'B', 12);
-                    $pdf->Cell(40, 5, utf8_decode('Nombre de la Empresa:'), 0, 0, 'R');
-                    $pdf->SetFont('Arial', '', 12);
-                    $pdf->MultiCell(125, 5, utf8_decode($d->razon_social), 0, 'L');
-                    $pdf->SetFont('Arial', 'B', 12);
-                    $pdf->Cell(40, 5, utf8_decode('Rif de la Empresa:'), 0, 0, 'R');
-                    $pdf->SetFont('Arial', '', 12);
-                    $pdf->MultiCell(125, 5, utf8_decode($d->rif), 0, 'L');
-                    $pdf->SetFont('Arial', 'B', 12);
-                    $pdf->Cell(40, 5, utf8_decode('Teléfono:'), 0, 0, 'R');
-                    $pdf->SetFont('Arial', '', 12);
-                    $pdf->MultiCell(125, 5, utf8_decode($d->telefono), 0, 'L');
-                }
+
+
+                //     $pdf->SetTextColor(0, 0, 0);
+                //     $pdf->SetFont('Arial', 'B', 12);
+                //     $pdf->Cell(40, 5, utf8_decode('Nombre de la Empresa:'), 0, 0, 'R');
+                //     $pdf->SetFont('Arial', '', 12);
+                //     $pdf->MultiCell(125, 5, utf8_decode($d->razon_social), 0, 'L');
+                //     $pdf->SetFont('Arial', 'B', 12);
+                //     $pdf->Cell(40, 5, utf8_decode('Rif de la Empresa:'), 0, 0, 'R');
+                //     $pdf->SetFont('Arial', '', 12);
+                //     $pdf->MultiCell(125, 5, utf8_decode($d->rif), 0, 'L');
+                //     $pdf->SetFont('Arial', 'B', 12);
+                //     $pdf->Cell(40, 5, utf8_decode('Teléfono:'), 0, 0, 'R');
+                //     $pdf->SetFont('Arial', '', 12);
+                //     $pdf->MultiCell(125, 5, utf8_decode($d->telefono), 0, 'L');
+                // }
                 // $pdf->Cell(160, 5, utf8_decode('_______________________________________________________________________________'), 0, 1, 'C');
 
                 // $pdf->Ln(5);
@@ -455,6 +459,6 @@ class Preinscripcionnatural extends CI_Controller
         // $pdf->SetFont('Arial', '', 7);
         // $pdf->MultiCell(180, 4, utf8_decode('observaciones                '), 0, 'J');
 
-        $pdf->Output('Solicitud Inscripcion.pdf', 'D');
+        $pdf->Output('Solicitud Inscripcion.pdf', 'I');
     }
 }

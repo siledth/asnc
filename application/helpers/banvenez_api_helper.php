@@ -107,21 +107,116 @@ function verify_payment_with_banvenez($data, $api_key)
 }
 
 
+// function consulta_movimientos_banvenez_v2($api_key, $referencia = '')
+// {
+//     // $url = 'https://bdvconciliacionqa.banvenez.com:444/apis/bdv/consulta/movimientos/v2';//desarrollo
+//     $url = 'https://bdvconciliacion.banvenez.com/apis/bdv/consulta/movimientos/'; // produccion
+
+
+
+//     $data = [
+//         'cuenta'      => '01020552270000042877',
+//         // 'fechaIni'    => date('d/m/Y', strtotime('-1 month')),
+//         'fechaIni'    => '01/04/2025',
+//         'fechaFin'    => '30/04/2025',
+//         // 'fechaFin'    => date('d/m/Y'),
+//         'tipoMoneda'  => 'VES',
+//         'nroMovimiento' => '' // Se envía vacío según tu necesidad
+//     ];
+
+//     $options = [
+//         'http' => [
+//             'header'        => "Content-Type: application/json\r\nX-API-KEY: $api_key\r\n",
+//             'method'        => 'POST',
+//             'content'       => json_encode($data),
+//             'ignore_errors' => true, // Importante para manejar errores HTTP
+//             'timeout'       => 30
+//         ],
+//         'ssl' => [
+//             'verify_peer'      => false,
+//             'verify_peer_name' => false,
+//             'allow_self_signed' => true
+//         ]
+//     ];
+
+//     try {
+//         $context = stream_context_create($options);
+//         $result = @file_get_contents($url, false, $context); // Usamos @ para suprimir advertencias y manejar el error de forma controlada
+
+//         if ($result === FALSE) {
+//             // Manejar errores de conexión o red antes de intentar decodificar JSON
+//             $error = error_get_last();
+//             return [
+//                 'success' => false,
+//                 'error'   => ['code' => 'NETWORK_ERROR', 'message' => 'Error de conexión con la API: ' . ($error['message'] ?? 'Desconocido')]
+//             ];
+//         }
+
+//         $response = json_decode($result, true);
+
+//         if (json_last_error() !== JSON_ERROR_NONE) {
+//             return [
+//                 'success'      => false,
+//                 'error'        => ['code' => 'JSON_PARSE_ERROR', 'message' => 'Respuesta de la API inválida o no es JSON'],
+//                 'raw_response' => $result
+//             ];
+//         }
+
+//         // Verificar el 'code' de la respuesta de la API, si existe y es un indicador de error
+//         if (isset($response['code']) && $response['code'] !== '1000') {
+//             return [
+//                 'success' => false,
+//                 'error'   => ['code' => $response['code'], 'message' => $response['message'] ?? 'Error desconocido de la API']
+//             ];
+//         }
+
+//         // Si se proporciona referencia, filtrar resultados
+//         if (!empty($referencia) && isset($response['data']) && is_array($response['data'])) {
+//             foreach ($response['data'] as $movimiento) {
+//                 // Asegúrate de que 'referencia' exista y coincida exactamente
+//                 if (isset($movimiento['referencia']) && $movimiento['referencia'] == $referencia) {
+//                     return [
+//                         'success' => true,
+//                         'data'    => $movimiento, // Solo el movimiento coincidente
+//                         'message' => 'Referencia encontrada correctamente.'
+//                     ];
+//                 }
+//             }
+//             // Si el bucle termina y no se encontró la referencia
+//             return [
+//                 'success' => false,
+//                 'error'   => ['code' => 'REFERENCE_NOT_FOUND', 'message' => 'La referencia ' . $referencia . ' no fue encontrada en los movimientos.'],
+//                 'full_response' => $response // Puedes incluir la respuesta completa para depuración
+//             ];
+//         }
+
+//         // Si no se proporcionó una referencia o la API devolvió sin 'data'
+//         // Esto depende de si esperas que la API siempre devuelva 'data'
+//         // Si no se espera filtrar por referencia, puedes devolver toda la respuesta:
+//         return [
+//             'success' => true,
+//             'data'    => $response['data'] ?? [], // Devuelve los datos o un array vacío si no hay
+//             'message' => 'Consulta de movimientos exitosa (sin filtrar por referencia).'
+//         ];
+//     } catch (Exception $e) {
+//         return [
+//             'success' => false,
+//             'error'   => ['code' => 'EXCEPTION', 'message' => 'Excepción en el helper: ' . $e->getMessage()]
+//         ];
+//     }
+// }
+
 function consulta_movimientos_banvenez_v2($api_key, $referencia = '')
 {
     // $url = 'https://bdvconciliacionqa.banvenez.com:444/apis/bdv/consulta/movimientos/v2';//desarrollo
-    $url = ' https://bdvconciliacion.banvenez.com/apis/bdv/consulta/movimientos/'; // produccion
-
-
+    $url = 'https://bdvconciliacion.banvenez.com/apis/bdv/consulta/movimientos/'; // produccion
 
     $data = [
         'cuenta'      => '01020552270000042877',
-        'fechaIni'    => date('d/m/Y', strtotime('-1 month')),
-        // 'fechaIni'    => '01/06/2025',
-        // 'fechaFin'    => '30/06/2025',
-        'fechaFin'    => date('d/m/Y'),
+        'fechaIni'    => '01/04/2025', // Asegúrate de que las fechas sean adecuadas para tu consulta
+        'fechaFin'    => '30/04/2025', // Considera usar date() para fechas dinámicas si es necesario
         'tipoMoneda'  => 'VES',
-        'nroMovimiento' => '' // Se envía vacío según tu necesidad
+        'nroMovimiento' => ''
     ];
 
     $options = [
@@ -129,7 +224,7 @@ function consulta_movimientos_banvenez_v2($api_key, $referencia = '')
             'header'        => "Content-Type: application/json\r\nX-API-KEY: $api_key\r\n",
             'method'        => 'POST',
             'content'       => json_encode($data),
-            'ignore_errors' => true, // Importante para manejar errores HTTP
+            'ignore_errors' => true,
             'timeout'       => 30
         ],
         'ssl' => [
@@ -141,10 +236,9 @@ function consulta_movimientos_banvenez_v2($api_key, $referencia = '')
 
     try {
         $context = stream_context_create($options);
-        $result = @file_get_contents($url, false, $context); // Usamos @ para suprimir advertencias y manejar el error de forma controlada
+        $result = @file_get_contents($url, false, $context);
 
         if ($result === FALSE) {
-            // Manejar errores de conexión o red antes de intentar decodificar JSON
             $error = error_get_last();
             return [
                 'success' => false,
@@ -162,19 +256,33 @@ function consulta_movimientos_banvenez_v2($api_key, $referencia = '')
             ];
         }
 
-        // Verificar el 'code' de la respuesta de la API, si existe y es un indicador de error
+        // Verificar el 'code' de la respuesta de la API
         if (isset($response['code']) && $response['code'] !== '1000') {
             return [
                 'success' => false,
-                'error'   => ['code' => $response['code'], 'message' => $response['message'] ?? 'Error desconocido de la API']
+                'message' => $response['message'] ?? 'Error desconocido de la API', // Usar 'message' de la API
+                'error'   => ['code' => $response['code'] ?? 'API_ERROR'] // Incluir el código de error de la API si existe
             ];
         }
 
-        // Si se proporciona referencia, filtrar resultados
-        if (!empty($referencia) && isset($response['data']) && is_array($response['data'])) {
-            foreach ($response['data'] as $movimiento) {
-                // Asegúrate de que 'referencia' exista y coincida exactamente
-                if (isset($movimiento['referencia']) && $movimiento['referencia'] == $referencia) {
+        // =========================================================================================
+        // CAMBIO CRÍTICO AQUÍ: Acceder a $response['data']['movs']
+        // =========================================================================================
+        $movs = [];
+        if (isset($response['data']['movs']) && is_array($response['data']['movs'])) {
+            $movs = $response['data']['movs'];
+        }
+
+        // Si se proporciona referencia, filtrar resultados dentro del arreglo 'movs'
+        if (!empty($referencia) && !empty($movs)) {
+            // Normalizar la referencia buscada para una comparación precisa
+            $referencia_buscada_limpia = trim(str_replace(' ', '', $referencia));
+
+            foreach ($movs as $movimiento) {
+                // Normalizar la referencia del movimiento de la API para la comparación
+                $referencia_movimiento_limpia = isset($movimiento['referencia']) ? trim(str_replace(' ', '', $movimiento['referencia'])) : '';
+
+                if (!empty($referencia_movimiento_limpia) && $referencia_movimiento_limpia === $referencia_buscada_limpia) {
                     return [
                         'success' => true,
                         'data'    => $movimiento, // Solo el movimiento coincidente
@@ -185,18 +293,18 @@ function consulta_movimientos_banvenez_v2($api_key, $referencia = '')
             // Si el bucle termina y no se encontró la referencia
             return [
                 'success' => false,
-                'error'   => ['code' => 'REFERENCE_NOT_FOUND', 'message' => 'La referencia ' . $referencia . ' no fue encontrada en los movimientos.'],
+                'message' => 'La referencia ' . $referencia . ' no fue encontrada en los movimientos consultados.', // Usar 'message' directamente
+                'error'   => ['code' => 'REFERENCE_NOT_FOUND'],
                 'full_response' => $response // Puedes incluir la respuesta completa para depuración
             ];
         }
 
-        // Si no se proporcionó una referencia o la API devolvió sin 'data'
-        // Esto depende de si esperas que la API siempre devuelva 'data'
-        // Si no se espera filtrar por referencia, puedes devolver toda la respuesta:
+        // Si no se proporcionó una referencia, o no hay 'movs' en la respuesta
+        // Puedes devolver todos los movimientos si no se filtró:
         return [
             'success' => true,
-            'data'    => $response['data'] ?? [], // Devuelve los datos o un array vacío si no hay
-            'message' => 'Consulta de movimientos exitosa (sin filtrar por referencia).'
+            'data'    => ['movs' => $movs], // Devolver los movimientos bajo la clave 'movs' para coherencia con la API
+            'message' => $response['message'] ?? 'Consulta de movimientos exitosa.' // Usar el mensaje de la API si está disponible
         ];
     } catch (Exception $e) {
         return [

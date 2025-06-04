@@ -13,7 +13,7 @@
 
                 <div class="col-12 text-center mt-3 mb-3">
                     <h4 class="text-center mb-3 mt-3">
-                        Reporte Programación
+                        Reporte cuentas Programación
                     </h4>
                 </div>
                 <div class="panel-body">
