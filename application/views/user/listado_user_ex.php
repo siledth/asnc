@@ -29,7 +29,7 @@
                                                 <th width="15%" style="color:white;">Funcionario</th>
 
                                                 <th width="25%" style="color:white;">Organo/Ente</th>
-                                                <th width="25%" style="color:white;">Status</th>
+                                                <th width="25%" style="color:white;">Condición</th>
                                                 <!-- <th width="20%" style="color:white;"></th> -->
 
                                             </tr>
