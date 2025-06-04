@@ -76,7 +76,8 @@ window.consultar_rif_experiencia = function(experienciaNum) {
         telLocalNoExiste.val('').prop('required', false);
         direccionFiscalNoExiste.val('').prop('required', false);
 
-        var base_url_gestion = window.location.origin+'/asnc/index.php/gestion/consulta_og';
+        // var base_url_gestion = window.location.origin+'/asnc/index.php/gestion/consulta_og';
+    var base_url_gestion = 'index.php/gestion/consulta_og'; // Use the appropriate base_url for your environment
 
         $.ajax({
             url: base_url_gestion,
@@ -117,7 +118,9 @@ window.consultar_rif_experiencia = function(experienciaNum) {
 
 // --- NUEVA FUNCIÓN: Cargar instituciones formadoras ---
 function cargarInstituciones() {
-    var base_url = window.location.origin+'/asnc/index.php/Diplomado/obtener_inst_formadora_json';
+    var base_url = '/index.php/Diplomado/obtener_inst_formadora_json'; // Use the appropriate base_url for your environment
+
+    // var base_url = window.location.origin+'/asnc/index.php/Diplomado/obtener_inst_formadora_json';
     $.ajax({
         url: base_url,
         type: 'GET',
@@ -142,7 +145,9 @@ function cargarInstituciones() {
 
 // Función para cargar los cursos desde el backend
 function cargarCursos() {
-    var base_url = window.location.origin+'/asnc/index.php/Diplomado/obtener_cursos_json';
+    var base_url = '/index.php/Diplomado/obtener_cursos_json'; 
+    
+    // var base_url = window.location.origin+'/asnc/index.php/Diplomado/obtener_cursos_json';
 
     $.ajax({
         url: base_url,
@@ -584,8 +589,9 @@ window.loadDiplomadoInfo = function(id_diplomado) {
         $('#diplomadoInfoContainer').hide();
         return;
     }
-      var base_url = window.location.origin + '/asnc/index.php/diplomado/getDiplomadoInfo/' + id_diplomado;
-
+    //   var base_url = window.location.origin + '/asnc/index.php/diplomado/getDiplomadoInfo/' + id_diplomado;
+      var base_url = '/index.php/Diplomado/getDiplomadoInfo/' + id_diplomado; 
+      
     $.ajax({
         url: base_url,
         method: 'GET',
@@ -923,9 +929,13 @@ window.handleInscripcionSubmit = function(event) {
 
     // Si todo está bien, envía el formulario usando AJAX
     const formData = new FormData($('#inscripcionForm')[0]);
-    var base_url_guardar = window.location.origin+'/asnc/index.php/Diplomado/guardar_inscripcion';
-    var base_url_redirigir = window.location.origin+'/asnc/index.php/Diplomado/preinscrip';
-    var base_url_pdf = window.location.origin+'/asnc/index.php/Preinscripcionnatural/pdfrt?id=';
+    // var base_url_guardar = window.location.origin+'/asnc/index.php/Diplomado/guardar_inscripcion';
+    // var base_url_redirigir = window.location.origin+'/asnc/index.php/Diplomado/preinscrip';
+    // var base_url_pdf = window.location.origin+'/asnc/index.php/Preinscripcionnatural/pdfrt?id=';
+
+     var base_url_guardar = '/index.php/Diplomado/guardar_inscripcion';
+        var base_url_redirigir = '/index.php/Diplomado/preinscrip';
+        var base_url_pdf = '/index.php/Preinscripcionnatural/pdfrt?id=';
 
     $.ajax({
         url: base_url_guardar,

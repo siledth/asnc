@@ -33,8 +33,9 @@ function validateUsers() {
         return;
     }
     
-    var base_url = window.location.origin + '/asnc/index.php/Diplomado/validarCedula';
-    // var base_url = '/index.php/Diplomado/validarCedula'; // Use the appropriate base_url for your environment
+    // var base_url = window.location.origin + '/asnc/index.php/Diplomado/validarCedula';
+    var base_url = '/index.php/Diplomado/validarCedula'; 
+    // Use the appropriate base_url for your environment
 
     // Disable the button while the AJAX call is in progress to prevent multiple submissions
     guardarBtn.disabled = true;
