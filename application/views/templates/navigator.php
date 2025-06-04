@@ -295,7 +295,7 @@
                                                 </li>
                                                 <li>
                                                     <a href="<?= base_url() ?>index.php/User/listado_usuariosexterno">
-                                                        - Usuarios de PDVSA
+                                                        - Usuarios
                                                     </a>
 
                                                 </li>
