@@ -77,8 +77,7 @@ window.consultar_rif_experiencia = function(experienciaNum) {
         direccionFiscalNoExiste.val('').prop('required', false);
 
         // var base_url_gestion = window.location.origin+'/asnc/index.php/gestion/consulta_og';
-    var base_url_gestion = 'index.php/gestion/consulta_og'; // Use the appropriate base_url for your environment
-
+        var base_url_gestion = '/index.php/gestion/consulta_og';
         $.ajax({
             url: base_url_gestion,
             method: 'post',

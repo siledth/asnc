@@ -293,6 +293,12 @@
                                                     </a>
 
                                                 </li>
+                                                <li>
+                                                    <a href="<?= base_url() ?>index.php/User/listado_usuariosexterno">
+                                                        - Usuarios de PDVSA
+                                                    </a>
+
+                                                </li>
 
                                             <?php endif; ?>
                                             <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>

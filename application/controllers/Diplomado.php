@@ -965,7 +965,7 @@ class Diplomado extends CI_Controller
                 } else {
                     // Esto debería ser capturado por la validación de 'rif_institucion' pero como fallback
                     $this->output->set_status_header(400);
-                    echo json_encode(['success' => false, 'message' => 'Faltan datos del RIF para la experiencia laboral #' . ($idx + 1) . '.']);
+                    echo json_encode(['success' => false, 'message' => 'Faltan datos del RIF para la experiencia laboral  #' . ($idx + 1) . ' recuerde usar el boton consultar rif.']);
                     return;
                 }
 

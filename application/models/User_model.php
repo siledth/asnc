@@ -315,6 +315,26 @@ class User_model extends CI_Model
         $query = $this->db->get('seguridad.usuarios f');
         return $result = $query->result_array();
     }
+    public function get_usuario_externos3()
+    {
+        $this->db->select("f.id,
+                    f.nombre,
+                    f.id_estatus,
+                    f.intentos,
+                    f.nombre_empresa,
+                    c.nombrefun,
+                    c.apellido,
+                    c.id as id1,
+                    t.nombrep
+                ");
+        $this->db->join('seguridad.funcionarios c', 'c.id_usuario = f.id', 'left');
+        // $this->db->join('public.organoente r', 'r.rif = f.rif_organoente', 'left');
+        $this->db->join('seguridad.perfil t', 't.id_perfil = f.perfil', 'left');
+        //$this->db->where('f.rif_organoente !=', 'G200024518');
+        $query = $this->db->get('programacion.userp f');
+        return $result = $query->result_array();
+    }
+
     public function read_list($data)
     {
         $this->db->select('e.id as id1, 
