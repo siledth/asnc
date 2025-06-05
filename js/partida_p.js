@@ -40,8 +40,8 @@ function valideKey(evt){
 				if (result.value == true) {
 					event.preventDefault();
 					var datos = new FormData($("#guardar_ba")[0]);
-					//var base_url =window.location.origin+'/asnc/index.php/Certificaciones/registrar_b';
-					var base_url = '/index.php/Fuentefinanc/registrar_b';
+					//var base_url =window.location.origin+'/asnc/index.php/Fuentefinanc/registrar_b';
+					 var base_url = '/index.php/Fuentefinanc/registrar_b';
 					$.ajax({
 						url:base_url,
 						method: 'POST',

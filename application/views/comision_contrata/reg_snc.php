@@ -13,11 +13,11 @@
                                         style="color:red">*</b></label>
                                 <select id="id_unidad" name="id_unidad" class="default-select2 form-control" required>
                                     <option value="0">Seleccione</option>
-                                    <?php foreach ($final as $data):?>
-                                    <option value="<?=$data['descripcion']?>/<?=$data['rif']?>">
-                                        <?=$data['descripcion']?> / <?=$data['rif']?>
-                                    </option>
-                                    <?php endforeach;?>
+                                    <?php foreach ($final as $data): ?>
+                                        <option value="<?= $data['descripcion'] ?>/<?= $data['rif'] ?>">
+                                            <?= $data['descripcion'] ?> / <?= $data['rif'] ?>
+                                        </option>
+                                    <?php endforeach; ?>
                                 </select>
 
 
@@ -35,7 +35,7 @@
                                     <option value="2">Comisión Temporal</option>
 
                                 </select>
-                                <input type="hidden" id="unidad" name="unidad" value="<?=$unidad?>" readonly>
+                                <input type="hidden" id="unidad" name="unidad" value="<?= $unidad ?>" readonly>
                             </div>
 
 
@@ -47,7 +47,7 @@
                                     <input class="form-control" onkeypress="may(this);" type="text" name="observacion"
                                         id="observacion">
                                     <input type="hidden" id="rif_organoente" name="rif_organoente"
-                                        value="<?=$rif_organoente?>" readonly>
+                                        value="<?= $rif_organoente ?>" readonly>
 
                                     <div class="form-group col-4">
                                         <label>Desde (fecha estimada)</label>
@@ -132,85 +132,85 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach($comisiones as $data):?>
-                                <tr class="odd gradeX" style="text-align:center">
-                                    <td><?=$data['rif_organoente']?> </td>
-                                    <td><?=$data['observacion']?> </td>
-                                    <td><?=$data['fecha_desig']?> </td>
-                                    <td><?=$data['desc_acto_admin']?> </td>
+                                <?php foreach ($comisiones as $data): ?>
+                                    <tr class="odd gradeX" style="text-align:center">
+                                        <td><?= $data['rif_organoente'] ?> </td>
+                                        <td><?= $data['observacion'] ?> </td>
+                                        <td><?= $data['fecha_desig'] ?> </td>
+                                        <td><?= $data['desc_acto_admin'] ?> </td>
 
-                                    <td><?=$data['num_acto']?> </td>
-                                    <td><?=$data['fecha_acto']?> </td>
-
-
-                                    <?php if ($data['tipo_comi'] == '1') : ?>
-                                    <td>Permanente</td>
-                                    <td>Permanente</td>
+                                        <td><?= $data['num_acto'] ?> </td>
+                                        <td><?= $data['fecha_acto'] ?> </td>
 
 
-                                    <?php else: ?>
-                                    <td><?=$data['dura_com_desde']?> </td>
-                                    <td><?=$data['dura_com_hasta']?> </td>
-                                    <?php endif; ?>
-                                    <td><?=$data['desc_status']?> </td>
+                                        <?php if ($data['tipo_comi'] == '1') : ?>
+                                            <td>Permanente</td>
+                                            <td>Permanente</td>
 
-                                    <td><?=$data['desc_status_snc']?> </td>
-
-
-                                    <td class="center">
-                                        <?php if ($data['id_status'] == 2) : ?>
 
                                         <?php else: ?>
-                                        <?php if ($data['snc'] == 1) : ?>
-                                        <a onclick="modal(<?php echo $data['id_comision'] ?>);" data-toggle="modal"
-                                            data-target="#dede" style="color: white">
-                                            <i title="Ingresar Miembros de Comisión"
-                                                class="fas fa-2x fa-fw fa-address-card" style="color: darkblue;"></i>
+                                            <td><?= $data['dura_com_desde'] ?> </td>
+                                            <td><?= $data['dura_com_hasta'] ?> </td>
+                                        <?php endif; ?>
+                                        <td><?= $data['desc_status'] ?> </td>
 
-                                        </a>
-                                        <a href="<?php echo base_url();?>index.php/Comision_contrata/miemb?id=<?php echo $data['id_comision'];?>"
-                                            class="button">
-                                            <i title="ver Integrantes" class="fas fa-2x fa-fw fa-clipboard-list"
-                                                style="color: pink;"></i>
-                                            <a />
-                                            <a title="Notificar al SNC"
-                                                onclick="enviar(<?php echo $data['id_comision'];?>);" class="button">
-                                                <i class="fas fa-2x fa-fw fas ffas fa-bullhorn"
-                                                    style="color: black;"></i>
-                                                <a />
+                                        <td><?= $data['desc_status_snc'] ?> </td>
 
-                                                <?php else: ?>
-                                                <a href="<?php echo base_url();?>index.php/Comision_contrata/miemb?id=<?php echo $data['id_comision'];?>"
-                                                    class="button">
-                                                    <i title="ver Integrantes" class="fas fa-2x fa-fw fa-clipboard-list"
-                                                        style="color: pink;"></i>
-                                                    <a />
-                                                    <a class="button">
-                                                        <i title="Editar"
-                                                            onclick="modal_ver(<?php echo $data['id_comision']?>);"
-                                                            data-toggle="modal" data-target="#exampleModal3"
-                                                            class="fas fa-2x fa-fw fa-edit" style="color:green"></i>
+
+                                        <td class="center">
+                                            <?php if ($data['id_status'] == 2) : ?>
+
+                                            <?php else: ?>
+                                                <?php if ($data['snc'] == 1) : ?>
+                                                    <a onclick="modal(<?php echo $data['id_comision'] ?>);" data-toggle="modal"
+                                                        data-target="#dede" style="color: white">
+                                                        <i title="Ingresar Miembros de Comisión"
+                                                            class="fas fa-2x fa-fw fa-address-card" style="color: darkblue;"></i>
+
+                                                    </a>
+                                                    <a href="<?php echo base_url(); ?>index.php/Comision_contrata/miemb?id=<?php echo $data['id_comision']; ?>"
+                                                        class="button">
+                                                        <i title="ver Integrantes" class="fas fa-2x fa-fw fa-clipboard-list"
+                                                            style="color: pink;"></i>
                                                         <a />
-
-                                                        <a href="<?php echo base_url();?>index.php/Not_snc/pdfrt?id=<?php echo $data['id_comision'];?>"
-                                                            class="button">
-                                                            <i class="fas fa-2x  fa-lg fa-cloud-download-alt"
-                                                                title="Comprobante" style="color: blue;"></i>
+                                                        <a title="Notificar al SNC"
+                                                            onclick="enviar(<?php echo $data['id_comision']; ?>);" class="button">
+                                                            <i class="fas fa-2x fa-fw fas ffas fa-bullhorn"
+                                                                style="color: black;"></i>
                                                             <a />
 
-                                                            <a title="inactivar comisión"
-                                                                onclick="inactivar(<?php echo $data['id_comision'];?>);"
+                                                        <?php else: ?>
+                                                            <a href="<?php echo base_url(); ?>index.php/Comision_contrata/miemb?id=<?php echo $data['id_comision']; ?>"
                                                                 class="button">
-                                                                <i class="fas fa-2x fa-fw  fa-ban"
-                                                                    style="color: red;"></i>
+                                                                <i title="ver Integrantes" class="fas fa-2x fa-fw fa-clipboard-list"
+                                                                    style="color: pink;"></i>
                                                                 <a />
-                                                                <?php endif; ?>
+                                                                <a class="button">
+                                                                    <i title="Editar"
+                                                                        onclick="modal_ver(<?php echo $data['id_comision'] ?>);"
+                                                                        data-toggle="modal" data-target="#exampleModal3"
+                                                                        class="fas fa-2x fa-fw fa-edit" style="color:green"></i>
+                                                                    <a />
 
-                                                                <?php endif; ?>
+                                                                    <a href="<?php echo base_url(); ?>index.php/Not_snc/pdfrt?id=<?php echo $data['id_comision']; ?>"
+                                                                        class="button">
+                                                                        <i class="fas fa-2x  fa-lg fa-cloud-download-alt"
+                                                                            title="Comprobante" style="color: blue;"></i>
+                                                                        <a />
 
-                                    </td>
-                                </tr>
-                                <?php endforeach;?>
+                                                                        <a title="inactivar comisión"
+                                                                            onclick="inactivar(<?php echo $data['id_comision']; ?>);"
+                                                                            class="button">
+                                                                            <i class="fas fa-2x fa-fw  fa-ban"
+                                                                                style="color: red;"></i>
+                                                                            <a />
+                                                                        <?php endif; ?>
+
+                                                                    <?php endif; ?>
+
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
@@ -240,7 +240,7 @@
                                     class="form-control" data-show-subtext="true" data-live-search="true">
                                     <option value="0">Seleccione</option>
                                     <?php foreach ($tp_contrata as $data) : ?>
-                                    <option value="<?= $data['id_tipo_comision']?>"><?= $data['descripcion']?></option>
+                                    <option value="<?= $data['id_tipo_comision'] ?>"><?= $data['descripcion'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div> -->
@@ -281,9 +281,9 @@
                                             class="form-control" data-show-subtext="true" data-live-search="true">
                                             <option value="0">Seleccione</option>
                                             <?php foreach ($area as $data) : ?>
-                                            <option value="<?= $data['id_area_miembro']?>">
-                                                <?= $data['desc_area_miembro']?>
-                                            </option>
+                                                <option value="<?= $data['id_area_miembro'] ?>">
+                                                    <?= $data['desc_area_miembro'] ?>
+                                                </option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -294,8 +294,9 @@
                                             class="form-control" data-show-subtext="true" data-live-search="true">
                                             <option value="0">Seleccione</option>
                                             <?php foreach ($tipo as $data) : ?>
-                                            <option value="<?= $data['id_tp_miembro']?>"><?= $data['desc_tp_miembro']?>
-                                            </option>
+                                                <option value="<?= $data['id_tp_miembro'] ?>">
+                                                    <?= $data['desc_tp_miembro'] ?>
+                                                </option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -369,7 +370,7 @@
             </div>
         </div>
     </div>
-    <script src="<?=base_url()?>/js/comision/snc1.js">
+    <script src="<?= base_url() ?>/js/comision/snc1.js">
 
 
 
