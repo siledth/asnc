@@ -1324,4 +1324,56 @@ class User_model extends CI_Model
             return NULL;
         }
     }
+
+
+
+
+    public function get_all_users_with_profile_names()
+    {
+        $this->db->select('u.id, u.nombre, u.email, p.nombrep as perfil_nombre, u.perfil as perfil_id, u.rif_organoente, u.id_estatus');
+        $this->db->from('seguridad.usuarios u');
+        // Join with the 'perfil' table to get the profile name (nombrep) instead of just the ID
+        $this->db->join('seguridad.perfil p', 'u.perfil = p.id_perfil', 'left');
+        $this->db->where('u.rif_organoente', 'G200024518');
+        $this->db->where('u.id_estatus', 1);
+
+
+        $query = $this->db->get();
+        return $query->result_array(); // Returns an array of associative arrays
+    }
+    public function get_user_details($user_id)
+    {
+        $this->db->select('id, nombre, email, perfil');
+        $this->db->from('seguridad.usuarios');
+        $this->db->where('id', $user_id);
+        $query = $this->db->get();
+        return $query->row_array(); // Returns a single associative array (one row)
+    }
+    public function get_all_profiles_dropdown()
+    {
+        $this->db->select('id_perfil, nombrep');
+        $this->db->from('seguridad.perfil');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function get_profile_permissions($profile_id)
+    {
+        $this->db->from('seguridad.perfil');
+        $this->db->where('id_perfil', $profile_id);
+        $query = $this->db->get();
+        return $query->row_array(); // Returns a single row with all profile fields
+    }
+    public function update_user_assigned_profile($user_id, $new_profile_id)
+    {
+        $data = array('perfil' => $new_profile_id);
+        $this->db->where('id', $user_id);
+        $this->db->update('seguridad.usuarios', $data);
+        return $this->db->affected_rows() > 0;
+    }
+    public function update_profile_permissions($profile_id, $permissions_data)
+    {
+        $this->db->where('id_perfil', $profile_id);
+        $this->db->update('seguridad.perfil', $permissions_data);
+        return $this->db->affected_rows() > 0;
+    }
 }
