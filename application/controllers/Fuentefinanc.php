@@ -4,10 +4,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Fuentefinanc extends CI_Controller
 {
 	public function __construct()
-	{ 
+	{
 		parent::__construct();
 		$this->load->model('Tablas_model');
-	
 	}
 	public function index()
 	{
@@ -203,59 +202,65 @@ class Fuentefinanc extends CI_Controller
 
 	//_________________________________________________________________________________________________________________________________
 	public function registrar_pa()
-    {
-        if (!$this->session->userdata('session')) {
-            redirect('login');
-        }
-       // $data['contratista'] =	$this->Certificacion_model->llenar_contratista_exonerado();
-        $data['exonerado'] = $this->Tablas_model->consultar_partida1();
-        $usuario = $this->session->userdata('id_user');
-        $this->load->view('templates/header.php');
-        $this->load->view('templates/navigator.php');
-        $this->load->view('tablas/part_presup.php', $data);
-        $this->load->view('templates/footer.php');
-    }
-	public function registrar_b() {
-        if (!$this->session->userdata('session'))
-            redirect('login');
-        $data = array(
-            'codigopartida_presupuestaria' => $this->input->POST('codigo_b'),
-            'desc_partida_presupuestaria' => $this->input->POST('nombre_b'),
-            'id_usuario' => $this->session->userdata('id_user'),
-            'fecha' => date("Y-m-d"), 
-        );
-        $result = $this->Tablas_model->registrar_b($data);
-    if ($result == 1) {
-        echo json_encode(1);
-    } elseif ($result == 0) {
-        echo json_encode(0); // Registro ya existe
-    } else {
-        echo json_encode(0); // Error al insertar
-    }
-    }
-	public function consulta_b() {
-        if (!$this->session->userdata('session'))
-            redirect('login');
-        $data = $this->input->post();
-        $data = $this->Tablas_model->consulta_b($data);
-        echo json_encode($data);
-    }
-	public function editar_b() {
-        if (!$this->session->userdata('session'))
-            redirect('login');
-        $data = $this->input->post();
+	{
+		if (!$this->session->userdata('session')) {
+			redirect('login');
+		}
+		// $data['contratista'] =	$this->Certificacion_model->llenar_contratista_exonerado();
+		$data['exonerado'] = $this->Tablas_model->consultar_partida1();
+		$usuario = $this->session->userdata('id_user');
+		$this->load->view('templates/header.php');
+		$this->load->view('templates/navigator.php');
+		$this->load->view('tablas/part_presup.php', $data);
+		$this->load->view('templates/footer.php');
+	}
+	public function registrar_b()
+	{
+		// Verifica si la sesión del usuario está activa
+		if (!$this->session->userdata('session')) {
+			redirect('login'); // Redirige al login si no hay sesión
+		}
 
-        $data = array(
-            'id_partida_presupuestaria' => $data['id_banco'],
-            'codigopartida_presupuestaria' => $data['codigo_b'],
-            'desc_partida_presupuestaria' => $data['nombre_b'],
-            'id_usuario' => $this->session->userdata('id_user'),
-			'fecha' => date("Y-m-d"), 
-        );
+		// Recopila los datos enviados por POST
+		$data = array(
+			'codigopartida_presupuestaria' => $this->input->POST('codigo_b'),
+			'desc_partida_presupuestaria' => $this->input->POST('nombre_b'),
+			'id_usuario' => $this->session->userdata('id_user'), // Obtiene el ID de usuario de la sesión
+			'fecha' => date("Y-m-d"), // Fecha actual
+		);
 
-        $data = $this->Tablas_model->editar_b($data);
-        echo json_encode($data);
-    }
+		// Llama a la función del modelo para registrar la partida presupuestaria
+		// El modelo retornará 1 (éxito), 0 (error general), 2 (código duplicado) o 3 (descripción duplicada)
+		$result = $this->Tablas_model->registrar_b($data);
+
+		// ¡Esta es la corrección clave! Envía el resultado EXACTO del modelo al JavaScript.
+		echo json_encode($result);
+	}
+	public function consulta_b()
+	{
+		if (!$this->session->userdata('session'))
+			redirect('login');
+		$data = $this->input->post();
+		$data = $this->Tablas_model->consulta_b($data);
+		echo json_encode($data);
+	}
+	public function editar_b()
+	{
+		if (!$this->session->userdata('session'))
+			redirect('login');
+		$data = $this->input->post();
+
+		$data = array(
+			'id_partida_presupuestaria' => $data['id_banco'],
+			'codigopartida_presupuestaria' => $data['codigo_b'],
+			'desc_partida_presupuestaria' => $data['nombre_b'],
+			'id_usuario' => $this->session->userdata('id_user'),
+			'fecha' => date("Y-m-d"),
+		);
+
+		$data = $this->Tablas_model->editar_b($data);
+		echo json_encode($data);
+	}
 
 
 	public function partidap()
@@ -624,7 +629,7 @@ class Fuentefinanc extends CI_Controller
 			echo "No direct script access allowed";
 		}
 	}
-//______________________estado_____________________________
+	//______________________estado_____________________________
 	public function estado()
 	{
 		$this->load->view('templates/header.php');
@@ -705,14 +710,14 @@ class Fuentefinanc extends CI_Controller
 	}
 	//______________________Muncipio_____________________________
 	public function municipio()
-	{ if(!$this->session->userdata('session'))redirect('login');
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 		$data['estados'] = $this->Configuracion_model->consulta_estados();
 		//print($data);
 		$this->load->view('templates/header.php');
 		$this->load->view('templates/navigator.php');
-		$this->load->view('tablas/municipio.php',$data);
+		$this->load->view('tablas/municipio.php', $data);
 		$this->load->view('templates/footer.php');
-		
 	}
 	public function savemunicipio()
 	{
@@ -785,258 +790,258 @@ class Fuentefinanc extends CI_Controller
 			echo "No direct script access allowed";
 		}
 	}
-		//______________________Parroquia_____________________________
-		public function parroquia()
-		{
-			$this->load->view('templates/header.php');
-			$this->load->view('templates/navigator.php');
-			$this->load->view('tablas/parroquia.php');
-			$this->load->view('templates/footer.php');
-		}
-		public function saveparroquia()
-		{
-			if ($this->input->is_ajax_request()) {
-				$this->form_validation->set_rules('descedo', 'descedo', 'required');
-				if ($this->form_validation->run() == FALSE) {
-					$data = array('responce' => 'error', 'message' => validation_errors());
-				} else {
-					$ajax_data = $this->input->post();
-	
-					if ($this->Tablas_model->save_parroquia($ajax_data)) {
-						$data = array('responce' => 'success', 'message' => 'Estado Guardado con Exito');
-					} else {
-						$data = array('responce' => 'error', 'message' => 'Error , vuelva a intentar');
-					}
-				}
-	
-				echo json_encode($data);
+	//______________________Parroquia_____________________________
+	public function parroquia()
+	{
+		$this->load->view('templates/header.php');
+		$this->load->view('templates/navigator.php');
+		$this->load->view('tablas/parroquia.php');
+		$this->load->view('templates/footer.php');
+	}
+	public function saveparroquia()
+	{
+		if ($this->input->is_ajax_request()) {
+			$this->form_validation->set_rules('descedo', 'descedo', 'required');
+			if ($this->form_validation->run() == FALSE) {
+				$data = array('responce' => 'error', 'message' => validation_errors());
 			} else {
-				echo "No direct script access allowed";
-			}
-		}
-		public function fetchparroquia()
-		{
-			if ($this->input->is_ajax_request()) {
-				if ($posts = $this->Tablas_model->get_parroquia()) {
-					$data = array('responce' => 'success', 'posts' => $posts);
+				$ajax_data = $this->input->post();
+
+				if ($this->Tablas_model->save_parroquia($ajax_data)) {
+					$data = array('responce' => 'success', 'message' => 'Estado Guardado con Exito');
 				} else {
-					$data = array('responce' => 'error', 'menssage' => 'falied to fetch data');
+					$data = array('responce' => 'error', 'message' => 'Error , vuelva a intentar');
 				}
-				echo json_encode($data);
-			} else {
-				echo "'No direct script access allowed'";
 			}
+
+			echo json_encode($data);
+		} else {
+			echo "No direct script access allowed";
 		}
-		public function editparroquia()
-		{
-			if ($this->input->is_ajax_request()) {
-				$edit_id = $this->input->post('edit_id');
-	
-				if ($post = $this->Tablas_model->single_parroquia($edit_id)) {
-					$data = array('responce' => 'success', 'post' => $post);
+	}
+	public function fetchparroquia()
+	{
+		if ($this->input->is_ajax_request()) {
+			if ($posts = $this->Tablas_model->get_parroquia()) {
+				$data = array('responce' => 'success', 'posts' => $posts);
+			} else {
+				$data = array('responce' => 'error', 'menssage' => 'falied to fetch data');
+			}
+			echo json_encode($data);
+		} else {
+			echo "'No direct script access allowed'";
+		}
+	}
+	public function editparroquia()
+	{
+		if ($this->input->is_ajax_request()) {
+			$edit_id = $this->input->post('edit_id');
+
+			if ($post = $this->Tablas_model->single_parroquia($edit_id)) {
+				$data = array('responce' => 'success', 'post' => $post);
+			} else {
+				$data = array('responce' => 'error', 'message' => 'error al guardar');
+			}
+			echo json_encode($data);
+		} else {
+			echo "No direct script access allowed";
+		}
+	}
+	public function updateparroquia()
+	{
+		if ($this->input->is_ajax_request()) {
+			$this->form_validation->set_rules('edit_descmun', 'desc_descmun', 'required');
+			if ($this->form_validation->run() == FALSE) {
+				$data = array('responce' => 'error', 'message' => validation_errors());
+			} else {
+				$data['id'] = $this->input->post('edit_record_id');
+				$data['descmun'] = $this->input->post('edit_descmun');
+
+				if ($this->Tablas_model->update_parroquia($data)) {
+					$data = array('responce' => 'success', 'message' => 'Registro Modificado Con Exito');
 				} else {
-					$data = array('responce' => 'error', 'message' => 'error al guardar');
+					$data = array('responce' => 'error', 'message' => 'Error al Modificar Registor');
 				}
-				echo json_encode($data);
-			} else {
-				echo "No direct script access allowed";
 			}
+
+			echo json_encode($data);
+		} else {
+			echo "No direct script access allowed";
 		}
-		public function updateparroquia()
-		{
-			if ($this->input->is_ajax_request()) {
-				$this->form_validation->set_rules('edit_descmun', 'desc_descmun', 'required');
-				if ($this->form_validation->run() == FALSE) {
-					$data = array('responce' => 'error', 'message' => validation_errors());
+	}
+	//______________________ciudades_____________________________
+	public function ciudades()
+	{
+		$this->load->view('templates/header.php');
+		$this->load->view('templates/navigator.php');
+		$this->load->view('tablas/ciudades.php');
+		$this->load->view('templates/footer.php');
+	}
+	public function saveciudades()
+	{
+		if ($this->input->is_ajax_request()) {
+			$this->form_validation->set_rules('descedo', 'descedo', 'required');
+			if ($this->form_validation->run() == FALSE) {
+				$data = array('responce' => 'error', 'message' => validation_errors());
+			} else {
+				$ajax_data = $this->input->post();
+
+				if ($this->Tablas_model->save_ciudades($ajax_data)) {
+					$data = array('responce' => 'success', 'message' => 'Estado Guardado con Exito');
 				} else {
-					$data['id'] = $this->input->post('edit_record_id');
-					$data['descmun'] = $this->input->post('edit_descmun');
-	
-					if ($this->Tablas_model->update_parroquia($data)) {
-						$data = array('responce' => 'success', 'message' => 'Registro Modificado Con Exito');
-					} else {
-						$data = array('responce' => 'error', 'message' => 'Error al Modificar Registor');
-					}
+					$data = array('responce' => 'error', 'message' => 'Error , vuelva a intentar');
 				}
-	
-				echo json_encode($data);
-			} else {
-				echo "No direct script access allowed";
 			}
+
+			echo json_encode($data);
+		} else {
+			echo "No direct script access allowed";
 		}
-		//______________________ciudades_____________________________
-		public function ciudades()
-		{
-			$this->load->view('templates/header.php');
-			$this->load->view('templates/navigator.php');
-			$this->load->view('tablas/ciudades.php');
-			$this->load->view('templates/footer.php');
+	}
+	public function fetchciudades()
+	{
+		if ($this->input->is_ajax_request()) {
+			if ($posts = $this->Tablas_model->get_ciudades()) {
+				$data = array('responce' => 'success', 'posts' => $posts);
+			} else {
+				$data = array('responce' => 'error', 'menssage' => 'falied to fetch data');
+			}
+			echo json_encode($data);
+		} else {
+			echo "'No direct script access allowed'";
 		}
-		public function saveciudades()
-		{
-			if ($this->input->is_ajax_request()) {
-				$this->form_validation->set_rules('descedo', 'descedo', 'required');
-				if ($this->form_validation->run() == FALSE) {
-					$data = array('responce' => 'error', 'message' => validation_errors());
+	}
+	public function editciudades()
+	{
+		if ($this->input->is_ajax_request()) {
+			$edit_id = $this->input->post('edit_id');
+
+			if ($post = $this->Tablas_model->single_ciudades($edit_id)) {
+				$data = array('responce' => 'success', 'post' => $post);
+			} else {
+				$data = array('responce' => 'error', 'message' => 'error al guardar');
+			}
+			echo json_encode($data);
+		} else {
+			echo "No direct script access allowed";
+		}
+	}
+	public function updateciudades()
+	{
+		if ($this->input->is_ajax_request()) {
+			$this->form_validation->set_rules('edit_descciu', 'desc_descciu', 'required');
+			if ($this->form_validation->run() == FALSE) {
+				$data = array('responce' => 'error', 'message' => validation_errors());
+			} else {
+				$data['id'] = $this->input->post('edit_record_id');
+				$data['descciu'] = $this->input->post('edit_descciu');
+
+				if ($this->Tablas_model->update_ciudades($data)) {
+					$data = array('responce' => 'success', 'message' => 'Registro Modificado Con Exito');
 				} else {
-					$ajax_data = $this->input->post();
-	
-					if ($this->Tablas_model->save_ciudades($ajax_data)) {
-						$data = array('responce' => 'success', 'message' => 'Estado Guardado con Exito');
-					} else {
-						$data = array('responce' => 'error', 'message' => 'Error , vuelva a intentar');
-					}
+					$data = array('responce' => 'error', 'message' => 'Error al Modificar Registor');
 				}
-	
-				echo json_encode($data);
-			} else {
-				echo "No direct script access allowed";
 			}
+
+			echo json_encode($data);
+		} else {
+			echo "No direct script access allowed";
 		}
-		public function fetchciudades()
-		{
-			if ($this->input->is_ajax_request()) {
-				if ($posts = $this->Tablas_model->get_ciudades()) {
-					$data = array('responce' => 'success', 'posts' => $posts);
+	}
+	//______________________operador_____________________________
+	public function operador()
+	{
+		$this->load->view('templates/header.php');
+		$this->load->view('templates/navigator.php');
+		$this->load->view('tablas/operador.php');
+		$this->load->view('templates/footer.php');
+	}
+	public function saveoperadora()
+	{
+		if ($this->input->is_ajax_request()) {
+			$this->form_validation->set_rules('desc_operadora', 'desc_operadora', 'required');
+			if ($this->form_validation->run() == FALSE) {
+				$data = array('responce' => 'error', 'message' => validation_errors());
+			} else {
+				$ajax_data = $this->input->post();
+
+				if ($this->Tablas_model->save_operadora($ajax_data)) {
+					$data = array('responce' => 'success', 'message' => 'Estado Guardado con Exito');
 				} else {
-					$data = array('responce' => 'error', 'menssage' => 'falied to fetch data');
+					$data = array('responce' => 'error', 'message' => 'Error , vuelva a intentar');
 				}
-				echo json_encode($data);
-			} else {
-				echo "'No direct script access allowed'";
 			}
+
+			echo json_encode($data);
+		} else {
+			echo "No direct script access allowed";
 		}
-		public function editciudades()
-		{
-			if ($this->input->is_ajax_request()) {
-				$edit_id = $this->input->post('edit_id');
-	
-				if ($post = $this->Tablas_model->single_ciudades($edit_id)) {
-					$data = array('responce' => 'success', 'post' => $post);
+	}
+	public function fetchoperadora()
+	{
+		if ($this->input->is_ajax_request()) {
+			if ($posts = $this->Tablas_model->get_operadora()) {
+				$data = array('responce' => 'success', 'posts' => $posts);
+			} else {
+				$data = array('responce' => 'error', 'menssage' => 'falied to fetch data');
+			}
+			echo json_encode($data);
+		} else {
+			echo "'No direct script access allowed'";
+		}
+	}
+	public function editoperadora()
+	{
+		if ($this->input->is_ajax_request()) {
+			$edit_id = $this->input->post('edit_id');
+
+			if ($post = $this->Tablas_model->single_operadora($edit_id)) {
+				$data = array('responce' => 'success', 'post' => $post);
+			} else {
+				$data = array('responce' => 'error', 'message' => 'error al guardar');
+			}
+			echo json_encode($data);
+		} else {
+			echo "No direct script access allowed";
+		}
+	}
+	public function updateoperadora()
+	{
+		if ($this->input->is_ajax_request()) {
+			$this->form_validation->set_rules('edit_desc_operadora', 'edit_desc_operadora', 'required');
+			if ($this->form_validation->run() == FALSE) {
+				$data = array('responce' => 'error', 'message' => validation_errors());
+			} else {
+				$data['id_operadora'] = $this->input->post('edit_record_id');
+				$data['desc_operadora'] = $this->input->post('edit_desc_operadora');
+
+				if ($this->Tablas_model->update_operadora($data)) {
+					$data = array('responce' => 'success', 'message' => 'Registro Modificado Con Exito');
 				} else {
-					$data = array('responce' => 'error', 'message' => 'error al guardar');
+					$data = array('responce' => 'error', 'message' => 'Error al Modificar Registor');
 				}
-				echo json_encode($data);
-			} else {
-				echo "No direct script access allowed";
 			}
+
+			echo json_encode($data);
+		} else {
+			echo "No direct script access allowed";
 		}
-		public function updateciudades()
-		{
-			if ($this->input->is_ajax_request()) {
-				$this->form_validation->set_rules('edit_descciu', 'desc_descciu', 'required');
-				if ($this->form_validation->run() == FALSE) {
-					$data = array('responce' => 'error', 'message' => validation_errors());
-				} else {
-					$data['id'] = $this->input->post('edit_record_id');
-					$data['descciu'] = $this->input->post('edit_descciu');
-	
-					if ($this->Tablas_model->update_ciudades($data)) {
-						$data = array('responce' => 'success', 'message' => 'Registro Modificado Con Exito');
-					} else {
-						$data = array('responce' => 'error', 'message' => 'Error al Modificar Registor');
-					}
-				}
-	
-				echo json_encode($data);
-			} else {
-				echo "No direct script access allowed";
-			}
-		}
-				//______________________operador_____________________________
-		public function operador()
-		{
-			$this->load->view('templates/header.php');
-			$this->load->view('templates/navigator.php');
-			$this->load->view('tablas/operador.php');
-			$this->load->view('templates/footer.php');
-		}
-		public function saveoperadora()
-		{
-			if ($this->input->is_ajax_request()) {
-				$this->form_validation->set_rules('desc_operadora', 'desc_operadora', 'required');
-				if ($this->form_validation->run() == FALSE) {
-					$data = array('responce' => 'error', 'message' => validation_errors());
-				} else {
-					$ajax_data = $this->input->post();
-	
-					if ($this->Tablas_model->save_operadora($ajax_data)) {
-						$data = array('responce' => 'success', 'message' => 'Estado Guardado con Exito');
-					} else {
-						$data = array('responce' => 'error', 'message' => 'Error , vuelva a intentar');
-					}
-				}
-	
-				echo json_encode($data);
-			} else {
-				echo "No direct script access allowed";
-			}
-		}
-		public function fetchoperadora()
-		{
-			if ($this->input->is_ajax_request()) {
-				if ($posts = $this->Tablas_model->get_operadora()) {
-					$data = array('responce' => 'success', 'posts' => $posts);
-				} else {
-					$data = array('responce' => 'error', 'menssage' => 'falied to fetch data');
-				}
-				echo json_encode($data);
-			} else {
-				echo "'No direct script access allowed'";
-			}
-		}
-		public function editoperadora()
-		{
-			if ($this->input->is_ajax_request()) {
-				$edit_id = $this->input->post('edit_id');
-	
-				if ($post = $this->Tablas_model->single_operadora($edit_id)) {
-					$data = array('responce' => 'success', 'post' => $post);
-				} else {
-					$data = array('responce' => 'error', 'message' => 'error al guardar');
-				}
-				echo json_encode($data);
-			} else {
-				echo "No direct script access allowed";
-			}
-		}
-		public function updateoperadora()
-		{
-			if ($this->input->is_ajax_request()) {
-				$this->form_validation->set_rules('edit_desc_operadora', 'edit_desc_operadora', 'required');
-				if ($this->form_validation->run() == FALSE) {
-					$data = array('responce' => 'error', 'message' => validation_errors());
-				} else {
-					$data['id_operadora'] = $this->input->post('edit_record_id');
-					$data['desc_operadora'] = $this->input->post('edit_desc_operadora');
-	
-					if ($this->Tablas_model->update_operadora($data)) {
-						$data = array('responce' => 'success', 'message' => 'Registro Modificado Con Exito');
-					} else {
-						$data = array('responce' => 'error', 'message' => 'Error al Modificar Registor');
-					}
-				}
-	
-				echo json_encode($data);
-			} else {
-				echo "No direct script access allowed";
-			}
-		}
-		//______________________proce_____________________________
+	}
+	//______________________proce_____________________________
 	public function proce()
-	{ if(!$this->session->userdata('session'))redirect('login');
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 		$data['estados'] = $this->Configuracion_model->consulta_estados();
 		//print($data);
 		$this->load->view('templates/header.php');
 		$this->load->view('templates/navigator.php');
-		$this->load->view('tablas/proce.php',$data);
+		$this->load->view('tablas/proce.php', $data);
 		$this->load->view('templates/footer.php');
-		
 	}
 	public function saveproce()
 	{
 		if ($this->input->is_ajax_request()) {
-			$this->form_validation->set_rules('descripcion','descripcion', 'required');
+			$this->form_validation->set_rules('descripcion', 'descripcion', 'required');
 			if ($this->form_validation->run() == FALSE) {
 				$data = array('responce' => 'error', 'message' => validation_errors());
 			} else {
@@ -1106,19 +1111,19 @@ class Fuentefinanc extends CI_Controller
 	}
 	//______________________supuestos_____________________________
 	public function supuestos()
-	{ if(!$this->session->userdata('session'))redirect('login');
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 		$data['modalidad'] = $this->Configuracion_model->consulta_modalidad();
 		//print($data);
 		$this->load->view('templates/header.php');
 		$this->load->view('templates/navigator.php');
-		$this->load->view('tablas/supuestos.php',$data);
+		$this->load->view('tablas/supuestos.php', $data);
 		$this->load->view('templates/footer.php');
-		
 	}
 	public function savesupuestos()
 	{
 		if ($this->input->is_ajax_request()) {
-			$this->form_validation->set_rules('descripcion','descripcion', 'required');
+			$this->form_validation->set_rules('descripcion', 'descripcion', 'required');
 			if ($this->form_validation->run() == FALSE) {
 				$data = array('responce' => 'error', 'message' => validation_errors());
 			} else {
@@ -1186,128 +1191,131 @@ class Fuentefinanc extends CI_Controller
 			echo "No direct script access allowed";
 		}
 	}
-//______________________edo civil_____________________________
-public function edocivil()
-{ if(!$this->session->userdata('session'))redirect('login');
-	
-	$this->load->view('templates/header.php');
-	$this->load->view('templates/navigator.php');
-	$this->load->view('tablas/edocivil.php');
-	$this->load->view('templates/footer.php');
-	
-}
-public function saveedocivil()
-{
-	if ($this->input->is_ajax_request()) {
-		$this->form_validation->set_rules('desc_rif','desc_rif', 'required');
-		if ($this->form_validation->run() == FALSE) {
-			$data = array('responce' => 'error', 'message' => validation_errors());
-		} else {
-			$ajax_data = $this->input->post();
+	//______________________edo civil_____________________________
+	public function edocivil()
+	{
+		if (!$this->session->userdata('session')) redirect('login');
 
-			if ($this->Tablas_model->save_edocivil($ajax_data)) {
-				$data = array('responce' => 'success', 'message' => 'Se ha creado con Exito el Estado Civil');
+		$this->load->view('templates/header.php');
+		$this->load->view('templates/navigator.php');
+		$this->load->view('tablas/edocivil.php');
+		$this->load->view('templates/footer.php');
+	}
+	public function saveedocivil()
+	{
+		if ($this->input->is_ajax_request()) {
+			$this->form_validation->set_rules('desc_rif', 'desc_rif', 'required');
+			if ($this->form_validation->run() == FALSE) {
+				$data = array('responce' => 'error', 'message' => validation_errors());
 			} else {
-				$data = array('responce' => 'error', 'message' => 'Error , vuelva a intentar');
+				$ajax_data = $this->input->post();
+
+				if ($this->Tablas_model->save_edocivil($ajax_data)) {
+					$data = array('responce' => 'success', 'message' => 'Se ha creado con Exito el Estado Civil');
+				} else {
+					$data = array('responce' => 'error', 'message' => 'Error , vuelva a intentar');
+				}
 			}
-		}
 
-		echo json_encode($data);
-	} else {
-		echo "No direct script access allowed";
-	}
-}
-public function fetcheedocivil()
-{
-	if ($this->input->is_ajax_request()) {
-		if ($posts = $this->Tablas_model->get_edocivil()) {
-			$data = array('responce' => 'success', 'posts' => $posts);
+			echo json_encode($data);
 		} else {
-			$data = array('responce' => 'error', 'menssage' => 'error, Actualize la Pagina');
+			echo "No direct script access allowed";
 		}
-		echo json_encode($data);
-	} else {
-		echo "'No direct script access allowed'";
 	}
-}
-public function editedocivil()
-{
-	if ($this->input->is_ajax_request()) {
-		$edit_id = $this->input->post('edit_id');
-
-		if ($post = $this->Tablas_model->single_edocivil($edit_id)) {
-			$data = array('responce' => 'success', 'post' => $post);
-		} else {
-			$data = array('responce' => 'error', 'message' => 'error al guardar');
-		}
-		echo json_encode($data);
-	} else {
-		echo "No direct script access allowed";
-	}
-}
-public function updateedocivil()
-{
-	if ($this->input->is_ajax_request()) {
-		$this->form_validation->set_rules('edit_desc_rif', 'edit_record_id', 'required');
-		if ($this->form_validation->run() == FALSE) {
-			$data = array('responce' => 'error', 'message' => validation_errors());
-		} else {
-			$data['id_edo_civil'] = $this->input->post('edit_record_id');
-			$data['desc_rif'] = $this->input->post('edit_desc_rif');
-
-			if ($this->Tablas_model->update_edocivil($data)) {
-				$data = array('responce' => 'success', 'message' => 'Estado Civil Modificado Con Exito');
+	public function fetcheedocivil()
+	{
+		if ($this->input->is_ajax_request()) {
+			if ($posts = $this->Tablas_model->get_edocivil()) {
+				$data = array('responce' => 'success', 'posts' => $posts);
 			} else {
-				$data = array('responce' => 'error', 'message' => 'Error al Modificar Registor');
+				$data = array('responce' => 'error', 'menssage' => 'error, Actualize la Pagina');
 			}
+			echo json_encode($data);
+		} else {
+			echo "'No direct script access allowed'";
 		}
-
-		echo json_encode($data);
-	} else {
-		echo "No direct script access allowed";
 	}
-}
+	public function editedocivil()
+	{
+		if ($this->input->is_ajax_request()) {
+			$edit_id = $this->input->post('edit_id');
 
-public function Casificacion() {
-	
-	$data['clasificacion'] = $this->Configuracion_model->consulta_clasificacion();
-	$this->load->view('templates/header.php');
-	$this->load->view('templates/navigator.php');
-	$this->load->view('tablas/clasificacion.php', $data);
-	$this->load->view('templates/footer.php');
-}
-public function registrar_tc() {
-	if (!$this->session->userdata('session'))
-		redirect('login');
-	$data = array(
-		'desc_clasificacion' => $this->input->POST('desc_clasificacion'),
-		'id_usuario' => $this->session->userdata('id_user'),
-		'fecha' => date('Y-m-d')
-	);
+			if ($post = $this->Tablas_model->single_edocivil($edit_id)) {
+				$data = array('responce' => 'success', 'post' => $post);
+			} else {
+				$data = array('responce' => 'error', 'message' => 'error al guardar');
+			}
+			echo json_encode($data);
+		} else {
+			echo "No direct script access allowed";
+		}
+	}
+	public function updateedocivil()
+	{
+		if ($this->input->is_ajax_request()) {
+			$this->form_validation->set_rules('edit_desc_rif', 'edit_record_id', 'required');
+			if ($this->form_validation->run() == FALSE) {
+				$data = array('responce' => 'error', 'message' => validation_errors());
+			} else {
+				$data['id_edo_civil'] = $this->input->post('edit_record_id');
+				$data['desc_rif'] = $this->input->post('edit_desc_rif');
 
-	$data = $this->Tablas_model->registrar_tc($data);
-	echo json_encode($data);
-}
-public function consulta_tc() {
-	if (!$this->session->userdata('session'))
-		redirect('login');
-	$data = $this->input->post();
-	$data = $this->Tablas_model->consulta_tc($data);
-	echo json_encode($data);
-}
-public function editar_tc() {
-	if (!$this->session->userdata('session'))
-		redirect('login');
-	$data = $this->input->post();
+				if ($this->Tablas_model->update_edocivil($data)) {
+					$data = array('responce' => 'success', 'message' => 'Estado Civil Modificado Con Exito');
+				} else {
+					$data = array('responce' => 'error', 'message' => 'Error al Modificar Registor');
+				}
+			}
 
-	$data = array(
-		'id_clasificacion' => $data['id_clasificacion'],
-		'desc_clasificacion' => $data['desc_clasificacion'],
-		'id_usuario' => $this->session->userdata('id_user')
-	);
+			echo json_encode($data);
+		} else {
+			echo "No direct script access allowed";
+		}
+	}
 
-	$data = $this->Tablas_model->editar_tc($data);
-	echo json_encode($data);
-}
+	public function Casificacion()
+	{
 
+		$data['clasificacion'] = $this->Configuracion_model->consulta_clasificacion();
+		$this->load->view('templates/header.php');
+		$this->load->view('templates/navigator.php');
+		$this->load->view('tablas/clasificacion.php', $data);
+		$this->load->view('templates/footer.php');
+	}
+	public function registrar_tc()
+	{
+		if (!$this->session->userdata('session'))
+			redirect('login');
+		$data = array(
+			'desc_clasificacion' => $this->input->POST('desc_clasificacion'),
+			'id_usuario' => $this->session->userdata('id_user'),
+			'fecha' => date('Y-m-d')
+		);
+
+		$data = $this->Tablas_model->registrar_tc($data);
+		echo json_encode($data);
+	}
+	public function consulta_tc()
+	{
+		if (!$this->session->userdata('session'))
+			redirect('login');
+		$data = $this->input->post();
+		$data = $this->Tablas_model->consulta_tc($data);
+		echo json_encode($data);
+	}
+	public function editar_tc()
+	{
+		if (!$this->session->userdata('session'))
+			redirect('login');
+		$data = $this->input->post();
+
+		$data = array(
+			'id_clasificacion' => $data['id_clasificacion'],
+			'desc_clasificacion' => $data['desc_clasificacion'],
+			'id_usuario' => $this->session->userdata('id_user')
+		);
+
+		$data = $this->Tablas_model->editar_tc($data);
+		echo json_encode($data);
+	}
 }

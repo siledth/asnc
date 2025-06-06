@@ -84,30 +84,70 @@ class Tablas_model extends CI_Model
     }
     function registrar_b($data)
     {
-        // Ya no verificamos si el código o la descripción existen,
-        // simplemente procedemos a insertar el nuevo registro.
+        // 1. Eliminar espacios de inicio y final para ambos campos
+        $codigo_input_trimmed = trim($data['codigopartida_presupuestaria']);
+        $descripcion_input_trimmed = trim($data['desc_partida_presupuestaria']);
 
-        $this->db->select('max(e.id_partida_presupuestaria) as id1');
-        $query1 = $this->db->get('programacion.partida_presupuestaria e');
-        $response4 = $query1->row_array();
-        $id1 = $response4['id1'] + 1;
+        // 2. Preparar el código para validación y almacenamiento (SIEMPRE EN MAYÚSCULAS)
+        $codigo_input_upper = strtoupper($codigo_input_trimmed);
 
-        $data3 = array(
+        // 3. Preparar la descripción para validación (solo convertir a mayúsculas para la comparación)
+        $descripcion_for_validation_upper = strtoupper($descripcion_input_trimmed);
+
+
+        // --- Paso 1: Verificar si 'codigopartida_presupuestaria' ya existe (insensible a mayúsculas/minúsculas y sin espacios) ---
+        // Construcción manual de la cláusula WHERE para depuración si es necesario.
+        // $this->db->where("UPPER(TRIM(codigopartida_presupuestaria)) = '" . $codigo_input_upper . "'");
+        $this->db->where("UPPER(TRIM(codigopartida_presupuestaria))", $codigo_input_upper);
+        $query_codigo = $this->db->get('programacion.partida_presupuestaria');
+
+        // Para depuración: Puedes imprimir la última consulta ejecutada y el número de filas.
+        // log_message('debug', 'SQL Codigo: ' . $this->db->last_query());
+        // log_message('debug', 'Rows Codigo: ' . $query_codigo->num_rows());
+
+        if ($query_codigo->num_rows() > 0) {
+            return 2; // El CÓDIGO ya existe
+        }
+
+        // --- Paso 2: Verificar si 'desc_partida_presupuestaria' ya existe (insensible a mayúsculas/minúsculas y sin espacios) ---
+        $this->db->reset_query(); // Limpiar condiciones WHERE anteriores
+        // $this->db->where("UPPER(TRIM(desc_partida_presupuestaria)) = '" . $descripcion_for_validation_upper . "'");
+        $this->db->where("UPPER(TRIM(desc_partida_presupuestaria))", $descripcion_for_validation_upper);
+        $query_desc = $this->db->get('programacion.partida_presupuestaria');
+
+        // Para depuración: Puedes imprimir la última consulta ejecutada y el número de filas.
+        // log_message('debug', 'SQL Desc: ' . $this->db->last_query());
+        // log_message('debug', 'Rows Desc: ' . $query_desc->num_rows());
+
+        if ($query_desc->num_rows() > 0) {
+            return 3; // La DESCRIPCIÓN ya existe
+        }
+
+        // --- Paso 3: Si no hay duplicados, proceder con la inserción ---
+
+        // Obtener el ID máximo y sumar 1
+        $this->db->select('MAX(e.id_partida_presupuestaria) as id1');
+        $query_max_id = $this->db->get('programacion.partida_presupuestaria e');
+        $response_max_id = $query_max_id->row_array();
+        $id1 = ($response_max_id['id1'] === null) ? 1 : $response_max_id['id1'] + 1;
+
+        // Preparamos los datos para la inserción.
+        $data_to_insert = array(
             'id_partida_presupuestaria'    => $id1,
-            'codigopartida_presupuestaria'                  => $data['codigopartida_presupuestaria'],
-            'desc_partida_presupuestaria' => $data['desc_partida_presupuestaria'],
-            'id_usuario' => $data['id_usuario'],
-            'fecha' => $data['fecha']
+            'codigopartida_presupuestaria' => $codigo_input_upper,     // En mayúsculas y sin espacios
+            'desc_partida_presupuestaria'  => $descripcion_input_trimmed, // Con mayúsculas/minúsculas originales y sin espacios
+            'id_usuario'                   => $data['id_usuario'],
+            'fecha'                        => $data['fecha']
         );
 
         try {
-            $this->db->insert('programacion.partida_presupuestaria', $data3);
-            // Si la inserción es exitosa, affected_rows() será > 0
-            return $this->db->affected_rows() > 0;
+            $this->db->insert('programacion.partida_presupuestaria', $data_to_insert);
+            // log_message('debug', 'SQL Insert: ' . $this->db->last_query());
+            // log_message('debug', 'Affected Rows Insert: ' . $this->db->affected_rows());
+            return $this->db->affected_rows() > 0 ? 1 : 0; // 1 para éxito, 0 para fallo genérico
         } catch (Exception $e) {
-            // En caso de error en la inserción (por ejemplo, si id_partida_presupuestaria ya existe por algún motivo),
-            // devuelve 0.
-            return 0;
+            // log_message('error', 'Error de inserción en DB: ' . $e->getMessage());
+            return 0; // Error general al insertar
         }
     }
     function consulta_b($data)

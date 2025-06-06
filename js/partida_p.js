@@ -16,88 +16,127 @@ function valideKey(evt){
 }
 
 //CRUD BANCO
-	//GUARDAR BANCO
-	function guardar_b(){
-		var codigo_b = $("#codigo_b").val();
-		var nombre_b = $("#nombre_b").val();
+	//GUARDAR partida presupuestaria
+function guardar_b(){
+    var codigo_b = $("#codigo_b").val();
+    var nombre_b = $("#nombre_b").val();
 
-		if (codigo_b == '') {
-			document.getElementById("codigo_b").focus();
-		}else if(nombre_b == ''){
-			document.getElementById("nombre_b").focus();
-		}else {
-			event.preventDefault();
-			swal.fire({
-				title: '¿Registrar?',
-				text: '¿Esta seguro de Guardar?',
-				type: 'warning',
-				showCancelButton: true,
-				confirmButtonColor: '#3085d6',
-				cancelButtonColor: '#d33',
-				cancelButtonText: 'Cancelar',
-				confirmButtonText: '¡Si, guardar!'
-			}).then((result) => {
-				if (result.value == true) {
-					event.preventDefault();
-					var datos = new FormData($("#guardar_ba")[0]);
-					//var base_url =window.location.origin+'/asnc/index.php/Fuentefinanc/registrar_b';
-					 var base_url = '/index.php/Fuentefinanc/registrar_b';
-					$.ajax({
-						url:base_url,
-						method: 'POST',
-						data: datos,
-						contentType: false,
-						processData: false,
-						success: function(response){
-							if(response == 1) {
-								swal.fire({
-									title: 'Registro Exitoso',
-									type: 'success',
-									showCancelButton: false,
-									confirmButtonColor: '#3085d6',
-									confirmButtonText: 'Ok'
-								}).then((result) => {
-									if (result.value == true){
-										location.reload();  //c
-									}
-								});
-							}else if (response == 0) {
-								swal.fire({
-									title: 'Error',
-									text: 'El registro ya existe, por favor revise y vuelva a intentar',
-									type: 'error',
-									showCancelButton: false,
-									confirmButtonColor: '#3085d6',
-									confirmButtonText: 'Ok'
-								});
-							} else {
-								swal.fire({
-									title: 'Error al guardar',
-									text: 'No se pudo guardar el registro, por favor revise los datos ingresados',
-									type: 'error',
-									showCancelButton: false,
-									confirmButtonColor: '#3085d6',
-									confirmButtonText: 'Ok'
-								});
-							}
-						},
-						error: function(xhr, status, error) {
-							swal.fire({
-								title: 'Error al guardar',
-								text: 'No se pudo guardar el registro',
-								type: 'error',
-								showCancelButton: false,
-								confirmButtonColor: '#3085d6',
-								confirmButtonText: 'Ok'
-							});
-						}
-							
-						
-					})
-				}
-			});
-		}
-	}
+    if (codigo_b.trim() === '') {
+        document.getElementById("codigo_b").focus();  
+        swal.fire('Atención', 'El campo Código no puede estar vacío. Por favor, ingrésalo.', 'warning');
+        return; 
+    }
+    if(nombre_b.trim() === ''){
+        document.getElementById("nombre_b").focus(); // Pone el foco en el campo.
+        swal.fire('Atención', 'El campo Descripción no puede estar vacío. Por favor, ingrésala.', 'warning');
+        return; 
+    }
+
+    event.preventDefault();
+
+    // --- 2. ara pedir confirmación al usuario antes de proceder.
+    swal.fire({
+        title: '¿Registrar?',
+        text: '¿Está seguro de que desea guardar esta partida presupuestaria?',
+        icon: 'warning', 
+        showCancelButton: true, 
+        confirmButtonColor: '#3085d6',  
+        cancelButtonColor: '#d33', // Color del botón de cancelar.
+        cancelButtonText: 'Cancelar', // Texto del botón de cancelar.
+        confirmButtonText: '¡Sí, guardar!' // Texto del botón de confirmar.
+    }).then((result) => {
+        // Si el usuario hace clic en "¡Sí, guardar!" (result.value es true).
+        if (result.value === true) {
+            // Crea un objeto FormData para recopilar todos los datos del formulario 'guardar_ba'.
+            var datos = new FormData($("#guardar_ba")[0]);
+            // Define la URL base para la petición AJAX.
+            // var base_url = window.location.origin + '/asnc/index.php/Fuentefinanc/registrar_b';
+					var base_url = '/index.php/Fuentefinanc/registrar_b';
+
+            
+            // --- 3. Envío de datos vía AJAX ---
+            // Realiza la petición AJAX al servidor.
+            $.ajax({
+                url: base_url, // URL a la que se envía la petición.
+                method: 'POST', // Método HTTP.
+                data: datos, // Datos del formulario.
+                contentType: false, // No establecer tipo de contenido, FormData lo hace automáticamente.
+                processData: false, // No procesar los datos, FormData ya los formatea.
+                success: function(response){
+                    // Se ejecuta si la petición AJAX fue exitosa (el servidor respondió).
+
+                    // Importante: Convierte la respuesta del servidor a un número entero.
+                    // Esto es crucial para comparar correctamente los códigos de respuesta.
+                    response = parseInt(response, 10); 
+
+                    // --- 4. Manejo de las respuestas del servidor y mostrar alertas específicas ---
+                    if (response === 1) { // Código 1: Registro Exitoso
+                        swal.fire({
+                            title: 'Registro Exitoso',
+                            text: 'La partida presupuestaria se ha guardado correctamente.',
+                            icon: 'success', // Icono de éxito.
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Ok'
+                        }).then((result) => {
+                            if (result.value === true){
+                                location.reload(); // Recarga la página si el usuario hace clic en 'Ok'.
+                            }
+                        });
+                    } else if (response === 2) { // Código 2: Código Duplicado
+                        swal.fire({
+                            title: 'Error de Registro',
+                            text: 'El código de partida presupuestaria que intentas registrar ya existe. Por favor, ingresa uno diferente.',
+                            icon: 'error', // Icono de error.
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Ok'
+                        });
+                    } else if (response === 3) { // Código 3: Descripción Duplicada
+                        swal.fire({
+                            title: 'Error de Registro',
+                            text: 'La descripción de partida presupuestaria que intentas registrar ya existe. Por favor, ingresa una diferente.',
+                            icon: 'error', // Icono de error.
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Ok'
+                        });
+                    } else if (response === 0) { // Código 0: Error General al Insertar (información no guardada)
+                        swal.fire({
+                            title: 'Error al Guardar',
+                            text: 'La información no se ha podido guardar debido a un error inesperado. Por favor, inténtalo de nuevo.',
+                            icon: 'error', // Icono de error.
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Ok'
+                        });
+                    } else { // Cualquier otra respuesta inesperada del servidor
+                        swal.fire({
+                            title: 'Error Inesperado',
+                            text: 'Ha ocurrido un problema desconocido al intentar guardar la información. Contacta al soporte técnico. Código de respuesta: ' + response,
+                            icon: 'error', // Icono de error.
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Ok'
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Se ejecuta si la petición AJAX falló (ej. problema de red, servidor no responde).
+                    swal.fire({
+                        title: 'Error de Conexión',
+                        text: 'No se pudo conectar con el servidor. Verifica tu conexión a internet o intenta más tarde.',
+                        icon: 'error', // Icono de error.
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Ok'
+                    });
+                }
+            });
+        }
+    });
+}
+
 	//BUSCAR BANCO PARA EDITAR
 	function modal_ver(id){
 		var id_exonerado = id;
