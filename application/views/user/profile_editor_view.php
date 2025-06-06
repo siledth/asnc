@@ -396,7 +396,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Nombre de Usuario</th>
-                    <th>Perfil Asignado</th>
+
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -406,7 +406,7 @@
                         <tr>
                             <td><?php echo $user['id']; ?></td>
                             <td><?php echo $user['nombre']; ?></td>
-                            <td><?php echo $user['perfil_nombre']; ?></td>
+
                             <td>
                                 <button class="edit-profile-btn" data-user-id="<?php echo $user['id']; ?>">Editar
                                     Perfil</button>
