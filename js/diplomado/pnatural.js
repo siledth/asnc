@@ -218,7 +218,7 @@ function agregarCapacitacion() {
                     <input type="text" id="anio_${capacitacionCount}" name="capacitaciones[${capacitacionCount}][anio]" class="form-control" min="1900" max="${new Date().getFullYear()}" required>
                 </div>
                 <div class="col-md-3 form-group">
-                    <label for="horas_${capacitacionCount}">Horas </label>
+                    <label for="horas_${capacitacionCount}">Horas Académicas </label>
                     <input type="text" id="horas_${capacitacionCount}" name="capacitaciones[${capacitacionCount}][horas]" class="form-control" min="0">
                 </div>
             </div>
