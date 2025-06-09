@@ -583,13 +583,56 @@ function reindexarYReajustarExperiencias() {
 // --- FUNCIONES DE INFORMACIÓN DEL DIPLOMADO Y VALIDACIÓN DE CÉDULA ---
 
 // Función para cargar la información del diplomado
+// window.loadDiplomadoInfo = function(id_diplomado) {
+//     if (id_diplomado === "" || id_diplomado === "0") {
+//         $('#diplomadoInfoContainer').hide();
+//         return;
+//     }
+//     //   var base_url = window.location.origin + '/asnc/index.php/diplomado/getDiplomadoInfo/' + id_diplomado;
+//       var base_url = '/index.php/Diplomado/getDiplomadoInfo/' + id_diplomado; 
+      
+//     $.ajax({
+//         url: base_url,
+//         method: 'GET',
+//         dataType: 'json',
+//         success: function(response) {
+//             if (response.success && response.data) {
+//                 const diplomadoData = response.data;
+
+//                 let modalidadText = '';
+//                 if (diplomadoData.id_modalidad === '1') {
+//                     modalidadText = 'Presencial';
+//                 } else if (diplomadoData.id_modalidad === '2') {
+//                     modalidadText = 'Online';
+//                 } else {
+//                     modalidadText = 'Desconocida';
+//                 }
+
+//                 $('#diplomadoTitle').text(diplomadoData.name_d);
+//                 $('#diplomadoFechaInicio').text(diplomadoData.fdesde);
+//                 $('#diplomadoFechaFin').text(diplomadoData.fhasta);
+//                 $('#diplomadoModalidad').text(modalidadText);
+//                 $('#diplomadoM').text(diplomadoData.pay);
+//                 $('#diplomadoInfoContainer').show();
+//             } else {
+//                 $('#diplomadoInfoContainer').hide();
+//                 swal('Error', response.message || 'No se pudo obtener la información del diplomado.', 'error');
+//             }
+//         },
+//         error: function(xhr) {
+//             console.error("Error al cargar información del diplomado:", xhr.responseText);
+//             $('#diplomadoInfoContainer').hide();
+//             swal('Error', 'Hubo un problema de conexión al cargar la información del diplomado.', 'error');
+//         }
+//     });
+// };
 window.loadDiplomadoInfo = function(id_diplomado) {
     if (id_diplomado === "" || id_diplomado === "0") {
         $('#diplomadoInfoContainer').hide();
         return;
     }
     //   var base_url = window.location.origin + '/asnc/index.php/diplomado/getDiplomadoInfo/' + id_diplomado;
-      var base_url = '/index.php/Diplomado/getDiplomadoInfo/' + id_diplomado; 
+    var base_url = '/index.php/Diplomado/getDiplomadoInfo/' + id_diplomado; 
       
     $.ajax({
         url: base_url,
@@ -597,22 +640,34 @@ window.loadDiplomadoInfo = function(id_diplomado) {
         dataType: 'json',
         success: function(response) {
             if (response.success && response.data) {
-                const diplomadoData = response.data;
+                const diplomadoData = response.data; // <-- Esta es la variable correctamente declarada
 
                 let modalidadText = '';
                 if (diplomadoData.id_modalidad === '1') {
                     modalidadText = 'Presencial';
-                } else if (diplomadoData.id_modalidad === '2') {
+                } else if (diplomadoData.id_modalidad === '2') { // <-- ¡CORREGIDO AQUÍ!
                     modalidadText = 'Online';
                 } else {
-                    modalidadText = 'Desconocida';
+                    modalidadText = 'Bimodal';
                 }
 
                 $('#diplomadoTitle').text(diplomadoData.name_d);
                 $('#diplomadoFechaInicio').text(diplomadoData.fdesde);
                 $('#diplomadoFechaFin').text(diplomadoData.fhasta);
                 $('#diplomadoModalidad').text(modalidadText);
-                $('#diplomadoM').text(diplomadoData.pay);
+                
+                // Formateo del campo de pago
+                const payValue = parseFloat(diplomadoData.pay);
+                if (!isNaN(payValue)) {
+                    const formatter = new Intl.NumberFormat('es-VE', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                    $('#diplomadoM').text(formatter.format(payValue));
+                } else {
+                    $('#diplomadoM').text(diplomadoData.pay); 
+                }
+
                 $('#diplomadoInfoContainer').show();
             } else {
                 $('#diplomadoInfoContainer').hide();
@@ -626,7 +681,6 @@ window.loadDiplomadoInfo = function(id_diplomado) {
         }
     });
 };
-
 // --- FIN DE FUNCIONES DE INFORMACIÓN DEL DIPLOMADO Y VALIDACIÓN DE CÉDULA ---
 
 
