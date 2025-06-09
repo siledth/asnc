@@ -470,7 +470,7 @@ function agregarExperienciaLaboral() {
                     <input class="form-check-input es-actual-checkbox" type="checkbox" value="1"
                         id="es_actual_${experienciaCount}" name="experiencias[${experienciaCount}][es_actual]">
                     <label class="form-check-label" for="es_actual_${experienciaCount}">
-                        ¿Es su empleo actual? (Esta será la empresa asociada a su inscripción)
+                        ¿Es su empleo actual? 
                     </label>
                 </div>
             </div>

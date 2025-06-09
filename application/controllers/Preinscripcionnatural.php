@@ -348,7 +348,7 @@ class Preinscripcionnatural extends CI_Controller
                     // Mostrar cada capacitación
                     foreach ($experiencia as $exp) {
                         $pdf->SetFont('Arial', 'B', 12);
-                        $pdf->Cell(40, 5, utf8_decode('Nombre instirución:'), 0, 0, 'R');
+                        $pdf->Cell(40, 5, utf8_decode('Nombre institución:'), 0, 0, 'R');
                         $pdf->SetFont('Arial', '', 12);
                         $pdf->MultiCell(125, 5, utf8_decode($exp->nombreinstitucion), 0, 'L');
 
