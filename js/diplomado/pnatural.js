@@ -589,7 +589,7 @@ window.loadDiplomadoInfo = function(id_diplomado) {
         return;
     }
     //   var base_url = window.location.origin + '/asnc/index.php/diplomado/getDiplomadoInfo/' + id_diplomado;
-      var base_url = '/index.php/Diplomado/getDiplomadoInfo/' + id_diplomado; 
+    var base_url = '/index.php/Diplomado/getDiplomadoInfo/' + id_diplomado; 
       
     $.ajax({
         url: base_url,
@@ -602,7 +602,7 @@ window.loadDiplomadoInfo = function(id_diplomado) {
                 let modalidadText = '';
                 if (diplomadoData.id_modalidad === '1') {
                     modalidadText = 'Presencial';
-                } else if (diplomadoData.id_modalidad === '2') {
+                } else if (dipladoData.id_modalidad === '2') {
                     modalidadText = 'Online';
                 } else {
                     modalidadText = 'Desconocida';
@@ -612,7 +612,22 @@ window.loadDiplomadoInfo = function(id_diplomado) {
                 $('#diplomadoFechaInicio').text(diplomadoData.fdesde);
                 $('#diplomadoFechaFin').text(diplomadoData.fhasta);
                 $('#diplomadoModalidad').text(modalidadText);
-                $('#diplomadoM').text(diplomadoData.pay);
+                
+                // --- APPLY FORMATTING HERE ---
+                const payValue = parseFloat(diplomadoData.pay); // Convert the string to a number
+                if (!isNaN(payValue)) { // Check if the conversion resulted in a valid number
+                    const formatter = new Intl.NumberFormat('es-VE', { // 'es-VE' for Spanish (Venezuela) locale
+                        minimumFractionDigits: 2, // Ensure at least 2 decimal places
+                        maximumFractionDigits: 2  // Ensure no more than 2 decimal places
+                        // You can also add style: 'currency', currency: 'VES' if you want a currency symbol
+                    });
+                    $('#diplomadoM').text(formatter.format(payValue)); // Format and set the text
+                } else {
+                    // Fallback: If 'pay' isn't a valid number, display it as is or with a default message
+                    $('#diplomadoM').text(diplomadoData.pay); 
+                }
+                // --- END FORMATTING ---
+
                 $('#diplomadoInfoContainer').show();
             } else {
                 $('#diplomadoInfoContainer').hide();
