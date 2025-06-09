@@ -589,7 +589,7 @@ window.loadDiplomadoInfo = function(id_diplomado) {
         return;
     }
     //   var base_url = window.location.origin + '/asnc/index.php/diplomado/getDiplomadoInfo/' + id_diplomado;
-    var base_url = '/index.php/Diplomado/getDiplomadoInfo/' + id_diplomado; 
+      var base_url = '/index.php/Diplomado/getDiplomadoInfo/' + id_diplomado; 
       
     $.ajax({
         url: base_url,
@@ -597,12 +597,12 @@ window.loadDiplomadoInfo = function(id_diplomado) {
         dataType: 'json',
         success: function(response) {
             if (response.success && response.data) {
-                const diplomadoData = response.data; // <-- Esta es la variable correctamente declarada
+                const diplomadoData = response.data;
 
                 let modalidadText = '';
                 if (diplomadoData.id_modalidad === '1') {
                     modalidadText = 'Presencial';
-                } else if (diplomadoData.id_modalidad === '2') { // <-- ¡CORREGIDO AQUÍ!
+                } else if (diplomadoData.id_modalidad === '2') {
                     modalidadText = 'Online';
                 } else {
                     modalidadText = 'Desconocida';
@@ -612,19 +612,7 @@ window.loadDiplomadoInfo = function(id_diplomado) {
                 $('#diplomadoFechaInicio').text(diplomadoData.fdesde);
                 $('#diplomadoFechaFin').text(diplomadoData.fhasta);
                 $('#diplomadoModalidad').text(modalidadText);
-                
-                // Formateo del campo de pago
-                const payValue = parseFloat(diplomadoData.pay);
-                if (!isNaN(payValue)) {
-                    const formatter = new Intl.NumberFormat('es-VE', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    });
-                    $('#diplomadoM').text(formatter.format(payValue));
-                } else {
-                    $('#diplomadoM').text(diplomadoData.pay); 
-                }
-
+                $('#diplomadoM').text(diplomadoData.pay);
                 $('#diplomadoInfoContainer').show();
             } else {
                 $('#diplomadoInfoContainer').hide();
