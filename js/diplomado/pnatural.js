@@ -361,8 +361,164 @@ function reindexarYReajustarCapacitaciones() {
 // --- FUNCIONES DE GESTIÓN DE EXPERIENCIA LABORAL ---
 
 // Función para agregar un nuevo formulario de experiencia laboral
+// function agregarExperienciaLaboral() {
+//     if (experienciaCount >= maxExperiencias) return;
+
+//     experienciaCount++;
+//     const newId = 'experiencia-' + experienciaCount;
+
+//     const html = `
+//         <div class="experiencia-item" id="${newId}">
+//             <h6>Experiencia Laboral #${experienciaCount}</h6>
+
+//             <div class="row">
+//                 <div class="col-md-4 form-group">
+//                     <label for="cargo_laboral_${experienciaCount}" class="required-field">Cargo Desempeñado</label>
+//                     <input type="text" id="cargo_laboral_${experienciaCount}" name="experiencias[${experienciaCount}][cargo]" class="form-control" required>
+//                 </div>
+
+//                 <div class="col-md-4 form-group">
+//                     <label for="tiempo_cargo_${experienciaCount}" class="required-field">Tiempo en el Cargo (años)</label>
+//                     <input type="text" id="tiempo_cargo_${experienciaCount}" name="experiencias[${experienciaCount}][tiempo_cargo]" class="form-control" min="0" required>
+//                 </div>
+//             </div>
+
+//             <div class="row">
+//                 <div class="col-md-6 form-group">
+//                     <label for="desde_laboral_${experienciaCount}" class="required-field">Fecha de Inicio</label>
+//                     <input type="date" id="desde_laboral_${experienciaCount}" name="experiencias[${experienciaCount}][desde]" class="form-control" required>
+//                 </div>
+
+//                 <div class="col-md-6 form-group">
+//                     <label for="hasta_laboral_${experienciaCount}" class="required-field">Fecha de Fin</label>
+//                     <input type="date" id="hasta_laboral_${experienciaCount}" name="experiencias[${experienciaCount}][hasta]" class="form-control" max="${maxDate}" required>
+//                 </div>
+//             </div>
+
+//             <div class="card p-3 mt-3">
+//                 <h6>Datos de la Institución donde Laboró</h6>
+//                 <div class="row">
+//                     <div class="col-md-8 form-group">
+//                         <label for="rif_laboral_${experienciaCount}" class="required-field">RIF de la Institución</label>
+//                         <input class="form-control" type="text" name="experiencias[${experienciaCount}][rif_institucion]"
+//                             id="rif_laboral_${experienciaCount}" placeholder="J123456789" maxlength="10" required>
+//                         <small id="rifError_laboral_${experienciaCount}" class="text-danger d-none">
+//                             El RIF debe tener <span id="missingChars_laboral_${experienciaCount}">10</span> caracteres exactos (Ej: J123456789)
+//                         </small>
+//                         <div class="invalid-feedback">Debe ingresar el RIF de la institución</div>
+//                     </div>
+//                     <div class="col-md-4 form-group d-flex align-items-end">
+//                         <button type="button" class="btn btn-default w-100" id="consultar_rif_laboral_btn_${experienciaCount}" disabled>
+//                             <i class="fas fa-search"></i> Consultar
+//                         </button>
+//                     </div>
+//                 </div>
+
+//                 <div id='existe_laboral_${experienciaCount}' style="display: none;">
+//                     <div class="alert alert-success">
+//                         <i class="fas fa-check-circle mr-2"></i>La institución está registrada en nuestro sistema.
+//                     </div>
+//                     <div class="row">
+//                         <div class="col-md-6 form-group">
+//                             <label>RIF del Órgano / Ente</label>
+//                             <input class="form-control" type="text" name="experiencias[${experienciaCount}][rif_existente]"
+//                                 id="sel_rif_nombre5_laboral_${experienciaCount}" readonly>
+//                         </div>
+//                         <div class="col-md-6 form-group">
+//                             <label>Nombre del Órgano / Ente</label>
+//                             <input type="text" name="experiencias[${experienciaCount}][razon_social_existente]"
+//                                 id="nombre_conta_5_laboral_${experienciaCount}" class="form-control" readonly>
+//                         </div>
+//                     </div>
+//                 </div>
+
+//                 <div id='no_existe_laboral_${experienciaCount}' style="display: none;">
+//                     <div class="alert alert-warning">
+//                         <i class="fas fa-exclamation-triangle mr-2"></i>Complete los datos de la institución.
+//                     </div>
+//                     <div class="row">
+//                         <div class="col-md-4 form-group">
+//                             <label for="rif_55_laboral_${experienciaCount}"><i
+//                                     class="fas fa-question-circle text-danger mr-1"></i>RIF</label>
+//                             <input type="text" class="form-control" name="experiencias[${experienciaCount}][rif_nuevo]"
+//                                 id="rif_55_laboral_${experienciaCount}" placeholder="Ej: J123456789">
+//                         </div>
+//                         <div class="col-md-8 form-group">
+//                             <label for="razon_social_laboral_${experienciaCount}" class="required-field">Razón Social</label>
+//                             <input id="razon_social_laboral_${experienciaCount}" name="experiencias[${experienciaCount}][razon_social_nueva]" class="form-control"
+//                                 placeholder="Nombre completo de la institución">
+//                         </div>
+//                     </div>
+//                     <div class="row">
+//                         <div class="col-md-4 form-group">
+//                             <label for="tel_local_laboral_${experienciaCount}" class="required-field">Teléfono Local</label>
+//                             <input type="text" id="tel_local_laboral_${experienciaCount}" name="experiencias[${experienciaCount}][tel_local_nuevo]" class="form-control"
+//                                 placeholder="Ej: 02121234567">
+//                             <p id="errorMsg_laboral_${experienciaCount}" class="text-danger"></p>
+//                         </div>
+//                         <div class="col-md-8 form-group">
+//                             <label for="direccion_fiscal_laboral_${experienciaCount}" class="required-field">Dirección Completa</label>
+//                             <textarea class="form-control" id="direccion_fiscal_laboral_${experienciaCount}" name="experiencias[${experienciaCount}][direccion_fiscal_nueva]"
+//                                 rows="3" placeholder="Ej: Av. Principal, Edificio XYZ, Piso 3, Oficina 301"></textarea>
+//                         </div>
+//                     </div>
+//                 </div>
+//             </div>
+
+//             <div class="form-group mt-3">
+//                 <div class="form-check">
+//                     <input class="form-check-input es-actual-checkbox" type="checkbox" value="1"
+//                         id="es_actual_${experienciaCount}" name="experiencias[${experienciaCount}][es_actual]">
+//                     <label class="form-check-label" for="es_actual_${experienciaCount}">
+//                         ¿Es su empleo actual? 
+//                     </label>
+//                 </div>
+//             </div>
+
+//             ${experienciaCount > 1 ? `
+//             <button type="button" class="btn btn-danger btn-sm btn-remove-experiencia">
+//                 <i class="fas fa-trash mr-1"></i>Eliminar esta experiencia
+//             </button>
+//             ` : ''}
+//             <hr>
+//         </div>
+//     `;
+
+//     $('#lista-experiencias').append(html);
+
+//     // Agrega el evento change para el checkbox "Es su empleo actual?"
+//     $(`#es_actual_${experienciaCount}`).on('change', function() {
+//         if ($(this).is(':checked')) {
+//             $('.es-actual-checkbox').not(this).prop('checked', false).trigger('change');
+//         }
+//     });
+
+//     // Agrega el evento oninput y onclick para la validación/consulta de RIF
+//     $(`#rif_laboral_${experienciaCount}`).on('input', function() {
+//         validarRIFExperiencia(this, experienciaCount);
+//     });
+//     $(`#consultar_rif_laboral_btn_${experienciaCount}`).on('click', function() {
+//         consultar_rif_experiencia(experienciaCount);
+//     });
+
+//     // Adjuntar evento de click para el botón de eliminar experiencia
+//     $(`#${newId} .btn-remove-experiencia`).on('click', function() {
+//         eliminarExperienciaLaboral(newId);
+//     });
+
+//     // Ocultar o mostrar botón de agregar si llegamos al máximo
+//     if (experienciaCount >= maxExperiencias) {
+//         $('#btn-add-experiencia').hide();
+//     } else {
+//         $('#btn-add-experiencia').show();
+//     }
+// }
 function agregarExperienciaLaboral() {
     if (experienciaCount >= maxExperiencias) return;
+
+    // --- NUEVA LÓGICA: Verificar si ya hay un empleo actual marcado ---
+    const hasCurrentEmployment = $('.es-actual-checkbox:checked').length > 0;
+    // Si ya hay uno marcado, el próximo checkbox no se mostrará.
 
     experienciaCount++;
     const newId = 'experiencia-' + experienciaCount;
@@ -465,15 +621,16 @@ function agregarExperienciaLaboral() {
                 </div>
             </div>
 
-            <div class="form-group mt-3">
+            ${!hasCurrentEmployment ? ` <div class="form-group mt-3">
                 <div class="form-check">
                     <input class="form-check-input es-actual-checkbox" type="checkbox" value="1"
                         id="es_actual_${experienciaCount}" name="experiencias[${experienciaCount}][es_actual]">
                     <label class="form-check-label" for="es_actual_${experienciaCount}">
-                        ¿Es su empleo actual? 
+                        ¿Es su empleo actual? (Esta será la empresa asociada a su inscripción)
                     </label>
                 </div>
             </div>
+            ` : ''}
 
             ${experienciaCount > 1 ? `
             <button type="button" class="btn btn-danger btn-sm btn-remove-experiencia">
@@ -487,13 +644,25 @@ function agregarExperienciaLaboral() {
     $('#lista-experiencias').append(html);
 
     // Agrega el evento change para el checkbox "Es su empleo actual?"
-    $(`#es_actual_${experienciaCount}`).on('change', function() {
-        if ($(this).is(':checked')) {
-            $('.es-actual-checkbox').not(this).prop('checked', false).trigger('change');
-        }
-    });
+    // Este evento solo necesita adjuntarse si el checkbox fue realmente añadido al DOM
+    if (!hasCurrentEmployment) {
+        $(`#es_actual_${experienciaCount}`).on('change', function() {
+            if ($(this).is(':checked')) {
+                // Desmarcar todos los demás checkboxes "es-actual-checkbox"
+                // .not(this) asegura que no se desmarque a sí mismo
+                // Y luego re-evaluar si el botón de añadir debe ocultarse
+                $('.es-actual-checkbox').not(this).prop('checked', false);
+                // Si el checkbox se marca, ocultamos el botón de añadir si se alcanza el máximo o si solo debe haber un empleo actual.
+                // Aquí, el objetivo es que si se marca, se oculte el checkbox para futuras adiciones.
+                // Re-evaluamos el estado del botón de añadir experiencia.
+                toggleAddExperienciaButton();
+            }
+        });
+    }
+
 
     // Agrega el evento oninput y onclick para la validación/consulta de RIF
+    // Estos siempre se adjuntan, sin importar si el checkbox de empleo actual está presente
     $(`#rif_laboral_${experienciaCount}`).on('input', function() {
         validarRIFExperiencia(this, experienciaCount);
     });
@@ -506,62 +675,165 @@ function agregarExperienciaLaboral() {
         eliminarExperienciaLaboral(newId);
     });
 
-    // Ocultar o mostrar botón de agregar si llegamos al máximo
-    if (experienciaCount >= maxExperiencias) {
+    // --- Lógica para ocultar/mostrar el botón de añadir experiencia ---
+    // Esta lógica la centralizamos en una función para que sea más fácil de manejar.
+    toggleAddExperienciaButton();
+}
+
+
+// --- NUEVA FUNCIÓN: Para gestionar el botón de añadir experiencia ---
+// Colócala junto a las otras funciones auxiliares en pnatural.js
+function toggleAddExperienciaButton() {
+    const totalExperiencias = $('#lista-experiencias .experiencia-item').length;
+    const hasCurrentEmploymentChecked = $('.es-actual-checkbox:checked').length > 0;
+
+    // El botón de añadir experiencia se oculta si:
+    // 1. Hemos alcanzado el número máximo de experiencias PERMITIDAS.
+    // 2. Ya hay una experiencia marcada como "actual".
+    if (totalExperiencias >= maxExperiencias || hasCurrentEmploymentChecked) {
         $('#btn-add-experiencia').hide();
     } else {
         $('#btn-add-experiencia').show();
     }
 }
-
 // Función para eliminar una experiencia laboral (DEBE SER GLOBAL para onclick)
 window.eliminarExperienciaLaboral = function(id) {
     $('#' + id).remove();
-    reindexarYReajustarExperiencias(); // Llama a la función de reindexación
+    reindexarYReajustarExperiencias();
+    // Vuelve a evaluar el estado del botón de añadir experiencia después de eliminar
+    toggleAddExperienciaButton();
 };
 
+
 // Helper para reindexar y reajustar experiencias laborales
+// function reindexarYReajustarExperiencias() {
+//     experienciaCount = 0; // Reiniciar el contador
+//     $('#lista-experiencias .experiencia-item').each(function(index) {
+//         experienciaCount++;
+//         const newNum = experienciaCount;
+//         const currentItem = $(this);
+
+//         currentItem.attr('id', 'experiencia-' + newNum);
+//         currentItem.find('h6').text('Experiencia Laboral #' + newNum);
+
+//         currentItem.find('input, select, textarea').each(function() {
+//             const oldName = $(this).attr('name');
+//             if (oldName) {
+//                 // Regex para reemplazar el número de la experiencia en el name del array
+//                 const newName = oldName.replace(/experiencias\[\d+\]/, `experiencias[${index}]`); // Corregido a 'index'
+//                 $(this).attr('name', newName);
+//             }
+//             const oldId = $(this).attr('id');
+//             if (oldId) {
+//                 // Regex para reemplazar el número de la experiencia en el ID
+//                 const newId = oldId.replace(/_(\d+)$/, `_${newNum}`);
+//                 $(this).attr('id', newId);
+//             }
+//         });
+
+//         // Re-adjuntar el evento change para el checkbox "Es su empleo actual?"
+//         $(`#es_actual_${newNum}`).off('change').on('change', function() {
+//             if ($(this).is(':checked')) {
+//                 $('.es-actual-checkbox').not(this).prop('checked', false).trigger('change');
+//             }
+//         });
+
+//         // Re-adjuntar el evento oninput y onclick para la validación/consulta de RIF
+//         $(`#rif_laboral_${newNum}`).off('input').on('input', function() {
+//             validarRIFExperiencia(this, newNum);
+//         });
+//         $(`#consultar_rif_laboral_btn_${newNum}`).off('click').on('click', function() {
+//             consultar_rif_experiencia(newNum);
+//         });
+
+//         // Re-adjuntar el evento click para el botón de eliminar
+//         if (currentItem.find('.btn-remove-experiencia').length) {
+//             currentItem.find('.btn-remove-experiencia').off('click').on('click', function() {
+//                 eliminarExperienciaLaboral(`experiencia-${newNum}`);
+//             });
+//         }
+//     });
+
+//     // Mostrar/ocultar el botón de añadir después de reindexar
+//     if (experienciaCount < maxExperiencias) {
+//         $('#btn-add-experiencia').show();
+//     } else {
+//         $('#btn-add-experiencia').hide();
+//     }
+// }
 function reindexarYReajustarExperiencias() {
-    experienciaCount = 0; // Reiniciar el contador
+    experienciaCount = 0; // Reset the global counter for experiences.
+
     $('#lista-experiencias .experiencia-item').each(function(index) {
-        experienciaCount++;
-        const newNum = experienciaCount;
+        // 'index' is the 0-based index of the current item in the jQuery .each() loop (0, 1, 2...).
+        // 'newNum' is for display purposes (1-based, "Experiencia Laboral #1", #2, etc.).
+        experienciaCount++; // Increment the global counter to reflect the new total.
+        const newNum = experienciaCount; // This will be 1, 2, 3...
+
         const currentItem = $(this);
 
+        // Update the item's ID for consistent references.
         currentItem.attr('id', 'experiencia-' + newNum);
         currentItem.find('h6').text('Experiencia Laboral #' + newNum);
 
+        // Iterate over all inputs, selects, and textareas within the current item.
         currentItem.find('input, select, textarea').each(function() {
             const oldName = $(this).attr('name');
             if (oldName) {
-                // Regex para reemplazar el número de la experiencia en el name del array
-                const newName = oldName.replace(/experiencias\[\d+\]/, `experiencias[${index}]`); // Corregido a 'index'
+                // *** CRITICAL CHANGE: Use 'index' (0-based) for the array name. ***
+                // This ensures PHP receives a continuous 0-indexed array, e.g.,
+                // experiencias[0][cargo], experiencias[1][cargo], etc., avoiding gaps.
+                const newName = oldName.replace(/experiencias\[\d+\]/, `experiencias[${index}]`);
                 $(this).attr('name', newName);
             }
+
             const oldId = $(this).attr('id');
             if (oldId) {
-                // Regex para reemplazar el número de la experiencia en el ID
+                // Update IDs for consistency with the newNum (1-based for display and event attachment).
                 const newId = oldId.replace(/_(\d+)$/, `_${newNum}`);
                 $(this).attr('id', newId);
             }
         });
 
-        // Re-adjuntar el evento change para el checkbox "Es su empleo actual?"
-        $(`#es_actual_${newNum}`).off('change').on('change', function() {
-            if ($(this).is(':checked')) {
-                $('.es-actual-checkbox').not(this).prop('checked', false).trigger('change');
-            }
-        });
+        // Re-attach event listeners for specific elements within the re-indexed item.
 
-        // Re-adjuntar el evento oninput y onclick para la validación/consulta de RIF
-        $(`#rif_laboral_${newNum}`).off('input').on('input', function() {
+        // Re-attach the 'change' event for the "Es su empleo actual?" checkbox.
+        // It's important to re-attach the event to the newly identified ID.
+        // Also, this checkbox might not exist if it was conditionally hidden when first added.
+        const esActualCheckbox = $(`#es_actual_${newNum}`);
+        if (esActualCheckbox.length) { // Check if the checkbox exists for this item.
+            esActualCheckbox.off('change').on('change', function() {
+                if ($(this).is(':checked')) {
+                    // Deselect other "Es su empleo actual?" checkboxes.
+                    $('.es-actual-checkbox').not(this).prop('checked', false);
+                }
+                // Always re-evaluate the state of the "Add Experience" button after a checkbox change.
+                toggleAddExperienciaButton(); 
+            });
+        }
+        
+        // Re-attach 'input' and 'click' events for RIF validation/consultation.
+        const rifLaboralInput = $(`#rif_laboral_${newNum}`);
+        rifLaboralInput.off('input').on('input', function() {
             validarRIFExperiencia(this, newNum);
         });
         $(`#consultar_rif_laboral_btn_${newNum}`).off('click').on('click', function() {
             consultar_rif_experiencia(newNum);
         });
 
-        // Re-adjuntar el evento click para el botón de eliminar
+        // Re-attach 'input' events for numeric fields (tiempo_cargo, tel_local_laboral).
+        $(`#tiempo_cargo_${newNum}`).off('input').on('input', function() {
+            allowOnlyNumbers(this);
+        });
+        // Check if the no_existe_laboral section exists and has the tel_local_laboral input
+        const telLocalLaboralInput = currentItem.find(`#tel_local_laboral_${newNum}`);
+        if (telLocalLaboralInput.length) {
+            telLocalLaboralInput.off('input').on('input', function() {
+                allowOnlyNumbers(this);
+            });
+        }
+        
+        // Re-attach the 'click' event for the remove button.
         if (currentItem.find('.btn-remove-experiencia').length) {
             currentItem.find('.btn-remove-experiencia').off('click').on('click', function() {
                 eliminarExperienciaLaboral(`experiencia-${newNum}`);
@@ -569,14 +841,11 @@ function reindexarYReajustarExperiencias() {
         }
     });
 
-    // Mostrar/ocultar el botón de añadir después de reindexar
-    if (experienciaCount < maxExperiencias) {
-        $('#btn-add-experiencia').show();
-    } else {
-        $('#btn-add-experiencia').hide();
-    }
+    // Finally, re-evaluate the "Add Experience" button's visibility.
+    // This is called here and also within toggleAddExperienciaButton.
+    // Calling it once at the end of reindexing is sufficient.
+    toggleAddExperienciaButton(); 
 }
-
 // --- FIN DE FUNCIONES DE GESTIÓN DE EXPERIENCIA LABORAL ---
 
 
