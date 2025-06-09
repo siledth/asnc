@@ -171,8 +171,8 @@ function listar_ciudades(){
 
 function llenar_sub_mod(){
     var id_modalidad = $('#id_modalidad').val();
-    var base_url = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_sub_modalidad';
-    // var base_url = '/index.php/evaluacion_desempenio/llenar_sub_modalidad';
+    // var base_url = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_sub_modalidad';
+    var base_url = '/index.php/evaluacion_desempenio/llenar_sub_modalidad';
 
     $.ajax({
         url: base_url,
@@ -491,8 +491,8 @@ function registrar(){
                     if (result.value == true) {
                         event.preventDefault();
                         var datos = new FormData($("#resgistrar_eva")[0]);
-                        var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
-                        // var base_url = '/index.php/evaluacion_desempenio/registrar';
+                        // var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
+                        var base_url = '/index.php/evaluacion_desempenio/registrar';
                         $.ajax({
                             url:base_url,
                             method: 'POST',
@@ -535,8 +535,8 @@ function registrar(){
                     if (result.value == true) {
                         event.preventDefault();
                         var datos = new FormData($("#resgistrar_eva")[0]);
-                        var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
-                        // var base_url = '/index.php/evaluacion_desempenio/registrar';
+                        // var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
+                        var base_url = '/index.php/evaluacion_desempenio/registrar';
                         $.ajax({
                             url:base_url,
                             method: 'POST',
@@ -671,8 +671,8 @@ function registrar(){
 
                         event.preventDefault();
                         var datos = new FormData($("#resgistrar_eva")[0]);
-                       var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
-                        // var base_url = '/index.php/evaluacion_desempenio/registrar';
+                    //    var base_url =window.location.origin+'/asnc/index.php/evaluacion_desempenio/registrar';
+                        var base_url = '/index.php/evaluacion_desempenio/registrar';
                         $.ajax({
                             url:base_url,
                             method: 'POST',
