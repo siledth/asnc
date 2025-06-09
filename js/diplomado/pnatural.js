@@ -652,8 +652,29 @@ window.loadDiplomadoInfo = function(id_diplomado) {
                 }
 
                 $('#diplomadoTitle').text(diplomadoData.name_d);
-                $('#diplomadoFechaInicio').text(diplomadoData.fdesde);
-                $('#diplomadoFechaFin').text(diplomadoData.fhasta);
+
+              const fechaInicio = new Date(diplomadoData.fdesde + 'T00:00:00'); // Añadir 'T00:00:00' para evitar problemas de zona horaria
+                if (!isNaN(fechaInicio.getTime())) { // Verificar si es una fecha válida
+                    $('#diplomadoFechaInicio').text(fechaInicio.toLocaleDateString('es-ES', { // 'es-ES' o 'es-VE' para DD/MM/YYYY
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    }));
+                } else {
+                    $('#diplomadoFechaInicio').text(diplomadoData.fdesde); // Mostrar sin formato si no es válida
+                }
+
+                // Formato para Fecha de Fin
+                const fechaFin = new Date(diplomadoData.fhasta + 'T00:00:00'); // Añadir 'T00:00:00' para evitar problemas de zona horaria
+                if (!isNaN(fechaFin.getTime())) { // Verificar si es una fecha válida
+                    $('#diplomadoFechaFin').text(fechaFin.toLocaleDateString('es-ES', { // 'es-ES' o 'es-VE' para DD/MM/YYYY
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    }));
+                } else {
+                    $('#diplomadoFechaFin').text(diplomadoData.fhasta); // Mostrar sin formato si no es válida
+                }
                 $('#diplomadoModalidad').text(modalidadText);
                 
                 // Formateo del campo de pago
