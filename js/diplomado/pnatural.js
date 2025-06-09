@@ -683,14 +683,26 @@ function agregarExperienciaLaboral() {
 
 // --- NUEVA FUNCIÓN: Para gestionar el botón de añadir experiencia ---
 // Colócala junto a las otras funciones auxiliares en pnatural.js
+// function toggleAddExperienciaButton() {
+//     const totalExperiencias = $('#lista-experiencias .experiencia-item').length;
+//     const hasCurrentEmploymentChecked = $('.es-actual-checkbox:checked').length > 0;
+
+//     // El botón de añadir experiencia se oculta si:
+//     // 1. Hemos alcanzado el número máximo de experiencias PERMITIDAS.
+//     // 2. Ya hay una experiencia marcada como "actual".
+//     if (totalExperiencias >= maxExperiencias || hasCurrentEmploymentChecked) {
+//         $('#btn-add-experiencia').hide();
+//     } else {
+//         $('#btn-add-experiencia').show();
+//     }
+// }
 function toggleAddExperienciaButton() {
     const totalExperiencias = $('#lista-experiencias .experiencia-item').length;
-    const hasCurrentEmploymentChecked = $('.es-actual-checkbox:checked').length > 0;
+    // const hasCurrentEmploymentChecked = $('.es-actual-checkbox:checked').length > 0; // ESTA LÍNEA SE COMENTA O ELIMINA SI SOLO AFECTA AL CHECKBOX NO AL BOTÓN DE AÑADIR.
 
-    // El botón de añadir experiencia se oculta si:
-    // 1. Hemos alcanzado el número máximo de experiencias PERMITIDAS.
-    // 2. Ya hay una experiencia marcada como "actual".
-    if (totalExperiencias >= maxExperiencias || hasCurrentEmploymentChecked) {
+    // El botón de añadir experiencia se oculta AHORA SOLO SI:
+    // Hemos alcanzado el número máximo de experiencias permitidas.
+    if (totalExperiencias >= maxExperiencias) { // <-- ¡SOLO ESTA CONDICIÓN!
         $('#btn-add-experiencia').hide();
     } else {
         $('#btn-add-experiencia').show();
@@ -703,7 +715,6 @@ window.eliminarExperienciaLaboral = function(id) {
     // Vuelve a evaluar el estado del botón de añadir experiencia después de eliminar
     toggleAddExperienciaButton();
 };
-
 
 // Helper para reindexar y reajustar experiencias laborales
 // function reindexarYReajustarExperiencias() {
@@ -761,58 +772,131 @@ window.eliminarExperienciaLaboral = function(id) {
 //         $('#btn-add-experiencia').hide();
 //     }
 // }
+// function reindexarYReajustarExperiencias() {
+//     experienciaCount = 0; // Reset the global counter for experiences.
+
+//     $('#lista-experiencias .experiencia-item').each(function(index) {
+//         // 'index' is the 0-based index of the current item in the jQuery .each() loop (0, 1, 2...).
+//         // 'newNum' is for display purposes (1-based, "Experiencia Laboral #1", #2, etc.).
+//         experienciaCount++; // Increment the global counter to reflect the new total.
+//         const newNum = experienciaCount; // This will be 1, 2, 3...
+
+//         const currentItem = $(this);
+
+//         // Update the item's ID for consistent references.
+//         currentItem.attr('id', 'experiencia-' + newNum);
+//         currentItem.find('h6').text('Experiencia Laboral #' + newNum);
+
+//         // Iterate over all inputs, selects, and textareas within the current item.
+//         currentItem.find('input, select, textarea').each(function() {
+//             const oldName = $(this).attr('name');
+//             if (oldName) {
+//                 // *** CRITICAL CHANGE: Use 'index' (0-based) for the array name. ***
+//                 // This ensures PHP receives a continuous 0-indexed array, e.g.,
+//                 // experiencias[0][cargo], experiencias[1][cargo], etc., avoiding gaps.
+//                 const newName = oldName.replace(/experiencias\[\d+\]/, `experiencias[${index}]`);
+//                 $(this).attr('name', newName);
+//             }
+
+//             const oldId = $(this).attr('id');
+//             if (oldId) {
+//                 // Update IDs for consistency with the newNum (1-based for display and event attachment).
+//                 const newId = oldId.replace(/_(\d+)$/, `_${newNum}`);
+//                 $(this).attr('id', newId);
+//             }
+//         });
+
+//         // Re-attach event listeners for specific elements within the re-indexed item.
+
+//         // Re-attach the 'change' event for the "Es su empleo actual?" checkbox.
+//         // It's important to re-attach the event to the newly identified ID.
+//         // Also, this checkbox might not exist if it was conditionally hidden when first added.
+//         const esActualCheckbox = $(`#es_actual_${newNum}`);
+//         if (esActualCheckbox.length) { // Check if the checkbox exists for this item.
+//             esActualCheckbox.off('change').on('change', function() {
+//                 if ($(this).is(':checked')) {
+//                     // Deselect other "Es su empleo actual?" checkboxes.
+//                     $('.es-actual-checkbox').not(this).prop('checked', false);
+//                 }
+//                 // Always re-evaluate the state of the "Add Experience" button after a checkbox change.
+//                 toggleAddExperienciaButton(); 
+//             });
+//         }
+        
+//         // Re-attach 'input' and 'click' events for RIF validation/consultation.
+//         const rifLaboralInput = $(`#rif_laboral_${newNum}`);
+//         rifLaboralInput.off('input').on('input', function() {
+//             validarRIFExperiencia(this, newNum);
+//         });
+//         $(`#consultar_rif_laboral_btn_${newNum}`).off('click').on('click', function() {
+//             consultar_rif_experiencia(newNum);
+//         });
+
+//         // Re-attach 'input' events for numeric fields (tiempo_cargo, tel_local_laboral).
+//         $(`#tiempo_cargo_${newNum}`).off('input').on('input', function() {
+//             allowOnlyNumbers(this);
+//         });
+//         // Check if the no_existe_laboral section exists and has the tel_local_laboral input
+//         const telLocalLaboralInput = currentItem.find(`#tel_local_laboral_${newNum}`);
+//         if (telLocalLaboralInput.length) {
+//             telLocalLaboralInput.off('input').on('input', function() {
+//                 allowOnlyNumbers(this);
+//             });
+//         }
+        
+//         // Re-attach the 'click' event for the remove button.
+//         if (currentItem.find('.btn-remove-experiencia').length) {
+//             currentItem.find('.btn-remove-experiencia').off('click').on('click', function() {
+//                 eliminarExperienciaLaboral(`experiencia-${newNum}`);
+//             });
+//         }
+//     });
+
+//     // Finally, re-evaluate the "Add Experience" button's visibility.
+//     // This is called here and also within toggleAddExperienciaButton.
+//     // Calling it once at the end of reindexing is sufficient.
+//     toggleAddExperienciaButton(); 
+// }
 function reindexarYReajustarExperiencias() {
-    experienciaCount = 0; // Reset the global counter for experiences.
+    experienciaCount = 0; // Reiniciar el contador global
 
     $('#lista-experiencias .experiencia-item').each(function(index) {
-        // 'index' is the 0-based index of the current item in the jQuery .each() loop (0, 1, 2...).
-        // 'newNum' is for display purposes (1-based, "Experiencia Laboral #1", #2, etc.).
-        experienciaCount++; // Increment the global counter to reflect the new total.
-        const newNum = experienciaCount; // This will be 1, 2, 3...
-
+        // 'index' es el 0-based index de jQuery.each() para el nombre del array en PHP.
+        // 'newNum' (experienciaCount) será 1-based para IDs y texto de visualización.
+        experienciaCount++;
+        const newNum = experienciaCount;
         const currentItem = $(this);
 
-        // Update the item's ID for consistent references.
         currentItem.attr('id', 'experiencia-' + newNum);
         currentItem.find('h6').text('Experiencia Laboral #' + newNum);
 
-        // Iterate over all inputs, selects, and textareas within the current item.
         currentItem.find('input, select, textarea').each(function() {
             const oldName = $(this).attr('name');
             if (oldName) {
-                // *** CRITICAL CHANGE: Use 'index' (0-based) for the array name. ***
-                // This ensures PHP receives a continuous 0-indexed array, e.g.,
-                // experiencias[0][cargo], experiencias[1][cargo], etc., avoiding gaps.
-                const newName = oldName.replace(/experiencias\[\d+\]/, `experiencias[${index}]`);
+                // USA 'index' (0-based) para el nombre del array en PHP para que sea consecutivo.
+                const newName = oldName.replace(/experiencias\[\d+\]/, `experiencias[${index}]`); 
                 $(this).attr('name', newName);
             }
-
             const oldId = $(this).attr('id');
             if (oldId) {
-                // Update IDs for consistency with the newNum (1-based for display and event attachment).
+                // Usa 'newNum' (1-based) para los IDs de los elementos HTML.
                 const newId = oldId.replace(/_(\d+)$/, `_${newNum}`);
                 $(this).attr('id', newId);
             }
         });
 
-        // Re-attach event listeners for specific elements within the re-indexed item.
-
-        // Re-attach the 'change' event for the "Es su empleo actual?" checkbox.
-        // It's important to re-attach the event to the newly identified ID.
-        // Also, this checkbox might not exist if it was conditionally hidden when first added.
+        // Re-adjuntar el evento change para el checkbox "Es su empleo actual?"
         const esActualCheckbox = $(`#es_actual_${newNum}`);
-        if (esActualCheckbox.length) { // Check if the checkbox exists for this item.
+        if (esActualCheckbox.length) { // Verifica si el checkbox existe para este ítem
             esActualCheckbox.off('change').on('change', function() {
                 if ($(this).is(':checked')) {
-                    // Deselect other "Es su empleo actual?" checkboxes.
                     $('.es-actual-checkbox').not(this).prop('checked', false);
                 }
-                // Always re-evaluate the state of the "Add Experience" button after a checkbox change.
-                toggleAddExperienciaButton(); 
+                toggleAddExperienciaButton(); // Re-evalúa el botón de añadir al marcar/desmarcar
             });
         }
         
-        // Re-attach 'input' and 'click' events for RIF validation/consultation.
+        // Re-adjuntar 'input' y 'click' para RIF
         const rifLaboralInput = $(`#rif_laboral_${newNum}`);
         rifLaboralInput.off('input').on('input', function() {
             validarRIFExperiencia(this, newNum);
@@ -821,11 +905,10 @@ function reindexarYReajustarExperiencias() {
             consultar_rif_experiencia(newNum);
         });
 
-        // Re-attach 'input' events for numeric fields (tiempo_cargo, tel_local_laboral).
+        // Re-adjuntar eventos 'input' para campos numéricos
         $(`#tiempo_cargo_${newNum}`).off('input').on('input', function() {
             allowOnlyNumbers(this);
         });
-        // Check if the no_existe_laboral section exists and has the tel_local_laboral input
         const telLocalLaboralInput = currentItem.find(`#tel_local_laboral_${newNum}`);
         if (telLocalLaboralInput.length) {
             telLocalLaboralInput.off('input').on('input', function() {
@@ -833,7 +916,7 @@ function reindexarYReajustarExperiencias() {
             });
         }
         
-        // Re-attach the 'click' event for the remove button.
+        // Re-adjuntar el evento click para el botón de eliminar
         if (currentItem.find('.btn-remove-experiencia').length) {
             currentItem.find('.btn-remove-experiencia').off('click').on('click', function() {
                 eliminarExperienciaLaboral(`experiencia-${newNum}`);
@@ -841,11 +924,10 @@ function reindexarYReajustarExperiencias() {
         }
     });
 
-    // Finally, re-evaluate the "Add Experience" button's visibility.
-    // This is called here and also within toggleAddExperienciaButton.
-    // Calling it once at the end of reindexing is sufficient.
+    // Al final de la reindexación, re-evalúa el estado del botón "Añadir Experiencia Laboral".
     toggleAddExperienciaButton(); 
 }
+
 // --- FIN DE FUNCIONES DE GESTIÓN DE EXPERIENCIA LABORAL ---
 
 
