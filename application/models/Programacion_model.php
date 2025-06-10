@@ -6437,4 +6437,212 @@ class Programacion_model extends CI_model
         $query = $this->db->get();
         return $query->num_rows() > 0;
     }
+
+
+    // En Programacion_model.php
+
+    // ... (tus otras funciones) ...
+
+    // Modificación de la función para consultar reprogramaciones
+    public function consultar_reprogramacion2($unidad)
+    {
+        $this->db->select('pp.*, pp_next.id_programacion AS id_siguiente_version'); // Seleccionar id_siguiente_version
+        $this->db->from('programacion.programacion pp');
+        $this->db->where('pp.unidad', $unidad);
+        // Modificamos el WHERE para incluir también las versiones históricas (estatus 4) y las en creación (0)
+        // Esto es para que el usuario pueda ver todas las versiones de sus programaciones.
+        $this->db->where_in('pp.estatus', array(0, 2, 4)); // 0: En creación, 2: Finalizada, 4: Histórica/Reemplazada
+
+        // LEFT JOIN para encontrar la siguiente versión (si existe)
+        $this->db->join('programacion.programacion pp_next', 'pp_next.id_version_anterior = pp.id_programacion', 'left');
+
+        $this->db->order_by('pp.anio', 'DESC'); // Ordenar por año para mejor visualización
+        $this->db->order_by('pp.fecha', 'DESC'); // Y por fecha para versiones del mismo año
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    // ... (La función duplicar_programacion_completa que te di antes) ...
+
+    public function duplicar_programacion_completa($id_programacion_original, $id_usuario_actual)
+    {
+        $this->db->trans_start(); // Iniciar transacción
+
+        // 1. Duplicar programacion.programacion
+        $this->db->select('*');
+        $this->db->from('programacion.programacion');
+        $this->db->where('id_programacion', $id_programacion_original);
+        $query_original_prog = $this->db->get();
+        $original_prog_data = $query_original_prog->row_array();
+
+        if (!$original_prog_data) {
+            $this->db->trans_rollback();
+            return false; // No se encontró la programación original
+        }
+
+        $nueva_prog_data = array(
+            'unidad'             => $original_prog_data['unidad'],
+            'anio'               => $original_prog_data['anio'],
+            'id_usuario'         => $id_usuario_actual,
+            'fecha'              => date('Y-m-d H:i:s'), // Fecha actual de la duplicación
+            'estatus'            => 0, // Estatus 'en creación' para la nueva versión
+            'date_sending'       => NULL, // Se envía cuando se finaliza
+            'modificado'         => $id_usuario_actual,
+            'fecha_modifi'       => date('Y-m-d H:i:s'),
+            'id_version_anterior' => $id_programacion_original, // Vincula a la versión original
+            'id_siguiente_version' => NULL // Inicialmente no tiene una versión siguiente
+        );
+        $this->db->insert('programacion.programacion', $nueva_prog_data);
+        $nueva_id_programacion = $this->db->insert_id();
+
+        // 2. Duplicar programacion.p_proyecto
+        $this->db->select('*');
+        $this->db->from('programacion.p_proyecto');
+        $this->db->where('id_programacion', $id_programacion_original);
+        $proyectos_originales = $this->db->get()->result_array();
+
+        foreach ($proyectos_originales as $proy_orig) {
+            $nueva_proy_data = array(
+                'id_programacion'   => $nueva_id_programacion,
+                'nombre_proyecto'   => $proy_orig['nombre_proyecto'],
+                'id_obj_comercial'  => $proy_orig['id_obj_comercial'],
+                'id_usuario'        => $id_usuario_actual,
+                'fecha'             => date('Y-m-d H:i:s'),
+                'estatus'           => $proy_orig['estatus']
+            );
+            $this->db->insert('programacion.p_proyecto', $nueva_proy_data);
+            $nueva_id_p_proyecto = $this->db->insert_id();
+
+            // Duplicar p_items asociados a este proyecto
+            $this->db->select('*');
+            $this->db->from('programacion.p_items');
+            $this->db->where('id_enlace', $proy_orig['id_p_proyecto']);
+            $this->db->where('id_proyecto IS NOT NULL');
+            $items_originales_proy = $this->db->get()->result_array();
+
+            foreach ($items_originales_proy as $item_orig) {
+                $nueva_item_data = array(
+                    'id_enlace'                 => $nueva_id_p_proyecto,
+                    'id_p_acc'                  => $nueva_id_p_proyecto,
+                    'id_partidad_presupuestaria' => $item_orig['id_partidad_presupuestaria'],
+                    'id_ccnu'                   => $item_orig['id_ccnu'],
+                    'id_tip_obra'               => $item_orig['id_tip_obra'],
+                    'id_alcance_obra'           => $item_orig['id_alcance_obra'],
+                    'id_obj_obra'               => $item_orig['id_obj_obra'],
+                    'fecha_desde'               => $item_orig['fecha_desde'],
+                    'fecha_hasta'               => $item_orig['fecha_hasta'],
+                    'especificacion'            => $item_orig['especificacion'],
+                    'id_unidad_medida'          => $item_orig['id_unidad_medida'],
+                    'cantidad'                  => $item_orig['cantidad'],
+                    'i'                         => $item_orig['i'],
+                    'ii'                        => $item_orig['ii'],
+                    'iii'                       => $item_orig['iii'],
+                    'iv'                        => $item_orig['iv'],
+                    'cant_total_distribuir'     => $item_orig['cant_total_distribuir'],
+                    'costo_unitario'            => $item_orig['costo_unitario'],
+                    'precio_total'              => $item_orig['precio_total'],
+                    'alicuota_iva'              => $item_orig['alicuota_iva'],
+                    'iva_estimado'              => $item_orig['iva_estimado'],
+                    'monto_estimado'            => $item_orig['monto_estimado'],
+                    'est_trim_1'                => $item_orig['est_trim_1'],
+                    'est_trim_2'                => $item_orig['est_trim_2'],
+                    'est_trim_3'                => $item_orig['est_trim_3'],
+                    'est_trim_4'                => $item_orig['est_trim_4'],
+                    'estimado_total_t_acc'      => $item_orig['estimado_total_t_acc'],
+                    'estatus_rendi'             => $item_orig['estatus_rendi'],
+                    'reprogramado'              => 1,
+                    'fecha_reprogramacion'      => date('Y-m-d H:i:s'),
+                    'id_proyecto'               => $item_orig['id_proyecto'],
+                    'supuestos_procedimiento'   => $item_orig['supuestos_procedimiento'],
+                    'nombre_contratista'        => $item_orig['nombre_contratista'],
+                    'observaciones'             => $item_orig['observaciones'],
+                    'id_obj_comercial'          => $item_orig['id_obj_comercial'],
+                    'id_usuario'                => $id_usuario_actual
+                );
+                $this->db->insert('programacion.p_items', $nueva_item_data);
+            }
+        }
+
+        // 3. Duplicar programacion.p_acc_centralizada
+        $this->db->select('*');
+        $this->db->from('programacion.p_acc_centralizada');
+        $this->db->where('id_programacion', $id_programacion_original);
+        $acc_originales = $this->db->get()->result_array();
+
+        foreach ($acc_originales as $acc_orig) {
+            $nueva_acc_data = array(
+                'id_programacion'           => $nueva_id_programacion,
+                'id_accion_centralizada'    => $acc_orig['id_accion_centralizada'],
+                'id_obj_comercial'          => $acc_orig['id_obj_comercial'],
+                'id_usuario'                => $id_usuario_actual,
+                'fecha'                     => date('Y-m-d H:i:s'),
+                'estatus'                   => $acc_orig['estatus']
+            );
+            $this->db->insert('programacion.p_acc_centralizada', $nueva_acc_data);
+            $nueva_id_p_acc_centralizada = $this->db->insert_id();
+
+            // Duplicar p_items asociados a esta acción centralizada
+            $this->db->select('*');
+            $this->db->from('programacion.p_items');
+            $this->db->where('id_enlace', $acc_orig['id_p_acc_centralizada']);
+            $this->db->where('id_proyecto IS NULL');
+            $items_originales_acc = $this->db->get()->result_array();
+
+            foreach ($items_originales_acc as $item_orig) {
+                $nueva_item_data = array(
+                    'id_enlace'                 => $nueva_id_p_acc_centralizada,
+                    'id_p_acc'                  => $nueva_id_p_acc_centralizada,
+                    'id_partidad_presupuestaria' => $item_orig['id_partidad_presupuestaria'],
+                    'id_ccnu'                   => $item_orig['id_ccnu'],
+                    'id_tip_obra'               => $item_orig['id_tip_obra'],
+                    'id_alcance_obra'           => $item_orig['id_alcance_obra'],
+                    'id_obj_obra'               => $item_orig['id_obj_obra'],
+                    'fecha_desde'               => $item_orig['fecha_desde'],
+                    'fecha_hasta'               => $item_orig['fecha_hasta'],
+                    'especificacion'            => $item_orig['especificacion'],
+                    'id_unidad_medida'          => $item_orig['id_unidad_medida'],
+                    'cantidad'                  => $item_orig['cantidad'],
+                    'i'                         => $item_orig['i'],
+                    'ii'                        => $item_orig['ii'],
+                    'iii'                       => $item_orig['iii'],
+                    'iv'                        => $item_orig['iv'],
+                    'cant_total_distribuir'     => $item_orig['cant_total_distribuir'],
+                    'costo_unitario'            => $item_orig['costo_unitario'],
+                    'precio_total'              => $item_orig['precio_total'],
+                    'alicuota_iva'              => $item_orig['alicuota_iva'],
+                    'iva_estimado'              => $item_orig['iva_estimado'],
+                    'monto_estimado'            => $item_orig['monto_estimado'],
+                    'est_trim_1'                => $item_orig['est_trim_1'],
+                    'est_trim_2'                => $item_orig['est_trim_2'],
+                    'est_trim_3'                => $item_orig['est_trim_3'],
+                    'est_trim_4'                => $item_orig['est_trim_4'],
+                    'estimado_total_t_acc'      => $item_orig['estimado_total_t_acc'],
+                    'estatus_rendi'             => $item_orig['estatus_rendi'],
+                    'reprogramado'              => 1,
+                    'fecha_reprogramacion'      => date('Y-m-d H:i:s'),
+                    'id_proyecto'               => $item_orig['id_proyecto'],
+                    'supuestos_procedimiento'   => $item_orig['supuestos_procedimiento'],
+                    'nombre_contratista'        => $item_orig['nombre_contratista'],
+                    'observaciones'             => $item_orig['observaciones'],
+                    'id_obj_comercial'          => $item_orig['id_obj_comercial'],
+                    'id_usuario'                => $id_usuario_actual
+                );
+                $this->db->insert('programacion.p_items', $nueva_item_data);
+            }
+        }
+
+        // Actualizar la programación original para que apunte a la nueva versión
+        $this->db->set('id_siguiente_version', $nueva_id_programacion);
+        // Y cambiar su estatus a 4 (Histórica/Reemplazada)
+        $this->db->set('estatus', 4);
+        $this->db->where('id_programacion', $id_programacion_original);
+        $this->db->update('programacion.programacion');
+
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+            return false;
+        }
+        return $nueva_id_programacion;
+    }
 }
