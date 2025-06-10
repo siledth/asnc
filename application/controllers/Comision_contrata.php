@@ -442,7 +442,7 @@ class Comision_contrata extends CI_Controller
         $pdf->SetFont('Arial', 'B', 9);
         $pdf->Ln(3);
         $pdf->Cell(5, 3, '', 0, 0, 'L');
-        $pdf->Cell(20, 3, 'Cedula', 0, 0, 'L');
+        $pdf->Cell(30, 3, 'Cedula', 0, 0, 'L');
         $pdf->Cell(55, 3, utf8_decode('Nombres y Apellidos'), 0, 0, 'C');
         $pdf->Cell(40, 3, utf8_decode('Área '), 0, 0, 'C');
         $pdf->Cell(30, 3, 'Tipo de Miembro', 0, 1, 'R');
@@ -460,7 +460,7 @@ class Comision_contrata extends CI_Controller
                 $pdf->SetFont('Arial', '', 8);
                 $pdf->Cell(5, 3, '', 0, 0, 'L');
 
-                $pdf->Cell(20, 10, $d->cedula, 0, 0, 'L');
+                $pdf->Cell(30, 10, $d->cedula, 0, 0, 'L');
                 $pdf->Cell(70, 10, utf8_decode($d->nombre_completo), 0, 0, 'L');
 
                 $pdf->Cell(33, 10, utf8_decode($d->desc_area_miembro), 0, 0, 'L');
