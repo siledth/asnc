@@ -463,7 +463,7 @@ function agregarCapacitacionHTML(index, capacitacion) {
                     <input type="text" id="anio_modal_${index}" class="form-control anio" value="${capacitacion.anio}" required>
                 </div>
                 <div class="col-md-4 form-group">
-                    <label>Horas</label>
+                    <label>Horas Academicas</label>
                     <input type="text" id="horas_modal_${index}" class="form-control horas" value="${capacitacion.horas || ''}">
                 </div>
                 <div class="col-md-4 form-group text-right">
