@@ -993,4 +993,15 @@ class Diplomado_model extends CI_model
         $query = $this->db->get();
         return $query->result_array(); // Devuelve como array de arrays
     }
+    public function check_rif_diplomado_preinscripcion($rif_limpio, $id_diplomado)
+    {
+        $this->db->select('ig.id_inscripcion_grupal');
+        $this->db->from('diplomado.inscripciones_grupales ig');
+        $this->db->join('diplomado.empresas e', 'ig.id_empresa = e.id_empresa');
+        $this->db->where('e.rif', $rif_limpio); // Usar el RIF limpio para la búsqueda
+        $this->db->where('ig.id_diplomado', $id_diplomado);
+        $query = $this->db->get();
+
+        return $query->num_rows() > 0; // Si hay filas, significa que ya existe
+    }
 }

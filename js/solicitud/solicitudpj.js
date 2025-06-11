@@ -49,6 +49,36 @@ function clearFieldError(fieldElement) {
     fieldElement.siblings('.invalid-feedback').text('').hide();
 }
 
+function validarPreinscripcionRif(rif, idDiplomado) {
+    return new Promise((resolve, reject) => {
+        if (!rif || !idDiplomado || idDiplomado === '0') {
+            resolve({ exists: false, message: 'RIF o Diplomado no seleccionados para validar.' });
+            return;
+        }
+    //  var base_url = window.location.origin + '/asnc/index.php/Diplomado/verificar_preinscripcion_rif_diplomado';
+
+        var base_url = window.location.origin + '/asnc/index.php/Diplomado/verificar_preinscripcion_rif_diplomado'; //  
+
+        $.ajax({
+            url: base_url,
+            type: 'POST',
+            dataType: 'json',
+            data: { rif: rif, id_diplomado: idDiplomado },
+            success: function(response) {
+                if (response.success) {
+                    resolve({ exists: response.exists, message: response.message });
+                } else {
+                    reject({ message: response.message || 'Error desconocido al verificar preinscripción del RIF.' });
+                }
+            },
+            error: function(xhr) {
+                console.error('Error AJAX al verificar preinscripción del RIF:', xhr.responseText);
+                reject({ message: 'Error de conexión al verificar preinscripción del RIF. Intente de nuevo.' });
+            }
+        });
+    });
+}
+
 // Función para formatear fechas a DD/MM/YYYY
 function formatDate(dateString) {
     const date = new Date(dateString + 'T00:00:00'); // Añadir T00:00:00 para consistencia horaria
@@ -717,23 +747,97 @@ function eliminarParticipante(index) {
 // Función para guardar paso actual
 function guardarPasoActual(paso) {
     switch(paso) {
-        case 1:
-            // Validar datos de la empresa
-            const rifEmpresa = $('#rif').val().trim();
-            if (!rifEmpresa) {
-                Swal.fire('Error', 'El RIF de la empresa es requerido', 'error');
-                return false;
+      case 1: // Datos de la Empresa
+        const rifEmpresaField = $('#rif');
+        const razonSocialField = $('#razon_social');
+        const enteField = $('#ente');
+        const telLocalEmpresaField = $('#tel_local');
+        const direccionFiscalField = $('#direccion_fiscal');
+        const idDiplomadoActual = $('#id_diplomado').val(); // Obtener el ID del diplomado seleccionado
+
+        let isValidStep = true; // Variable de control para las validaciones síncronas del paso 1
+        let firstInvalidStepField = null; // Para enfocar el primer campo con error
+
+        // Limpiar y normalizar el RIF antes de validar
+        const rifEmpresaValue = rifEmpresaField.val().trim().toUpperCase().replace(/[^JGVCEPDW0-9]/g, '');
+        rifEmpresaField.val(rifEmpresaValue); // Actualizar el campo en la vista con el RIF limpio
+
+        // *** 1. VALIDACIONES SÍNCRONAS BÁSICAS DE LOS CAMPOS DE EMPRESA ***
+        // Si alguna de estas falla, no se procede con la validación asíncrona.
+        if (!rifEmpresaValue) {
+            showFieldError(rifEmpresaField, 'El RIF de la empresa es requerido.');
+            isValidStep = false;
+        } else if (!/^[JGVCEPDW]\d{9}$/i.test(rifEmpresaValue)) {
+            showFieldError(rifEmpresaField, 'El formato del RIF no es válido (Ej: J123456789).');
+            isValidStep = false;
+        } else {
+            clearFieldError(rifEmpresaField);
+        }
+        if (razonSocialField.val().trim() === '') {
+            showFieldError(razonSocialField, 'La Razón Social de la empresa es requerida.');
+            isValidStep = false;
+        } else { clearFieldError(razonSocialField); }
+        if (enteField.val() === '0') {
+             showFieldError(enteField, 'Debe seleccionar si la empresa es un ente gubernamental.');
+             isValidStep = false;
+        } else { clearFieldError(enteField); }
+        const telLocalEmpresaValue = telLocalEmpresaField.val().trim();
+        if (telLocalEmpresaValue === '' || !isInteger(telLocalEmpresaValue) || telLocalEmpresaValue.length < 7) {
+             showFieldError(telLocalEmpresaField, 'El Teléfono Local de la empresa es requerido y debe ser numérico (mín. 7 dígitos).');
+             isValidStep = false;
+        } else { clearFieldError(telLocalEmpresaField); }
+        if (direccionFiscalField.val().trim() === '') {
+            showFieldError(direccionFiscalField, 'La Dirección Fiscal de la empresa es requerida.');
+            isValidStep = false;
+        } else { clearFieldError(direccionFiscalField); }
+
+        // *** 2. VALIDACIÓN ASÍNCRONA DE PREINSCRIPCIÓN DEL RIF (SOLO SI LAS SÍNCRONAS PASARON) ***
+        if (isValidStep) { // Si todas las validaciones síncronas básicas pasaron
+            if (idDiplomadoActual === '0' || idDiplomadoActual === '') {
+                showFieldError($('#id_diplomado'), 'Debe seleccionar un diplomado para verificar el RIF.');
+                return false; // No permitir avanzar
             }
 
-            
-            cacheFormulario.empresa = {
-                rif: rifEmpresa,
-                razon_social: $('#razon_social').val(),
-                es_ente: $('#ente').val(),
-                telefono: $('#tel_local').val(),
-                direccion: $('#direccion_fiscal').val()
-            };
-            break;
+            // Deshabilitar botón Siguiente y mostrar spinner mientras se valida
+            const nextButton = $(`#step-1 .next-step`);
+            nextButton.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Validando RIF...');
+
+            // Retornamos la Promesa para que el manejador del clic espere
+            return validarPreinscripcionRif(rifEmpresaValue, idDiplomadoActual)
+                .then(result => {
+                    nextButton.prop('disabled', false).html('Siguiente'); // Habilitar de nuevo
+                    if (result.exists) {
+                        Swal.fire('Atención', result.message, 'warning');
+                        showFieldError(rifEmpresaField, result.message);
+                        return false; // No permitir avanzar (RIF ya registrado)
+                    } else {
+                        clearFieldError(rifEmpresaField); // RIF disponible
+                        // Si la validación asíncrona es exitosa, guardar en caché y permitir avanzar
+                        cacheFormulario.empresa = {
+                            rif: rifEmpresaValue,
+                            razon_social: razonSocialField.val().trim(),
+                            es_ente: enteField.val(),
+                            telefono: telLocalEmpresaValue,
+                            direccion: direccionFiscalField.val().trim()
+                        };
+                        return true; // Permitir avanzar
+                    }
+                })
+                .catch(error => {
+                    nextButton.prop('disabled', false).html('Siguiente'); // Habilitar de nuevo
+                    Swal.fire('Error', error.message || 'Error inesperado al validar RIF.', 'error');
+                    return false; // No permitir avanzar en caso de error en la promesa
+                });
+        } else {
+            // Si las validaciones síncronas básicas fallaron, enfocar y detener
+            if (firstInvalidStepField) { 
+                $('html, body').animate({
+                    scrollTop: firstInvalidStepField.offset().top - 80
+                }, 500);
+                firstInvalidStepField.focus();
+            }
+            return false; // No permitir avanzar si hay errores síncronos
+        }
             
         case 2:
             // Validar que al menos haya un participante
@@ -759,7 +863,7 @@ function guardarPasoActual(paso) {
             }
             break;
     }
-    return true;
+    return isValidStep;
 }
 
 // Función para cargar paso
@@ -907,18 +1011,41 @@ $(document).ready(function() {
     // Navegación entre pasos
     $('.next-step').click(function() {
         const nextStep = $(this).data('next');
-        const currentStep = $(this).closest('.step').attr('id');
+    const currentStepElement = $(this).closest('.step');
+    const currentStep = currentStepElement.attr('id');
+    const currentStepNumber = parseInt(currentStep.split('-')[1]);
 
-        if (!currentStep) {
-            console.error("No se pudo identificar el paso actual");
-            return;
-        }
+    if (!currentStep) {
+        console.error("No se pudo identificar el paso actual");
+        return;
+    }
 
-        if (guardarPasoActual(parseInt(currentStep.split('-')[1]))) {
+    // Llamar a guardarPasoActual para validar el paso actual
+    // Capturar la promesa si la validación es asíncrona
+    const validationResult = guardarPasoActual(currentStepNumber);
+
+    // Si validationResult es una Promesa (validación asíncrona, ej. la del RIF)
+    if (validationResult && typeof validationResult.then === 'function') {
+        validationResult.then(canAdvance => { // 'canAdvance' será true o false
+            if (canAdvance) {
+                $(`.step`).hide();
+                $(`#step-${nextStep}`).show();
+                cargarPaso(nextStep);
+            } else {
+                // Si canAdvance es false, la validación ya mostró un SweetAlert
+                // y el botón "Siguiente" ya se habilitó dentro de la promesa.
+            }
+        });
+    } else { // Si validationResult es un booleano (validación síncrona)
+        if (validationResult) { // Si la validación síncrona fue exitosa
             $(`.step`).hide();
             $(`#step-${nextStep}`).show();
             cargarPaso(nextStep);
+        } else {
+            // Si validationResult es false (ej. campos vacíos), la validación ya mostró un SweetAlert
+            // o marcó los campos visualmente.
         }
+    }
     });
 
     $('.prev-step').click(function() {
@@ -929,6 +1056,36 @@ $(document).ready(function() {
 
     // Agregar participante
     $('#btn-agregar-participante').click(agregarParticipante);
+
+// --- ¡¡¡AQUÍ VA EL BLOQUE DEL EVENTO CHANGE DEL DIPLOMADO!!! ---
+    $('#id_diplomado').on('change', function() {
+        loadDiplomadoInfo($(this).val()); // Carga la info del diplomado
+
+        // *** NUEVO: Validar preinscripción del RIF al cambiar el diplomado ***
+        const rifEmpresaField = $('#rif');
+        const rifEmpresaValue = rifEmpresaField.val().trim().toUpperCase().replace(/[^JGVCEPDW0-9]/g, '');
+        const idDiplomadoActual = $(this).val();
+
+        // Solo valida si hay un RIF introducido y un diplomado seleccionado (no '0' o vacío)
+        if (rifEmpresaValue && idDiplomadoActual !== '0' && idDiplomadoActual !== '') {
+            validarPreinscripcionRif(rifEmpresaValue, idDiplomadoActual)
+                .then(result => {
+                    if (result.exists) {
+                        Swal.fire('Atención', result.message, 'warning');
+                        showFieldError(rifEmpresaField, result.message);
+                    } else {
+                        clearFieldError(rifEmpresaField);
+                    }
+                })
+                .catch(error => {
+                    Swal.fire('Error', error.message || 'Error al validar RIF para preinscripción.', 'error');
+                });
+        } else {
+            // Limpiar el error si el diplomado se cambia a "seleccione" o el RIF está vacío
+            clearFieldError(rifEmpresaField);
+        }
+    });
+
 
     // Finalizar inscripción
     $('#btn-finalizar').click(enviarDatos);

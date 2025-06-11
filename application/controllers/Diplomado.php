@@ -1862,4 +1862,49 @@ class Diplomado extends CI_Controller
             ]));
         }
     }
+
+    public function verificar_preinscripcion_rif_diplomado()
+    {
+        $this->output->set_content_type('application/json');
+
+        $rif = $this->input->post('rif');
+        $id_diplomado = $this->input->post('id_diplomado');
+
+        if (empty($rif) || empty($id_diplomado)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'RIF y ID de diplomado son requeridos para la verificación.',
+                'exists' => false
+            ]);
+            return;
+        }
+
+        // Limpiar y normalizar el RIF para la consulta (igual que en el frontend y en la BD)
+        $rif_limpio = strtoupper(preg_replace('/[^A-Z0-9]/', '', $rif));
+
+        try {
+            // Llama a un método en el modelo para verificar la existencia
+            $already_registered = $this->Diplomado_model->check_rif_diplomado_preinscripcion($rif_limpio, $id_diplomado);
+
+            if ($already_registered) {
+                echo json_encode([
+                    'success' => true,
+                    'exists' => true,
+                    'message' => 'Este RIF ya tiene una preinscripción registrada para este diplomado. Por favor, seleccione otro diplomado o ingrese un RIF diferente.'
+                ]);
+            } else {
+                echo json_encode([
+                    'success' => true,
+                    'exists' => false,
+                    'message' => 'RIF disponible para preinscripción.'
+                ]);
+            }
+        } catch (Exception $e) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Error en el servidor al verificar preinscripción: ' . $e->getMessage(),
+                'exists' => false
+            ]);
+        }
+    }
 }
