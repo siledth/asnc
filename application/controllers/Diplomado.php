@@ -1510,16 +1510,73 @@ class Diplomado extends CI_Controller
                         ];
 
                         foreach ($required_capacitacion as $field) {
-                            if (empty($capacitacion[$field])) {
-                                throw new Exception("Participante #{$index}, Capacitación #{$cap_index}: Campo {$field} requerido");
+                            // Validar id_curso
+                            if (empty($capacitacion['id_curso'])) {
+                                throw new Exception("Participante #{$index}, Capacitación #{$cap_index}: Seleccione un curso.");
+                            }
+                            // Validar nombre_curso_otro si id_curso es '8' (Otros)
+                            if ($capacitacion['id_curso'] == '8' && empty($capacitacion['nombre_curso_otro'])) {
+                                throw new Exception("Participante #{$index}, Capacitación #{$cap_index}: Especifique el nombre del curso 'Otros'.");
+                            }
+
+                            // Validar id_institucion_formadora
+                            if (empty($capacitacion['id_institucion_formadora'])) {
+                                throw new Exception("Participante #{$index}, Capacitación #{$cap_index}: Seleccione una institución formadora.");
+                            }
+                            // Validar nombre_institucion_formadora_otro si id_institucion_formadora es '5' o '6'
+                            if (($capacitacion['id_institucion_formadora'] == '5' || $capacitacion['id_institucion_formadora'] == '6') && empty($capacitacion['nombre_institucion_formadora_otro'])) {
+                                throw new Exception("Participante #{$index}, Capacitación #{$cap_index}: Especifique el nombre de la institución formadora.");
+                            }
+
+                            // Validar anio_realizacion
+                            if (empty($capacitacion['anio']) || !is_numeric($capacitacion['anio']) || $capacitacion['anio'] < 1900 || $capacitacion['anio'] > date('Y')) {
+                                throw new Exception("Participante #{$index}, Capacitación #{$cap_index}: El año de realización no es válido.");
+                            }
+                            // Validar horas (si existe y si es numérico)
+                            if (isset($capacitacion['horas']) && !empty($capacitacion['horas']) && (!is_numeric($capacitacion['horas']) || $capacitacion['horas'] < 0)) {
+                                throw new Exception("Participante #{$index}, Capacitación #{$cap_index}: Las horas deben ser un número válido.");
+                            }
+
+
+                            // --- Determinar el nombre final del curso ---
+                            $nombre_curso_final = '';
+                            $id_curso_seleccionado = $this->security->xss_clean($capacitacion['id_curso']);
+
+                            if ($id_curso_seleccionado == '8') { // Si es "Otros"
+                                $nombre_curso_final = $this->security->xss_clean($capacitacion['nombre_curso_otro']);
+                            } else {
+                                // Suponiendo que tienes un modelo para obtener la descripción del curso por ID
+                                $curso_db = $this->Diplomado_model->obtener_curso_por_id($id_curso_seleccionado);
+                                if ($curso_db) {
+                                    $nombre_curso_final = $curso_db['descripcion_cursos'];
+                                } else {
+                                    $nombre_curso_final = "Curso Desconocido (ID: " . $id_curso_seleccionado . ")";
+                                }
+                            }
+
+                            // --- Determinar el nombre final de la institución formadora ---
+                            $nombre_institucion_final = '';
+                            $id_institucion_seleccionada = $this->security->xss_clean($capacitacion['id_institucion_formadora']);
+
+                            if ($id_institucion_seleccionada == '5' || $id_institucion_seleccionada == '6') { // Si es "Contralorías" u "Otros"
+                                $nombre_institucion_final = $this->security->xss_clean($capacitacion['nombre_institucion_formadora_otro']);
+                            } else {
+                                // Suponiendo que tienes un modelo para obtener la descripción de la institución por ID
+                                $institucion_db = $this->Diplomado_model->obtener_institucion_por_id($id_institucion_seleccionada);
+                                if ($institucion_db) {
+                                    $nombre_institucion_final = $institucion_db['descripcion_f'];
+                                } else {
+                                    $nombre_institucion_final = "Institución Desconocida (ID: " . $id_institucion_seleccionada . ")";
+                                }
                             }
                         }
 
                         $capacitacion_data = [
                             'id_curriculum' => $id_curriculum,
-                            'nombre_curso' => $this->security->xss_clean($capacitacion['nombre_curso']),
-                            'institucion_formadora' => $this->security->xss_clean($capacitacion['institucion']),
-                            'anio_realizacion' => $this->security->xss_clean($capacitacion['anio'])
+                            'nombre_curso' => $nombre_curso_final, // Nombre ya procesado
+                            'institucion_formadora' => $nombre_institucion_final, // Nombre ya procesado
+                            'anio_realizacion' => $this->security->xss_clean($capacitacion['anio']),
+                            'horas' => !empty($capacitacion['horas']) ? $this->security->xss_clean($capacitacion['horas']) : null // Horas pueden ser null
                         ];
 
                         if (!$this->Diplomado_model->registrar_capacitacionjs($capacitacion_data)) {

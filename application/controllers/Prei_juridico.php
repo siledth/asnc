@@ -191,7 +191,7 @@ class Prei_juridico extends CI_Controller
             $pdf->Cell(58, 5, 'Total a pagar  estimado Bs:', 0, 0, 'R');
             $pdf->Cell(20, 5, number_format($total, 2, ',', '.'), 0, 1, 'C');
         }
-        $pdf->Cell(160, 5, '_________________________________________________________', 0, 1, 'C');
+        $pdf->Cell(160, 5, '_________________________________________________________________________________', 0, 1, 'C');
     }
 
     private function mostrarInfoEmpresa($pdf, $data)
@@ -210,7 +210,7 @@ class Prei_juridico extends CI_Controller
 
         $pdf->Cell(40, 5, utf8_decode('Teléfono:'), 0, 0, 'R');
         $pdf->MultiCell(125, 5, $data->telefono, 0, 'L');
-        $pdf->Cell(160, 5, '_________________________________________________________', 0, 1, 'C');
+        $pdf->Cell(160, 5, '_________________________________________________________________________________', 0, 1, 'C');
 
         $pdf->SetTextColor(255, 0, 0);
         $pdf->Ln(1);
@@ -294,7 +294,7 @@ class Prei_juridico extends CI_Controller
                 }
             }
         }
-        $pdf->Cell(160, 5, '_________________________________________________________', 0, 1, 'C');
+        $pdf->Cell(160, 5, '_________________________________________________________________________________', 0, 1, 'C');
     }
 
 

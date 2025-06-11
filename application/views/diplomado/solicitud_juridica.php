@@ -262,7 +262,7 @@
                         <!-- Capacitaciones se agregarán aquí dinámicamente -->
                     </div>
 
-                    <button type="button" class="btn btn-primary btn-sm mt-2" onclick="agregarCapacitacion()">
+                    <button type="button" class="btn btn-primary btn-sm mt-2" id="btnAgregarCapacitacionModal">
                         <i class="fas fa-plus mr-2"></i>Agregar capacitación
                     </button>
                 </div>

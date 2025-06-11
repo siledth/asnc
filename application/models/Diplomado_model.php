@@ -352,6 +352,14 @@ class Diplomado_model extends CI_model
         $query = $this->db->get();
         return $query->row_array(); // Devuelve una fila como array asociativo
     }
+    public function obtener_curso_por_id($id_curso)
+    {
+        $this->db->select('id_cursos, descripcion_cursos');
+        $this->db->from('diplomado.cursos'); // **Asegúrate de que 'diplomado.cursos' es el nombre CORRECTO de tu tabla de cursos**
+        $this->db->where('id_cursos', $id_curso);
+        $query = $this->db->get();
+        return $query->row_array(); // Devuelve una fila como array
+    }
     public function registrar_capacitacion($data)
     {
         return $this->db->insert('diplomado.capacitaciones_participante', $data);

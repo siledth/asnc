@@ -14,10 +14,16 @@ class Programacion_model extends CI_model
     //----Registrar año de programación--
     public function agg_programacion_anio($data)
     {
+        $data['fecha'] = date('Y-m-d H:i:s'); // Registrar la fecha y hora exacta
+        $data['estatus'] = 0; // En creación
+        // $data['modificado'] = $data['id_usuario']; // El que la crea es el primero en "modificarla"
+        $data['fecha_modifi'] = date('Y-m-d H:i:s');
+        $data['id_version_anterior'] = NULL; // Es la primera versión
+        $data['num_reprogramacion'] = 0; // Es la versión original
+
         $quers = $this->db->insert('programacion.programacion', $data);
-        // return true;
-        if ($query = true) {
-            return 1;
+        if ($quers) {
+            return 1; // O el ID insertado si lo necesitas de vuelta para el JS
         } else {
             return 0;
         }
@@ -46,7 +52,16 @@ class Programacion_model extends CI_model
                 'id_programacion' => $proy['id_programacion'],
                 'nombre_proyecto' => $proy['nombre_proyecto'],
                 'id_obj_comercial' => $proy['id_obj_comercial'],
-                'estatus' => 1
+                'id_usuario_operacion' => $proy['id_usuario'],
+                'estatus' => 1,
+                'fecha' => date('Y-m-d H:i:s'),
+                // 'fecha_fin_vigencia' => 'NULL',
+                // 'id_version_anterior_proyecto' => 'NULL',
+                'tipo_operacion' => 'INSERT',
+
+
+
+
 
 
 
@@ -63,7 +78,12 @@ class Programacion_model extends CI_model
                 'id_programacion' => $acc['id_programacion'],
                 'id_accion_centralizada' => $acc['id_p_acc_centralizada'],
                 'id_obj_comercial' => $acc['id_obj_comercial'],
-                'estatus' => 1
+                'id_usuario_operacion' => $proy['id_usuario'],
+
+                'estatus' => 1,
+                'fecha' => date('Y-m-d H:i:s'),
+                'tipo_operacion' => 'INSERT',
+
 
 
             );

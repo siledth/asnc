@@ -97,6 +97,7 @@ class Programacion extends CI_Controller
             'acc_cargar' => $this->input->POST('acc_cargar'),
             'id_p_acc_centralizada' => $this->input->POST('selec_acc'),
             'id_obj_comercial' => $this->input->POST('selec_obj'),
+            'id_usuario'              => $this->session->userdata('id_user'),
 
         );
         $proy = array(
@@ -104,6 +105,7 @@ class Programacion extends CI_Controller
             'acc_cargar' => $this->input->POST('acc_cargar'),
             'nombre_proyecto' => $this->input->POST('nombre_proyecto'),
             'id_obj_comercial' => $this->input->POST('selec_obj'),
+            'id_usuario'              => $this->session->userdata('id_user'),
         );
 
 
