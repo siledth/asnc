@@ -56,8 +56,8 @@ function validarPreinscripcionRif(rif, idDiplomado) {
             return;
         }
     //  var base_url = window.location.origin + '/asnc/index.php/Diplomado/verificar_preinscripcion_rif_diplomado';
+         var base_url = '/index.php/Diplomado/verificar_preinscripcion_rif_diplomado';
 
-        var base_url = window.location.origin + '/asnc/index.php/Diplomado/verificar_preinscripcion_rif_diplomado'; //  
 
         $.ajax({
             url: base_url,
