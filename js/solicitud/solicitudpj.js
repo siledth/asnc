@@ -153,7 +153,7 @@ function loadDiplomadoInfo(idDiplomado) {
         return;
     }
     // var base_url = window.location.origin+'/asnc/index.php/diplomado/getDiplomadoInfo/' + idDiplomado;
-    var base_url = '/index.php/Diplomado/getDiplomadoInfo/' + id_diplomado; 
+    var base_url = '/index.php/Diplomado/getDiplomadoInfo/' + idDiplomado; 
     
     $.ajax({
         url: base_url,
@@ -171,7 +171,7 @@ function loadDiplomadoInfo(idDiplomado) {
                 } else if (idModalidadNumerico === 2) {
                     modalidadText = 'Online'; // O 'Virtual' según tu getModalidadText
                 } else {
-                    modalidadText = 'Desconocida';
+                    modalidadText = 'Bimodal';
                 }
 
                 $('#diplomadoTitle').text(diplomadoData.name_d);
