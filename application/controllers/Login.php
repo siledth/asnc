@@ -163,4 +163,41 @@ class Login extends CI_Controller
             redirect('login');
         }
     }
+
+    public function v_camb_clave()
+    {
+        if (!$this->session->userdata('session')) {
+            redirect('login');
+        }
+
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('login/cambiar_clave.php');
+        $this->load->view('templates/footer.php');
+    }
+    public function cambiar_clave()
+    {
+        $id_usuario = $this->session->userdata('id_user');
+        $clave = $this->input->POST('clave');
+        $c_clave = $this->input->POST('c_clave');
+
+        if ($clave == $c_clave) {
+            $clave_r = password_hash(
+                base64_encode(
+                    hash('sha256', $clave, true)
+                ),
+                PASSWORD_DEFAULT
+            );
+            //	print_r($clave_r);die;
+            $data = array(
+                'password' => $clave_r,
+                'fecha_update' => date('Y-m-d'),
+            );
+            $data = $this->login_model->cambiar_clave($id_usuario, $data);
+            echo json_encode($data);
+        } else {
+            $data = 0;
+            echo json_encode($data);
+        }
+    }
 }
