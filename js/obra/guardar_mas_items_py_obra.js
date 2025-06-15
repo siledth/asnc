@@ -530,17 +530,105 @@ $.ajax({
     });
 }
 
-function calculo_obras(){
+// function calculo_obras(){
 
+//     var cantidad = 100;
+//     var i = $('#primero_b').val();
+//     var ii = $('#segundo_b').val();
+//     var iii = $('#tercero_b').val();
+//     var iv = $('#cuarto_b').val();
+
+//     var cantidad_total = Number(i) + Number(ii) + Number(iii) + Number(iv)
+
+//     var can_x_distr =   cantidad - i - ii - iii - iv
+//     $('#cant_total_distribuir1').val(can_x_distr);
+
+//     if (cantidad_total > 100) {
+//         swal({
+//             title: "¡ATENCION!",
+//             text: "La cantidad a distribuir no puede ser mayor a 100! Por favor modifique para seguir con la carga.",
+//             type: "warning",
+//             showCancelButton: false,
+//             confirmButtonColor: "#00897b",
+//             confirmButtonText: "CONTINUAR",
+//             closeOnConfirm: false
+//         }, function(){
+//             swal("Deleted!", "Your imaginary file has been deleted.", "success");
+//         });
+
+//         $("#precio_total_mod_b1").prop('disabled', true);
+//         $("#sel_id_alic_iva_b1").prop('disabled', true);
+//     }else{
+//         $("#precio_total_mod_b1").prop('disabled', false);
+//         $("#sel_id_alic_iva_b1").prop('disabled', false);
+//         //Calculo Cantidad x DIstribuir
+//             var can_x_distr =   cantidad - i - ii - iii - iv
+//             $('#cant_total_distribuir1').val(can_x_distr);
+
+//         //Remplazar decimales para caculos
+//             var precio_total = $('#precio_total_mod_b1').val();
+//             var newstr = precio_total.replace('.', "");
+//             var newstr2 = newstr.replace('.', "");
+//             var newstr3 = newstr2.replace('.', "");
+//             var newstr4 = newstr3.replace('.', "");
+//             var precio = newstr4.replace(',', ".");
+
+//         //calculo de Iva Estimado
+//             var id_alicuota_iva = $('#sel_id_alic_iva_b1').val();
+//             var separar = id_alicuota_iva.split("/");
+//             var porcentaje = separar['0'];
+//             var monto_iva_estimado = precio*porcentaje;
+//             var iva_estimado = parseFloat(monto_iva_estimado).toFixed(2);
+//             var iva_estimado2 = Intl.NumberFormat("de-DE").format(iva_estimado);
+//             $('#iva_estimado_mod_b1').val(iva_estimado2);
+
+//         //Calculo Monto Total Estimado
+//             var monto_total_est = Number(precio) + Number(iva_estimado);
+//             var monto_total_estimado = Intl.NumberFormat("de-DE").format(monto_total_est);
+//             $('#monto_estimado_mod_b1').val(monto_total_estimado);
+
+//         //Calculo estimado por Trimestre
+
+//             var primer = (monto_total_est/cantidad_total)*i;
+//             var primer_i = parseFloat(primer).toFixed(2);
+//             var i_trim  = Intl.NumberFormat("de-DE").format(primer_i);
+//             $('#estimado_primer').val(i_trim);
+
+
+//             var segun = (monto_total_est/cantidad_total)*ii;
+//             var segun_ii = parseFloat(segun).toFixed(2);
+//             var ii_trim  = Intl.NumberFormat("de-DE").format(segun_ii);
+//             $('#estimado_segundo').val(ii_trim);
+
+//             var tercer = (monto_total_est/cantidad_total)*iii;
+//             var tercer_iii = parseFloat(tercer).toFixed(2);
+//             var iii_trim  = Intl.NumberFormat("de-DE").format(tercer_iii);
+//             $('#estimado_tercer').val(iii_trim);
+
+//             var cuarto = (monto_total_est/cantidad_total)*iv;
+//             var cuarto_iv = parseFloat(cuarto).toFixed(2);
+//             var iv_trim  = Intl.NumberFormat("de-DE").format(cuarto_iv);
+//             $('#estimado_cuarto').val(iv_trim);
+
+//         // Calculo total estimado trimestres
+//             var total_est = primer+segun+tercer+cuarto
+//             var total_estim = parseFloat(total_est).toFixed(2);
+//             var estimado_total_t  = Intl.NumberFormat("de-DE").format(total_estim);
+//             $('#estimado_total_t_mod').val(estimado_total_t);
+//     }
+// }
+function calculo_obras() {
     var cantidad = 100;
-    var i = $('#primero_b').val();
-    var ii = $('#segundo_b').val();
-    var iii = $('#tercero_b').val();
-    var iv = $('#cuarto_b').val();
 
-    var cantidad_total = Number(i) + Number(ii) + Number(iii) + Number(iv)
+    // Ensure all percentage inputs are treated as numbers, defaulting to 0 if empty or invalid
+    var i = Number($('#primero_b').val()) || 0;
+    var ii = Number($('#segundo_b').val()) || 0;
+    var iii = Number($('#tercero_b').val()) || 0;
+    var iv = Number($('#cuarto_b').val()) || 0;
 
-    var can_x_distr =   cantidad - i - ii - iii - iv
+    var cantidad_total = i + ii + iii + iv;
+
+    var can_x_distr = cantidad - i - ii - iii - iv;
     $('#cant_total_distribuir1').val(can_x_distr);
 
     if (cantidad_total > 100) {
@@ -552,72 +640,80 @@ function calculo_obras(){
             confirmButtonColor: "#00897b",
             confirmButtonText: "CONTINUAR",
             closeOnConfirm: false
-        }, function(){
-            swal("Deleted!", "Your imaginary file has been deleted.", "success");
         });
 
+        // Disable price and IVA selection
         $("#precio_total_mod_b1").prop('disabled', true);
         $("#sel_id_alic_iva_b1").prop('disabled', true);
-    }else{
+
+        // Clear or reset output fields to "0,00" to avoid displaying NaN from a previous invalid state
+        $('#iva_estimado_mod_b1').val("0,00");
+        $('#monto_estimado_mod_b1').val("0,00");
+        $('#estimado_primer').val("0,00");
+        $('#estimado_segundo').val("0,00");
+        $('#estimado_tercer').val("0,00");
+        $('#estimado_cuarto').val("0,00");
+        $('#estimado_total_t_mod').val("0,00");
+
+    } else {
+        // Enable price and IVA selection if total percentage is valid
         $("#precio_total_mod_b1").prop('disabled', false);
         $("#sel_id_alic_iva_b1").prop('disabled', false);
-        //Calculo Cantidad x DIstribuir
-            var can_x_distr =   cantidad - i - ii - iii - iv
-            $('#cant_total_distribuir1').val(can_x_distr);
 
-        //Remplazar decimales para caculos
-            var precio_total = $('#precio_total_mod_b1').val();
-            var newstr = precio_total.replace('.', "");
-            var newstr2 = newstr.replace('.', "");
-            var newstr3 = newstr2.replace('.', "");
-            var newstr4 = newstr3.replace('.', "");
-            var precio = newstr4.replace(',', ".");
+        // Process 'Precio Total Estimado'
+        var precio_total_str = $('#precio_total_mod_b1').val();
+        // Remove all dots (thousands separators) and replace comma with dot for decimal conversion
+        var precio = Number(precio_total_str.replace(/\./g, "").replace(',', "."));
+        
+        // Handle cases where precio might still be NaN (e.g., if input is completely non-numeric)
+        if (isNaN(precio)) {
+            precio = 0;
+        }
 
-        //calculo de Iva Estimado
-            var id_alicuota_iva = $('#sel_id_alic_iva_b1').val();
+        // Calculate 'Alícuota IVA Estimado'
+        var id_alicuota_iva = $('#sel_id_alic_iva_b1').val();
+        var porcentaje = 0;
+        if (id_alicuota_iva && id_alicuota_iva !== "s" && id_alicuota_iva.includes('/')) {
             var separar = id_alicuota_iva.split("/");
-            var porcentaje = separar['0'];
-            var monto_iva_estimado = precio*porcentaje;
-            var iva_estimado = parseFloat(monto_iva_estimado).toFixed(2);
-            var iva_estimado2 = Intl.NumberFormat("de-DE").format(iva_estimado);
-            $('#iva_estimado_mod_b1').val(iva_estimado2);
+            porcentaje = Number(separar[0]); // Ensure this is a number
+        }
 
-        //Calculo Monto Total Estimado
-            var monto_total_est = Number(precio) + Number(iva_estimado);
-            var monto_total_estimado = Intl.NumberFormat("de-DE").format(monto_total_est);
-            $('#monto_estimado_mod_b1').val(monto_total_estimado);
+        var monto_iva_estimado = precio * porcentaje;
+        var iva_estimado = parseFloat(monto_iva_estimado).toFixed(2);
+        $('#iva_estimado_mod_b1').val(Intl.NumberFormat("de-DE").format(iva_estimado));
 
-        //Calculo estimado por Trimestre
-
-            var primer = (monto_total_est/cantidad_total)*i;
-            var primer_i = parseFloat(primer).toFixed(2);
-            var i_trim  = Intl.NumberFormat("de-DE").format(primer_i);
-            $('#estimado_primer').val(i_trim);
+        // Calculate 'Monto total Estimado'
+        var monto_total_est = precio + Number(iva_estimado); // Ensure iva_estimado is treated as a number
+        $('#monto_estimado_mod_b1').val(Intl.NumberFormat("de-DE").format(monto_total_est.toFixed(2)));
 
 
-            var segun = (monto_total_est/cantidad_total)*ii;
-            var segun_ii = parseFloat(segun).toFixed(2);
-            var ii_trim  = Intl.NumberFormat("de-DE").format(segun_ii);
-            $('#estimado_segundo').val(ii_trim);
+        // Handle division by zero for trimester calculations
+        if (cantidad_total === 0) {
+            // If the sum of percentages is zero, all estimated trimester values should be zero
+            $('#estimado_primer').val("0,00");
+            $('#estimado_segundo').val("0,00");
+            $('#estimado_tercer').val("0,00");
+            $('#estimado_cuarto').val("0,00");
+            $('#estimado_total_t_mod').val("0,00");
+        } else {
+            // Perform trimester calculations only if cantidad_total is not zero
+            var primer = (monto_total_est / cantidad_total) * i;
+            var segun = (monto_total_est / cantidad_total) * ii;
+            var tercer = (monto_total_est / cantidad_total) * iii;
+            var cuarto = (monto_total_est / cantidad_total) * iv;
 
-            var tercer = (monto_total_est/cantidad_total)*iii;
-            var tercer_iii = parseFloat(tercer).toFixed(2);
-            var iii_trim  = Intl.NumberFormat("de-DE").format(tercer_iii);
-            $('#estimado_tercer').val(iii_trim);
+            // Format and display trimester estimates
+            $('#estimado_primer').val(Intl.NumberFormat("de-DE").format(parseFloat(primer).toFixed(2)));
+            $('#estimado_segundo').val(Intl.NumberFormat("de-DE").format(parseFloat(segun).toFixed(2)));
+            $('#estimado_tercer').val(Intl.NumberFormat("de-DE").format(parseFloat(tercer).toFixed(2)));
+            $('#estimado_cuarto').val(Intl.NumberFormat("de-DE").format(parseFloat(cuarto).toFixed(2)));
 
-            var cuarto = (monto_total_est/cantidad_total)*iv;
-            var cuarto_iv = parseFloat(cuarto).toFixed(2);
-            var iv_trim  = Intl.NumberFormat("de-DE").format(cuarto_iv);
-            $('#estimado_cuarto').val(iv_trim);
-
-        // Calculo total estimado trimestres
-            var total_est = primer+segun+tercer+cuarto
-            var total_estim = parseFloat(total_est).toFixed(2);
-            var estimado_total_t  = Intl.NumberFormat("de-DE").format(total_estim);
-            $('#estimado_total_t_mod').val(estimado_total_t);
+            // Calculate and display total estimated trimesters
+            var total_est = primer + segun + tercer + cuarto;
+            $('#estimado_total_t_mod').val(Intl.NumberFormat("de-DE").format(parseFloat(total_est).toFixed(2)));
+        }
     }
 }
-
 $("#precio_total_mod_b1").on({
     "focus": function (event) {
         $(event.target).select();
