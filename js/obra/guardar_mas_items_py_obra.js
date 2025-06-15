@@ -620,7 +620,7 @@ $.ajax({
 function calculo_obras() {
     var cantidad = 100;
 
-    // Ensure all percentage inputs are treated as numbers, defaulting to 0 if empty or invalid
+    // 1. Ensure all percentage inputs are treated as numbers, defaulting to 0 if empty or invalid
     var i = Number($('#primero_b').val()) || 0;
     var ii = Number($('#segundo_b').val()) || 0;
     var iii = Number($('#tercero_b').val()) || 0;
@@ -646,7 +646,7 @@ function calculo_obras() {
         $("#precio_total_mod_b1").prop('disabled', true);
         $("#sel_id_alic_iva_b1").prop('disabled', true);
 
-        // Clear or reset output fields to "0,00" to avoid displaying NaN from a previous invalid state
+        // Clear or reset output fields to "0,00" to avoid displaying NaN or incorrect values
         $('#iva_estimado_mod_b1').val("0,00");
         $('#monto_estimado_mod_b1').val("0,00");
         $('#estimado_primer').val("0,00");
@@ -660,7 +660,7 @@ function calculo_obras() {
         $("#precio_total_mod_b1").prop('disabled', false);
         $("#sel_id_alic_iva_b1").prop('disabled', false);
 
-        // Process 'Precio Total Estimado'
+        // 2. Process 'Precio Total Estimado'
         var precio_total_str = $('#precio_total_mod_b1').val();
         // Remove all dots (thousands separators) and replace comma with dot for decimal conversion
         var precio = Number(precio_total_str.replace(/\./g, "").replace(',', "."));
@@ -670,24 +670,44 @@ function calculo_obras() {
             precio = 0;
         }
 
-        // Calculate 'Alícuota IVA Estimado'
-        var id_alicuota_iva = $('#sel_id_alic_iva_b1').val();
+        // 3. Determine IVA Percentage - CRITICAL CHANGE HERE
+        var id_alicuota_iva_selected = $('#sel_id_alic_iva_b1').val();
+        var ali_iva_e_b_value = $('#ali_iva_e_b').val(); // Value from the readonly input
+
         var porcentaje = 0;
-        if (id_alicuota_iva && id_alicuota_iva !== "s" && id_alicuota_iva.includes('/')) {
-            var separar = id_alicuota_iva.split("/");
-            porcentaje = Number(separar[0]); // Ensure this is a number
+
+        // Prioritize the selected value from the dropdown if it's not "Seleccione"
+        if (id_alicuota_iva_selected && id_alicuota_iva_selected !== "s" && id_alicuota_iva_selected.includes('/')) {
+            var separar = id_alicuota_iva_selected.split("/");
+            porcentaje = Number(separar[0]); // Use the percentage from the selected dropdown
+        } else if (ali_iva_e_b_value) {
+            // If nothing is selected in the dropdown, use the value from the readonly input
+            // Ensure this value is properly parsed as a percentage (e.g., "16%" -> 0.16 or "0.16")
+            // Assuming ali_iva_e_b_value contains the actual percentage value (e.g., 0.16 for 16%)
+            // If it contains "16", you might need to divide by 100
+            // Let's assume it's already in the correct decimal format (e.g., 0.16) or an integer that needs /100
+            porcentaje = Number(ali_iva_e_b_value.replace('%', '')) / 100; // Example if it's like "16%"
+            if (isNaN(porcentaje) || porcentaje < 0 || porcentaje > 1) { // Basic validation
+                 // If it's a direct number like "16", then divide by 100
+                 porcentaje = Number(ali_iva_e_b_value) / 100;
+                 if(isNaN(porcentaje)) porcentaje = 0; // Fallback
+            }
+
+            // IMPORTANT: If 'ali_iva_e_b' already holds the decimal value (e.g., 0.16)
+            // then simply: porcentaje = Number(ali_iva_e_b_value);
+            // You need to confirm the exact format of the value in ali_iva_e_b
         }
 
         var monto_iva_estimado = precio * porcentaje;
         var iva_estimado = parseFloat(monto_iva_estimado).toFixed(2);
         $('#iva_estimado_mod_b1').val(Intl.NumberFormat("de-DE").format(iva_estimado));
 
-        // Calculate 'Monto total Estimado'
+        // 4. Calculate 'Monto total Estimado'
         var monto_total_est = precio + Number(iva_estimado); // Ensure iva_estimado is treated as a number
         $('#monto_estimado_mod_b1').val(Intl.NumberFormat("de-DE").format(monto_total_est.toFixed(2)));
 
 
-        // Handle division by zero for trimester calculations
+        // 5. Handle division by zero for trimester calculations
         if (cantidad_total === 0) {
             // If the sum of percentages is zero, all estimated trimester values should be zero
             $('#estimado_primer').val("0,00");
