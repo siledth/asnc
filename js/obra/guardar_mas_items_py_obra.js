@@ -618,20 +618,25 @@ $.ajax({
 //     }
 // }
 function calculo_obras() {
-    var cantidad = 100;
+    var cantidad = 100; // Este es el total que los trimestres deben sumar (100%)
 
-    // 1. Ensure all percentage inputs are treated as numbers, defaulting to 0 if empty or invalid
+    // 1. Obtener y validar los porcentajes trimestrales
+    // Usamos 'Number()' para asegurarnos de que sean números.
+    // Si el campo está vacío o no es un número (NaN), usamos '|| 0' para que sea 0.
     var i = Number($('#primero_b').val()) || 0;
     var ii = Number($('#segundo_b').val()) || 0;
     var iii = Number($('#tercero_b').val()) || 0;
     var iv = Number($('#cuarto_b').val()) || 0;
 
-    var cantidad_total = i + ii + iii + iv;
+    var cantidad_total = i + ii + iii + iv; // Suma de todos los porcentajes trimestrales
 
+    // Calcular cuánto porcentaje queda por distribuir (100 - suma de trimestres)
     var can_x_distr = cantidad - i - ii - iii - iv;
     $('#cant_total_distribuir1').val(can_x_distr);
 
+    // 2. Validación de la suma trimestral
     if (cantidad_total > 100) {
+        // Si la suma de los porcentajes es mayor a 100, mostrar una alerta.
         swal({
             title: "¡ATENCION!",
             text: "La cantidad a distribuir no puede ser mayor a 100! Por favor modifique para seguir con la carga.",
@@ -642,11 +647,12 @@ function calculo_obras() {
             closeOnConfirm: false
         });
 
-        // Disable price and IVA selection
+        // Desactivar campos de precio y selección de IVA para evitar cálculos erróneos
         $("#precio_total_mod_b1").prop('disabled', true);
         $("#sel_id_alic_iva_b1").prop('disabled', true);
 
-        // Clear or reset output fields to "0,00" to avoid displaying NaN or incorrect values
+        // Limpiar o resetear los campos de salida a "0,00" para evitar 'NaN'
+        // Esto es importante para que el usuario vea un estado claro y no números inválidos.
         $('#iva_estimado_mod_b1').val("0,00");
         $('#monto_estimado_mod_b1').val("0,00");
         $('#estimado_primer').val("0,00");
@@ -656,79 +662,98 @@ function calculo_obras() {
         $('#estimado_total_t_mod').val("0,00");
 
     } else {
-        // Enable price and IVA selection if total percentage is valid
+        // Si la suma de los porcentajes es válida (<= 100), activar los campos
         $("#precio_total_mod_b1").prop('disabled', false);
         $("#sel_id_alic_iva_b1").prop('disabled', false);
 
-        // 2. Process 'Precio Total Estimado'
+        // 3. Obtener y procesar el 'Precio Total Estimado'
         var precio_total_str = $('#precio_total_mod_b1').val();
-        // Remove all dots (thousands separators) and replace comma with dot for decimal conversion
+        // Eliminar todos los puntos (separadores de miles) y reemplazar la coma decimal por un punto.
+        // Esto prepara el número para que JavaScript lo entienda correctamente.
         var precio = Number(precio_total_str.replace(/\./g, "").replace(',', "."));
         
-        // Handle cases where precio might still be NaN (e.g., if input is completely non-numeric)
+        // Si después de la conversión 'precio' sigue siendo 'NaN' (por ejemplo, el usuario escribió "abc"),
+        // lo establecemos en 0 para evitar errores en cálculos posteriores.
         if (isNaN(precio)) {
             precio = 0;
         }
 
-        // 3. Determine IVA Percentage - CRITICAL CHANGE HERE
-        var id_alicuota_iva_selected = $('#sel_id_alic_iva_b1').val();
-        var ali_iva_e_b_value = $('#ali_iva_e_b').val(); // Value from the readonly input
+        // 4. Determinar el Porcentaje de IVA - ¡ESTA ES LA PARTE CLAVE!
+        var porcentaje = 0; // Inicializamos el porcentaje de IVA en 0 por defecto.
 
-        var porcentaje = 0;
+        var selectedIvaOption = $('#sel_id_alic_iva_b1').val(); // Valor del 'select'
+        var currentIvaRateInReadonly = $('#ali_iva_e_b').val(); // Valor del campo de solo lectura
 
-        // Prioritize the selected value from the dropdown if it's not "Seleccione"
-        if (id_alicuota_iva_selected && id_alicuota_iva_selected !== "s" && id_alicuota_iva_selected.includes('/')) {
-            var separar = id_alicuota_iva_selected.split("/");
-            porcentaje = Number(separar[0]); // Use the percentage from the selected dropdown
-        } else if (ali_iva_e_b_value) {
-            // If nothing is selected in the dropdown, use the value from the readonly input
-            // Ensure this value is properly parsed as a percentage (e.g., "16%" -> 0.16 or "0.16")
-            // Assuming ali_iva_e_b_value contains the actual percentage value (e.g., 0.16 for 16%)
-            // If it contains "16", you might need to divide by 100
-            // Let's assume it's already in the correct decimal format (e.g., 0.16) or an integer that needs /100
-            porcentaje = Number(ali_iva_e_b_value.replace('%', '')) / 100; // Example if it's like "16%"
-            if (isNaN(porcentaje) || porcentaje < 0 || porcentaje > 1) { // Basic validation
-                 // If it's a direct number like "16", then divide by 100
-                 porcentaje = Number(ali_iva_e_b_value) / 100;
-                 if(isNaN(porcentaje)) porcentaje = 0; // Fallback
+        // Primero, verificamos si el usuario ha seleccionado una opción válida en el 'select'.
+        // Una opción válida no es "s" (Seleccione) y contiene un "/".
+        if (selectedIvaOption && selectedIvaOption !== "s" && selectedIvaOption.includes('/')) {
+            var parts = selectedIvaOption.split("/");
+            porcentaje = Number(parts[0]); // Tomamos el primer número de la opción seleccionada.
+            
+            // Aquí, actualizamos el campo de solo lectura 'ali_iva_e_b'
+            // para que siempre muestre el porcentaje de IVA que se está utilizando.
+            // Asumimos que el porcentaje en el select es un decimal (ej. 0.16 para 16%)
+            // Si es un entero (ej. 16), quizás quieras formatearlo o simplemente asignarlo.
+            // Para asegurar que ali_iva_e_b muestra el valor correcto, asumamos que 'parts[0]' es el decimal
+            // O si es 16, podrías mostrarlo como "16" y en el cálculo dividirlo por 100.
+            // Para ser coherente, si el select te da 0.16, deberías mostrar 0.16.
+            // Si tu select da "16/...", y quieres mostrar "16" en ali_iva_e_b, podrías hacer:
+            $('#ali_iva_e_b').val(Number(parts[0]) * 100); // Si parts[0] es 0.16 y quieres mostrar 16
+            // O simplemente:
+            // $('#ali_iva_e_b').val(parts[0]); // Si parts[0] es 0.16 y quieres mostrar 0.16
+            // Ajusta esto según cómo quieres que se vea el valor en 'ali_iva_e_b'.
+
+        } else if (currentIvaRateInReadonly) {
+            // Si no se seleccionó nada válido en el 'select', entonces usamos el valor del campo de solo lectura.
+            // ¡IMPORTANTE! Debes saber el formato exacto del valor en 'ali_iva_e_b'.
+            // Escenario más común: 'ali_iva_e_b' contiene un número entero como "16" (para 16%).
+            porcentaje = Number(currentIvaRateInReadonly) / 100;
+            
+            // Si la conversión resulta en NaN (por ejemplo, el campo de solo lectura estaba vacío o con texto)
+            // lo establecemos en 0 para evitar errores.
+            if (isNaN(porcentaje)) {
+                porcentaje = 0;
             }
-
-            // IMPORTANT: If 'ali_iva_e_b' already holds the decimal value (e.g., 0.16)
-            // then simply: porcentaje = Number(ali_iva_e_b_value);
-            // You need to confirm the exact format of the value in ali_iva_e_b
+            // Otras posibles interpretaciones de currentIvaRateInReadonly:
+            // Si 'ali_iva_e_b' ya contiene el valor decimal (ej. "0.16"):
+            // porcentaje = Number(currentIvaRateInReadonly);
+            // Si contiene "16%" (una cadena con porcentaje):
+            // porcentaje = Number(currentIvaRateInReadonly.replace('%', '')) / 100;
         }
 
+        // Calcular el 'Monto IVA Estimado'
         var monto_iva_estimado = precio * porcentaje;
-        var iva_estimado = parseFloat(monto_iva_estimado).toFixed(2);
-        $('#iva_estimado_mod_b1').val(Intl.NumberFormat("de-DE").format(iva_estimado));
+        var iva_estimado = parseFloat(monto_iva_estimado).toFixed(2); // Redondear a 2 decimales
+        $('#iva_estimado_mod_b1').val(Intl.NumberFormat("de-DE").format(iva_estimado)); // Formatear para mostrar
 
-        // 4. Calculate 'Monto total Estimado'
-        var monto_total_est = precio + Number(iva_estimado); // Ensure iva_estimado is treated as a number
+        // 5. Calcular el 'Monto total Estimado'
+        var monto_total_est = precio + Number(iva_estimado); // Sumar precio y el IVA estimado
         $('#monto_estimado_mod_b1').val(Intl.NumberFormat("de-DE").format(monto_total_est.toFixed(2)));
 
 
-        // 5. Handle division by zero for trimester calculations
+        // 6. Cálculos de los Trimestres Estimados - Protección contra división por cero
         if (cantidad_total === 0) {
-            // If the sum of percentages is zero, all estimated trimester values should be zero
+            // Si la suma de los porcentajes trimestrales es 0, no se puede dividir.
+            // En este caso, todos los estimados trimestrales deben ser 0.
             $('#estimado_primer').val("0,00");
             $('#estimado_segundo').val("0,00");
             $('#estimado_tercer').val("0,00");
             $('#estimado_cuarto').val("0,00");
             $('#estimado_total_t_mod').val("0,00");
         } else {
-            // Perform trimester calculations only if cantidad_total is not zero
+            // Si la suma de los porcentajes es válida, realizamos los cálculos
             var primer = (monto_total_est / cantidad_total) * i;
             var segun = (monto_total_est / cantidad_total) * ii;
             var tercer = (monto_total_est / cantidad_total) * iii;
             var cuarto = (monto_total_est / cantidad_total) * iv;
 
-            // Format and display trimester estimates
+            // Formatear y mostrar los estimados trimestrales
             $('#estimado_primer').val(Intl.NumberFormat("de-DE").format(parseFloat(primer).toFixed(2)));
             $('#estimado_segundo').val(Intl.NumberFormat("de-DE").format(parseFloat(segun).toFixed(2)));
             $('#estimado_tercer').val(Intl.NumberFormat("de-DE").format(parseFloat(tercer).toFixed(2)));
             $('#estimado_cuarto').val(Intl.NumberFormat("de-DE").format(parseFloat(cuarto).toFixed(2)));
 
-            // Calculate and display total estimated trimesters
+            // Calcular y mostrar el total de los trimestres estimados
             var total_est = primer + segun + tercer + cuarto;
             $('#estimado_total_t_mod').val(Intl.NumberFormat("de-DE").format(parseFloat(total_est).toFixed(2)));
         }
