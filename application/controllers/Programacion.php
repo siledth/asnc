@@ -2407,6 +2407,59 @@ class Programacion extends CI_Controller
         $this->load->view('templates/footer.php');
     }
 
+    ///////////////////////////////////
+    public function iniciar_reprogramacion_version()
+    {
+        if (!$this->session->userdata('session')) redirect('login');
+
+        $id_programacion_original = $this->input->get('id');
+        $id_usuario_actual = $this->session->userdata('id_user');
+
+        if (!$id_programacion_original) {
+            $this->session->set_flashdata('sa-error', 'ID de programación no proporcionado.');
+            redirect('programacion/reprogramar');
+            return;
+        }
+
+        // Llamada al modelo para crear la nueva versión del encabezado
+        $nueva_id_programacion = $this->Programacion_model->crear_nueva_version_programacion($id_programacion_original, $id_usuario_actual);
+
+        if ($nueva_id_programacion) {
+            $this->session->set_flashdata('sa-success', 'Nueva versión de programación iniciada. Ahora puedes realizar tus modificaciones.');
+            // Redirigir a la vista de edición de la nueva programación (la que tiene estatus 0)
+            redirect('programacion/nueva_prog?id=' . $nueva_id_programacion);
+        } else {
+            $this->session->set_flashdata('sa-error', 'Error al iniciar la reprogramación. Por favor, intente de nuevo.');
+            redirect('programacion/reprogramar');
+        }
+    }
+    /**
+     * Método para finalizar una programación (puede ser una nueva o una reprogramación en curso).
+     * Cambia el estatus de la programación actual a "Finalizada/Activa".
+     */
+    public function finalizar_programacion_version()
+    {
+        if (!$this->session->userdata('session')) redirect('login');
+
+        $id_programacion_actual = $this->input->post('id_programacion'); // Asumo que el ID viene por POST
+        $id_usuario_actual = $this->session->userdata('id_user');
+
+        if (!$id_programacion_actual) {
+            $this->session->set_flashdata('sa-error', 'ID de programación no proporcionado para finalizar.');
+            redirect('programacion/alguna_ruta_despues_de_guardar');
+            return;
+        }
+
+        if ($this->Programacion_model->finalizar_programacion($id_programacion_actual, $id_usuario_actual)) {
+            $this->session->set_flashdata('sa-success', 'Programación finalizada y marcada como activa.');
+            redirect('programacion/reprogramar'); // Redirigir a la vista de historial
+        } else {
+            $this->session->set_flashdata('sa-error', 'Error al finalizar la programación.');
+            redirect('programacion/nueva_prog?id=' . $id_programacion_actual); // Volver a la edición
+        }
+    }
+    ///////////////////////////////////////////////////////////
+
 
 
     public function consultar_item_reprogramacion()

@@ -429,7 +429,8 @@ function agregarCapacitacionModal() {
     }
     
     const newCapacitacionIndex = modalCapacitacionCounter + 1;
-    agregarCapacitacionHTML(newCapacitacionIndex, { 
+    const newId = `capacitacion-${newCapacitacionIndex}`; 
+    agregarCapacitacionHTML(newId,newCapacitacionIndex, { 
         id_curso_guardado: '', 
         nombre_curso: '', 
         nombre_curso_otro: '',
@@ -443,7 +444,7 @@ function agregarCapacitacionModal() {
 }
 
 // Función para agregar HTML de capacitación (con selects dinámicos y validación numérica)
-function agregarCapacitacionHTML(index, capacitacion) {
+function agregarCapacitacionHTML(newId,index, capacitacion) {
     let optionsHtmlCursos = '<option value="">Seleccione un curso</option>';
     cursosDisponibles.forEach(curso => {
         const selected = (curso.id_cursos == capacitacion.id_curso_guardado) ? 'selected' : '';
@@ -746,6 +747,31 @@ function eliminarParticipante(index) {
 
 // Función para guardar paso actual
 function guardarPasoActual(paso) {
+       let isValidStep = true;  
+    let firstInvalidStepField = null;  
+
+    // Limpiar errores visuales previos en el paso actual
+    $(`#step-${paso} .form-control`).removeClass('is-invalid');
+    $(`#step-${paso} .invalid-feedback.d-block`).remove(); 
+
+    // Helper para mostrar error en el paso actual (revisado para usar firstInvalidStepField)
+    function showStepFieldError(fieldElement, message) {
+        fieldElement.addClass('is-invalid');
+        let feedbackDiv = fieldElement.siblings('.invalid-feedback');
+        if (feedbackDiv.length === 0) {
+            feedbackDiv = $('<div class="invalid-feedback d-block"></div>');
+            fieldElement.after(feedbackDiv);
+        }
+        feedbackDiv.text(message).show();
+        if (!firstInvalidStepField) { // Solo asigna si aún no se ha asignado un primer campo inválido
+            firstInvalidStepField = fieldElement;
+        }
+    }
+    function clearStepFieldError(fieldElement) {
+        fieldElement.removeClass('is-invalid');
+        fieldElement.siblings('.invalid-feedback').text('').hide();
+    }
+
     switch(paso) {
       case 1: // Datos de la Empresa
         const rifEmpresaField = $('#rif');
@@ -862,6 +888,14 @@ function guardarPasoActual(paso) {
                 }
             }
             break;
+    }
+     // Si la validación asíncrona del paso 1 no se disparó,
+    // o si es otro paso, entonces verifica si hubo errores síncronos.
+    if (!isValidStep && firstInvalidStepField) { 
+        $('html, body').animate({
+            scrollTop: firstInvalidStepField.offset().top - 80
+        }, 500);
+        firstInvalidStepField.focus();
     }
     return isValidStep;
 }

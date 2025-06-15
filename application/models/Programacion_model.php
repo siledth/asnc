@@ -29,14 +29,14 @@ class Programacion_model extends CI_model
         }
     }
 
-    public function consultar_prog_anio($id_programacion, $unidad)
-    {
-        $this->db->select('*');
-        $this->db->where('unidad', $unidad);
-        $this->db->where('id_programacion', $id_programacion);
-        $query = $this->db->get('programacion.programacion');
-        return $query->row_array();
-    }
+    // public function consultar_prog_anio($id_programacion, $unidad)
+    // {
+    //     $this->db->select('*');
+    //     $this->db->where('unidad', $unidad);
+    //     $this->db->where('id_programacion', $id_programacion);
+    //     $query = $this->db->get('programacion.programacion');
+    //     return $query->row_array();
+    // }
 
     function nuevo_registro_acc_py($acc, $proy)
     {
@@ -6664,5 +6664,355 @@ class Programacion_model extends CI_model
             return false;
         }
         return $nueva_id_programacion;
+    }
+
+
+    ////////////////////
+    // Obtener todas las programaciones para una unidad (incluyendo históricas y en creación)
+    public function get_all_programaciones_by_unidad($unidad)
+    {
+        $this->db->select('p.*');
+        $this->db->from('programacion.programacion p');
+        $this->db->where('p.unidad', $unidad);
+        $this->db->order_by('p.anio', 'DESC');
+        $this->db->order_by('p.num_reprogramacion', 'DESC'); // Las versiones más recientes primero
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    // Consultar una programación específica (usada en nueva_prog.php)
+    public function consultar_prog_anio($id_programacion, $unidad)
+    {
+        $this->db->select('*');
+        $this->db->from('programacion.programacion');
+        $this->db->where('id_programacion', $id_programacion);
+        $this->db->where('unidad', $unidad); // Asegurar que es de la unidad del usuario
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    /**
+     * Crea una nueva versión de la programación anual (encabezado).
+     * Marca la versión original como histórica.
+     */
+    public function crear_nueva_version_programacion($id_programacion_original, $id_usuario_actual)
+    {
+        $this->db->trans_start(); // Iniciar transacción
+
+        // 1. Obtener la programación original
+        $this->db->select('*');
+        $this->db->from('programacion.programacion');
+        $this->db->where('id_programacion', $id_programacion_original);
+        $original_prog_data = $this->db->get()->row_array();
+
+        if (!$original_prog_data) {
+            $this->db->trans_rollback();
+            return false; // No se encontró la programación original
+        }
+
+        // 2. Insertar la nueva versión del encabezado de la programación
+        $nueva_prog_data = array(
+            'unidad'             => $original_prog_data['unidad'],
+            'anio'               => $original_prog_data['anio'],
+            'id_usuario'         => $id_usuario_actual,
+            'fecha'              => date('Y-m-d H:i:s'), // Fecha de creación de esta nueva versión
+            'estatus'            => 0, // En creación/reprogramación
+            'date_sending'       => NULL,
+            'modificado'         => $id_usuario_actual,
+            'fecha_modifi'       => date('Y-m-d H:i:s'),
+            'id_version_anterior' => $id_programacion_original, // Apunta a la original
+            'num_reprogramacion' => $original_prog_data['num_reprogramacion'] + 1 // Incrementa el contador
+        );
+        $this->db->insert('programacion.programacion', $nueva_prog_data);
+        $nueva_id_programacion = $this->db->insert_id();
+
+        // 3. Marcar la versión original como histórica
+        $this->db->set('estatus', 4); // Cambiar a estatus 'Histórica/Reemplazada'
+        $this->db->set('fecha_modifi', date('Y-m-d H:i:s')); // Actualizar fecha de modificación
+        $this->db->set('modificado', $id_usuario_actual);
+        $this->db->where('id_programacion', $id_programacion_original);
+        $this->db->update('programacion.programacion');
+
+        // 4. (Opcional pero recomendado) Actualizar los ítems y proyectos/acciones de la versión original
+        // para que también apunten a la nueva id_programacion si no se modificaron,
+        // o si queremos un historial "aplanado" de cada versión.
+        // OJO: Esta parte es delicada y depende de cómo manejes las consultas.
+        // En este modelo de versionado a nivel de registro, los ítems y proyectos/acciones
+        // de la versión original se mantienen tal cual, y al consultar la nueva versión,
+        // solo se mostrarán los que tienen id_programacion = nueva_id_programacion
+        // y fecha_fin_vigencia IS NULL.
+
+        $this->db->trans_complete(); // Finalizar transacción
+
+        if ($this->db->trans_status() === FALSE) {
+            return false; // Falló la transacción
+        }
+        return $nueva_id_programacion; // Retorna el ID de la nueva programación en edición
+    }
+
+    /**
+     * Marca una programación como finalizada (estatus 2).
+     */
+    public function finalizar_programacion($id_programacion_actual, $id_usuario_actual)
+    {
+        $this->db->trans_start();
+
+        $data = array(
+            'estatus'      => 2, // Finalizada/Activa
+            'date_sending' => date('Y-m-d'), // Fecha de envío
+            'modificado'   => $id_usuario_actual,
+            'fecha_modifi' => date('Y-m-d H:i:s')
+        );
+        $this->db->where('id_programacion', $id_programacion_actual);
+        $this->db->update('programacion.programacion', $data);
+
+        $this->db->trans_complete();
+        return $this->db->trans_status();
+    }
+
+    // --- Métodos de CRUD para Proyectos (p_proyecto) ---
+    // ESTOS MÉTODOS DEBEN SER ADAPTADOS PARA EL VERSIONADO DE REGISTROS
+
+    /**
+     * Inserta un nuevo proyecto (primera versión o una nueva versión si fue editado/eliminado).
+     */
+    public function insert_proyecto($data)
+    {
+        // $data debe contener: id_programacion, nombre_proyecto, id_obj_comercial, id_usuario
+        $data['fecha'] = date('Y-m-d H:i:s');
+        $data['fecha_fin_vigencia'] = NULL;
+        $data['id_version_anterior_proyecto'] = NULL; // Asumimos INSERT de un proyecto nuevo o una nueva versión
+        $data['tipo_operacion'] = 'INSERT';
+        $data['id_usuario_operacion'] = $data['id_usuario'];
+
+        $this->db->insert('programacion.p_proyecto', $data);
+        return $this->db->insert_id();
+    }
+
+    /**
+     * Actualiza un proyecto (marca la versión anterior como histórica e inserta una nueva).
+     */
+    public function update_proyecto($id_p_proyecto_original, $new_data, $id_usuario_actual)
+    {
+        $this->db->trans_start();
+
+        // 1. Marcar la versión original como no vigente
+        $this->db->set('fecha_fin_vigencia', date('Y-m-d H:i:s'));
+        $this->db->set('tipo_operacion', 'UPDATE'); // Marcar la operación que terminó su vigencia
+        $this->db->set('id_usuario_operacion', $id_usuario_actual); // Quién la marcó
+        $this->db->where('id_p_proyecto', $id_p_proyecto_original);
+        $this->db->update('programacion.p_proyecto');
+
+        // 2. Insertar la nueva versión del proyecto con los datos actualizados
+        $new_data['fecha'] = date('Y-m-d H:i:s'); // Fecha de creación de esta nueva versión
+        $new_data['fecha_fin_vigencia'] = NULL; // Vigente
+        $new_data['id_version_anterior_proyecto'] = $id_p_proyecto_original; // Apunta a la versión anterior
+        $new_data['tipo_operacion'] = 'INSERT'; // Esta es la nueva inserción
+        $new_data['id_usuario_operacion'] = $id_usuario_actual;
+        // id_programacion ya debe venir en $new_data (la id de la programacion actual)
+        $this->db->insert('programacion.p_proyecto', $new_data);
+        $nuevo_id_p_proyecto = $this->db->insert_id();
+
+        $this->db->trans_complete();
+        return $this->db->trans_status() ? $nuevo_id_p_proyecto : false;
+    }
+
+    /**
+     * Elimina "lógicamente" un proyecto (marca la versión actual como no vigente).
+     */
+    public function delete_proyecto_logico($id_p_proyecto, $id_usuario_actual)
+    {
+        $this->db->set('fecha_fin_vigencia', date('Y-m-d H:i:s'));
+        $this->db->set('tipo_operacion', 'DELETE');
+        $this->db->set('id_usuario_operacion', $id_usuario_actual);
+        $this->db->where('id_p_proyecto', $id_p_proyecto);
+        return $this->db->update('programacion.p_proyecto');
+    }
+
+    /**
+     * Consulta proyectos VIGENTES para una PROGRAMACIÓN ESPECÍFICA.
+     */
+    public function consultar_proyectos_vigentes($id_programacion)
+    {
+        $this->db->select('pp.*');
+        $this->db->from('programacion.p_proyecto pp');
+        $this->db->where('pp.id_programacion', $id_programacion);
+        $this->db->where('pp.fecha_fin_vigencia IS NULL'); // SOLO VIGENTES
+        // Si necesitas JOIN con otras tablas (ej. para nombre_proyecto o desc_objeto_contrata)
+        // $this->db->join('otra_tabla ot', 'ot.id = pp.otro_id', 'left');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+
+    // --- Métodos de CRUD para Acciones Centralizadas (p_acc_centralizada) ---
+    // Adaptar de forma similar a los proyectos
+
+    /**
+     * Inserta una nueva acción centralizada.
+     */
+    public function insert_acc_centralizada($data)
+    {
+        // ... (similar a insert_proyecto) ...
+        $data['fecha'] = date('Y-m-d H:i:s');
+        $data['fecha_fin_vigencia'] = NULL;
+        $data['id_version_anterior_acc'] = NULL;
+        $data['tipo_operacion'] = 'INSERT';
+        $data['id_usuario_operacion'] = $data['id_usuario'];
+        $this->db->insert('programacion.p_acc_centralizada', $data);
+        return $this->db->insert_id();
+    }
+
+    /**
+     * Actualiza una acción centralizada.
+     */
+    public function update_acc_centralizada($id_p_acc_centralizada_original, $new_data, $id_usuario_actual)
+    {
+        $this->db->trans_start();
+
+        $this->db->set('fecha_fin_vigencia', date('Y-m-d H:i:s'));
+        $this->db->set('tipo_operacion', 'UPDATE');
+        $this->db->set('id_usuario_operacion', $id_usuario_actual);
+        $this->db->where('id_p_acc_centralizada', $id_p_acc_centralizada_original);
+        $this->db->update('programacion.p_acc_centralizada');
+
+        $new_data['fecha'] = date('Y-m-d H:i:s');
+        $new_data['fecha_fin_vigencia'] = NULL;
+        $new_data['id_version_anterior_acc'] = $id_p_acc_centralizada_original;
+        $new_data['tipo_operacion'] = 'INSERT';
+        $new_data['id_usuario_operacion'] = $id_usuario_actual;
+        $this->db->insert('programacion.p_acc_centralizada', $new_data);
+        $nuevo_id_p_acc_centralizada = $this->db->insert_id();
+
+        $this->db->trans_complete();
+        return $this->db->trans_status() ? $nuevo_id_p_acc_centralizada : false;
+    }
+
+    /**
+     * Elimina "lógicamente" una acción centralizada.
+     */
+    public function delete_acc_centralizada_logico($id_p_acc_centralizada, $id_usuario_actual)
+    {
+        $this->db->set('fecha_fin_vigencia', date('Y-m-d H:i:s'));
+        $this->db->set('tipo_operacion', 'DELETE');
+        $this->db->set('id_usuario_operacion', $id_usuario_actual);
+        $this->db->where('id_p_acc_centralizada', $id_p_acc_centralizada);
+        return $this->db->update('programacion.p_acc_centralizada');
+    }
+
+    /**
+     * Consulta acciones centralizadas VIGENTES para una PROGRAMACIÓN ESPECÍFICA.
+     */
+    public function consultar_acc_centralizada_vigentes($id_programacion)
+    {
+        $this->db->select('pac.*');
+        $this->db->from('programacion.p_acc_centralizada pac');
+        $this->db->where('pac.id_programacion', $id_programacion);
+        $this->db->where('pac.fecha_fin_vigencia IS NULL'); // SOLO VIGENTES
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+
+    // --- Métodos de CRUD para Ítems (p_items) ---
+    // ESTOS MÉTODOS SON LOS MÁS CRÍTICOS PARA ADAPTAR
+
+    /**
+     * Inserta un nuevo ítem (primera versión o nueva versión de un ítem modificado).
+     */
+    public function insert_item($data)
+    {
+        // $data debe contener id_enlace (vigente), id_programacion (actual), y todos los campos del ítem
+        $data['fecha_inicio_vigencia'] = date('Y-m-d H:i:s');
+        $data['fecha_fin_vigencia'] = NULL; // Vigente
+        $data['id_version_anterior_item'] = NULL; // Si es una nueva inserción
+        $data['tipo_operacion'] = 'INSERT';
+        $data['id_usuario_operacion'] = $data['id_usuario'];
+        $this->db->insert('programacion.p_items', $data);
+        return $this->db->insert_id();
+    }
+
+    /**
+     * Actualiza un ítem (marca la versión anterior como no vigente e inserta una nueva versión).
+     */
+    public function update_item($id_p_items_original, $new_data, $id_usuario_actual)
+    {
+        $this->db->trans_start();
+
+        // 1. Marcar la versión original del ítem como no vigente
+        $this->db->set('fecha_fin_vigencia', date('Y-m-d H:i:s'));
+        $this->db->set('tipo_operacion', 'UPDATE'); // La operación que causó el cambio
+        $this->db->set('id_usuario_operacion', $id_usuario_actual);
+        $this->db->where('id_p_items', $id_p_items_original);
+        $this->db->update('programacion.p_items');
+
+        // 2. Insertar la nueva versión del ítem con los datos actualizados
+        $new_data['fecha_inicio_vigencia'] = date('Y-m-d H:i:s');
+        $new_data['fecha_fin_vigencia'] = NULL;
+        $new_data['id_version_anterior_item'] = $id_p_items_original; // Apunta a la versión anterior
+        $new_data['tipo_operacion'] = 'INSERT'; // Esta es la nueva inserción
+        $new_data['id_usuario_operacion'] = $id_usuario_actual;
+        // Asegúrate de que $new_data contenga 'id_enlace' (del proyecto/acción VIGENTE) y 'id_programacion' (de la programación ACTUAL)
+        $this->db->insert('programacion.p_items', $new_data);
+        $nuevo_id_p_items = $this->db->insert_id();
+
+        $this->db->trans_complete();
+        return $this->db->trans_status() ? $nuevo_id_p_items : false;
+    }
+
+    /**
+     * Elimina "lógicamente" un ítem (marca la versión actual como no vigente).
+     */
+    public function delete_item_logico($id_p_items, $id_usuario_actual)
+    {
+        $this->db->set('fecha_fin_vigencia', date('Y-m-d H:i:s'));
+        $this->db->set('tipo_operacion', 'DELETE');
+        $this->db->set('id_usuario_operacion', $id_usuario_actual);
+        $this->db->where('id_p_items', $id_p_items);
+        return $this->db->update('programacion.p_items');
+    }
+
+    /**
+     * Consulta ítems VIGENTES para una PROGRAMACIÓN ESPECÍFICA (y su proyecto/acción vigente).
+     */
+    public function consultar_items_vigentes($id_programacion, $id_enlace_vigente)
+    {
+        $this->db->select('pi.*');
+        $this->db->from('programacion.p_items pi');
+        $this->db->where('pi.id_programacion', $id_programacion);
+        $this->db->where('pi.id_enlace', $id_enlace_vigente); // Es crucial que el id_enlace sea el de la versión vigente del proyecto/acción
+        $this->db->where('pi.fecha_fin_vigencia IS NULL'); // SOLO VIGENTES
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    /**
+     * Consulta el total por partidas presupuestarias para una PROGRAMACIÓN ESPECÍFICA (solo ítems vigentes).
+     */
+    public function total_por_partidas_vigentes($id_programacion)
+    {
+        $this->db->select('ppp.codigopartida_presupuestaria, ppp.desc_partida_presupuestaria, SUM(CAST(pi.precio_total AS NUMERIC)) AS precio_total, SUM(CAST(pi.monto_estimado AS NUMERIC)) AS monto_estimado');
+        $this->db->from('programacion.p_items pi');
+        $this->db->join('programacion.partida_presupuestaria ppp', 'ppp.id = pi.id_partidad_presupuestaria'); // Asumo nombre de tabla y columna
+        $this->db->where('pi.id_programacion', $id_programacion);
+        $this->db->where('pi.fecha_fin_vigencia IS NULL'); // Solo ítems vigentes
+        $this->db->group_by('ppp.codigopartida_presupuestaria, ppp.desc_partida_presupuestaria');
+        $this->db->order_by('ppp.codigopartida_presupuestaria');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+
+    // --- Métodos para consultar el HISTÓRICO de un Ítem/Proyecto/Acción ---
+    // (Opcional, para una vista de auditoría)
+    public function get_item_history($original_item_id)
+    {
+        $this->db->select('*');
+        $this->db->from('programacion.p_items');
+        $this->db->where('id_p_items', $original_item_id);
+        $this->db->or_where('id_version_anterior_item', $original_item_id);
+        $this->db->order_by('fecha_inicio_vigencia', 'ASC');
+        $query = $this->db->get();
+        return $query->result_array();
     }
 }
