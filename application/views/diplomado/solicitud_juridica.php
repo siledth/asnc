@@ -205,6 +205,7 @@
                                 que autorizo la pertinencia de su verificación. Convengo que de llegar a comprobarse que
                                 se ha incurrido en inexactitud o falsedad en los datos aquí suministrados, quedará sin
                                 efecto la Preinscripción.
+                                Debe aceptar la declaración jurada para finalizar la inscripción.
                             </label>
                             <div class="invalid-feedback" id="declaracionJurada-feedback" style="display: none;">
                                 Debe aceptar la declaración jurada para finalizar la inscripción.
