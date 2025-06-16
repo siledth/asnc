@@ -444,7 +444,101 @@ function agregarCapacitacionModal() {
 }
 
 // Función para agregar HTML de capacitación (con selects dinámicos y validación numérica)
-function agregarCapacitacionHTML(newId,index, capacitacion) {
+// function agregarCapacitacionHTML(newId,index, capacitacion) {
+//     let optionsHtmlCursos = '<option value="">Seleccione un curso</option>';
+//     cursosDisponibles.forEach(curso => {
+//         const selected = (curso.id_cursos == capacitacion.id_curso_guardado) ? 'selected' : '';
+//         optionsHtmlCursos += `<option value="${curso.id_cursos}" ${selected}>${curso.descripcion_cursos}</option>`;
+//     });
+//     optionsHtmlCursos += `<option value="8" ${capacitacion.id_curso_guardado == '8' ? 'selected' : ''}>Otros</option>`;
+
+//     let optionsHtmlInstituciones = '<option value="">Seleccione una institución</option>';
+//     institucionesDisponibles.forEach(institucion => {
+//         const selected = (institucion.id_inst_formadora == capacitacion.id_institucion_guardado) ? 'selected' : '';
+//         optionsHtmlInstituciones += `<option value="${institucion.id_inst_formadora}" ${selected}>${institucion.descripcion_f}</option>`;
+//     });
+
+//     const displayOtrosCursos = (capacitacion.id_curso_guardado == '8') ? '' : 'display: none;';
+//     const displayOtrosInstitucion = (capacitacion.id_institucion_guardado == '5' || capacitacion.id_institucion_guardado == '6') ? '' : 'display: none;';
+
+//     const html = `
+//         <div class="capacitacion-item mb-3 p-3 border rounded" data-index="${index}">
+//             <h6>Capacitación ${index}</h6>
+//             <div class="row">
+//                 <div class="col-md-6 form-group">
+//                     <label class="required-field">Nombre del Curso</label>
+//                     <select id="id_curso_modal_${index}" class="form-control nombre-curso-select" required>
+//                         ${optionsHtmlCursos}
+//                     </select>
+//                 </div>
+//                 <div class="col-md-6 form-group" id="otros_cursos_container_modal_${index}" style="${displayOtrosCursos}">
+//                     <label class="required-field">Especifique el Curso</label>
+//                     <input type="text" id="nombre_curso_otro_modal_${index}" class="form-control nombre-curso-otro" value="${capacitacion.nombre_curso_otro || ''}">
+//                 </div>
+//             </div>
+//             <div class="row">
+//                 <div class="col-md-6 form-group">
+//                     <label class="required-field">Institución Formadora</label>
+//                     <select id="id_institucion_modal_${index}" class="form-control institucion-select" required>
+//                         ${optionsHtmlInstituciones}
+//                     </select>
+//                 </div>
+//                 <div class="col-md-6 form-group" id="otros_institucion_container_modal_${index}" style="${displayOtrosInstitucion}">
+//                     <label class="required-field">Especifique la Institución</label>
+//                     <input type="text" id="nombre_institucion_otro_modal_${index}" class="form-control institucion-otro" value="${capacitacion.nombre_institucion_otro || ''}">
+//                 </div>
+//             </div>
+//             <div class="row">
+//                 <div class="col-md-4 form-group">
+//                     <label class="required-field">Año</label>
+//                     <input type="text" id="anio_modal_${index}" class="form-control anio" value="${capacitacion.anio}" required>
+//                 </div>
+//                 <div class="col-md-4 form-group">
+//                     <label>Horas Academicas</label>
+//                     <input type="text" id="horas_modal_${index}" class="form-control horas" value="${capacitacion.horas || ''}">
+//                 </div>
+//                 <div class="col-md-4 form-group text-right">
+//                     <button type="button" class="btn btn-danger btn-sm mt-4 btn-eliminar-capacitacion-modal">
+//                         <i class="fas fa-trash"></i> Eliminar
+//                     </button>
+//                 </div>
+//             </div>
+//         </div>
+//     `;
+    
+//     $('#listaCapacitaciones').append(html);
+
+//     $(`#id_curso_modal_${index}`).on('change', function() {
+//         const selectedValue = $(this).val();
+//         if (selectedValue === '8') {
+//             $(`#otros_cursos_container_modal_${index}`).show().find('input').prop('required', true);
+//         } else {
+//             $(`#otros_cursos_container_modal_${index}`).hide().find('input').prop('required', false).val('');
+//         }
+//     }).trigger('change'); 
+
+//     $(`#id_institucion_modal_${index}`).on('change', function() {
+//         const selectedValue = $(this).val();
+//         if (selectedValue === '5' || selectedValue === '6') { 
+//             $(`#otros_institucion_container_modal_${index}`).show().find('input').prop('required', true);
+//         } else {
+//             $(`#otros_institucion_container_modal_${index}`).hide().find('input').prop('required', false).val('');
+//         }
+//     }).trigger('change'); 
+
+//     $(`#anio_modal_${index}`).on('input', function() {
+//         allowOnlyNumbers(this);
+//     });
+//     $(`#horas_modal_${index}`).on('input', function() {
+//         allowOnlyNumbers(this); 
+//     });
+
+//     $(`#${newId} .btn-eliminar-capacitacion-modal`).on('click', function() {
+//         $(this).closest('.capacitacion-item').remove();
+//         actualizarIndicesCapacitacionesModal();
+//     });
+// }
+function agregarCapacitacionHTML(newId, index, capacitacion) { // newId and index are passed correctly here
     let optionsHtmlCursos = '<option value="">Seleccione un curso</option>';
     cursosDisponibles.forEach(curso => {
         const selected = (curso.id_cursos == capacitacion.id_curso_guardado) ? 'selected' : '';
@@ -462,7 +556,7 @@ function agregarCapacitacionHTML(newId,index, capacitacion) {
     const displayOtrosInstitucion = (capacitacion.id_institucion_guardado == '5' || capacitacion.id_institucion_guardado == '6') ? '' : 'display: none;';
 
     const html = `
-        <div class="capacitacion-item mb-3 p-3 border rounded" data-index="${index}">
+        <div class="capacitacion-item mb-3 p-3 border rounded" id="${newId}" data-index="${index}">
             <h6>Capacitación ${index}</h6>
             <div class="row">
                 <div class="col-md-6 form-group">
@@ -508,7 +602,11 @@ function agregarCapacitacionHTML(newId,index, capacitacion) {
     
     $('#listaCapacitaciones').append(html);
 
-    $(`#id_curso_modal_${index}`).on('change', function() {
+    // Adjuntar eventos CHANGE e INPUT a los elementos RECIÉN AGREGADOS.
+    // Usar el ID completo del elemento padre (#newId) para asegurar que el evento se adjunte al elemento correcto.
+    const currentItemElement = $(`#${newId}`);
+
+    currentItemElement.find(`#id_curso_modal_${index}`).on('change', function() {
         const selectedValue = $(this).val();
         if (selectedValue === '8') {
             $(`#otros_cursos_container_modal_${index}`).show().find('input').prop('required', true);
@@ -517,7 +615,7 @@ function agregarCapacitacionHTML(newId,index, capacitacion) {
         }
     }).trigger('change'); 
 
-    $(`#id_institucion_modal_${index}`).on('change', function() {
+    currentItemElement.find(`#id_institucion_modal_${index}`).on('change', function() {
         const selectedValue = $(this).val();
         if (selectedValue === '5' || selectedValue === '6') { 
             $(`#otros_institucion_container_modal_${index}`).show().find('input').prop('required', true);
@@ -526,19 +624,19 @@ function agregarCapacitacionHTML(newId,index, capacitacion) {
         }
     }).trigger('change'); 
 
-    $(`#anio_modal_${index}`).on('input', function() {
+    currentItemElement.find(`#anio_modal_${index}`).on('input', function() {
         allowOnlyNumbers(this);
     });
-    $(`#horas_modal_${index}`).on('input', function() {
+    currentItemElement.find(`#horas_modal_${index}`).on('input', function() {
         allowOnlyNumbers(this); 
     });
 
-    $(`#${newId} .btn-eliminar-capacitacion-modal`).on('click', function() {
-        $(this).closest('.capacitacion-item').remove();
-        actualizarIndicesCapacitacionesModal();
+    // --- ADJUNCIÓN DE EVENTO AL BOTÓN DE ELIMINAR (CORREGIDO) ---
+    currentItemElement.find('.btn-eliminar-capacitacion-modal').on('click', function() {
+        $(this).closest('.capacitacion-item').remove(); // Remueve el ítem del DOM
+        actualizarIndicesCapacitacionesModal(); // Re-indexa los elementos restantes
     });
 }
-
 // Función para guardar curriculum
 function guardarCurriculum(index) {
     const participante = cacheFormulario.participantes[index];
