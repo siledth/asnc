@@ -268,10 +268,16 @@ function agregarParticipante() {
     clearFieldError(telefonoField);
     // if (direccionField.length) clearFieldError(direccionField);
 
-    // Validar Cédula
-    if (cedulaField.val().trim() === '' || !isInteger(cedulaField.val()) || cedulaField.val().length < 5 || cedulaField.val().length > 10) {
-        showFieldError(cedulaField, 'La cédula es obligatoria y debe ser numérica (5-10 dígitos).');
+   
+    // Validar Cédula (ahora con isInteger)
+    if (cedulaField.val().trim() === '') { // Primero vacío
+        showFieldError(cedulaField, 'La cédula es obligatoria.');
         isValidParticipanteForm = false;
+    } else if (!isInteger(cedulaField.val()) || cedulaField.val().length < 5 || cedulaField.val().length > 10) {
+        showFieldError(cedulaField, 'La cédula debe ser numérica y tener entre 5 y 10 dígitos.');
+        isValidParticipanteForm = false;
+    } else {
+        clearFieldError(cedulaField);
     }
     // Validar Nombres
     if (nombresField.val().trim() === '') {
@@ -284,10 +290,16 @@ function agregarParticipante() {
         isValidParticipanteForm = false;
     }
     // Validar Teléfono
-    if (telefonoField.val().trim() === '' || !isInteger(telefonoField.val()) || telefonoField.val().length < 7) {
-        showFieldError(telefonoField, 'El teléfono es obligatorio y debe ser numérico (mín. 7 dígitos).');
+    if (telefonoField.val().trim() === '') { // Primero vacío
+    showFieldError(telefonoField, 'El teléfono es obligatorio.');
+    isValidParticipanteForm = false;
+    } else if (!isInteger(telefonoField.val()) || telefonoField.val().length < 7) { // Mín. 7 dígitos para teléfono
+        showFieldError(telefonoField, 'El teléfono debe ser numérico y tener al menos 7 dígitos.');
         isValidParticipanteForm = false;
+    } else {
+        clearFieldError(telefonoField);
     }
+
     // Si el participante tiene campo de dirección directo en esta sección:
     // if (direccionField.length && direccionField.val().trim() === '') {
     //     showFieldError(direccionField, 'La dirección del participante es obligatoria.');
@@ -993,7 +1005,21 @@ function guardarPasoActual(paso) {
                     mostrarModalCurriculum(i);
                     return false;
                 }
-                
+                // --- VALIDAR CÉDULA y TELÉFONO del PARTICIPANTE AL FINALIZAR EL PASO 2 ---
+            // Estas validaciones ya se hicieron al agregar el participante, pero es un doble chequeo.
+            // Si el campo de dirección está en el objeto p, valídalo aquí también.
+            if (!isInteger(p.cedula) || p.cedula.length < 5 || p.cedula.length > 10) {
+                Swal.fire('Atención', `La cédula del participante ${p.nombres} ${p.apellidos} no es válida (5-10 dígitos).`, 'warning');
+                mostrarModalCurriculum(i); // O abrir un modal específico de error
+                isValidStep = false;
+                break;
+            }
+            if (!isInteger(p.telefono) || p.telefono.length < 7) {
+                Swal.fire('Atención', `El teléfono del participante ${p.nombres} ${p.apellidos} no es válido (mín. 7 dígitos).`, 'warning');
+                mostrarModalCurriculum(i);
+                isValidStep = false;
+                break;
+            }
                 if (p.curriculum.tiene_capacitacion === '1' && p.curriculum.capacitaciones.length === 0) {
                     alert(`El participante ${p.nombres} ${p.apellidos} debe tener al menos una capacitación`);
                     mostrarModalCurriculum(i);
@@ -1168,7 +1194,19 @@ $(document).ready(function() {
     // Cargar catálogos al inicio
     cargarCursosModal(); // Asegúrate de llamar a esta función
     cargarInstituciones(); // Asegúrate de llamar a esta función
-
+// --- Aplicar eventos 'input' para campos numéricos estáticos ---
+    $('#tel_local').on('input', function() { // Teléfono Local de la Empresa (Paso 1)
+        allowOnlyNumbers(this);
+    });
+    $('#cedula').on('input', function() { // Cédula del Participante (Paso 2)
+        allowOnlyNumbers(this);
+    });
+    $('#tel_part').on('input', function() { // Teléfono Local del Participante (Paso 2)
+        allowOnlyNumbers(this);
+    });
+    $('#experiencia_publicas').on('input', function() { // Exp. Contrataciones Públicas (Modal Currículum)
+        allowOnlyNumbers(this);
+    });
       // Adjuntar evento 'change' a la casilla de Declaración Jurada
     $('#declaracionJurada').on('change', function() {
         toggleFinalizarButton(); // Llama a la función para actualizar el botón

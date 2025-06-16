@@ -126,7 +126,7 @@
 
                                 <div class="col-md-4 form-group">
                                     <label for="tel_local" class="required-field">Teléfono Local</label>
-                                    <input type="number" id="tel_local" name="tel_local" class="form-control"
+                                    <input type="text" id="tel_local" name="tel_local" class="form-control"
                                         placeholder="Ej: 02121234567">
                                     <p id="errorMsg" class="text-danger"></p>
                                 </div>
@@ -169,7 +169,7 @@
                         </div>
                         <div class="col-md-4 form-group">
                             <label for="tel_local" class="required-field">Teléfono Local</label>
-                            <input type="number" id="tel_part" name="tel_part" class="form-control"
+                            <input type="text" id="tel_part" name="tel_part" class="form-control"
                                 placeholder="Ej: 02121234567">
                             <p id="errorMsg" class="text-danger"></p>
                         </div>
@@ -263,7 +263,7 @@
                 <div class="row">
                     <div class="col-md-6 form-group">
                         <label>Experiencia en contrataciones públicas (años)</label>
-                        <input type="number" id="experiencia_publicas" class="form-control" min="0">
+                        <input type="text" id="experiencia_publicas" class="form-control" min="0">
                     </div>
                     <div class="col-md-6 form-group">
                         <label>¿Tiene capacitación en contrataciones públicas?</label>
