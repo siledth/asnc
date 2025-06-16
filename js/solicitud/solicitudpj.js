@@ -25,6 +25,21 @@ function allowOnlyNumbers(inputElement) {
         inputElement.value = inputElement.value.replace(/[^0-9]/g, '');
     }
 }
+function toggleFinalizarButton() {
+    const declaracionJuradaCheckbox = $('#declaracionJurada');
+    const finalizarButton = $('#btn-finalizar');
+    const feedbackDiv = $('#declaracionJurada-feedback');
+
+    if (declaracionJuradaCheckbox.is(':checked')) {
+        finalizarButton.prop('disabled', false); // Habilita el botón si está marcado
+        feedbackDiv.hide().text(''); // Oculta el mensaje de error
+        declaracionJuradaCheckbox.removeClass('is-invalid'); // Remueve el estilo de error
+    } else {
+        finalizarButton.prop('disabled', true); // Deshabilita el botón si no está marcado
+        feedbackDiv.text('Debe aceptar la declaración jurada para finalizar la inscripción.').show(); // Muestra el mensaje de error
+        declaracionJuradaCheckbox.addClass('is-invalid'); // Añade el estilo de error
+    }
+}
 
 // Función para validar si una cadena es un número entero
 function isInteger(value) {
@@ -1046,7 +1061,20 @@ function generarResumen() {
     
     html += '</ul></div></div>';
     $('#resumen-participantes').html(html);
-}  function enviarDatos() {
+}  
+function enviarDatos() {
+     // --- NUEVO: Validar Declaración Jurada al inicio de la función ---
+    const declaracionJuradaCheckbox = $('#declaracionJurada');
+    if (!declaracionJuradaCheckbox.is(':checked')) {
+        // Asegura que el botón se desactive y muestre el mensaje visual si se intenta enviar sin marcar.
+        toggleFinalizarButton(); 
+        Swal.fire('Atención', 'Debe aceptar la declaración jurada para finalizar la inscripción.', 'warning');
+        // Opcional: Desplazar la vista hacia el checkbox si no está marcado
+        // Si tienes una función para enfocar elementos, puedes usarla aquí:
+        // $('html, body').animate({ scrollTop: declaracionJuradaCheckbox.offset().top - 80 }, 500);
+        // declaracionJuradaCheckbox.focus();
+        return; // Detener el envío del formulario si no se acepta la declaración
+    }
     // Validar que haya participantes
     if (cacheFormulario.participantes.length === 0) {
         Swal.fire('Error', 'Debe incluir al menos un participante', 'error');
@@ -1140,6 +1168,11 @@ $(document).ready(function() {
     // Cargar catálogos al inicio
     cargarCursosModal(); // Asegúrate de llamar a esta función
     cargarInstituciones(); // Asegúrate de llamar a esta función
+
+      // Adjuntar evento 'change' a la casilla de Declaración Jurada
+    $('#declaracionJurada').on('change', function() {
+        toggleFinalizarButton(); // Llama a la función para actualizar el botón
+    });
     // Navegación entre pasos
     $('.next-step').click(function() {
         const nextStep = $(this).data('next');

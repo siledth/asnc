@@ -188,12 +188,34 @@
                 </div>
 
                 <!-- Paso 3: Resumen y Confirmación -->
+
+
                 <div class="card-body step" id="step-3" style="display:none;">
                     <h5><i class="fas fa-list-check mr-2"></i>Resumen</h5>
                     <div id="resumen-empresa"></div>
                     <div id="resumen-participantes" class="mt-4"></div>
+
+                    <div class="form-section mt-4">
+                        <h5><i class="fas fa-file-signature mr-2"></i>Declaración Jurada</h5>
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="declaracionJurada"
+                                name="declaracionJurada" required>
+                            <label class="form-check-label" for="declaracionJurada">
+                                Declaro que la información y datos suministrados en esta Ficha son fidedignos, por lo
+                                que autorizo la pertinencia de su verificación. Convengo que de llegar a comprobarse que
+                                se ha incurrido en inexactitud o falsedad en los datos aquí suministrados, quedará sin
+                                efecto la Preinscripción.
+                            </label>
+                            <div class="invalid-feedback" id="declaracionJurada-feedback" style="display: none;">
+                                Debe aceptar la declaración jurada para finalizar la inscripción.
+                            </div>
+                        </div>
+                    </div>
+
                     <button type="button" class="btn btn-secondary prev-step" data-prev="2">Anterior</button>
-                    <button type="button" class="btn btn-primary" id="btn-finalizar">Finalizar Inscripción</button>
+                    <button type="button" class="btn btn-primary" id="btn-finalizar" disabled>
+                        Finalizar Inscripción
+                    </button>
                 </div>
             </div>
         </div>

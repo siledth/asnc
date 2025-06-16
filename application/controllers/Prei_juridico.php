@@ -138,7 +138,7 @@ class Prei_juridico extends CI_Controller
         $pdf->Cell(70, 5, $modalidad, 0, 0, 'L');
 
         $pdf->Cell(18, 5, 'Costo por persona Bs:', 0, 0, 'R');
-        $pdf->Cell(20, 5, $data->pay, 0, 1, 'C');
+        $pdf->Cell(20, 5, number_format($data->pay, 2, ',', '.'), 0, 1, 'C');
         if ($data->id_pago == '2') { // 2 es credito  / 1 es prontopago
             // Calcular montos
 
