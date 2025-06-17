@@ -18,8 +18,8 @@ class Programacion_model extends CI_model
         $data['estatus'] = 0; // En creación
         // $data['modificado'] = $data['id_usuario']; // El que la crea es el primero en "modificarla"
         $data['fecha_modifi'] = date('Y-m-d H:i:s');
-        $data['id_version_anterior'] = NULL; // Es la primera versión
-        $data['num_reprogramacion'] = 0; // Es la versión original
+        // $data['id_version_anterior'] = NULL; // Es la primera versión
+        // $data['num_reprogramacion'] = 0; // Es la versión original
 
         $quers = $this->db->insert('programacion.programacion', $data);
         if ($quers) {
@@ -57,7 +57,7 @@ class Programacion_model extends CI_model
                 'fecha' => date('Y-m-d H:i:s'),
                 // 'fecha_fin_vigencia' => 'NULL',
                 // 'id_version_anterior_proyecto' => 'NULL',
-                'tipo_operacion' => 'INSERT',
+                //'tipo_operacion' => 'INSERT',
 
 
 
