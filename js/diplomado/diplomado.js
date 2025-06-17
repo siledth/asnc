@@ -487,12 +487,11 @@ function modal_ver(id_diplomado) { // Cambiado el nombre del parámetro para may
 function editar_diplomado() {
     console.log("DEBUG: 1. Función editar_diplomado() iniciada.");
 
-    // Validaciones iniciales del lado del cliente
+    // Validaciones iniciales del lado del cliente (mantenerlas si son necesarias)
     var id_diplomado_edit = $("#id_diplomado_edit").val();
     var name_d_edit = $("#name_d_edit").val();
     var fdesde_edit = $("#fdesde_edit").val();
 
-    // Puedes agregar logs para ver los valores
     console.log("DEBUG: id_diplomado_edit:", id_diplomado_edit);
     console.log("DEBUG: name_d_edit:", name_d_edit);
     console.log("DEBUG: fdesde_edit:", fdesde_edit);
@@ -502,49 +501,48 @@ function editar_diplomado() {
         Swal.fire('Atención', 'El Nombre del Diplomado es obligatorio.', 'warning');
         $("#name_d_edit").focus();
         console.log("DEBUG: 2. Validación fallida: Nombre del Diplomado vacío.");
-        return; // ¡Importante! Si esto se activa, el código se detiene aquí.
+        return;
     }
     if (fdesde_edit === '') {
         Swal.fire('Atención', 'La Fecha de Inicio es obligatoria.', 'warning');
         $("#fdesde_edit").focus();
         console.log("DEBUG: 3. Validación fallida: Fecha de Inicio vacía.");
-        return; // ¡Importante! Si esto se activa, el código se detiene aquí.
+        return;
     }
-    // Asegúrate de que no haya otras validaciones aquí que detengan el flujo
 
     Swal.fire({
         title: '¿Modificar Diplomado?',
         text: '¿Está seguro de Modificar este registro del Diplomado?',
-        icon: 'warning',
+        // 'icon' es el parámetro correcto para SweetAlert2.
+        // Si tienes el mensaje "SweetAlert2: Unknown parameter "icon"",
+        // significa que estás usando una versión muy antigua de SweetAlert
+        // o la librería SweetAlert original (no la 2).
+        // En ese caso, deberías cambiar 'icon' a 'type'.
+        icon: 'warning', // O 'type: 'warning'' si usas SweetAlert (no la v2)
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         cancelButtonText: 'Cancelar',
         confirmButtonText: '¡Sí, guardar cambios!'
     }).then((result) => {
-        console.log("DEBUG: 4. Resultado de la confirmación de SweetAlert:", result); // Verifica el objeto completo
+        console.log("DEBUG: 4. Resultado de la confirmación de SweetAlert:", result);
 
-        // La clave aquí es si 'result.isConfirmed' es TRUE
-        if (result.isConfirmed) {
-            console.log("DEBUG: 5. Usuario confirmó la modificación (result.isConfirmed es TRUE).");
+        // ¡¡¡CAMBIO CLAVE AQUÍ!!!
+        // Si result.value es true, significa que el usuario confirmó.
+        if (result.value === true) {
+            console.log("DEBUG: 5. Usuario confirmó la modificación (result.value es TRUE).");
 
             var datos = new FormData($("#editar_diplomado_form")[0]);
-            var base_urls = '/index.php/Diplomado/actualizar_diplomado'; // Asegúrate que esta URL sea correcta para tu entorno
+            var base_urls = '/index.php/Diplomado/actualizar_diplomado'; // Revisa si necesitas BASE_URL + '...'
 
             console.log("DEBUG: 6. URL de la petición AJAX:", base_urls);
 
-            // Opcional: Debuggear FormData. Esto no aparece en Network tab si la petición no se envía.
-            // for (let pair of datos.entries()) {
-            //     console.log("DEBUG: FormData - " + pair[0]+ ': ' + pair[1]);
-            // }
-
-            // Aquí se lanza la petición AJAX
             $.ajax({
                 url: base_urls,
                 method: 'post',
                 data: datos,
-                processData: false, // Necesario para FormData
-                contentType: false, // Necesario para FormData
+                processData: false,
+                contentType: false,
                 dataType: 'json',
                 success: function(response) {
                     console.log("DEBUG: 7. Petición AJAX 'success' callback ejecutado. Respuesta:", response);
@@ -552,12 +550,13 @@ function editar_diplomado() {
                         Swal.fire({
                             title: 'Operación Exitosa',
                             text: response.message,
-                            icon: 'success',
+                            icon: 'success', // O 'type: 'success''
                             showCancelButton: false,
                             confirmButtonColor: '#3085d6',
                             confirmButtonText: 'Ok'
-                        }).then((resultConfirm) => { // Cambié la variable a resultConfirm para evitar conflicto
-                            if (resultConfirm.isConfirmed) {
+                        }).then((resultConfirm) => {
+                            // Dentro de este .then, también podrías necesitar 'resultConfirm.value === true'
+                            if (resultConfirm.value === true) { // Asumiendo el mismo comportamiento para este SwatAlert
                                 $('#exampleModal').modal('hide');
                                 location.reload();
                             }
@@ -566,23 +565,22 @@ function editar_diplomado() {
                         Swal.fire({
                             title: 'Error al Guardar',
                             text: response.message,
-                            icon: 'error'
+                            icon: 'error' // O 'type: 'error''
                         });
                     }
                 },
                 error: function(xhr, status, error) {
-                    // Si llegamos aquí, la petición sí se envió, pero falló
                     console.error("DEBUG: 8. Petición AJAX 'error' callback ejecutado. XHR:", xhr, "Status:", status, "Error:", error);
-                    console.error("DEBUG: ResponseText:", xhr.responseText); // Esto es crucial
+                    console.error("DEBUG: ResponseText:", xhr.responseText);
                     Swal.fire({
                         title: 'Error de Comunicación',
                         text: 'Hubo un problema al intentar conectar con el servidor para guardar los cambios. Intente nuevamente. Detalles: ' + error,
-                        icon: 'error'
+                        icon: 'error' // O 'type: 'error''
                     });
                 }
             });
         } else {
-            console.log("DEBUG: 9. Usuario canceló la modificación (result.isConfirmed es FALSE).");
+            console.log("DEBUG: 9. Usuario canceló la modificación (result.value es FALSE).");
         }
     });
 }
