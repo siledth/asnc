@@ -423,70 +423,50 @@ function modal_ver(id_diplomado) { // Cambiado el nombre del parámetro para may
 // ---
 // **Función para guardar los cambios del Diplomado**
 // Esta es la adaptación de tu 'editar_b' original, ahora para diplomados.
-function editar_diplomado() { // Cambiado el nombre de la función para mayor claridad
-    var id_diplomado_edit = $("#id_diplomado_edit").val();
-    var name_d_edit = $("#name_d_edit").val();
-    var fdesde_edit = $("#fdesde_edit").val();
-    // Agrega aquí todas las demás variables para los campos del diplomado
-    // ...
-
-    // Validaciones básicas antes de enviar
-    if (name_d_edit === '') {
-        Swal.fire('Atención', 'El Nombre del Diplomado es obligatorio.', 'warning');
-        $("#name_d_edit").focus();
-        return; // Detiene la ejecución
-    }
-    if (fdesde_edit === '') {
-        Swal.fire('Atención', 'La Fecha de Inicio es obligatoria.', 'warning');
-        $("#fdesde_edit").focus();
-        return;
-    }
-    // Puedes agregar más validaciones para otros campos requeridos como en tu función original
+function editar_diplomado() {
+    // ... (validaciones básicas en el cliente)
 
     Swal.fire({
         title: '¿Modificar Diplomado?',
         text: '¿Está seguro de Modificar este registro del Diplomado?',
-        icon: 'warning', // Cambiado a 'icon' en SweetAlert2
+        icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         cancelButtonText: 'Cancelar',
         confirmButtonText: '¡Sí, guardar cambios!'
     }).then((result) => {
-        if (result.isConfirmed) { // Cambiado a 'isConfirmed' en SweetAlert2
-            // Serializamos todos los datos del formulario del modal (con los nuevos IDs)
-            var datos = new FormData($("#editar_diplomado_form")[0]); // Usa el ID del formulario del modal
-	       var base_urls = '/index.php/Diplomado/actualizar_diplomado';
-
-            // var base_urls =window.location.origin+'/asnc/index.php/Certificaciones/editar_b'; // Ruta anterior
-            // var base_urls = '<?php echo base_url('tu_controlador/actualizar_diplomado'); ?>'; // ¡IMPORTANTE! Asegúrate que 'tu_controlador' sea el nombre real
+        if (result.isConfirmed) {
+            var datos = new FormData($("#editar_diplomado_form")[0]);
+			var base_urls = '/index.php/Diplomado/actualizar_diplomado';
 
             $.ajax({
                 url: base_urls,
                 method: 'post',
-                data: datos, // Enviamos el FormData que contiene todos los campos
-                processData: false, // Necesario para FormData
-                contentType: false, // Necesario para FormData
+                data: datos,
+                processData: false,
+                contentType: false,
                 dataType: 'json',
                 success: function(response) {
                     if (response.status === 'success') {
                         Swal.fire({
-                            title: 'Modificación Exitosa',
-                            text: response.message,
+                            title: 'Operación Exitosa', // Título más genérico
+                            text: response.message, // Usa el mensaje del servidor
                             icon: 'success',
                             showCancelButton: false,
                             confirmButtonColor: '#3085d6',
                             confirmButtonText: 'Ok'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                $('#exampleModal').modal('hide'); // Oculta el modal
-                                location.reload(); // Recarga la página para ver los cambios
+                                $('#exampleModal').modal('hide');
+                                location.reload();
                             }
                         });
                     } else {
+                        // Muestra el mensaje de error que viene del servidor
                         Swal.fire({
                             title: 'Error al Guardar',
-                            text: 'Error al guardar los cambios del diplomado: ' + response.message,
+                            text: response.message, // Usa el mensaje de error del servidor
                             icon: 'error'
                         });
                     }
@@ -495,7 +475,7 @@ function editar_diplomado() { // Cambiado el nombre de la función para mayor cl
                     console.error("Error AJAX en editar_diplomado:", xhr.responseText);
                     Swal.fire({
                         title: 'Error de Comunicación',
-                        text: 'Hubo un problema al intentar conectar con el servidor para guardar los cambios.',
+                        text: 'Hubo un problema al intentar conectar con el servidor para guardar los cambios. Intente nuevamente.',
                         icon: 'error'
                     });
                 }

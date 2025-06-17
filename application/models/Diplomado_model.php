@@ -1019,7 +1019,28 @@ class Diplomado_model extends CI_model
     // Nueva función para actualizar un diplomado
     function actualizar_diplomado($id_diplomado, $data)
     {
+        // Añadir log para depuración antes de la actualización
+        log_message('debug', 'Intentando actualizar diplomado con ID: ' . $id_diplomado . ' y datos: ' . json_encode($data));
+
         $this->db->where('id_diplomado', $id_diplomado);
-        return $this->db->update('diplomado.diplomado', $data);
+        $result = $this->db->update('diplomado.diplomado', $data);
+
+        if ($result) {
+            // La operación de actualización fue exitosa desde la perspectiva de CodeIgniter.
+            // Esto no significa que se hayan modificado filas, solo que la consulta no falló.
+            if ($this->db->affected_rows() > 0) {
+                log_message('info', 'Diplomado con ID: ' . $id_diplomado . ' actualizado exitosamente.');
+                return ['status' => true, 'message' => 'Diplomado actualizado exitosamente.'];
+            } else {
+                // No se afectaron filas, lo que puede indicar que los datos no cambiaron o el ID no existe.
+                log_message('info', 'Diplomado con ID: ' . $id_diplomado . ' no modificado (datos iguales o ID no existe).');
+                return ['status' => true, 'message' => 'Diplomado encontrado, pero no se realizaron cambios.'];
+            }
+        } else {
+            // Hubo un error en la ejecución de la consulta de la base de datos.
+            $error = $this->db->error(); // Obtiene el último error de la base de datos
+            log_message('error', 'Error al actualizar diplomado con ID: ' . $id_diplomado . '. Código de error: ' . $error['code'] . ', Mensaje: ' . $error['message']);
+            return ['status' => false, 'message' => 'Error en la base de datos: ' . $error['message']];
+        }
     }
 }

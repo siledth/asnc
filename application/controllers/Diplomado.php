@@ -1940,45 +1940,65 @@ class Diplomado extends CI_Controller
     // Nueva función en el controlador para actualizar los datos del diplomado
     public function actualizar_diplomado()
     {
+        // 1. Verificación de sesión
         if (!$this->session->userdata('session')) {
-            echo json_encode(['status' => 'error', 'message' => 'Sesión no iniciada.']);
+            log_message('warn', 'Intento de acceso no autorizado a actualizar_diplomado (sin sesión).');
+            echo json_encode(['status' => 'error', 'message' => 'Su sesión ha expirado o no está iniciada. Por favor, inicie sesión nuevamente.']);
             return;
         }
 
+        // 2. Obtener y validar ID
         $id_diplomado = $this->input->post('id_diplomado_edit');
+        if (empty($id_diplomado)) {
+            log_message('error', 'Actualización de diplomado fallida: ID de diplomado no proporcionado.');
+            echo json_encode(['status' => 'error', 'message' => 'No se pudo identificar el diplomado a actualizar.']);
+            return;
+        }
 
-        if ($id_diplomado) {
-            $data = array(
-                'name_d' => $this->input->post('name_d_edit'),
-                'fdesde' => $this->input->post('fdesde_edit'),
-                'fhasta' => $this->input->post('fhasta_edit'),
-                'id_modalidad' => $this->input->post('id_modalidad_edit'),
-                'topmax' => $this->input->post('topmax_edit'),
-                'topmin' => $this->input->post('topmin_edit'),
-                'pay' => $this->input->post('pay_edit'),
-                'pronto_pago' => $this->input->post('pronto_pago_edit'),
-                'd_hrs' => $this->input->post('d_hrs_edit'),
-                'pago2desde' => $this->input->post('pago2desde_edit'),
-                'pago2hasta' => $this->input->post('pago2hasta_edit'),
-                // No incluyas 'new_date' ya que se autogenera o no se debería editar aquí
-            );
+        // 3. Configurar reglas de validación (¡Recomendado!)
+        // Aunque tienes validación JS, la validación del lado del servidor es crucial.
+        $this->form_validation->set_rules('name_d_edit', 'Nombre del Diplomado', 'required|trim|max_length[255]');
+        $this->form_validation->set_rules('fdesde_edit', 'Fecha de Inicio', 'required|trim');
+        $this->form_validation->set_rules('fhasta_edit', 'Fecha de Culminación', 'required|trim');
+        $this->form_validation->set_rules('id_modalidad_edit', 'Modalidad', 'required|numeric|greater_than[0]'); // Mayor que 0 para "Seleccione"
+        $this->form_validation->set_rules('topmax_edit', 'Número Máximo de Participantes', 'required|numeric|integer|greater_than[0]');
+        $this->form_validation->set_rules('topmin_edit', 'Número de Participantes Exonerados', 'required|numeric|integer|greater_than_equal_to[0]|less_than_equal_to[' . $this->input->post('topmax_edit') . ']'); // topmin <= topmax
+        $this->form_validation->set_rules('pay_edit', 'Costo del Diplomado', 'required|numeric|greater_than_equal_to[0]');
+        $this->form_validation->set_rules('pronto_pago_edit', 'Costo Pronto Pago', 'numeric|greater_than_equal_to[0]'); // No requerido
+        $this->form_validation->set_rules('d_hrs_edit', 'Duración en Horas', 'required|numeric|integer|greater_than[0]');
+        $this->form_validation->set_rules('pago2desde_edit', 'Fecha desde Segundo Pago', 'required|trim');
+        $this->form_validation->set_rules('pago2hasta_edit', 'Fecha hasta Segundo Pago', 'required|trim');
 
-            // Validación básica (puedes expandir esto con Parsley o CodeIgniter Form Validation)
-            foreach ($data as $key => $value) {
-                if (empty($value) && $key != 'pronto_pago') { // 'pronto_pago' podría ser 0
-                    echo json_encode(['status' => 'error', 'message' => 'Todos los campos obligatorios deben ser llenados.']);
-                    return;
-                }
-            }
+        if ($this->form_validation->run() == FALSE) {
+            $errors = validation_errors(); // Obtiene todos los errores de validación
+            log_message('error', 'Errores de validación en actualizar_diplomado: ' . $errors);
+            echo json_encode(['status' => 'error', 'message' => 'Errores en los datos: ' . strip_tags($errors)]); // strip_tags para limpiar el HTML por defecto
+            return;
+        }
 
+        // 4. Preparar los datos
+        $data_to_update = array(
+            'name_d' => $this->input->post('name_d_edit'),
+            'fdesde' => $this->input->post('fdesde_edit'),
+            'fhasta' => $this->input->post('fhasta_edit'),
+            'id_modalidad' => $this->input->post('id_modalidad_edit'),
+            'topmax' => $this->input->post('topmax_edit'),
+            'topmin' => $this->input->post('topmin_edit'),
+            'pay' => $this->input->post('pay_edit'),
+            'pronto_pago' => $this->input->post('pronto_pago_edit') ?? 0, // Usar operador null coalescing para valores opcionales
+            'd_hrs' => $this->input->post('d_hrs_edit'),
+            'pago2desde' => $this->input->post('pago2desde_edit'),
+            'pago2hasta' => $this->input->post('pago2hasta_edit'),
+        );
 
-            if ($this->Diplomado_model->actualizar_diplomado($id_diplomado, $data)) {
-                echo json_encode(['status' => 'success', 'message' => 'Diplomado actualizado exitosamente.']);
-            } else {
-                echo json_encode(['status' => 'error', 'message' => 'Error al actualizar el diplomado.']);
-            }
+        // 5. Llamar al modelo
+        $result = $this->Diplomado_model->actualizar_diplomado($id_diplomado, $data_to_update);
+
+        // 6. Enviar respuesta al cliente
+        if ($result['status']) {
+            echo json_encode(['status' => 'success', 'message' => $result['message']]);
         } else {
-            echo json_encode(['status' => 'error', 'message' => 'ID de diplomado no proporcionado para la actualización.']);
+            echo json_encode(['status' => 'error', 'message' => $result['message']]);
         }
     }
 }
