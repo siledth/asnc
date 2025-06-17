@@ -423,8 +423,94 @@ function modal_ver(id_diplomado) { // Cambiado el nombre del parámetro para may
 // ---
 // **Función para guardar los cambios del Diplomado**
 // Esta es la adaptación de tu 'editar_b' original, ahora para diplomados.
+// function editar_diplomado() {
+//     // ... (validaciones básicas en el cliente)
+
+//     Swal.fire({
+//         title: '¿Modificar Diplomado?',
+//         text: '¿Está seguro de Modificar este registro del Diplomado?',
+//         icon: 'warning',
+//         showCancelButton: true,
+//         confirmButtonColor: '#3085d6',
+//         cancelButtonColor: '#d33',
+//         cancelButtonText: 'Cancelar',
+//         confirmButtonText: '¡Sí, guardar cambios!'
+//     }).then((result) => {
+//         if (result.isConfirmed) {
+// 					var base_url = '/index.php/Diplomado/actualizar_diplomado';
+
+//             var datos = new FormData($("#editar_diplomado_form")[0]);
+
+//             $.ajax({
+//                 url: base_url,
+//                 method: 'post',
+//                 data: datos,
+//                 processData: false,
+//                 contentType: false,
+//                 dataType: 'json',
+//                 success: function(response) {
+//                     if (response.status === 'success') {
+//                         Swal.fire({
+//                             title: 'Operación Exitosa', // Título más genérico
+//                             text: response.message, // Usa el mensaje del servidor
+//                             icon: 'success',
+//                             showCancelButton: false,
+//                             confirmButtonColor: '#3085d6',
+//                             confirmButtonText: 'Ok'
+//                         }).then((result) => {
+//                             if (result.isConfirmed) {
+//                                 $('#exampleModal').modal('hide');
+//                                 location.reload();
+//                             }
+//                         });
+//                     } else {
+//                         // Muestra el mensaje de error que viene del servidor
+//                         Swal.fire({
+//                             title: 'Error al Guardar',
+//                             text: response.message, // Usa el mensaje de error del servidor
+//                             icon: 'error'
+//                         });
+//                     }
+//                 },
+//                 error: function(xhr, status, error) {
+//                     console.error("Error AJAX en editar_diplomado:", xhr.responseText);
+//                     Swal.fire({
+//                         title: 'Error de Comunicación',
+//                         text: 'Hubo un problema al intentar conectar con el servidor para guardar los cambios. Intente nuevamente.',
+//                         icon: 'error'
+//                     });
+//                 }
+//             });
+//         }
+//     });
+// }
 function editar_diplomado() {
-    // ... (validaciones básicas en el cliente)
+    console.log("DEBUG: 1. Función editar_diplomado() iniciada.");
+
+    // Validaciones iniciales del lado del cliente
+    var id_diplomado_edit = $("#id_diplomado_edit").val();
+    var name_d_edit = $("#name_d_edit").val();
+    var fdesde_edit = $("#fdesde_edit").val();
+
+    // Puedes agregar logs para ver los valores
+    console.log("DEBUG: id_diplomado_edit:", id_diplomado_edit);
+    console.log("DEBUG: name_d_edit:", name_d_edit);
+    console.log("DEBUG: fdesde_edit:", fdesde_edit);
+
+
+    if (name_d_edit === '') {
+        Swal.fire('Atención', 'El Nombre del Diplomado es obligatorio.', 'warning');
+        $("#name_d_edit").focus();
+        console.log("DEBUG: 2. Validación fallida: Nombre del Diplomado vacío.");
+        return; // ¡Importante! Si esto se activa, el código se detiene aquí.
+    }
+    if (fdesde_edit === '') {
+        Swal.fire('Atención', 'La Fecha de Inicio es obligatoria.', 'warning');
+        $("#fdesde_edit").focus();
+        console.log("DEBUG: 3. Validación fallida: Fecha de Inicio vacía.");
+        return; // ¡Importante! Si esto se activa, el código se detiene aquí.
+    }
+    // Asegúrate de que no haya otras validaciones aquí que detengan el flujo
 
     Swal.fire({
         title: '¿Modificar Diplomado?',
@@ -436,55 +522,70 @@ function editar_diplomado() {
         cancelButtonText: 'Cancelar',
         confirmButtonText: '¡Sí, guardar cambios!'
     }).then((result) => {
+        console.log("DEBUG: 4. Resultado de la confirmación de SweetAlert:", result); // Verifica el objeto completo
+
+        // La clave aquí es si 'result.isConfirmed' es TRUE
         if (result.isConfirmed) {
-					var base_url = '/index.php/Diplomado/actualizar_diplomado';
+            console.log("DEBUG: 5. Usuario confirmó la modificación (result.isConfirmed es TRUE).");
 
             var datos = new FormData($("#editar_diplomado_form")[0]);
+            var base_urls = '/index.php/Diplomado/actualizar_diplomado'; // Asegúrate que esta URL sea correcta para tu entorno
 
+            console.log("DEBUG: 6. URL de la petición AJAX:", base_urls);
+
+            // Opcional: Debuggear FormData. Esto no aparece en Network tab si la petición no se envía.
+            // for (let pair of datos.entries()) {
+            //     console.log("DEBUG: FormData - " + pair[0]+ ': ' + pair[1]);
+            // }
+
+            // Aquí se lanza la petición AJAX
             $.ajax({
-                url: base_url,
+                url: base_urls,
                 method: 'post',
                 data: datos,
-                processData: false,
-                contentType: false,
+                processData: false, // Necesario para FormData
+                contentType: false, // Necesario para FormData
                 dataType: 'json',
                 success: function(response) {
+                    console.log("DEBUG: 7. Petición AJAX 'success' callback ejecutado. Respuesta:", response);
                     if (response.status === 'success') {
                         Swal.fire({
-                            title: 'Operación Exitosa', // Título más genérico
-                            text: response.message, // Usa el mensaje del servidor
+                            title: 'Operación Exitosa',
+                            text: response.message,
                             icon: 'success',
                             showCancelButton: false,
                             confirmButtonColor: '#3085d6',
                             confirmButtonText: 'Ok'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
+                        }).then((resultConfirm) => { // Cambié la variable a resultConfirm para evitar conflicto
+                            if (resultConfirm.isConfirmed) {
                                 $('#exampleModal').modal('hide');
                                 location.reload();
                             }
                         });
                     } else {
-                        // Muestra el mensaje de error que viene del servidor
                         Swal.fire({
                             title: 'Error al Guardar',
-                            text: response.message, // Usa el mensaje de error del servidor
+                            text: response.message,
                             icon: 'error'
                         });
                     }
                 },
                 error: function(xhr, status, error) {
-                    console.error("Error AJAX en editar_diplomado:", xhr.responseText);
+                    // Si llegamos aquí, la petición sí se envió, pero falló
+                    console.error("DEBUG: 8. Petición AJAX 'error' callback ejecutado. XHR:", xhr, "Status:", status, "Error:", error);
+                    console.error("DEBUG: ResponseText:", xhr.responseText); // Esto es crucial
                     Swal.fire({
                         title: 'Error de Comunicación',
-                        text: 'Hubo un problema al intentar conectar con el servidor para guardar los cambios. Intente nuevamente.',
+                        text: 'Hubo un problema al intentar conectar con el servidor para guardar los cambios. Intente nuevamente. Detalles: ' + error,
                         icon: 'error'
                     });
                 }
             });
+        } else {
+            console.log("DEBUG: 9. Usuario canceló la modificación (result.isConfirmed es FALSE).");
         }
     });
 }
-
 // ---
 // Función para dividir el costo en el modal de edición
 // Es importante que esta función esté definida donde sea accesible
