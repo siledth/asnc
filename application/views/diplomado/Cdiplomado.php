@@ -99,7 +99,7 @@
                 <div class="panel panel-inverse">
                     <div class="panel-heading"></div>
                     <div class="table-responsive">
-                        <table id="records" class="table table-bordered table-hover">
+                        <table id="data-table" class="table table-bordered table-hover">
                             <thead style="background:#e4e7e8">
                                 <tr>
                                     <th>Nombre Diplomado</th>

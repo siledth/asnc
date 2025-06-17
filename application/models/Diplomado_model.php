@@ -14,6 +14,7 @@ class Diplomado_model extends CI_model
     {
         $this->db->select('*');
         $this->db->from('diplomado.diplomado');
+        $this->db->order_by('id_diplomado', 'ASC');
 
         $query = $this->db->get();
         return $query->result_array();
