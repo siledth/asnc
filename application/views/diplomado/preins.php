@@ -37,7 +37,7 @@
                                 <div class="col-md-6 form-group">
                                     <label for="id_tipop" class="required-field">Seleccione una opcion para
                                         continuar</label>
-                                    <select id="id_tipop" name="id_tipop" class="default-select2 form-control" required>
+                                    <select id="id_tipop" name="id_tipop" class="form-control" required>
                                         <option value="">Seleccione una opción</option>
                                         <option value="1">Persona Natural</option>
                                         <option value="2">Persona Juridica</option>
