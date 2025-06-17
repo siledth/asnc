@@ -369,7 +369,7 @@ function save_dec_pj() {
 
 function modal_ver(id_diplomado) { // Cambiado el nombre del parámetro para mayor claridad
     // var id_exonerado = id; // Ya no es necesario, el parámetro ya es id_diplomado
-     var base_url = window.location.origin+'/asnc/index.php/Certificaciones/consulta_b'; // Ruta anterior
+    // var base_url = window.location.origin+'/asnc/index.php/Certificaciones/consulta_b'; // Ruta anterior
     // var base_url = '<?php echo base_url('tu_controlador/get_diplomado_data'); ?>'; // ¡IMPORTANTE! Asegúrate que 'tu_controlador' sea el nombre real de tu controlador (ej: 'Diplomado')
 	var base_url = '/index.php/Diplomado/get_diplomado_data';
 
