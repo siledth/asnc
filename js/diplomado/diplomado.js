@@ -488,7 +488,6 @@ function modal_ver(id_diplomado) { // Cambiado el nombre del parámetro para may
 function editar_diplomado() {
     console.log("DEBUG: 1. Función editar_diplomado() iniciada.");
 
-    // Validaciones iniciales del lado del cliente (mantenerlas si son necesarias)
     var id_diplomado_edit = $("#id_diplomado_edit").val();
     var name_d_edit = $("#name_d_edit").val();
     var fdesde_edit = $("#fdesde_edit").val();
@@ -514,12 +513,7 @@ function editar_diplomado() {
     Swal.fire({
         title: '¿Modificar Diplomado?',
         text: '¿Está seguro de Modificar este registro del Diplomado?',
-        // 'icon' es el parámetro correcto para SweetAlert2.
-        // Si tienes el mensaje "SweetAlert2: Unknown parameter "icon"",
-        // significa que estás usando una versión muy antigua de SweetAlert
-        // o la librería SweetAlert original (no la 2).
-        // En ese caso, deberías cambiar 'icon' a 'type'.
-        icon: 'warning', // O 'type: 'warning'' si usas SweetAlert (no la v2)
+        type: 'warning', // CAMBIADO a 'type' por la advertencia
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
@@ -528,12 +522,10 @@ function editar_diplomado() {
     }).then((result) => {
         console.log("DEBUG: 4. Resultado de la confirmación de SweetAlert:", result);
 
-        // ¡¡¡CAMBIO CLAVE AQUÍ!!!
-        // Si result.value es true, significa que el usuario confirmó.
         if (result.value === true) {
             console.log("DEBUG: 5. Usuario confirmó la modificación (result.value es TRUE).");
 
-           var datos = {
+            var datos = {
                 id_diplomado_edit: $("#id_diplomado_edit").val(),
                 name_d_edit: $("#name_d_edit").val(),
                 fdesde_edit: $("#fdesde_edit").val(),
@@ -543,26 +535,25 @@ function editar_diplomado() {
                 topmin_edit: $("#topmin_edit").val(),
                 pay_edit: $("#pay_edit").val(),
                 pronto_pago_edit: $("#pronto_pago_edit").val(),
-                pay1_edit: $("#pay1_edit").val(), // Aunque sea readonly, si tiene name, se puede enviar
-                pay2_edit: $("#pay2_edit").val(), // Aunque sea readonly, si tiene name, se puede enviar
+                pay1_edit: $("#pay1_edit").val(),
+                pay2_edit: $("#pay2_edit").val(),
                 pago2desde_edit: $("#pago2desde_edit").val(),
                 pago2hasta_edit: $("#pago2hasta_edit").val(),
                 d_hrs_edit: $("#d_hrs_edit").val()
             };
-            var base_urls = '/index.php/Diplomado/actualizar_diplomado'; // Revisa si necesitas BASE_URL + '...'
+            var base_urls = '/index.php/Diplomado/actualizar_diplomado';
 
             console.log("DEBUG: 6. URL de la petición AJAX:", base_urls);
-			 // ***** AÑADE ESTE BUCLE PARA VER LOS DATOS DEL FORMDATA *****
-            // console.log("DEBUG: Contenido de FormData:");
-            // for (let pair of datos.entries()) {
-            //     console.log(pair[0]+ ': ' + pair[1]); 
-            // }
+            console.log("DEBUG: Datos a enviar (construidos manualmente):", datos); // ¡Revisa esto en la consola!
+
             $.ajax({
                 url: base_urls,
                 method: 'post',
                 data: datos,
-                processData: false,
-                contentType: false,
+                // --- ¡¡¡ELIMINA ESTAS DOS LÍNEAS!!! ---
+                // processData: false,
+                // contentType: false,
+                // ------------------------------------
                 dataType: 'json',
                 success: function(response) {
                     console.log("DEBUG: 7. Petición AJAX 'success' callback ejecutado. Respuesta:", response);
@@ -570,13 +561,12 @@ function editar_diplomado() {
                         Swal.fire({
                             title: 'Operación Exitosa',
                             text: response.message,
-                            icon: 'success', // O 'type: 'success''
+                            type: 'success', // CAMBIADO a 'type'
                             showCancelButton: false,
                             confirmButtonColor: '#3085d6',
                             confirmButtonText: 'Ok'
                         }).then((resultConfirm) => {
-                            // Dentro de este .then, también podrías necesitar 'resultConfirm.value === true'
-                            if (resultConfirm.value === true) { // Asumiendo el mismo comportamiento para este SwatAlert
+                            if (resultConfirm.value === true) {
                                 $('#exampleModal').modal('hide');
                                 location.reload();
                             }
@@ -585,7 +575,7 @@ function editar_diplomado() {
                         Swal.fire({
                             title: 'Error al Guardar',
                             text: response.message,
-                            icon: 'error' // O 'type: 'error''
+                            type: 'error' // CAMBIADO a 'type'
                         });
                     }
                 },
@@ -595,7 +585,7 @@ function editar_diplomado() {
                     Swal.fire({
                         title: 'Error de Comunicación',
                         text: 'Hubo un problema al intentar conectar con el servidor para guardar los cambios. Intente nuevamente. Detalles: ' + error,
-                        icon: 'error' // O 'type: 'error''
+                        type: 'error' // CAMBIADO a 'type'
                     });
                 }
             });
