@@ -150,7 +150,7 @@
                     <form class="form-horizontal" id="editar_diplomado_form" data-parsley-validate="true" method="POST"
                         enctype="multipart/form-data">
                         <div class="row">
-                            <input type="hidden" name="id_diplomado_edit" id="id_diplomado_edit">
+                            <input type="text" name="id_diplomado_edit" id="id_diplomado_edit">
                             <div class="form-group col-md-6">
                                 <label>Nombre del Diplomado <b title="Campo Obligatorio" style="color:red">*</b></label>
                                 <input class="form-control" onkeypress="may(this);" type="text" name="name_d_edit"
