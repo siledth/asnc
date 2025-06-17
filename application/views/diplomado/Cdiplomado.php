@@ -37,14 +37,12 @@
                             <div class="form-group col-6">
                                 <label>Numero de Participantes Maximo<b title="Campo Obligatorio"
                                         style="color:red">*</b></label>
-                                <input class="form-control" type="number" name="topmax" id="topmax"
-                                    placeholder="Denominacion social">
+                                <input class="form-control" type="number" name="topmax" id="topmax">
                             </div>
                             <div class="form-group col-6">
                                 <label>Numero de Participantes Exonerados<b title="Campo Obligatorio"
                                         style="color:red">*</b></label>
-                                <input class="form-control" type="number" name="topmin" id="topmin"
-                                    placeholder="Denominacion social">
+                                <input class="form-control" type="number" name="topmin" id="topmin">
                             </div>
 
                             <div class="form-group col-6">

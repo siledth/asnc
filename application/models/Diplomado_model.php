@@ -931,7 +931,7 @@ class Diplomado_model extends CI_model
     {
         $this->db->select('id_cursos, descripcion_cursos');
         $this->db->order_by('id_cursos', 'ASC');
-        $query = $this->db->get('diplomado.cursos'); // Asegúrate que 'diplomado.cursos' es el nombre correcto de tu tabla
+        $query = $this->db->get('diplomado.cursos');
         return $query->result_array();
     }
 
