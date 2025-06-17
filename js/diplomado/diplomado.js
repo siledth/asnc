@@ -437,11 +437,12 @@ function editar_diplomado() {
         confirmButtonText: '¡Sí, guardar cambios!'
     }).then((result) => {
         if (result.isConfirmed) {
+					var base_url = '/index.php/Diplomado/actualizar_diplomado';
+
             var datos = new FormData($("#editar_diplomado_form")[0]);
-			var base_urls = '/index.php/Diplomado/actualizar_diplomado';
 
             $.ajax({
-                url: base_urls,
+                url: base_url,
                 method: 'post',
                 data: datos,
                 processData: false,
