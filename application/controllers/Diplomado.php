@@ -1909,19 +1909,7 @@ class Diplomado extends CI_Controller
     }
 
     ///// editar diplomando 
-    function get_diplomado_by_id($id_diplomado)
-    {
-        $this->db->select('*');
-        $this->db->from('diplomado.diplomado');
-        $this->db->where('id_diplomado', $id_diplomado);
-        $query = $this->db->get();
-        return $query->row_array(); // Retorna una sola fila como array
-    }
-    // function actualizar_diplomado($id_diplomado, $data)
-    // {
-    //     $this->db->where('id_diplomado', $id_diplomado);
-    //     return $this->db->update('diplomado.diplomado', $data);
-    // }
+    // Nueva función en el controlador para obtener datos del diplomado por ID
     public function get_diplomado_data()
     {
         if (!$this->session->userdata('session')) {
@@ -1932,7 +1920,7 @@ class Diplomado extends CI_Controller
         $id_diplomado = $this->input->post('id_diplomado'); // Obtén el ID enviado por AJAX
 
         if ($id_diplomado) {
-            $diplomado = $this->Diplomado_model->get_diplomado_by_id($id_diplomado);
+            $diplomado = $this->Diplomado_model->get_diplomado_by_id2($id_diplomado);
             if ($diplomado) {
                 // Formatea las fechas para que los input[type="date"] las reconozcan
                 $diplomado['fdesde'] = date('Y-m-d', strtotime($diplomado['fdesde']));

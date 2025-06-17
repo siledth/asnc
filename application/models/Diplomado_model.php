@@ -1004,4 +1004,22 @@ class Diplomado_model extends CI_model
 
         return $query->num_rows() > 0; // Si hay filas, significa que ya existe
     }
+
+    // editar diplomado 
+    // Nueva función para obtener un diplomado por ID
+    function get_diplomado_by_id2($id_diplomado)
+    {
+        $this->db->select('*');
+        $this->db->from('diplomado.diplomado');
+        $this->db->where('id_diplomado', $id_diplomado);
+        $query = $this->db->get();
+        return $query->row_array(); // Retorna una sola fila como array
+    }
+
+    // Nueva función para actualizar un diplomado
+    function actualizar_diplomado($id_diplomado, $data)
+    {
+        $this->db->where('id_diplomado', $id_diplomado);
+        return $this->db->update('diplomado.diplomado', $data);
+    }
 }
