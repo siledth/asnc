@@ -154,7 +154,7 @@
                                 <label>Nombre del Diplomado <b title="Campo Obligatorio" style="color:red">*</b></label>
                                 <input class="form-control" onkeypress="may(this);" type="text" name="name_d_edit"
                                     id="name_d_edit">
-                                <input type="text" name="id_diplomado_edit" id="id_diplomado_edit" readonly>
+                                <input type="hidden" name="id_diplomado_edit" id="id_diplomado_edit" readonly>
 
                             </div>
                             <div class="form-group col-md-6">
