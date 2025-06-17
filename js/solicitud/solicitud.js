@@ -124,8 +124,12 @@ function consultar_rif_experiencia(experienciaNum) {
 
         // Rutas base (asegúrate de que sean las correctas para tu entorno CodeIgniter)
         // Puedes usar base_url() de PHP en la vista si está disponible.
-        var base_url_gestion = window.location.origin + '/asnc/index.php/gestion/consulta_og';
-        var base_url_evaluacion = window.location.origin + '/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
+        // var base_url_gestion = window.location.origin + '/asnc/index.php/gestion/consulta_og';
+        // var base_url_evaluacion = window.location.origin + '/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
+
+      var base_url_gestion = '/index.php/gestion/consulta_og';
+      var base_url_evaluacion = '/index.php/evaluacion_desempenio/llenar_contratista_rp';
+
         // var base_url_gestion = '<?= base_url("gestion/consulta_og") ?>'; // Usa base_url de CI
         // var base_url_evaluacion = '<?= base_url("evaluacion_desempenio/llenar_contratista_rp") ?>'; // Usa base_url de CI
 
