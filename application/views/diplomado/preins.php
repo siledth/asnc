@@ -37,7 +37,7 @@
                                 <div class="col-md-6 form-group">
                                     <label for="id_tipop" class="required-field">Seleccione una opcion para
                                         continuar</label>
-                                    <select id="id_tipop" name="id_tipop" class="form-control" required>
+                                    <select id="id_tipop" name="id_tipop" class="default-select2 form-control" required>
                                         <option value="">Seleccione una opción</option>
                                         <option value="1">Persona Natural</option>
                                         <option value="2">Persona Juridica</option>
@@ -66,41 +66,41 @@
 
     <!-- Tu archivo JS personalizado -->
     <script>
-    function redirectToForm() {
-        const tipoPersona = $('#id_tipop').val();
+        function redirectToForm() {
+            const tipoPersona = $('#id_tipop').val();
 
-        if (!tipoPersona) {
-            alert('Por favor seleccione una opción');
-            return;
+            if (!tipoPersona) {
+                alert('Por favor seleccione una opción');
+                return;
+            }
+
+            // Crear formulario dinámico
+            const form = document.createElement('form');
+            form.method = 'POST';
+
+            if (tipoPersona == '1') {
+                form.action = '<?php echo site_url("Diplomado/solic"); ?>';
+            } else {
+                form.action = '<?php echo site_url("Diplomado/solic_juridica"); ?>';
+            }
+
+            // Agregar campos ocultos
+            const tipoField = document.createElement('input');
+            tipoField.type = 'hidden';
+            tipoField.name = 'tipo_persona';
+            tipoField.value = tipoPersona;
+            form.appendChild(tipoField);
+
+            const csrfField = document.createElement('input');
+            csrfField.type = 'hidden';
+            csrfField.name = '<?php echo $this->security->get_csrf_token_name(); ?>';
+            csrfField.value = '<?php echo $this->security->get_csrf_hash(); ?>';
+            form.appendChild(csrfField);
+
+            // Agregar al documento y enviar
+            document.body.appendChild(form);
+            form.submit();
         }
-
-        // Crear formulario dinámico
-        const form = document.createElement('form');
-        form.method = 'POST';
-
-        if (tipoPersona == '1') {
-            form.action = '<?php echo site_url("Diplomado/solic"); ?>';
-        } else {
-            form.action = '<?php echo site_url("Diplomado/solic_juridica"); ?>';
-        }
-
-        // Agregar campos ocultos
-        const tipoField = document.createElement('input');
-        tipoField.type = 'hidden';
-        tipoField.name = 'tipo_persona';
-        tipoField.value = tipoPersona;
-        form.appendChild(tipoField);
-
-        const csrfField = document.createElement('input');
-        csrfField.type = 'hidden';
-        csrfField.name = '<?php echo $this->security->get_csrf_token_name(); ?>';
-        csrfField.value = '<?php echo $this->security->get_csrf_hash(); ?>';
-        form.appendChild(csrfField);
-
-        // Agregar al documento y enviar
-        document.body.appendChild(form);
-        form.submit();
-    }
     </script>
 </body>
 
