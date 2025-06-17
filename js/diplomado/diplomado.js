@@ -533,14 +533,29 @@ function editar_diplomado() {
         if (result.value === true) {
             console.log("DEBUG: 5. Usuario confirmó la modificación (result.value es TRUE).");
 
-            var datos = new FormData($("#editar_diplomado_form")[0]);
+           var datos = {
+                id_diplomado_edit: $("#id_diplomado_edit").val(),
+                name_d_edit: $("#name_d_edit").val(),
+                fdesde_edit: $("#fdesde_edit").val(),
+                fhasta_edit: $("#fhasta_edit").val(),
+                id_modalidad_edit: $("#id_modalidad_edit").val(),
+                topmax_edit: $("#topmax_edit").val(),
+                topmin_edit: $("#topmin_edit").val(),
+                pay_edit: $("#pay_edit").val(),
+                pronto_pago_edit: $("#pronto_pago_edit").val(),
+                pay1_edit: $("#pay1_edit").val(), // Aunque sea readonly, si tiene name, se puede enviar
+                pay2_edit: $("#pay2_edit").val(), // Aunque sea readonly, si tiene name, se puede enviar
+                pago2desde_edit: $("#pago2desde_edit").val(),
+                pago2hasta_edit: $("#pago2hasta_edit").val(),
+                d_hrs_edit: $("#d_hrs_edit").val()
+            };
             var base_urls = '/index.php/Diplomado/actualizar_diplomado'; // Revisa si necesitas BASE_URL + '...'
 
             console.log("DEBUG: 6. URL de la petición AJAX:", base_urls);
 			 // ***** AÑADE ESTE BUCLE PARA VER LOS DATOS DEL FORMDATA *****
             console.log("DEBUG: Contenido de FormData:");
             for (let pair of datos.entries()) {
-                console.log(pair[0]+ ': ' + pair[1]);
+                console.log(pair[0]+ ': ' + pair[1]); 
             }
             $.ajax({
                 url: base_urls,
