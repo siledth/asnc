@@ -536,7 +536,11 @@ function editar_diplomado() {
             var base_urls = '/index.php/Diplomado/actualizar_diplomado'; // Revisa si necesitas BASE_URL + '...'
 
             console.log("DEBUG: 6. URL de la petición AJAX:", base_urls);
-
+			 // ***** AÑADE ESTE BUCLE PARA VER LOS DATOS DEL FORMDATA *****
+            console.log("DEBUG: Contenido de FormData:");
+            for (let pair of datos.entries()) {
+                console.log(pair[0]+ ': ' + pair[1]);
+            }
             $.ajax({
                 url: base_urls,
                 method: 'post',
