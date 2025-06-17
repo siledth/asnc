@@ -73,22 +73,22 @@ class Gestion extends CI_Controller
     }
   }
   /////////////////////////////////////////////////////// cosulta externa de certificacion privada
-  // public function certificacion1() {
-  //   if (!$this->session->userdata('session')) {
-  //     $data['ver_certi'] = $this->Certificacion_model->consulta_certi_exter2();
-  //     $this->load->view('templates/header.php');
-  //     $this->load->view('templates/navsinsesion.php');
-  //     $this->load->view('certificacion/cert_publ.php', $data);
-  //     $this->load->view('templates/footer.php');
-  //   } else {
+  public function certificacion1()
+  {
+    if (!$this->session->userdata('session')) {
+      $data['ver_certi'] = $this->Certificacion_model->consulta_certi_exter2();
+      $this->load->view('templates/header.php');
+      $this->load->view('templates/navsinsesion.php');
+      $this->load->view('certificacion/cert_publ.php', $data);
+      $this->load->view('templates/footer.php');
+    } else {
 
-  //     $this->load->view('templates/header.php');
-  //     $this->load->view('templates/navsinsesion.php');
-  //     $this->load->view('certificacion/cert_publ.php');
-  //     $this->load->view('templates/footer.php');
-  //   } 
-
-  // }
+      $this->load->view('templates/header.php');
+      $this->load->view('templates/navsinsesion.php');
+      $this->load->view('certificacion/cert_publ.php');
+      $this->load->view('templates/footer.php');
+    }
+  }
 
   // public function pdf() {
   //   if (!$this->session->userdata('session')) {
