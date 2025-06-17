@@ -663,7 +663,50 @@
                     </li>
                 <?php endif; ?>
 
+                <li class="has-sub">
+                    <a href="javascript:;">
+                        <b class="caret"></b>
+                        Diplomado
+                    </a>
+                    <ul class="sub-menu">
 
+                        <li><a href="<?= base_url() ?>index.php/Diplomado/Registrar_diplomado"><i
+                                    class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Crear Un Diplomado </a>
+                        </li>
+                        <li><a href="<?= base_url() ?>index.php/Diplomado/sel_participantes"><i
+                                    class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Selección de participantes </a>
+                        </li>
+                        <li><a href="<?= base_url() ?>index.php/Diplomado/sel_participantes_juridico"><i
+                                    class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Selección de participantes
+                                Juridico </a>
+                        </li>
+                        <li><a href="<?= base_url() ?>index.php/Diplomado/participanteselec"><i
+                                    class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Participante seleccionado </a>
+                        </li>
+
+                        <li><a href="<?= base_url() ?>index.php/Diplomado/conciliado"><i
+                                    class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Conciliar</a>
+                        </li>
+
+
+                        <li class="has-sub">
+                            <a href="javascript:;">
+                                <b class="caret"></b>
+                                Reportes
+                            </a>
+                            <ul class="sub-menu">
+
+                                <li><a href="<?= base_url() ?>index.php/Diplomado/reporteG">-
+                                        Consulta Cuenta CCP</a></li>
+                                <!-- <li><a href="<?= base_url() ?>index.php/Comision_contrata/certificadosnc">-
+                                    Certificar por SNC</a></li> -->
+
+
+                            </ul>
+                        </li>
+
+                    </ul>
+                </li>
             </li>
             </ul>
 
