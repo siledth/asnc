@@ -1907,4 +1907,90 @@ class Diplomado extends CI_Controller
             ]);
         }
     }
+
+    ///// editar diplomando 
+    function get_diplomado_by_id($id_diplomado)
+    {
+        $this->db->select('*');
+        $this->db->from('diplomado.diplomado');
+        $this->db->where('id_diplomado', $id_diplomado);
+        $query = $this->db->get();
+        return $query->row_array(); // Retorna una sola fila como array
+    }
+    // function actualizar_diplomado($id_diplomado, $data)
+    // {
+    //     $this->db->where('id_diplomado', $id_diplomado);
+    //     return $this->db->update('diplomado.diplomado', $data);
+    // }
+    public function get_diplomado_data()
+    {
+        if (!$this->session->userdata('session')) {
+            echo json_encode(['status' => 'error', 'message' => 'Sesión no iniciada.']);
+            return;
+        }
+
+        $id_diplomado = $this->input->post('id_diplomado'); // Obtén el ID enviado por AJAX
+
+        if ($id_diplomado) {
+            $diplomado = $this->Diplomado_model->get_diplomado_by_id($id_diplomado);
+            if ($diplomado) {
+                // Formatea las fechas para que los input[type="date"] las reconozcan
+                $diplomado['fdesde'] = date('Y-m-d', strtotime($diplomado['fdesde']));
+                $diplomado['fhasta'] = date('Y-m-d', strtotime($diplomado['fhasta']));
+                $diplomado['pago2desde'] = date('Y-m-d', strtotime($diplomado['pago2desde']));
+                $diplomado['pago2hasta'] = date('Y-m-d', strtotime($diplomado['pago2hasta']));
+
+                echo json_encode(['status' => 'success', 'data' => $diplomado]);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Diplomado no encontrado.']);
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'ID de diplomado no proporcionado.']);
+        }
+    }
+
+    // Nueva función en el controlador para actualizar los datos del diplomado
+    public function actualizar_diplomado()
+    {
+        if (!$this->session->userdata('session')) {
+            echo json_encode(['status' => 'error', 'message' => 'Sesión no iniciada.']);
+            return;
+        }
+
+        $id_diplomado = $this->input->post('id_diplomado_edit');
+
+        if ($id_diplomado) {
+            $data = array(
+                'name_d' => $this->input->post('name_d_edit'),
+                'fdesde' => $this->input->post('fdesde_edit'),
+                'fhasta' => $this->input->post('fhasta_edit'),
+                'id_modalidad' => $this->input->post('id_modalidad_edit'),
+                'topmax' => $this->input->post('topmax_edit'),
+                'topmin' => $this->input->post('topmin_edit'),
+                'pay' => $this->input->post('pay_edit'),
+                'pronto_pago' => $this->input->post('pronto_pago_edit'),
+                'd_hrs' => $this->input->post('d_hrs_edit'),
+                'pago2desde' => $this->input->post('pago2desde_edit'),
+                'pago2hasta' => $this->input->post('pago2hasta_edit'),
+                // No incluyas 'new_date' ya que se autogenera o no se debería editar aquí
+            );
+
+            // Validación básica (puedes expandir esto con Parsley o CodeIgniter Form Validation)
+            foreach ($data as $key => $value) {
+                if (empty($value) && $key != 'pronto_pago') { // 'pronto_pago' podría ser 0
+                    echo json_encode(['status' => 'error', 'message' => 'Todos los campos obligatorios deben ser llenados.']);
+                    return;
+                }
+            }
+
+
+            if ($this->Diplomado_model->actualizar_diplomado($id_diplomado, $data)) {
+                echo json_encode(['status' => 'success', 'message' => 'Diplomado actualizado exitosamente.']);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Error al actualizar el diplomado.']);
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'ID de diplomado no proporcionado para la actualización.']);
+        }
+    }
 }
