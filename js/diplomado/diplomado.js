@@ -385,6 +385,7 @@ function modal_ver(id_diplomado) { // Cambiado el nombre del parámetro para may
                 const data = response.data;
                 // Llenar los campos del modal con los datos del diplomado
                 $('#id_diplomado_edit').val(data.id_diplomado);
+				console.log("DEBUG: ID cargado en el modal:", $('#id_diplomado_edit').val()); // ¡Añade este!
                 $('#name_d_edit').val(data.name_d);
                 $('#fdesde_edit').val(data.fdesde);
                 $('#fhasta_edit').val(data.fhasta);
