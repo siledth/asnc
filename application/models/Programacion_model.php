@@ -52,7 +52,7 @@ class Programacion_model extends CI_model
                 'id_programacion' => $proy['id_programacion'],
                 'nombre_proyecto' => $proy['nombre_proyecto'],
                 'id_obj_comercial' => $proy['id_obj_comercial'],
-                'id_usuario_operacion' => $proy['id_usuario'],
+                //  'id_usuario_operacion' => $proy['id_usuario'],
                 'estatus' => 1,
                 'fecha' => date('Y-m-d H:i:s'),
                 // 'fecha_fin_vigencia' => 'NULL',
@@ -78,11 +78,11 @@ class Programacion_model extends CI_model
                 'id_programacion' => $acc['id_programacion'],
                 'id_accion_centralizada' => $acc['id_p_acc_centralizada'],
                 'id_obj_comercial' => $acc['id_obj_comercial'],
-                'id_usuario_operacion' => $proy['id_usuario'],
+                //  'id_usuario_operacion' => $proy['id_usuario'],
 
                 'estatus' => 1,
                 'fecha' => date('Y-m-d H:i:s'),
-                'tipo_operacion' => 'INSERT',
+                //'tipo_operacion' => 'INSERT',
 
 
 
