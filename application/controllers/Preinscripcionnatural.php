@@ -459,6 +459,6 @@ class Preinscripcionnatural extends CI_Controller
         // $pdf->SetFont('Arial', '', 7);
         // $pdf->MultiCell(180, 4, utf8_decode('observaciones                '), 0, 'J');
 
-        $pdf->Output('Solicitud Inscripcion.pdf', 'I');
+        $pdf->Output('Solicitud Inscripcion.pdf', 'D');
     }
 }
