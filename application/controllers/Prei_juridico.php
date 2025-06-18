@@ -126,7 +126,8 @@ class Prei_juridico extends CI_Controller
         $pdf->Ln(1);
 
         $pdf->Cell(35, 5, 'Nombre del diplomado:', 0, 0, 'R');
-        $pdf->MultiCell(125, 5, $data->name_d, 0, 'L');
+        $pdf->MultiCell(125, 5, utf8_decode($data->name_d), 0, 'L');
+
 
         $pdf->Cell(35, 5, 'Desde:', 0, 0, 'R');
         $pdf->Cell(20, 5, $data->fdesde, 0, 0, 'C');
