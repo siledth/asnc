@@ -407,7 +407,7 @@ class Diplomado extends CI_Controller
         // Cargar datos necesarios
         $data['final'] = $this->User_model->consulta_organoente();
         $data['clasificacion'] = $this->Diplomado_model->consulta_grado();
-        $data['diplomado'] = $this->Diplomado_model->consulta_diplomado();
+        $data['diplomado'] = $this->Diplomado_model->consulta_diplomado1();
         $data['estados'] = $this->Configuracion_model->consulta_estados();
         $data['objeto'] = $this->Configuracion_model->objeto();
         // $data['banco'] = $this->Configuracion_model->get_bancos();
