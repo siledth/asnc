@@ -373,7 +373,7 @@ class Preinscripcionnatural extends CI_Controller
                         $pdf->MultiCell(125, 5, date('d/m/Y', strtotime($exp->hasta)), 0, 'L');
 
                         // Espacio entre capacitaciones
-                        $pdf->Ln(3);
+                        $pdf->Ln(1);
                     }
                 } else {
                     $pdf->Cell(80, 5,  utf8_decode('NO'), 0, 1, 'L');
