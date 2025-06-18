@@ -1065,6 +1065,19 @@ class User_model extends CI_Model
             return $result;
         }
     }
+    public function llenar_organos2($data)
+    {
+        $this->db->select('
+                        c.rif,
+                        c.descripcion
+                       ');
+        $this->db->where('c.rif', $data['rif_b']);
+        $query = $this->db->get('public.organoente c');
+        $result = $query->row_array();
+
+        return $result;
+    }
+
 
     public function save_solicitud($data)
     {

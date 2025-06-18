@@ -76,8 +76,8 @@ window.consultar_rif_experiencia = function(experienciaNum) {
         telLocalNoExiste.val('').prop('required', false);
         direccionFiscalNoExiste.val('').prop('required', false);
 
-        // var base_url_gestion = window.location.origin+'/asnc/index.php/gestion/consulta_og';
-        var base_url_gestion = '/index.php/gestion/consulta_og';
+        // var base_url_gestion = window.location.origin+'/asnc/index.php/gestion/consulta_og2';
+        var base_url_gestion = '/index.php/gestion/consulta_og2';
         $.ajax({
             url: base_url_gestion,
             method: 'post',
@@ -552,7 +552,7 @@ function agregarExperienciaLaboral() {
             </div>
 
             <div class="card p-3 mt-3">
-                <h6>Datos de la Institución donde Laboró</h6>
+                <h6>Datos de la Institución</h6>
                 <div class="row">
                     <div class="col-md-8 form-group">
                         <label for="rif_laboral_${experienciaCount}" class="required-field">RIF de la Institución</label>
@@ -567,6 +567,15 @@ function agregarExperienciaLaboral() {
                         <button type="button" class="btn btn-default w-100" id="consultar_rif_laboral_btn_${experienciaCount}" disabled>
                             <i class="fas fa-search"></i> Consultar
                         </button>
+                        
+                    </div>
+                    <div class="col-md-8 form-group">
+                    </div>
+
+                    <div class="col-md-4 form-group d-flex align-items-end">
+                       
+                        
+                        <h6>Por favor debe Consultar el rif para continuar presione el botón "Consultar"</h6>
                     </div>
                 </div>
 
