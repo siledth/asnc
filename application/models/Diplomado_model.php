@@ -223,6 +223,15 @@ class Diplomado_model extends CI_model
         $query = $this->db->get('diplomado.diplomado');
         return $result = $query->result_array();
     }
+    public function consulta_diplomado1()
+    {
+        $this->db->select('id_diplomado, name_d,fdesde,fhasta,id_modalidad,pay,estatus');
+        $this->db->order_by('id_diplomado asc');
+        $this->db->where('estatus', 1);
+
+        $query = $this->db->get('diplomado.diplomado');
+        return $result = $query->result_array();
+    }
     public function get_diplomado_by_id($idDiplomado)
     {
         $this->db->select('*');
@@ -1042,6 +1051,29 @@ class Diplomado_model extends CI_model
             $error = $this->db->error(); // Obtiene el último error de la base de datos
             log_message('error', 'Error al actualizar diplomado con ID: ' . $id_diplomado . '. Código de error: ' . $error['code'] . ', Mensaje: ' . $error['message']);
             return ['status' => false, 'message' => 'Error en la base de datos: ' . $error['message']];
+        }
+    }
+
+    // cambio estatus diplomado 
+    function actualizar_estatus_diplomado($id_diplomado, $new_estatus)
+    {
+        log_message('debug', 'Intentando cambiar estatus de diplomado con ID: ' . $id_diplomado . ' a estatus: ' . $new_estatus);
+
+        $this->db->where('id_diplomado', $id_diplomado);
+        $result = $this->db->update('diplomado.diplomado', ['estatus' => $new_estatus]);
+
+        if ($result) {
+            if ($this->db->affected_rows() > 0) {
+                log_message('info', 'Estatus de diplomado con ID: ' . $id_diplomado . ' cambiado a ' . $new_estatus . ' exitosamente.');
+                return ['status' => true, 'message' => 'Estatus actualizado exitosamente.'];
+            } else {
+                log_message('info', 'Estatus de diplomado con ID: ' . $id_diplomado . ' no modificado (mismo estatus o ID no existe).');
+                return ['status' => true, 'message' => 'Estatus no cambiado (ya estaba en ese estado o diplomado no encontrado).'];
+            }
+        } else {
+            $error = $this->db->error();
+            log_message('error', 'Error DB al cambiar estatus de diplomado con ID: ' . $id_diplomado . '. Código: ' . $error['code'] . ', Mensaje: ' . $error['message']);
+            return ['status' => false, 'message' => 'Error en la base de datos al actualizar estatus: ' . $error['message']];
         }
     }
 }

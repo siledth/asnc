@@ -105,6 +105,7 @@
                                     <th>Nombre Diplomado</th>
                                     <th>Fecha desde</th>
                                     <th>Fecha hasta</th>
+                                    <th>Estatus</th>
 
                                     <th>Acción</th>
                                 </tr>
@@ -115,13 +116,28 @@
                                         <td><?= $data['name_d'] ?> </td>
                                         <td><?= $data['fdesde'] ?> </td>
                                         <td><?= $data['fhasta'] ?> </td>
-
+                                        <td class="estatus-cell-<?= $data['id_diplomado'] ?>"> <?php
+                                                                                                $estatus_color = ($data['estatus'] == 1) ? 'green' : 'red';
+                                                                                                $estatus_title = ($data['estatus'] == 1) ? 'Disponible' : 'No Disponible';
+                                                                                                ?>
+                                            <a href="javascript:void(0);"
+                                                onclick="cambiarEstatusDiplomado(<?= $data['id_diplomado'] ?>, <?= $data['estatus'] ?>);"
+                                                title="Cambiar a <?= ($data['estatus'] == 1) ? 'No Disponible' : 'Disponible' ?>">
+                                                <i class="fas fa-toggle-on fa-lg" style="color:<?= $estatus_color ?>;"
+                                                    id="estatus_toggle_<?= $data['id_diplomado'] ?>"></i>
+                                            </a>
+                                            <span id="estatus_text_<?= $data['id_diplomado'] ?>"
+                                                style="font-weight: bold; margin-left: 5px;">
+                                                <?= $estatus_title ?>
+                                            </span>
+                                        </td>
                                         <td class="center">
                                             <a class="button">
                                                 <i title="Editar" onclick="modal_ver(<?php echo $data['id_diplomado'] ?>);"
                                                     data-toggle="modal" data-target="#exampleModal"
                                                     class="fas fa-lg fa-fw fa-edit" style="color:green"></i>
                                                 <a />
+
 
                                         </td>
                                     </tr>

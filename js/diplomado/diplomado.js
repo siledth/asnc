@@ -603,3 +603,76 @@ function dividirCostoEdit() {
     document.getElementById('pay1_edit').value = mitad.toFixed(2); // Asegura 2 decimales
     document.getElementById('pay2_edit').value = mitad.toFixed(2); // Asegura 2 decimales
 }
+
+
+//cambio estatus
+function cambiarEstatusDiplomado(id_diplomado, current_estatus) {
+    Swal.fire({
+        title: '¿Cambiar Estatus?',
+        text: '¿Estás seguro de cambiar el estatus de este diplomado?',
+        type: 'warning', // Usar 'type' si es SweetAlert (no v2), 'icon' si es SweetAlert2
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Sí, cambiar!'
+    }).then((result) => {
+        if (result.value === true) { // Usar 'result.value === true' si es SweetAlert (no v2), 'result.isConfirmed' si es SweetAlert2
+	    //  var base_url_estatus =window.location.origin+'/asnc/index.php/Diplomado/cambiar_estatus_diplomado';
+
+            var base_url_estatus = '/index.php/Diplomado/cambiar_estatus_diplomado'; 
+            $.ajax({
+                url: base_url_estatus,
+                method: 'POST',
+                data: {
+                    id_diplomado: id_diplomado,
+                    current_estatus: current_estatus
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        // Actualizar la interfaz de usuario sin recargar la página
+                        var new_estatus = response.new_estatus;
+                        var icon_element = $('#estatus_toggle_' + id_diplomado);
+                        var text_element = $('#estatus_text_' + id_diplomado);
+                        var link_element = icon_element.parent(); // El <a> que contiene el <i>
+
+                        if (new_estatus == 1) {
+                            icon_element.css('color', 'green');
+                            text_element.text('Disponible');
+                            link_element.attr('title', 'Cambiar a No Disponible');
+                            link_element.attr('onclick', `cambiarEstatusDiplomado(${id_diplomado}, 1);`);
+                        } else {
+                            icon_element.css('color', 'red');
+                            text_element.text('No Disponible');
+                            link_element.attr('title', 'Cambiar a Disponible');
+                            link_element.attr('onclick', `cambiarEstatusDiplomado(${id_diplomado}, 2);`);
+                        }
+
+                        Swal.fire({
+                            title: 'Éxito',
+                            text: response.message,
+                            type: 'success', // Usar 'type' o 'icon' según tu versión de SweetAlert
+                            timer: 1500, // Cerrar automáticamente después de 1.5 segundos
+                            showConfirmButton: false
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error',
+                            text: response.message,
+                            type: 'error' // Usar 'type' o 'icon'
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error AJAX al cambiar estatus:", xhr.responseText);
+                    Swal.fire({
+                        title: 'Error de Comunicación',
+                        text: 'No se pudo comunicar con el servidor.',
+                        type: 'error' // Usar 'type' o 'icon'
+                    });
+                }
+            });
+        }
+    });
+}

@@ -358,7 +358,7 @@ class Diplomado extends CI_Controller
         // Cargar datos necesarios
         $data['final'] = $this->User_model->consulta_organoente();
         $data['clasificacion'] = $this->Diplomado_model->consulta_grado();
-        $data['diplomado'] = $this->Diplomado_model->consulta_diplomado();
+        $data['diplomado'] = $this->Diplomado_model->consulta_diplomado1();
         $data['estados'] = $this->Configuracion_model->consulta_estados();
         $data['objeto'] = $this->Configuracion_model->objeto();
         $data['banco'] = $this->Configuracion_model->get_bancos();
@@ -1999,6 +1999,38 @@ class Diplomado extends CI_Controller
         // 6. Enviar respuesta al cliente
         if ($result['status']) {
             echo json_encode(['status' => 'success', 'message' => $result['message']]);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => $result['message']]);
+        }
+    }
+
+    /// cambio estatus 
+    public function cambiar_estatus_diplomado()
+    {
+        if (!$this->session->userdata('session')) {
+            log_message('warn', 'Intento de acceso no autorizado a cambiar_estatus_diplomado (sin sesión).');
+            echo json_encode(['status' => 'error', 'message' => 'Su sesión ha expirado o no está iniciada.']);
+            return;
+        }
+
+        $id_diplomado = $this->input->post('id_diplomado');
+        $current_estatus = $this->input->post('current_estatus');
+
+        if (empty($id_diplomado) || empty($current_estatus)) {
+            log_message('error', 'Cambio de estatus fallido: ID de diplomado o estatus actual no proporcionado.');
+            echo json_encode(['status' => 'error', 'message' => 'Datos incompletos para cambiar el estatus.']);
+            return;
+        }
+
+        // Determinar el nuevo estatus
+        $new_estatus = ($current_estatus == 1) ? 2 : 1; // Si estaba en 1 (Disponible), pasa a 2 (No Disponible), y viceversa.
+
+        // Llamar al modelo
+        $result = $this->Diplomado_model->actualizar_estatus_diplomado($id_diplomado, $new_estatus);
+
+        // Enviar respuesta al cliente
+        if ($result['status']) {
+            echo json_encode(['status' => 'success', 'message' => $result['message'], 'new_estatus' => $new_estatus]);
         } else {
             echo json_encode(['status' => 'error', 'message' => $result['message']]);
         }
