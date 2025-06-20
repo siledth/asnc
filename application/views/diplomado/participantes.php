@@ -78,7 +78,8 @@
                                                 <li
                                                     class="list-group-item d-flex justify-content-between align-items-center">
                                                     <strong>Nombre del Diplomado : <?= $diplomado_stat['name_d'] ?></strong>
-                                                    <span class="badge badge-primary badge-pill" title="Total Inscritos">
+                                                    <span class="badge badge-primary badge-pill fs-5 p-2"
+                                                        title="Total Inscritos">
                                                         <?= $diplomado_stat['total_inscritos_diplomado'] ?>
                                                     </span>
                                                 </li>
