@@ -83,7 +83,7 @@
                                                             class="list-group-item d-flex justify-content-between align-items-center">
                                                             <strong>Nombre del Diplomado
                                                                 <?= $diplomado_jur_stat['name_d'] ?></strong>
-                                                            <span class="badge badge-primary badge-pill"
+                                                            <span class="badge badge-primary badge-pill custom-large-badge"
                                                                 title="Total Inscritos Jurídicos">
                                                                 <?= $diplomado_jur_stat['total_inscritos_diplomado'] ?>
                                                             </span>

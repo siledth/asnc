@@ -270,3 +270,18 @@
  .text-white {
      color: #fff !important;
  }
+
+ .custom-large-badge {
+     font-size: 1.2em;
+     /* Tamaño de la fuente del número, ajusta como quieras */
+     padding: 0.7em 0.9em;
+     /* Relleno superior/inferior y izquierdo/derecho, ajusta como quieras */
+     min-width: 30px;
+     /* Asegura un ancho mínimo para que sea un círculo más grande, ajusta si es necesario */
+     height: auto;
+     /* Permite que el alto se ajuste al padding */
+     display: flex;
+     /* Para centrar el número si el badge es más grande */
+     align-items: center;
+     justify-content: center;
+ }
