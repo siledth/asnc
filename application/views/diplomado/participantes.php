@@ -69,7 +69,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-4">
                                 <div class="panel panel-default">
                                     <div class="panel-body">
                                         <h5 class="m-t-0 m-b-3">Por Diplomado</h5>
