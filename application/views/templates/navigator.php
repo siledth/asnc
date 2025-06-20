@@ -620,13 +620,7 @@
                         </a>
                         <?php if (($this->session->userdata('certificacion') == 1)) : ?>
                     <li class="has-sub">
-                    <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion"><i
-                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Solicitud de
-                            Certificación de Privado</a>
-                    </li>
-                    <li><a href="<?= base_url() ?>index.php/certificacion/ver_facilitador"><i
-                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Facilitador</a>
-                    </li>
+
                     <li>
                     </li>
                 <?php endif; ?>
@@ -641,27 +635,55 @@
                 <?php endif; ?>
                 <?php if (($this->session->userdata('certificacion') == 1)) : ?>
 
+
+
                     <li class="has-sub">
                         <a href="javascript:;">
                             <b class="caret"></b>
-                            Reportes
+                            Certificación
                         </a>
                         <ul class="sub-menu">
 
-                            <li><a href="<?= base_url() ?>index.php/certificacion/Consulta_certificacion"><i
-                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> General </a>
+                            <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion"><i
+                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Solicitud de
+                                    Certificación de Privado</a>
+                            </li>
+                            <li><a href="<?= base_url() ?>index.php/certificacion/ver_facilitador"><i
+                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Facilitador</a>
                             </li>
 
-                            <li><a href="<?= base_url() ?>index.php/certificacion/fecha_vencimiento"><i
-                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Fecha de vencimiento </a>
-                            </li>
-                            <li><a href="<?= base_url() ?>index.php/certificacion/status"><i
-                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Estatus </a>
+
+                            <li class="has-sub">
+                                <a href="javascript:;">
+                                    <b class="caret"></b>
+                                    Reportes
+                                </a>
+                                <ul class="sub-menu">
+
+                                    <li><a href="<?= base_url() ?>index.php/certificacion/Consulta_certificacion"><i
+                                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> General </a>
+                                    </li>
+
+                                    <li><a href="<?= base_url() ?>index.php/certificacion/fecha_vencimiento"><i
+                                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Fecha de vencimiento </a>
+                                    </li>
+                                    <li><a href="<?= base_url() ?>index.php/certificacion/status"><i
+                                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Estatus </a>
+                                    </li>
+
+                                </ul>
                             </li>
 
                         </ul>
                     </li>
+
+
+
+
+
                 <?php endif; ?>
+
+
 
                 <li class="has-sub">
                     <a href="javascript:;">
@@ -695,10 +717,13 @@
                                 Reportes
                             </a>
                             <ul class="sub-menu">
+                                <!-- <?php if (($this->session->userdata('certi_externo') == 1)) : ?> reporte directora -->
 
                                 <li><a href="<?= base_url() ?>index.php/Diplomado/reporteG">-
                                         Consulta Cuenta CCP</a></li>
-                                <!-- <li><a href="<?= base_url() ?>index.php/Comision_contrata/certificadosnc">-
+                            <?php endif; ?>
+
+                            <!-- <li><a href="<?= base_url() ?>index.php/Comision_contrata/certificadosnc">-
                                     Certificar por SNC</a></li> -->
 
 

@@ -208,3 +208,65 @@
      text-overflow: ellipsis;
      /* Añade puntos suspensivos (...) si el texto se corta */
  }
+
+ /* Añade esto a tu archivo CSS, o dentro de <style> en tu vista 00000*/
+
+ .circle-stat {
+     width: 150px;
+     /* Ajusta el tamaño según necesites */
+     height: 150px;
+     border-radius: 50%;
+     /* Esto hace que sea un círculo */
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     margin: 15px;
+     /* Espacio entre los círculos */
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+     /* Sombra para dar profundidad */
+     text-align: center;
+     padding: 10px;
+     box-sizing: border-box;
+     /* Para incluir padding en el ancho/alto */
+ }
+
+ .circle-stat .stat-value {
+     font-size: 4em;
+     /* Tamaño del número grande */
+     font-weight: bold;
+     line-height: 1;
+ }
+
+ .circle-stat .stat-label {
+     font-size: 0.9em;
+     /* Tamaño del texto de la etiqueta */
+     margin-top: 5px;
+     line-height: 1;
+ }
+
+ /* Colores de fondo de ejemplo (ajusta según tus colores de Bootstrap o tu paleta) */
+ .bg-warning {
+     background-color: #ffc107 !important;
+ }
+
+ .bg-info {
+     background-color: #17a2b8 !important;
+ }
+
+ .bg-primary {
+     background-color: #007bff !important;
+ }
+
+ .bg-success {
+     background-color: #28a745 !important;
+ }
+
+ .bg-danger {
+     background-color: #dc3545 !important;
+ }
+
+ /* Asegúrate de que text-white esté definido o añádelo si no está en tu Bootstrap */
+ .text-white {
+     color: #fff !important;
+ }

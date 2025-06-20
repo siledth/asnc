@@ -1075,8 +1075,9 @@ class Diplomado extends CI_Controller
         if (!$this->session->userdata('session')) {
             redirect('login');
         }
-        // $data['contratista'] =	$this->Certificacion_model->llenar_contratista_exonerado();
         $data['participantes'] = $this->Diplomado_model->consultar_participantes();
+        $data['inscripcion_stats'] = $this->Diplomado_model->get_inscripciones_stats();
+
         $usuario = $this->session->userdata('id_user');
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
@@ -1090,7 +1091,7 @@ class Diplomado extends CI_Controller
         }
         // $data['participantes'] = $this->Diplomado_model->consultar_participantes_juridico1();
         $data['empresas'] = $this->Diplomado_model->consultar_empresa();
-
+        $data['inscripcion_juridica_stats'] = $this->Diplomado_model->get_inscripciones_juridicas_stats();
         $usuario = $this->session->userdata('id_user');
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');

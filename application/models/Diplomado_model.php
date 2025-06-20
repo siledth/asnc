@@ -70,11 +70,9 @@ class Diplomado_model extends CI_model
         i.id_pago, i.observaciones, d.name_d, d.id_modalidad , d.fdesde,  d.fhasta, p.cedula, p.nombres, p.apellidos, 
         p.telefono, p.correo, p.edad,  p.direccion, p.trabaja_actualmente, p.observacion,
          e.rif, e.razon_social, e.telefono, e.direccion_fiscal, t.nombre as des_estatus ');
-
         $this->db->from('diplomado.inscripciones i');
         $this->db->join('diplomado.diplomado d', 'd.id_diplomado = i.id_diplomado');
         $this->db->join('diplomado.participantes p', 'p.id_participante = i.id_participante');
-        // $this->db->join('comisiones.academico a ', 'a.id_academico = p.grado_instruccion');
         $this->db->join('diplomado.empresas e ', 'e.id_empresa = p.id_empresa');
         $this->db->join('diplomado.estatus_inscripcion t ', 't.id_estatus = i.estatus');
 
@@ -91,7 +89,6 @@ class Diplomado_model extends CI_model
             i.fecha_inscripcion, i.fecha_limite_pago, i.estatus, 
             d.name_d, d.id_modalidad, d.fdesde, d.fhasta, d.pay,
             e.rif, e.razon_social, e.telefono, e.direccion_fiscal, part.cedula, part.nombres, part.apellidos, es.nombre as des_estatus ');
-
         $this->db->from('diplomado.inscripciones_grupales i');
         $this->db->join('diplomado.diplomado d', 'd.id_diplomado = i.id_diplomado');
         $this->db->join('diplomado.inscripciones_participantes p', 'p.id_inscripcion_grupal = i.id_inscripcion_grupal');
@@ -1075,5 +1072,99 @@ class Diplomado_model extends CI_model
             log_message('error', 'Error DB al cambiar estatus de diplomado con ID: ' . $id_diplomado . '. Código: ' . $error['code'] . ', Mensaje: ' . $error['message']);
             return ['status' => false, 'message' => 'Error en la base de datos al actualizar estatus: ' . $error['message']];
         }
+    }
+
+    ////////////////totales de participantes inscritos y demas 
+
+    public function get_inscripciones_stats()
+    {
+        $stats = [];
+
+        // 1. Conteo de inscripciones por estatus específico para cada diplomado
+        // Esto agrupa por diplomado y luego cuenta los estatus 1, 2, 5, 6
+        $this->db->select('
+            d.id_diplomado,
+            d.name_d,
+            SUM(CASE WHEN i.estatus = 1 THEN 1 ELSE 0 END) AS total_preinscrito,
+            SUM(CASE WHEN i.estatus = 2 THEN 1 ELSE 0 END) AS total_aceptado_espera_pago,
+            SUM(CASE WHEN i.estatus = 5 THEN 1 ELSE 0 END) AS total_exonerado,
+            SUM(CASE WHEN i.estatus = 6 THEN 1 ELSE 0 END) AS total_aprobado_proxima_corte,
+            COUNT(i.id_inscripcion) AS total_inscritos_diplomado
+        ');
+        $this->db->from('diplomado.inscripciones i');
+        $this->db->join('diplomado.diplomado d', 'i.id_diplomado = d.id_diplomado');
+        // Puedes añadir un WHERE si solo quieres estadísticas de inscripciones de persona natural
+        // (asumiendo que hay un campo en 'participantes' o 'inscripciones' que las distinga)
+        // Por ahora, asumimos que todas las inscripciones en esta tabla son de persona natural.
+        $this->db->group_by('d.id_diplomado, d.name_d');
+        $this->db->order_by('d.name_d', 'ASC'); // Opcional: ordenar por nombre de diplomado
+        $query = $this->db->get();
+        $stats['by_diplomado'] = $query->result_array();
+
+
+        // 2. Conteo global por estatus (opcional, si quieres un total general fuera de cada diplomado)
+        // Podrías necesitar esto para un "Total General de Preinscritos", "Total General de Aceptados", etc.
+        $this->db->select('
+            i.estatus,
+            COUNT(i.id_inscripcion) AS total_global_estatus
+        ');
+        $this->db->from('diplomado.inscripciones i');
+        // Asumiendo que esta tabla solo tiene inscripciones de persona natural
+        $this->db->where_in('i.estatus', [1, 2, 5, 6]); // Solo los estatus que te interesan
+        $this->db->group_by('i.estatus');
+        $query = $this->db->get();
+        $stats['global_by_estatus'] = $query->result_array();
+
+
+        // 3. Total general de inscripciones (para "Total Proyectos en Ejecución" o "Total Inscripciones")
+        $this->db->select('COUNT(id_inscripcion) AS total_inscripciones_generales');
+        $this->db->from('diplomado.inscripciones');
+        $query = $this->db->get();
+        $stats['total_general'] = $query->row_array()['total_inscripciones_generales'];
+
+        return $stats;
+    }
+    public function get_inscripciones_juridicas_stats()
+    {
+        $stats = [];
+
+        // 1. Conteo de inscripciones por estatus específico para cada diplomado (Personas Jurídicas)
+        $this->db->select('
+            d.id_diplomado,
+            d.name_d,
+            SUM(CASE WHEN ip.estatus = 1 THEN 1 ELSE 0 END) AS total_preinscrito,
+            SUM(CASE WHEN ip.estatus = 2 THEN 1 ELSE 0 END) AS total_aceptado_espera_pago,
+            SUM(CASE WHEN ip.estatus = 5 THEN 1 ELSE 0 END) AS total_exonerado,
+            SUM(CASE WHEN ip.estatus = 6 THEN 1 ELSE 0 END) AS total_aprobado_proxima_corte,
+            COUNT(ip.id) AS total_inscritos_diplomado
+        ');
+        $this->db->from('diplomado.inscripciones_participantes ip');
+        $this->db->join('diplomado.inscripciones_grupales ig', 'ip.id_inscripcion_grupal = ig.id_inscripcion_grupal');
+        $this->db->join('diplomado.diplomado d', 'ig.id_diplomado = d.id_diplomado');
+        $this->db->group_by('d.id_diplomado, d.name_d');
+        $this->db->order_by('d.name_d', 'ASC');
+        $query = $this->db->get();
+        $stats['by_diplomado_juridica'] = $query->result_array();
+
+
+        // 2. Conteo global por estatus (Personas Jurídicas)
+        $this->db->select('
+            ip.estatus,
+            COUNT(ip.id) AS total_global_estatus
+        ');
+        $this->db->from('diplomado.inscripciones_participantes ip');
+        $this->db->where_in('ip.estatus', [1, 2, 5, 6]); // Solo los estatus que te interesan
+        $this->db->group_by('ip.estatus');
+        $query = $this->db->get();
+        $stats['global_by_estatus_juridica'] = $query->result_array();
+
+
+        // 3. Total general de inscripciones (Personas Jurídicas)
+        $this->db->select('COUNT(id) AS total_inscripciones_generales');
+        $this->db->from('diplomado.inscripciones_participantes');
+        $query = $this->db->get();
+        $stats['total_general_juridica'] = $query->row_array()['total_inscripciones_generales'];
+
+        return $stats;
     }
 }
