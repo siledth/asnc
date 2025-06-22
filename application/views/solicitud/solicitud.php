@@ -4,12 +4,44 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Solicitud de Usuarios SNC</title>
+    <title>Solicitud de Usuarios SNC SNC</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="<?= base_url('css/solicitud.css') ?>" rel="stylesheet">
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+
+    <script type="text/javascript">
+        // Las variables globales y funciones de callback deben estar aquí, ANTES de solcitud.js
+        var RECAPTCHA_SITE_KEY = '<?php echo $this->config->item('recaptcha_site_key'); ?>';
+        var recaptchaWidgetId; // Global variable to store the widget ID
+
+        // Función de callback de reCAPTCHA - Se ejecuta cuando la API de reCAPTCHA está lista
+        var onloadCallback = function() {
+            if (document.getElementById('recaptcha-widget-main')) {
+                recaptchaWidgetId = grecaptcha.render('recaptcha-widget-main', {
+                    'sitekey': RECAPTCHA_SITE_KEY, // Usa la variable global
+                    'theme': 'light'
+                });
+                console.log("reCAPTCHA widget renderizado. ID:", recaptchaWidgetId);
+            } else {
+                console.error("Error: Elemento 'recaptcha-widget-main' no encontrado en el DOM.");
+            }
+        };
+
+        // Función para reiniciar el reCAPTCHA - Esto borra la marca "No soy un robot"
+        function resetRecaptcha() {
+            if (typeof grecaptcha !== 'undefined' && typeof grecaptcha.reset === 'function' && recaptchaWidgetId !==
+                undefined) {
+                grecaptcha.reset(recaptchaWidgetId);
+                console.log("reCAPTCHA widget reiniciado.");
+            } else {
+                console.warn("No se pudo reiniciar reCAPTCHA: grecaptcha no definido o widgetId inválido.");
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -364,8 +396,7 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-12">
-                            <div id="recaptcha-widget-main" class="g-recaptcha"
-                                data-sitekey="<?php echo $this->config->item('recaptcha_site_key'); ?>"></div>
+                            <div id="recaptcha-widget-main"></div>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-center">
