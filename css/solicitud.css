@@ -1,0 +1,47 @@
+  body {
+      background-color: #f8f9fa;
+      /* Light background for the page */
+  }
+
+  .card {
+      border-radius: 0.5rem;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  }
+
+  .card-header {
+      background-color: #E42322;
+      /* Primary color for header */
+      color: white;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+      border-top-left-radius: 0.5rem;
+      border-top-right-radius: 0.5rem;
+      padding: 1rem 1.25rem;
+  }
+
+  .form-section {
+      padding: 20px 0;
+      border-top: 1px solid #eee;
+      margin-top: 20px;
+  }
+
+  .form-section:first-child {
+      border-top: none;
+      margin-top: 0;
+  }
+
+  input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+      vertical-align: middle;
+  }
+
+  .required-asterisk {
+      color: red;
+      margin-left: 5px;
+  }
+
+  .form-control:focus {
+      border-color: #80bdff;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }

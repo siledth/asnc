@@ -1151,6 +1151,11 @@ class User_model extends CI_Model
         } else {
             $modi_prog_anual_ley = 'off'; // Checkbox no está seleccionado
         }
+        if (isset($data['ccp_facilitadores'])) {
+            $ccp_facilitadores = 'on'; // Checkbox está seleccionado
+        } else {
+            $ccp_facilitadores = 'off'; // Checkbox no está seleccionado
+        }
         $rif_contrat = $data['sel_rif_nombre5'];
         if ($rif_contrat == '') {
 
@@ -1204,6 +1209,8 @@ class User_model extends CI_Model
                 'direccion_fiscal'         => $data['direccion_fiscal'],
                 'rifadscrito'         => $data['rifadscrito'],
                 'nameadscrito'         => $data['nameadscrito'],
+                'ccp_facilitadores'         => $ccp_facilitadores,
+
 
             );
             $x = $this->db->insert('public.solicitud_user', $data1);
@@ -1306,7 +1313,7 @@ class User_model extends CI_Model
         $query = $this->db->query("SELECT name_f, apellido_f, cedula_f, cargo_f, telefono_f, correo, 
                             registrar_prog_anual, modi_prog_anual_ley, reg_rend_anual, consl_p_m_r, reg_llamado, consul_ll, 
                             procesos_ll, accion_llamado, menu_reg_eval_desem, menu_soli_anular_eval_desem, menu_comprobante_eval_desem, 
-                            reg_not_mb_comi, reg_cert_mb_comi, consulta_mb_comi, ver_rnc
+                            reg_not_mb_comi, reg_cert_mb_comi, consulta_mb_comi, ver_rnc,ccp_facilitadores
                  FROM public.solicitud_user 
 
                     

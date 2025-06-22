@@ -4,6 +4,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class User extends CI_Controller
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+
+
+        $this->load->library('curl'); // Para la verificación de reCAPTCHA
+
+    }
     public function index()
     {
         if (!$this->session->userdata('session')) {
@@ -891,12 +900,132 @@ class User extends CI_Controller
         $data =    $this->Configuracion_model->listar_parroquia($data);
         echo json_encode($data);
     }
+    // public function save_solicitud()
+    // {
+    //     //if(!$this->session->userdata('session'))redirect('login');
+    //     $data['time'] = date("d-m-Y");
+    //     $data = $this->input->post();
+    //     $data =    $this->User_model->save_solicitud($data);
+    //     echo json_encode($data);
+    // }
     public function save_solicitud()
     {
-        //if(!$this->session->userdata('session'))redirect('login');
-        $data['time'] = date("d-m-Y");
-        $data = $this->input->post();
-        $data =    $this->User_model->save_solicitud($data);
-        echo json_encode($data);
+        // NO QUITAR EL if(!$this->session->userdata('session'))redirect('login');
+        // si este formulario solo puede ser usado por usuarios logueados.
+        // Si es un formulario público, entonces la línea está bien comentada o no existe.
+
+        // ----- INICIO: Verificación de reCAPTCHA -----
+        $recaptcha_response = $this->input->post('g-recaptcha-response');
+
+        if (empty($recaptcha_response)) {
+            echo json_encode(['status' => 'error', 'message' => 'Por favor, marque la casilla "No soy un robot".']);
+            return;
+        }
+
+        $secret_key = $this->config->item('recaptcha_secret_key');
+        $verify_url = 'https://www.google.com/recaptcha/api/siteverify';
+
+        $data_recaptcha = [ // Usar un nombre de variable diferente para evitar conflictos con $data del POST
+            'secret'   => $secret_key,
+            'response' => $recaptcha_response,
+            'remoteip' => $this->input->ip_address()
+        ];
+
+        $this->curl->create($verify_url);
+        $this->curl->post($data_recaptcha); // Usar $data_recaptcha aquí
+        $response_recaptcha = $this->curl->execute();
+
+        if ($response_recaptcha === FALSE) {
+            log_message('error', 'Error cURL al verificar reCAPTCHA: ' . $this->curl->error_string);
+            echo json_encode(['status' => 'error', 'message' => 'Error de comunicación con el servicio reCAPTCHA.']);
+            return;
+        }
+
+        $recaptcha_result = json_decode($response_recaptcha, TRUE);
+
+        if (!isset($recaptcha_result['success']) || $recaptcha_result['success'] !== TRUE) {
+            $error_codes = isset($recaptcha_result['error-codes']) ? implode(', ', $recaptcha_result['error-codes']) : 'N/A';
+            log_message('error', 'Validación de reCAPTCHA fallida. Códigos de error: ' . $error_codes);
+            echo json_encode(['status' => 'error', 'message' => 'Verificación CAPTCHA fallida. Por favor, inténtelo de nuevo.']);
+            return;
+        }
+        // ----- FIN: Verificación de reCAPTCHA -----
+
+
+        // ----- INICIO: Saneamiento y Validación de Datos del Formulario -----
+        // Aquí es donde aplicas las defensas contra inyección SQL y validación robusta.
+
+        // 1. Cargar datos del POST.
+        // EVITA directamente $data = $this->input->post();
+        // Recoge los campos explícitamente y sanéalos.
+        $post_data = $this->input->post(NULL, TRUE); // TRUE para XSS filtering.
+
+
+        // 2. Aplicar Form Validation de CodeIgniter (¡MUY IMPORTANTE!)
+        $this->form_validation->set_rules('rif_b', 'RIF', 'required|alpha_dash|max_length[10]'); // rif_b: guiones y letras/numeros
+        $this->form_validation->set_rules('rifadscrito', 'RIF Órgano Adscripción', 'required|alpha_dash|max_length[15]');
+        $this->form_validation->set_rules('nameadscrito', 'Nombre Órgano Adscripción', 'required|trim|max_length[200]');
+        $this->form_validation->set_rules('cod_onapre', 'Código ONAPRE', 'required|numeric|max_length[10]');
+        $this->form_validation->set_rules('siglas', 'Siglas', 'required|trim|max_length[50]');
+        $this->form_validation->set_rules('tel_local', 'Teléfono Local', 'required|numeric|max_length[15]');
+        $this->form_validation->set_rules('pag_web', 'Página Web', 'required|trim|valid_url|max_length[100]');
+        $this->form_validation->set_rules('name_max_a_f', 'Nombre Máxima Autoridad', 'required|trim|max_length[100]');
+        $this->form_validation->set_rules('cargo__max_a_f', 'Cargo Máxima Autoridad', 'required|trim|max_length[50]');
+        $this->form_validation->set_rules('name_f', 'Nombre Funcionario', 'required|trim|max_length[100]');
+        $this->form_validation->set_rules('apellido_f', 'Apellido Funcionario', 'required|trim|max_length[100]');
+        $this->form_validation->set_rules('cedula_f', 'Cédula Funcionario', 'required|numeric|max_length[10]');
+        $this->form_validation->set_rules('cargo_f', 'Cargo Funcionario', 'required|trim|max_length[50]');
+        $this->form_validation->set_rules('telefono_f', 'Teléfono Funcionario', 'required|numeric|max_length[15]');
+        $this->form_validation->set_rules('correo', 'Correo', 'required|trim|valid_email|max_length[200]');
+
+        // Validaciones para checkboxes (si son importantes, valida que existan en el POST)
+        // No necesitas reglas para 'on'/'off', solo que estén presentes si se marcan
+        // $this->form_validation->set_rules('reg_rend_anual', 'Registro Rendición Anual', 'callback_checkbox_check'); // Si quisieras una validación custom
+
+        // Aquí se pueden agregar más reglas según la naturaleza de cada campo
+        // Ejemplo para dropdowns:
+        $this->form_validation->set_rules('id_clasificacion', 'Clasificación', 'required|numeric');
+        $this->form_validation->set_rules('id_estado_n', 'Estado', 'required|numeric');
+        $this->form_validation->set_rules('id_municipio_n', 'Municipio', 'required|numeric');
+        $this->form_validation->set_rules('id_parroquia_n', 'Parroquia', 'required|numeric');
+        $this->form_validation->set_rules('direccion_fiscal', 'Dirección Fiscal', 'required|trim|max_length[500]');
+
+
+        if ($this->form_validation->run() == FALSE) {
+            // Si la validación falla, devuelve los errores.
+            $errors = validation_errors();
+            log_message('error', 'Errores de validación de formulario en save_solicitud: ' . $errors);
+            echo json_encode(['status' => 'error', 'message' => 'Errores en el formulario: ' . strip_tags($errors)]);
+            return;
+        }
+
+        // Si la validación pasa, ahora sí puedes usar los datos, ya están saneados por $this->input->post(NULL, TRUE)
+        // y validados por form_validation.
+        // Nota: Si usaste post(NULL, TRUE), ya están limpios de XSS.
+        // Ahora pasas $post_data a tu modelo.
+        $data_to_model = $post_data; // O construye un array específico si no quieres pasar todo
+
+        // ----- FIN: Saneamiento y Validación de Datos del Formulario -----
+
+
+        // Ahora llamas a tu modelo.
+        // Tu modelo ya tiene la lógica para los checkboxes 'on'/'off' y manejo de la BD.
+        $response_from_model = $this->User_model->save_solicitud($data_to_model); // Pasa los datos validados
+
+        if ($response_from_model) {
+            echo json_encode(['status' => 'success', 'message' => 'Solicitud guardada con éxito.', 'id_solicitud' => $response_from_model]);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Hubo un error al guardar la solicitud en la base de datos.']);
+        }
     }
+
+    // Si necesitas una validación custom para checkboxes (ej: si DEBEN estar marcados)
+    // public function _checkbox_check($checkbox_value) {
+    //     if ($checkbox_value !== 'on') { // Si esperas que siempre esté 'on' cuando se envía
+    //         $this->form_validation->set_message('_checkbox_check', 'El campo {field} es obligatorio.');
+    //         return FALSE;
+    //     }
+    //     return TRUE;
+    // }
+
 }
