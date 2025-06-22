@@ -15,11 +15,11 @@ function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
         $('#ueba').attr("disabled", true);
     }else{
         $("#items").show();
-         var base_url  = window.location.origin+'/asnc/index.php/gestion/consulta_og';
-         var base_url2 = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
+        //  var base_url  = window.location.origin+'/asnc/index.php/gestion/consulta_og';
+        //  var base_url2 = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
 
-    //   var base_url = '/index.php/gestion/consulta_og';
-    //     var base_url2 = '/index.php/evaluacion_desempenio/llenar_contratista_rp';
+      var base_url = '/index.php/gestion/consulta_og';
+        var base_url2 = '/index.php/evaluacion_desempenio/llenar_contratista_rp';
 
         $.ajax({
             url:base_url,
@@ -61,8 +61,8 @@ function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
 }
 function llenar_municipio(){
     var id_estado_n = $('#id_estado_n').val();
-   var base_url = window.location.origin+'/asnc/index.php/User/listar_municipio';
-    // var base_url = '/index.php/User/listar_municipio';
+//    var base_url = window.location.origin+'/asnc/index.php/User/listar_municipio';
+    var base_url = '/index.php/User/listar_municipio';
 
     $.ajax({
         url: base_url,
@@ -80,8 +80,8 @@ function llenar_municipio(){
 }
 function llenar_parroquia(){
     var id_municipio_n = $('#id_estado_n').val();
-   var base_url = window.location.origin+'/asnc/index.php/User/listar_parroquia';
-    // var base_url = '/index.php/User/listar_parroquia';
+//    var base_url = window.location.origin+'/asnc/index.php/User/listar_parroquia';
+    var base_url = '/index.php/User/listar_parroquia';
 
     $.ajax({
         url: base_url,
@@ -213,10 +213,10 @@ function save(event) {
                 var datos = new FormData($("#sav_ext")[0]);
                  // Añadir el token de reCAPTCHA al FormData
                     datos.append('g-recaptcha-response', recaptcha_response);
-                var base_url = window.location.origin + '/asnc/index.php/User/save_solicitud';
-                var base_url_pdf_download = window.location.origin + '/asnc/index.php/Solicitud/pdfrt?id=';
-                // var base_url = '/index.php/User/save_solicitud';
-                // var base_url_3 = '/index.php/Solicitud/pdfrt?id=';
+                // var base_url = window.location.origin + '/asnc/index.php/User/save_solicitud';
+                // var base_url_pdf_download = window.location.origin + '/asnc/index.php/Solicitud/pdfrt?id=';
+                var base_url = '/index.php/User/save_solicitud';
+                var base_url_pdf_download = '/index.php/Solicitud/pdfrt?id=';
 
 
                 $.ajax({
