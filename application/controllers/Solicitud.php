@@ -130,9 +130,9 @@ class Solicitud extends CI_Controller
                     $pdf->SetFont('Arial', '', 9);
                     $pdf->Cell(50, 5, utf8_decode($d->descmun), 0, 0, 'L');
                     $pdf->SetFont('Arial', 'B', 9);
-                    $pdf->Cell(25, 5, utf8_decode('Parroquia:'), 0, 0, 'L');
-                    $pdf->SetFont('Arial', '', 9);
-                    $pdf->Cell(20, 5, utf8_decode($d->descparro), 0, 1, 'L');
+                    $pdf->Cell(20, 5, utf8_decode('Parroquia:'), 0, 0, 'L');
+                    $pdf->SetFont('Arial', '', 7);
+                    $pdf->Cell(15, 5, utf8_decode($d->descparro), 0, 1, 'L');
                     $pdf->SetFont('Arial', 'B', 9);
                     $pdf->Cell(-3, 5, '', 0, 0, 'L');
 
@@ -202,9 +202,9 @@ class Solicitud extends CI_Controller
                     $pdf->SetFont('Arial', '', 9);
                     $pdf->Cell(33, 5, utf8_decode($d2->descmun), 0, 0, 'L');
                     $pdf->SetFont('Arial', 'B', 9);
-                    $pdf->Cell(20, 5, utf8_decode('Parroquia:'), 0, 0, 'L');
+                    $pdf->Cell(15, 5, utf8_decode('Parroquia:'), 0, 0, 'L');
                     $pdf->SetFont('Arial', '', 9);
-                    $pdf->Cell(20, 5, utf8_decode($d2->descparro), 0, 1, 'L');
+                    $pdf->Cell(15, 5, utf8_decode($d2->descparro), 0, 1, 'L');
                     $pdf->SetFont('Arial', 'B', 9);
                     $pdf->Cell(17, 5, utf8_decode('Dirección:'), 0, 0, 'R');
                     $pdf->SetFont('Arial', '', 9);
