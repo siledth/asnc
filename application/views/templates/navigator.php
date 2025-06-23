@@ -618,20 +618,14 @@
                     <li class="has-sub">
                         <a href="javascript:;">
                         </a>
-                        <?php if (($this->session->userdata('certificacion') == 1)) : ?>
+                        <?php if (($this->session->userdata('certi_externo') == 1)) : ?>
                     <li class="has-sub">
-
-                    <li>
-                    </li>
-                <?php endif; ?>
-                <?php if (($this->session->userdata('certi_externo') == 1)) : ?>
-                    <!-- <li class="has-sub">
                     <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion_exter"><i
-                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Certificación de Privado</a>
+                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Certificación</a>
                     </li>
                     <li><a href="<?= base_url() ?>index.php/certificacion/ver_facilitador"><i
                                 class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Facilitador</a>
-                    </li> -->
+                    </li>
                 <?php endif; ?>
                 <?php if (($this->session->userdata('certificacion') == 1)) : ?>
 
@@ -646,7 +640,7 @@
 
                             <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion"><i
                                         class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Solicitud de
-                                    Certificación de Privado</a>
+                                    Certificación </a>
                             </li>
                             <li><a href="<?= base_url() ?>index.php/certificacion/ver_facilitador"><i
                                         class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Facilitador</a>
@@ -681,57 +675,58 @@
 
 
 
-                <?php endif; ?>
 
 
 
-                <li class="has-sub">
-                    <a href="javascript:;">
-                        <b class="caret"></b>
-                        Diplomado
-                    </a>
-                    <ul class="sub-menu">
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                            <b class="caret"></b>
+                            Diplomado
+                        </a>
+                        <ul class="sub-menu">
 
-                        <li><a href="<?= base_url() ?>index.php/Diplomado/Registrar_diplomado"><i
-                                    class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Crear Un Diplomado </a>
-                        </li>
-                        <li><a href="<?= base_url() ?>index.php/Diplomado/sel_participantes"><i
-                                    class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Selección de participantes </a>
-                        </li>
-                        <li><a href="<?= base_url() ?>index.php/Diplomado/sel_participantes_juridico"><i
-                                    class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Selección de participantes
-                                Juridico </a>
-                        </li>
-                        <li><a href="<?= base_url() ?>index.php/Diplomado/participanteselec"><i
-                                    class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Participante seleccionado </a>
-                        </li>
+                            <li><a href="<?= base_url() ?>index.php/Diplomado/Registrar_diplomado"><i
+                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Crear Un Diplomado </a>
+                            </li>
+                            <li><a href="<?= base_url() ?>index.php/Diplomado/sel_participantes"><i
+                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Selección de participantes </a>
+                            </li>
+                            <li><a href="<?= base_url() ?>index.php/Diplomado/sel_participantes_juridico"><i
+                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Selección de participantes
+                                    Juridico </a>
+                            </li>
+                            <li><a href="<?= base_url() ?>index.php/Diplomado/participanteselec"><i
+                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Participante seleccionado </a>
+                            </li>
 
-                        <li><a href="<?= base_url() ?>index.php/Diplomado/conciliado"><i
-                                    class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Conciliar</a>
-                        </li>
+                            <li><a href="<?= base_url() ?>index.php/Diplomado/conciliado"><i
+                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Conciliar</a>
+                            </li>
 
 
-                        <li class="has-sub">
-                            <a href="javascript:;">
-                                <b class="caret"></b>
-                                Reportes
-                            </a>
-                            <ul class="sub-menu">
-                                <!-- <?php if (($this->session->userdata('certi_externo') == 1)) : ?> reporte directora -->
+                            <li class="has-sub">
+                                <a href="javascript:;">
+                                    <b class="caret"></b>
+                                    Reportes
+                                </a>
+                                <ul class="sub-menu">
+                                    <!-- <?php if (($this->session->userdata('certi_externo') == 1)) : ?> reporte directora -->
 
-                                <li><a href="<?= base_url() ?>index.php/Diplomado/reporteG">-
-                                        Consulta Cuenta CCP</a></li>
-                            <?php endif; ?>
+                                    <li><a href="<?= base_url() ?>index.php/Diplomado/reporteG">-
+                                            Consulta Cuenta CCP</a></li>
+                                <?php endif; ?>
 
-                            <!-- <li><a href="<?= base_url() ?>index.php/Comision_contrata/certificadosnc">-
+                                <!-- <li><a href="<?= base_url() ?>index.php/Comision_contrata/certificadosnc">-
                                     Certificar por SNC</a></li> -->
 
 
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
 
-                    </ul>
-                </li>
+                        </ul>
+                    </li>
+                <?php endif; ?>
+
             </li>
             </ul>
 

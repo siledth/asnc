@@ -1,7 +1,7 @@
 <div class="sidebar-bg"></div>
 <div id="content" class="content">
 
-    <h2>REGISTRO PARA CERTIFICACIÓN JURÍDICA DE CARÁCTER PRIVADO</h2>
+    <h2>REGISTRO PARA CERTIFICACIÓN JURÍDICA</h2>
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-inverse" data-sortable-id="form-validation-1">
@@ -12,7 +12,7 @@
                         <div class="col-4">
                             <label>N° de Comprobante del Registro Nacional de Contratistas (RNC):</label>
                             <input class="form-control" type="text" name="rif_b" id="rif_b"
-                                placeholder="XXXXXXXXXXXXXXX" >
+                                placeholder="XXXXXXXXXXXXXXX">
                         </div>
                         <div class="col- mt-4">
                             <button type="button" class="btn btn-default" onclick="consultar_rif();" name="button"> <i
@@ -25,7 +25,7 @@
         <div class="col-lg-12" style="display: none" id="items">
             <div class="panel panel-inverse">
                 <div class="panel-heading">
-                    <h4 class="panel-title text-center"><b>FICHA TÉCNICA DE CERTIFICACIÓN PARA PERSONA JURÍDICA DE CARÁCTER PRIVADO</b></h4>
+                    <h4 class="panel-title text-center"><b>FICHA TÉCNICA DE CERTIFICACIÓN PARA PERSONA JURÍDICA</b></h4>
                 </div>
                 <div class="panel-body" id="no_existe">
                     <div class="row">
@@ -43,9 +43,10 @@
                         method="POST" enctype="multipart/form-data">
                         <div class="panel panel-inverse">
                             <div class="panel-heading">
-                                <h4 class="panel-title" style="background: #FAE5D3" ><b>INFORMACIÓN DE LA PERSONA JURÍDICA</b></h4>
+                                <h4 class="panel-title" style="background: #FAE5D3"><b>INFORMACIÓN DE LA PERSONA
+                                        JURÍDICA</b></h4>
                             </div>
-                            <div class="panel-body" >
+                            <div class="panel-body">
                                 <div class="row">
                                     <div class="form-group col-3">
                                         <label>N° de Comprobante Registro Único<b title="Campo Obligatorio"
@@ -81,26 +82,26 @@
                                 </div>
                             </div>
 
-                           
+
                             <div class="col-lg-16">
                                 <ul class="nav nav-tabs" style="background:#FAE5D3">
                                     <li class="nav-items">
                                         <a href="#programa_taller" data-toggle="tab" class="nav-link active">
                                             <span class="d-sm-none">Tab 1</span>
                                             <span class="d-sm-block d-none" style="font-size: 10px;">
-                                              Nombre del <br> curso o taller
+                                                Nombre del <br> curso o taller
                                             </span>
                                         </a>
                                     </li>
                                     <li class="nav-items">
                                         <a href="#experi_empre_capa" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 2</span>
-                                             <span class="d-sm-block d-none" style="font-size: 8px;">
+                                            <span class="d-sm-block d-none" style="font-size: 8px;">
                                                 Experiencia de la <br> Empresa en
-                                                    Capacitación <br>en
-                                                    Materias Relacionadas<br> Con Contratación <br>Pública (en los<br>
-                                                    últimos
-                                                    5 años)
+                                                Capacitación <br>en
+                                                Materias Relacionadas<br> Con Contratación <br>Pública (en los<br>
+                                                últimos
+                                                5 años)
                                             </span>
                                         </a>
                                     </li>
@@ -108,61 +109,61 @@
                                     <li class="nav-items">
                                         <a href="#experi_empre_cap_comisi" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 3</span>
-                                             <span class="d-sm-block d-none" style="font-size: 8px;">
+                                            <span class="d-sm-block d-none" style="font-size: 8px;">
                                                 Experiencia de la <br> Empresa en
-                                                    Capacitación <br>en
-                                                    Comisión de <br>Contrataciones(en los <br> últimos 3 años)
+                                                Capacitación <br>en
+                                                Comisión de <br>Contrataciones(en los <br> últimos 3 años)
                                             </span>
                                         </a>
                                     </li>
                                     <li class="nav-items">
                                         <a href="#infor_per_natu" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 4</span>
-                                             <span class="d-sm-block d-none" style="font-size: 8px;">
+                                            <span class="d-sm-block d-none" style="font-size: 8px;">
                                                 Información de la <br> persona natural <br>
-                                                    (que dicta la <br>
-                                                    capacitación)
+                                                (que dicta la <br>
+                                                capacitación)
                                             </span>
                                         </a>
                                     </li>
                                     <li class="nav-items">
                                         <a href="#infor_per_prof" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 5</span>
-                                             <span class="d-sm-block d-none" style="font-size: 8px;">
-                                                 Información <br>de la <br>Formación<br>
-                                                    Profesional 
+                                            <span class="d-sm-block d-none" style="font-size: 8px;">
+                                                Información <br>de la <br>Formación<br>
+                                                Profesional
                                             </span>
                                         </a>
                                     </li>
                                     <li class="nav-items">
                                         <a href="#for_mat_contr_publ" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 6</span>
-                                             <span class="d-sm-block d-none" style="font-size: 8px;">
-                                                 Formación en <br> Materia de
-                                                    <br>Contratación <br> Pública
-                                               
+                                            <span class="d-sm-block d-none" style="font-size: 8px;">
+                                                Formación en <br> Materia de
+                                                <br>Contratación <br> Pública
+
                                             </span>
                                         </a>
                                     </li>
                                     <li class="nav-items">
                                         <a href="#exp_par_comi_10" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 7</span>
-                                             <span class="d-sm-block d-none" style="font-size: 8px;">
-                                               Experiencia de <br>Participación en
-                                                    <br> Comisiones de<br> Contrataciones <br>(en los <br>últimos 10
-                                                    años)
-                                                
+                                            <span class="d-sm-block d-none" style="font-size: 8px;">
+                                                Experiencia de <br>Participación en
+                                                <br> Comisiones de<br> Contrataciones <br>(en los <br>últimos 10
+                                                años)
+
                                             </span>
                                         </a>
                                     </li>
                                     <li class="nav-items">
                                         <a href="#exp_dic_cap_3" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 8</span>
-                                             <span class="d-sm-block d-none" style="font-size: 8px;">
+                                            <span class="d-sm-block d-none" style="font-size: 8px;">
                                                 Experiencia en <br>Dictado <br>de Capacitación
-                                                    <br>en Materia de Comisión <br>de Contrataciones (en <br>los últimos
-                                                    3 años)
-                                               
+                                                <br>en Materia de Comisión <br>de Contrataciones (en <br>los últimos
+                                                3 años)
+
                                             </span>
                                         </a>
                                     </li>
@@ -170,8 +171,8 @@
                                     <li class="nav-items">
                                         <a href="#declara" data-toggle="tab" class="nav-link">
                                             <span class="d-sm-none">Tab 8</span>
-                                             <span class="d-sm-block d-none" style="font-size: 12px;">
-                                               Declaración 
+                                            <span class="d-sm-block d-none" style="font-size: 12px;">
+                                                Declaración
                                             </span>
                                         </a>
                                     </li>
@@ -236,14 +237,14 @@
                                                             style="color:red">*</b></label>
                                                     <input class="form-control" type="date"
                                                         name="desde_experi_empre_capa" id="desde_experi_empre_capa"
-                                                        max="<?=$time?>">
+                                                        max="<?= $time ?>">
                                                 </div>
                                                 <div class="form-group col-4">
                                                     <label>Hasta <b title="Campo Obligatorio"
                                                             style="color:red">*</b></label>
                                                     <input class="form-control" type="date"
                                                         name="hasta_experi_empre_capa" id="hasta_experi_empre_capa"
-                                                        max="<?=$time?>">
+                                                        max="<?= $time ?>">
                                                 </div>
                                                 <div class="col-12">
                                                     <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
@@ -304,13 +305,13 @@
                                                 <label>Desde <b title="Campo Obligatorio"
                                                         style="color:red">*</b></label>
                                                 <input class="form-control" type="date" name="desde_exp" id="desde_exp"
-                                                    max="<?=$time?>">
+                                                    max="<?= $time ?>">
                                             </div>
                                             <div class="form-group col-4">
                                                 <label>Hasta <b title="Campo Obligatorio"
                                                         style="color:red">*</b></label>
                                                 <input class="form-control" type="date" name="hasta_exp" id="hasta_exp"
-                                                    max="<?=$time?>">
+                                                    max="<?= $time ?>">
                                             </div>
                                             <div class="panel-body">
                                                 <div class="row">
@@ -383,24 +384,24 @@
                                                             class="form-control">
                                                             <option value="">SELECCIONE</option>
                                                             <?php foreach ($inf_2 as $data): ?>
-                                                            <option
-                                                                value="<?=$data['desc_alicuota_iva']?>/<?=$data['desc_porcentaj']?>">
-                                                                <?=$data['desc_porcentaj']?></option>
+                                                                <option
+                                                                    value="<?= $data['desc_alicuota_iva'] ?>/<?= $data['desc_porcentaj'] ?>">
+                                                                    <?= $data['desc_porcentaj'] ?></option>
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
 
                                                     <div class="form-group col-2">
                                                         <label>Tasa Bolivares<b style="color:red">*</b></label>
-                                                        <?php if(isset(($exonerado))) {?>
-                                                        <input id="bolivar_estimado" name="bolivar_estimado" type="text"
-                                                            class="form-control" value="0" readonly>
+                                                        <?php if (isset(($exonerado))) { ?>
+                                                            <input id="bolivar_estimado" name="bolivar_estimado" type="text"
+                                                                class="form-control" value="0" readonly>
 
-                                                        <?php  } else {
+                                                            <?php  } else {
 
                                                             foreach ($inf_1 as $data): ?>
-                                                        <input id="bolivar_estimado" name="bolivar_estimado" type="text"
-                                                            class="form-control" value="<?=$data['valor']?>" readonly>
+                                                                <input id="bolivar_estimado" name="bolivar_estimado" type="text"
+                                                                    class="form-control" value="<?= $data['valor'] ?>" readonly>
                                                         <?php endforeach;
                                                         } ?>
 
@@ -458,17 +459,17 @@
                                                         <label class="col-form-label col-md-6 text-right">Persona
                                                             Jurídica </label>
                                                         <div class="col-md-6">
-                                                            <?php if(isset(($exonerado))) { ?>
-                                                            <input id="pj" name="pj" type="text" class="form-control"
-                                                                value="0" readonly>
+                                                            <?php if (isset(($exonerado))) { ?>
+                                                                <input id="pj" name="pj" type="text" class="form-control"
+                                                                    value="0" readonly>
 
 
-                                                            <?php  } else {
+                                                                <?php  } else {
                                                                 foreach ($inf_3 as $data): ?>
-                                                            <input id="pj" name="pj" type="text"
-                                                                class="form-control text-center"
-                                                                value="<?=$data['valor']?>" readonly>
-                                                            <?php endforeach; ?>
+                                                                    <input id="pj" name="pj" type="text"
+                                                                        class="form-control text-center"
+                                                                        value="<?= $data['valor'] ?>" readonly>
+                                                                <?php endforeach; ?>
 
 
 
@@ -521,46 +522,46 @@
 
                                                     </div>
                                                     <!-- ////////////// aca empiesa datos bancarios-->
-                                                    <?php if(isset(($exonerado))) { ?>
-                                                    <div class="row">
+                                                    <?php if (isset(($exonerado))) { ?>
+                                                        <div class="row">
 
 
-                                                        <div class="form-group col-3">
+                                                            <div class="form-group col-3">
 
-                                                            <input id="n_ref" name="n_ref" type="hidden"
-                                                                Value="Exonerado" class="form-control">
+                                                                <input id="n_ref" name="n_ref" type="hidden"
+                                                                    Value="Exonerado" class="form-control">
+                                                            </div>
+                                                            <div class="form-group col-4">
+
+
+                                                                <input id="banco_e" name="banco_e" type="hidden"
+                                                                    Value="Exonerado" class="form-control">
+
+                                                            </div>
+
+                                                            <div class="form-group col-4">
+
+
+                                                                <input id="banco_rec" name="banco_rec" type="hidden"
+                                                                    Value="Exonerado" class="form-control">
+                                                            </div>
+                                                            <div class="form-group col-3">
+
+                                                                <input class="form-control" type="hidden" name="fecha_trans"
+                                                                    id="fecha_trans" Value="<?= $time ?>">
+                                                            </div>
+                                                            <div class="form-group col-3">
+                                                                <input id="monto_trans" name="monto_trans" type="hidden"
+                                                                    Value="0" class="form-control">
+                                                            </div>
+
+
+
                                                         </div>
-                                                        <div class="form-group col-4">
-
-
-                                                            <input id="banco_e" name="banco_e" type="hidden"
-                                                                Value="Exonerado" class="form-control">
-
-                                                        </div>
-
-                                                        <div class="form-group col-4">
-
-
-                                                            <input id="banco_rec" name="banco_rec" type="hidden"
-                                                                Value="Exonerado" class="form-control">
-                                                        </div>
-                                                        <div class="form-group col-3">
-
-                                                            <input class="form-control" type="hidden" name="fecha_trans"
-                                                                id="fecha_trans" Value="<?=$time?>">
-                                                        </div>
-                                                        <div class="form-group col-3">
-                                                            <input id="monto_trans" name="monto_trans" type="hidden"
-                                                                Value="0" class="form-control">
-                                                        </div>
-
-
-
-                                                    </div>
 
                                                 </div>
 
-                                                <?php  } else { ?>
+                                            <?php  } else { ?>
 
 
                                                 <div class="form-group col-8">
@@ -582,8 +583,8 @@
                                                         class="default-select2 form-control ">
                                                         <option value="">SELECCIONE</option>
                                                         <?php foreach ($bancos as $data): ?>
-                                                        <option value="<?=$data['nombre_b']?>">
-                                                            <?=$data['nombre_b']?></option>
+                                                            <option value="<?= $data['nombre_b'] ?>">
+                                                                <?= $data['nombre_b'] ?></option>
                                                         <?php endforeach; ?>
                                                     </select>
                                                 </div>
@@ -601,7 +602,7 @@
                                                     <label>Fecha de La trasferencia <b title="Campo Obligatorio"
                                                             style="color:red">*</b></label>
                                                     <input class="form-control" type="date" name="fecha_trans"
-                                                        id="fecha_trans" max="<?=$time?>">
+                                                        id="fecha_trans" max="<?= $time ?>">
                                                 </div>
                                                 <div class="form-group col-3">
                                                     <label>Ingrese Monto de la trasferencia <b title="Campo Obligatorio"
@@ -609,7 +610,7 @@
                                                     <input class="form-control" type="text" name="monto_trans"
                                                         id="monto_trans" onkeypress="return valideKey(event);">
                                                 </div>
-                                                <?php     } ?>
+                                            <?php     } ?>
                                             </div>
                                         </div>
                                     </div>
@@ -732,7 +733,7 @@
                                                 <label>Fecha Certificado <b title="Campo Obligatorio"
                                                         style="color:red">*</b></label>
                                                 <input class="form-control" type="date" name="fech_cert" id="fech_cert"
-                                                    max="<?=$time?>">
+                                                    max="<?= $time ?>">
 
 
 
@@ -812,7 +813,7 @@
                                                 <label>Fecha <b title="Campo Obligatorio"
                                                         style="color:red">*</b></label>
                                                 <input class="form-control" type="date" name="fecha_act" id="fecha_act"
-                                                    max="<?=$time?>">
+                                                    max="<?= $time ?>">
                                             </div>
                                             <div class="form-group col-6">
                                                 <label>Área <b title="Campo Obligatorio" style="color:red">*</b></label>
@@ -888,13 +889,13 @@
                                                 <label>Desde <b title="Campo Obligatorio"
                                                         style="color:red">*</b></label>
                                                 <input class="form-control" type="date" name="desde3" id="desde3"
-                                                    max="<?=$time?>">
+                                                    max="<?= $time ?>">
                                             </div>
                                             <div class="form-group col-4">
                                                 <label>Hasta <b title="Campo Obligatorio"
                                                         style="color:red">*</b></label>
                                                 <input class="form-control" type="date" name="hasta3" id="hasta3"
-                                                    max="<?=$time?>">
+                                                    max="<?= $time ?>">
                                             </div>
                                             <div class="col-12">
                                                 <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
@@ -954,9 +955,9 @@
                                                 <div class="col-6">
                                                     <button
                                                         class="btn btn-circle waves-effect btn-lg waves-circle waves-float btn-success"
-                                                        style="background: #A93226 "
-                                                        type="button" onclick="guardar_registro();" id="btn_guar_2"
-                                                        name="button" disabled>Guardar Certificación</button>
+                                                        style="background: #A93226 " type="button"
+                                                        onclick="guardar_registro();" id="btn_guar_2" name="button"
+                                                        disabled>Guardar Certificación</button>
                                                 </div>
 
                                             </div>
@@ -970,7 +971,7 @@
 
                             </div>
 
-                           
+
                         </div>
                     </form>
                 </div>
@@ -979,23 +980,23 @@
         </div>
     </div>
 </div>
-<script src="<?=base_url()?>/js/certificacion/registro_certifi.js"></script>
-<script src="<?=base_url()?>/js/certificacion/certificacion.js"></script>
-<script src="<?=base_url()?>/js/certificacion/agregar_organo.js"></script>
-<script src="<?=base_url()?>/js/certificacion/expe_capa.js"></script>
-<script src="<?=base_url()?>/js/certificacion/agregar_perona.js"></script>
-<script src="<?=base_url()?>/js/certificacion/calcular.js"></script>
-<script src="<?=base_url()?>/js/certificacion/infor_perso.js"></script>
-<script src="<?=base_url()?>/js/certificacion/for_mat_cert.js"></script>
-<script src="<?=base_url()?>/js/certificacion/exp_10.js"></script>
-<script src="<?=base_url()?>/js/certificacion/ex_3a.js"></script>
-<script src="<?=base_url()?>/js/certificacion/experi_empre_capa.js"></script>
-<script src="<?=base_url()?>/js/certificacion/calcular_vigencia.js"></script>
+<script src="<?= base_url() ?>/js/certificacion/registro_certifi.js"></script>
+<script src="<?= base_url() ?>/js/certificacion/certificacion.js"></script>
+<script src="<?= base_url() ?>/js/certificacion/agregar_organo.js"></script>
+<script src="<?= base_url() ?>/js/certificacion/expe_capa.js"></script>
+<script src="<?= base_url() ?>/js/certificacion/agregar_perona.js"></script>
+<script src="<?= base_url() ?>/js/certificacion/calcular.js"></script>
+<script src="<?= base_url() ?>/js/certificacion/infor_perso.js"></script>
+<script src="<?= base_url() ?>/js/certificacion/for_mat_cert.js"></script>
+<script src="<?= base_url() ?>/js/certificacion/exp_10.js"></script>
+<script src="<?= base_url() ?>/js/certificacion/ex_3a.js"></script>
+<script src="<?= base_url() ?>/js/certificacion/experi_empre_capa.js"></script>
+<script src="<?= base_url() ?>/js/certificacion/calcular_vigencia.js"></script>
 <script type="text/javascript">
-function mayusculas(e) {
-    e.value = e.value.toUpperCase();
-}
-$("#monto_trans").on({
+    function mayusculas(e) {
+        e.value = e.value.toUpperCase();
+    }
+    $("#monto_trans").on({
         "focus": function(event) {
             $(event.target).select();
         },

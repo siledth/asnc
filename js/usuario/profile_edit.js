@@ -113,7 +113,7 @@ $(document).ready(function() {
                             </label>
                         </td>
                         <td>
-                            <button class="edit-profile-btn" data-user-id="${user.id}">Editar Perfil</button>
+                            <button class="edit-profile-btn" data-user-id="${user.id}">Editar</button>
                         </td>
                     </tr>
                 `;
