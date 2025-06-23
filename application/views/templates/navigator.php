@@ -783,7 +783,7 @@
                         </a>
                         <ul class="sub-menu">
                             <li class="has-sub">
-                                <?php if ($this->session->userdata('perfil') == 1 || $this->session->userdata('perfil') == 14) : ?>
+                                <?php if ($this->session->userdata('perfil') == 1 || $this->session->userdata('perfil') == 14 || $this->session->userdata('perfil') == 3) : ?>
 
                             <li>
                                 <a href="<?= base_url() ?>index.php/configuracion/orga">
@@ -1003,7 +1003,7 @@
                         <a href="<?= base_url() ?>index.php/user/int">
                             <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Registros Usuarios
                         </a>
-                    </li> -->
+                       </li> -->
 
                             <li>
                                 <a href="<?= base_url() ?>index.php/user/create_user">
@@ -1048,14 +1048,7 @@
                             </li>
                         <?php endif; ?>
 
-                        <?php if (($this->session->userdata('permisos') == 1)) : ?>
 
-                            <li>
-                                <a href="<?= base_url() ?>index.php/Profile_controller/profile_editor">
-                                    <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Gestion de Usuarios
-                                </a>
-                            </li>
-                        <?php endif; ?>
                         <?php if (($this->session->userdata('ver_user_perfil') == 1)) : ?>
                             <li>
                                 <a href="<?= base_url() ?>index.php/User/see_ses">
@@ -1064,6 +1057,18 @@
                             </li>
                         <?php endif; ?>
 
+                    <?php endif; ?>
+                    <?php if (($this->session->userdata('permisos') == 1)) : ?>
+                        <li>
+                            <a href="<?= base_url() ?>index.php/user/create_user">
+                                <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Registro Usuarios
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?= base_url() ?>index.php/Profile_controller/profile_editor">
+                                <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Gestion de Usuarios
+                            </a>
+                        </li>
                     <?php endif; ?>
                     <?php if (($this->session->userdata('ver_user_lista') == 1)) : ?>
                         <li>

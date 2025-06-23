@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edición de Perfiles de Usuario</title>
+    <title>Edición de Usuario</title>
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
@@ -16,20 +16,20 @@
 <body>
 
     <div class="container">
-        <h1>Gestión de Perfiles de Usuario</h1>
+        <h1>Gestión de Usuario</h1>
 
         <div class="filter-section">
             <div class="filter-group">
                 <label for="filterUserName">Buscar por Nombre de Usuario:</label>
-                <input type="text" id="filterUserName" placeholder="Ej: Juan Pérez">
+                <input type="text" id="filterUserName">
             </div>
             <div class="filter-group">
                 <label for="filterCedula">Buscar por Cédula:</label>
-                <input type="text" id="filterCedula" placeholder="Ej: V-12345678">
+                <input type="text" id="filterCedula" placeholder="Ej: V12345678">
             </div>
             <div class="filter-group">
                 <label for="filterOrganoEnte">Buscar por RIF o Nombre de Órgano/Ente:</label>
-                <input type="text" id="filterOrganoEnte" placeholder="Ej: J-000000000 o Nombre de la Empresa">
+                <input type="text" id="filterOrganoEnte" placeholder="Ej: J000000000 o Nombre del Organo/Ente">
             </div>
             <div class="filter-buttons">
                 <button id="applyFiltersBtn" class="btn-apply">Aplicar Filtros</button>
@@ -64,13 +64,13 @@
     <div id="editProfileModal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
-            <h2>Editar Perfil de Usuario</h2>
+            <h2>Editar Usuario</h2>
             <form id="profileEditForm">
                 <input type="hidden" id="editUserId" name="user_id">
 
                 <div class="form-group">
                     <label for="userName">Nombre de Usuario:</label>
-                    <input type="text" id="userName" name="new_nombre">
+                    <input type="text" id="userName" name="new_nombre" readonly>
                 </div>
                 <div class="form-group">
                     <label for="usernombrefun">Nombres (Funcionario):</label>
