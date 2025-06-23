@@ -198,10 +198,10 @@
                                             <select style="width: 100%;" id="fm_ac" name="fm_ac" class="form-control"
                                                 onchange="llenar_20()" data-show-subtext="true" data-live-search="true">
                                                 <option value="0">Seleccione</option>
-                                                <option value="2">Aceptada Solicitud</option>
-                                                <option value="6">Aprobado/Proxima Corte</option>
+                                                <option value="2">Aceptada Solicitud/ En espera de pago</option>
                                                 <option value="3">No Califica</option>
-                                                <option value="5">Aprobado/Exonerado de pago</option>
+                                                <option value="5">Aceptada Solicitud/ Exonerado</option>
+                                                <option value="6">Aprobado/Proxima Corte</option>
 
 
 
