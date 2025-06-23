@@ -23,23 +23,23 @@
                         </thead>
                         <tbody>
                             <?php foreach ($participantes as $data): ?>
-                            <tr class="odd gradeX" style="text-align:center">
-                                <td><?= $data['name_d'] ?> </td>
-                                <td><?= $data['cedula'] ?> </td>
+                                <tr class="odd gradeX" style="text-align:center">
+                                    <td><?= $data['name_d'] ?> </td>
+                                    <td><?= $data['cedula'] ?> </td>
 
-                                <td><?= $data['nombres'] ?> <?= $data['apellidos'] ?></td>
-                                <td><?= $data['des_estatus'] ?> </td>
+                                    <td><?= $data['nombres'] ?> <?= $data['apellidos'] ?></td>
+                                    <td><?= $data['des_estatus'] ?> </td>
 
-                                <td>
+                                    <td>
 
-                                    <a href="<?php echo base_url(); ?>index.php/Preinscripcionnatural/pdfrt?id=<?php echo $data['codigo_planilla']; ?>"
-                                        class="button">
-                                        <i class="fas   fa-2x  fa-cloud-download-alt" title="Certificado"
-                                            style="color: blue;"></i>
-                                        <a />
-                                </td>
+                                        <a href="<?php echo base_url(); ?>index.php/Preinscripcionnatural/pdfrt?id=<?php echo $data['codigo_planilla']; ?>"
+                                            class="button">
+                                            <i class="fas   fa-2x  fa-cloud-download-alt" title="Certificado"
+                                                style="color: blue;"></i>
+                                            <a />
+                                    </td>
 
-                            </tr>
+                                </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -60,23 +60,23 @@
                         </thead>
                         <tbody>
                             <?php foreach ($participantes_js as $data): ?>
-                            <tr class="odd gradeX" style="text-align:center">
-                                <td><?= $data['name_d'] ?> </td>
-                                <td><?= $data['cedula'] ?> </td>
+                                <tr class="odd gradeX" style="text-align:center">
+                                    <td><?= $data['name_d'] ?> </td>
+                                    <td><?= $data['cedula'] ?> </td>
 
-                                <td><?= $data['nombres'] ?> <?= $data['apellidos'] ?></td>
-                                <td><?= $data['des_estatus'] ?> </td>
+                                    <td><?= $data['nombres'] ?> <?= $data['apellidos'] ?></td>
+                                    <td><?= $data['des_estatus'] ?> </td>
 
-                                <td>
+                                    <td>
 
-                                    <a href="<?php echo base_url(); ?>index.php/Prei_juridico/pdfrt?id=<?php echo $data['codigo_planilla']; ?>"
-                                        class="button">
-                                        <i class="fas   fa-2x  fa-cloud-download-alt" title="Certificado"
-                                            style="color: blue;"></i>
-                                        <a />
-                                </td>
+                                        <a href="<?php echo base_url(); ?>index.php/Prei_juridico/pdfrt?id=<?php echo $data['codigo_planilla']; ?>"
+                                            class="button">
+                                            <i class="fas   fa-2x  fa-cloud-download-alt" title="Certificado"
+                                                style="color: blue;"></i>
+                                            <a />
+                                    </td>
 
-                            </tr>
+                                </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -111,8 +111,8 @@
                                         <select style="width: 100%;" id="fm_ac" name="fm_ac" class="form-control"
                                             data-show-subtext="true" data-live-search="true">
                                             <option value="0">Seleccione</option>
-                                            <option value="4">Aceptada Solicitud/ En espera de pago</option>
-                                            <option value="2">No Califica</option>
+                                            <option value="2">Aceptada Solicitud/ En espera de pago</option>
+                                            <option value="3">No Califica</option>
                                             <option value="5">Aceptada Solicitud/ Exonerado</option>
                                             <option value="6">Aprobado/Proxima Corte</option>
 
@@ -219,10 +219,10 @@
 
 
     <script>
-    function cargarIdInscripcion(id) {
-        // Asigna el ID al input del modal
-        document.getElementById('id_inscripcion').value = id;
-    }
+        function cargarIdInscripcion(id) {
+            // Asigna el ID al input del modal
+            document.getElementById('id_inscripcion').value = id;
+        }
     </script>
 
     <script src="<?= base_url() ?>/js/diplomado/diplomado.js"></script>
