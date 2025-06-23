@@ -1052,7 +1052,7 @@
 
                             <li>
                                 <a href="<?= base_url() ?>index.php/Profile_controller/profile_editor">
-                                    <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Permisos Usuarios SNC
+                                    <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Gestion de Usuarios SNC
                                 </a>
                             </li>
                         <?php endif; ?>
