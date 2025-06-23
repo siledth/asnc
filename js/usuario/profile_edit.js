@@ -21,15 +21,15 @@ $(document).ready(function() {
         'reg_llamado', 'anul_llamado', 'ver_anul_llamado', 'ver_rnc',
         'ver_conf', 'ver_parametro', 'ver_conf_publ', 'ver_user',
         'ver_user_exter', 'ver_user_desb', 'ver_user_lista', 'ver_user_perfil',
-        'menu_anulacion', 'menu_repor_evalu',  'menu_certi',
-        'certificacion', 'certi_externo','pdvsa', 'accion_llamado', 'menu_comisiones',
+        'menu_anulacion', 'menu_repor_evalu',  'pdvsa', 'accion_llamado', 'menu_comisiones',
         'comisiones_interna_mieb', 'comisiones_interna_certifi',
         'notif_comisi_externa_mib', 'certi_miemb_externo',
         'consulta_snc_certi_mb', 'consultas_exter_miembros',
         'consultas_exter_mb_certificado', 'registrar_prog_anual',
         'modi_prog_anual_ley', 'reg_rend_anual', 'consul_prog_anual',
         'consul_mod_ley_anual', 'consultar_rendi_anual', 'invest_contratista',
-        'ver_avanzado', 'avanz_rnce', 'avanz_rnc', 'avanz_gne', 'resultados_avza'
+        'ver_avanzado', 'avanz_rnce', 'avanz_rnc', 'avanz_gne', 'resultados_avza',
+        'menu_certi', 'certificacion', 'certi_externo',
     ];
 
     // --- Funciones del Modal (expuestas globalmente) ---
@@ -42,9 +42,14 @@ $(document).ready(function() {
     function formatPermissionName(fieldName) {
          
         if (fieldName === 'certi_externo') {
-            return 'Certificación Facilitadores CCP';  
+            return 'Certificación Facilitadores Externo CCP';  
         }
-        
+         if (fieldName === 'certificacion') {
+            return 'Diplomado CCP';  
+        }
+         if (fieldName === 'menu_certi') {
+            return 'Menú Certificación Facilitadores CCP';  
+        }
         if (fieldName === 'consultas_certificado_exter_mb') {
             return 'Consultas Miembros Externos Certificados'; 
         }
