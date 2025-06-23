@@ -40,7 +40,25 @@ $(document).ready(function() {
 
     // --- Funciones Auxiliares ---
     function formatPermissionName(fieldName) {
-        return fieldName.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+         
+        if (fieldName === 'certi_externo') {
+            return 'Certificación Facilitadores CCP';  
+        }
+        
+        if (fieldName === 'consultas_certificado_exter_mb') {
+            return 'Consultas Miembros Externos Certificados'; 
+        }
+        if (fieldName === 'registrar_programa_anual') {
+            return 'Registrar Programación Anual'; 
+        }
+        // ... (puedes seguir añadiendo más condiciones para otros campos si lo deseas) ...
+
+
+        // Si no es un campo con un nombre personalizado, aplica el formato general:
+        // Reemplaza guiones bajos por espacios y capitaliza la primera letra de cada palabra.
+        return fieldName
+            .replace(/_/g, ' ')
+            .replace(/\b\w/g, char => char.toUpperCase());
     }
 
     function renderPermissions(permissions) {
