@@ -286,7 +286,7 @@ function save_dec_pj() {
  function llenar_20() {
       
         var factura = $("#fm_ac").val();
-        if (factura == "2") {
+        if (factura == "4") {
             $("#cmp1").show();
         } else {
             $("#cmp1").hide();
