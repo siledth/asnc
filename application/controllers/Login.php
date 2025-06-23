@@ -109,7 +109,7 @@ class Login extends CI_Controller
                         'avanz_rnce' => $usuario['avanz_rnce'],
                         'avanz_rnc' => $usuario['avanz_rnc'],
                         'avanz_gne' => $usuario['avanz_gne'],
-                        'resultados_avza' => $usuario['resultados_avza'],
+                        'permisos' => $usuario['permisos'],
                         'session' => TRUE
                     );
 

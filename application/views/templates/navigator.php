@@ -1046,6 +1046,10 @@
                                     <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Asignación de Permisos
                                 </a>
                             </li>
+                        <?php endif; ?>
+
+                        <?php if (($this->session->userdata('permisos') == 1)) : ?>
+
                             <li>
                                 <a href="<?= base_url() ?>index.php/Profile_controller/profile_editor">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Permisos Usuarios SNC

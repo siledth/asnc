@@ -1,13 +1,18 @@
- 
-// Este código se ejecutará una vez que el DOM (Document Object Model) esté completamente cargado.
-// Es una buena práctica envolver tu código jQuery en $(document).ready()
-// para asegurar que todos los elementos HTML estén disponibles antes de que tu script intente interactuar con ellos.
+// assets/js/profile_edit.js
+
 $(document).ready(function() {
 
-    // Array de nombres de campos de permisos de la tabla seguridad.perfil.
-    // ¡IMPORTANTE!: Esta lista debe coincidir EXACTAMENTE con los nombres de tus columnas de permisos
-    // en la tabla 'seguridad.perfil' que contienen valores 0 o 1.
-    // Excluye columnas como 'id_perfil', 'nombrep', 'fecha_creacion' o cualquier otra que no sea un permiso 0/1.
+    // --- Variables de Estado de Paginación y Filtros ---
+    let currentOffset = 0;
+    const usersPerPage = typeof window.usersPerPage !== 'undefined' ? window.usersPerPage : 10;
+    let totalUsersCount = typeof window.totalUsersCount !== 'undefined' ? window.totalUsersCount : 0;
+    
+    let isLoading = false;
+
+    let currentFilterUserName = '';
+    let currentFilterCedula = ''; 
+    let currentFilterOrganoEnte = '';
+
     const PERMISSION_FIELDS = [
         'menu_rnce', 'menu_progr', 'menu_eval_desem', 'menu_reg_eval_desem',
         'menu_soli_anular_eval_desem', 'menu_proc_anular_eval_desem',
@@ -27,51 +32,23 @@ $(document).ready(function() {
         'ver_avanzado', 'avanz_rnce', 'avanz_rnc', 'avanz_gne', 'resultados_avza'
     ];
 
-    // --- Funciones del Modal (expuestas globalmente para que el HTML pueda llamarlas) ---
-
-    // Abre el modal haciendo visible el elemento con id 'editProfileModal'.
-    window.openModal = function() {
-        document.getElementById('editProfileModal').style.display = 'block';
-    }
-
-    // Cierra el modal ocultando el elemento con id 'editProfileModal'.
-    window.closeModal = function() {
-        document.getElementById('editProfileModal').style.display = 'none';
-    }
-
-    // Asocia la función closeModal al clic en el botón de cerrar (la 'x') del modal.
+    // --- Funciones del Modal (expuestas globalmente) ---
+    window.openModal = function() { document.getElementById('editProfileModal').style.display = 'block'; }
+    window.closeModal = function() { document.getElementById('editProfileModal').style.display = 'none'; }
     document.querySelector('.close-button').addEventListener('click', closeModal);
-
-    // Cierra el modal si el usuario hace clic fuera del área del contenido del modal.
-    // Esto mejora la usabilidad del modal.
-    window.onclick = function(event) {
-        if (event.target == document.getElementById('editProfileModal')) {
-            closeModal();
-        }
-    };
+    window.onclick = function(event) { if (event.target == document.getElementById('editProfileModal')) { closeModal(); } };
 
     // --- Funciones Auxiliares ---
-
-    // Formatea un nombre de campo de base de datos (ej. 'menu_rnce') a un formato legible (ej. 'Menú Rnce').
     function formatPermissionName(fieldName) {
-        return fieldName
-            .replace(/_/g, ' ') // Reemplaza guiones bajos por espacios.
-            .replace(/\b\w/g, char => char.toUpperCase()); // Capitaliza la primera letra de cada palabra.
+        return fieldName.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
     }
 
-    // Renderiza la cuadrícula de permisos en el modal con los checkboxes/switches.
     function renderPermissions(permissions) {
         const permissionsGrid = $('#permissionsGrid');
-        permissionsGrid.empty(); // Limpia cualquier permiso que se haya mostrado previamente.
-
-        // Itera sobre la lista predefinida de campos de permisos.
+        permissionsGrid.empty();
         PERMISSION_FIELDS.forEach(field => {
-            // Determina si el checkbox debe estar marcado. Un valor de 1 en la BD significa 'true'.
             const isChecked = permissions[field] == 1; 
-            // Obtiene el nombre formateado para mostrar al usuario.
             const formattedName = formatPermissionName(field);
-
-            // Construye el HTML para cada permiso, incluyendo un label, un switch (checkbox oculto + slider visual).
             const permissionHtml = `
                 <div class="permission-item">
                     <label for="${field}">${formattedName}:</label>
@@ -81,167 +58,381 @@ $(document).ready(function() {
                     </label>
                 </div>
             `;
-            permissionsGrid.append(permissionHtml); // Añade el HTML al contenedor de permisos.
+            permissionsGrid.append(permissionHtml);
         });
     }
 
-    // --- Eventos ---
+    // --- Funciones de Paginación y Filtrado ---
 
-    // Evento click para los botones "Editar Perfil" en la tabla de usuarios.
-    // Se usa delegación de eventos en 'body' para que funcione incluso si los botones son añadidos dinámicamente
-    // o si el DOM cambia después de la carga inicial.
-    $('body').on('click', '.edit-profile-btn', function() {
-        const userId = $(this).data('user-id'); // Obtiene el ID del usuario del atributo 'data-user-id' del botón.
-        $('#editUserId').val(userId); // Establece este ID en un campo oculto dentro del formulario del modal.
-            //   var base_url = window.location.origin + '/asnc/index.php/Profile_controller/get_user_data_for_edit';
-					var base_url = '/index.php/Profile_controller/get_user_data_for_edit';
+    function updateLoadMoreButtonState() {
+        if (currentOffset >= totalUsersCount) {
+            $('#loadMoreUsersBtn').prop('disabled', true).text('No hay más usuarios');
+        } else {
+            $('#loadMoreUsersBtn').prop('disabled', false).text('Cargar Más Usuarios');
+        }
+    }
+
+    // Modificada para mostrar la cédula y añadir el toggle de estado
+    function addUsersToTable(users) {
+        const tableBody = $('#userTableBody');
+        if (users.length === 0 && currentOffset === 0) {
+            tableBody.html('<tr><td colspan="7" style="text-align: center;">No hay usuarios registrados que coincidan con los criterios.</td></tr>');
+        } else {
+            if (tableBody.find('td[colspan="7"]').text() === 'Cargando usuarios...') {
+                tableBody.empty();
+            }
+            users.forEach(user => {
+                // Lógica de visualización de cédula:
+                let fullCedula = 'N/A';
+                if (user.cedula_funcionario) { 
+                    if (user.tipo_cedula) { 
+                        fullCedula = `${user.tipo_cedula}-${user.cedula_funcionario}`;
+                    } else { 
+                        fullCedula = user.cedula_funcionario;
+                    }
+                }
+
+                // Determina si el usuario está activo (id_estatus = 1). Tu modelo ya debería traer este campo.
+                const isActive = (user.id_estatus == 1);
+                // Añade la clase 'slider-danger' si está inactivo para que el CSS lo pinte de rojo.
+                const sliderClass = isActive ? '' : 'slider-danger';
+
+                const row = `
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>${user.nombre}</td>
+                        <td>${fullCedula}</td> 
+                        <td>${user.perfil_nombre}</td>
+                        <td>${user.organoente_descripcion ? user.organoente_descripcion : 'N/A'}</td>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" class="status-toggle" 
+                                    data-user-id="${user.id}" 
+                                    ${isActive ? 'checked' : ''}>
+                                <span class="slider ${sliderClass}"></span>
+                            </label>
+                        </td>
+                        <td>
+                            <button class="edit-profile-btn" data-user-id="${user.id}">Editar Perfil</button>
+                        </td>
+                    </tr>
+                `;
+                tableBody.append(row);
+            });
+        }
+    }
+
+    function loadUsers(append = true) {
+        if (isLoading) return;
+        isLoading = true;
+        
+        $('#loadMoreUsersBtn').prop('disabled', true).text('Cargando...');
+        if (!append) {
+            $('#userTableBody').html('<tr><td colspan="7" style="text-align: center;">Cargando usuarios...</td></tr>');
+        }
+
+        const dataToSend = {
+            offset: currentOffset,
+            nombre_usuario: currentFilterUserName,
+            cedula: currentFilterCedula,
+            organo_ente: currentFilterOrganoEnte
+        };
+
+        // const getFilteredUsersUrl = window.location.origin + '/asnc/index.php/Profile_controller/get_filtered_users';
+                var getFilteredUsersUrl = '/index.php/Profile_controller/get_filtered_users';
 
 
-        // Realiza una petición AJAX al controlador para obtener los datos del usuario y la lista de todos los perfiles.
         $.ajax({
-            // 'site_url()' es una función PHP, que se inserta aquí directamente para generar la URL correcta.
-            url: base_url,
-            method: 'POST', // Método HTTP POST para enviar el ID del usuario.
-            data: { user_id: userId }, // Datos a enviar: el ID del usuario.
-            dataType: 'json', // Espera que la respuesta del servidor sea en formato JSON.
+            url: getFilteredUsersUrl,
+            method: 'POST',
+            data: dataToSend,
+            dataType: 'json',
             success: function(response) {
-                // Esta función se ejecuta si la petición AJAX se completó con éxito (el servidor respondió).
+                if (response.success) {
+                    if (!append) {
+                        $('#userTableBody').empty();
+                    }
+                    addUsersToTable(response.users);
+                    currentOffset += response.count;
+                    totalUsersCount = response.total_filtered;
+                    updateLoadMoreButtonState();
+                } else {
+                    Swal.fire('Error', response.message, 'error');
+                    $('#loadMoreUsersBtn').prop('disabled', false).text('Error al cargar');
+                    if ($('#userTableBody').is(':empty')) {
+                        $('#userTableBody').html('<tr><td colspan="7" style="text-align: center;">Error al cargar usuarios. Intente recargar la página.</td></tr>');
+                    }
+                }
+            },
+            error: function(xhr, status, error) {
+                Swal.fire('Error de Conexión', 'No se pudieron cargar los usuarios. Por favor, intente de nuevo.', 'error');
+                console.error("AJAX error: ", status, error, xhr.responseText);
+                $('#loadMoreUsersBtn').prop('disabled', false).text('Reintentar Cargar');
+                if ($('#userTableBody').is(':empty')) {
+                    $('#userTableBody').html('<tr><td colspan="7" style="text-align: center;">Error de conexión. No se pudieron cargar usuarios.</td></tr>');
+                }
+            },
+            complete: function() {
+                isLoading = false;
+            }
+        });
+    }
+
+    // --- Event Listeners para la Interfaz Principal ---
+
+    $('#loadMoreUsersBtn').on('click', function() {
+        loadUsers(true);
+    });
+
+    $('#applyFiltersBtn').on('click', function() {
+        currentFilterUserName = $('#filterUserName').val().trim();
+        currentFilterCedula = $('#filterCedula').val().trim();
+        currentFilterOrganoEnte = $('#filterOrganoEnte').val().trim();
+        currentOffset = 0;
+        loadUsers(false);
+    });
+
+    $('#clearFiltersBtn').on('click', function() {
+        $('#filterUserName').val('');
+        $('#filterCedula').val('');
+        $('#filterOrganoEnte').val('');
+        currentFilterUserName = '';
+        currentFilterCedula = '';
+        currentFilterOrganoEnte = '';
+        currentOffset = 0;
+        loadUsers(false);
+    });
+
+    // --- NUEVO Evento para el Toggle de Estado ---
+    // Usamos delegación de eventos en 'body' porque los toggles se añaden dinámicamente.
+    $('body').on('change', '.status-toggle', function() {
+        const userId = $(this).data('user-id'); // Obtiene el ID del usuario del atributo data-user-id.
+        const isChecked = $(this).is(':checked'); // true si el switch está "prendido" (activo), false si está "apagado" (inactivo).
+        const newStatusVal = isChecked ? 1 : 4; // Determina el nuevo valor de id_estatus (1 para activo, 4 para inactivo).
+
+        const statusText = isChecked ? 'activar' : 'Inhabilitar'; // Texto para el mensaje de SweetAlert.
+        const confirmText = `¿Está seguro de ${statusText} al usuario ID ${userId}?`;
+        const successMessage = isChecked ? 'Usuario activado correctamente.' : 'Usuario Inhabilitar correctamente.';
+        const errorMessage = `Error al ${statusText} el usuario.`;
+
+        // Guarda una referencia al 'this' (el checkbox) para usarlo dentro de las callbacks de SweetAlert y AJAX.
+        const $thisToggle = $(this); 
+        const $sliderSpan = $thisToggle.next('.slider'); // Referencia al slider visual para cambiar su color.
+
+        Swal.fire({
+            title: 'Confirmar Acción',
+            text: confirmText,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, continuar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.value) { // Si el usuario confirma la acción.
+                // const updateStatusUrl = window.location.origin + '/asnc/index.php/Profile_controller/update_user_status_ajax';
+                var updateStatusUrl = '/index.php/Profile_controller/update_user_status_ajax';
+
+                $.ajax({
+                    url: updateStatusUrl,
+                    method: 'POST',
+                    data: {
+                        user_id: userId,
+                        new_status_val: newStatusVal
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire('Éxito', successMessage, 'success');
+                            // Actualizar visualmente el color del slider:
+                            if (newStatusVal == 1) { // Si se activó
+                                $sliderSpan.removeClass('slider-danger'); // Quita la clase roja.
+                            } else { // Si se desactivó
+                                $sliderSpan.addClass('slider-danger'); // Añade la clase roja.
+                            }
+                            // Opcional: Podrías recargar la tabla aquí para asegurar consistencia, pero afectaría el UX.
+                            // currentOffset = 0;
+                            // loadUsers(false); 
+                        } else {
+                            Swal.fire('Error', errorMessage + ' ' + response.message, 'error');
+                            // Revertir el estado del toggle en la UI si la actualización falló en el servidor.
+                            $thisToggle.prop('checked', !isChecked);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire('Error de Conexión', 'No se pudo contactar al servidor para actualizar el estado.', 'error');
+                        console.error("AJAX error: ", status, error, xhr.responseText);
+                        // Revertir el estado del toggle en la UI si hubo un error de conexión.
+                        $thisToggle.prop('checked', !isChecked);
+                    }
+                });
+            } else {
+                // Si el usuario cancela la confirmación, revertir el estado del toggle en la UI.
+                $thisToggle.prop('checked', !isChecked);
+            }
+        });
+    });
+
+    // --- Eventos para el Modal de Edición (Rellenado de campos) ---
+
+    $('body').on('click', '.edit-profile-btn', function() {
+        const userId = $(this).data('user-id');
+        $('#editUserId').val(userId);
+
+        // const getUserDataUrl = window.location.origin + '/asnc/index.php/Profile_controller/get_user_data_for_edit';
+                var getUserDataUrl = '/index.php/Profile_controller/get_user_data_for_edit';
+
+
+        $.ajax({
+            url: getUserDataUrl,
+            method: 'POST',
+            data: { user_id: userId },
+            dataType: 'json',
+            success: function(response) {
                 if (response.success) {
                     const user = response.user;
                     const allProfiles = response.all_profiles;
                     const currentProfilePermissions = response.current_profile_permissions;
 
-                    // Rellena los campos del modal con los detalles del usuario (nombre y email).
+                    // Campos de seguridad.usuarios
                     $('#userName').val(user.nombre);
                     $('#userEmail').val(user.email);
 
-                    // Rellena el dropdown de selección de perfiles con todas las opciones disponibles.
+                    // Campos de seguridad.funcionarios (Asegúrate de que 'nombrefun' esté bien!)
+                    $('#usernombrefun').val(user.nombrefun || ''); // Este es el campo que te preocupaba
+                    $('#userApellido').val(user.apellido || '');
+                    $('#userCedulaTipo').val(user.tipo_cedula || 'V'); 
+                    $('#userCedulaNum').val(user.cedula || ''); // Usar cedula_funcionario del modelo
+                    $('#userCargo').val(user.cargo || '');
+                    $('#userOficina').val(user.oficina || '');
+                    $('#userTele1').val(user.tele_1 || '');
+
                     const profileSelect = $('#profileSelect');
-                    profileSelect.empty(); // Limpia cualquier opción que pudiera haber de una edición anterior.
+                    profileSelect.empty();
                     allProfiles.forEach(profile => {
-                        // Determina si esta opción de perfil es la que el usuario tiene actualmente asignada.
                         const selected = (profile.id_perfil == user.perfil) ? 'selected' : '';
-                        // Añade la opción al dropdown.
                         profileSelect.append(`<option value="${profile.id_perfil}" ${selected}>${profile.nombrep}</option>`);
                     });
 
-                    // Renderiza los permisos específicos del perfil actualmente asignado al usuario.
                     renderPermissions(currentProfilePermissions);
-
-                    openModal(); // Una vez que todos los datos están cargados, abre el modal.
+                    openModal();
                 } else {
-                    // Si la respuesta del servidor indica un fallo (ej. usuario no encontrado), muestra una alerta.
                     Swal.fire('Error', response.message, 'error');
                 }
             },
             error: function(xhr, status, error) {
-                // Esta función se ejecuta si la petición AJAX falló (ej. problema de red, error en el servidor).
-                Swal.fire('Error de Conexión', 'No se pudo cargar la información del usuario. Por favor, intente de nuevo.', 'error');
-                console.error("AJAX error: ", status, error, xhr.responseText); // Imprime el error en la consola del navegador para depuración.
+                Swal.fire('Error de Conexión', 'No se pudo cargar la información del usuario.', 'error');
+                console.error("AJAX error: ", status, error, xhr.responseText);
             }
         });
     });
 
-    // Evento 'change' para el dropdown de perfil en el modal.
-    // Se activa cada vez que el usuario selecciona una opción diferente en el dropdown de perfiles.
+    // Evento 'change' para el dropdown de perfil en el modal (sin cambios)
     $('#profileSelect').on('change', function() {
-        const selectedProfileId = $(this).val(); // Obtiene el ID del perfil que acaba de ser seleccionado.
+        const selectedProfileId = $(this).val();
         if (selectedProfileId) {
-            // Realiza una petición AJAX para obtener solo los permisos del perfil recién seleccionado.
-            //   var base_url = window.location.origin + '/asnc/index.php/Profile_controller/get_permissions_for_profile';
-					var base_url = '/index.php/Profile_controller/get_permissions_for_profile';
+            // const getPermissionsUrl = window.location.origin + '/asnc/index.php/Profile_controller/get_permissions_for_profile';
+                var getPermissionsUrl = '/index.php/Profile_controller/get_permissions_for_profile';
 
             
             $.ajax({
-                url: base_url,
+                url: getPermissionsUrl,
                 method: 'POST',
                 data: { profile_id: selectedProfileId },
                 dataType: 'json',
                 success: function(response) {
                     if (response.success) {
-                        // Si la petición es exitosa, vuelve a renderizar los permisos con los del nuevo perfil.
                         renderPermissions(response.permissions);
                     } else {
-                        // Si hay un error al cargar los permisos, muestra una alerta.
                         Swal.fire('Error', 'No se pudieron cargar los permisos del perfil seleccionado.', 'error');
-                        $('#permissionsGrid').empty(); // Limpia la cuadrícula de permisos si hay un error.
+                        $('#permissionsGrid').empty();
                     }
                 },
                 error: function(xhr, status, error) {
-                    Swal.fire('Error de Conexión', 'No se pudo cargar los permisos del perfil. Por favor, intente de nuevo.', 'error');
+                    Swal.fire('Error de Conexión', 'No se pudo cargar los permisos del perfil.', 'error');
                     console.error("AJAX error: ", status, error, xhr.responseText);
                 }
             });
         } else {
-            $('#permissionsGrid').empty(); // Si el dropdown se vacía o no hay selección, limpia la cuadrícula.
+            $('#permissionsGrid').empty();
         }
     });
 
     // Evento 'submit' del formulario de edición de perfil dentro del modal.
-    // Se activa cuando el usuario hace clic en el botón "Guardar Cambios".
     $('#profileEditForm').on('submit', function(e) {
-        e.preventDefault(); // Previene el comportamiento por defecto del formulario (recargar la página).
+        e.preventDefault();
 
-        const userId = $('#editUserId').val(); // Obtiene el ID del usuario que se está editando.
-        const newProfileId = $('#profileSelect').val(); // Obtiene el ID del nuevo perfil seleccionado para el usuario.
+        const userId = $('#editUserId').val();
+        const newProfileId = $('#profileSelect').val();
         
-        // Recopila el estado (0 o 1) de todos los switches de permisos.
-        // Itera sobre todos los checkboxes de permisos dentro de la cuadrícula.
         const permissionsData = {};
         $('#permissionsGrid input[type="checkbox"]').each(function() {
-            // Extrae el nombre del campo de permiso del atributo 'name' (ej. 'permissions[menu_rnce]' -> 'menu_rnce').
             const nameAttr = $(this).attr('name');
             const fieldName = nameAttr.substring(nameAttr.indexOf('[') + 1, nameAttr.indexOf(']'));
-            // Asigna 1 si el checkbox está marcado (activado), 0 si no lo está.
             permissionsData[fieldName] = $(this).is(':checked') ? 1 : 0;
         });
 
-        // Muestra una confirmación final al usuario antes de enviar los datos para guardar.
+        // Recolectar los nuevos datos editables del usuario
+        const newUserData = {
+            new_nombre: $('#userName').val().trim(),
+            new_nombrefun: $('#usernombrefun').val().trim(), // ¡Este campo está aquí!
+            new_apellido: $('#userApellido').val().trim(),
+            new_cedula_tipo: $('#userCedulaTipo').val(),
+            new_cedula_num: $('#userCedulaNum').val().trim(),
+            new_email: $('#userEmail').val().trim(),
+            new_cargo: $('#userCargo').val().trim(),
+            new_oficina: $('#userOficina').val().trim(),
+            new_tele_1: $('#userTele1').val().trim()
+        };
+
         Swal.fire({
             title: '¿Confirmar cambios?',
-            text: '¿Está seguro de guardar las modificaciones en el perfil del usuario y los permisos asociados a este perfil?',
-            icon: 'question', // Icono de pregunta.
-            showCancelButton: true, // Muestra el botón de cancelar.
-            confirmButtonColor: '#3085d6', // Color del botón de confirmar.
-            cancelButtonColor: '#d33', // Color del botón de cancelar.
-            confirmButtonText: 'Sí, guardar', // Texto del botón de confirmar.
-            cancelButtonText: 'No, cancelar' // Texto del botón de cancelar.
+            text: '¿Está seguro de guardar las modificaciones en el usuario, su perfil y permisos?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, guardar',
+            cancelButtonText: 'No, cancelar'
         }).then((result) => {
-            if (result.value) { // Si el usuario confirma la acción.
-                // Realiza la petición AJAX al controlador para actualizar el usuario y los permisos del perfil.
-            //  var base_url = window.location.origin + '/asnc/index.php/Profile_controller/update_user_and_profile';
-					var base_url = '/index.php/Profile_controller/update_user_and_profile';
+            if (result.value) {
+                // const updateProfileUrl = window.location.origin + '/asnc/index.php/Profile_controller/update_user_and_profile';
+                var updateProfileUrl = '/index.php/Profile_controller/update_user_and_profile';
 
+
+                const dataToSend = {
+                    user_id: userId,
+                    new_profile_id: newProfileId,
+                    permissions: permissionsData,
+                    ...newUserData // Añadir todos los campos de usuario/funcionario aquí
+                };
 
                 $.ajax({
-                    url: base_url, // URL del controlador para la actualización.
-                    method: 'POST', // Método HTTP POST.
-                    data: {
-                        user_id: userId,
-                        new_profile_id: newProfileId,
-                        permissions: permissionsData // Envía los permisos como un objeto. PHP lo recibirá como un array asociativo.
-                    },
-                    dataType: 'json', // Espera una respuesta JSON.
+                    url: updateProfileUrl,
+                    method: 'POST',
+                    data: dataToSend,
+                    dataType: 'json',
                     success: function(response) {
-                        // Se ejecuta si la petición AJAX se completó con éxito (el servidor respondió).
                         if (response.success) {
-                            // Muestra un mensaje de éxito y luego cierra el modal y recarga la página.
                             Swal.fire('Éxito', response.message, 'success').then(() => {
                                 closeModal();
-                                location.reload(); // Recarga la página para que los cambios se reflejen en la tabla.
+                                currentOffset = 0;
+                                loadUsers(false); // Recarga la tabla para mostrar los cambios
                             });
                         } else {
-                            // Muestra un mensaje de error si la actualización no fue exitosa.
                             Swal.fire('Error', response.message, 'error');
                         }
                     },
                     error: function(xhr, status, error) {
-                        // Se ejecuta si la petición AJAX falló (ej. problema de red, servidor no responde).
                         Swal.fire('Error de Conexión', 'No se pudieron guardar los cambios. Por favor, intente de nuevo.', 'error');
-                        console.error("AJAX error: ", status, error, xhr.responseText); // Imprime el error en la consola para depuración.
+                        console.error("AJAX error: ", status, error, xhr.responseText);
                     }
                 });
             }
         });
     });
+
+    // --- Inicialización: Carga los usuarios iniciales al cargar la página ---
+    loadUsers(false); 
+
 });

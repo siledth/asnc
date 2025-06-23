@@ -1350,12 +1350,14 @@ class User_model extends CI_Model
 
     public function get_all_users_with_profile_names()
     {
-        $this->db->select('u.id, u.nombre, u.email, p.nombrep as perfil_nombre, u.perfil as perfil_id, u.rif_organoente, u.id_estatus');
+        $this->db->select('u.id, u.nombre, u.email, p.nombrep as perfil_nombre, u.perfil as perfil_id, u.rif_organoente, u.id_estatus, o.descripcion ');
         $this->db->from('seguridad.usuarios u');
         // Join with the 'perfil' table to get the profile name (nombrep) instead of just the ID
         $this->db->join('seguridad.perfil p', 'u.perfil = p.id_perfil', 'left');
-        $this->db->where('u.rif_organoente', 'G200024518');
-        $this->db->where('u.id_estatus', 1);
+        $this->db->join('public.organoente o', 'o.rif = u.rif_organoente', 'left');
+
+        //$this->db->where('u.rif_organoente', 'G200024518');
+        //$this->db->where('u.id_estatus', 1);
 
 
         $query = $this->db->get();
@@ -1363,11 +1365,14 @@ class User_model extends CI_Model
     }
     public function get_user_details($user_id)
     {
-        $this->db->select('id, nombre, email, perfil');
-        $this->db->from('seguridad.usuarios');
-        $this->db->where('id', $user_id);
+        // Seleccionamos email desde la tabla usuarios y cédula desde funcionarios para el modal.
+        $this->db->select('u.id, u.nombre, u.email, u.perfil');
+        $this->db->select('f.nombrefun, f.apellido, f.tipo_cedula, f.cedula, f.cargo, f.oficina, f.tele_1, f.tele_2'); // Alias para evitar conflicto si 'cedula' existe en 'usuarios'
+        $this->db->from('seguridad.usuarios u');
+        $this->db->join('seguridad.funcionarios f', 'u.id = f.id_usuario', 'left'); // Unir para obtener la cédula
+        $this->db->where('u.id', $user_id);
         $query = $this->db->get();
-        return $query->row_array(); // Returns a single associative array (one row)
+        return $query->row_array();
     }
     public function get_all_profiles_dropdown()
     {
@@ -1395,5 +1400,123 @@ class User_model extends CI_Model
         $this->db->where('id_perfil', $profile_id);
         $this->db->update('seguridad.perfil', $permissions_data);
         return $this->db->affected_rows() > 0;
+    }
+
+    public function get_users_paginated($limit = 10, $offset = 0, $filters = [])
+    {
+        // Seleccionamos las columnas de la tabla usuarios y otras relacionadas.
+        $this->db->select('u.id, u.nombre, u.email, p.nombrep as perfil_nombre, u.perfil as perfil_id, u.rif_organoente, u.id_estatus, o.descripcion as organoente_descripcion, u.fecha');
+        // Seleccionamos los campos de cédula desde la tabla funcionarios.
+        // Usamos f.cedula directamente y f.tipo_cedula.
+        $this->db->select('f.tipo_cedula, f.cedula as cedula_funcionario');
+
+        $this->db->from('seguridad.usuarios u');
+        $this->db->join('seguridad.perfil p', 'u.perfil = p.id_perfil', 'left');
+        $this->db->join('public.organoente o', 'o.rif = u.rif_organoente', 'left');
+        // Realizamos el JOIN con la tabla seguridad.funcionarios usando u.id = f.id_usuario.
+        $this->db->join('seguridad.funcionarios f', 'u.id = f.id_usuario', 'left');
+
+        // Aplicar filtros si existen
+        if (!empty($filters)) {
+            if (isset($filters['nombre_usuario']) && $filters['nombre_usuario'] !== '') {
+                $this->db->like('LOWER(u.nombre)', strtolower($filters['nombre_usuario']));
+            }
+            // Nuevo filtro por cédula (desde la tabla funcionarios).
+            // Buscamos tanto por el número de cédula solo como por la combinación tipo_cedula-cedula.
+            if (isset($filters['cedula']) && $filters['cedula'] !== '') {
+                $search_cedula = strtolower($filters['cedula']);
+                $this->db->group_start(); // Inicia un grupo OR
+                $this->db->like('LOWER(f.cedula)', $search_cedula); // Busca solo por el número
+                $this->db->or_like("LOWER(CONCAT(f.tipo_cedula, '-', f.cedula))", $search_cedula); // Busca por 'V-12345678'
+                $this->db->group_end(); // Cierra el grupo OR
+            }
+            if (isset($filters['organo_ente']) && $filters['organo_ente'] !== '') {
+                $this->db->group_start();
+                $this->db->like('LOWER(u.rif_organoente)', strtolower($filters['organo_ente']));
+                $this->db->or_like('LOWER(o.descripcion)', strtolower($filters['organo_ente']));
+                $this->db->group_end();
+            }
+        }
+
+        // Ordenar por fecha de creación descendente para los últimos creados
+        $this->db->order_by('u.fecha', 'DESC');
+        $this->db->order_by('u.id', 'DESC'); // Añadimos ID como segundo criterio para desempate.
+
+        $this->db->limit($limit, $offset); // Aplica el límite y el offset para la paginación.
+
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    /**
+     * Obtiene el conteo total de usuarios, aplicando los mismos filtros.
+     * @param array $filters Array asociativo de filtros.
+     * @return int El número total de usuarios que coinciden con los filtros.
+     */
+    public function count_all_users($filters = [])
+    {
+        $this->db->from('seguridad.usuarios u');
+        $this->db->join('public.organoente o', 'o.rif = u.rif_organoente', 'left');
+        // Necesario unir también la tabla funcionarios para que el filtro por cédula funcione en el conteo.
+        $this->db->join('seguridad.funcionarios f', 'u.id = f.id_usuario', 'left');
+
+        // Aplicar los mismos filtros que en get_users_paginated
+        if (!empty($filters)) {
+            if (isset($filters['nombre_usuario']) && $filters['nombre_usuario'] !== '') {
+                $this->db->like('LOWER(u.nombre)', strtolower($filters['nombre_usuario']));
+            }
+            if (isset($filters['cedula']) && $filters['cedula'] !== '') { // Nuevo filtro por cédula en el conteo
+                $search_cedula = strtolower($filters['cedula']);
+                $this->db->group_start();
+                $this->db->like('LOWER(f.cedula)', $search_cedula);
+                $this->db->or_like("LOWER(CONCAT(f.tipo_cedula, '-', f.cedula))", $search_cedula);
+                $this->db->group_end();
+            }
+            if (isset($filters['organo_ente']) && $filters['organo_ente'] !== '') {
+                $this->db->group_start();
+                $this->db->like('LOWER(u.rif_organoente)', strtolower($filters['organo_ente']));
+                $this->db->or_like('LOWER(o.descripcion)', strtolower($filters['organo_ente']));
+                $this->db->group_end();
+            }
+        }
+        return $this->db->count_all_results();
+    }
+
+    public function update_user_details($user_id, $user_data, $funcionario_data)
+    {
+        $success_user = true;
+        $success_funcionario = true;
+
+        // Actualizar seguridad.usuarios
+        if (!empty($user_data)) {
+            $this->db->where('id', $user_id);
+            $this->db->update('seguridad.usuarios', $user_data);
+            // affected_rows() puede ser 0 si no hubo cambios, lo cual sigue siendo un "éxito"
+            // Solo es un fallo si hubo un error de BD.
+            $success_user = ($this->db->error()['code'] == 0); // Verifica si no hay error de BD
+        }
+
+        // Actualizar seguridad.funcionarios
+        if (!empty($funcionario_data)) {
+            // Asumimos que id_usuario en funcionarios es único y se relaciona 1:1 con usuarios.id
+            $this->db->where('id_usuario', $user_id);
+            $this->db->update('seguridad.funcionarios', $funcionario_data);
+            $success_funcionario = ($this->db->error()['code'] == 0); // Verifica si no hay error de BD
+        }
+
+        return $success_user && $success_funcionario;
+    }
+    public function update_user_status($user_id, $status_data)
+    {
+        // Añadimos la fecha de actualización automáticamente.
+        // H:i:s para incluir la hora, que es importante para la granularidad.
+        $status_data['fecha_update'] = date('Y-m-d H:i:s');
+
+        $this->db->where('id', $user_id);
+        $this->db->update('seguridad.usuarios', $status_data);
+
+        // affected_rows() puede ser 0 si no hubo cambios, lo cual es un "éxito" si la operación se realizó sin error.
+        // Solo retornamos false si hubo un error de base de datos (código de error diferente de 0).
+        return ($this->db->error()['code'] == 0);
     }
 }
