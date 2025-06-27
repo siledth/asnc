@@ -1,0 +1,275 @@
+/* application/assets/css/user.css */
+
+/* Variables CSS para colores y sombras - Facilita la consistencia */
+:root {
+    --primary-color: #4299e1;
+    /* Azul principal */
+    --primary-hover: #3182ce;
+    --success-color:  #25285A;
+    /* Verde éxito */
+    --success-hover: #38a169;
+    --danger-color: #ef4444;
+    /* Rojo peligro */
+    --warning-color: #f6ad55;
+    /* Naranja advertencia */
+    --text-dark: #1a202c;
+    --text-medium: #4a5568;
+    --text-light: #6b7280;
+    --bg-light: #f0f2f5;
+    /* Fondo claro */
+    --bg-white: #ffffff;
+    --border-color: #E42322;
+    --input-border: #cbd5e0;
+    --shadow-light: 0 4px 10px rgba(0, 0, 0, 0.05);
+    --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.12);
+    --shadow-button: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos generales para el cuerpo de la página */
+ 
+/* Estilo para el contenedor principal del formulario */
+.form-container {
+    background-color: var(--bg-white);
+    /* Fondo blanco */
+    padding: 40px;
+    /* Espaciado interno generoso */
+    border-radius: 12px;
+    /* Esquinas redondeadas */
+    box-shadow: var(--shadow-medium);
+    /* Sombra pronunciada para efecto de elevación */
+    border: 1px solid var(--border-color);
+    /* Borde suave */
+    max-width: 750px;
+    /* Ancho máximo */
+    width: 100%;
+    /* Ocupa el 100% del ancho disponible (hasta max-width) */
+    box-sizing: border-box;
+    /* Incluye padding y border en el width/height */
+}
+
+/* Título del formulario */
+h2 {
+    text-align: center;
+    color: var(--text-dark);
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    /* Tamaño de fuente grande */
+    border-bottom: 2px solid var(--border-color);
+    /* Línea decorativa sutil */
+    padding-bottom: 15px;
+    /* Espaciado bajo la línea */
+    font-weight: 700;
+    /* Más negrita */
+}
+
+/* Indicador de campo obligatorio (el asterisco rojo) */
+b[title="Campo Obligatorio"] {
+    color: var(--danger-color);
+    /* Rojo vibrante */
+    margin-left: 5px;
+    /* Pequeño espacio a la izquierda del asterisco */
+}
+
+/* Agrupación de campos con CSS Grid para un diseño responsivo en columnas */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    /* Columnas flexibles */
+    gap: 25px;
+    /* Espacio entre los grupos de formulario (celdas de la grid) */
+    margin-bottom: 20px;
+    /* Margen inferior para separar secciones */
+}
+
+/* Contenedor para cada grupo de label + input/select/textarea */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    /* Apila label e input verticalmente */
+    margin-bottom: 0;
+    /* Reiniciamos el margin-bottom porque el 'gap' de la grid ya maneja el espaciado */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-dark);
+    /* Texto más oscuro para labels */
+    font-size: 0.95em;
+}
+
+/* Estilos para todos los campos de entrada de texto, email, password, date, textarea y select */
+.form-control {
+    /* Usamos esta clase para todos los inputs/selects/textareas */
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    /* Bordes más redondeados */
+    font-size: 1em;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    /* Transiciones suaves al enfocar */
+    box-sizing: border-box;
+    background-color: var(--bg-white);
+    /* Fondo blanco para inputs */
+}
+
+/* Efecto de enfoque para los campos de entrada */
+.form-control:focus {
+    border-color: var(--primary-color);
+    /* Borde azul al enfocar */
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
+    /* Sombra de enfoque para un efecto "glow" */
+    outline: none;
+    /* Eliminar el contorno por defecto del navegador */
+}
+
+/* Estilo específico para el grupo de cédula (select + input numérico) */
+.cedula-group {
+    display: flex;
+    gap: 5px;
+}
+
+.cedula-group select.form-control {
+    /* Aseguramos que select en este grupo use el estilo base */
+    width: 80px;
+    /* Ancho fijo para el tipo de cédula (V, E, P) */
+    flex-shrink: 0;
+    /* Evita que este select se encoja */
+}
+
+.cedula-group input.form-control {
+    /* Aseguramos que input en este grupo use el estilo base */
+    flex-grow: 1;
+    /* El input numérico ocupa el espacio restante disponible */
+}
+
+/* Estilo para el área de texto (Observaciones) */
+textarea.form-control {
+    resize: vertical;
+    /* Solo permite que el usuario redimensione verticalmente */
+    min-height: 80px;
+    /* Altura mínima */
+}
+
+/* Estilos para los botones de acción (Registrar, Cancelar) */
+.button-group {
+    display: flex;
+    justify-content: flex-end;
+    /* Alinea los botones a la derecha */
+    gap: 15px;
+    /* Espacio entre los botones */
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    /* Línea separadora */
+}
+
+.button-group button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.05em;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: var(--shadow-button);
+    /* Sombra base para botones */
+}
+
+.button-group .btn-save {
+    background-color: var(--success-color);
+    /* Verde */
+    color: white;
+}
+
+.button-group .btn-save:hover {
+    background-color: var(--success-hover);
+    /* Verde más oscuro al pasar el ratón */
+    transform: translateY(-2px);
+    /* Efecto de "elevación" */
+}
+
+.button-group .btn-cancel {
+    background-color: var(--border-color);
+    /* Gris claro */
+    color: var(--text-dark);
+}
+
+.button-group .btn-cancel:hover {
+    background-color: #cbd5e0;
+    /* Gris más oscuro al pasar el ratón */
+    transform: translateY(-2px);
+}
+
+/* Estilos para los mensajes de validación (debajo de cédula, email, usuario) */
+.alert {
+    margin-top: 5px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.85em;
+    font-weight: 500;
+    opacity: 0;
+    /* Oculto por defecto, JS lo muestra */
+    transition: opacity 0.3s ease;
+}
+
+.alert-success {
+    background-color: #d1fae5;
+    /* Verde muy claro */
+    color: #065f46;
+    /* Verde oscuro */
+    border: 1px solid #a7f3d0;
+}
+
+.alert-danger {
+    background-color: #fee2e2;
+    /* Rojo muy claro */
+    color: #991b1b;
+    /* Rojo oscuro */
+    border: 1px solid #fecaca;
+}
+
+/* Para el spinner de carga de validación */
+img[src$="5.gif"] {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+
+/* Media queries para responsividad en pantallas más pequeñas */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .form-container {
+        padding: 20px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        /* Una columna en pantallas pequeñas */
+        gap: 20px;
+    }
+
+    h2 {
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+
+    .button-group {
+        flex-direction: column;
+        /* Botones apilados en móvil */
+        align-items: center;
+        /* Centrar botones */
+    }
+
+    .button-group button {
+        width: 100%;
+        /* Botones de ancho completo */
+    }
+}

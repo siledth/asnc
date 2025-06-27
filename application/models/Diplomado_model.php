@@ -312,30 +312,74 @@ class Diplomado_model extends CI_model
     //     $this->db->insert('diplomado.participantes', $participante);
     //     return $this->db->insert_id();
     // }
-    public function registrar_participante($data, $id_empresa)
+    // public function registrar_participante($data, $id_empresa)  ultima
+    // {
+    //     $participante = array(
+    //         'id_diplomado' => $this->security->xss_clean($data['id_diplomado']),
+    //         'id_tipo' => 1, // Persona natural
+    //         'id_empresa' => $id_empresa, // Este es el ID de la empresa inicial, se puede actualizar
+    //         'cedula' => $this->security->xss_clean($data['cedula_f']),
+    //         'nombres' => $this->security->xss_clean($data['name_f']),
+    //         'apellidos' => $this->security->xss_clean($data['apellido_f']),
+    //         'telefono' => $this->security->xss_clean($data['telefono_f']),
+    //         'correo' => filter_var($data['correo'], FILTER_SANITIZE_EMAIL),
+    //         'edad' => $this->security->xss_clean($data['edad']),
+    //         // 'grado_instruccion' => $this->security->xss_clean($data['id_clasificacion']),
+    //         // 'titulo_obtenido' => $this->security->xss_clean($data['tutulo']),
+    //         'direccion' => $this->security->xss_clean($data['direccion_fiscal_']),
+    //         'trabaja_actualmente' => 0, // ELIMINAR ESTO, YA NO SE USA
+    //         // 'trabaja_actualmente' se inferirá por si id_empresa es 1 o un ID de empresa real
+    //         'observacion' => $this->security->xss_clean($data['obser'] ?? '') // Usar null coalescing para observación opcional
+    //     );
+
+    //     $this->db->insert('diplomado.participantes', $participante);
+    //     return $this->db->insert_id();
+    // }
+
+    public function registrar_participante($participante_data_from_controller, $id_empresa_participante) // Acepta el array ya listo
     {
-        $participante = array(
-            'id_diplomado' => $this->security->xss_clean($data['id_diplomado']),
-            'id_tipo' => 1, // Persona natural
-            'id_empresa' => $id_empresa, // Este es el ID de la empresa inicial, se puede actualizar
-            'cedula' => $this->security->xss_clean($data['cedula_f']),
-            'nombres' => $this->security->xss_clean($data['name_f']),
-            'apellidos' => $this->security->xss_clean($data['apellido_f']),
-            'telefono' => $this->security->xss_clean($data['telefono_f']),
-            'correo' => filter_var($data['correo'], FILTER_SANITIZE_EMAIL),
-            'edad' => $this->security->xss_clean($data['edad']),
-            // 'grado_instruccion' => $this->security->xss_clean($data['id_clasificacion']),
-            // 'titulo_obtenido' => $this->security->xss_clean($data['tutulo']),
-            'direccion' => $this->security->xss_clean($data['direccion_fiscal_']),
-            'trabaja_actualmente' => 0, // ELIMINAR ESTO, YA NO SE USA
-            // 'trabaja_actualmente' se inferirá por si id_empresa es 1 o un ID de empresa real
-            'observacion' => $this->security->xss_clean($data['obser'] ?? '') // Usar null coalescing para observación opcional
-        );
+        // Limpiar la cédula para la verificación de existencia
+        $cedula = $this->security->xss_clean($participante_data_from_controller['cedula']); // Usar la clave 'cedula' del array ya listo
+        $id_tipo_natural = 1; // ID que representa 'Persona Natural'
 
-        $this->db->insert('diplomado.participantes', $participante);
-        return $this->db->insert_id();
+        // --- VERIFICAR SI EL PARTICIPANTE YA EXISTE POR CÉDULA Y TIPO ---
+        $this->db->where('cedula', $cedula);
+        $this->db->where('id_tipo', $id_tipo_natural); // Filtrar específicamente por Persona Natural
+        $existing_participant = $this->db->get('diplomado.participantes')->row_array();
+
+        if ($existing_participant) {
+            // Si el participante con esa cédula y tipo ya existe, devolvemos su ID.
+            return $existing_participant['id_participante'];
+        } else {
+            // El participante no existe, procedemos a insertar los datos.
+            // Los datos ya vienen listos en $participante_data_from_controller
+            $insert_data = $participante_data_from_controller;
+
+            // Asegurar que id_empresa sea el correcto que vino como segundo argumento si no es el mismo que en el array
+            $insert_data['id_empresa'] = $id_empresa_participante;
+
+            // Si 'id_diplomado' es una columna NOT NULL en 'diplomado.participantes',
+            // DEBES ASEGURARTE DE QUE $participante_data_from_controller LO INCLUYE Y NO SEA NULL.
+            // Basado en tu error, tu tabla `participantes` sí lo tiene como NOT NULL.
+            // Por lo tanto, `$participante_data_from_controller` debe contener 'id_diplomado'.
+
+            $this->db->insert('diplomado.participantes', $insert_data); // Inserta el array directamente
+            return $this->db->insert_id();
+        }
     }
+    // Verifica si una cédula ya tiene una inscripción registrada para un diplomado específico.
+    public function check_cedula_diplomado_preinscripcion($cedula, $id_diplomado, $id_tipo)
+    {
+        $this->db->select('i.id_inscripcion');
+        $this->db->from('diplomado.inscripciones i');
+        $this->db->join('diplomado.participantes p', 'i.id_participante = p.id_participante');
+        $this->db->where('p.cedula', $cedula);
+        $this->db->where('p.id_tipo', $id_tipo); // Filtrar por tipo de persona
+        $this->db->where('i.id_diplomado', $id_diplomado);
+        $query = $this->db->get();
 
+        return $query->num_rows() > 0;
+    }
     public function actualizar_id_empresa_participante($id_participante, $id_empresa)
     {
         $data = [
@@ -369,7 +413,9 @@ class Diplomado_model extends CI_model
     }
     public function registrar_capacitacion($data)
     {
-        return $this->db->insert('diplomado.capacitaciones_participante', $data);
+        // return $this->db->insert('diplomado.capacitaciones_participante', $data);
+        $this->db->insert('diplomado.capacitaciones_participante', $data); // Ajusta el nombre de tu tabla
+        return $this->db->insert_id(); // O devuelve true/false
     }
 
     public function registrar_experiencia_laboral($data)
@@ -378,22 +424,56 @@ class Diplomado_model extends CI_model
         $this->db->insert('diplomado.experienci_5_anio', $data);
         return $this->db->affected_rows() > 0;
     }
+    // public function registrar_inscripcion($id_participante, $id_diplomado)  //ultima
+    // {
+    //     // Generar código de planilla (ej: DIP-2023-001)
+    //     $codigo = 'DIP-' . date('Y') . '-' . str_pad($this->db->count_all('diplomado.inscripciones') + 1, 3, '0', STR_PAD_LEFT);
+
+    //     $inscripcion = array(
+    //         'id_participante' => $id_participante,
+    //         'id_diplomado' => $id_diplomado,
+    //         'codigo_planilla' => $codigo,
+    //         'estatus' => 1, // Pendiente
+    //         'id_pago' => 1  // Pendiente
+    //     );
+
+    //     return $this->db->insert('diplomado.inscripciones', $inscripcion);
+    // }
     public function registrar_inscripcion($id_participante, $id_diplomado)
     {
-        // Generar código de planilla (ej: DIP-2023-001)
-        $codigo = 'DIP-' . date('Y') . '-' . str_pad($this->db->count_all('diplomado.inscripciones') + 1, 3, '0', STR_PAD_LEFT);
+        // --- VERIFICAR SI LA INSCRIPCIÓN YA EXISTE para evitar duplicados en `diplomado.inscripciones` ---
+        $this->db->where('id_participante', $id_participante);
+        $this->db->where('id_diplomado', $id_diplomado);
+        // Puedes añadir una condición de estatus si una inscripción "cancelada" o "rechazada" no cuenta como duplicado.
+        // $this->db->where('estatus', 1); // Por ejemplo, si 1 significa 'pendiente' o 'activa'
+        $existing_inscription = $this->db->get('diplomado.inscripciones')->row_array();
+
+        if ($existing_inscription) {
+            // Si ya existe una inscripción para este participante y diplomado, no creamos un duplicado.
+            // Devolvemos true para indicar que la "inscripción" ya está manejada.
+            return true;
+        }
+
+        // Generar un código de planilla único y más robusto (ej: DIP-AABBCCDD)
+        // Puedes combinar fecha y un ID único para mayor certeza
+        $codigo = 'DIP-' . date('Ymd') . '-' . strtoupper(substr(md5(uniqid(rand(), true)), 0, 8));
+
 
         $inscripcion = array(
             'id_participante' => $id_participante,
             'id_diplomado' => $id_diplomado,
             'codigo_planilla' => $codigo,
-            'estatus' => 1, // Pendiente
-            'id_pago' => 1  // Pendiente
+            'fecha_inscripcion' => date('Y-m-d H:i:s'), // Usar fecha y hora actual
+            'fecha_limite_pago' => date('Y-m-d', strtotime('+7 days')), // 7 días desde hoy
+            'estatus' => 1, // Por ejemplo, 'Pendiente'
+            'id_pago' => 1,  // ID de pago por defecto (ej. 'Pendiente')
+            'observaciones' => null // o vacía si tu campo lo permite
         );
 
-        return $this->db->insert('diplomado.inscripciones', $inscripcion);
+        $this->db->insert('diplomado.inscripciones', $inscripcion);
+        // Retorna el ID de la inscripción insertada para que el controlador pueda obtener el código de planilla real.
+        return $this->db->insert_id();
     }
-
     public function get_nombre_diplomado($id_diplomado)
     {
         $this->db->select('name_d');

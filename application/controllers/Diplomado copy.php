@@ -735,722 +735,325 @@ class Diplomado extends CI_Controller
     //     }
     // }
 
-    // public function guardar_inscripcion()
-    // {
-    //     // Iniciar transacción
-    //     $this->db->trans_begin();
-    //     // Validar campos obligatorios base
-    //     $required_fields = [
-    //         'id_diplomado',
-    //         'cedula_f',
-    //         'name_f',
-    //         'apellido_f',
-    //         'telefono_f',
-    //         'edad',
-
-    //         'direccion_fiscal_',
-    //         // 'trabajo' -> ELIMINADO: Ya no es un campo directo
-    //         'grado_instruccion', // Movido aquí por ser info básica del participante
-    //         'titulo_obtenido',   // Movido aquí por ser info básica del participante
-    //         't_contrata_p',      // Movido aquí por ser info básica del participante
-    //         'tiene_capacitacion', // Movido aquí por ser info básica del participante
-    //         'tiene_experiencia_laboral' // Este es el campo unificado
-    //     ];
-
-    //     foreach ($required_fields as $field) {
-    //         if (empty($this->input->post($field))) {
-    //             $this->output->set_status_header(400);
-    //             echo json_encode(['success' => false, 'message' => 'El campo ' . $field . ' es requerido']);
-    //             return;
-    //         }
-    //     }
-
-    //     if (!empty($this->input->post('correo')) && !filter_var($this->input->post('correo'), FILTER_VALIDATE_EMAIL)) {
-    //         $this->output->set_status_header(400);
-    //         echo json_encode(['success' => false, 'message' => 'El correo electrónico no es válido']);
-    //         return;
-    //     }
-    //     // --- NUEVO: Validar duplicidad de Cédula para Persona Natural y Diplomado ---
-    //     $cedula_participante = $this->security->xss_clean($this->input->post('cedula_f'));
-    //     $id_diplomado_seleccionado = $this->security->xss_clean($this->input->post('id_diplomado'));
-
-    //     if ($this->Diplomado_model->check_cedula_diplomado_preinscripcion($cedula_participante, $id_diplomado_seleccionado, 1)) { // 1 = id_tipo Persona Natural
-    //         throw new Exception("Esta cédula ya tiene una preinscripción registrada para este diplomado.");
-    //     }
-    //     // --- FIN NUEVA VALIDACIÓN ---
-
-    //     // Ya no necesitamos un $required_curricular separado, ya está en required_fields
-    //     // Eliminar validación para información curricular si ya está en required_fields
-    //     // $required_curricular = [ ... ];
-    //     // foreach ($required_curricular as $field) { ... }
-
-
-    //     // --- Inicializar id_empresa_participante ---
-    //     // Este ID se actualizará si hay un empleo actual marcado.
-    //     // Asume que 1 es el ID para "No aplica" o "No tiene empleo actual" en tu tabla `diplomado.empresas`.
-    //     $id_empresa_participante = 1;
-
-    //     // --- LÓGICA DE REGISTRO DE PARTICIPANTE (al inicio, para tener id_participante) ---
-    //     // Se registra con el id_empresa por defecto (1), y se actualizará si aplica.
-    //     $id_participante = $this->Diplomado_model->registrar_participante(
-    //         $this->input->post(),
-    //         $id_empresa_participante
-    //     );
-
-    //     if (!$id_participante) {
-    //         $this->output->set_status_header(500);
-    //         echo json_encode(['success' => false, 'message' => 'Error al registrar el participante.']);
-    //         return;
-    //     }
-
-    //     // --- LÓGICA PARA EL CURRICULUM ---
-    //     // Determinar valor para 'experiencia_contrataciones_publicas'
-    //     $experiencia_contrataciones_publicas = ($this->input->post('t_contrata_p') == '2') ? 0 : $this->security->xss_clean($this->input->post('experiencia_publicas'));
-
-    //     // Registrar información curricular
-    //     $curriculum_data = [
-    //         'id_participante' => $id_participante,
-    //         'grado_instruccion' => $this->security->xss_clean($this->input->post('grado_instruccion')),
-    //         'titulo_obtenido' => $this->security->xss_clean($this->input->post('titulo_obtenido')),
-    //         'experiencia_contrataciones_publicas' => $experiencia_contrataciones_publicas,
-    //         't_contrata_p' => $this->security->xss_clean($this->input->post('t_contrata_p')),
-    //         'tiene_capacitacion_contrataciones' => $this->security->xss_clean($this->input->post('tiene_capacitacion')),
-    //         'exp_5_anio' => $this->security->xss_clean($this->input->post('tiene_experiencia_laboral')),
-    //     ];
-
-    //     $id_curriculum = $this->Diplomado_model->registrar_curriculum($curriculum_data);
-
-    //     if (!$id_curriculum) {
-    //         $this->output->set_status_header(500);
-    //         echo json_encode(['success' => false, 'message' => 'Error al registrar información curricular.']);
-    //         return;
-    //     }
-
-    //     // --- Lógica de Registro de Capacitaciones (Tu lógica existente) ---
-    //     if ($this->input->post('tiene_capacitacion') == '1') {
-    //         $capacitaciones = $this->input->post('capacitaciones');
-    //         if (empty($capacitaciones)) { // Re-validar por si se borraron dinámicamente
-    //             $this->output->set_status_header(400);
-    //             echo json_encode(['success' => false, 'message' => 'Debe agregar al menos una capacitación en Contrataciones Públicas.']);
-    //             return;
-    //         }
-
-    //         foreach ($capacitaciones as $idx => $capacitacion) {
-    //             // ... (validaciones existentes para id_curso y nombre_curso_otro) ...
-
-    //             // --- INICIO: NUEVA LÓGICA PARA INSTITUCIÓN FORMADORA ---
-
-    //             // 1. Validar que se haya seleccionado una institución formadora
-    //             if (empty($capacitacion['id_institucion_formadora'])) {
-    //                 $this->output->set_status_header(400);
-    //                 echo json_encode(['success' => false, 'message' => 'Seleccione una institución formadora para la capacitación #' . ($idx + 1)]);
-    //                 return;
-    //             }
-
-    //             // 2. Validar el campo 'nombre_institucion_formadora_otro' si se seleccionó "Contralorías" (5) u "Otros" (6)
-    //             $id_institucion_formadora_seleccionada = $this->security->xss_clean($capacitacion['id_institucion_formadora']);
-
-    //             if (($id_institucion_formadora_seleccionada == '5' || $id_institucion_formadora_seleccionada == '6') && empty($capacitacion['nombre_institucion_formadora_otro'])) {
-    //                 $this->output->set_status_header(400);
-    //                 echo json_encode(['success' => false, 'message' => 'Especifique el nombre de la institución formadora para la capacitación #' . ($idx + 1)]);
-    //                 return;
-    //             }
-
-    //             // 3. Determinar el nombre de la institución a guardar
-    //             $nombre_institucion_a_guardar = '';
-
-    //             if ($id_institucion_formadora_seleccionada == '5' || $id_institucion_formadora_seleccionada == '6') {
-    //                 // Si es "Contralorías" u "Otros", usamos el valor del campo de texto
-    //                 $nombre_institucion_a_guardar = $this->security->xss_clean($capacitacion['nombre_institucion_formadora_otro']);
-    //             } else {
-    //                 // Si es una institución predefinida, obtenemos su descripción de la base de datos
-    //                 // Necesitas un método en tu modelo: $this->Diplomado_model->obtener_institucion_por_id($id_institucion_formadora_seleccionada)
-    //                 $institucion_seleccionada_db = $this->Diplomado_model->obtener_institucion_por_id($id_institucion_formadora_seleccionada);
-    //                 if ($institucion_seleccionada_db) {
-    //                     $nombre_institucion_a_guardar = $institucion_seleccionada_db['descripcion_f'];
-    //                 } else {
-    //                     // Fallback si el ID no existe en la BD (esto no debería pasar si el select se llena bien)
-    //                     $nombre_institucion_a_guardar = "Institución Desconocida (ID: " . $id_institucion_formadora_seleccionada . ")";
-    //                 }
-    //             }
-
-
-    //             $nombre_curso_a_guardar = '';
-    //             $id_curso_a_guardar = $this->security->xss_clean($capacitacion['id_curso']);
-
-    //             if ($id_curso_a_guardar == '8') { // Si es "Otros"
-    //                 $nombre_curso_a_guardar = $this->security->xss_clean($capacitacion['nombre_curso_otro']);
-    //             } else {
-    //                 $curso_seleccionado = array_filter($this->Diplomado_model->obtener_todos_los_cursos(), function ($curso) use ($id_curso_a_guardar) {
-    //                     return $curso['id_cursos'] == $id_curso_a_guardar;
-    //                 });
-    //                 $curso_seleccionado = reset($curso_seleccionado);
-
-    //                 if ($curso_seleccionado) {
-    //                     $nombre_curso_a_guardar = $curso_seleccionado['descripcion_cursos'];
-    //                 } else {
-    //                     $nombre_curso_a_guardar = "Curso Desconocido (ID: " . $id_curso_a_guardar . ")";
-    //                 }
-    //             }
-
-    //             // --- Actualizar el array $capacitacion_data para guardar ---
-    //             $capacitacion_data = [
-    //                 'id_curriculum' => $id_curriculum,
-    //                 'nombre_curso' => $nombre_curso_a_guardar,
-    //                 // CAMBIO AQUÍ: Ahora usamos el nombre de la institución que hemos determinado
-    //                 'institucion_formadora' => $nombre_institucion_a_guardar,
-    //                 'anio_realizacion' => $this->security->xss_clean($capacitacion['anio']),
-    //                 'horas' => $this->security->xss_clean($capacitacion['horas'])
-    //             ];
-
-    //             if (!$this->Diplomado_model->registrar_capacitacion($capacitacion_data)) {
-    //                 $this->output->set_status_header(500);
-    //                 echo json_encode(['success' => false, 'message' => 'Error al registrar una o más capacitaciones.']);
-    //                 return;
-    //             }
-    //         }
-    //     }
-
-    //     // --- LÓGICA UNIFICADA PARA EXPERIENCIA LABORAL Y GESTIÓN DE EMPRESA ---
-    //     if ($this->input->post('tiene_experiencia_laboral') == '1') {
-    //         $experiencias = $this->input->post('experiencias');
-    //         if (empty($experiencias)) { // Re-validar por si se borraron dinámicamente
-    //             $this->output->set_status_header(400);
-    //             echo json_encode(['success' => false, 'message' => 'Debe agregar al menos una experiencia laboral.']);
-    //             return;
-    //         }
-
-    //         foreach ($experiencias as $idx => $experiencia) {
-    //             // Validar campos básicos de experiencia laboral
-    //             if (empty($experiencia['cargo']) || empty($experiencia['tiempo_cargo']) || empty($experiencia['desde']) || empty($experiencia['hasta'])) {
-    //                 $this->output->set_status_header(400);
-    //                 echo json_encode(['success' => false, 'message' => 'Complete todos los campos (cargo, tiempo, inicio, fin) para la experiencia laboral #' . ($idx + 1)]);
-    //                 return;
-    //             }
-    //             $fecha_hasta = new DateTime($experiencia['hasta']);
-    //             $hoy = new DateTime();
-    //             if ($fecha_hasta > $hoy) {
-    //                 $this->output->set_status_header(400);
-    //                 echo json_encode(['success' => false, 'message' => 'La fecha de fin para la experiencia laboral #' . ($idx + 1) . ' no puede ser mayor a la fecha actual.']);
-    //                 return;
-    //             }
-
-    //             // --- Lógica para la Institución (RIF y datos de empresa) ---
-    //             $id_empresa_asociada_experiencia = null; // ID de la empresa de esta experiencia
-    //             $rif_a_guardar = '';
-    //             $razon_social_a_guardar = '';
-    //             $telefono_a_guardar = '0'; // Valores por defecto para nueva empresa
-    //             $direccion_a_guardar = '-'; // Valores por defecto para nueva empresa
-
-    //             // Validar que se haya ingresado el RIF inicial para la experiencia
-    //             if (empty($experiencia['rif_institucion'])) {
-    //                 $this->output->set_status_header(400);
-    //                 echo json_encode(['success' => false, 'message' => 'Ingrese el RIF de la institución para la experiencia laboral #' . ($idx + 1)]);
-    //                 return;
-    //             }
-
-    //             // --- Determinar qué datos de empresa usar (existente o nueva) ---
-    //             if (!empty($experiencia['rif_existente'])) { // Viene de la sección 'existe'
-    //                 $rif_a_guardar = $this->security->xss_clean($experiencia['rif_existente']);
-    //                 $razon_social_a_guardar = $this->security->xss_clean($experiencia['razon_social_existente']);
-
-    //                 // Al ser una empresa existente, obtenemos sus datos completos de la base de datos
-    //                 $empresa_data_db = $this->Diplomado_model->verificar_rif_empresa($rif_a_guardar);
-    //                 if ($empresa_data_db) {
-    //                     $telefono_a_guardar = $empresa_data_db['telefono'];
-    //                     $direccion_a_guardar = $empresa_data_db['direccion_fiscal'];
-    //                 }
-    //             } else if (!empty($experiencia['rif_nuevo'])) { // Viene de la sección 'no_existe'
-    //                 $rif_a_guardar = $this->security->xss_clean($experiencia['rif_nuevo']);
-    //                 $razon_social_a_guardar = $this->security->xss_clean($experiencia['razon_social_nueva']);
-    //                 $telefono_a_guardar = $this->security->xss_clean($experiencia['tel_local_nuevo']);
-    //                 $direccion_a_guardar = $this->security->xss_clean($experiencia['direccion_fiscal_nueva']);
-
-    //                 // Validar que los campos de nueva empresa no estén vacíos
-    //                 if (empty($razon_social_a_guardar) || empty($telefono_a_guardar) || empty($direccion_a_guardar)) {
-    //                     $this->output->set_status_header(400);
-    //                     echo json_encode(['success' => false, 'message' => 'Complete todos los datos (Razón Social, Teléfono, Dirección) de la institución para la experiencia laboral #' . ($idx + 1)]);
-    //                     return;
-    //                 }
-    //             } else {
-    //                 // Esto debería ser capturado por la validación de 'rif_institucion' pero como fallback
-    //                 $this->output->set_status_header(400);
-    //                 echo json_encode(['success' => false, 'message' => 'Faltan datos del RIF para la experiencia laboral  #' . ($idx + 1) . ' recuerde usar el boton consultar rif.']);
-    //                 return;
-    //             }
-
-    //             // --- Registrar o Verificar la Empresa en `diplomado.empresas` ---
-    //             $empresa_en_db = $this->Diplomado_model->verificar_rif_empresa($rif_a_guardar);
-    //             if (!$empresa_en_db) {
-    //                 // La empresa no existe en nuestra tabla `diplomado.empresas`, la registramos
-    //                 $id_empresa_asociada_experiencia = $this->Diplomado_model->registrar_empresa(
-    //                     $rif_a_guardar,
-    //                     $razon_social_a_guardar,
-    //                     $telefono_a_guardar,
-    //                     $direccion_a_guardar
-    //                 );
-    //             } else {
-    //                 // La empresa ya existe, usamos su ID
-    //                 $id_empresa_asociada_experiencia = $empresa_en_db['id_empresa'];
-    //                 // Asegurarse de usar la razón social de la base de datos si ya existe
-    //                 $razon_social_a_guardar = $empresa_en_db['razon_social'];
-    //             }
-
-    //             if (!$id_empresa_asociada_experiencia) {
-    //                 $this->output->set_status_header(500);
-    //                 echo json_encode(['success' => false, 'message' => 'Error al procesar la institución para la experiencia laboral #' . ($idx + 1)]);
-    //                 return;
-    //             }
-
-    //             // --- Determinar si es el empleo actual del participante ---
-    //             $es_actual = isset($experiencia['es_actual']) && $experiencia['es_actual'] == '1';
-    //             if ($es_actual) {
-    //                 $id_empresa_participante = $id_empresa_asociada_experiencia; // Este será el ID final para el participante
-    //             }
-
-    //             // --- Registrar la Experiencia Laboral ---
-    //             $experiencia_data = [
-    //                 'id_curriculum' => $id_curriculum,
-    //                 'nombreinstitucion' => $razon_social_a_guardar, // Guarda la razón social de la empresa
-    //                 'cargo' => $this->security->xss_clean($experiencia['cargo']),
-    //                 'tiempo' => $this->security->xss_clean($experiencia['tiempo_cargo']),
-    //                 'desde' => $this->security->xss_clean($experiencia['desde']),
-    //                 'hasta' => $this->security->xss_clean($experiencia['hasta'])
-    //                 // Puedes agregar id_empresa_asociada_experiencia o es_actual aquí si tu tabla experienci_5_anio lo tiene
-    //                 // 'id_empresa_asociada' => $id_empresa_asociada_experiencia,
-    //                 // 'es_actual' => $es_actual ? 1 : 0
-    //             ];
-
-    //             if (!$this->Diplomado_model->registrar_experiencia_laboral($experiencia_data)) {
-    //                 $this->output->set_status_header(500);
-    //                 echo json_encode(['success' => false, 'message' => 'Error al registrar una o más experiencias laborales.']);
-    //                 return;
-    //             }
-    //         } // Fin foreach experiencias
-
-    //         // --- Actualizar id_empresa del Participante al final ---
-    //         // Solo si se encontró un empleo actual válido (no el valor por defecto 1)
-    //         if ($id_empresa_participante !== 1) {
-    //             $this->Diplomado_model->actualizar_id_empresa_participante($id_participante, $id_empresa_participante);
-    //         }
-    //     } // Fin if tiene_experiencia_laboral
-
-    //     // --- Registrar Inscripción Final ---
-    //     $result = $this->Diplomado_model->registrar_inscripcion(
-    //         $id_participante,
-    //         $this->input->post('id_diplomado')
-    //     );
-
-    //     if ($result) {
-    //         $this->db->select('codigo_planilla');
-    //         $this->db->where('id_participante', $id_participante);
-    //         $inscripcion = $this->db->get('diplomado.inscripciones')->row_array();
-
-    //         echo json_encode([
-    //             'success' => true,
-    //             'message' => 'Inscripción registrada correctamente',
-    //             'codigo' => $inscripcion['codigo_planilla']
-    //         ]);
-    //     } else {
-    //         $this->output->set_status_header(500);
-    //         echo json_encode(['success' => false, 'message' => 'Error al registrar la inscripción.']);
-    //     }
-    // }
-
     public function guardar_inscripcion()
     {
-        $this->output->set_content_type('application/json');
-
-        // Iniciar transacción para asegurar atomicidad
+        // Iniciar transacción
         $this->db->trans_begin();
+        // Validar campos obligatorios base
+        $required_fields = [
+            'id_diplomado',
+            'cedula_f',
+            'name_f',
+            'apellido_f',
+            'telefono_f',
+            'edad',
 
-        try {
-            // Validar campos obligatorios base del formulario POST
-            $required_fields = [
-                'id_diplomado',
-                'cedula_f',
-                'name_f',
-                'apellido_f',
-                'telefono_f',
-                'edad',
-                'correo',
-                'direccion_fiscal_',
-                'grado_instruccion',
-                'titulo_obtenido',
-                't_contrata_p',
-                'tiene_capacitacion',
-                'tiene_experiencia_laboral'
-            ];
+            'direccion_fiscal_',
+            // 'trabajo' -> ELIMINADO: Ya no es un campo directo
+            'grado_instruccion', // Movido aquí por ser info básica del participante
+            'titulo_obtenido',   // Movido aquí por ser info básica del participante
+            't_contrata_p',      // Movido aquí por ser info básica del participante
+            'tiene_capacitacion', // Movido aquí por ser info básica del participante
+            'tiene_experiencia_laboral' // Este es el campo unificado
+        ];
 
-            foreach ($required_fields as $field) {
-                if (empty($this->input->post($field))) {
-                    throw new Exception("El campo '" . str_replace('_', ' ', $field) . "' es requerido.");
-                }
+        foreach ($required_fields as $field) {
+            if (empty($this->input->post($field))) {
+                $this->output->set_status_header(400);
+                echo json_encode(['success' => false, 'message' => 'El campo ' . $field . ' es requerido']);
+                return;
+            }
+        }
+
+        if (!empty($this->input->post('correo')) && !filter_var($this->input->post('correo'), FILTER_VALIDATE_EMAIL)) {
+            $this->output->set_status_header(400);
+            echo json_encode(['success' => false, 'message' => 'El correo electrónico no es válido']);
+            return;
+        }
+        // --- NUEVO: Validar duplicidad de Cédula para Persona Natural y Diplomado ---
+        $cedula_participante = $this->security->xss_clean($this->input->post('cedula_f'));
+        $id_diplomado_seleccionado = $this->security->xss_clean($this->input->post('id_diplomado'));
+
+        if ($this->Diplomado_model->check_cedula_diplomado_preinscripcion($cedula_participante, $id_diplomado_seleccionado, 1)) { // 1 = id_tipo Persona Natural
+            throw new Exception("Esta cédula ya tiene una preinscripción registrada para este diplomado.");
+        }
+        // --- FIN NUEVA VALIDACIÓN ---
+
+        // Ya no necesitamos un $required_curricular separado, ya está en required_fields
+        // Eliminar validación para información curricular si ya está en required_fields
+        // $required_curricular = [ ... ];
+        // foreach ($required_curricular as $field) { ... }
+
+
+        // --- Inicializar id_empresa_participante ---
+        // Este ID se actualizará si hay un empleo actual marcado.
+        // Asume que 1 es el ID para "No aplica" o "No tiene empleo actual" en tu tabla `diplomado.empresas`.
+        $id_empresa_participante = 1;
+
+        // --- LÓGICA DE REGISTRO DE PARTICIPANTE (al inicio, para tener id_participante) ---
+        // Se registra con el id_empresa por defecto (1), y se actualizará si aplica.
+        $id_participante = $this->Diplomado_model->registrar_participante(
+            $this->input->post(),
+            $id_empresa_participante
+        );
+
+        if (!$id_participante) {
+            $this->output->set_status_header(500);
+            echo json_encode(['success' => false, 'message' => 'Error al registrar el participante.']);
+            return;
+        }
+
+        // --- LÓGICA PARA EL CURRICULUM ---
+        // Determinar valor para 'experiencia_contrataciones_publicas'
+        $experiencia_contrataciones_publicas = ($this->input->post('t_contrata_p') == '2') ? 0 : $this->security->xss_clean($this->input->post('experiencia_publicas'));
+
+        // Registrar información curricular
+        $curriculum_data = [
+            'id_participante' => $id_participante,
+            'grado_instruccion' => $this->security->xss_clean($this->input->post('grado_instruccion')),
+            'titulo_obtenido' => $this->security->xss_clean($this->input->post('titulo_obtenido')),
+            'experiencia_contrataciones_publicas' => $experiencia_contrataciones_publicas,
+            't_contrata_p' => $this->security->xss_clean($this->input->post('t_contrata_p')),
+            'tiene_capacitacion_contrataciones' => $this->security->xss_clean($this->input->post('tiene_capacitacion')),
+            'exp_5_anio' => $this->security->xss_clean($this->input->post('tiene_experiencia_laboral')),
+        ];
+
+        $id_curriculum = $this->Diplomado_model->registrar_curriculum($curriculum_data);
+
+        if (!$id_curriculum) {
+            $this->output->set_status_header(500);
+            echo json_encode(['success' => false, 'message' => 'Error al registrar información curricular.']);
+            return;
+        }
+
+        // --- Lógica de Registro de Capacitaciones (Tu lógica existente) ---
+        if ($this->input->post('tiene_capacitacion') == '1') {
+            $capacitaciones = $this->input->post('capacitaciones');
+            if (empty($capacitaciones)) { // Re-validar por si se borraron dinámicamente
+                $this->output->set_status_header(400);
+                echo json_encode(['success' => false, 'message' => 'Debe agregar al menos una capacitación en Contrataciones Públicas.']);
+                return;
             }
 
-            // Validar formato de correo
-            $correo = $this->input->post('correo');
-            if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
-                throw new Exception("El formato del correo electrónico no es válido.");
-            }
+            foreach ($capacitaciones as $idx => $capacitacion) {
+                // ... (validaciones existentes para id_curso y nombre_curso_otro) ...
 
-            // Validar Cédula, edad y teléfono (validación numérica y de rango/longitud)
-            $cedula_f = $this->input->post('cedula_f');
-            if (!is_numeric($cedula_f) || strlen($cedula_f) < 5 || strlen($cedula_f) > 10) {
-                throw new Exception("La cédula debe ser numérica y tener entre 5 y 10 dígitos.");
-            }
-            $edad = $this->input->post('edad');
-            if (!is_numeric($edad) || $edad < 18 || $edad > 80) { // Rango de edad: 18-80
-                throw new Exception("La edad debe ser un número entre 18 y 80.");
-            }
-            $telefono_f = $this->input->post('telefono_f');
-            if (!is_numeric($telefono_f) || strlen($telefono_f) < 7) { // Mínimo 7 dígitos para teléfono
-                throw new Exception("El teléfono debe ser numérico y tener al menos 7 dígitos.");
-            }
+                // --- INICIO: NUEVA LÓGICA PARA INSTITUCIÓN FORMADORA ---
 
-
-            // --- NUEVO: VALIDACIÓN DE RECAPTCHA EN EL BACKEND ---
-            $recaptcha_response = $this->input->post('g-recaptcha-response');
-            // Carga la clave secreta desde la configuración de CodeIgniter
-            $secret_key = $this->config->item('recaptcha_secret_key');
-
-            if (empty($recaptcha_response)) {
-                throw new Exception("Por favor, complete el reCAPTCHA de seguridad.");
-            }
-
-            // Realizar la verificación con la API de Google
-            $verify_url = 'https://www.google.com/recaptcha/api/siteverify';
-            $data = [
-                'secret' => $secret_key,
-                'response' => $recaptcha_response,
-                'remoteip' => $this->input->ip_address() // Opcional, pero recomendado: IP del usuario
-            ];
-
-            $options = [
-                'http' => [
-                    'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-                    'method'  => 'POST',
-                    'content' => http_build_query($data)
-                ]
-            ];
-            $context  = stream_context_create($options);
-            $result = @file_get_contents($verify_url, false, $context); // Usar @ para suprimir warnings y manejar error
-
-            if ($result === FALSE) {
-                $error_data = error_get_last();
-                throw new Exception("Error de comunicación con el servicio reCAPTCHA: " . ($error_data['message'] ?? 'Desconocido'));
-            }
-
-            $response_recaptcha = json_decode($result, true);
-
-            if (!isset($response_recaptcha['success']) || $response_recaptcha['success'] !== true) {
-                // Puedes loguear $response_recaptcha['error-codes'] para depuración
-                throw new Exception("Error en la verificación de reCAPTCHA. Por favor, inténtelo de nuevo.");
-            }
-            // --- FIN VALIDACIÓN RECAPTCHA EN BACKEND ---
-
-
-            // --- Validar duplicidad de Cédula para Persona Natural y Diplomado ---
-            $cedula_participante = $this->security->xss_clean($cedula_f); // Usar la cédula ya validada
-            $id_diplomado_seleccionado = $this->security->xss_clean($this->input->post('id_diplomado'));
-            $id_tipo_persona_natural = 1; // ID que representa 'Persona Natural' en tu tabla `diplomado.participantes`
-
-            // check_cedula_diplomado_preinscripcion es un método en tu modelo M_Diplomado
-            if ($this->Diplomado_model->check_cedula_diplomado_preinscripcion($cedula_participante, $id_diplomado_seleccionado, $id_tipo_persona_natural)) {
-                throw new Exception("Esta cédula ya tiene una preinscripción registrada para este diplomado.");
-            }
-            // --- FIN VALIDACIÓN DE DUPLICIDAD ---
-
-            // Determinar si 'trabaja_actualmente' para el campo `trabaja_actualmente` en `diplomado.participantes`
-            $experiencias_post = $this->input->post('experiencias');
-            $trabaja_actualmente_flag = 0; // Por defecto no trabaja actualmente
-
-            if ($this->input->post('tiene_experiencia_laboral') == '1' && !empty($experiencias_post) && is_array($experiencias_post)) {
-                // Iterar sobre las experiencias para encontrar la marcada como 'es_actual'
-                // Los índices del array 'experiencias' en el POST de PN siempre serán consecutivos desde 0
-                // gracias a la reindexación en el frontend.
-                foreach ($experiencias_post as $exp) {
-                    if (isset($exp['es_actual']) && $exp['es_actual'] == '1') {
-                        $trabaja_actualmente_flag = 1;
-                        break;
-                    }
-                }
-            }
-
-            // Inicializar id_empresa_participante_pn (para Persona Natural, suele ser 1)
-            $id_empresa_participante_pn = 1; // Asume 1 es el ID para "No aplica" o "No tiene empleo actual"
-
-            // --- LÓGICA DE REGISTRO DE PARTICIPANTE ---
-            $participante_data_to_model = [
-                'id_diplomado' => $id_diplomado_seleccionado, // COMENTAR/ELIMINAR si NO va en `diplomado.participantes`
-                'id_tipo' => $id_tipo_persona_natural, // 1 para Persona Natural
-                // 'id_empresa' aquí puede ser 1 (No aplica para PN) o la ID real de una empresa si se marcó "es_actual"
-                'id_empresa' => $id_empresa_participante_pn,
-                'cedula' => $cedula_participante, // Ya está limpia y validada
-                'nombres' => $this->security->xss_clean($this->input->post('name_f')),
-                'apellidos' => $this->security->xss_clean($this->input->post('apellido_f')),
-                'telefono' => $this->security->xss_clean($telefono_f), // Usar variable validada
-                'correo' => $this->security->xss_clean($correo), // Usar variable validada
-                'edad' => $this->security->xss_clean($edad), // Usar variable validada
-                'direccion' => $this->security->xss_clean($this->input->post('direccion_fiscal_')),
-                'observacion' => !empty($this->input->post('obser')) ? $this->security->xss_clean($this->input->post('obser')) : null,
-                'trabaja_actualmente' => $trabaja_actualmente_flag
-            ];
-
-            // Este método en el modelo debe verificar si la cédula y TIPO ya existe y DEVOLVER SU ID si existe
-            // para evitar duplicados en la tabla `diplomado.participantes` por cédula y tipo.
-            // La llamada al modelo es correcta con los 2 argumentos: el array de datos y el ID de empresa.
-            $id_participante = $this->Diplomado_model->registrar_participante(
-                $participante_data_to_model,
-                $id_empresa_participante_pn
-            );
-
-            if (!$id_participante) {
-                throw new Exception("Error al registrar el participante.");
-            }
-
-            // --- LÓGICA PARA EL CURRICULUM ---
-            $experiencia_contrataciones_publicas = ($this->input->post('t_contrata_p') == '2') ? 0 : $this->security->xss_clean($this->input->post('experiencia_publicas'));
-
-            $curriculum_data = [
-                'id_participante' => $id_participante,
-                'grado_instruccion' => $this->security->xss_clean($this->input->post('grado_instruccion')),
-                'titulo_obtenido' => $this->security->xss_clean($this->input->post('titulo_obtenido')),
-                'experiencia_contrataciones_publicas' => $experiencia_contrataciones_publicas,
-                't_contrata_p' => $this->security->xss_clean($this->input->post('t_contrata_p')),
-                'tiene_capacitacion_contrataciones' => $this->security->xss_clean($this->input->post('tiene_capacitacion')),
-                'exp_5_anio' => $this->security->xss_clean($this->input->post('tiene_experiencia_laboral')),
-            ];
-
-            $id_curriculum = $this->Diplomado_model->registrar_curriculum($curriculum_data);
-
-            if (!$id_curriculum) {
-                throw new Exception("Error al registrar información curricular.");
-            }
-
-            // --- Lógica de Registro de Capacitaciones ---
-            if ($this->input->post('tiene_capacitacion') == '1') {
-                $capacitaciones = $this->input->post('capacitaciones');
-                // Re-validar por si el array de capacitaciones está vacío a pesar de 'tiene_capacitacion' == '1'
-                if (empty($capacitaciones) || !is_array($capacitaciones)) {
-                    throw new Exception("Debe agregar al menos una capacitación en Contrataciones Públicas.");
+                // 1. Validar que se haya seleccionado una institución formadora
+                if (empty($capacitacion['id_institucion_formadora'])) {
+                    $this->output->set_status_header(400);
+                    echo json_encode(['success' => false, 'message' => 'Seleccione una institución formadora para la capacitación #' . ($idx + 1)]);
+                    return;
                 }
 
-                if (count($capacitaciones) > 3) {
-                    throw new Exception("Máximo 3 capacitaciones por participante.");
+                // 2. Validar el campo 'nombre_institucion_formadora_otro' si se seleccionó "Contralorías" (5) u "Otros" (6)
+                $id_institucion_formadora_seleccionada = $this->security->xss_clean($capacitacion['id_institucion_formadora']);
+
+                if (($id_institucion_formadora_seleccionada == '5' || $id_institucion_formadora_seleccionada == '6') && empty($capacitacion['nombre_institucion_formadora_otro'])) {
+                    $this->output->set_status_header(400);
+                    echo json_encode(['success' => false, 'message' => 'Especifique el nombre de la institución formadora para la capacitación #' . ($idx + 1)]);
+                    return;
                 }
 
-                foreach ($capacitaciones as $idx => $capacitacion) {
-                    // Validar id_curso
-                    if (empty($capacitacion['id_curso'])) {
-                        throw new Exception("Capacitación #" . ($idx + 1) . ": Seleccione un curso.");
-                    }
-                    if ($capacitacion['id_curso'] == '8' && empty($capacitacion['nombre_curso_otro'])) {
-                        throw new Exception("Capacitación #" . ($idx + 1) . ": Especifique el nombre del curso 'Otros'.");
-                    }
+                // 3. Determinar el nombre de la institución a guardar
+                $nombre_institucion_a_guardar = '';
 
-                    // Validar id_institucion_formadora
-                    if (empty($capacitacion['id_institucion_formadora'])) {
-                        throw new Exception("Capacitación #" . ($idx + 1) . ": Seleccione una institución formadora.");
-                    }
-                    if (($capacitacion['id_institucion_formadora'] == '5' || $capacitacion['id_institucion_formadora'] == '6') && empty($capacitacion['nombre_institucion_formadora_otro'])) {
-                        throw new Exception("Capacitación #" . ($idx + 1) . ": Especifique el nombre de la institución formadora.");
-                    }
-
-                    // Validar año de realización
-                    $anio = $this->security->xss_clean($capacitacion['anio']);
-                    if (empty($anio) || !is_numeric($anio) || $anio < 1900 || $anio > date('Y')) {
-                        throw new Exception("Capacitación #" . ($idx + 1) . ": El año de realización no es válido.");
-                    }
-                    // Validar horas (si existe y si es numérico)
-                    if (isset($capacitacion['horas']) && !empty($capacitacion['horas']) && (!is_numeric($capacitacion['horas']) || $capacitacion['horas'] < 0)) {
-                        throw new Exception("Capacitación #" . ($idx + 1) . ": Las horas deben ser un número válido.");
-                    }
-
-
-                    // Determinar el nombre final del curso
-                    $nombre_curso_final = '';
-                    $id_curso_seleccionado = $this->security->xss_clean($capacitacion['id_curso']);
-                    if ($id_curso_seleccionado == '8') {
-                        $nombre_curso_final = $this->security->xss_clean($capacitacion['nombre_curso_otro']);
+                if ($id_institucion_formadora_seleccionada == '5' || $id_institucion_formadora_seleccionada == '6') {
+                    // Si es "Contralorías" u "Otros", usamos el valor del campo de texto
+                    $nombre_institucion_a_guardar = $this->security->xss_clean($capacitacion['nombre_institucion_formadora_otro']);
+                } else {
+                    // Si es una institución predefinida, obtenemos su descripción de la base de datos
+                    // Necesitas un método en tu modelo: $this->Diplomado_model->obtener_institucion_por_id($id_institucion_formadora_seleccionada)
+                    $institucion_seleccionada_db = $this->Diplomado_model->obtener_institucion_por_id($id_institucion_formadora_seleccionada);
+                    if ($institucion_seleccionada_db) {
+                        $nombre_institucion_a_guardar = $institucion_seleccionada_db['descripcion_f'];
                     } else {
-                        // Asegúrate de que Diplomado_model->obtener_curso_por_id() existe
-                        $curso_db = $this->Diplomado_model->obtener_curso_por_id($id_curso_seleccionado);
-                        if ($curso_db) {
-                            $nombre_curso_final = $curso_db['descripcion_cursos'];
-                        } else {
-                            $nombre_curso_final = "Curso Desconocido (ID: " . $id_curso_seleccionado . ")";
-                        }
+                        // Fallback si el ID no existe en la BD (esto no debería pasar si el select se llena bien)
+                        $nombre_institucion_a_guardar = "Institución Desconocida (ID: " . $id_institucion_formadora_seleccionada . ")";
                     }
-
-                    // Determinar el nombre final de la institución formadora
-                    $nombre_institucion_final = '';
-                    $id_institucion_seleccionada = $this->security->xss_clean($capacitacion['id_institucion_formadora']);
-                    if ($id_institucion_seleccionada == '5' || $id_institucion_seleccionada == '6') {
-                        $nombre_institucion_final = $this->security->xss_clean($capacitacion['nombre_institucion_formadora_otro']);
-                    } else {
-                        // Asegúrate de que Diplomado_model->obtener_institucion_por_id() existe
-                        $institucion_db = $this->Diplomado_model->obtener_institucion_por_id($id_institucion_seleccionada);
-                        if ($institucion_db) {
-                            $nombre_institucion_final = $institucion_db['descripcion_f'];
-                        } else {
-                            $nombre_institucion_final = "Institución Desconocida (ID: " . $id_institucion_seleccionada . ")";
-                        }
-                    }
-
-                    $capacitacion_data = [
-                        'id_curriculum' => $id_curriculum,
-                        'nombre_curso' => $nombre_curso_final,
-                        'institucion_formadora' => $nombre_institucion_final,
-                        'anio_realizacion' => $anio,
-                        'horas' => !empty($capacitacion['horas']) ? $this->security->xss_clean($capacitacion['horas']) : null
-                    ];
-
-                    // Asegúrate de que Diplomado_model->registrar_capacitacion() existe
-                    if (!$this->Diplomado_model->registrar_capacitacion($capacitacion_data)) {
-                        throw new Exception("Error al registrar la capacitación #" . ($idx + 1) . ".");
-                    }
-                } // Fin foreach capacitaciones
-            } // Fin if tiene_capacitacion
-
-            // --- LÓGICA UNIFICADA PARA EXPERIENCIA LABORAL ---
-            if ($this->input->post('tiene_experiencia_laboral') == '1') {
-                $experiencias = $this->input->post('experiencias');
-                // Re-validar por si el array de experiencias está vacío a pesar de 'tiene_experiencia_laboral' == '1'
-                if (empty($experiencias) || !is_array($experiencias)) {
-                    throw new Exception("Debe agregar al menos una experiencia laboral.");
                 }
 
-                foreach ($experiencias as $idx => $experiencia) {
-                    // Validar campos básicos de experiencia laboral
-                    if (empty($experiencia['cargo']) || empty($experiencia['tiempo_cargo']) || empty($experiencia['desde']) || empty($experiencia['hasta'])) {
-                        throw new Exception("Experiencia laboral #" . ($idx + 1) . ": Complete todos los campos (cargo, tiempo, inicio, fin).");
-                    }
-                    if (!is_numeric($experiencia['tiempo_cargo']) || $experiencia['tiempo_cargo'] < 0) {
-                        throw new Exception("Experiencia laboral #" . ($idx + 1) . ": El tiempo en el cargo debe ser numérico y positivo.");
-                    }
-                    $fecha_hasta = new DateTime($experiencia['hasta']);
-                    $hoy = new DateTime();
-                    if ($fecha_hasta > $hoy) {
-                        throw new Exception("Experiencia laboral #" . ($idx + 1) . ": La fecha de fin no puede ser mayor a la fecha actual.");
-                    }
 
-                    // Lógica para la Institución (RIF y datos de empresa)
-                    $rif_institucion_exp = $this->security->xss_clean($experiencia['rif_institucion']);
-                    if (empty($rif_institucion_exp) || !preg_match('/^[JGVCEPDWjgvcepdw]\d{9}$/i', $rif_institucion_exp)) {
-                        throw new Exception("Experiencia laboral #" . ($idx + 1) . ": Formato de RIF de institución inválido.");
-                    }
+                $nombre_curso_a_guardar = '';
+                $id_curso_a_guardar = $this->security->xss_clean($capacitacion['id_curso']);
 
-                    $id_empresa_asociada_experiencia = null;
-                    $razon_social_a_guardar = '';
-                    $telefono_a_guardar = '';
-                    $direccion_a_guardar = '';
+                if ($id_curso_a_guardar == '8') { // Si es "Otros"
+                    $nombre_curso_a_guardar = $this->security->xss_clean($capacitacion['nombre_curso_otro']);
+                } else {
+                    $curso_seleccionado = array_filter($this->Diplomado_model->obtener_todos_los_cursos(), function ($curso) use ($id_curso_a_guardar) {
+                        return $curso['id_cursos'] == $id_curso_a_guardar;
+                    });
+                    $curso_seleccionado = reset($curso_seleccionado);
 
-                    if (!empty($experiencia['rif_existente'])) { // Viene de la sección 'existe'
-                        $rif_a_guardar = $this->security->xss_clean($experiencia['rif_existente']);
-                        $razon_social_a_guardar = $this->security->xss_clean($experiencia['razon_social_existente']);
-                        // Asegúrate de que Diplomado_model->verificar_rif_empresa() existe
-                        $empresa_data_db = $this->Diplomado_model->verificar_rif_empresa($rif_a_guardar);
-                        if ($empresa_data_db) {
-                            $telefono_a_guardar = $empresa_data_db['telefono'];
-                            $direccion_a_guardar = $empresa_data_db['direccion_fiscal'];
-                        }
-                    } else if (!empty($experiencia['rif_nuevo'])) { // Viene de la sección 'no_existe'
-                        $rif_a_guardar = $this->security->xss_clean($experiencia['rif_nuevo']);
-                        $razon_social_a_guardar = $this->security->xss_clean($experiencia['razon_social_nueva']);
-                        $telefono_a_guardar = $this->security->xss_clean($experiencia['tel_local_nuevo']);
-                        $direccion_a_guardar = $this->security->xss_clean($experiencia['direccion_fiscal_nueva']);
-
-                        if (empty($razon_social_a_guardar) || empty($telefono_a_guardar) || empty($direccion_a_guardar)) {
-                            throw new Exception("Experiencia laboral #" . ($idx + 1) . ": Complete los datos de la nueva institución (Razón Social, Teléfono, Dirección).");
-                        }
-                        if (!is_numeric($telefono_a_guardar) || strlen($telefono_a_guardar) < 7) {
-                            throw new Exception("Experiencia laboral #" . ($idx + 1) . ": El teléfono de la nueva institución debe ser numérico (mín. 7 dígitos).");
-                        }
+                    if ($curso_seleccionado) {
+                        $nombre_curso_a_guardar = $curso_seleccionado['descripcion_cursos'];
                     } else {
-                        throw new Exception("Experiencia laboral #" . ($idx + 1) . ": Faltan datos del RIF de la institución. Recuerde usar el botón 'Consultar'.");
+                        $nombre_curso_a_guardar = "Curso Desconocido (ID: " . $id_curso_a_guardar . ")";
                     }
+                }
 
-                    // Registrar o Verificar la Empresa en `diplomado.empresas`
-                    // Asegúrate de que Diplomado_model->verificar_rif_empresa() y Diplomado_model->registrar_empresa() existen
-                    $empresa_en_db = $this->Diplomado_model->verificar_rif_empresa($rif_a_guardar);
-                    if (!$empresa_en_db) {
-                        $id_empresa_asociada_experiencia = $this->Diplomado_model->registrar_empresa(
-                            $rif_a_guardar,
-                            $razon_social_a_guardar,
-                            $telefono_a_guardar,
-                            $direccion_a_guardar
-                        );
-                    } else {
-                        $id_empresa_asociada_experiencia = $empresa_en_db['id_empresa'];
-                        $razon_social_a_guardar = $empresa_en_db['razon_social']; // Usar la razón social de la BD si ya existe
-                    }
-                    if (!$id_empresa_asociada_experiencia) {
-                        throw new Exception("Experiencia laboral #" . ($idx + 1) . ": Error al procesar la institución.");
-                    }
+                // --- Actualizar el array $capacitacion_data para guardar ---
+                $capacitacion_data = [
+                    'id_curriculum' => $id_curriculum,
+                    'nombre_curso' => $nombre_curso_a_guardar,
+                    // CAMBIO AQUÍ: Ahora usamos el nombre de la institución que hemos determinado
+                    'institucion_formadora' => $nombre_institucion_a_guardar,
+                    'anio_realizacion' => $this->security->xss_clean($capacitacion['anio']),
+                    'horas' => $this->security->xss_clean($capacitacion['horas'])
+                ];
 
-                    // Determinar si es el empleo actual del participante
-                    $es_actual = isset($experiencia['es_actual']) && $experiencia['es_actual'] == '1';
+                if (!$this->Diplomado_model->registrar_capacitacion($capacitacion_data)) {
+                    $this->output->set_status_header(500);
+                    echo json_encode(['success' => false, 'message' => 'Error al registrar una o más capacitaciones.']);
+                    return;
+                }
+            }
+        }
 
-                    // Registrar la Experiencia Laboral
-                    $experiencia_data = [
-                        'id_curriculum' => $id_curriculum,
-                        'nombreinstitucion' => $razon_social_a_guardar,
-                        'cargo' => $this->security->xss_clean($experiencia['cargo']),
-                        'tiempo' => $this->security->xss_clean($experiencia['tiempo_cargo']),
-                        'desde' => $this->security->xss_clean($experiencia['desde']),
-                        'hasta' => $this->security->xss_clean($experiencia['hasta'])
-                        // Si tu tabla experienci_5_anio tiene campo 'id_empresa_asociada' o 'es_actual', añádelo aquí
-                        // 'id_empresa_asociada' => $id_empresa_asociada_experiencia,
-                        // 'es_actual' => $es_actual ? 1 : 0
-                    ];
-                    // Asegúrate de que Diplomado_model->registrar_experiencia_laboral() existe
-                    if (!$this->Diplomado_model->registrar_experiencia_laboral($experiencia_data)) {
-                        throw new Exception("Error al registrar la experiencia laboral #" . ($idx + 1) . ".");
-                    }
-
-                    // Actualizar id_empresa del participante en la tabla `diplomado.participantes` si esta es la experiencia actual marcada
-                    if ($es_actual) {
-                        // Asegúrate de que Diplomado_model->actualizar_id_empresa_participante() existe
-                        if (!$this->Diplomado_model->actualizar_id_empresa_participante($id_participante, $id_empresa_asociada_experiencia)) {
-                            throw new Exception("Error al actualizar la empresa actual del participante.");
-                        }
-                    }
-                } // Fin foreach experiencias
-            } // Fin if tiene_experiencia_laboral
-
-            // --- Registrar Inscripción Final ---
-            // Asegúrate de que Diplomado_model->registrar_inscripcion() existe
-            $result_inscripcion = $this->Diplomado_model->registrar_inscripcion(
-                $id_participante,
-                $id_diplomado_seleccionado
-            );
-
-            if (!$result_inscripcion) {
-                throw new Exception("Error al registrar la inscripción final.");
+        // --- LÓGICA UNIFICADA PARA EXPERIENCIA LABORAL Y GESTIÓN DE EMPRESA ---
+        if ($this->input->post('tiene_experiencia_laboral') == '1') {
+            $experiencias = $this->input->post('experiencias');
+            if (empty($experiencias)) { // Re-validar por si se borraron dinámicamente
+                $this->output->set_status_header(400);
+                echo json_encode(['success' => false, 'message' => 'Debe agregar al menos una experiencia laboral.']);
+                return;
             }
 
-            // Si todo salió bien, confirmar transacción
-            $this->db->trans_commit();
+            foreach ($experiencias as $idx => $experiencia) {
+                // Validar campos básicos de experiencia laboral
+                if (empty($experiencia['cargo']) || empty($experiencia['tiempo_cargo']) || empty($experiencia['desde']) || empty($experiencia['hasta'])) {
+                    $this->output->set_status_header(400);
+                    echo json_encode(['success' => false, 'message' => 'Complete todos los campos (cargo, tiempo, inicio, fin) para la experiencia laboral #' . ($idx + 1)]);
+                    return;
+                }
+                $fecha_hasta = new DateTime($experiencia['hasta']);
+                $hoy = new DateTime();
+                if ($fecha_hasta > $hoy) {
+                    $this->output->set_status_header(400);
+                    echo json_encode(['success' => false, 'message' => 'La fecha de fin para la experiencia laboral #' . ($idx + 1) . ' no puede ser mayor a la fecha actual.']);
+                    return;
+                }
 
-            // Obtener el código de planilla y retornar éxito
+                // --- Lógica para la Institución (RIF y datos de empresa) ---
+                $id_empresa_asociada_experiencia = null; // ID de la empresa de esta experiencia
+                $rif_a_guardar = '';
+                $razon_social_a_guardar = '';
+                $telefono_a_guardar = '0'; // Valores por defecto para nueva empresa
+                $direccion_a_guardar = '-'; // Valores por defecto para nueva empresa
+
+                // Validar que se haya ingresado el RIF inicial para la experiencia
+                if (empty($experiencia['rif_institucion'])) {
+                    $this->output->set_status_header(400);
+                    echo json_encode(['success' => false, 'message' => 'Ingrese el RIF de la institución para la experiencia laboral #' . ($idx + 1)]);
+                    return;
+                }
+
+                // --- Determinar qué datos de empresa usar (existente o nueva) ---
+                if (!empty($experiencia['rif_existente'])) { // Viene de la sección 'existe'
+                    $rif_a_guardar = $this->security->xss_clean($experiencia['rif_existente']);
+                    $razon_social_a_guardar = $this->security->xss_clean($experiencia['razon_social_existente']);
+
+                    // Al ser una empresa existente, obtenemos sus datos completos de la base de datos
+                    $empresa_data_db = $this->Diplomado_model->verificar_rif_empresa($rif_a_guardar);
+                    if ($empresa_data_db) {
+                        $telefono_a_guardar = $empresa_data_db['telefono'];
+                        $direccion_a_guardar = $empresa_data_db['direccion_fiscal'];
+                    }
+                } else if (!empty($experiencia['rif_nuevo'])) { // Viene de la sección 'no_existe'
+                    $rif_a_guardar = $this->security->xss_clean($experiencia['rif_nuevo']);
+                    $razon_social_a_guardar = $this->security->xss_clean($experiencia['razon_social_nueva']);
+                    $telefono_a_guardar = $this->security->xss_clean($experiencia['tel_local_nuevo']);
+                    $direccion_a_guardar = $this->security->xss_clean($experiencia['direccion_fiscal_nueva']);
+
+                    // Validar que los campos de nueva empresa no estén vacíos
+                    if (empty($razon_social_a_guardar) || empty($telefono_a_guardar) || empty($direccion_a_guardar)) {
+                        $this->output->set_status_header(400);
+                        echo json_encode(['success' => false, 'message' => 'Complete todos los datos (Razón Social, Teléfono, Dirección) de la institución para la experiencia laboral #' . ($idx + 1)]);
+                        return;
+                    }
+                } else {
+                    // Esto debería ser capturado por la validación de 'rif_institucion' pero como fallback
+                    $this->output->set_status_header(400);
+                    echo json_encode(['success' => false, 'message' => 'Faltan datos del RIF para la experiencia laboral  #' . ($idx + 1) . ' recuerde usar el boton consultar rif.']);
+                    return;
+                }
+
+                // --- Registrar o Verificar la Empresa en `diplomado.empresas` ---
+                $empresa_en_db = $this->Diplomado_model->verificar_rif_empresa($rif_a_guardar);
+                if (!$empresa_en_db) {
+                    // La empresa no existe en nuestra tabla `diplomado.empresas`, la registramos
+                    $id_empresa_asociada_experiencia = $this->Diplomado_model->registrar_empresa(
+                        $rif_a_guardar,
+                        $razon_social_a_guardar,
+                        $telefono_a_guardar,
+                        $direccion_a_guardar
+                    );
+                } else {
+                    // La empresa ya existe, usamos su ID
+                    $id_empresa_asociada_experiencia = $empresa_en_db['id_empresa'];
+                    // Asegurarse de usar la razón social de la base de datos si ya existe
+                    $razon_social_a_guardar = $empresa_en_db['razon_social'];
+                }
+
+                if (!$id_empresa_asociada_experiencia) {
+                    $this->output->set_status_header(500);
+                    echo json_encode(['success' => false, 'message' => 'Error al procesar la institución para la experiencia laboral #' . ($idx + 1)]);
+                    return;
+                }
+
+                // --- Determinar si es el empleo actual del participante ---
+                $es_actual = isset($experiencia['es_actual']) && $experiencia['es_actual'] == '1';
+                if ($es_actual) {
+                    $id_empresa_participante = $id_empresa_asociada_experiencia; // Este será el ID final para el participante
+                }
+
+                // --- Registrar la Experiencia Laboral ---
+                $experiencia_data = [
+                    'id_curriculum' => $id_curriculum,
+                    'nombreinstitucion' => $razon_social_a_guardar, // Guarda la razón social de la empresa
+                    'cargo' => $this->security->xss_clean($experiencia['cargo']),
+                    'tiempo' => $this->security->xss_clean($experiencia['tiempo_cargo']),
+                    'desde' => $this->security->xss_clean($experiencia['desde']),
+                    'hasta' => $this->security->xss_clean($experiencia['hasta'])
+                    // Puedes agregar id_empresa_asociada_experiencia o es_actual aquí si tu tabla experienci_5_anio lo tiene
+                    // 'id_empresa_asociada' => $id_empresa_asociada_experiencia,
+                    // 'es_actual' => $es_actual ? 1 : 0
+                ];
+
+                if (!$this->Diplomado_model->registrar_experiencia_laboral($experiencia_data)) {
+                    $this->output->set_status_header(500);
+                    echo json_encode(['success' => false, 'message' => 'Error al registrar una o más experiencias laborales.']);
+                    return;
+                }
+            } // Fin foreach experiencias
+
+            // --- Actualizar id_empresa del Participante al final ---
+            // Solo si se encontró un empleo actual válido (no el valor por defecto 1)
+            if ($id_empresa_participante !== 1) {
+                $this->Diplomado_model->actualizar_id_empresa_participante($id_participante, $id_empresa_participante);
+            }
+        } // Fin if tiene_experiencia_laboral
+
+        // --- Registrar Inscripción Final ---
+        $result = $this->Diplomado_model->registrar_inscripcion(
+            $id_participante,
+            $this->input->post('id_diplomado')
+        );
+
+        if ($result) {
             $this->db->select('codigo_planilla');
             $this->db->where('id_participante', $id_participante);
-            $this->db->where('id_diplomado', $id_diplomado_seleccionado);
             $inscripcion = $this->db->get('diplomado.inscripciones')->row_array();
 
             echo json_encode([
                 'success' => true,
                 'message' => 'Inscripción registrada correctamente',
-                'codigo' => $inscripcion['codigo_planilla'] ?? 'N/A' // Asegurar que siempre devuelve un valor
+                'codigo' => $inscripcion['codigo_planilla']
             ]);
-        } catch (Exception $e) {
-            $this->db->trans_rollback(); // Revertir todo si hay un error
-            $this->output->set_status_header(500); // Estado de error HTTP
-            echo json_encode([
-                'success' => false,
-                'message' => $e->getMessage()
-            ]);
+        } else {
+            $this->output->set_status_header(500);
+            echo json_encode(['success' => false, 'message' => 'Error al registrar la inscripción.']);
         }
     }
     ////////////CURSOS

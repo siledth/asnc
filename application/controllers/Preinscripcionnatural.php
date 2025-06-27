@@ -84,22 +84,22 @@ class Preinscripcionnatural extends CI_Controller
         if ($data != '') {
 
             foreach ($data as $d) {
-                $pdf->SetFont('Arial', 'B', 20);
+                $pdf->SetFont('Arial', 'B', 15);
                 $pdf->Ln(5);
                 // $pdf->Cell(40, 5,  '', 0, 0, 'R');
 
-                $pdf->Cell(35, 5, utf8_decode('Código planilla:'), 0, 0, 'C');
-                $pdf->SetFont('Arial', 'B', 20);
+                $pdf->Cell(30, 5, utf8_decode('Código planilla:'), 0, 0, 'C');
+                $pdf->SetFont('Arial', 'B', 15);
                 $pdf->SetTextColor(255, 0, 0);
-                $pdf->Cell(70, 5, utf8_decode($d->codigo_planilla), 0, 0, 'C');
+                $pdf->Cell(75, 5, utf8_decode($d->codigo_planilla), 0, 0, 'C');
 
                 $pdf->SetTextColor(0, 0, 0);
                 $pdf->SetFont('Arial', 'B', 10);
 
-                $pdf->Cell(20, 5, utf8_decode('Estatus:'), 0, 0, 'R');
+                $pdf->Cell(25, 5, utf8_decode('Estatus:'), 0, 0, 'R');
                 $pdf->SetTextColor(255, 0, 0);
 
-                $pdf->MultiCell(40, 5, utf8_decode($d->des_estatus), 0, 'L');
+                $pdf->MultiCell(45, 5, utf8_decode($d->des_estatus), 0, 'L');
                 $pdf->SetTextColor(0, 0, 0);
 
 

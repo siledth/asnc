@@ -20,6 +20,24 @@ let institucionesDisponibles = []; // Asegúrate que esta variable global esté 
 function allowOnlyNumbers(inputElement) {
     inputElement.value = inputElement.value.replace(/[^0-9]/g, '');
 }
+// Función para validar si una cadena es un número entero
+function isInteger(value) {
+    return /^\d+$/.test(value);
+}
+
+// Función para mostrar un mensaje de error visual bajo un campo de formulario
+function showFieldError(fieldElement, message) {
+    fieldElement.addClass('is-invalid');
+    let feedbackDiv = fieldElement.siblings('.invalid-feedback');
+    if (feedbackDiv.length === 0) {
+        feedbackDiv = $('<div class="invalid-feedback d-block"></div>');
+        fieldElement.after(feedbackDiv);
+    }
+    feedbackDiv.text(message).show();
+    if (!firstInvalidField) { // firstInvalidField necesita ser declarado globalmente o ser pasado como param
+        firstInvalidField = fieldElement;
+    }
+}
 // --- FUNCIONES DE GESTIÓN DE RIF DE EXPERIENCIA LABORAL ---
 window.validarRIFExperiencia = function(inputElement, experienciaNum) {
     const rif = inputElement.value;
@@ -77,7 +95,7 @@ window.consultar_rif_experiencia = function(experienciaNum) {
         direccionFiscalNoExiste.val('').prop('required', false);
 
         // var base_url_gestion = window.location.origin+'/asnc/index.php/gestion/consulta_og2';
-        var base_url_gestion = '/index.php/gestion/consulta_og2';
+         var base_url_gestion = '/index.php/gestion/consulta_og2';
         $.ajax({
             url: base_url_gestion,
             method: 'post',
@@ -939,53 +957,7 @@ function reindexarYReajustarExperiencias() {
 
 // --- FIN DE FUNCIONES DE GESTIÓN DE EXPERIENCIA LABORAL ---
 
-
-// --- FUNCIONES DE INFORMACIÓN DEL DIPLOMADO Y VALIDACIÓN DE CÉDULA ---
-
-// Función para cargar la información del diplomado
-// window.loadDiplomadoInfo = function(id_diplomado) {
-//     if (id_diplomado === "" || id_diplomado === "0") {
-//         $('#diplomadoInfoContainer').hide();
-//         return;
-//     }
-//     //   var base_url = window.location.origin + '/asnc/index.php/diplomado/getDiplomadoInfo/' + id_diplomado;
-//       var base_url = '/index.php/Diplomado/getDiplomadoInfo/' + id_diplomado; 
-      
-//     $.ajax({
-//         url: base_url,
-//         method: 'GET',
-//         dataType: 'json',
-//         success: function(response) {
-//             if (response.success && response.data) {
-//                 const diplomadoData = response.data;
-
-//                 let modalidadText = '';
-//                 if (diplomadoData.id_modalidad === '1') {
-//                     modalidadText = 'Presencial';
-//                 } else if (diplomadoData.id_modalidad === '2') {
-//                     modalidadText = 'Online';
-//                 } else {
-//                     modalidadText = 'Desconocida';
-//                 }
-
-//                 $('#diplomadoTitle').text(diplomadoData.name_d);
-//                 $('#diplomadoFechaInicio').text(diplomadoData.fdesde);
-//                 $('#diplomadoFechaFin').text(diplomadoData.fhasta);
-//                 $('#diplomadoModalidad').text(modalidadText);
-//                 $('#diplomadoM').text(diplomadoData.pay);
-//                 $('#diplomadoInfoContainer').show();
-//             } else {
-//                 $('#diplomadoInfoContainer').hide();
-//                 swal('Error', response.message || 'No se pudo obtener la información del diplomado.', 'error');
-//             }
-//         },
-//         error: function(xhr) {
-//             console.error("Error al cargar información del diplomado:", xhr.responseText);
-//             $('#diplomadoInfoContainer').hide();
-//             swal('Error', 'Hubo un problema de conexión al cargar la información del diplomado.', 'error');
-//         }
-//     });
-// };
+ 
 window.loadDiplomadoInfo = function(id_diplomado) {
     if (id_diplomado === "" || id_diplomado === "0") {
         $('#diplomadoInfoContainer').hide();
@@ -1067,6 +1039,358 @@ window.loadDiplomadoInfo = function(id_diplomado) {
 
 // --- FUNCIÓN DE ENVÍO DEL FORMULARIO PRINCIPAL (Inscribir) ---
 
+// window.handleInscripcionSubmit = function(event) ultimo {
+//     event.preventDefault(); // Prevenir el envío tradicional del formulario
+
+//     // --- INICIO: VALIDACIÓN MANUAL DE CAMPOS ---
+//     let isValid = true;
+//     let firstInvalidField = null; // Para enfocar el primer campo inválido
+
+//     // Función auxiliar para mostrar error visualmente
+//     function showFieldError(fieldElement, message) {
+//         fieldElement.addClass('is-invalid');
+//         // Mostrar mensaje en un div 'invalid-feedback' asociado, si existe
+//         let feedbackDiv = fieldElement.siblings('.invalid-feedback');
+//         if (feedbackDiv.length === 0) {
+//             // Si no existe, crear uno. Esto es útil para campos sin un div específico.
+//             feedbackDiv = $('<div class="invalid-feedback d-block"></div>');
+//             fieldElement.after(feedbackDiv);
+//         }
+//         feedbackDiv.text(message).show();
+//         if (!firstInvalidField) {
+//             firstInvalidField = fieldElement;
+//         }
+//     }
+
+//     // Función auxiliar para limpiar error visualmente
+//     function clearFieldError(fieldElement) {
+//         fieldElement.removeClass('is-invalid');
+//         fieldElement.siblings('.invalid-feedback').text('').hide();
+//     }
+
+//     // 1. Validar campos de Información del Diplomado (id_diplomado)
+//     const idDiplomadoField = $('#id_diplomado');
+//     if (idDiplomadoField.val() === "" || idDiplomadoField.val() === "0") {
+//         showFieldError(idDiplomadoField, 'Debe seleccionar un diplomado.');
+//         isValid = false;
+//     } else {
+//         clearFieldError(idDiplomadoField);
+//     }
+
+//     // 2. Validar Datos del Participante
+//     const requiredParticipantFields = [
+//         { id: 'cedula_f', message: 'La cédula es obligatoria y debe tener entre 5 y 10 dígitos.' },
+//         { id: 'name_f', message: 'El nombre es obligatorio.' },
+//         { id: 'apellido_f', message: 'El apellido es obligatorio.' },
+//         { id: 'correo', message: 'El correo es obligatorio.' },
+//         { id: 'edad', message: 'El edad es obligatorio.' },
+//         { id: 'telefono_f', message: 'El teléfono es obligatorio.' },
+
+//         { id: 'direccion_fiscal_', message: 'La dirección es obligatoria.' }
+//     ];
+
+//     requiredParticipantFields.forEach(field => {
+//         const element = $(`#${field.id}`);
+//         if (element.val().trim() === '') {
+//             showFieldError(element, field.message);
+//             isValid = false;
+//         } else {
+//             clearFieldError(element);
+//         }
+//     });
+    
+
+//     // Validar cédula: longitud específica (si no la validó el onblur o para asegurar)
+//     const cedulaField = $('#cedula_f');
+//     if (cedulaField.val().length < 5 || cedulaField.val().length > 10) {
+//         showFieldError(cedulaField, 'La cédula debe tener entre 5 y 10 dígitos.');
+//         isValid = false;
+//     }
+
+//     // Validar correo electrónico
+//      const correoField = $('#correo');
+//     // Mantenemos la validación de formato aquí, pero el campo vacío ya lo cubre el bucle de arriba.
+//     if (correoField.val().trim() !== '' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correoField.val().trim())) {
+//         showFieldError(correoField, 'Por favor, ingrese un formato de correo electrónico válido.');
+//         isValid = false;
+//     } else {
+//         // Solo limpia si el campo no está vacío y el formato es correcto.
+//         // Si estaba vacío, el requiredParticipantFields ya lo marcó.
+//         if (correoField.val().trim() !== '') {
+//             clearFieldError(correoField);
+//         }
+//     }
+
+//     // --- Validación específica para la EDAD (opcional, si quieres un rango) ---
+//     const edadField = $('#edad');
+//     const edadValue = parseInt(edadField.val());
+//     if (edadField.val().trim() !== '' && (isNaN(edadValue) || edadValue < 18 || edadValue > 80)) { // Ejemplo: edad entre 18 y 99
+//         showFieldError(edadField, 'Por favor, ingrese una edad válida (entre 18 y 99 años).');
+//         isValid = false;
+//     } else {
+//         if (edadField.val().trim() !== '') {
+//             clearFieldError(edadField);
+//         }
+//     }
+
+//     // 3. Validar Información Curricular
+//     const gradoInstruccionField = $('#grado_instruccion');
+//     if (gradoInstruccionField.val() === "") {
+//         showFieldError(gradoInstruccionField, 'El grado de instrucción es obligatorio.');
+//         isValid = false;
+//     } else {
+//         clearFieldError(gradoInstruccionField);
+//     }
+
+//     const tituloObtenidoField = $('#titulo_obtenido');
+//     if (tituloObtenidoField.val().trim() === '') {
+//         showFieldError(tituloObtenidoField, 'El título obtenido es obligatorio.');
+//         isValid = false;
+//     } else {
+//         clearFieldError(tituloObtenidoField);
+//     }
+
+//     const tContrataPField = $('#t_contrata_p');
+//     if (tContrataPField.val() === "") {
+//         showFieldError(tContrataPField, 'Debe indicar si tiene experiencia en Contrataciones Públicas.');
+//         isValid = false;
+//     } else {
+//         clearFieldError(tContrataPField);
+//         if (tContrataPField.val() === '1') { // Si tiene experiencia, validar años
+//             const experienciaPublicasField = $('#experiencia_publicas');
+//             if (experienciaPublicasField.val().trim() === '' || parseInt(experienciaPublicasField.val()) < 0) {
+//                 showFieldError(experienciaPublicasField, 'Debe indicar los años de experiencia (número válido).');
+//                 isValid = false;
+//             } else {
+//                 clearFieldError(experienciaPublicasField);
+//             }
+//         }
+//     }
+
+//     const tieneCapacitacionField = $('#tiene_capacitacion');
+//     if (tieneCapacitacionField.val() === "") {
+//         showFieldError(tieneCapacitacionField, 'Debe indicar si ha realizado capacitaciones.');
+//         isValid = false;
+//     } else {
+//         clearFieldError(tieneCapacitacionField);
+//         if (tieneCapacitacionField.val() === '1') {
+//             const capacitacionesCount = $('#lista-capacitaciones .capacitacion-item').length;
+//             if (capacitacionesCount === 0) {
+//                 swal("Atención", "Debe agregar al menos una capacitación en Contrataciones Públicas.", "warning");
+//                 isValid = false;
+//             } else {
+//                 // Validar cada capacitación individualmente
+//                 $('#lista-capacitaciones .capacitacion-item').each(function(idx) {
+//                     const currentCapacitacionItem = $(this);
+//                     const idCursoField = currentCapacitacionItem.find('select[name*="[id_curso]"]');
+//                     const nombreCursoOtroField = currentCapacitacionItem.find('input[name*="[nombre_curso_otro]"]');
+//                     const idInstitucionFormadoraField = currentCapacitacionItem.find('select[name*="[id_institucion_formadora]"]');
+//                     const nombreInstitucionFormadoraOtroField = currentCapacitacionItem.find('input[name*="[nombre_institucion_formadora_otro]"]');
+//                     const anioField = currentCapacitacionItem.find('input[name*="[anio]"]');
+
+//                     if (idCursoField.val() === "") {
+//                         showFieldError(idCursoField, `Seleccione un curso para la capacitación #${idx + 1}.`);
+//                         isValid = false;
+//                     } else {
+//                         clearFieldError(idCursoField);
+//                         if (idCursoField.val() === '8' && nombreCursoOtroField.val().trim() === '') {
+//                             showFieldError(nombreCursoOtroField, `Especifique el nombre del curso para la capacitación #${idx + 1}.`);
+//                             isValid = false;
+//                         } else {
+//                             clearFieldError(nombreCursoOtroField);
+//                         }
+//                     }
+
+//                     if (idInstitucionFormadoraField.val() === "") {
+//                         showFieldError(idInstitucionFormadoraField, `Seleccione una institución formadora para la capacitación #${idx + 1}.`);
+//                         isValid = false;
+//                     } else {
+//                         clearFieldError(idInstitucionFormadoraField);
+//                         if ((idInstitucionFormadoraField.val() === '5' || idInstitucionFormadoraField.val() === '6') && nombreInstitucionFormadoraOtroField.val().trim() === '') {
+//                             showFieldError(nombreInstitucionFormadoraOtroField, `Especifique el nombre de la institución formadora para la capacitación #${idx + 1}.`);
+//                             isValid = false;
+//                         } else {
+//                             clearFieldError(nombreInstitucionFormadoraOtroField);
+//                         }
+//                     }
+
+//                     if (anioField.val().trim() === '' || parseInt(anioField.val()) < 1900 || parseInt(anioField.val()) > new Date().getFullYear()) {
+//                         showFieldError(anioField, `Ingrese un año válido para la capacitación #${idx + 1}.`);
+//                         isValid = false;
+//                     } else {
+//                         clearFieldError(anioField);
+//                     }
+//                 });
+//             }
+//         }
+//     }
+
+//     const tieneExperienciaLaboralField = $('#tiene_experiencia_laboral');
+//     if (tieneExperienciaLaboralField.val() === "") {
+//         showFieldError(tieneExperienciaLaboralField, 'Debe indicar si tiene experiencia laboral formal.');
+//         isValid = false;
+//     } else {
+//         clearFieldError(tieneExperienciaLaboralField);
+//         if (tieneExperienciaLaboralField.val() === '1') {
+//             const experienciasCount = $('#lista-experiencias .experiencia-item').length;
+//             if (experienciasCount === 0) {
+//                 swal("Atención", "Debe agregar al menos una experiencia laboral.", "warning");
+//                 isValid = false;
+//             } else {
+//                 let hasCurrentEmployment = false;
+//                 // Validar cada experiencia laboral individualmente
+//                 $('#lista-experiencias .experiencia-item').each(function(idx) {
+//                     const currentExperienciaItem = $(this);
+//                     const cargoField = currentExperienciaItem.find('input[name*="[cargo]"]');
+//                     const tiempoCargoField = currentExperienciaItem.find('input[name*="[tiempo_cargo]"]');
+//                     const desdeField = currentExperienciaItem.find('input[name*="[desde]"]');
+//                     const hastaField = currentExperienciaItem.find('input[name*="[hasta]"]');
+//                     const rifInstitucionField = currentExperienciaItem.find('input[name*="[rif_institucion]"]');
+//                     const esActualCheckbox = currentExperienciaItem.find('input[name*="[es_actual]"]');
+
+//                     // Basic fields validation
+//                     if (cargoField.val().trim() === '') {
+//                         showFieldError(cargoField, `El cargo es obligatorio para la experiencia #${idx + 1}.`);
+//                         isValid = false;
+//                     } else { clearFieldError(cargoField); }
+//                     if (tiempoCargoField.val().trim() === '' || parseInt(tiempoCargoField.val()) < 0) {
+//                         showFieldError(tiempoCargoField, `El tiempo en el cargo es obligatorio para la experiencia #${idx + 1}.`);
+//                         isValid = false;
+//                     } else { clearFieldError(tiempoCargoField); }
+//                     if (desdeField.val().trim() === '') {
+//                         showFieldError(desdeField, `La fecha de inicio es obligatoria para la experiencia #${idx + 1}.`);
+//                         isValid = false;
+//                     } else { clearFieldError(desdeField); }
+//                     if (hastaField.val().trim() === '') {
+//                         showFieldError(hastaField, `La fecha de fin es obligatoria para la experiencia #${idx + 1}.`);
+//                         isValid = false;
+//                     } else {
+//                         // Validate 'hasta' date not in future
+//                         if (new Date(hastaField.val()) > new Date(maxDate)) {
+//                             showFieldError(hastaField, `La fecha de fin para la experiencia #${idx + 1} no puede ser futura.`);
+//                             isValid = false;
+//                         } else {
+//                             clearFieldError(hastaField);
+//                         }
+//                     }
+
+//                     // RIF and institution data validation
+//                     if (rifInstitucionField.val().trim() === '') {
+//                         showFieldError(rifInstitucionField, `El RIF de la institución es obligatorio para la experiencia #${idx + 1}.`);
+//                         isValid = false;
+//                     } else if (!/^[JGVCEPDWjgvcepdw]\d{9}$/i.test(rifInstitucionField.val().trim())) {
+//                         showFieldError(rifInstitucionField, `Formato de RIF inválido para la experiencia #${idx + 1}.`);
+//                         isValid = false;
+//                     }
+//                     else { clearFieldError(rifInstitucionField); }
+
+
+//                     // If it's a "no_existe" institution, validate its fields
+//                     const noExisteDiv = currentExperienciaItem.find(`#no_existe_laboral_${idx + 1}`); // Note: this ID needs to be adjusted in HTML/JS template if it's based on 'experienciaCount' rather than 'idx+1'
+//                     if (noExisteDiv.is(':visible')) {
+//                         const razonSocialNoExiste = currentExperienciaItem.find('input[name*="[razon_social_nueva]"]');
+//                         const telLocalNoExiste = currentExperienciaItem.find('input[name*="[tel_local_nuevo]"]');
+//                         const direccionFiscalNoExiste = currentExperienciaItem.find('textarea[name*="[direccion_fiscal_nueva]"]');
+
+//                         if (razonSocialNoExiste.val().trim() === '') {
+//                             showFieldError(razonSocialNoExiste, `La Razón Social es obligatoria para la institución en experiencia #${idx + 1}.`);
+//                             isValid = false;
+//                         } else { clearFieldError(razonSocialNoExiste); }
+//                         if (telLocalNoExiste.val().trim() === '') {
+//                             showFieldError(telLocalNoExiste, `El Teléfono local es obligatorio para la institución en experiencia #${idx + 1}.`);
+//                             isValid = false;
+//                         } else { clearFieldError(telLocalNoExiste); }
+//                         if (direccionFiscalNoExiste.val().trim() === '') {
+//                             showFieldError(direccionFiscalNoExiste, `La Dirección es obligatoria para la institución en experiencia #${idx + 1}.`);
+//                             isValid = false;
+//                         } else { clearFieldError(direccionFiscalNoExiste); }
+//                     }
+
+//                     if (esActualCheckbox.is(':checked')) {
+//                         hasCurrentEmployment = true;
+//                     }
+//                 });
+
+//                 if (!hasCurrentEmployment) {
+//                     swal("Atención", "Debe marcar al menos una experiencia como su empleo actual.", "warning");
+//                     isValid = false;
+//                 }
+//             }
+//         }
+//     }
+
+
+//     // --- FIN: VALIDACIÓN MANUAL DE CAMPOS ---
+
+//     if (!isValid) {
+//         // Enfocar el primer campo inválido si existe
+//         if (firstInvalidField) {
+//             $('html, body').animate({
+//                 scrollTop: firstInvalidField.offset().top - 80 // Ajusta el offset si tu header es fijo
+//             }, 500);
+//             firstInvalidField.focus();
+//         }
+//         return; // Detener el envío si la validación falla
+//     }
+
+//     // Si todo está bien, envía el formulario usando AJAX
+//     const formData = new FormData($('#inscripcionForm')[0]);
+//     var base_url_guardar = window.location.origin+'/asnc/index.php/Diplomado/guardar_inscripcion';
+//     var base_url_redirigir = window.location.origin+'/asnc/index.php/Diplomado/preinscrip';
+//     var base_url_pdf = window.location.origin+'/asnc/index.php/Preinscripcionnatural/pdfrt?id=';
+
+//     //  var base_url_guardar = '/index.php/Diplomado/guardar_inscripcion';
+//     //     var base_url_redirigir = '/index.php/Diplomado/preinscrip';
+//     //     var base_url_pdf = '/index.php/Preinscripcionnatural/pdfrt?id=';
+
+//     $.ajax({
+//         url: base_url_guardar,
+//         type: 'POST',
+//         data: formData,
+//         processData: false,
+//         contentType: false,
+//         dataType: 'json',
+//         beforeSend: function() {
+//             $('#guardarInscripcionBtn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Guardando...');
+//         },
+//         success: function(response) {
+//             if (response.success) {
+//                 swal({
+//                     title: "¡Éxito!",
+//                     text: response.message + "\nCódigo de planilla: " + response.codigo,
+//                     type: "success",
+//                     showCancelButton: false,
+//                     confirmButtonColor: "#00897b",
+//                     confirmButtonText: "Aceptar",
+//                     closeOnConfirm: true
+//                 }, function() {
+//                     const pdfUrl = base_url_pdf + response.codigo;
+//                     window.open(pdfUrl, '_blank');
+//                     setTimeout(function() {
+//                         window.location.href = base_url_redirigir;
+//                     }, 1000);
+//                 });
+//             } else {
+//                 swal("Error", response.message, "error");
+//             }
+//         },
+//         error: function(xhr, status, error) {
+//             console.error("Error AJAX:", xhr.responseText);
+//             let errorMessage = 'Hubo un error desconocido al registrar la inscripción.';
+//             try {
+//                 const errorResponse = JSON.parse(xhr.responseText);
+//                 if (errorResponse && errorResponse.message) {
+//                     errorMessage = errorResponse.message;
+//                 }
+//             } catch (e) {
+//             }
+//             swal("Error", errorMessage, "error");
+//         },
+//         complete: function() {
+//             $('#guardarInscripcionBtn').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar Inscripción');
+//         }
+//     });
+// };
 window.handleInscripcionSubmit = function(event) {
     event.preventDefault(); // Prevenir el envío tradicional del formulario
 
@@ -1074,13 +1398,11 @@ window.handleInscripcionSubmit = function(event) {
     let isValid = true;
     let firstInvalidField = null; // Para enfocar el primer campo inválido
 
-    // Función auxiliar para mostrar error visualmente
+    // Función auxiliar para mostrar error visualmente (asegúrate que esté definida arriba)
     function showFieldError(fieldElement, message) {
         fieldElement.addClass('is-invalid');
-        // Mostrar mensaje en un div 'invalid-feedback' asociado, si existe
         let feedbackDiv = fieldElement.siblings('.invalid-feedback');
         if (feedbackDiv.length === 0) {
-            // Si no existe, crear uno. Esto es útil para campos sin un div específico.
             feedbackDiv = $('<div class="invalid-feedback d-block"></div>');
             fieldElement.after(feedbackDiv);
         }
@@ -1090,11 +1412,37 @@ window.handleInscripcionSubmit = function(event) {
         }
     }
 
-    // Función auxiliar para limpiar error visualmente
+    // Función auxiliar para limpiar error visualmente (asegúrate que esté definida arriba)
     function clearFieldError(fieldElement) {
         fieldElement.removeClass('is-invalid');
         fieldElement.siblings('.invalid-feedback').text('').hide();
     }
+
+    // --- VALIDACIÓN DE DECLARACIÓN JURADA ---
+    const declaracionJuradaCheckbox = $('#declaracionJurada');
+    if (!declaracionJuradaCheckbox.is(':checked')) {
+        toggleFinalizarButton(); 
+        Swal.fire('Atención', 'Debe aceptar la declaración jurada para finalizar la inscripción.', 'warning');
+        resetRecaptchaPN(); // Reiniciar reCAPTCHA en caso de error de declaración
+        return; 
+    } else {
+        clearFieldError(declaracionJuradaCheckbox);
+    }
+
+    // --- VALIDACIÓN DE RECAPTCHA ---
+    const recaptchaResponse = grecaptcha.getResponse();
+    const recaptchaFeedback = $('#recaptcha-feedback');
+
+    if (recaptchaResponse.length === 0) {
+        recaptchaFeedback.text('Por favor, complete el reCAPTCHA.').show();
+        Swal.fire('Atención', 'Por favor, complete el reCAPTCHA de seguridad.', 'warning');
+        resetRecaptchaPN(); // Reiniciar reCAPTCHA si no está marcado
+        return; 
+    } else {
+        recaptchaFeedback.hide().text('');
+    }
+    // --- FIN VALIDACIÓN RECAPTCHA ---
+
 
     // 1. Validar campos de Información del Diplomado (id_diplomado)
     const idDiplomadoField = $('#id_diplomado');
@@ -1107,59 +1455,64 @@ window.handleInscripcionSubmit = function(event) {
 
     // 2. Validar Datos del Participante
     const requiredParticipantFields = [
-        { id: 'cedula_f', message: 'La cédula es obligatoria y debe tener entre 5 y 10 dígitos.' },
+        { id: 'cedula_f', message: 'La cédula es obligatoria.' }, // Mensaje base, luego se refina
         { id: 'name_f', message: 'El nombre es obligatorio.' },
         { id: 'apellido_f', message: 'El apellido es obligatorio.' },
         { id: 'correo', message: 'El correo es obligatorio.' },
-        { id: 'edad', message: 'El edad es obligatorio.' },
+        { id: 'edad', message: 'La edad es obligatoria.' },
         { id: 'telefono_f', message: 'El teléfono es obligatorio.' },
-
         { id: 'direccion_fiscal_', message: 'La dirección es obligatoria.' }
     ];
 
     requiredParticipantFields.forEach(field => {
         const element = $(`#${field.id}`);
         if (element.val().trim() === '') {
-            showFieldError(element, field.message);
+            showFieldError(element, field.message); 
             isValid = false;
         } else {
             clearFieldError(element);
         }
     });
     
-
-    // Validar cédula: longitud específica (si no la validó el onblur o para asegurar)
+    // Validar cédula: longitud y tipo numérico
     const cedulaField = $('#cedula_f');
-    if (cedulaField.val().length < 5 || cedulaField.val().length > 10) {
-        showFieldError(cedulaField, 'La cédula debe tener entre 5 y 10 dígitos.');
+    // Si ya fue marcado como vacío por requiredParticipantFields, no sobreescribir el mensaje si es un vacío.
+    if (cedulaField.val().trim() !== '' && (!isInteger(cedulaField.val()) || cedulaField.val().length < 5 || cedulaField.val().length > 10)) {
+        showFieldError(cedulaField, 'La cédula debe ser numérica y tener entre 5 y 10 dígitos.');
         isValid = false;
+    } else if (cedulaField.val().trim() !== '') { 
+        clearFieldError(cedulaField);
     }
 
-    // Validar correo electrónico
-     const correoField = $('#correo');
-    // Mantenemos la validación de formato aquí, pero el campo vacío ya lo cubre el bucle de arriba.
+
+    // Validar correo electrónico formato
+    const correoField = $('#correo');
     if (correoField.val().trim() !== '' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correoField.val().trim())) {
         showFieldError(correoField, 'Por favor, ingrese un formato de correo electrónico válido.');
         isValid = false;
-    } else {
-        // Solo limpia si el campo no está vacío y el formato es correcto.
-        // Si estaba vacío, el requiredParticipantFields ya lo marcó.
-        if (correoField.val().trim() !== '') {
-            clearFieldError(correoField);
-        }
+    } else if (correoField.val().trim() !== '') {
+        clearFieldError(correoField);
     }
 
-    // --- Validación específica para la EDAD (opcional, si quieres un rango) ---
+    // Validación específica para la EDAD: numérica y rango
     const edadField = $('#edad');
     const edadValue = parseInt(edadField.val());
-    if (edadField.val().trim() !== '' && (isNaN(edadValue) || edadValue < 18 || edadValue > 80)) { // Ejemplo: edad entre 18 y 99
-        showFieldError(edadField, 'Por favor, ingrese una edad válida (entre 18 y 99 años).');
+    if (edadField.val().trim() !== '' && (isNaN(edadValue) || edadValue < 18 || edadValue > 80)) { 
+        showFieldError(edadField, 'Por favor, ingrese una edad válida (entre 18 y 80 años).');
         isValid = false;
-    } else {
-        if (edadField.val().trim() !== '') {
-            clearFieldError(edadField);
-        }
+    } else if (edadField.val().trim() !== '') {
+        clearFieldError(edadField);
     }
+
+    // Validar Teléfono: numérico y longitud mínima
+    const telefonoField = $('#telefono_f');
+    if (telefonoField.val().trim() !== '' && (!isInteger(telefonoField.val()) || telefonoField.val().length < 7)) {
+        showFieldError(telefonoField, 'El teléfono debe ser numérico y tener al menos 7 dígitos.');
+        isValid = false;
+    } else if (telefonoField.val().trim() !== '') {
+        clearFieldError(telefonoField);
+    }
+
 
     // 3. Validar Información Curricular
     const gradoInstruccionField = $('#grado_instruccion');
@@ -1186,8 +1539,8 @@ window.handleInscripcionSubmit = function(event) {
         clearFieldError(tContrataPField);
         if (tContrataPField.val() === '1') { // Si tiene experiencia, validar años
             const experienciaPublicasField = $('#experiencia_publicas');
-            if (experienciaPublicasField.val().trim() === '' || parseInt(experienciaPublicasField.val()) < 0) {
-                showFieldError(experienciaPublicasField, 'Debe indicar los años de experiencia (número válido).');
+            if (experienciaPublicasField.val().trim() === '' || !isInteger(experienciaPublicasField.val()) || parseInt(experienciaPublicasField.val()) < 0) {
+                showFieldError(experienciaPublicasField, 'Debe indicar los años de experiencia (número entero válido, 0 o más).');
                 isValid = false;
             } else {
                 clearFieldError(experienciaPublicasField);
@@ -1215,6 +1568,7 @@ window.handleInscripcionSubmit = function(event) {
                     const idInstitucionFormadoraField = currentCapacitacionItem.find('select[name*="[id_institucion_formadora]"]');
                     const nombreInstitucionFormadoraOtroField = currentCapacitacionItem.find('input[name*="[nombre_institucion_formadora_otro]"]');
                     const anioField = currentCapacitacionItem.find('input[name*="[anio]"]');
+                    const horasField = currentCapacitacionItem.find('input[name*="[horas]"]');
 
                     if (idCursoField.val() === "") {
                         showFieldError(idCursoField, `Seleccione un curso para la capacitación #${idx + 1}.`);
@@ -1237,17 +1591,20 @@ window.handleInscripcionSubmit = function(event) {
                         if ((idInstitucionFormadoraField.val() === '5' || idInstitucionFormadoraField.val() === '6') && nombreInstitucionFormadoraOtroField.val().trim() === '') {
                             showFieldError(nombreInstitucionFormadoraOtroField, `Especifique el nombre de la institución formadora para la capacitación #${idx + 1}.`);
                             isValid = false;
-                        } else {
-                            clearFieldError(nombreInstitucionFormadoraOtroField);
-                        }
+                        } else { clearFieldError(nombreInstitucionFormadoraOtroField); }
                     }
 
-                    if (anioField.val().trim() === '' || parseInt(anioField.val()) < 1900 || parseInt(anioField.val()) > new Date().getFullYear()) {
-                        showFieldError(anioField, `Ingrese un año válido para la capacitación #${idx + 1}.`);
+                    const anioValue = parseInt(anioField.val());
+                    const currentYear = new Date().getFullYear();
+                    if (!isInteger(anioField.val()) || isNaN(anioValue) || anioValue < 1900 || anioValue > currentYear) {
+                        showFieldError(anioField, `Ingrese un año válido para la capacitación #${idx + 1} (ej. 1900-${currentYear}).`);
                         isValid = false;
-                    } else {
-                        clearFieldError(anioField);
-                    }
+                    } else { clearFieldError(anioField); }
+                    
+                    if (horasField.val().trim() !== '' && (!isInteger(horasField.val()) || parseInt(horasField.val()) < 0)) {
+                        showFieldError(horasField, `Ingrese un número válido de horas para la capacitación #${idx + 1}.`);
+                        isValid = false;
+                    } else { clearFieldError(horasField); }
                 });
             }
         }
@@ -1358,11 +1715,14 @@ window.handleInscripcionSubmit = function(event) {
             }, 500);
             firstInvalidField.focus();
         }
+        resetRecaptchaPN(); // <--- ¡AQUÍ! Reiniciar reCAPTCHA si hay errores en otros campos
         return; // Detener el envío si la validación falla
     }
 
     // Si todo está bien, envía el formulario usando AJAX
     const formData = new FormData($('#inscripcionForm')[0]);
+    formData.append('g-recaptcha-response', recaptchaResponse); // AÑADIR RESPUESTA DE RECAPTCHA
+
     // var base_url_guardar = window.location.origin+'/asnc/index.php/Diplomado/guardar_inscripcion';
     // var base_url_redirigir = window.location.origin+'/asnc/index.php/Diplomado/preinscrip';
     // var base_url_pdf = window.location.origin+'/asnc/index.php/Preinscripcionnatural/pdfrt?id=';
@@ -1400,6 +1760,7 @@ window.handleInscripcionSubmit = function(event) {
                 });
             } else {
                 swal("Error", response.message, "error");
+                resetRecaptchaPN(); // <--- ¡AQUÍ! Reiniciar reCAPTCHA si el backend devuelve un error
             }
         },
         error: function(xhr, status, error) {
@@ -1413,18 +1774,237 @@ window.handleInscripcionSubmit = function(event) {
             } catch (e) {
             }
             swal("Error", errorMessage, "error");
+            resetRecaptchaPN(); // <--- ¡AQUÍ! Reiniciar reCAPTCHA si hay un error de conexión/servidor
         },
         complete: function() {
             $('#guardarInscripcionBtn').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar Inscripción');
         }
     });
 };
-
 // --- FIN DE FUNCIÓN DE ENVÍO DEL FORMULARIO PRINCIPAL ---
 
 
 // --- INICIO DEL DOCUMENT.READY ---
 
+// $(document).ready(function() {
+//     // YA NO HAY INICIALIZACIÓN DE PARSLEY AQUÍ
+//  // Asociar evento 'change' a la casilla de Declaración Jurada
+//     $('#declaracionJurada').on('change', function() {
+//         const guardarBtn = $('#guardarInscripcionBtn');
+//         const declaracionJuradaField = $(this);
+//         const feedbackDiv = $('#declaracionJurada-feedback');
+
+//         if (declaracionJuradaField.is(':checked')) {
+//             guardarBtn.prop('disabled', false); // Habilita el botón
+//             feedbackDiv.hide().text(''); // Oculta cualquier mensaje de error
+//             declaracionJuradaField.removeClass('is-invalid'); // Remueve el estilo de error
+//         } else {
+//             guardarBtn.prop('disabled', true); // Deshabilita el botón
+//             feedbackDiv.text('Debe aceptar la declaración jurada para continuar.').show(); // Muestra el mensaje de error
+//             declaracionJuradaField.addClass('is-invalid'); // Añade el estilo de error
+//         }
+//     });
+
+//     // Disparar el evento 'change' una vez al cargar la página para establecer el estado inicial del botón
+//     // Esto es útil si el formulario se carga con datos preexistentes donde el checkbox ya podría estar marcado.
+//     $('#declaracionJurada').trigger('change');
+//     // Cargar cursos y instituciones al inicio
+//     cargarCursos();
+//     cargarInstituciones();
+
+//     // Asociar eventos a los elementos del DOM
+
+//     // Diplomado Info
+//     $('#id_diplomado').on('change', function() {
+//         window.loadDiplomadoInfo($(this).val());
+//     });
+
+//     // Datos del Participante
+//     $('#cedula_f').on('blur', function() {
+//         window.validateUsers();
+//     });
+//      $('#cedula_f').on('input', function() {
+//         allowOnlyNumbers(this);
+//     });
+//     $('#edad').on('input', function() {
+//         allowOnlyNumbers(this);
+//     });
+//     $('#experiencia_publicas').on('input', function() {
+//         allowOnlyNumbers(this);
+//     });
+//     $('#telefono_f').on('input', function() { // Asumo que el teléfono también es solo números
+//         allowOnlyNumbers(this);
+//     });
+
+//     // Información Curricular - Experiencia en Contrataciones Públicas
+//     $('#t_contrata_p').on('change', function() {
+//         if ($(this).val() === '1') {
+//             $('#experiencia_publicas_container').show();
+//             $('#experiencia_publicas').prop('required', true); // Mantener 'required' para compatibilidad con el backend
+//         } else {
+//             $('#experiencia_publicas_container').hide();
+//             $('#experiencia_publicas').prop('required', false).val('');
+//         }
+//     }).trigger('change');
+
+//     // Información Curricular - Capacitaciones en Contrataciones Públicas
+//     $('#tiene_capacitacion').on('change', function() {
+//         if ($(this).val() === '1') {
+//             $('#capacitaciones-container').show();
+//             if (capacitacionCount === 0) {
+//                 agregarCapacitacion();
+//             }
+//         } else {
+//             $('#capacitaciones-container').hide();
+//             $('#lista-capacitaciones').empty();
+//             capacitacionCount = 0;
+//             $('#btn-add-capacitacion').show();
+//         }
+//     }).trigger('change');
+
+//     $('#btn-add-capacitacion').on('click', function() {
+//         if (capacitacionCount < maxCapacitaciones) {
+//             agregarCapacitacion();
+//         } else {
+//             swal("Límite alcanzado", 'Solo puedes agregar hasta ' + maxCapacitaciones + ' capacitaciones.', "info");
+//         }
+//     });
+
+//     // Información Curricular - Experiencia Laboral Formal
+//     $('#tiene_experiencia_laboral').on('change', function() {
+//         if ($(this).val() === '1') {
+//             $('#experiencia-laboral-container').show();
+//             if (experienciaCount === 0) {
+//                 agregarExperienciaLaboral();
+//             }
+//         } else {
+//             $('#experiencia-laboral-container').hide();
+//             $('#lista-experiencias').empty();
+//             experienciaCount = 0;
+//             $('#btn-add-experiencia').show();
+//         }
+//     }).trigger('change');
+
+//     $('#btn-add-experiencia').on('click', function() {
+//         if (experienciaCount < maxExperiencias) {
+//             agregarExperienciaLaboral();
+//         } else {
+//             swal("Límite alcanzado", 'Solo puedes agregar hasta ' + maxExperiencias + ' experiencias laborales.', "info");
+//         }
+//     });
+
+//     // Asociar el envío del formulario al botón principal
+//     $('#inscripcionForm').on('submit', window.handleInscripcionSubmit);
+// });
+// $(document).ready(function() {
+// // Asociar evento 'change' a la casilla de Declaración Jurada
+//     $('#declaracionJurada').on('change', function() {
+//         const guardarBtn = $('#guardarInscripcionBtn');
+//         const declaracionJuradaField = $(this);
+//         const feedbackDiv = $('#declaracionJurada-feedback');
+
+//         if (declaracionJuradaField.is(':checked')) {
+//             guardarBtn.prop('disabled', false); // Habilita el botón
+//             feedbackDiv.hide().text(''); // Oculta cualquier mensaje de error
+//             declaracionJuradaField.removeClass('is-invalid'); // Remueve el estilo de error
+//         } else {
+//             guardarBtn.prop('disabled', true); // Deshabilita el botón
+//             feedbackDiv.text('Debe aceptar la declaración jurada para continuar.').show(); // Muestra el mensaje de error
+//             declaracionJuradaField.addClass('is-invalid'); // Añade el estilo de error
+//         }
+//     });
+
+//     // Disparar el evento 'change' una vez al cargar la página para establecer el estado inicial del botón
+//     // Esto es útil si el formulario se carga con datos preexistentes donde el checkbox ya podría estar marcado.
+//     $('#declaracionJurada').trigger('change');
+//     // Cargar cursos y instituciones al inicio
+//     cargarCursos();
+//     cargarInstituciones();
+
+//     // Asociar eventos a los elementos del DOM
+
+//     // Diplomado Info
+//     $('#id_diplomado').on('change', function() {
+//         window.loadDiplomadoInfo($(this).val());
+//     });
+
+//     // Datos del Participante
+//     $('#cedula_f').on('blur', function() {
+//         window.validateUsers();
+//     });
+//      $('#cedula_f').on('input', function() {
+//         allowOnlyNumbers(this);
+//     });
+//     $('#edad').on('input', function() {
+//         allowOnlyNumbers(this);
+//     });
+//     $('#experiencia_publicas').on('input', function() {
+//         allowOnlyNumbers(this);
+//     });
+//     $('#telefono_f').on('input', function() { // Asumo que el teléfono también es solo números
+//         allowOnlyNumbers(this);
+//     });
+
+//     // Información Curricular - Experiencia en Contrataciones Públicas
+//     $('#t_contrata_p').on('change', function() {
+//         if ($(this).val() === '1') {
+//             $('#experiencia_publicas_container').show();
+//             $('#experiencia_publicas').prop('required', true); // Mantener 'required' para compatibilidad con el backend
+//         } else {
+//             $('#experiencia_publicas_container').hide();
+//             $('#experiencia_publicas').prop('required', false).val('');
+//         }
+//     }).trigger('change');
+
+//     // Información Curricular - Capacitaciones en Contrataciones Públicas
+//     $('#tiene_capacitacion').on('change', function() {
+//         if ($(this).val() === '1') {
+//             $('#capacitaciones-container').show();
+//             if (capacitacionCount === 0) {
+//                 agregarCapacitacion();
+//             }
+//         } else {
+//             $('#capacitaciones-container').hide();
+//             $('#lista-capacitaciones').empty();
+//             capacitacionCount = 0;
+//             $('#btn-add-capacitacion').show();
+//         }
+//     }).trigger('change');
+
+//     $('#btn-add-capacitacion').on('click', function() {
+//         if (capacitacionCount < maxCapacitaciones) {
+//             agregarCapacitacion();
+//         } else {
+//             swal("Límite alcanzado", 'Solo puedes agregar hasta ' + maxCapacitaciones + ' capacitaciones.', "info");
+//         }
+//     });
+
+//     // Información Curricular - Experiencia Laboral Formal
+//     $('#tiene_experiencia_laboral').on('change', function() {
+//         if ($(this).val() === '1') {
+//             $('#experiencia-laboral-container').show();
+//             if (experienciaCount === 0) {
+//                 agregarExperienciaLaboral();
+//             }
+//         } else {
+//             $('#experiencia-laboral-container').hide();
+//             $('#lista-experiencias').empty();
+//             experienciaCount = 0;
+//             $('#btn-add-experiencia').show();
+//         }
+//     }).trigger('change');
+
+//     $('#btn-add-experiencia').on('click', function() {
+//         if (experienciaCount < maxExperiencias) {
+//             agregarExperienciaLaboral();
+//         } else {
+//             swal("Límite alcanzado", 'Solo puedes agregar hasta ' + maxExperiencias + ' experiencias laborales.', "info");
+//         }
+//     });
+
+//     // Asociar el envío del formulario al botón principal
+//     $('#inscripcionForm').on('submit', window.handleInscripcionSubmit);
+// });
 $(document).ready(function() {
     // YA NO HAY INICIALIZACIÓN DE PARSLEY AQUÍ
  // Asociar evento 'change' a la casilla de Declaración Jurada
@@ -1535,5 +2115,4 @@ $(document).ready(function() {
     // Asociar el envío del formulario al botón principal
     $('#inscripcionForm').on('submit', window.handleInscripcionSubmit);
 });
-
 // --- FIN DEL DOCUMENT.READY ---

@@ -147,17 +147,83 @@ class User extends CI_Controller
         $this->load->view('user/c_us.php', $data);
         $this->load->view('templates/footer.php');
     }
+    // public function save_user_c() //registro usuarios
+    // { 
+    //     if (!$this->session->userdata('session'))
+    //         redirect('login');
+    //     $parametros = $this->input->post('id_unidad');
+    //     $separar        = explode("/", $parametros);
+    //     $codigo = $separar['0'];
+    //     $rif = $separar['1'];
+
+    //     $password = $this->input->post('password');
+
+    //     $clave = password_hash(
+    //         base64_encode(
+    //             hash('sha256', $password, true)
+    //         ),
+    //         PASSWORD_DEFAULT
+    //     );
+
+    //     $data = array(
+    //         'nombre' => $this->input->POST('usuario'),
+    //         'password' => $clave,
+    //         'email' => $this->input->POST('email'),
+    //         // 'perfil' => $this->input->POST('perfil'),
+    //         'perfil' => 0,
+    //         'foto' => '1',
+    //         'foto' => 2,
+    //         'estado' => 1,
+    //         'ultimo_login' => date("Y-m-d"),
+    //         'fecha' => date("Y-m-d"),
+    //         'intentos' => 0,
+    //         'unidad' => $codigo,
+    //         'id_estatus' => 1,
+    //         'fecha_update' => date("Y-m-d"),
+    //         'rif_organoente' => $rif,
+    //         'id_usuario_c' => $this->session->userdata('id_user')
+    //     );
+    //     //print_r($data);die;
+
+    //     $data2 = array(
+    //         'nombrefun' => $this->input->POST('nombrefun'),
+    //         'apellido' => $this->input->POST('apellido'),
+    //         'tipo_ced' => 'V',
+    //         'cedula' => $this->input->POST('cedula'),
+    //         'cargo' => $this->input->POST('cargo'),
+    //         'tele_1' => $this->input->POST('tele_1'),
+    //         'tele_2' => $this->input->POST('tele_2'),
+    //         'oficina' => $this->input->POST('oficina'),
+    //         'fecha_designacion' => $this->input->POST('fecha_designacion'),
+    //         'numero_gaceta' => $this->input->POST('numero_gaceta'),
+    //         'email' => $this->input->POST('email'),
+    //         'tipo_funcionario' => 3,
+    //         'unidad' => $codigo,
+    //         'fecha' => date("Y-m-d"),
+    //         'obser' => $this->input->POST('obser'),
+    //         "id_usuario" => null
+    //     );
+    //     $data = $this->User_model->save_user_c($data, $data2);
+    //     echo json_encode($data);
+    // }
+
     public function save_user_c()
-    { //ultimo
-        if (!$this->session->userdata('session'))
-            redirect('login');
+    {
+        log_message('debug', 'Controller::save_user_c - Petición POST recibida.');
+
+        // Recolección y validación inicial de id_unidad
         $parametros = $this->input->post('id_unidad');
-        $separar        = explode("/", $parametros);
-        $codigo = $separar['0'];
-        $rif = $separar['1'];
+        if (empty($parametros) || $parametros == "0") {
+            log_message('debug', 'Controller::save_user_c - Error: id_unidad no seleccionado o inválido.');
+            echo json_encode(['success' => false, 'message' => 'Debe seleccionar un Órgano/Ente válido.']);
+            return;
+        }
+        $separar = explode("/", $parametros);
+        $codigo  = $separar[0];
+        $rif     = $separar[1];
 
+        // Generación de hash de contraseña
         $password = $this->input->post('password');
-
         $clave = password_hash(
             base64_encode(
                 hash('sha256', $password, true)
@@ -165,47 +231,95 @@ class User extends CI_Controller
             PASSWORD_DEFAULT
         );
 
-        $data = array(
-            'nombre' => $this->input->POST('usuario'),
-            'password' => $clave,
-            'email' => $this->input->POST('email'),
-            // 'perfil' => $this->input->POST('perfil'),
-            'perfil' => 0,
-            'foto' => '1',
-            'foto' => 2,
-            'estado' => 1,
-            'ultimo_login' => date("Y-m-d"),
-            'fecha' => date("Y-m-d"),
-            'intentos' => 0,
-            'unidad' => $codigo,
-            'id_estatus' => 1,
-            'fecha_update' => date("Y-m-d"),
+        // Datos para la tabla seguridad.usuarios
+        // Asegúrate que los nombres de los campos POST coincidan con los IDs de tu HTML
+        $data_user = array(
+            'nombre'         => trim($this->input->post('usuario')), // Trim para usuario
+            'password'       => $clave,
+            'email'          => trim($this->input->post('email')), // Trim para email
+            'perfil'         => 0, // Perfil por defecto
+            'foto'           => 1, // Valor fijo
+            'estado'         => 1, // Valor fijo (¿Activo por defecto?)
+            'ultimo_login'   => date("Y-m-d H:i:s"),
+            'fecha'          => date("Y-m-d H:i:s"), // Fecha de creación del usuario
+            'intentos'       => 0,
+            'unidad'         => $codigo, // Código de unidad
+            'id_estatus'     => 1, // Estatus activo
+            'fecha_update'   => date("Y-m-d H:i:s"),
             'rif_organoente' => $rif,
-            'id_usuario_c' => $this->session->userdata('id_user')
+            'id_usuario_c'   => $this->session->userdata('id_user') // ID del usuario que crea
         );
-        //print_r($data);die;
+        log_message('debug', 'Controller::save_user_c - Datos de Usuario enviados al modelo: ' . json_encode($data_user));
 
-        $data2 = array(
-            'nombrefun' => $this->input->POST('nombrefun'),
-            'apellido' => $this->input->POST('apellido'),
-            'tipo_ced' => 'V',
-            'cedula' => $this->input->POST('cedula'),
-            'cargo' => $this->input->POST('cargo'),
-            'tele_1' => $this->input->POST('tele_1'),
-            'tele_2' => $this->input->POST('tele_2'),
-            'oficina' => $this->input->POST('oficina'),
-            'fecha_designacion' => $this->input->POST('fecha_designacion'),
-            'numero_gaceta' => $this->input->POST('numero_gaceta'),
-            'email' => $this->input->POST('email'),
-            'tipo_funcionario' => 3,
-            'unidad' => $codigo,
-            'fecha' => date("Y-m-d"),
-            'obser' => $this->input->POST('obser'),
-            "id_usuario" => null
+        // Datos para la tabla seguridad.funcionarios
+        // Asegúrate que los nombres de los campos POST coincidan con los IDs de tu HTML
+        $data_funcionario = array(
+            'nombrefun'          => trim($this->input->post('nombrefun')),
+            'apellido'           => trim($this->input->post('apellido')),
+            'tipo_cedula'        => trim($this->input->post('tipo_ced')), // 'tipo_ced' del HTML
+            'cedula'             => trim($this->input->post('cedula')), // 'cedula' del HTML
+            'cargo'              => trim($this->input->post('cargo')),
+            'oficina'            => trim($this->input->post('oficina')),
+            'tele_1'             => trim($this->input->post('tele_1')),
+            'tele_2'             => trim($this->input->post('tele_2')),
+            'fecha_designacion'  => $this->input->post('fecha_designacion'), // Date no necesita trim
+            'numero_gaceta'      => trim($this->input->post('numero_gaceta')),
+            'email'              => trim($this->input->post('email')), // Email del funcionario (¡Cuidado si es diferente al de usuarios!)
+            'tipo_funcionario'   => 3, // Valor fijo
+            'unidad'             => $codigo, // Código de unidad del funcionario
+            'fecha'              => date("Y-m-d H:i:s"), // Fecha de creación del funcionario
+            'obser'              => trim($this->input->post('obser'))
         );
-        $data = $this->User_model->save_user_c($data, $data2);
-        echo json_encode($data);
+        log_message('debug', 'Controller::save_user_c - Datos de Funcionario enviados al modelo: ' . json_encode($data_funcionario));
+
+        // Llama a la función del modelo que maneja las validaciones y la inserción
+        $result_code = $this->User_model->save_user_c($data_user, $data_funcionario);
+        log_message('debug', 'Controller::save_user_c - Código de resultado del modelo: ' . $result_code);
+
+        // Devuelve una respuesta JSON al frontend basada en el código de resultado
+        switch ($result_code) {
+            case 1: // Éxito
+                echo json_encode(['success' => true, 'message' => 'Usuario registrado exitosamente.']);
+                break;
+            case 2: // Cédula duplicada
+                echo json_encode(['success' => false, 'message' => 'Error: La cédula ya se encuentra registrada.']);
+                break;
+            case 3: // Correo duplicado
+                echo json_encode(['success' => false, 'message' => 'Error: El correo electrónico ya se encuentra registrado.']);
+                break;
+            case 4: // Nombre de usuario duplicado
+                echo json_encode(['success' => false, 'message' => 'Error: El nombre de usuario ya existe.']);
+                break;
+            case 0: // Error general de base de datos o excepción en el modelo
+            default:
+                echo json_encode(['success' => false, 'message' => 'Ocurrió un error inesperado al guardar los datos. Por favor, verifique los logs del servidor.']);
+                break;
+        }
     }
+
+
+    public function valida_ced4()
+    { // Asumo que esta función existe y llama a User_model->valida_ced4()
+        $cedula = $this->input->post('cedula');
+        $exists = $this->User_model->cedula_exists($cedula); // O llama a $this->User_model->cedula_exists($cedula)
+        echo $exists; // Devuelve 0 o 1+
+    }
+
+    public function valida_correo()
+    { // Asumo que esta función existe y llama a User_model->valida_correo()
+        $email = $this->input->post('email');
+        $exists = $this->User_model->email_exists($email); // O llama a $this->User_model->email_exists($email)
+        echo $exists; // Devuelve 0 o 1+
+    }
+
+    public function validad_users()
+    { // Asumo que esta función existe y llama a User_model->validad_users()
+        $usuario = $this->input->post('usuario');
+        $exists = $this->User_model->username_exists($usuario); // O llama a $this->User_model->username_exists($usuario)
+        echo $exists; // Devuelve 0 o 1+
+    }
+
+    /////////////////////////////////////////
     public function chk_password_expression($str)
     {
         if (!$this->session->userdata('session')) {
@@ -840,13 +954,13 @@ class User extends CI_Controller
         $this->load->view('templates/footer.php');
     }
 
-    public function valida_ced4()
-    {
-        $cedula = $this->input->post('cedula');
-        $data = $this->User_model->valida_ced4($cedula);
-        //$data = $this->input->post();
-        echo json_encode($data);
-    }
+    // public function valida_ced4()
+    // {
+    //     $cedula = $this->input->post('cedula');
+    //     $data = $this->User_model->valida_ced4($cedula);
+    //     //$data = $this->input->post();
+    //     echo json_encode($data);
+    // }
     public function validad_correo1()
     {
         $email = $this->input->post('email');
@@ -854,13 +968,13 @@ class User extends CI_Controller
         //$data = $this->input->post();
         echo json_encode($data);
     }
-    public function validad_users()
-    {
-        $usuario = $this->input->post('usuario');
-        $data = $this->User_model->validad_users($usuario);
-        //$data = $this->input->post();
-        echo json_encode($data);
-    }
+    // public function validad_users()
+    // {
+    //     $usuario = $this->input->post('usuario');
+    //     $data = $this->User_model->validad_users($usuario);
+    //     //$data = $this->input->post();
+    //     echo json_encode($data);
+    // }
     public function see_ses()
     {
         if (!$this->session->userdata('session')) {

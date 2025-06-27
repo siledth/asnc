@@ -691,58 +691,58 @@ class User_model extends CI_Model
         $resultado = $query->row_array();
         return $resultado;
     }
-    public function save_user_c($data, $data2)
-    {
-        $this->db->select('max(e.id) as id1');
-        $query1 = $this->db->get('seguridad.usuarios e');
-        $response4 = $query1->row_array();
-        $id1 = $response4['id1'] + 1;
+    // public function save_user_c($data, $data2)  // ya no se usa
+    // {
+    //     $this->db->select('max(e.id) as id1');
+    //     $query1 = $this->db->get('seguridad.usuarios e');
+    //     $response4 = $query1->row_array();
+    //     $id1 = $response4['id1'] + 1;
 
-        $data1 = array(
-            'id'            => $id1,
-            'nombre'        => $data['nombre'],
-            'password'        => $data['password'],
-            'email'            => $data['email'],
-            'perfil'        => $data['perfil'],
-            'foto'          => 1,
-            'estado'        => 1,
-            'ultimo_login'  => $data['ultimo_login'],
-            'fecha'            => $data['fecha'],
-            'intentos'         => $data['intentos'],
-            'unidad'         => $data['unidad'],
-            'id_estatus'     => $data['id_estatus'],
-            'fecha_update'     => $data['fecha_update'],
-            'rif_organoente' => $data['rif_organoente'],
-            'id_usuario_c' => $data['id_usuario_c']
+    //     $data1 = array(
+    //         'id'            => $id1,
+    //         'nombre'        => $data['nombre'],
+    //         'password'        => $data['password'],
+    //         'email'            => $data['email'],
+    //         'perfil'        => $data['perfil'],
+    //         'foto'          => 1,
+    //         'estado'        => 1,
+    //         'ultimo_login'  => $data['ultimo_login'],
+    //         'fecha'            => $data['fecha'],
+    //         'intentos'         => $data['intentos'],
+    //         'unidad'         => $data['unidad'],
+    //         'id_estatus'     => $data['id_estatus'],
+    //         'fecha_update'     => $data['fecha_update'],
+    //         'rif_organoente' => $data['rif_organoente'],
+    //         'id_usuario_c' => $data['id_usuario_c']
 
 
-        );
-        $quers = $this->db->insert("seguridad.usuarios", $data1);
-        if ($quers) {
-            // $id = $id;
+    //     );
+    //     $quers = $this->db->insert("seguridad.usuarios", $data1);
+    //     if ($quers) {
+    //         // $id = $id;
 
-            $data3 = array(
-                'id_usuario'    => $id1,
-                'id'            => $id1,
-                'nombrefun'        => $data2['nombrefun'],
-                'apellido'        => $data2['apellido'],
-                'tipo_cedula'    => $data2['tipo_cedula'],
-                'cedula'         => $data2['cedula'],
-                'tele_1'         => $data2['tele_1'],
-                'tele_2'         => $data2['tele_2'],
-                'cargo'             => $data2['cargo'],
-                'oficina'         => $data2['oficina'],
-                'obser'         => $data2['obser'],
-                'fecha_designacion'         => $data2['fecha_designacion'],
-                'numero_gaceta'         => $data2['numero_gaceta'],
-                'email'         => $data2['email'],
-                'tipo_funcionario'         => $data2['tipo_funcionario'],
-                'unidad'         => $data2['unidad']
-            );
-            $this->db->insert('seguridad.funcionarios', $data3);
-            return true;
-        }
-    }
+    //         $data3 = array(
+    //             'id_usuario'    => $id1,
+    //             'id'            => $id1,
+    //             'nombrefun'        => $data2['nombrefun'],
+    //             'apellido'        => $data2['apellido'],
+    //             'tipo_cedula'    => $data2['tipo_cedula'],
+    //             'cedula'         => $data2['cedula'],
+    //             'tele_1'         => $data2['tele_1'],
+    //             'tele_2'         => $data2['tele_2'],
+    //             'cargo'             => $data2['cargo'],
+    //             'oficina'         => $data2['oficina'],
+    //             'obser'         => $data2['obser'],
+    //             'fecha_designacion'         => $data2['fecha_designacion'],
+    //             'numero_gaceta'         => $data2['numero_gaceta'],
+    //             'email'         => $data2['email'],
+    //             'tipo_funcionario'         => $data2['tipo_funcionario'],
+    //             'unidad'         => $data2['unidad']
+    //         );
+    //         $this->db->insert('seguridad.funcionarios', $data3);
+    //         return true;
+    //     }
+    // }
 
     public function valida_ced4($cedula)
     {
@@ -1518,5 +1518,102 @@ class User_model extends CI_Model
         // affected_rows() puede ser 0 si no hubo cambios, lo cual es un "éxito" si la operación se realizó sin error.
         // Solo retornamos false si hubo un error de base de datos (código de error diferente de 0).
         return ($this->db->error()['code'] == 0);
+    }
+
+
+    //////////////////////////
+    public function cedula_exists($cedula_val)
+    { // Renombrado para evitar conflicto con columna
+        $this->db->where('cedula', $cedula_val);
+        $query = $this->db->get('seguridad.funcionarios');
+        log_message('debug', 'Model::cedula_exists - Cédula recibida: ' . $cedula_val . ', Filas encontradas: ' . $query->num_rows());
+        return $query->num_rows() > 0;
+    }
+
+    public function email_exists($email_val)
+    { // Renombrado para evitar conflicto con columna
+        $this->db->where('email', $email_val);
+        $query = $this->db->get('seguridad.usuarios');
+        log_message('debug', 'Model::email_exists - Email recibido: ' . $email_val . ', Filas encontradas: ' . $query->num_rows());
+        return $query->num_rows() > 0;
+    }
+
+    public function username_exists($username_val)
+    { // Renombrado para evitar conflicto con columna
+        $this->db->where('nombre', $username_val); // 'nombre' es la columna de usuario en seguridad.usuarios
+        $query = $this->db->get('seguridad.usuarios');
+        log_message('debug', 'Model::username_exists - Usuario recibido: ' . $username_val . ', Filas encontradas: ' . $query->num_rows());
+        return $query->num_rows() > 0;
+    }
+    public function save_user_c($data_user, $data_funcionario)
+    {
+        log_message('debug', 'Model::save_user_c - Iniciando guardado.');
+
+        // 1. Validaciones de Unicidad
+        if ($this->username_exists($data_user['nombre'])) {
+            log_message('debug', 'Model::save_user_c - Fallo: Nombre de usuario duplicado.');
+            return 4;
+        }
+        if ($this->email_exists($data_user['email'])) {
+            log_message('debug', 'Model::save_user_c - Fallo: Correo electrónico duplicado.');
+            return 3;
+        }
+        if ($this->cedula_exists($data_funcionario['cedula'])) {
+            log_message('debug', 'Model::save_user_c - Fallo: Cédula duplicada.');
+            return 2;
+        }
+
+        $this->db->trans_start(); // Iniciar transacción
+
+        try {
+            // **CORRECCIÓN AQUÍ:** Declarar $user_id_generado antes del bloque if
+            $user_id_generado = null; // Inicializar a null o 0
+
+            // Preparar datos para usuarios (quitar 'id' si es SERIAL)
+            $user_data_for_insert = $data_user;
+            unset($user_data_for_insert['id']);
+
+            // 2. Insertar en seguridad.usuarios
+            log_message('debug', 'Model::save_user_c - Insertando en seguridad.usuarios. Datos: ' . json_encode($user_data_for_insert));
+            $this->db->insert("seguridad.usuarios", $user_data_for_insert);
+
+            // Verificar inserción y obtener el ID
+            if ($this->db->affected_rows() === 0 || $this->db->error()['code'] != 0) {
+                throw new Exception('Error al insertar en la tabla usuarios: ' . $this->db->error()['message']);
+            }
+            $user_id_generado = $this->db->insert_id(); // Asignar el valor aquí
+            log_message('debug', 'Model::save_user_c - Inserción en usuarios exitosa. ID generado: ' . $user_id_generado);
+
+            // Preparar datos para funcionarios (enlazar con el ID generado, quitar 'id' si es SERIAL)
+            $funcionario_data_for_insert = $data_funcionario;
+            unset($funcionario_data_for_insert['id']);
+            $funcionario_data_for_insert['id_usuario'] = $user_id_generado;
+
+            // 3. Insertar en seguridad.funcionarios
+            log_message('debug', 'Model::save_user_c - Insertando en seguridad.funcionarios. Datos: ' . json_encode($funcionario_data_for_insert));
+            $this->db->insert('seguridad.funcionarios', $funcionario_data_for_insert);
+
+            // Verificar inserción en funcionarios
+            if ($this->db->affected_rows() === 0 || $this->db->error()['code'] != 0) {
+                throw new Exception('Error al insertar en la tabla funcionarios: ' . $this->db->error()['message']);
+            }
+            log_message('debug', 'Model::save_user_c - Inserción en funcionarios exitosa.');
+
+            // 4. Confirmar la Transacción
+            $this->db->trans_complete(); // Usa trans_complete() para commit/rollback automático
+
+            if ($this->db->trans_status() === FALSE) {
+                log_message('error', 'Model::save_user_c - Transacción fallida (trans_status FALSE).');
+                return 0; // Error general
+            } else {
+                log_message('debug', 'Model::save_user_c - Transacción completada con éxito. Retorna 1.');
+                return 1; // Éxito
+            }
+        } catch (Exception $e) {
+            // 5. Revertir Transacción en caso de error
+            $this->db->trans_rollback();
+            log_message('error', 'Model::save_user_c - Excepción capturada durante la transacción (Rollback): ' . $e->getMessage());
+            return 0; // Error general de base de datos
+        }
     }
 }

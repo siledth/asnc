@@ -14,6 +14,39 @@
 
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+
+    <script type="text/javascript">
+        // Las variables globales y funciones de callback deben estar aquí
+        // Asegúrate de que esta variable de configuración de CI existe y devuelve tu clave de sitio.
+        var RECAPTCHA_SITE_KEY = '<?php echo $this->config->item('recaptcha_site_key'); ?>';
+        var recaptchaWidgetId; // Variable global para almacenar el ID del widget de reCAPTCHA
+
+        // Función de callback de reCAPTCHA - Se ejecuta cuando la API de reCAPTCHA está lista
+        var onloadCallback = function() {
+            if (document.getElementById('recaptcha-widget-personal-natural')) {
+                recaptchaWidgetId = grecaptcha.render('recaptcha-widget-personal-natural', {
+                    'sitekey': RECAPTCHA_SITE_KEY,
+                    'theme': 'light' // O 'dark' si lo prefieres
+                });
+                console.log("reCAPTCHA widget Persona Natural renderizado. ID:", recaptchaWidgetId);
+            } else {
+                console.error("Error: Elemento 'recaptcha-widget-personal-natural' no encontrado en el DOM.");
+            }
+        };
+
+        // Función para reiniciar el reCAPTCHA - Esto borra la marca "No soy un robot"
+        function resetRecaptchaPN() { // Renombrada para evitar conflictos con otros formularios si los tienes.
+            if (typeof grecaptcha !== 'undefined' && typeof grecaptcha.reset === 'function' && recaptchaWidgetId !==
+                undefined) {
+                grecaptcha.reset(recaptchaWidgetId);
+                console.log("reCAPTCHA widget Persona Natural reiniciado.");
+            } else {
+                console.warn("No se pudo reiniciar reCAPTCHA PN: grecaptcha no definido o widgetId inválido.");
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -240,6 +273,13 @@
                                     <div class="invalid-feedback" id="declaracionJurada-feedback">
                                         Debe aceptar la declaración jurada para continuar.
                                     </div>
+                                </div>
+                            </div>
+                            <div class="text-center mt-4">
+                                <div id="recaptcha-widget-personal-natural"></div>
+                                <div class="invalid-feedback text-center" id="recaptcha-feedback"
+                                    style="display: none; margin-top: 5px;">
+                                    Por favor, complete el reCAPTCHA.
                                 </div>
                             </div>
                             <div class="text-center mt-4">
