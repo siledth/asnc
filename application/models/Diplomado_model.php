@@ -1247,4 +1247,50 @@ class Diplomado_model extends CI_model
 
         return $stats;
     }
+
+    //editar persona natural usuario interno snc
+    function check_miemb_inf_ac($id_participante)
+    {
+
+        $this->db->select('id_participante,cedula, nombres, apellidos, telefono, correo, edad, direccion');
+        //$this->db->join('comisiones.academico c2', 'c2.id_academico = pi2.id_academico');
+        // $this->db->join('comisiones.tp_miembro c3','c3.id_tp_miembro = pi2.id_tp_miembro');
+        // $this->db->join('comisiones.status_comision st','st.id_status = pi2.id_status');
+
+        $this->db->where('id_participante', $id_participante);
+        $this->db->from('diplomado.participantes');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    function check_miemb_inf_ac_($data)
+    { //mostrar para editar informacion persona natural
+
+        $this->db->select('id_participante,cedula, nombres, apellidos, telefono, correo, edad, direccion');
+        //$this->db->join('comisiones.academico c2', 'c2.id_academico = pi2.id_academico');
+        $this->db->where('id_participante', $data['id_participante']);
+        $this->db->from('diplomado.participantes');
+
+        $query = $this->db->get();
+        $resultado = $query->row_array();
+        return $resultado;
+    }
+    public function editar_datos_pn($data)
+    {  // edita la informacion academica del miembro de comision
+
+        $this->db->where('id_participante', $data['id_participante']);
+
+        $data1 = array(
+            'nombres'             => $data['nombres'],
+            'apellidos'           => $data['apellidos'],
+            'telefono'            => $data['telefono'],
+            'correo'              => $data['correo'],
+            'edad'                => $data['edad'],
+            'direccion'           => $data['direccion'],
+
+
+
+        );
+        $update = $this->db->update('diplomado.participantes', $data1);
+        return true;
+    }
 }

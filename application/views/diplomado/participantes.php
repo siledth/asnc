@@ -51,6 +51,12 @@
                                                     <i title="Decisión" class="fas fa-2x fa-fw fa-address-card"
                                                         style="color: darkred;"></i>
                                                 </a>
+
+                                                <a href="<?php echo base_url(); ?>index.php/Diplomado/editar_pn_int?id=<?php echo $data['id_participante']; ?>"
+                                                    class="button">
+                                                    <i title="Editar Información" class="fas fa-2x fa-fw fa-clipboard-list"
+                                                        style="color: black;"></i>
+                                                    <a />
                                         </td>
 
                                     </tr>

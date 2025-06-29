@@ -2443,4 +2443,37 @@ class Diplomado extends CI_Controller
             echo json_encode(['status' => 'error', 'message' => $result['message']]);
         }
     }
+
+    /////// editar informacion de personas natural por el usuario interno SNC
+    public function editar_pn_int()
+    {
+        if (!$this->session->userdata('session')) redirect('login');
+        //Información traido por el session de usuario para mostrar inf
+
+        $data['id_participante'] = $this->input->get('id');
+
+        $data['academico'] = $this->Diplomado_model->check_miemb_inf_ac($data['id_participante']);
+        // $data['exp5'] = $this->Comision_contrata_model->check_miemb_inf_exp5($data['id_miembros']);
+        // $data['con_p'] = $this->Comision_contrata_model->check_miemb_inf_contr_pub($data['id_miembros']);
+        // $data['con_c'] = $this->Comision_contrata_model->check_miemb_inf_cap($data['id_miembros']);
+        // $data['final']  = $this->Comision_contrata_model->check_organo();
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('diplomado/edit_pn_int.php', $data);
+        $this->load->view('templates/footer.php');
+    }
+    public function consulta_datos_pn()
+    {
+        if (!$this->session->userdata('session')) redirect('login');
+        $data = $this->input->post();
+        $data =    $this->Diplomado_model->check_miemb_inf_ac_($data);
+        echo json_encode($data);
+    }
+    public function editar_datos_pn()
+    {
+        if (!$this->session->userdata('session')) redirect('login');
+        $data = $this->input->post();
+        $data =    $this->Diplomado_model->editar_datos_pn($data);
+        echo json_encode($data);
+    }
 }
