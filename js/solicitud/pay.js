@@ -772,7 +772,7 @@ const dataToSend = {
                     // Este código se ejecuta cuando el usuario hace clic en "Aceptar" en el SweetAlert
                     
                     if (response.codigo_planilla) { 
-                        console.log("Iniciando descarga de PDF para planilla:", response.codigo_planilla);
+                       // console.log("Iniciando descarga de PDF para planilla:", response.codigo_planilla);
                         
                         // --- ¡CORRECCIÓN CLAVE AQUÍ PARA FORZAR LA DESCARGA Y LUEGO REDIRIGIR! ---
                         // Crea un enlace temporal en el DOM
@@ -783,20 +783,21 @@ const dataToSend = {
                         downloadLink.click(); // Simular clic para iniciar la descarga
                         document.body.removeChild(downloadLink); // Eliminar el enlace del DOM
 
-                        console.log("Descarga de PDF iniciada.");
+                       // console.log("Descarga de PDF iniciada.");
                         
                         // Redirigir la pestaña ACTUAL SIEMPRE, después de un breve retraso
-                        console.log("Redirigiendo pestaña actual...");
-                        setTimeout(function() {
-                            window.location.href = base_url_redirigir; 
-                        }, 2000); // Dar un poco más de tiempo para que el diálogo de descarga aparezca
-                                  // o la descarga se inicie antes de la redirección.
+                        //console.log("Redirigiendo pestaña actual...");
+                           setTimeout(function() {
+                            window.location.href = base_url_redirigir; // Usa la variable global para mayor seguridad de ruta
+                        }, 2500); // Aumentado a 2.5 segundos para dar más tiempo a la descarga
+                                  // o para que el usuario vea el diálogo de descarga.
+                                  
                     } else {
                         console.warn('guardarPagoFinal: No se recibió código de planilla para generar el recibo PDF.');
                         swal('Advertencia', 'No se pudo generar el recibo PDF. Redirigiendo a la página principal.', 'warning');
                         setTimeout(function() {
                             window.location.href = base_url_redirigir; 
-                        }, 2000);
+                        }, 1000);
                     }
                 });
             } else {
@@ -819,7 +820,7 @@ const dataToSend = {
         },
         complete: function() {
             $('#guardarPagoFinalBtn').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar Pago');
-            console.log("guardarPagoFinal: Petición AJAX completa. Botón restaurado."); 
+            //console.log("guardarPagoFinal: Petición AJAX completa. Botón restaurado."); 
         }
     });
     console.log("--- guardarPagoFinal FINALIZADO (Llamada AJAX enviada) ---"); 
