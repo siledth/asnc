@@ -789,7 +789,7 @@ const dataToSend = {
                         //console.log("Redirigiendo pestaña actual...");
                            setTimeout(function() {
                             window.location.href = base_url_redirigir; // Usa la variable global para mayor seguridad de ruta
-                        }, 2500); // Aumentado a 2.5 segundos para dar más tiempo a la descarga
+                        }, 5500); // Aumentado a 2.5 segundos para dar más tiempo a la descarga
                                   // o para que el usuario vea el diálogo de descarga.
                                   
                     } else {
