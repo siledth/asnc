@@ -783,14 +783,10 @@ const dataToSend = {
                         downloadLink.click(); // Simular clic para iniciar la descarga
                         document.body.removeChild(downloadLink); // Eliminar el enlace del DOM
 
-                       // console.log("Descarga de PDF iniciada.");
-                        
-                        // Redirigir la pestaña ACTUAL SIEMPRE, después de un breve retraso
-                        //console.log("Redirigiendo pestaña actual...");
+                      
                            setTimeout(function() {
                             window.location.href = base_url_redirigir; // Usa la variable global para mayor seguridad de ruta
-                        }, 3000); // Aumentado a 2.5 segundos para dar más tiempo a la descarga
-                                  // o para que el usuario vea el diálogo de descarga.
+                        }, 2000); 
                                   
                     } else {
                         console.warn('guardarPagoFinal: No se recibió código de planilla para generar el recibo PDF.');
