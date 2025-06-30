@@ -746,7 +746,7 @@ const dataToSend = {
     // var base_url_redirigir = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; 
 
      var base_url_guardar_pago = '/index.php/Diplomado/guardar_pago';
-     var base_url_pdf_recibo = '/index.php/Diplomado/recibonatural/pdfrt?id=' + $('#rif_b').val();
+     var base_url_pdf_recibo = '/index.php/recibonatural/pdfrt?id=' + $('#rif_b').val();
      var base_url_redirigir = '/index.php/Diplomado/preinscrip';
 
     $.ajax({
