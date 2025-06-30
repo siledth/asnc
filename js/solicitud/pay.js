@@ -486,7 +486,9 @@ window.Consultarplanilla = function() {
     $("#existe").hide();
     $("#no_existe").hide();
 
-    var base_url = window.location.origin+'/asnc/index.php/Diplomado/consulta_og'; 
+    // var base_url = window.location.origin+'/asnc/index.php/Diplomado/consulta_og'; 
+     var base_url = '/index.php/Diplomado/consulta_og';
+
 
     $.ajax({
         url: base_url,
@@ -650,7 +652,9 @@ window.verificarDatosPago = function(event) {
         telefonoDestino: $('#telefonoDestino').val() || '' 
     };
 
-    const urlVerificarPago = window.location.origin+'/asnc/index.php/Diplomado/verificar_pago'; 
+    // const urlVerificarPago = window.location.origin+'/asnc/index.php/Diplomado/verificar_pago'; 
+     var urlVerificarPago = '/index.php/Diplomado/verificar_pago';
+
     $('#btnVerificarDatosPago').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Verificando...');
 
     $.ajax({
@@ -736,10 +740,15 @@ const dataToSend = {
     };
 
     
-    var base_url_guardar_pago = window.location.origin + '/asnc/index.php/Diplomado/guardar_pago';
-    var base_url_pdf_recibo = window.location.origin + '/asnc/index.php/recibonatural/pdfrt?id=' + $('#rif_b').val();
+    // var base_url_guardar_pago = window.location.origin + '/asnc/index.php/Diplomado/guardar_pago';
+    // var base_url_pdf_recibo = window.location.origin + '/asnc/index.php/recibonatural/pdfrt?id=' + $('#rif_b').val();
     
-    var base_url_redirigir = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; 
+    // var base_url_redirigir = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; 
+
+     var base_url_guardar_pago = '/index.php/Diplomado/guardar_pago';
+     var base_url_pdf_recibo = '/index.php/Diplomado/recibonatural/pdfrt?id=' + $('#rif_b').val();
+     var base_url_redirigir = '/index.php/Diplomado/preinscrip';
+
     $.ajax({
         url: base_url_guardar_pago,
         type: 'POST',
