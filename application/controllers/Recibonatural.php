@@ -43,11 +43,9 @@ class Pdf extends FPDF
         $this->Ln(1);
         $this->SetY(-15);
         // Add footer section
-        $this->SetFont('Arial', '', 6);
-        $this->Cell(150, 5, utf8_decode('Edificio Nova, Final del Bulevar de Sabana Grande, 
-        al lado del Metro de Chacaíto. Punto de Referencia: Frente al C.C. Chacaíto. Caracas,
-         Venezuela, (0212) 508.55.99. Twitter: @snc_info 
-Página Web: http://www.snc.gob.ve'), 0, 1, 'C');
+        $this->SetFont('Arial', '', 9);
+        $this->MultiCell(150, 5, utf8_decode('Edificio Nova, Final del Bulevar de Sabana Grande, al lado del Metro de Chacaíto. Punto de Referencia: Frente al C.C. Chacaíto. Caracas,Venezuela, (0212) 508.55.99. Twitter: @snc_info Página Web: http://www.snc.gob.ve'), 0,  'C');
+
 
         $this->Cell(150, 5, utf8_decode('RIF. G-200024518               Pagina') . $this->PageNo() . '/' . $this->AliasNbPages, 0, 0, 'C');
     }
@@ -87,12 +85,12 @@ class Recibonatural extends CI_Controller
         if ($data != '') {
 
             foreach ($data as $d) {
-                $pdf->SetFont('Arial', 'B', 20);
+                $pdf->SetFont('Arial', 'B', 15);
                 $pdf->Ln(5);
                 // $pdf->Cell(40, 5,  '', 0, 0, 'R');
 
                 $pdf->Cell(35, 5, utf8_decode('Código planilla:'), 0, 0, 'C');
-                $pdf->SetFont('Arial', 'B', 20);
+                $pdf->SetFont('Arial', 'B', 15);
                 $pdf->SetTextColor(255, 0, 0);
                 $pdf->Cell(70, 5, utf8_decode($d->codigo_planilla), 0, 0, 'C');
 
