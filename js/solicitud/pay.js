@@ -778,7 +778,7 @@ const dataToSend = {
                         // Crea un enlace temporal en el DOM
                         const downloadLink = document.createElement('a');
                         downloadLink.href = base_url_pdf_recibo;
-                        downloadLink.download = `Recibo_SNC_${response.codigo_planilla}.pdf`; // Sugiere un nombre de archivo
+                        downloadLink.download = `Recibo_SNC_${response.codigo_planilla}`; // Sugiere un nombre de archivo
                         document.body.appendChild(downloadLink); // Añadir al DOM temporalmente
                         downloadLink.click(); // Simular clic para iniciar la descarga
                         document.body.removeChild(downloadLink); // Eliminar el enlace del DOM
