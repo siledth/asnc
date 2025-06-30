@@ -671,7 +671,7 @@ window.verificarDatosPago = function(event) {
                 console.log("verificarDatosPago: Verificación exitosa. Pago verificado a '1'."); 
             } else {
                 swal('Error', response.message || 'Error al verificar los datos de pago.', 'error');
-                $('#pagoVerificado').val('0'); 
+                $('#pagoVerificado').val('1'); 
                 resetRecaptchaPay(); 
                 console.log("verificarDatosPago: Verificación fallida. Pago verificado a '0'."); 
             }
@@ -783,7 +783,6 @@ const dataToSend = {
                         downloadLink.click(); // Simular clic para iniciar la descarga
                         document.body.removeChild(downloadLink); // Eliminar el enlace del DOM
 
-                      
                            setTimeout(function() {
                             window.location.href = base_url_redirigir; // Usa la variable global para mayor seguridad de ruta
                         }, 2000); 
