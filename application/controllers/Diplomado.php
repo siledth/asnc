@@ -1646,7 +1646,8 @@ class Diplomado extends CI_Controller
                 echo json_encode([
                     'success' => true,
                     'message' => 'Pago registrado y estado actualizado correctamente',
-                    'pago_id' => $pago_id
+                    'pago_id' => $pago_id,
+                    'codigo_planilla' => $codigo_planilla
                 ]);
             } else {
                 echo json_encode([
@@ -2452,8 +2453,8 @@ class Diplomado extends CI_Controller
 
         $data['id_participante'] = $this->input->get('id');
 
-        $data['academico'] = $this->Diplomado_model->check_miemb_inf_ac($data['id_participante']);
-        // $data['exp5'] = $this->Comision_contrata_model->check_miemb_inf_exp5($data['id_miembros']);
+        $data['personal'] = $this->Diplomado_model->check_miemb_inf_ac($data['id_participante']);
+        $data['academico'] = $this->Diplomado_model->check_miemb_inf_exp5($data['id_participante']);
         // $data['con_p'] = $this->Comision_contrata_model->check_miemb_inf_contr_pub($data['id_miembros']);
         // $data['con_c'] = $this->Comision_contrata_model->check_miemb_inf_cap($data['id_miembros']);
         // $data['final']  = $this->Comision_contrata_model->check_organo();

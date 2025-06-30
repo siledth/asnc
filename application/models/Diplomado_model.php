@@ -1293,4 +1293,17 @@ class Diplomado_model extends CI_model
         $update = $this->db->update('diplomado.participantes', $data1);
         return true;
     }
+    function check_miemb_inf_exp5($id_participante)
+    {
+
+        $this->db->select('g.id_participante, g.grado_instruccion, g.titulo_obtenido, c2.desc_academico');
+        $this->db->join('comisiones.academico c2', 'c2.id_academico = g.grado_instruccion');
+        // $this->db->join('comisiones.tp_miembro c3','c3.id_tp_miembro = pi2.id_tp_miembro');
+        // $this->db->join('comisiones.status_comision st','st.id_status = pi2.id_status');
+
+        $this->db->where('g.id_participante', $id_participante);
+        $this->db->from('diplomado.curriculum_participante g');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 }

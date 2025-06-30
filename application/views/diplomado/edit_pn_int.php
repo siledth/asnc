@@ -5,13 +5,6 @@
             <div class="panel panel-inverse">
                 <div class="row">
                     <div class="col-1"></div>
-                    <div class="col-10 mt-4">
-                        <div class="card card-outline-danger text-center bg-white">
-                            <div class="card-block">
-
-                            </div>
-                        </div>
-                    </div>
 
                     <hr style="border-top: 1px solid rgba(0, 0, 0, 0.17);">
                     <div class="col-11" style="margin-left: 40px;">
@@ -31,7 +24,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($academico as $data): ?>
+                                    <?php foreach ($personal as $data): ?>
                                         <tr class="odd gradeX" style="text-align:center">
                                             <td><?= $data['cedula'] ?></td>
                                             <td><?= $data['nombres'] ?></td>
@@ -51,36 +44,34 @@
                             </table>
                         </div>
                     </div>
-                    <div class="col-1"></div>
-                    <div class="col-10 mt-3">
-                        <h3 class="text-center"> Experiencia (Últimos 5 años) Orden Cronológico desde el actual o Último
+                    <div class="col-11 mt-3">
+                        <h3 class="text-center"> Informaciòn academica
                         </h3>
                         <table id="data-table-default" class="table table-striped">
                             <thead style="background:#e4e7e8">
                                 <tr class="text-center">
-                                    <th>Rif</th>
-                                    <th>Area</th>
-                                    <th>Cargo</th>
-                                    <th>Desde</th>
-                                    <th>Hasta</th>
+                                    <th>Grado Instrucción</th>
+                                    <th>Titulo</th>
+                                    <th>Acciones</th>
+
+
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($exp5 as $data): ?>
+                                <?php foreach ($academico as $data): ?>
                                     <tr class="odd gradeX" style="text-align:center">
-                                        <td><?= $data['rif'] ?> </td>
-                                        <td><?= $data['areas'] ?> </td>
-                                        <td><?= $data['cargo'] ?> </td>
-                                        <td><?= $data['desde'] ?> </td>
-                                        <td><?= $data['hasta'] ?> </td>
+                                        <td><?= $data['desc_academico'] ?> </td>
+                                        <td><?= $data['titulo_obtenido'] ?> </td>
+
+                                        <td class="center">
+                                            <a onclick="modal_exp(<?php echo $data['id_participante'] ?>);"
+                                                data-toggle="modal" data-target="#exp" style="color: white">
+                                                <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
+                                                    style="color: darkgreen;"></i>
+                                            </a>
+                                        </td>
                                     </tr>
-                                    <td class="center">
-                                        <a onclick="modal_exp(<?php echo $data['id_inf_exp5'] ?>);" data-toggle="modal"
-                                            data-target="#exp" style="color: white">
-                                            <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
-                                                style="color: darkgreen;"></i>
-                                        </a>
-                                    </td>
+
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
@@ -88,8 +79,8 @@
                     <hr style=" border-top: 1px solid rgba(0, 0, 0, 0.17);">
                     <div class="col-1"></div>
                     <div class="col-1"></div>
-                    <div class="col-10 mt-4">
-                        <h3 class="text-center">Capacitación Relacionada con Contrataciones Públicas (35%)</h3>
+                    <!-- <div class="col-10 mt-4">
+                        <h3 class="text-center">Capacitación </h3>
                         <table id="data-table-autofill" class="table table-hover">
                             <thead style="background:#e4e7e8">
                                 <tr class="text-center">
@@ -132,11 +123,11 @@
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
-                    </div>
+                    </div> -->
                     <hr style=" border-top: 1px solid rgba(0, 0, 0, 0.17);">
                     <div class="col-1"></div>
                     <div class="col-1"></div>
-                    <div class="col-10 mt-4">
+                    <!-- <div class="col-10 mt-4">
                         <h3 class="text-center">Capacitación en Comisión de Contrataciones (15%)</h3>
                         <table id="data-table-autofill" class="table table-hover">
                             <thead style="background:#e4e7e8">
@@ -153,32 +144,32 @@
                             </thead>
                             <tbody>
                                 <?php foreach ($con_c as $data): ?>
-                                    <tr class="odd gradeX" style="text-align:center">
-                                        <?php if ($data['exit_rnc'] == 1) : ?>
-                                            <td><?= $data['sel_rif_nombre'] ?> </td>
-                                            <td><?= $data['nombre_contratista'] ?> </td>
+                                <tr class="odd gradeX" style="text-align:center">
+                                    <?php if ($data['exit_rnc'] == 1) : ?>
+                                    <td><?= $data['sel_rif_nombre'] ?> </td>
+                                    <td><?= $data['nombre_contratista'] ?> </td>
 
 
-                                        <?php else: ?>
-                                            <td><?= $data['rif_contr_no_rnc'] ?> </td>
-                                            <td><?= $data['razon_social_no_rnc'] ?> </td>
+                                    <?php else: ?>
+                                    <td><?= $data['rif_contr_no_rnc'] ?> </td>
+                                    <td><?= $data['razon_social_no_rnc'] ?> </td>
 
-                                        <?php endif; ?>
+                                    <?php endif; ?>
 
-                                        <td><?= $data['namecurso'] ?> </td>
-                                        <td><?= $data['horas'] ?> </td>
-                                        <td><?= $data['ncertificado'] ?> </td>
-                                        <td><?= $data['fcerti'] ?> </td>
-                                        <td><?= $data['vigencia'] ?> </td>
-
-
+                                    <td><?= $data['namecurso'] ?> </td>
+                                    <td><?= $data['horas'] ?> </td>
+                                    <td><?= $data['ncertificado'] ?> </td>
+                                    <td><?= $data['fcerti'] ?> </td>
+                                    <td><?= $data['vigencia'] ?> </td>
 
 
-                                    </tr>
+
+
+                                </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
-                    </div>
+                    </div> -->
                     <div class="col-12 text-center mt-3 mb-3">
                         <a class="btn btn-circle waves-effect btn-lg waves-circle waves-float btn-primary"
                             href="javascript:history.back()"> Volver</a>
@@ -265,8 +256,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Experiencia (Últimos 5 años) Orden Cronológico desde
-                    el actual o Último</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Informaciòn academica</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -276,7 +266,7 @@
                     method="POST" enctype="multipart/form-data">
                     <div class="row">
                         <div class="card card-outline-danger">
-                            <h5 class="mt-0 text-center"><b>Experiencias</b></h5>
+                            <h5 class="mt-0 text-center"><b>Informaciòn academica</b></h5>
                             <div class="row ">
                                 <div class="form-group col-12">
                                     <label>Órgano/Ente/Institución/Empresa:</label>
