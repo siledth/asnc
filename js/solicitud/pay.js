@@ -577,6 +577,7 @@
 
 // pay.js
 
+// --- 1. VARIABLES GLOBALES ---
 const today = new Date();
 const year = today.getFullYear();
 const month = (today.getMonth() + 1).toString().padStart(2, '0');
@@ -678,8 +679,7 @@ function toggleGuardarPagoButton() {
     console.log("--- toggleGuardarPagoButton INICIADO ---"); // CONSOLE LOG
     const declaracionPagoCheckbox = $('#declaracionPago');
     const guardarPagoButton = $('#guardarPagoFinalBtn'); 
-    // Obtener la respuesta de reCAPTCHA de forma segura, solo si grecaptcha y sus métodos existen
-    const recaptchaResponse = (typeof grecaptcha !== 'undefined' && grecaptcha.hasOwnProperty('getResponse')) ? grecaptcha.getResponse() : ''; 
+    const recaptchaResponse = typeof grecaptcha !== 'undefined' ? grecaptcha.getResponse() : ''; 
     const declaracionPagoFeedback = $('#declaracionPago-feedback'); 
     const recaptchaFeedback = $('#recaptcha-pay-feedback'); 
 
@@ -688,25 +688,21 @@ function toggleGuardarPagoButton() {
     recaptchaFeedback.hide().text('');
 
     // Condición para habilitar el botón "Guardar Pago Final":
+    // El botón se habilita cuando la planilla está encontrada, la declaración aceptada y el reCAPTCHA completado.
+    // La VERIFICACIÓN DEL PAGO es una ACCIÓN que el botón INICIARÁ.
     const planillaEncontrada = $('#id_inscripcion').val().trim() !== '' && $('#codigo_planilla_hidden').val().trim() !== '';
-    const pagoVerificadoConExito = $('#pagoVerificado').val() === '1'; // ¡CLAVE!
+    // const pagoVerificadoConExito = $('#pagoVerificado').val() === '1'; // <-- ¡ELIMINAR ESTA LÍNEA DE LA CONDICIÓN!
     const declaracionAceptada = declaracionPagoCheckbox.is(':checked');
     const recaptchaCompleto = recaptchaResponse.length > 0;
 
-    console.log("Estado de condiciones:"); // CONSOLE LOG
+    console.log("Estado de condiciones para habilitar botón:"); // CONSOLE LOG
     console.log("  1. Planilla Encontrada:", planillaEncontrada);
-    console.log("  2. Pago Verificado con Éxito:", pagoVerificadoConExito, "(Valor #pagoVerificado:", $('#pagoVerificado').val(), ")");
-    console.log("  3. Declaración Aceptada:", declaracionAceptada);
-    console.log("  4. reCAPTCHA Completo:", recaptchaCompleto, "(Longitud de respuesta:", recaptchaResponse.length, ")");
+    // console.log("  2. Pago Verificado con Éxito:", pagoVerificadoConExito); // Ya no es una condición de habilitación visible
+    console.log("  2. Declaración Aceptada:", declaracionAceptada);
+    console.log("  3. reCAPTCHA Completo:", recaptchaCompleto, "(Longitud de respuesta:", recaptchaResponse.length, ")");
 
-    // Actualizar indicadores visuales
-    updateStatusLight('status-planilla-datos', planillaEncontrada);
-    updateStatusLight('status-pago-verificado', pagoVerificadoConExito);
-    updateStatusLight('status-declaracion', declaracionAceptada);
-    updateStatusLight('status-recaptcha', recaptchaCompleto);
-
-
-    if (planillaEncontrada && pagoVerificadoConExito && declaracionAceptada && recaptchaCompleto) {
+    // --- ¡CORRECCIÓN CLAVE AQUÍ! Condición de Habilitación ---
+    if (planillaEncontrada && declaracionAceptada && recaptchaCompleto) { // Se habilita SIN REQUERIR pagoVerificadoConExito
         guardarPagoButton.prop('disabled', false); 
         console.log("Botón 'Guardar Pago' HABILITADO."); // CONSOLE LOG
     } else {
@@ -717,13 +713,11 @@ function toggleGuardarPagoButton() {
         if (!declaracionAceptada) {
             declaracionPagoFeedback.text('Debe aceptar la declaración de pago para continuar.').show();
         }
-        // Solo mostrar el mensaje de reCAPTCHA si grecaptcha está definido pero no completo.
-        // Si grecaptcha es undefined, el problema es que la API no cargó, no que el usuario no lo marcó.
-        if (typeof grecaptcha !== 'undefined' && !recaptchaCompleto) {
+        if (!recaptchaCompleto) {
             recaptchaFeedback.text('Por favor, complete el reCAPTCHA.').show();
-        } else if (typeof grecaptcha === 'undefined') {
-            recaptchaFeedback.text('Error: reCAPTCHA no cargado. Recargue la página.').show();
         }
+        // No es necesario un mensaje específico aquí si planillaEncontrada es false,
+        // ya que el usuario es guiado por los botones "Consultar".
     }
     console.log("--- toggleGuardarPagoButton FINALIZADO ---"); // CONSOLE LOG
 }
@@ -732,7 +726,7 @@ function toggleGuardarPagoButton() {
 // --- 5. FUNCIONES PRINCIPALES DE FLUJO (Llamadas por botones o eventos) ---
 
 // FUNCIÓN PARA CONSULTAR PLANILLA (GLOBAL PARA onclick="Consultarplanilla()")
-window.Consultarplanilla = function() { 
+function Consultarplanilla()  { 
     console.log("--- Consultarplanilla INICIADO ---"); // CONSOLE LOG
     var rif_b = $('#rif_b').val().trim();
 
@@ -753,8 +747,7 @@ window.Consultarplanilla = function() {
     $("#no_existe").hide();
 
     // var base_url = window.location.origin+'/asnc/index.php/Diplomado/consulta_og'; 
-     var base_url = '/index.php/Diplomado/consulta_og';
-
+    var base_url = '/index.php/Diplomado/consulta_og';
 
     $.ajax({
         url: base_url,
@@ -815,8 +808,153 @@ window.Consultarplanilla = function() {
     });
     console.log("--- Consultarplanilla FINALIZADO ---"); 
 }
+async function _ejecutarVerificacionPago(recaptchaResponse) {
+    console.log("--- _ejecutarVerificacionPago INICIADO (Etapa 1) ---");
 
+    let isValidTxnFields = true; // Validez de los campos de transacción
+    let firstInvalidFieldInTxn = null; // Para enfocar
+
+    // Limpiar errores previos en esta sección
+    $('.is-invalid').removeClass('is-invalid');
+    $('.invalid-feedback').hide().text('');
+
+    // Validar que la planilla haya sido consultada y encontrada (pre-requisito)
+    const planillaEncontrada = $('#id_inscripcion').val().trim() !== '' && $('#codigo_planilla_hidden').val().trim() !== '';
+    if (!planillaEncontrada) {
+        swal('Atención', 'Primero debe consultar la planilla con un código válido antes de verificar los datos del pago.', 'warning');
+        showFieldError($('#rif_b'), 'Debe consultar la planilla.');
+        resetRecaptchaPay();
+        $('#pagoVerificado').val('0'); // Asegurar estado
+        toggleGuardarPagoButton();
+        console.log("_ejecutarVerificacionPago: Planilla no consultada. Retornando false.");
+        return false;
+    }
+
+    // Validaciones de campos de transacción (copiado de verificarDatosPago)
+    const tipoPagoField = $('#tipo_pago');
+    if (tipoPagoField.val() === '0') {
+        showFieldError(tipoPagoField, 'Debe seleccionar una forma de pago.');
+        if (!firstInvalidFieldInTxn) firstInvalidFieldInTxn = tipoPagoField; isValidTxnFields = false;
+    } else { clearFieldError(tipoPagoField); }
+
+    const importeField = $('#importe');
+    const importeValue = parseFloat(importeField.val().replace(/[^0-9.,]/g, '').replace(/\./g, '').replace(',', '.')); 
+    if (importeField.val().trim() === '' || isNaN(importeValue) || importeValue <= 0) {
+        showFieldError(importeField, 'El importe cancelado es obligatorio y debe ser un número positivo.');
+        if (!firstInvalidFieldInTxn) firstInvalidFieldInTxn = importeField; isValidTxnFields = false;
+    } else { clearFieldError(importeField); }
+
+    const fechaPagoField = $('#fechaPago');
+    if (fechaPagoField.val().trim() === '') {
+        showFieldError(fechaPagoField, 'La fecha de pago es obligatoria.');
+        if (!firstInvalidFieldInTxn) firstInvalidFieldInTxn = fechaPagoField; isValidTxnFields = false;
+    } else if (!isValidDate(fechaPagoField.val())) {
+        showFieldError(fechaPagoField, 'Formato de fecha de pago inválido (YYYY-MM-DD).');
+        if (!firstInvalidFieldInTxn) firstInvalidFieldInTxn = fechaPagoField; isValidTxnFields = false;
+    } else { clearFieldError(fechaPagoField); }
+
+    const referenciaField = $('#referencia');
+    if (referenciaField.val().trim() === '') {
+        showFieldError(referenciaField, 'El número de referencia es obligatorio.');
+        if (!firstInvalidFieldInTxn) firstInvalidFieldInTxn = referenciaField; isValidTxnFields = false;
+    } else { clearFieldError(referenciaField); }
+
+    const cedulaPagadorField = $('#cedulaPagador');
+    if (cedulaPagadorField.val().trim() === '' || !isInteger(cedulaPagadorField.val()) || cedulaPagadorField.val().length < 5) {
+        showFieldError(cedulaPagadorField, 'La cédula del pagador es obligatoria y debe ser numérica (mín. 5 dígitos).');
+        if (!firstInvalidFieldInTxn) firstInvalidFieldInTxn = cedulaPagadorField; isValidTxnFields = false;
+    } else { clearFieldError(cedulaPagadorField); }
+
+    const telefonoPagadorField = $('#telefonoPagador');
+    if (telefonoPagadorField.val().trim() === '' || !isInteger(telefonoPagadorField.val()) || telefonoPagadorField.val().length < 7) {
+        showFieldError(telefonoPagadorField, 'El teléfono del pagador es obligatorio y debe ser numérico (mín. 7 dígitos).');
+        if (!firstInvalidFieldInTxn) firstInvalidFieldInTxn = telefonoPagadorField; isValidTxnFields = false;
+    } else { clearFieldError(telefonoPagadorField); }
+
+    const bancoOrigenField = $('#bancoOrigen');
+    if (bancoOrigenField.val() === '0') {
+        showFieldError(bancoOrigenField, 'Debe seleccionar el Banco de Origen.');
+        if (!firstInvalidFieldInTxn) firstInvalidFieldInTxn = bancoOrigenField; isValidTxnFields = false;
+    } else { clearFieldError(bancoOrigenField); }
+    
+    // Si validación de campos de transacción falla
+    if (!isValidTxnFields) {
+        if (firstInvalidFieldInTxn) {
+            $('html, body').animate({ scrollTop: firstInvalidFieldInTxn.offset().top - 80 }, 500);
+            firstInvalidFieldInTxn.focus();
+        }
+        swal('Error', 'Por favor complete todos los datos de la transacción correctamente.', 'error');
+        resetRecaptchaPay(); 
+        $('#pagoVerificado').val('0'); 
+        toggleGuardarPagoButton(); // Actualizar estado del botón final
+        $('#guardarPagoFinalBtn').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar Pago'); // Restaurar botón
+        console.log("_ejecutarVerificacionPago: Validaciones frontend fallaron. Retornando false."); 
+        return false; 
+    }
+
+    // Si los campos de transacción son válidos, procede a la llamada AJAX de verificación
+    // const urlVerificarPago = window.location.origin+'/asnc/index.php/Diplomado/verificar_pago'; 
+     const urlVerificarPago = '/index.php/Diplomado/verificar_pago';
+
+    
+    // Construimos dataToSend para la llamada de verificación (incluye reCAPTCHA)
+    const dataToSendForVerification = {
+        id_inscripcion: $('#id_inscripcion').val(),
+        codigo_planilla: $('#codigo_planilla_hidden').val(),
+        rif_b: $('#rif_b').val(), // Este es el input original del usuario
+        referencia: referenciaField.val(),
+        importe: importeField.val(),
+        fechaPago: fechaPagoField.val(),
+        bancoOrigen: bancoOrigenField.val(),
+        cedulaPagador: cedulaPagadorField.val(),
+        telefonoPagador: telefonoPagadorField.val(),
+        tipo_pago: tipoPagoField.val(), // Asegurarse de enviar tipo_pago
+        telefonoDestino: $('#telefonoDestino').val() || '',
+        declaracionPago: $('#declaracionPago').is(':checked') ? '1' : '0',
+        'g-recaptcha-response': recaptchaResponse // ReCAPTCHA aquí
+    };
+
+    // Actualizar el botón para mostrar "Verificando..." durante la llamada AJAX
+    $('#guardarPagoFinalBtn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Verificando...');
+
+    try {
+        const verificationResponse = await $.ajax({ 
+            url: urlVerificarPago,
+            type: 'POST',
+            dataType: 'json',
+            data: dataToSendForVerification // <-- Usamos el objeto para la verificación
+            // No processData ni contentType, ya que es un objeto plano.
+        });
+
+        if (verificationResponse.success) {
+            swal('Éxito', verificationResponse.message || 'Datos de pago verificados correctamente. ¡Presione Guardar Pago nuevamente!', 'success');
+            $('#pagoVerificado').val('1'); // Marcar pago como verificado con éxito
+            resetRecaptchaPay(); // Reiniciar reCAPTCHA
+            console.log("_ejecutarVerificacionPago: Verificación exitosa. Retornando true."); 
+            return true; // Éxito en la verificación
+        } else {
+            swal('Error', verificationResponse.message || 'Error al verificar los datos de pago.', 'error');
+            $('#pagoVerificado').val('0'); // No verificado
+            resetRecaptchaPay(); 
+            console.log("_ejecutarVerificacionPago: Verificación fallida. Retornando false."); 
+            return false; // Falla en la verificación
+        }
+    } catch (xhr) {
+        console.error("_ejecutarVerificacionPago: Error AJAX:", xhr); 
+        swal('Error', 'Error de conexión al verificar datos de pago.', 'error');
+        $('#pagoVerificado').val('0'); // No verificado
+        resetRecaptchaPay(); 
+        console.log("_ejecutarVerificacionPago: Error de conexión. Retornando false."); 
+        return false; // Falla por error de conexión
+    } finally {
+        // Restaurar el botón independientemente del resultado de la verificación
+        $('#guardarPagoFinalBtn').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar Pago');
+        toggleGuardarPagoButton(); // Actualizar estado del botón final
+        console.log("--- _ejecutarVerificacionPago FINALIZADO ---"); 
+    }
+}
 // --- FUNCIÓN PRINCIPAL PARA PROCESAR EL PAGO (VERIFICAR Y LUEGO GUARDAR) ---
+ 
 // Este es el manejador del botón "Guardar Pago" (#guardarPagoFinalBtn).
 window.guardarPagoFinal = async function(event) { 
     console.log("--- guardarPagoFinal INICIADO ---"); 
@@ -832,32 +970,8 @@ window.guardarPagoFinal = async function(event) {
     const declaracionAceptada = $('#declaracionPago').is(':checked');
     const recaptchaCompleto = recaptchaResponse.length > 0;
 
-    console.log("guardarPagoFinal: Condiciones actuales:"); 
-    console.log("  Planilla Encontrada:", planillaEncontrada);
-    console.log("  Pago Verificado Con Éxito (current):", pagoVerificadoConExito);
-    console.log("  Declaración Aceptada:", declaracionAceptada);
-    console.log("  reCAPTCHA Completo:", recaptchaCompleto);
-
-    // --- Validación inicial de requisitos mínimos antes de intentar cualquier acción ---
-    if (!planillaEncontrada) {
-        swal('Atención', 'Primero debe consultar la planilla con un código válido.', 'warning');
-        showFieldError($('#rif_b'), 'Debe consultar la planilla.');
-        resetRecaptchaPay();
-        toggleGuardarPagoButton(); // Asegurar estado del botón
-        return;
-    }
-    if (!declaracionAceptada || !recaptchaCompleto) {
-        toggleGuardarPagoButton(); // Para mostrar mensajes visuales
-        swal('Atención', 'Debe aceptar la declaración de pago y completar el reCAPTCHA para continuar.', 'warning');
-        resetRecaptchaPay();
-        return;
-    }
-
-    // Deshabilitar el botón mientras se procesa para evitar doble clic
-    $('#guardarPagoFinalBtn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-2"></i>Procesando...');
-
-    // --- CONSTRUCCIÓN DE dataToSend (PARA AMBAS LLAMADAS AJAX) ---
-    // Se declara una vez aquí y se usa en ambas etapas.
+    // --- ¡CORRECCIÓN CLAVE AQUÍ! Declara dataToSend al principio de la función ---
+    // dataToSend debe estar disponible para AMBAS etapas
     const dataToSend = {
         id_inscripcion: $('#id_inscripcion').val(),
         codigo_planilla: $('#codigo_planilla_hidden').val(),
@@ -871,8 +985,33 @@ window.guardarPagoFinal = async function(event) {
         tipo_pago: $('#tipo_pago').val(), // Asegúrate de que tipo_pago se obtenga correctamente
         telefonoDestino: $('#telefonoDestino').val() || '',
         declaracionPago: $('#declaracionPago').is(':checked') ? '1' : '0',
-        'g-recaptcha-response': recaptchaResponse // reCAPTCHA es parte del dataToSend para ambas llamadas
+        'g-recaptcha-response': recaptchaResponse // reCAPTCHA es parte del dataToSend
     };
+    // --- FIN CORRECCIÓN CLAVE ---
+
+    console.log("guardarPagoFinal: Condiciones actuales:"); 
+    console.log("  Planilla Encontrada:", planillaEncontrada);
+    console.log("  Pago Verificado Con Éxito (current):", pagoVerificadoConExito);
+    console.log("  Declaración Aceptada:", declaracionAceptada);
+    console.log("  reCAPTCHA Completo:", recaptchaCompleto);
+
+    // --- Validación inicial de requisitos mínimos antes de intentar cualquier acción ---
+    if (!planillaEncontrada) {
+        swal('Atención', 'Primero debe consultar la planilla con un código válido.', 'warning');
+        showFieldError($('#rif_b'), 'Debe consultar la planilla.');
+        resetRecaptchaPay();
+        toggleGuardarPagoButton(); 
+        return;
+    }
+    if (!declaracionAceptada || !recaptchaCompleto) {
+        toggleGuardarPagoButton(); 
+        swal('Atención', 'Debe aceptar la declaración de pago y completar el reCAPTCHA para continuar.', 'warning');
+        resetRecaptchaPay();
+        return;
+    }
+
+    // Deshabilitar el botón mientras se procesa para evitar doble clic
+    $('#guardarPagoFinalBtn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-2"></i>Procesando...');
 
     // --- ETAPA 1: VERIFICAR DATOS DEL PAGO (si aún no se ha hecho) ---
     if (pagoVerificadoConExito !== true) { 
@@ -931,7 +1070,7 @@ window.guardarPagoFinal = async function(event) {
             showFieldError(bancoOrigenField, 'Debe seleccionar el Banco de Origen.');
             if (!firstInvalidFieldInTxn) firstInvalidFieldInTxn = bancoOrigenField; isValidTxnFields = false;
         } else { clearFieldError(bancoOrigenField); }
-
+        
         // Si validación de campos de transacción falla
         if (!isValidTxnFields) {
             if (firstInvalidFieldInTxn) {
@@ -944,16 +1083,16 @@ window.guardarPagoFinal = async function(event) {
             toggleGuardarPagoButton(); 
             $('#guardarPagoFinalBtn').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar Pago'); // Restaurar botón
             console.log("guardarPagoFinal (Verificación): Validaciones frontend fallaron. Retornando."); 
-            return; // Detener aquí para que el usuario corrija
+            return; 
         }
 
         // Si los campos de transacción son válidos, procede a la llamada AJAX de verificación
         // const urlVerificarPago = window.location.origin+'/asnc/index.php/Diplomado/verificar_pago'; 
          const urlVerificarPago = '/index.php/Diplomado/verificar_pago';
 
-
+        
         try {
-            const verificationResponse = await $.ajax({ // Usamos await para esperar la respuesta
+            const verificationResponse = await $.ajax({ 
                 url: urlVerificarPago,
                 type: 'POST',
                 dataType: 'json',
@@ -1014,7 +1153,8 @@ window.guardarPagoFinal = async function(event) {
 
     // Si todas las condiciones (verificado, declaración, reCAPTCHA) están OK, proceder a guardar
     $('#guardarPagoFinalBtn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-2"></i>Guardando Pago...');
-
+    
+    // Aquí usamos dataToSend para el envío final, ya que contiene todos los campos necesarios.
     // dataToSend ya se definió al principio de la función, incluyendo el reCAPTCHA.
     // Solo actualizamos el g-recaptcha-response si se obtuvo uno nuevo para esta etapa final.
     dataToSend['g-recaptcha-response'] = recaptchaResponseReal; // Asegurar que sea el último token
@@ -1022,9 +1162,11 @@ window.guardarPagoFinal = async function(event) {
     // var base_url_guardar_pago_final = window.location.origin + '/asnc/index.php/Diplomado/guardar_pago'; // URL del backend
     // var url_pdf_recibo_final = window.location.origin + '/asnc/index.php/recibonatural/pdfrt?id=' + $('#codigo_planilla_hidden').val();
     // var url_redirigir_final_app = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; 
-    var base_url_guardar_pago_final = '/index.php/Diplomado/guardar_pago';
-     var url_pdf_recibo_final = '/index.php/recibonatural/pdfrt?id=' + $('#codigo_planilla_hidden').val();
-     var url_redirigir_final_app = '/index.php/Diplomado/preinscrip';
+
+          var base_url_guardar_pago_final = '/index.php/Diplomado/guardar_pago';
+         var url_pdf_recibo_final = '/index.php/recibonatural/pdfrt?id=' + $('#codigo_planilla_hidden').val();
+         var url_redirigir_final_app = '/index.php/Diplomado/preinscrip';
+
 
     $.ajax({
         url: base_url_guardar_pago_final,
@@ -1060,7 +1202,7 @@ window.guardarPagoFinal = async function(event) {
                         console.warn('guardarPagoFinal (Guardar): No se recibió código de planilla para generar el recibo PDF.');
                         swal('Advertencia', 'No se pudo generar el recibo PDF. Redirigiendo a la página principal.', 'warning');
                     }
-
+                    
                     // Redirigir la pestaña ACTUAL SIEMPRE al final
                     console.log("Redirigiendo pestaña actual SIEMPRE...");
                     setTimeout(function() {
