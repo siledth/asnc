@@ -752,7 +752,9 @@ window.Consultarplanilla = function() {
     $("#existe").hide();
     $("#no_existe").hide();
 
-    var base_url = window.location.origin+'/asnc/index.php/Diplomado/consulta_og'; 
+    // var base_url = window.location.origin+'/asnc/index.php/Diplomado/consulta_og'; 
+     var base_url = '/index.php/Diplomado/consulta_og';
+
 
     $.ajax({
         url: base_url,
@@ -946,7 +948,9 @@ window.guardarPagoFinal = async function(event) {
         }
 
         // Si los campos de transacción son válidos, procede a la llamada AJAX de verificación
-        const urlVerificarPago = window.location.origin+'/asnc/index.php/Diplomado/verificar_pago'; 
+        // const urlVerificarPago = window.location.origin+'/asnc/index.php/Diplomado/verificar_pago'; 
+         const urlVerificarPago = '/index.php/Diplomado/verificar_pago';
+
 
         try {
             const verificationResponse = await $.ajax({ // Usamos await para esperar la respuesta
@@ -1015,9 +1019,12 @@ window.guardarPagoFinal = async function(event) {
     // Solo actualizamos el g-recaptcha-response si se obtuvo uno nuevo para esta etapa final.
     dataToSend['g-recaptcha-response'] = recaptchaResponseReal; // Asegurar que sea el último token
 
-    var base_url_guardar_pago_final = window.location.origin + '/asnc/index.php/Diplomado/guardar_pago'; // URL del backend
-    var url_pdf_recibo_final = window.location.origin + '/asnc/index.php/recibonatural/pdfrt?id=' + $('#codigo_planilla_hidden').val();
-    var url_redirigir_final_app = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; 
+    // var base_url_guardar_pago_final = window.location.origin + '/asnc/index.php/Diplomado/guardar_pago'; // URL del backend
+    // var url_pdf_recibo_final = window.location.origin + '/asnc/index.php/recibonatural/pdfrt?id=' + $('#codigo_planilla_hidden').val();
+    // var url_redirigir_final_app = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; 
+    var base_url_guardar_pago_final = '/index.php/Diplomado/guardar_pago';
+     var url_pdf_recibo_final = '/index.php/recibonatural/pdfrt?id=' + $('#codigo_planilla_hidden').val();
+     var url_redirigir_final_app = '/index.php/Diplomado/preinscrip';
 
     $.ajax({
         url: base_url_guardar_pago_final,
