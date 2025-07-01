@@ -633,29 +633,43 @@ function updateStatusLight(elementId, isMet) {
 
 // --- 3. FUNCIONES DE CÁLCULO DE MONTOS (Contado y Crédito) ---
 
+
+// // --- 3. FUNCIONES DE CÁLCULO DE MONTOS (Contado y Crédito) ---
+// Función para calcular contado (total_pago)
 function calcularContado() {
-    const totalPagoStr = $('#total_pago').val().replace(/[^0-9.,]/g, '').replace(/\./g, '').replace(',', '.'); 
-    const totalPago = parseFloat(totalPagoStr) || 0;
-
-    const iva = totalPago * 0.16;
-    const totalConIVA = totalPago + iva;
-
-    $('#iva').val(iva.toLocaleString('es-VE', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-    $('#total_iva').val(totalConIVA.toLocaleString('es-VE', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+    var totalPagoStr = $('#total_pago').val().replace(/[^0-9.-]/g, '');
+    var totalPago = parseFloat(totalPagoStr) || 0;
+    
+    var iva = totalPago * 0.16;
+    var totalConIVA = totalPago + iva;
+    
+    $('#iva').val(iva.toFixed(2));
+    $('#total_iva').val(totalConIVA.toFixed(2));
 }
 
+// Función para calcular crédito (pay)
 function calcularCredito() {
-    const creditoStr = $('#pay').val().replace(/[^0-9.,]/g, '').replace(/\./g, '').replace(',', '.'); 
-    const credito = parseFloat(creditoStr) || 0;
-
-    const ivaCredito = credito * 0.16;
-    const totalConIVACredito = credito + ivaCredito;
-    const mitadTotal = totalConIVACredito / 2;
-
-    $('#iva_credito').val(ivaCredito.toLocaleString('es-VE', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-    $('#total_iva_credito').val(totalConIVACredito.toLocaleString('es-VE', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-    $('#mitad_total_credito').val(mitadTotal.toLocaleString('es-VE', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+    // Obtener valor del crédito
+    var creditoStr = $('#pay').val().replace(/[^0-9.-]/g, '');
+    var credito = parseFloat(creditoStr) || 0;
+    
+    // Calcular IVA (16%)
+    var ivaCredito = credito * 0.16;
+    
+    // Calcular total con IVA
+    var totalConIVACredito = credito + ivaCredito;
+    
+    // Calcular la mitad del total
+    var mitadTotal = totalConIVACredito / 2;
+    
+    // Mostrar resultados
+    $('#iva_credito').val(ivaCredito.toFixed(2));
+    $('#total_iva_credito').val(totalConIVACredito.toFixed(2));
+    $('#mitad_total_credito').val(mitadTotal.toFixed(2));
 }
+
+
+ 
 
 // --- 4. FUNCIONES DE LÓGICA DE INTERFAZ Y ESTADO (Toggle Fields, Toggle Buttons) ---
 
