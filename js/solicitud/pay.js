@@ -680,8 +680,19 @@ function togglePagoFields() {
     $('#prontoPagoField').hide();
     $('#creditoPagoField').hide();
 
-    if (tipoPago == '1') { $('#prontoPagoField').show(); } 
-    else if (tipoPago == '2') { $('#creditoPagoField').show(); }
+    // Resetear el valor del campo importe cada vez que se cambia el tipo de pago
+    $('#importe').val(''); 
+    clearFieldError($('#importe')); // Limpiar cualquier error previo en el importe
+
+    if (tipoPago == '1') {
+        $('#prontoPagoField').show();
+        // Asignar el valor de total_iva a importe si es Pronto Pago
+        $('#importe').val($('#total_iva').val()); 
+    } else if (tipoPago == '2') {
+        $('#creditoPagoField').show();
+        // Asignar el valor de mitad_total_credito a importe si es Crédito
+        $('#importe').val($('#mitad_total_credito').val()); 
+    }
 
     // Al cambiar el tipo de pago, restablecer el pago como NO verificado
     $('#pagoVerificado').val('0'); 

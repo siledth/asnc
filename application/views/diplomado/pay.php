@@ -290,7 +290,7 @@
                                             <div class="input-group-prepend"><span class="input-group-text">Bs.</span>
                                             </div>
                                             <input type="text" id="importe" name="importe" class="form-control"
-                                                placeholder="0.00" maxlength="12">
+                                                placeholder="0.00" maxlength="12" readonly>
                                             <div class="invalid-feedback">Debe ingresar el importe.</div>
                                         </div>
                                     </div>
