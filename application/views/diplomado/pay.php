@@ -297,11 +297,11 @@
                                 </div>
                                 <input type="hidden" id="pagoVerificado" name="pagoVerificado" value="0" readonly>
 
-                                <div class="text-center mt-4">
+                                <!-- <div class="text-center mt-4">
                                     <button type="button" id="btnVerificarDatosPago" class="btn btn-info btn-lg">
                                         <i class="fas fa-check-circle mr-2"></i>Verificar Datos del Pago
                                     </button>
-                                </div>
+                                </div> -->
                             </div>
 
                             <div class="form-section mt-4 p-3 border rounded">
@@ -331,7 +331,7 @@
                             </div>
 
                             <div class="text-center mt-4">
-                                <button type="submit" id="guardarPagoFinalBtn" class="btn btn-success btn-lg" disabled>
+                                <button type="button" id="guardarPagoFinalBtn" class="btn btn-success btn-lg" disabled>
                                     <i class="fas fa-save mr-2"></i>Guardar Pago
                                 </button>
                             </div>
