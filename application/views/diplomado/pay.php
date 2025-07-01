@@ -295,7 +295,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <input type="hidden" id="pagoVerificado" name="pagoVerificado" value="0" readonly>
+                                <input type="text" id="pagoVerificado" name="pagoVerificado" value="0" readonly>
 
                                 <div class="text-center mt-4">
                                     <button type="button" id="btnVerificarDatosPago" class="btn btn-info btn-lg">

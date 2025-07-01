@@ -370,30 +370,39 @@ function updateStatusLight(elementId, isMet) {
 
 
 // --- 3. FUNCIONES DE CÁLCULO DE MONTOS (Contado y Crédito) ---
+// Función para calcular contado (total_pago)
+function calcularContado() {
+    var totalPagoStr = $('#total_pago').val().replace(/[^0-9.-]/g, '');
+    var totalPago = parseFloat(totalPagoStr) || 0;
+    
+    var iva = totalPago * 0.16;
+    var totalConIVA = totalPago + iva;
+    
+    $('#iva').val(iva.toFixed(2));
+    $('#total_iva').val(totalConIVA.toFixed(2));
+}
 
-// function calcularContado() {
-//     const totalPagoStr = $('#total_pago').val().replace(/[^0-9.,]/g, '').replace(/\./g, '').replace(',', '.'); 
-//     const totalPago = parseFloat(totalPagoStr) || 0;
+// Función para calcular crédito (pay)
+function calcularCredito() {
+    // Obtener valor del crédito
+    var creditoStr = $('#pay').val().replace(/[^0-9.-]/g, '');
+    var credito = parseFloat(creditoStr) || 0;
+    
+    // Calcular IVA (16%)
+    var ivaCredito = credito * 0.16;
+    
+    // Calcular total con IVA
+    var totalConIVACredito = credito + ivaCredito;
+    
+    // Calcular la mitad del total
+    var mitadTotal = totalConIVACredito / 2;
+    
+    // Mostrar resultados
+    $('#iva_credito').val(ivaCredito.toFixed(2));
+    $('#total_iva_credito').val(totalConIVACredito.toFixed(2));
+    $('#mitad_total_credito').val(mitadTotal.toFixed(2));
+}
 
-//     const iva = totalPago * 0.16;
-//     const totalConIVA = totalPago + iva;
-
-//     $('#iva').val(iva.toLocaleString('es-VE', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-//     $('#total_iva').val(totalConIVA.toLocaleString('es-VE', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-// }
-
-// function calcularCredito() {
-//     const creditoStr = $('#pay').val().replace(/[^0-9.,]/g, '').replace(/\./g, '').replace(',', '.'); 
-//     const credito = parseFloat(creditoStr) || 0;
-
-//     const ivaCredito = credito * 0.16;
-//     const totalConIVACredito = credito + ivaCredito;
-//     const mitadTotal = totalConIVACredito / 2;
-
-//     $('#iva_credito').val(ivaCredito.toLocaleString('es-VE', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-//     $('#total_iva_credito').val(totalConIVACredito.toLocaleString('es-VE', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-//     $('#mitad_total_credito').val(mitadTotal.toLocaleString('es-VE', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-// }
 
 // --- 4. FUNCIONES DE LÓGICA DE INTERFAZ Y ESTADO (Toggle Fields, Toggle Buttons) ---
 
@@ -653,7 +662,7 @@ window.verificarDatosPago = function(event) {
     };
 
     // const urlVerificarPago = window.location.origin+'/asnc/index.php/Diplomado/verificar_pago'; 
-     var urlVerificarPago = '/index.php/Diplomado/verificar_pago';
+     const urlVerificarPago = '/index.php/Diplomado/verificar_pago';
 
     $('#btnVerificarDatosPago').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Verificando...');
 
@@ -671,7 +680,7 @@ window.verificarDatosPago = function(event) {
                 console.log("verificarDatosPago: Verificación exitosa. Pago verificado a '1'."); 
             } else {
                 swal('Error', response.message || 'Error al verificar los datos de pago.', 'error');
-                $('#pagoVerificado').val('0'); 
+                $('#pagoVerificado').val('0'); //// cabiar en produccion
                 resetRecaptchaPay(); 
                 console.log("verificarDatosPago: Verificación fallida. Pago verificado a '0'."); 
             }
@@ -741,8 +750,7 @@ const dataToSend = {
 
     
     // var base_url_guardar_pago = window.location.origin + '/asnc/index.php/Diplomado/guardar_pago';
-    // var base_url_pdf_recibo = window.location.origin + '/asnc/index.php/recibonatural/pdfrt?id=' + $('#rif_b').val();
-    
+    // var base_url_pdf_recibo = window.location.origin + '/asnc/index.php/recibonatural/pdfrt?id=' + $('#rif_b').val();    
     // var base_url_redirigir = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; 
 
      var base_url_guardar_pago = '/index.php/Diplomado/guardar_pago';
@@ -760,62 +768,78 @@ const dataToSend = {
          success: function(response) {
             console.log("guardarPagoFinal: Respuesta de guardar_pago:", response); 
             if(response.success) {
+                var downloadUrl = base_url_pdf_recibo; // La URL de descarga
+
+                // Creamos el enlace temporal y simulamos el clic
+                var downloadLink = document.createElement('a');
+                downloadLink.href = downloadUrl;
+                downloadLink.target = '_blank'; // Abrir en nueva pestaña para la descarga
+                downloadLink.download = `Recibo_SNC_${response.codigo_planilla}.pdf`; // Sugiere nombre de archivo
+                document.body.appendChild(downloadLink); // Añadir al DOM temporalmente
+                downloadLink.click(); // Simular clic para iniciar la descarga
+                document.body.removeChild(downloadLink); // Eliminar el enlace del DOM
+                console.log("Descarga de PDF iniciada.");
+
                 swal({
-                    title: "¡Éxito!",
-                    text: response.message || 'Pago registrado exitosamente.',
-                    type: "success",
-                    showCancelButton: false, 
-                    confirmButtonColor: "#00897b", 
-                    confirmButtonText: "Aceptar", 
-                    closeOnConfirm: true 
+                    title: '¡Éxito!',
+                    text: response.message || 'Pago registrado exitosamente. El recibo se descargará.',
+                    type: 'success',
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Aceptar',
+                    closeOnConfirm: true // Cerrar el SweetAlert cuando se hace clic en "Aceptar"
+                    // No uses 'timer' si quieres que el usuario haga clic en "Aceptar" para la redirección.
+                    // Si usas timer, el `didClose` (para SweetAlert2) o la función de callback se disparará al expirar.
                 }, function() { // <-- ESTE ES EL CALLBACK DE SWEETALERT 1.x
                     // Este código se ejecuta cuando el usuario hace clic en "Aceptar" en el SweetAlert
-                    
-                    if (response.codigo_planilla) { 
-                       // console.log("Iniciando descarga de PDF para planilla:", response.codigo_planilla);
-                        
-                        // --- ¡CORRECCIÓN CLAVE AQUÍ PARA FORZAR LA DESCARGA Y LUEGO REDIRIGIR! ---
-                        // Crea un enlace temporal en el DOM
-                        const downloadLink = document.createElement('a');
-                        downloadLink.href = base_url_pdf_recibo;
-                        // downloadLink.download = `Recibo_SNC_${response.codigo_planilla}.pdf`; // Sugiere un nombre de archivo
-                        // document.body.appendChild(downloadLink); // Añadir al DOM temporalmente
-                        downloadLink.click(); // Simular clic para iniciar la descarga
-                        document.body.removeChild(downloadLink); // Eliminar el enlace del DOM
-
-                           setTimeout(function() {
-                            window.location.href = base_url_redirigir; // Usa la variable global para mayor seguridad de ruta
-                        }, 2000); 
-                                  
-                    } else {
-                        console.warn('guardarPagoFinal: No se recibió código de planilla para generar el recibo PDF.');
-                        swal('Advertencia', 'No se pudo generar el recibo PDF. Redirigiendo a la página principal.', 'warning');
-                        setTimeout(function() {
-                            window.location.href = base_url_redirigir; 
-                        }, 1000);
-                    }
+                   // console.log("Usuario aceptó SweetAlert. Redirigiendo la página.");
+                    // Redirige la página actual
+                    window.location.href = base_url_redirigir; 
                 });
-            } else {
-                swal("Error", response.message || 'Error al registrar el pago', "error");
-                resetRecaptchaPay(); 
+
+            } else { // Si el servidor devuelve success: false
+                // *** CORRECCIÓN AQUÍ: Usar sintaxis de SweetAlert 1.x para el error ***
+                swal({
+                    title: 'Error',
+                    text: response.message,
+                    type: 'error',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Ok'
+                }, function() { // Callback para cuando el usuario hace clic en "Ok"
+                    resetRecaptchaPay(); // ¡Importante! Reiniciar el CAPTCHA si el servidor da error de validación
+                });
             }
         },
         error: function(xhr, status, error) {
             console.error("guardarPagoFinal: Error AJAX:", xhr); 
-            let errorMessage = 'Hubo un error desconocido al registrar la inscripción.';
+            let errorMessage = 'Hubo un error desconocido al registrar el pago.';
             try {
                 const errorResponse = JSON.parse(xhr.responseText);
                 if (errorResponse && errorResponse.message) {
                     errorMessage = errorResponse.message;
                 }
             } catch (e) {
+                // Si la respuesta no es JSON, mostrar el error de texto del XHR
+                errorMessage = `Error de conexión con el servidor: ${xhr.status} ${xhr.statusText || error}`;
+                if (xhr.responseText) {
+                    errorMessage += `\nDetalles: ${xhr.responseText.substring(0, 200)}...`; // Muestra parte de la respuesta
+                }
             }
-            swal("Error", errorMessage, "error");
-            resetRecaptchaPay(); 
+            // *** CORRECCIÓN AQUÍ: Usar sintaxis de SweetAlert 1.x para el error AJAX ***
+            swal({
+                title: 'Error',
+                text: errorMessage,
+                type: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+            }, function() { // Callback para cuando el usuario hace clic en "Ok"
+                resetRecaptchaPay(); // Reiniciar reCAPTCHA
+            });
         },
         complete: function() {
+            // Este bloque se ejecuta SIEMPRE al finalizar la petición AJAX (éxito o error)
             $('#guardarPagoFinalBtn').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar Pago');
-            //console.log("guardarPagoFinal: Petición AJAX completa. Botón restaurado."); 
+            console.log("guardarPagoFinal: Petición AJAX completa. Botón restaurado."); 
         }
     });
     console.log("--- guardarPagoFinal FINALIZADO (Llamada AJAX enviada) ---"); 
@@ -866,35 +890,3 @@ $(document).ready(function() {
     console.log("Eventos iniciales y estado del botón configurados."); 
 });
 
-// Función para calcular contado (total_pago)
-function calcularContado() {
-    var totalPagoStr = $('#total_pago').val().replace(/[^0-9.-]/g, '');
-    var totalPago = parseFloat(totalPagoStr) || 0;
-    
-    var iva = totalPago * 0.16;
-    var totalConIVA = totalPago + iva;
-    
-    $('#iva').val(iva.toFixed(2));
-    $('#total_iva').val(totalConIVA.toFixed(2));
-}
-
-// Función para calcular crédito (pay)
-function calcularCredito() {
-    // Obtener valor del crédito
-    var creditoStr = $('#pay').val().replace(/[^0-9.-]/g, '');
-    var credito = parseFloat(creditoStr) || 0;
-    
-    // Calcular IVA (16%)
-    var ivaCredito = credito * 0.16;
-    
-    // Calcular total con IVA
-    var totalConIVACredito = credito + ivaCredito;
-    
-    // Calcular la mitad del total
-    var mitadTotal = totalConIVACredito / 2;
-    
-    // Mostrar resultados
-    $('#iva_credito').val(ivaCredito.toFixed(2));
-    $('#total_iva_credito').val(totalConIVACredito.toFixed(2));
-    $('#mitad_total_credito').val(mitadTotal.toFixed(2));
-}
