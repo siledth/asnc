@@ -671,7 +671,7 @@ window.verificarDatosPago = function(event) {
                 console.log("verificarDatosPago: Verificación exitosa. Pago verificado a '1'."); 
             } else {
                 swal('Error', response.message || 'Error al verificar los datos de pago.', 'error');
-                $('#pagoVerificado').val('1'); 
+                $('#pagoVerificado').val('0'); 
                 resetRecaptchaPay(); 
                 console.log("verificarDatosPago: Verificación fallida. Pago verificado a '0'."); 
             }
