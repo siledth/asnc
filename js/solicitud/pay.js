@@ -1146,7 +1146,7 @@ window.guardarPagoFinal = async function(event) {
     if (!declaracionAceptadaReal || recaptchaResponseReal.length === 0) {
         console.log("guardarPagoFinal (Guardar): Validaciones Declaración/reCAPTCHA fallaron.");
         toggleGuardarPagoButton(); 
-        swal('Atención', 'Debe aceptar la declaración de pago y completar el reCAPTCHA para finalizar.', 'warning');
+        swal('Atención', 'por favor complete el reCAPTCHA para continuar.', 'warning');
         resetRecaptchaPay(); 
         return;
     }
