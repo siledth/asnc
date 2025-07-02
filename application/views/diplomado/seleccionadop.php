@@ -37,6 +37,11 @@
                                             <i class="fas   fa-2x  fa-cloud-download-alt" title="Certificado"
                                                 style="color: blue;"></i>
                                             <a />
+                                            <a onclick="cargarIdInscripcion(<?php echo $data['id_inscripcion'] ?>);"
+                                                data-toggle="modal" data-target="#dede" style="color: white">
+                                                <i title="Decisión" class="fas fa-2x fa-fw fa-address-card"
+                                                    style="color: darkred;"></i>
+                                            </a>
                                     </td>
 
                                 </tr>
@@ -74,6 +79,7 @@
                                             <i class="fas   fa-2x  fa-cloud-download-alt" title="Certificado"
                                                 style="color: blue;"></i>
                                             <a />
+
                                     </td>
 
                                 </tr>
@@ -111,7 +117,6 @@
                                         <select style="width: 100%;" id="fm_ac" name="fm_ac" class="form-control"
                                             data-show-subtext="true" data-live-search="true">
                                             <option value="0">Seleccione</option>
-                                            <option value="2">Aceptada Solicitud/ En espera de pago</option>
                                             <option value="3">No Califica</option>
                                             <option value="5">Aceptada Solicitud/ Exonerado</option>
                                             <option value="6">Aprobado/Proxima Corte</option>
@@ -142,7 +147,7 @@
                 <div class="modal-footer">
                     <button type="button" onclick="javascript:window.location.reload()" class="btn btn-secondary"
                         data-dismiss="modal">Cerrar</button>
-                    <button type="button" id="guardar_pago_fin" onclick="save_inf_ac();"
+                    <button type="button" id="guardar_pago_fin" onclick="save_cambio_status();"
                         class="my-button">Guardar</button>
                 </div>
             </div>
@@ -152,69 +157,6 @@
 
 
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">enviar</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal" id="rrr" name="rrr" data-parsley-validate="true" method="POST"
-                        enctype="multipart/form-data">
-                        <div class="row">
-
-                            <div class="form-group col-2">
-
-                                <input class="form-control" type="text" name="id_mesualidad_ver" id="id_mesualidad_ver"
-                                    readonly>
-                            </div>
-
-
-
-
-                            <div class="form-group col-12">
-                                <label>Declaro que la información y datos suministrados en esta Ficha son
-                                    fidedignos, por lo que autorizo la pertinencia de su verificación. Convengo
-                                    que de llegar a comprobarse que se ha incurrido en inexactitud o falsedad en
-                                    los datos aquí suministrados, quedará sin efecto la CERTIFICACIÓN.<b
-                                        title="Campo Obligatorio" style="color:red">*</b></label>
-
-                                <select class=" form-control " id="status1" name="status1" onchange="cambiarEndDate();">
-                                    <option value="0">Seleccionar</option>
-
-                                    <option value="2">Si</option>
-
-                                </select>
-
-
-
-                            </div>
-
-                            <div class="form-group col-3">
-
-                                <input type="hidden" id="vigen_cert_desde" name="vigen_cert_desde" class="form-control"
-                                    value="<?= $time ?>" />
-                                <input type="hidden" id="vigen_cert_hasta" name="vigen_cert_hasta"
-                                    class="form-control" />
-
-                            </div>
-
-
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" onclick="javascript:window.location.reload()" class="btn btn-secondary"
-                        data-dismiss="modal">Cerrar</button>
-                    <button type="button" id="guardar_pago_fin" onclick="guardar_nuevoestatus();"
-                        class="btn btn-primary">ACEPTO</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 

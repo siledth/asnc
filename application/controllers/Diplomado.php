@@ -1539,6 +1539,24 @@ class Diplomado extends CI_Controller
 
         echo json_encode($result);
     }
+    public function cambio_estatus()
+    {
+        $this->load->model('Diplomado_model');
+        $usuario = $this->session->userdata('id_user');
+
+        $data = array(
+            'id_inscripcion' => $this->input->post('id_inscripcion'),
+            'estatus' => $this->input->post('estatus'),
+            'observacion' => $this->input->post('observacion'),
+            'tipo_pago' => $this->input->post('tipo_pago'),
+
+            'id_usuario' => $usuario
+        );
+
+        $result = $this->Diplomado_model->cambio_estatus($data);
+
+        echo json_encode($result);
+    }
     public function actualizar_inscripcion_pj()
     {
         $this->load->model('Diplomado_model');

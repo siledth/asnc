@@ -596,6 +596,39 @@ class Diplomado_model extends CI_model
             return array('success' => true, 'message' => 'Registro actualizado correctamente');
         }
     }
+    public function cambio_estatus($data)
+    {
+        $this->db->trans_start(); // Inicia transacción
+
+        // 1. Actualizar tabla inscripciones
+        $update_data = array('estatus' => $data['estatus']);
+
+        if ($data['estatus'] == 2) { // Solo si es Aceptada
+            $update_data['fecha_limite_pago'] = date('Y-m-d', strtotime('+5 days'));
+        }
+
+        $this->db->where('id_inscripcion', $data['id_inscripcion']);
+        $this->db->update('diplomado.inscripciones', $update_data);
+
+        // 2. Insertar en tabla resultados
+        $resultado_data = array(
+            'id_inscripcion' => $data['id_inscripcion'],
+            'id_estatus' => $data['estatus'],
+            'observacion' => $data['observacion'],
+            'tipo_pago' => 0,
+            'id_usuario' => $data['id_usuario']
+        );
+
+        $this->db->insert('diplomado.resultados', $resultado_data);
+
+        $this->db->trans_complete(); // Completa transacción
+
+        if ($this->db->trans_status() === FALSE) {
+            return array('success' => false, 'message' => 'Error al procesar');
+        } else {
+            return array('success' => true, 'message' => 'Registro actualizado correctamente');
+        }
+    }
     // public function procesar_decision_pj($data)
     // {
     //     $this->db->trans_start(); // Inicia transacción
