@@ -76,7 +76,9 @@ class Diplomado_model extends CI_model
         $this->db->join('diplomado.empresas e ', 'e.id_empresa = p.id_empresa');
         $this->db->join('diplomado.estatus_inscripcion t ', 't.id_estatus = i.estatus');
 
-        $this->db->where('i.estatus >', 1);
+        $this->db->where_in('i.estatus', array(2, 4, 5));
+
+
         //$this->db->where('c.id_status', 1);
         // $this->db->order_by("codigo_b", "Asc");
         $query = $this->db->get();
