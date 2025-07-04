@@ -30,7 +30,7 @@ class Pdf extends FPDF
         //$this->Image(base_url() . 'Plantilla/img/loij.png', 30, 1, 150);
         $this->Ln(20);
         // Add a new cell with the header text
-        $this->Cell(0, 5, utf8_decode('RECIBO DE INSCRIPCIÓN'), 0, 1, 'C');
+        $this->Cell(0, 5, utf8_decode('RECIBO DE PAGO INSCRIPCIÓN'), 0, 1, 'C');
         // $this->Cell(0,5,utf8_decode('SISTEMA INTEGRADO SNC'),0,1,'C');
 
         $this->SetFont('Arial', 'B', 9);
@@ -173,7 +173,7 @@ class Recibonatural extends CI_Controller
                         $pdf->Cell(35, 5, utf8_decode('Fecha de Pago:'), 0, 0, 'R');
                         $pdf->Cell(20, 5, $datos_pago->fecha_pago, 0, 1, 'C');
 
-                        $pdf->Cell(35, 5, utf8_decode('Referencia:'), 0, 0, 'R');
+                        $pdf->Cell(40, 5, utf8_decode('Referencia:'), 0, 0, 'R');
                         $pdf->Cell(20, 5, $datos_pago->referencia, 0, 1, 'C');
                         $pdf->Cell(35, 5, utf8_decode('tipo de pago:'), 0, 0, 'R');
 

@@ -175,7 +175,7 @@ class Preinscripcionnatural extends CI_Controller
 
                         $pdf->Cell(20, 5, date('d/m/Y', strtotime($datos_pago->fecha_pago)), 0, 1, 'C');
 
-                        $pdf->Cell(35, 5, utf8_decode('Referencia:'), 0, 0, 'R');
+                        $pdf->Cell(40, 5, utf8_decode('Referencia:'), 0, 0, 'R');
                         $pdf->Cell(20, 5, $datos_pago->referencia, 0, 1, 'C');
                         $pdf->Cell(35, 5, utf8_decode('tipo de pago:'), 0, 0, 'R');
 
