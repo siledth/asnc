@@ -771,8 +771,8 @@ function Consultarplanilla()  {
     $("#existe").hide();
     $("#no_existe").hide();
 
-    // var base_url = window.location.origin+'/asnc/index.php/Diplomado/consulta_og'; 
-    var base_url = '/index.php/Diplomado/consulta_og';
+    var base_url = window.location.origin+'/asnc/index.php/Diplomado/consulta_og'; 
+    // var base_url = '/index.php/Diplomado/copaynsulta_og';
 
     $.ajax({
         url: base_url,
@@ -918,8 +918,8 @@ async function _ejecutarVerificacionPago(recaptchaResponse) {
     }
 
     // Si los campos de transacción son válidos, procede a la llamada AJAX de verificación
-    // const urlVerificarPago = window.location.origin+'/asnc/index.php/Diplomado/verificar_pago'; 
-     const urlVerificarPago = '/index.php/Diplomado/verificar_pago';
+    const urlVerificarPago = window.location.origin+'/asnc/index.php/Diplomado/verificar_pago'; 
+    //  const urlVerificarPago = '/index.php/Diplomado/verificar_pago';
 
     
     // Construimos dataToSend para la llamada de verificación (incluye reCAPTCHA)
@@ -959,7 +959,7 @@ async function _ejecutarVerificacionPago(recaptchaResponse) {
             return true; // Éxito en la verificación
         } else {
             swal('Error', verificationResponse.message || 'Error al verificar los datos de pago.', 'error');
-            $('#pagoVerificado').val('0'); // No verificado
+            $('#pagoVerificado').val('1'); // No verificado  //siled
             resetRecaptchaPay(); 
             console.log("_ejecutarVerificacionPago: Verificación fallida. Retornando false."); 
             return false; // Falla en la verificación
@@ -1112,8 +1112,8 @@ window.guardarPagoFinal = async function(event) {
         }
 
         // Si los campos de transacción son válidos, procede a la llamada AJAX de verificación
-        // const urlVerificarPago = window.location.origin+'/asnc/index.php/Diplomado/verificar_pago'; 
-         const urlVerificarPago = '/index.php/Diplomado/verificar_pago';
+        const urlVerificarPago = window.location.origin+'/asnc/index.php/Diplomado/verificar_pago'; 
+        //  const urlVerificarPago = '/index.php/Diplomado/verificar_pago';
 
         
         try {
@@ -1133,7 +1133,7 @@ window.guardarPagoFinal = async function(event) {
                 console.log("guardarPagoFinal (Verificación): Verificación exitosa."); 
             } else {
                 swal('Error', verificationResponse.message || 'Error al verificar los datos de pago.', 'error');
-                $('#pagoVerificado').val('0'); // No verificado
+                $('#pagoVerificado').val('1'); // No verificado siled
                 resetRecaptchaPay(); 
                 pagoVerificadoConExito = false; // Asegurar que sea falso
                 console.log("guardarPagoFinal (Verificación): Verificación fallida."); 
@@ -1141,7 +1141,7 @@ window.guardarPagoFinal = async function(event) {
         } catch (xhr) {
             console.error("guardarPagoFinal (Verificación AJAX): Error AJAX:", xhr); 
             swal('Error', 'Error de conexión al verificar datos de pago.', 'error');
-            $('#pagoVerificado').val('0'); // No verificado
+            $('#pagoVerificado').val('0'); // No verificado  
             resetRecaptchaPay(); 
             pagoVerificadoConExito = false; // Asegurar que sea falso
         } finally {
@@ -1184,13 +1184,13 @@ window.guardarPagoFinal = async function(event) {
     // Solo actualizamos el g-recaptcha-response si se obtuvo uno nuevo para esta etapa final.
     dataToSend['g-recaptcha-response'] = recaptchaResponseReal; // Asegurar que sea el último token
 
-    // var base_url_guardar_pago_final = window.location.origin + '/asnc/index.php/Diplomado/guardar_pago'; // URL del backend
-    // var url_pdf_recibo_final = window.location.origin + '/asnc/index.php/recibonatural/pdfrt?id=' + $('#codigo_planilla_hidden').val();
-    // var url_redirigir_final_app = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; 
+    var base_url_guardar_pago_final = window.location.origin + '/asnc/index.php/Diplomado/guardar_pago'; // URL del backend
+    var url_pdf_recibo_final = window.location.origin + '/asnc/index.php/recibonatural/pdfrt?id=' + $('#codigo_planilla_hidden').val();
+    var url_redirigir_final_app = window.location.origin+'/asnc/index.php/Diplomado/preinscrip'; 
 
-          var base_url_guardar_pago_final = '/index.php/Diplomado/guardar_pago';
-         var url_pdf_recibo_final = '/index.php/recibonatural/pdfrt?id=' + $('#codigo_planilla_hidden').val();
-         var url_redirigir_final_app = '/index.php/Diplomado/preinscrip';
+        //   var base_url_guardar_pago_final = '/index.php/Diplomado/guardar_pago';
+        //  var url_pdf_recibo_final = '/index.php/recibonatural/pdfrt?id=' + $('#codigo_planilla_hidden').val();
+        //  var url_redirigir_final_app = '/index.php/Diplomado/preinscrip';
 
 
     $.ajax({
