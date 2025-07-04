@@ -175,7 +175,7 @@ class Recibonatural extends CI_Controller
 
                         $pdf->Cell(35, 5, utf8_decode('Referencia:'), 0, 0, 'R');
                         $pdf->Cell(28, 5, $datos_pago->referencia, 0, 1, 'R');
-                        $pdf->Cell(35, 5, utf8_decode('tipo de pago:'), 0, 0, 'R');
+                        $pdf->Cell(35, 5, utf8_decode('Tipo de pago:'), 0, 0, 'R');
 
                         if ($datos_pago->tipo_pago == '1') {
                             $pdf->Cell(70, 5,  utf8_decode('Prontopago'), 0, 1, 'L');
@@ -184,7 +184,7 @@ class Recibonatural extends CI_Controller
                         }
                         // $pdf->Cell(18, 5, utf8_decode('Banco:'), 0, 0, 'R');
                         // $pdf->Cell(20, 5, $datos_pago->banco, 0, 1, 'C');
-                        $pdf->Cell(35, 5, utf8_decode('infomacion:'), 0, 0, 'R');
+                        $pdf->Cell(35, 5, utf8_decode('Infomación:'), 0, 0, 'R');
 
                         $pdf->MultiCell(125, 5, utf8_decode($datos_pago->observaciones), 0, 'L');
                     }
