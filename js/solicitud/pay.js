@@ -959,7 +959,7 @@ async function _ejecutarVerificacionPago(recaptchaResponse) {
             return true; // Éxito en la verificación
         } else {
             swal('Error', verificationResponse.message || 'Error al verificar los datos de pago.', 'error');
-            $('#pagoVerificado').val('1'); // No verificado  //siled
+            $('#pagoVerificado').val('0'); // No verificado  //siled
             resetRecaptchaPay(); 
             console.log("_ejecutarVerificacionPago: Verificación fallida. Retornando false."); 
             return false; // Falla en la verificación
@@ -1133,7 +1133,7 @@ window.guardarPagoFinal = async function(event) {
                 console.log("guardarPagoFinal (Verificación): Verificación exitosa."); 
             } else {
                 swal('Error', verificationResponse.message || 'Error al verificar los datos de pago.', 'error');
-                $('#pagoVerificado').val('1'); // No verificado siled
+                $('#pagoVerificado').val('0'); // No verificado siled
                 resetRecaptchaPay(); 
                 pagoVerificadoConExito = false; // Asegurar que sea falso
                 console.log("guardarPagoFinal (Verificación): Verificación fallida."); 
