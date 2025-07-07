@@ -2495,4 +2495,31 @@ class Diplomado extends CI_Controller
         $data =    $this->Diplomado_model->editar_datos_pn($data);
         echo json_encode($data);
     }
+
+    public function reportesgeneral()
+    {
+        if (!$this->session->userdata('session')) {
+            redirect('login');
+        }
+
+        $id_diplomado = $this->input->post('id_diplomado');
+        $id_estatus = $this->input->post('id_estatus');
+
+        $data['selected_diplomado'] = $id_diplomado;
+        $data['selected_estatus'] = $id_estatus;
+        $data['participantes'] = array(); // Inicialmente, no hay participantes
+
+        // Solo cargar participantes si se ha enviado algún filtro
+        if (!empty($id_diplomado) || !empty($id_estatus)) {
+            $data['participantes'] = $this->Diplomado_model->consultar_participantes_con_filtros($id_diplomado, $id_estatus);
+        }
+
+        $data['diplomados'] = $this->Diplomado_model->get_all_diplomados();
+        $data['estatus_inscripcion'] = $this->Diplomado_model->get_all_estatus_inscripcion();
+
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('diplomado/reportes/report_general.php', $data);
+        $this->load->view('templates/footer.php');
+    }
 }

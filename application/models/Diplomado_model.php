@@ -1341,4 +1341,53 @@ class Diplomado_model extends CI_model
         $query = $this->db->get();
         return $query->result_array();
     }
+
+    ////////////////////reporte
+    public function consultar_participantes_con_filtros($id_diplomado = null, $id_estatus = null)
+    {
+        $this->db->select('i.id_inscripcion, i.id_participante, i.id_diplomado, i.codigo_planilla, i.fecha_inscripcion,
+                            i.fecha_limite_pago, i.estatus,
+                            i.id_pago, i.observaciones, d.name_d, d.id_modalidad , d.fdesde,  d.fhasta, p.cedula, p.nombres, p.apellidos,
+                            p.telefono, p.correo, p.edad,  p.direccion, p.trabaja_actualmente, p.observacion,
+                            e.rif, e.razon_social, e.telefono, e.direccion_fiscal, t.nombre as des_estatus');
+        $this->db->from('diplomado.inscripciones i');
+        $this->db->join('diplomado.diplomado d', 'd.id_diplomado = i.id_diplomado');
+        $this->db->join('diplomado.participantes p', 'p.id_participante = i.id_participante');
+        $this->db->join('diplomado.empresas e ', 'e.id_empresa = p.id_empresa', 'left');
+        $this->db->join('diplomado.estatus_inscripcion t ', 't.id_estatus = i.estatus');
+
+        // Aplicar filtros dinámicamente
+        if (!empty($id_diplomado)) {
+            $this->db->where('i.id_diplomado', $id_diplomado);
+        }
+        if (!empty($id_estatus)) {
+            $this->db->where('i.estatus', $id_estatus);
+        }
+
+        // Si no hay ningún filtro seleccionado, la consulta devolverá un conjunto vacío.
+        // No aplicamos un WHERE por defecto aquí.
+        // Esto se maneja en el controlador, que solo llama a esta función si hay filtros.
+
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function get_all_diplomados()
+    {
+        $this->db->select('id_diplomado, name_d');
+        $this->db->where('estatus', 1);
+
+        $this->db->from('diplomado.diplomado');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function get_all_estatus_inscripcion()
+    {
+        $this->db->select('id_estatus, nombre');
+        $this->db->from('diplomado.estatus_inscripcion');
+        $this->db->order_by('nombre', 'ASC');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 }
