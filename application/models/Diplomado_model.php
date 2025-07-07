@@ -1364,10 +1364,6 @@ class Diplomado_model extends CI_model
             $this->db->where('i.estatus', $id_estatus);
         }
 
-        // Si no hay ningún filtro seleccionado, la consulta devolverá un conjunto vacío.
-        // No aplicamos un WHERE por defecto aquí.
-        // Esto se maneja en el controlador, que solo llama a esta función si hay filtros.
-
         $query = $this->db->get();
         return $query->result_array();
     }

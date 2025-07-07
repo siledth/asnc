@@ -647,43 +647,93 @@ class Programacion_model extends CI_model
         $query = $this->db->get('programacion.p_ffinanciamientototal pf');
         return $query->result_array();
     }
+    // public function total_por_partidas($id_programacion)
+    // {
+    //     $this->db->select("pf.id_proyecto,
+    //                              pf.id_partidad_presupuestaria,
+    //                              pp.desc_partida_presupuestaria,
+    //                              pp.codigopartida_presupuestaria,
+    //                              SUM(COALESCE(to_number(NULLIF(pf.precio_total, ''), '999999999999D99'), 0)) as precio_total,
+    //                              SUM(COALESCE(to_number(NULLIF(pf.monto_estimado, ''), '999999999999D99'), 0)) as monto_estimado,
+    //                             ");
+    //     $this->db->join('programacion.partida_presupuestaria pp', 'pp.id_partida_presupuestaria = pf.id_partidad_presupuestaria');
+    //     $this->db->where('pf.id_proyecto', $id_programacion);
+    //     //  $this->db->where('pf.id_p_acc', 0);
+    //     $this->db->group_by('pf.id_proyecto,
+    //                              pf.id_partidad_presupuestaria,
+    //                              pp.desc_partida_presupuestaria,
+    //                              pp.codigopartida_presupuestaria');
+    //     $query = $this->db->get('programacion.p_items pf');
+    //     return $query->result_array();
+    // }
     public function total_por_partidas($id_programacion)
     {
         $this->db->select("pf.id_proyecto,
-                                 pf.id_partidad_presupuestaria,
-                                 pp.desc_partida_presupuestaria,
-                                 pp.codigopartida_presupuestaria,
-                                 SUM(COALESCE(to_number(NULLIF(pf.precio_total, ''), '999999999999D99'), 0)) as precio_total,
-                                 SUM(COALESCE(to_number(NULLIF(pf.monto_estimado, ''), '999999999999D99'), 0)) as monto_estimado,
-                                ");
+                             pf.id_partidad_presupuestaria,
+                             pp.desc_partida_presupuestaria,
+                             pp.codigopartida_presupuestaria,
+                             SUM(CASE
+                                     WHEN TRIM(pf.precio_total) = '' THEN 0
+                                     WHEN LOWER(TRIM(pf.precio_total)) = 'nan' THEN 0
+                                     ELSE to_number(pf.precio_total, '999999999999D99')
+                                 END) as precio_total,
+                             SUM(CASE
+                                     WHEN TRIM(pf.monto_estimado) = '' THEN 0
+                                     WHEN LOWER(TRIM(pf.monto_estimado)) = 'nan' THEN 0
+                                     ELSE to_number(pf.monto_estimado, '999999999999D99')
+                                 END) as monto_estimado
+                           "); // Notice the removed trailing comma here, it caused an error in the previous code
+
         $this->db->join('programacion.partida_presupuestaria pp', 'pp.id_partida_presupuestaria = pf.id_partidad_presupuestaria');
         $this->db->where('pf.id_proyecto', $id_programacion);
-        //  $this->db->where('pf.id_p_acc', 0);
         $this->db->group_by('pf.id_proyecto,
-                                 pf.id_partidad_presupuestaria,
-                                 pp.desc_partida_presupuestaria,
-                                 pp.codigopartida_presupuestaria');
+                             pf.id_partidad_presupuestaria,
+                             pp.desc_partida_presupuestaria,
+                             pp.codigopartida_presupuestaria');
         $query = $this->db->get('programacion.p_items pf');
         return $query->result_array();
     }
+    // public function total_por_partidas_primero($id_programacion)
+    // {
+    //     $this->db->select("pf.id_proyecto,
+    //                     	   pf.codigopartida_presupuestaria,
+    //                     	   pf.desc_partida_presupuestaria,
+    //                            sum(to_number(pf.total_rendi,'999999999999D99')) as total_rendi,
+    //                            sum(to_number(pf.subtotal_rend_ejecu,'999999999999D99')) as precio_rend_ejecu,
+    //                           ");
+    //     // $this->db->join('programacion.partida_presupuestaria pp','pp.codigopartida_presupuestaria = pf.codigopartida_presupuestaria');
+    //     $this->db->where('pf.id_programacion', $id_programacion);
+    //     //  $this->db->where('pf.id_p_acc', 0);
+    //     $this->db->group_by('pf.id_proyecto,
+    //         pf.codigopartida_presupuestaria,
+    //         pf.desc_partida_presupuestaria');
+    //     $query = $this->db->get('programacion.rendidicion pf');
+    //     return $query->result_array();
+    // }
+
     public function total_por_partidas_primero($id_programacion)
     {
         $this->db->select("pf.id_proyecto,
-                        	   pf.codigopartida_presupuestaria,
-                        	   pf.desc_partida_presupuestaria,
-                               sum(to_number(pf.total_rendi,'999999999999D99')) as total_rendi,
-                               sum(to_number(pf.subtotal_rend_ejecu,'999999999999D99')) as precio_rend_ejecu,
-                              ");
-        // $this->db->join('programacion.partida_presupuestaria pp','pp.codigopartida_presupuestaria = pf.codigopartida_presupuestaria');
+                            pf.codigopartida_presupuestaria,
+                            pf.desc_partida_presupuestaria,
+                            sum(CASE
+                                    WHEN TRIM(pf.total_rendi) = '' THEN 0
+                                    WHEN LOWER(TRIM(pf.total_rendi)) = 'nan' THEN 0
+                                    ELSE to_number(pf.total_rendi, '999999999999D99')
+                                END) as total_rendi,
+                            sum(CASE
+                                    WHEN TRIM(pf.subtotal_rend_ejecu) = '' THEN 0
+                                    WHEN LOWER(TRIM(pf.subtotal_rend_ejecu)) = 'nan' THEN 0
+                                    ELSE to_number(pf.subtotal_rend_ejecu, '999999999999D99')
+                                END) as precio_rend_ejecu
+                           ");
         $this->db->where('pf.id_programacion', $id_programacion);
-        //  $this->db->where('pf.id_p_acc', 0);
         $this->db->group_by('pf.id_proyecto,
-            pf.codigopartida_presupuestaria,
-            pf.desc_partida_presupuestaria');
+        pf.codigopartida_presupuestaria,
+        pf.desc_partida_presupuestaria');
         $query = $this->db->get('programacion.rendidicion pf');
         return $query->result_array();
     }
-
     public function inf_2_edit($data)
     {
         $this->db->select('pf.id_enlace,
