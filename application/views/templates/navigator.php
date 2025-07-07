@@ -710,12 +710,13 @@
                                     Reportes
                                 </a>
                                 <ul class="sub-menu">
+                                    <li><a href="<?= base_url() ?>index.php/Diplomado/reportesgeneral">-
+                                            reporte Persona natural</a></li>
                                     <!-- <?php if (($this->session->userdata('certi_externo') == 1)) : ?> reporte directora -->
 
                                     <li><a href="<?= base_url() ?>index.php/Diplomado/reporteG">-
                                             Consulta Cuenta CCP</a></li>
-                                    <li><a href="<?= base_url() ?>index.php/Diplomado/reportesgeneral">-
-                                            reporte Persona natural</a></li>
+
                                 <?php endif; ?>
 
                                 <!-- <li><a href="<?= base_url() ?>index.php/Comision_contrata/certificadosnc">-
