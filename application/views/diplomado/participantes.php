@@ -139,19 +139,20 @@
                                         <span class="stat-label">TOTAL Solicitudes</span>
                                     </div>
 
-                                    <!-- <div class="circle-stat bg-info text-white">
+                                    <div class="circle-stat bg-info text-white">
                                         <span class="stat-value">
                                             <?php
-                                            // $total_aprobados = 0;
-                                            // foreach ($inscripcion_stats['by_diplomado'] as $d_stat) {
-                                            //     $total_aprobados += $d_stat['total_aceptado_espera_pago'] + $d_stat['total_exonerado'];
-                                            //     // ESTO ES LO QUE ESTABA SUMANDO ANTES
-                                            // }
-                                            // echo $total_aprobados;
+                                            $total_aprobados = 0;
+                                            foreach ($inscripcion_stats['by_diplomado'] as $d_stat) {
+                                                $total_aprobados += $d_stat['total_pagado_inscrito'] + $d_stat['total_exonerado'];
+                                                // ESTO ES LO QUE ESTABA SUMANDO ANTES
+                                            }
+                                            echo $total_aprobados;
                                             ?>
                                         </span>
-                                        <span class="stat-label">TOTAL APROBADOS incluye aceptados y exonerados </span>
-                                    </div> -->
+                                        <span class="stat-label">TOTAL INSCRITOS "esto incluye a los que pagaron y
+                                            exonerados" </span>
+                                    </div>
                                     <div class="circle-stat bg-danger text-white">
                                         <span class="stat-value">
                                             <?php
