@@ -295,7 +295,7 @@ function save_dec_pj() {
         alert("Seleccione una opción válida");
         return false;
     }
-	//var base_url =window.location.origin+'/asnc/index.php/Diplomado/actualizar_inscripcion_pj';
+	// var base_url =window.location.origin+'/asnc/index.php/Diplomado/actualizar_inscripcion_pj';
 					var base_url = '/index.php/Diplomado/actualizar_inscripcion_pj';
 
 	
@@ -327,7 +327,7 @@ function save_dec_pj() {
  function llenar_20() {
       
         var factura = $("#fm_ac").val();
-        if (factura == "4") {
+        if (factura == "2") {
             $("#cmp1").show();
         } else {
             $("#cmp1").hide();
