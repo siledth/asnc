@@ -1202,8 +1202,12 @@ class Diplomado_model extends CI_model
             d.name_d,
             SUM(CASE WHEN i.estatus = 1 THEN 1 ELSE 0 END) AS total_preinscrito,
             SUM(CASE WHEN i.estatus = 2 THEN 1 ELSE 0 END) AS total_aceptado_espera_pago,
+            SUM(CASE WHEN i.estatus = 4 THEN 1 ELSE 0 END) AS total_pagado_inscrito,
             SUM(CASE WHEN i.estatus = 5 THEN 1 ELSE 0 END) AS total_exonerado,
             SUM(CASE WHEN i.estatus = 6 THEN 1 ELSE 0 END) AS total_aprobado_proxima_corte,
+            SUM(CASE WHEN i.estatus = 3 THEN 1 ELSE 0 END) AS total_no_califica,
+
+
             COUNT(i.id_inscripcion) AS total_inscritos_diplomado
         ');
         $this->db->from('diplomado.inscripciones i');

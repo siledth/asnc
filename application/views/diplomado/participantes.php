@@ -102,6 +102,12 @@
                                                         </span>
                                                     </li>
                                                     <li class="d-flex justify-content-between align-items-center">
+                                                        Pagado / Inscrito
+                                                        <span class="badge badge-warning badge-pill">
+                                                            <?= $diplomado_stat['total_pagado_inscrito'] ?>
+                                                        </span>
+                                                    </li>
+                                                    <li class="d-flex justify-content-between align-items-center">
                                                         Aprobado / Exonerado
                                                         <span class="badge badge-success badge-pill">
                                                             <?= $diplomado_stat['total_exonerado'] ?>
@@ -111,6 +117,12 @@
                                                         Aprobado / Próxima Corte
                                                         <span class="badge badge-danger badge-pill">
                                                             <?= $diplomado_stat['total_aprobado_proxima_corte'] ?>
+                                                        </span>
+                                                    </li>
+                                                    <li class="d-flex justify-content-between align-items-center">
+                                                        No califica
+                                                        <span class="badge badge-danger badge-pill">
+                                                            <?= $diplomado_stat['total_no_califica'] ?>
                                                         </span>
                                                     </li>
                                                 </ul>
