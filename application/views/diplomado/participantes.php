@@ -15,8 +15,7 @@
                 <div class="panel panel-inverse">
                     <div class="panel-heading"></div>
                     <div class="table-responsive">
-                        <table id="data-table-default" data-order='[[ 2, "asc" ]]'
-                            class="table table-bordered table-hover">
+                        <table id="data-table" data-order='[[ 2, "asc" ]]' class="table table-bordered table-hover">
                             <thead style="background:#01cdb2">
                                 <tr style="text-align:center">
                                     <th style="color:white;">Nombre del Diplomado</th>
