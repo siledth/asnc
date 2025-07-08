@@ -136,7 +136,7 @@
                                 <div class="d-flex flex-column align-items-center justify-content-around h-50">
                                     <div class="circle-stat bg-warning text-white">
                                         <span class="stat-value"><?= $inscripcion_stats['total_general'] ?? 0 ?></span>
-                                        <span class="stat-label">TOTAL INSCRITOS</span>
+                                        <span class="stat-label">TOTAL Solicitudes</span>
                                     </div>
 
                                     <!-- <div class="circle-stat bg-info text-white">
