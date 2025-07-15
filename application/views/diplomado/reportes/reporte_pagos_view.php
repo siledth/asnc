@@ -18,11 +18,11 @@
                     <div class="row">
                         <div class="col-4">
                             <label>Ingrese Fecha Desde</label>
-                            <input class="form-control" type="date" name="fechad" id="fechad" value="2025-06-20">
+                            <input class="form-control" type="date" name="fechad" id="fechad">
                         </div>
                         <div class="col-4">
                             <label>Ingrese fecha Hasta</label>
-                            <input class="form-control" type="date" name="fechah" id="fechah" value="2025-07-14">
+                            <input class="form-control" type="date" name="fechah" id="fechah">
                         </div>
                         <div class="col-4 mt-4">
                             <button type="button" class="btn btn-primary" onclick="buscarPagos();" name="button">
