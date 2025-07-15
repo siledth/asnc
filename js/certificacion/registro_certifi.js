@@ -1,7 +1,7 @@
 $(document).ready(function() {
     //para consultar y crear el numero de nro_comprobante
-      var base_url =   window.location.origin + "/asnc/index.php/Certificacion/nro_comprobante";
-//    var base_url = '/index.php/Certificacion/nro_comprobante';
+    //   var base_url =   window.location.origin + "/asnc/index.php/Certificacion/nro_comprobante";
+   var base_url = '/index.php/Certificacion/nro_comprobante';
     $.ajax({
         url: base_url,
         method: "post",
