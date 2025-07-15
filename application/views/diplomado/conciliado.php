@@ -29,7 +29,7 @@
                                 class="fas fa-question-circle text-danger mr-1"></i>Codigo de la
                             planilla <span class="text-danger">*</span></label>
                         <input class="form-control" type="text" name="rif_b" id="rif_b"
-                            onKeyUp="this.value=this.value.toUpperCase();" value="DIPGRP-2025-73F27405">
+                            onKeyUp="this.value=this.value.toUpperCase();">
                         <small class="form-text text-muted">Ingrese </small>
                         <div class="invalid-feedback">Debe ingresar </div>
                     </div>
@@ -211,7 +211,7 @@
                                 Referencia</label>
                             <div class="input-group">
                                 <input type="text" id="referencia" name="referencia" class="form-control" placeholder=""
-                                    maxlength="18" required data-parsley-trigger="change" value="0329292048870">
+                                    maxlength="18" required data-parsley-trigger="change">
                                 <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>"
                                     value="<?= $this->security->get_csrf_hash() ?>">
                                 <input type="hidden" id="pagoVerificado" name="pagoVerificado" value="0">
@@ -239,8 +239,7 @@
                         <div class="col-md-4 form-group">
                             <label for="nfsiges" class="required-field">numero factura siges</label>
                             <input type="text" id="nfsiges" name="nfsiges" class="form-control"
-                                placeholder="Ej: 12345678" maxlength="12" required data-parsley-trigger="change"
-                                value="21151374">
+                                placeholder="Ej: 12345678" maxlength="12" required data-parsley-trigger="change">
                         </div>
                         <div class="col-md-3 form-group">
                             <label for="monto" class="required-field">Importe Cancelado</label>

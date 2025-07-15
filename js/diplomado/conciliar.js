@@ -10,8 +10,8 @@ function Consultarplanilla() {
     $('#loading').show();
     $("#existe").hide();
     $("#no_existe").hide();
-    //    var base_url = '/index.php/Diplomado/consulta_planilla';
-          var base_url = window.location.origin+'/asnc/index.php/Diplomado/consulta_planilla';
+       var base_url = '/index.php/Diplomado/consulta_planilla';
+        //   var base_url = window.location.origin+'/asnc/index.php/Diplomado/consulta_planilla';
        //var base_url = '/index.php/Diplomado/consulta_og';
 
 
@@ -144,7 +144,7 @@ function calcularRetenciones() {
 
     // Calcular para Pronto Pago
     if ($('#tipo_pago').val() == 1) {
-        var totalPago = parseFloat($('#total_pago').val().replace(/[^0-9.-]/g, '')) || 0;
+        var totalPago = parseFloat($('#total_iva').val().replace(/[^0-9.-]/g, '')) || 0;
         var totalDespuesRetenciones = totalPago - totalRetenciones;
         $('#total_despues_retenciones').val(totalDespuesRetenciones.toFixed(2));
         $('#totalDespuesRetencionesField').show();
@@ -152,8 +152,11 @@ function calcularRetenciones() {
     }
     // Calcular para Crédito
     else if ($('#tipo_pago').val() == 2) {
-        var credito = parseFloat($('#pay').val().replace(/[^0-9.-]/g, '')) || 0;
-        var totalDespuesRetencionesCredito = credito - totalRetenciones;
+        var credito = parseFloat($('#total_iva_credito').val().replace(/[^0-9.-]/g, '')) || 0;
+        var mitadTotal = credito / 2;
+
+        
+        var totalDespuesRetencionesCredito = mitadTotal - totalRetenciones;
         $('#total_despues_retenciones_credito').val(totalDespuesRetencionesCredito.toFixed(2));
         $('#totalDespuesRetencionesCreditoField').show();
         $('#totalDespuesRetencionesField').hide();
@@ -536,7 +539,8 @@ $(document).ready(function() {
         $('#guardar').prop('disabled', true);
         $('#pagoVerificado').val('0');
 
-        var base_url = window.location.origin + '/asnc/index.php/Diplomado/verificar_referencia_v2';
+        // var base_url = window.location.origin + '/asnc/index.php/Diplomado/verificar_referencia_v2';
+       var base_url = '/index.php/Diplomado/verificar_referencia_v2';
         
         let postData = {
             referencia: referenciaBuscada
@@ -671,7 +675,8 @@ $(document).ready(function() {
         //     formData += '&' + CI_CSRF_TOKEN_NAME + '=' + CI_CSRF_HASH;
         // }
 
-        var base_url = window.location.origin + '/asnc/index.php/Diplomado/guardar_conciliado';
+        // var base_url = window.location.origin + '/asnc/index.php/Diplomado/guardar_conciliado';
+       var base_url = '/index.php/Diplomado/guardar_conciliado';
 
         $.ajax({
             url: base_url, // Asegúrate de que BASE_URL esté definida en tu HTML
@@ -681,7 +686,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     Swal.fire({
-                        title: '¡Éxito!',
+                        title: '¡Éxito! revise en participantes seleccionados  la planilla de inscripción',
                         text: response.message,
                         icon: 'success'
                     }).then(() => {
