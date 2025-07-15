@@ -285,7 +285,7 @@ function save_cambio_status() {
 
 function save_dec_pj() {
     var id_inscripcion = $('#id_inscripcion').val();
-    var estatus = $('#fm_ac').val(); // 2 (Aceptada) o 3 (No Califica) 4 aprobado/ exonerado de pago
+    var estatus = $('#fm_ac').val(); // 2 (Aceptada) o 3 (No Califica) 6 aprobado/ exonerado de pago
     var observacion = $('#obser').val();
     var tipo_pago = $('#tipo_pago').val();
 

@@ -8,6 +8,8 @@ class Diplomado_model extends CI_model
         // Este metodo conecta a nuestra segunda conexión
         // y asigna a nuestra propiedad $this->db_b_b; los recursos de la misma.
         $this->db_c = $this->load->database('SNCenlinea', true);
+        $this->load->library('curl'); // Cargar la librería cURL si no la tienes
+        // $this->load->config('bdv_config'); // Cargar la configuración para acceder al token
     }
 
     function consultar_dip()
@@ -1389,5 +1391,103 @@ class Diplomado_model extends CI_model
         $this->db->order_by('nombre', 'ASC');
         $query = $this->db->get();
         return $query->result_array();
+    }
+
+    ////////////reporte pago
+    public function obtenerPagosPorFecha($fechad, $fechah)
+    {
+        $this->db->select('
+            p.id_pago,
+            p.id_inscripcion,
+            i.codigo_planilla,  
+            d.name_d, 
+            p.monto,
+            p.fecha_pago,
+            p.referencia,
+            b.des_banco AS nombre_banco, 
+            tp.nombre AS forma_pago_nombre,  
+            p.estatus,
+            p.observaciones,
+            p.tipo_pago,
+            p.id_banco
+        ');
+        $this->db->from('diplomado.pagos p');
+        $this->db->join('diplomado.inscripciones i', 'p.id_inscripcion = i.id_inscripcion', 'left');
+        $this->db->join('diplomado.diplomado d', 'i.id_diplomado = d.id_diplomado', 'left');
+        // Nuevo JOIN para tipo_pago
+        $this->db->join('diplomado.tipo_pago tp', 'p.tipo_pago = tp.id_stat_p', 'left');
+        // Nuevo JOIN para bancos (usando p.banco = rnc.bancos.cod_banc como condición)
+        $this->db->join('rnc.bancos b', 'p.banco = b.cod_banc', 'left');
+
+        $this->db->where('p.fecha_pago >=', $fechad);
+        $this->db->where('p.fecha_pago <=', $fechah);
+        $this->db->order_by('p.fecha_pago', 'ASC');
+
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+
+    ///consulta movimiento banco de venezuela api
+    public function obtenerMovimientosBDV($cuenta, $fechaIni, $fechaFin)
+    {
+        $url = 'https://bdvconciliacion.banvenez.com/apis/bdv/consulta/movimientos/';
+
+        $token = $this->config->item('banvenez_api_key');
+
+        if (empty($token)) {
+            log_message('error', 'BDV API Key no configurada o vacía.');
+            throw new Exception('Token de API BDV no configurado o vacío.');
+        }
+
+        $headers = [
+            'Content-Type: application/json',
+            'Accept: application/json',
+            'X-API-KEY: ' . $token // <--- ¡AQUÍ EL CAMBIO CLAVE!
+            // Elimina 'Authorization: Bearer ' . $token
+        ];
+
+        $post_data = json_encode([
+            "cuenta" => $cuenta,
+            "fechaIni" => $fechaIni, // DD/MM/YYYY
+            "fechaFin" => $fechaFin, // DD/MM/YYYY
+            "tipoMoneda" => "VES",
+            "nroMovimiento" => ""
+        ]);
+
+        // Iniciar cURL
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Recordatorio: Cambiar a true en producción
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Añadir para seguir redirecciones, si las hay.
+
+        $response = curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curl_error = curl_error($ch);
+        curl_close($ch);
+
+        if ($response === false) {
+            log_message('error', 'Error cURL al consultar BDV API: ' . $curl_error);
+            throw new Exception('Error de conexión con la API de BDV: ' . $curl_error);
+        }
+
+        $decoded_response = json_decode($response, true);
+
+        // Si la respuesta no es JSON válido o el http_code no es 200, puede haber problemas.
+        // Si la API devuelve un JSON válido pero con un código de error interno (ej. 'code' != '1000'),
+        // eso se manejará en el controlador.
+        if ($http_code != 200) {
+            // Intenta extraer el mensaje de error del JSON si está presente
+            $errorMessage = $decoded_response['message'] ?? 'Error desconocido de la API BDV.';
+            log_message('error', 'BDV API responded with HTTP ' . $http_code . ': ' . $errorMessage . ' | Raw Response: ' . $response);
+            // Si el 401 aún persiste, este mensaje te ayudará a confirmarlo.
+            throw new Exception('Error de la API BDV (HTTP ' . $http_code . '): ' . $errorMessage);
+        }
+
+        return $decoded_response;
     }
 }

@@ -1,80 +1,93 @@
 <?php
 class Certificacion_model extends CI_model
-{ private $table = "certificacion.certificaciones";
-    public function __construct(){
+{
+    private $table = "certificacion.certificaciones";
+    public function __construct()
+    {
         parent::__construct();
         // Este metodo conecta a nuestra segunda conexión
         // y asigna a nuestra propiedad $this->db_b_b; los recursos de la misma.
         $this->db_c = $this->load->database('SNCenlinea', true);
+        $this->load->library('ciqrcode');
     }
-    public function inf_1(){
-           
+    public function inf_1()
+    {
+
         $this->db->select('*');
-        $this->db->where('id_tarifa', 3 );
+        $this->db->where('id_tarifa', 3);
         $query = $this->db->get('certificacion.tarifas');
         return $result = $query->result_array();
     }
-    public function inf_2(){
-           
+    public function inf_2()
+    {
+
         $this->db->select('*');
-        $this->db->where('id_alicuota_iva', 5 );
+        $this->db->where('id_alicuota_iva', 5);
         $query = $this->db->get('public.alicuota_iva');
         return $result = $query->result_array();
     }
-    public function inf_3(){
-           
+    public function inf_3()
+    {
+
         $this->db->select('*');
-        $this->db->where('id_tarifa', 1 );
+        $this->db->where('id_tarifa', 1);
         $query = $this->db->get('certificacion.tarifas');
         return $result = $query->result_array();
     }
-    public function inf_35(){
-           
+    public function inf_35()
+    {
+
         $this->db->select('*');
-        $this->db->where('id_tarifa', 3 );
+        $this->db->where('id_tarifa', 3);
         $query = $this->db->get('certificacion.tarifas');
         return $result = $query->result_array();
     }
-   
-    public function cons_nro_comprobante(){
+
+    public function cons_nro_comprobante()
+    {
         $this->db->select('id,id_comprobante,nro_comprobante,tipo_pers');
-        $this->db->where('tipo_pers ', 1 );
+        $this->db->where('tipo_pers ', 1);
         $this->db->order_by('id_comprobante desc');
         $query = $this->db->get('certificacion.certificaciones ');
         $response = $query->row_array();
         return $response;
     }
-    public function consulta_certi50($usuario){
+    public function consulta_certi50($usuario)
+    {
         $this->db->select('*');
         $this->db->where('user_soli', $usuario);
-      //$this->db->where('status', '1');
+        //$this->db->where('status', '1');
         $query = $this->db->get('certificacion.certificaciones');
         return $response = $query->row_array(); // sin el foreach
     }
-    public function consulta_certi_exter50($usuario){
+    public function consulta_certi_exter50($usuario)
+    {
         $this->db->select('*');
-       
+
         $this->db->where('user_soli', $usuario);
         $query = $this->db->get('certificacion.certificaciones');
         return $response = $query->row_array(); //f sin el foreach
     }
-    public function consulta_certi(){
+    public function consulta_certi()
+    {
         $this->db->select('*');
         $this->db->from('certificacion.certificaciones ');
         //$this->db->where('status', '1');
         $query = $this->db->get();
         return $result = $query->result_array();
     }
-    public function consulta_certi_pendiente(){
+    public function consulta_certi_pendiente()
+    {
         $this->db->select('*');
         $this->db->from('certificacion.certificaciones ');
         $this->db->where('status', '1');
-        
+
         $query = $this->db->get();
         return $result = $query->result_array();
     }
-   
-    public function consulta_certi_exter($usuario){
+
+    public function consulta_certi_exter($usuario)
+    {
         $this->db->select('*');
         $this->db->from('certificacion.certificaciones ');
         //$this->db-> where ("ed.id_usuario = '$usuario'");
@@ -82,991 +95,1035 @@ class Certificacion_model extends CI_model
         $query = $this->db->get();
         return $result = $query->result_array();
     }
-    public function consulta_certi_exter2(){
+    public function consulta_certi_exter2()
+    {
         $this->db->select('*');
         $this->db->from('certificacion.certificaciones ');
-       $this->db->where('status', '2');
-       
+        $this->db->where('status', '2');
+
         $query = $this->db->get();
         return $result = $query->result_array();
     }
 
-    public function save_certificacion($certifi, $experi_empre_capa,$experi_empre_cap_comisi,
-    $infor_per_natu,$infor_per_prof,$for_mat_contr_publ,$exp_par_comi_10,$exp_dic_cap_3){
-       
+    public function save_certificacion(
+        $certifi,
+        $experi_empre_capa,
+        $experi_empre_cap_comisi,
+        $infor_per_natu,
+        $infor_per_prof,
+        $for_mat_contr_publ,
+        $exp_par_comi_10,
+        $exp_dic_cap_3
+    ) {
+
         $qrcode_data = $this->_generate_data_qrcode();
         $this->db->select('max(e.id_comprobante) as id_comprobante,e.tipo_pers');
         $this->db->where('e.tipo_pers', 1);
-        $this->db->group_by('e.tipo_pers'); 
+        $this->db->group_by('e.tipo_pers');
         $query = $this->db->get('certificacion.certificaciones e');
         $respon = $query->row_array();
-        $id_comprobante = $respon['id_comprobante'] + 1 ;
+        $id_comprobante = $respon['id_comprobante'] + 1;
 
         $this->db->select('max(e.id) as id');
         $query = $this->db->get('certificacion.certificaciones e');
         $response3 = $query->row_array();
-        $id = $response3['id'] + 1 ;
+        $id = $response3['id'] + 1;
         $certifi1 = array(
 
-            'id'=> $id,
-            'id_comprobante'=> $id_comprobante,
-            'nro_comprobante'=> $certifi['nro_comprobante'],
-            'n_certif'=> $certifi['n_certif'],
-            'rif_cont'=> $certifi['rif_cont'],
-            'nombre'=> $certifi['nombre'],
-            'tipo_pers'=> $certifi['tipo_pers'],
-            'objetivo'=> $certifi['objetivo'],
-            'cont_prog'=> $certifi['cont_prog'],
-            'total_bss'=> $certifi['total_bss'],
-            'n_ref'=> $certifi['n_ref'],
-            'banco_e'=> $certifi['banco_e'],
-            'banco_rec'=> $certifi['banco_rec'],
-            'fecha_trans'=> $certifi['fecha_trans'],
-            'monto_trans'=> $certifi['monto_trans'],
-            'declara'=> $certifi['declara'],
+            'id' => $id,
+            'id_comprobante' => $id_comprobante,
+            'nro_comprobante' => $certifi['nro_comprobante'],
+            'n_certif' => $certifi['n_certif'],
+            'rif_cont' => $certifi['rif_cont'],
+            'nombre' => $certifi['nombre'],
+            'tipo_pers' => $certifi['tipo_pers'],
+            'objetivo' => $certifi['objetivo'],
+            'cont_prog' => $certifi['cont_prog'],
+            'total_bss' => $certifi['total_bss'],
+            'n_ref' => $certifi['n_ref'],
+            'banco_e' => $certifi['banco_e'],
+            'banco_rec' => $certifi['banco_rec'],
+            'fecha_trans' => $certifi['fecha_trans'],
+            'monto_trans' => $certifi['monto_trans'],
+            'declara' => $certifi['declara'],
             'acepto' => $certifi['acepto'],
-            'fecha_solic'=> $certifi['fecha_solic'],
-            'user_soli'=> $certifi['user_soli'],
+            'fecha_solic' => $certifi['fecha_solic'],
+            'user_soli' => $certifi['user_soli'],
             'status' => $certifi['status'],
-            'qrcode_path'   => $this->_generate_qrcode($this->input->post('rif_cont'),$qrcode_data), //memanggil method _generate_qrcode dengan mengirimkan dua parameter yaitu data fullname dan data qrcode
+            'qrcode_path'   => $this->_generate_qrcode($this->input->post('rif_cont'), $qrcode_data), //memanggil method _generate_qrcode dengan mengirimkan dua parameter yaitu data fullname dan data qrcode
             'qrcode_data'   => $qrcode_data
-            );         
-        $quers =$this->db->insert('certificacion.certificaciones',$certifi1);
+        );
+        $quers = $this->db->insert('certificacion.certificaciones', $certifi1);
 
-            if ($quers) {
-                $this->db->select('max(e.id) as id');
-                $query = $this->db->get('certificacion.experi_empre_capa e');
-                $response3 = $query->row_array();
-                $id = $response3['id'] + 1 ;
+        if ($quers) {
+            $this->db->select('max(e.id) as id');
+            $query = $this->db->get('certificacion.experi_empre_capa e');
+            $response3 = $query->row_array();
+            $id = $response3['id'] + 1;
 
-                $cant_proy = $experi_empre_capa['organo_experi_empre_capa'];
-                $count_prog = count($cant_proy);
-                for ($i=0; $i < $count_prog; $i++) {
-                    $data1 = array(
-                        'id'              => $id,
-                        'organo_experi_empre_capa'   		    => $experi_empre_capa['organo_experi_empre_capa'][$i],
-                        'actividad_experi_empre_capa'          	=> $experi_empre_capa['actividad_experi_empre_capa'][$i],
-                        'desde_experi_empre_capa'           	=> $experi_empre_capa['desde_experi_empre_capa'][$i],
-                        'hasta_experi_empre_capa' 	            => $experi_empre_capa['hasta_experi_empre_capa'][$i],
-                        'n_certif'=> $certifi['n_certif'],
-                        'rif_cont'             => $experi_empre_capa['rif_cont'],  
-                        'nro_comprobante'=> $experi_empre_capa['nro_comprobante']
-                    );
-                    $this->db->insert('certificacion.experi_empre_capa',$data1);
-                }
-                $this->db->select('max(e.id) as id');
-                $query = $this->db->get('certificacion.experi_empre_cap_comisi e');
-                $response3 = $query->row_array();
-                $id = $response3['id'] + 1 ;
-                $cant_pff = $experi_empre_cap_comisi['organo_expe'];
-                $count_pff = count($cant_pff);
-
-                for ($i=0; $i < $count_pff; $i++) {
-                    $data2 = array(
-                        'id'              => $id,
-                        'nro_comprobante'             => $experi_empre_cap_comisi['nro_comprobante'],
-                        'n_certif'=> $certifi['n_certif'],
-                        'rif_cont'=> $experi_empre_cap_comisi['rif_cont'],
-                        'organo_expe'   		        => $experi_empre_cap_comisi['organo_expe'][$i],
-                        'actividad_exp'          	=> $experi_empre_cap_comisi['actividad_exp'][$i],
-                        'desde_exp'             => $experi_empre_cap_comisi['desde_exp'][$i],
-                        'hasta_exp' 	            => $experi_empre_cap_comisi['hasta_exp'][$i],
-                       
-                    );
-                    $this->db->insert('certificacion.experi_empre_cap_comisi',$data2);
-                }
-                $this->db->select('max(e.id) as id');
-                $query = $this->db->get('certificacion.infor_per_natu e');
-                $response3 = $query->row_array();
-                $id = $response3['id'] + 1 ;
-                $cant_pfft = $infor_per_natu['nombre_ape'];
-                $count_pffr = count($cant_pfft);
-
-                for ($i=0; $i < $count_pffr; $i++) {
-                    $data3 = array(
-                        'id'              => $id,
-                        'nro_comprobante'=> $certifi['nro_comprobante'],
-                        'n_certif'=> $certifi['n_certif'],
-                        'rif_cont'=> $certifi['rif_cont'],
-                        'nombre_ape'   		        => $infor_per_natu['nombre_ape'][$i],
-                        'cedula'          	=> $infor_per_natu['cedula'][$i],
-                        'rif'             => $infor_per_natu['rif'][$i],
-                        'bolivar_estimado' 	            => $infor_per_natu['bolivar_estimado'][$i],
-                        'pj' 	            => $infor_per_natu['pj'],
-                        'sub_total' 	            => $infor_per_natu['sub_total'],
-                        'total_final' 	            => $infor_per_natu['total_bss'],
-                        'status' 	            => 1,
-                       
-                    );
-                    $this->db->insert('certificacion.infor_per_natu',$data3);
-                }
-                $this->db->select('max(e.id) as id');
-                $query = $this->db->get('certificacion.infor_per_prof e');
-                $response3 = $query->row_array();
-                $id = $response3['id'] + 1 ;
-                $cant_pfftt = $infor_per_prof['for_academica'];
-                $count_pffrt = count($cant_pfftt);
-
-                for ($i=0; $i < $count_pffrt; $i++) {
-                    $data4 = array(
-                        'id'              => $id,
-                        'n_certif'=> $certifi['n_certif'],
-                        'rif_cont'=> $certifi['rif_cont'],
-                        'for_academica'   		=> $infor_per_prof['for_academica'][$i],
-                        'titulo'          	=> $infor_per_prof['titulo'][$i],
-                        'ano'             => $infor_per_prof['ano'][$i],
-                        'culminacion' 	 => $infor_per_prof['culminacion'][$i],
-                        'curso' 	            => $infor_per_prof['curso'][$i],
-                        'nro_comprobante'=> $certifi['nro_comprobante'],
-                        'cedula'          	=> $infor_per_natu['cedula'][$i],
-                        
-                       
-                    );
-                    $this->db->insert('certificacion.infor_per_prof',$data4);
-                }
-                $this->db->select('max(e.id) as id');
-                $query = $this->db->get('certificacion.for_mat_contr_publ e');
-                $response3 = $query->row_array();
-                $id = $response3['id'] + 1 ;
-                $cant_1 = $for_mat_contr_publ['taller'];
-                $count_1 = count($cant_1);
-
-                for ($i=0; $i < $count_1; $i++) {
-                    $data5 = array(
-                        'id'              => $id,
-                        'n_certif'=> $certifi['n_certif'],
-                        'rif_cont'=> $certifi['rif_cont'],
-                        'taller'   		=> $for_mat_contr_publ['taller'][$i],
-                        'institucion'   => $for_mat_contr_publ['institucion'][$i],
-                        'hor_dura'      => $for_mat_contr_publ['hor_dura'][$i],
-                        'certi' 	 => $for_mat_contr_publ['certi'][$i],
-                        'fech_cert' 	 => $for_mat_contr_publ['fech_cert'][$i],
-                        'vigencia' 	   => $for_mat_contr_publ['vigencia'][$i],
-                        'nro_comprobante'=> $certifi['nro_comprobante'],
-                        'cedula'          	=> $infor_per_natu['cedula'][$i],
-                        
-                       
-                    );
-                    $this->db->insert('certificacion.for_mat_contr_publ',$data5);
-                }
-                $this->db->select('max(e.id) as id');
-                $query = $this->db->get('certificacion.exp_par_comi_10 e');
-                $response3 = $query->row_array();
-                $id = $response3['id'] + 1 ;
-                $cant_2 = $exp_par_comi_10['organo10'];
-                $count_3 = count($cant_2);
-
-                for ($i=0; $i < $count_3; $i++) {
-                    $data6 = array(
-                        'id'              => $id,
-                        'n_certif'=> $certifi['n_certif'],
-                        'rif_cont'=> $certifi['rif_cont'],
-                        'organo10'   		=> $exp_par_comi_10['organo10'][$i],
-                        'act_adminis_desid'   => $exp_par_comi_10['act_adminis_desid'][$i],
-                        'n_acto'      => $exp_par_comi_10['n_acto'][$i],
-                        'fecha_act' 	 => $exp_par_comi_10['fecha_act'][$i],
-                        'area_10' 	 => $exp_par_comi_10['area_10'][$i],
-                        'dura_comi' 	   => $exp_par_comi_10['dura_comi'][$i],
-                        'cedula'          	=> $infor_per_natu['cedula'][$i],
-                       
-                        
-                       
-                    );
-                    $this->db->insert('certificacion.exp_par_comi_10',$data6);
-                }
-                $this->db->select('max(e.id) as id');
-                $query = $this->db->get('certificacion.exp_dic_cap_3 e');
-                $response3 = $query->row_array();
-                $id = $response3['id'] + 1 ;
-                $cant_4 = $exp_dic_cap_3['organo3'];
-                $count_5 = count($cant_4);
-
-                for ($i=0; $i < $count_5; $i++) {
-                    $data7 = array(
-                        'id'              => $id,
-                        'n_certif'=> $certifi['n_certif'],
-                        'rif_cont'=> $certifi['rif_cont'],
-                        'organo3'   		=> $exp_dic_cap_3['organo3'][$i],
-                        'actividad3'   => $exp_dic_cap_3['actividad3'][$i],
-                        'desde3'      => $exp_dic_cap_3['desde3'][$i],
-                        'hasta3' 	 => $exp_dic_cap_3['hasta3'][$i],
-                        'cedula'          	=> $infor_per_natu['cedula'][$i],
-                       
-                        
-                       
-                    );
-                    $this->db->insert('certificacion.exp_dic_cap_3',$data7);
-                }
-                return true;
-
+            $cant_proy = $experi_empre_capa['organo_experi_empre_capa'];
+            $count_prog = count($cant_proy);
+            for ($i = 0; $i < $count_prog; $i++) {
+                $data1 = array(
+                    'id'              => $id,
+                    'organo_experi_empre_capa'               => $experi_empre_capa['organo_experi_empre_capa'][$i],
+                    'actividad_experi_empre_capa'              => $experi_empre_capa['actividad_experi_empre_capa'][$i],
+                    'desde_experi_empre_capa'               => $experi_empre_capa['desde_experi_empre_capa'][$i],
+                    'hasta_experi_empre_capa'                 => $experi_empre_capa['hasta_experi_empre_capa'][$i],
+                    'n_certif' => $certifi['n_certif'],
+                    'rif_cont'             => $experi_empre_capa['rif_cont'],
+                    'nro_comprobante' => $experi_empre_capa['nro_comprobante']
+                );
+                $this->db->insert('certificacion.experi_empre_capa', $data1);
             }
-            
+            $this->db->select('max(e.id) as id');
+            $query = $this->db->get('certificacion.experi_empre_cap_comisi e');
+            $response3 = $query->row_array();
+            $id = $response3['id'] + 1;
+            $cant_pff = $experi_empre_cap_comisi['organo_expe'];
+            $count_pff = count($cant_pff);
+
+            for ($i = 0; $i < $count_pff; $i++) {
+                $data2 = array(
+                    'id'              => $id,
+                    'nro_comprobante'             => $experi_empre_cap_comisi['nro_comprobante'],
+                    'n_certif' => $certifi['n_certif'],
+                    'rif_cont' => $experi_empre_cap_comisi['rif_cont'],
+                    'organo_expe'                   => $experi_empre_cap_comisi['organo_expe'][$i],
+                    'actividad_exp'              => $experi_empre_cap_comisi['actividad_exp'][$i],
+                    'desde_exp'             => $experi_empre_cap_comisi['desde_exp'][$i],
+                    'hasta_exp'                 => $experi_empre_cap_comisi['hasta_exp'][$i],
+
+                );
+                $this->db->insert('certificacion.experi_empre_cap_comisi', $data2);
+            }
+            $this->db->select('max(e.id) as id');
+            $query = $this->db->get('certificacion.infor_per_natu e');
+            $response3 = $query->row_array();
+            $id = $response3['id'] + 1;
+            $cant_pfft = $infor_per_natu['nombre_ape'];
+            $count_pffr = count($cant_pfft);
+
+            for ($i = 0; $i < $count_pffr; $i++) {
+                $data3 = array(
+                    'id'              => $id,
+                    'nro_comprobante' => $certifi['nro_comprobante'],
+                    'n_certif' => $certifi['n_certif'],
+                    'rif_cont' => $certifi['rif_cont'],
+                    'nombre_ape'                   => $infor_per_natu['nombre_ape'][$i],
+                    'cedula'              => $infor_per_natu['cedula'][$i],
+                    'rif'             => $infor_per_natu['rif'][$i],
+                    'bolivar_estimado'                 => $infor_per_natu['bolivar_estimado'][$i],
+                    'pj'                 => $infor_per_natu['pj'],
+                    'sub_total'                 => $infor_per_natu['sub_total'],
+                    'total_final'                 => $infor_per_natu['total_bss'],
+                    'status'                 => 1,
+
+                );
+                $this->db->insert('certificacion.infor_per_natu', $data3);
+            }
+            $this->db->select('max(e.id) as id');
+            $query = $this->db->get('certificacion.infor_per_prof e');
+            $response3 = $query->row_array();
+            $id = $response3['id'] + 1;
+            $cant_pfftt = $infor_per_prof['for_academica'];
+            $count_pffrt = count($cant_pfftt);
+
+            for ($i = 0; $i < $count_pffrt; $i++) {
+                $data4 = array(
+                    'id'              => $id,
+                    'n_certif' => $certifi['n_certif'],
+                    'rif_cont' => $certifi['rif_cont'],
+                    'for_academica'           => $infor_per_prof['for_academica'][$i],
+                    'titulo'              => $infor_per_prof['titulo'][$i],
+                    'ano'             => $infor_per_prof['ano'][$i],
+                    'culminacion'      => $infor_per_prof['culminacion'][$i],
+                    'curso'                 => $infor_per_prof['curso'][$i],
+                    'nro_comprobante' => $certifi['nro_comprobante'],
+                    'cedula'              => $infor_per_natu['cedula'][$i],
+
+
+                );
+                $this->db->insert('certificacion.infor_per_prof', $data4);
+            }
+            $this->db->select('max(e.id) as id');
+            $query = $this->db->get('certificacion.for_mat_contr_publ e');
+            $response3 = $query->row_array();
+            $id = $response3['id'] + 1;
+            $cant_1 = $for_mat_contr_publ['taller'];
+            $count_1 = count($cant_1);
+
+            for ($i = 0; $i < $count_1; $i++) {
+                $data5 = array(
+                    'id'              => $id,
+                    'n_certif' => $certifi['n_certif'],
+                    'rif_cont' => $certifi['rif_cont'],
+                    'taller'           => $for_mat_contr_publ['taller'][$i],
+                    'institucion'   => $for_mat_contr_publ['institucion'][$i],
+                    'hor_dura'      => $for_mat_contr_publ['hor_dura'][$i],
+                    'certi'      => $for_mat_contr_publ['certi'][$i],
+                    'fech_cert'      => $for_mat_contr_publ['fech_cert'][$i],
+                    'vigencia'        => $for_mat_contr_publ['vigencia'][$i],
+                    'nro_comprobante' => $certifi['nro_comprobante'],
+                    'cedula'              => $infor_per_natu['cedula'][$i],
+
+
+                );
+                $this->db->insert('certificacion.for_mat_contr_publ', $data5);
+            }
+            $this->db->select('max(e.id) as id');
+            $query = $this->db->get('certificacion.exp_par_comi_10 e');
+            $response3 = $query->row_array();
+            $id = $response3['id'] + 1;
+            $cant_2 = $exp_par_comi_10['organo10'];
+            $count_3 = count($cant_2);
+
+            for ($i = 0; $i < $count_3; $i++) {
+                $data6 = array(
+                    'id'              => $id,
+                    'n_certif' => $certifi['n_certif'],
+                    'rif_cont' => $certifi['rif_cont'],
+                    'organo10'           => $exp_par_comi_10['organo10'][$i],
+                    'act_adminis_desid'   => $exp_par_comi_10['act_adminis_desid'][$i],
+                    'n_acto'      => $exp_par_comi_10['n_acto'][$i],
+                    'fecha_act'      => $exp_par_comi_10['fecha_act'][$i],
+                    'area_10'      => $exp_par_comi_10['area_10'][$i],
+                    'dura_comi'        => $exp_par_comi_10['dura_comi'][$i],
+                    'cedula'              => $infor_per_natu['cedula'][$i],
+
+
+
+                );
+                $this->db->insert('certificacion.exp_par_comi_10', $data6);
+            }
+            $this->db->select('max(e.id) as id');
+            $query = $this->db->get('certificacion.exp_dic_cap_3 e');
+            $response3 = $query->row_array();
+            $id = $response3['id'] + 1;
+            $cant_4 = $exp_dic_cap_3['organo3'];
+            $count_5 = count($cant_4);
+
+            for ($i = 0; $i < $count_5; $i++) {
+                $data7 = array(
+                    'id'              => $id,
+                    'n_certif' => $certifi['n_certif'],
+                    'rif_cont' => $certifi['rif_cont'],
+                    'organo3'           => $exp_dic_cap_3['organo3'][$i],
+                    'actividad3'   => $exp_dic_cap_3['actividad3'][$i],
+                    'desde3'      => $exp_dic_cap_3['desde3'][$i],
+                    'hasta3'      => $exp_dic_cap_3['hasta3'][$i],
+                    'cedula'              => $infor_per_natu['cedula'][$i],
+
+
+
+                );
+                $this->db->insert('certificacion.exp_dic_cap_3', $data7);
+            }
+            return true;
+        }
     }
 
-    public function certificaciones($rif_cont ){
-           
+    public function certificaciones($rif_cont)
+    {
+
         $this->db->select('pp.*');
 
-        $this->db->where('pp.rif_cont', $rif_cont );
+        $this->db->where('pp.rif_cont', $rif_cont);
         $query = $this->db->get('certificacion.certificaciones pp');
         return $query->result_array();
     }
-      public function certificaciones_ver($rif_cont ){
-           
+    public function certificaciones_ver($rif_cont)
+    {
+
         $this->db->select('pp.*,p.nombrefun, p.apellido');
-        $this->db->join('seguridad.funcionarios p','p.id_usuario = pp.user_snc_aprob');
-        $this->db->where('pp.rif_cont', $rif_cont );
+        $this->db->join('seguridad.funcionarios p', 'p.id_usuario = pp.user_snc_aprob');
+        $this->db->where('pp.rif_cont', $rif_cont);
         $query = $this->db->get('certificacion.certificaciones pp');
         return $query->result_array();
     }
-    public function edit_pn_infor_per_nat($rif_cont ){
-           
+    public function edit_pn_infor_per_nat($rif_cont)
+    {
+
         $this->db->select('pp.*');
-       
-        $this->db->where('pp.rif_cont', $rif_cont );
+
+        $this->db->where('pp.rif_cont', $rif_cont);
 
         $query = $this->db->get('certificacion.infor_per_natu pp');
         return $query->result_array();
     }
 
-    public function certificaciones2($rif_cont){
+    public function certificaciones2($rif_cont)
+    {
         $this->db->select('pf.*
                            ');
-        $this->db->where('pf.rif_cont', $rif_cont );
+        $this->db->where('pf.rif_cont', $rif_cont);
         $query = $this->db->get('certificacion.experi_empre_capa pf');
         return $query->result_array();
     }
-    public function certificaciones3($rif_cont){
+    public function certificaciones3($rif_cont)
+    {
         $this->db->select('pf.*
                            ');
-        $this->db->where('pf.rif_cont', $rif_cont );
+        $this->db->where('pf.rif_cont', $rif_cont);
         $query = $this->db->get('certificacion.experi_empre_cap_comisi pf');
         return $query->result_array();
     }
-    public function certificaciones4($rif_cont){
+    public function certificaciones4($rif_cont)
+    {
         $this->db->select('pf.*
                            ');
-        $this->db->where('pf.rif_cont', $rif_cont );
+        $this->db->where('pf.rif_cont', $rif_cont);
         $query = $this->db->get('certificacion.infor_per_natu pf');
         return $query->result_array();
     }
-    public function certificaciones5($rif_cont){
+    public function certificaciones5($rif_cont)
+    {
         $this->db->select('pf.*
                            ');
-        $this->db->where('pf.rif_cont', $rif_cont );
+        $this->db->where('pf.rif_cont', $rif_cont);
         $query = $this->db->get('certificacion.infor_per_prof pf');
         return $query->result_array();
     }
-    public function certificaciones6($rif_cont){
+    public function certificaciones6($rif_cont)
+    {
         $this->db->select('pf.*');
-        $this->db->where('pf.rif_cont', $rif_cont );
+        $this->db->where('pf.rif_cont', $rif_cont);
         $query = $this->db->get('certificacion.for_mat_contr_publ pf');
         return $query->result_array();
     }
-    public function certificaciones7($rif_cont){
+    public function certificaciones7($rif_cont)
+    {
         $this->db->select('pf.*
                            ');
-        $this->db->where('pf.rif_cont', $rif_cont );
+        $this->db->where('pf.rif_cont', $rif_cont);
         $query = $this->db->get('certificacion.exp_par_comi_10 pf');
         return $query->result_array();
     }
-    public function certificaciones8($rif_cont){
+    public function certificaciones8($rif_cont)
+    {
         $this->db->select('pf.*
                            ');
-        $this->db->where('pf.rif_cont', $rif_cont );
+        $this->db->where('pf.rif_cont', $rif_cont);
         $query = $this->db->get('certificacion.exp_dic_cap_3 pf');
         return $query->result_array();
     }
 
-    public function inf_2_edit($data){
+    public function inf_2_edit($data)
+    {
         $this->db->select('pf.*
                             ');
-        $this->db->join('certificacion.certificaciones pp','pp.rif_cont = pf.rif_cont');
+        $this->db->join('certificacion.certificaciones pp', 'pp.rif_cont = pf.rif_cont');
         $this->db->where('pf.rif_cont', $data['rif_cont']);
         $query = $this->db->get('certificacion.experi_empre_capa pf');
         return $query->result_array();
     }
 
-    public function inf_3_o($data){
+    public function inf_3_o($data)
+    {
         $this->db->select('pf.*,
                             ');
-                $this->db->join('certificacion.certificaciones pp','pp.rif_cont = pf.rif_cont');
-                $this->db->where('pf.rif_cont', $data['rif_cont']);
-                $query = $this->db->get('certificacion.experi_empre_cap_comisi pf');
-                return $query->result_array();
+        $this->db->join('certificacion.certificaciones pp', 'pp.rif_cont = pf.rif_cont');
+        $this->db->where('pf.rif_cont', $data['rif_cont']);
+        $query = $this->db->get('certificacion.experi_empre_cap_comisi pf');
+        return $query->result_array();
     }
-    public function inf_3_1($data){
+    public function inf_3_1($data)
+    {
         $this->db->select('pf.*,
                             ');
-                $this->db->join('certificacion.certificaciones pp','pp.rif_cont = pf.rif_cont');
-                $this->db->where('pf.rif_cont', $data['rif_cont']);
-                $query = $this->db->get('certificacion.infor_per_natu pf');
-                return $query->result_array();
+        $this->db->join('certificacion.certificaciones pp', 'pp.rif_cont = pf.rif_cont');
+        $this->db->where('pf.rif_cont', $data['rif_cont']);
+        $query = $this->db->get('certificacion.infor_per_natu pf');
+        return $query->result_array();
     }
-    public function inf_3_2($data){
+    public function inf_3_2($data)
+    {
         $this->db->select('pf.*,
                             ');
-                $this->db->join('certificacion.certificaciones pp','pp.rif_cont = pf.rif_cont');
-                $this->db->where('pf.rif_cont', $data['rif_cont']);
-                $query = $this->db->get('certificacion.infor_per_prof pf');
-                return $query->result_array();
+        $this->db->join('certificacion.certificaciones pp', 'pp.rif_cont = pf.rif_cont');
+        $this->db->where('pf.rif_cont', $data['rif_cont']);
+        $query = $this->db->get('certificacion.infor_per_prof pf');
+        return $query->result_array();
     }
-    public function inf_3_3($data){
+    public function inf_3_3($data)
+    {
         $this->db->select('pf.*,
                             ');
-                $this->db->join('certificacion.certificaciones pp','pp.rif_cont = pf.rif_cont');
-                $this->db->where('pf.rif_cont', $data['rif_cont']);
-                $query = $this->db->get('certificacion.for_mat_contr_publ pf');
-                return $query->result_array();
+        $this->db->join('certificacion.certificaciones pp', 'pp.rif_cont = pf.rif_cont');
+        $this->db->where('pf.rif_cont', $data['rif_cont']);
+        $query = $this->db->get('certificacion.for_mat_contr_publ pf');
+        return $query->result_array();
     }
-    public function inf_3_4($data){
+    public function inf_3_4($data)
+    {
         $this->db->select('pf.*,
                             ');
-                $this->db->join('certificacion.certificaciones pp','pp.rif_cont = pf.rif_cont');
-                $this->db->where('pf.rif_cont', $data['rif_cont']);
-                $query = $this->db->get('certificacion.exp_par_comi_10 pf');
-                return $query->result_array();
+        $this->db->join('certificacion.certificaciones pp', 'pp.rif_cont = pf.rif_cont');
+        $this->db->where('pf.rif_cont', $data['rif_cont']);
+        $query = $this->db->get('certificacion.exp_par_comi_10 pf');
+        return $query->result_array();
     }
-    public function inf_3_5($data){
+    public function inf_3_5($data)
+    {
         $this->db->select('pf.*,
                             ');
-                $this->db->join('certificacion.certificaciones pp','pp.rif_cont = pf.rif_cont');
-                $this->db->where('pf.rif_cont', $data['rif_cont']);
-                $query = $this->db->get('certificacion.exp_dic_cap_3 pf');
-                return $query->result_array();
+        $this->db->join('certificacion.certificaciones pp', 'pp.rif_cont = pf.rif_cont');
+        $this->db->where('pf.rif_cont', $data['rif_cont']);
+        $query = $this->db->get('certificacion.exp_dic_cap_3 pf');
+        return $query->result_array();
     }
 
-    
-    public function editarcertificacion_pj($rif_cont,$certifi,   //editar certificacion  pj
-   $experi_empre_capa, $experi_empre_cap_comisi,$infor_per_natu, $infor_per_prof,$for_mat_contr_publ,$exp_par_comi_10, $exp_dic_cap_3){
+
+    public function editarcertificacion_pj(
+        $rif_cont,
+        $certifi,   //editar certificacion  pj
+        $experi_empre_capa,
+        $experi_empre_cap_comisi,
+        $infor_per_natu,
+        $infor_per_prof,
+        $for_mat_contr_publ,
+        $exp_par_comi_10,
+        $exp_dic_cap_3
+    ) {
         $this->db->where('rif_cont', $rif_cont);
         // $this->db->where('id_p_proyecto', $id_p_proyecto);
-         $update = $this->db->update('certificacion.certificaciones', $certifi);
+        $update = $this->db->update('certificacion.certificaciones', $certifi);
 
-         if ($update){
-             $this->db->where('rif_cont', $rif_cont);
-            // $this->db->where('id_p_acc', 0);
-             $this->db->delete('certificacion.experi_empre_capa');	  
-             $cant_proy = $experi_empre_capa['organo_experi_empre_capa'];
-                 $count_prog = count($cant_proy);
-                 for ($i=0; $i < $count_prog; $i++) {
-                     $data_inf = array(
-                          'id'              => $experi_empre_capa['id'],
-                         'organo_experi_empre_capa'   		    => $experi_empre_capa['organo_experi_empre_capa'][$i],
-                         'actividad_experi_empre_capa'          	=> $experi_empre_capa['actividad_experi_empre_capa'][$i],
-                         'desde_experi_empre_capa'           	=> $experi_empre_capa['desde_experi_empre_capa'][$i],
-                         'hasta_experi_empre_capa' 	            => $experi_empre_capa['hasta_experi_empre_capa'][$i],
-                         'n_certif'=> $experi_empre_capa['n_certif'],
-                         'rif_cont'             => $experi_empre_capa['rif_cont'],  
-                         'nro_comprobante'=> $experi_empre_capa['nro_comprobante']
-                         
-                     );
-                     $this->db->insert('certificacion.experi_empre_capa',$data_inf);
-                 }
-
-                 $this->db->where('rif_cont', $rif_cont);
-                // $this->db->where('id_p_acc', 0);
-                 $this->db->delete('certificacion.experi_empre_cap_comisi');
-                 
-                 $cant_pff = $experi_empre_cap_comisi['organo_expe'];
-                 $count_pff = count($cant_pff);
-
-                 for ($i=0; $i < $count_pff; $i++) {
-
-                     $data2 = array(
-                        'id'              => $experi_empre_cap_comisi['id'],
-                        'nro_comprobante'             => $experi_empre_cap_comisi['nro_comprobante'],
-                        'n_certif'=> $experi_empre_cap_comisi['n_certif'],
-                        'rif_cont'=> $experi_empre_cap_comisi['rif_cont'],
-                        'organo_expe'   		        => $experi_empre_cap_comisi['organo_expe'][$i],
-                        'actividad_exp'          	=> $experi_empre_cap_comisi['actividad_exp'][$i],
-                        'desde_exp'             => $experi_empre_cap_comisi['desde_exp'][$i],
-                        'hasta_exp' 	            => $experi_empre_cap_comisi['hasta_exp'][$i],
-                     );
-                     $this->db->insert('certificacion.experi_empre_cap_comisi',$data2);
-                 }
-                 ////persona natural
-                 $this->db->where('rif_cont', $rif_cont);
-                 // $this->db->where('id_p_acc', 0);
-                  $this->db->delete('certificacion.infor_per_natu');
-                $cant_pfft = $infor_per_natu['nombre_ape'];
-                $count_pffr = count($cant_pfft);
-
-                for ($i=0; $i < $count_pffr; $i++) {
-                    $data3 = array(
-                        'id'              => $experi_empre_cap_comisi['id'],
-                        'nro_comprobante'=> $experi_empre_capa['nro_comprobante'],
-                        'n_certif'=> $experi_empre_cap_comisi['n_certif'],
-                        'rif_cont'=> $certifi['rif_cont'],
-                        'nombre_ape'   		        => $infor_per_natu['nombre_ape'][$i],
-                        'cedula'          	=> $infor_per_natu['cedula'][$i],
-                        'rif'             => $infor_per_natu['rif'][$i],
-                        'bolivar_estimado' 	            => $infor_per_natu['bolivar_estimado'][$i],
-                        'pj' 	            => $infor_per_natu['pj'],
-                        'sub_total' 	            => $infor_per_natu['sub_total'],
-                        'total_final' 	            => $infor_per_natu['total_bss'],
-                        'status' 	            => 1,
-                       
-                    );
-                    $this->db->insert('certificacion.infor_per_natu',$data3);
-                }
-
-                 $this->db->where('rif_cont', $rif_cont);
-                // $this->db->where('id_p_acc', 0);
-                 $this->db->delete('certificacion.infor_per_prof');
-                
-                 $this->db->select('max(e.id) as id');
-                 $query = $this->db->get('certificacion.infor_per_prof e');
-                 $response3 = $query->row_array();
-                 $id = $response3['id'] + 1 ;
-                 $cant_pfftt = $infor_per_prof['for_academica'];
-                $count_pffrt = count($cant_pfftt);
-
-                for ($i=0; $i < $count_pffrt; $i++) {
-                    $data4 = array(
-                        'id'              => $experi_empre_cap_comisi['id'],
-                        'n_certif'=> $infor_per_prof['n_certif'],
-                        'rif_cont'=> $infor_per_prof['rif_cont'],
-                        'for_academica'   		=> $infor_per_prof['for_academica'][$i],
-                        'titulo'          	=> $infor_per_prof['titulo'][$i],
-                        'ano'             => $infor_per_prof['ano'][$i],
-                        'culminacion' 	 => $infor_per_prof['culminacion'][$i],
-                        'curso' 	            => $infor_per_prof['curso'][$i],
-                        'nro_comprobante'=> $infor_per_prof['nro_comprobante'],
-                        'cedula'          	=> $infor_per_natu['cedula'][$i],
-                        
-                       
-                    );
-                    $this->db->insert('certificacion.infor_per_prof',$data4);
-                }
-
-                $this->db->where('rif_cont', $rif_cont);
-                // $this->db->where('id_p_acc', 0);
-                 $this->db->delete('certificacion.for_mat_contr_publ');
-                
-                
-                $cant_1 = $for_mat_contr_publ['taller'];
-                $count_1 = count($cant_1);
-
-                for ($i=0; $i < $count_1; $i++) {
-                    $data5 = array(
-                        'id'              => $experi_empre_cap_comisi['id'],
-                        'n_certif'=> $for_mat_contr_publ['n_certif'],
-                        'rif_cont'=> $certifi['rif_cont'],
-                        'taller'   		=> $for_mat_contr_publ['taller'][$i],
-                        'institucion'   => $for_mat_contr_publ['institucion'][$i],
-                        'hor_dura'      => $for_mat_contr_publ['hor_dura'][$i],
-                        'certi' 	 => $for_mat_contr_publ['certi'][$i],
-                        'fech_cert' 	 => $for_mat_contr_publ['fech_cert'][$i],
-                        'vigencia' 	   => $for_mat_contr_publ['vigencia'][$i],
-                        'nro_comprobante'=> $certifi['nro_comprobante'],
-                        'cedula'          	=> $infor_per_natu['cedula'][$i],
-                        
-                       
-                    );
-                    $this->db->insert('certificacion.for_mat_contr_publ',$data5);
-                }
-                $this->db->where('rif_cont', $rif_cont);
-                // $this->db->where('id_p_acc', 0);
-                 $this->db->delete('certificacion.exp_par_comi_10');
-                
-                 
-                $cant_2 = $exp_par_comi_10['organo10'];
-                $count_3 = count($cant_2);
-
-                for ($i=0; $i < $count_3; $i++) {
-                    $data6 = array(
-                        'id'              => $experi_empre_cap_comisi['id'],
-                        'n_certif'=> $exp_par_comi_10['n_certif'],
-                        'rif_cont'=> $certifi['rif_cont'],
-                        'organo10'   		=> $exp_par_comi_10['organo10'][$i],
-                        'act_adminis_desid'   => $exp_par_comi_10['act_adminis_desid'][$i],
-                        'n_acto'      => $exp_par_comi_10['n_acto'][$i],
-                        'fecha_act' 	 => $exp_par_comi_10['fecha_act'][$i],
-                        'area_10' 	 => $exp_par_comi_10['area_10'][$i],
-                        'dura_comi' 	   => $exp_par_comi_10['dura_comi'][$i],
-                        //'cedula'          	=> $infor_per_natu['cedula'][$i],
-                        'cedula'   		=> $exp_par_comi_10['cedul10'][$i],
-                       
-
-                              
-                    );
-                    $this->db->insert('certificacion.exp_par_comi_10',$data6);
-                }
-
-                $this->db->where('rif_cont', $rif_cont);
-                // $this->db->where('id_p_acc', 0);
-                 $this->db->delete('certificacion.exp_dic_cap_3');
-                
-                 
-                $cant_4 = $exp_dic_cap_3['organo3'];
-                $count_5 = count($cant_4);
-
-                for ($i=0; $i < $count_5; $i++) {
-                    $data7 = array(
-                        'id'              => $experi_empre_cap_comisi['id'],
-                       
-                        'rif_cont'=> $certifi['rif_cont'],
-                        'organo3'   		=> $exp_dic_cap_3['organo3'][$i],
-                        'actividad3'   => $exp_dic_cap_3['actividad3'][$i],
-                        'desde3'      => $exp_dic_cap_3['desde3'][$i],
-                        'hasta3' 	 => $exp_dic_cap_3['hasta3'][$i],
-                        'cedula'          	=> $infor_per_natu['cedula'][$i],
-                       
-                        
-                       
-                    );
-                    $this->db->insert('certificacion.exp_dic_cap_3',$data7);
-                }
-
-
-         }
-         return true;
-        
-    }
-    public function sav_editar__certificacion_pn($rif_cont,$certifi,$infor_per_natu,$infor_per_prof,
-    $for_mat_contr_publ,$exp_par_comi_10, $exp_dic_cap_3){ // guardar datos de certi PN
-        $this->db->where('rif_cont', $rif_cont);
-        // $this->db->where('id_p_proyecto', $id_p_proyecto);
-         $update = $this->db->update('certificacion.certificaciones', $certifi);
-         
-         if ($update){
-          $this->db->where('rif_cont', $rif_cont);
-                // $this->db->where('id_p_acc', 0);
-                 $this->db->delete('certificacion.infor_per_natu');
-                 $id = $id;
-                     $data2 = array(
-                        'id'              => $infor_per_natu['id'],
-                        'nombre_ape'             => $infor_per_natu['nombre_ape'],
-                        'cedula'=> $infor_per_natu['cedula'],
-                        'rif'=> $infor_per_natu['rif'],
-                        'sub_total'   		        => $infor_per_natu['sub_total'],
-                        'total_final'          	=> $infor_per_natu['total_final'],
-                        'n_certif'             => $infor_per_natu['n_certif'],
-                        'rif_cont' 	            => $infor_per_natu['rif_cont'],
-                        'nro_comprobante' 	            => $infor_per_natu['nro_comprobante'],
-                     );
-                     $this->db->insert('certificacion.infor_per_natu ',$data2);
-                 
-
-                 $this->db->where('rif_cont', $rif_cont);
-                // $this->db->where('id_p_acc', 0);
-                 $this->db->delete('certificacion.infor_per_prof');
-                
-                 $id = $id;
-                 $cant_pfftt = $infor_per_prof['for_academica'];
-                $count_pffrt = count($cant_pfftt);
-
-                for ($i=0; $i < $count_pffrt; $i++) {
-                    $data4 = array(
-                        'id'              => $infor_per_prof['id'],
-                        'n_certif'=> $infor_per_prof['n_certif'],
-                        'rif_cont'=> $infor_per_prof['rif_cont'],
-                        'for_academica'   		=> $infor_per_prof['for_academica'][$i],
-                        'titulo'          	=> $infor_per_prof['titulo'][$i],
-                        'ano'             => $infor_per_prof['ano'][$i],
-                        'culminacion' 	 => $infor_per_prof['culminacion'][$i],
-                        'curso' 	            => $infor_per_prof['curso'][$i],
-                        'nro_comprobante'=> $infor_per_prof['nro_comprobante']
-                        
-                       
-                    );
-                    $this->db->insert('certificacion.infor_per_prof',$data4);
-                }
-
-                $this->db->where('rif_cont', $rif_cont);
-                // $this->db->where('id_p_acc', 0);
-                 $this->db->delete('certificacion.for_mat_contr_publ');
-                
-                 $id = $id;
-                $cant_1 = $for_mat_contr_publ['taller'];
-                $count_1 = count($cant_1);
-
-                for ($i=0; $i < $count_1; $i++) {
-                    $data5 = array(
-                        'id'              => $for_mat_contr_publ['id'],
-                        'n_certif'=> $for_mat_contr_publ['nro_comprobante'],
-                        'rif_cont'=> $certifi['rif_cont'],
-                        'taller'   		=> $for_mat_contr_publ['taller'][$i],
-                        'institucion'   => $for_mat_contr_publ['institucion'][$i],
-                        'hor_dura'      => $for_mat_contr_publ['hor_dura'][$i],
-                        'certi' 	 => $for_mat_contr_publ['certi'][$i],
-                        'fech_cert' 	 => $for_mat_contr_publ['fech_cert'][$i],
-                        'vigencia' 	   => $for_mat_contr_publ['vigencia'][$i],
-                        'nro_comprobante'=> $for_mat_contr_publ['nro_comprobante']
-                        
-                       
-                    );
-                    $this->db->insert('certificacion.for_mat_contr_publ',$data5);
-                }
-                $this->db->where('rif_cont', $rif_cont);
-                // $this->db->where('id_p_acc', 0);
-                 $this->db->delete('certificacion.exp_par_comi_10');
-                
-                 $id = $id;
-                $cant_2 = $exp_par_comi_10['organo10'];
-                $count_3 = count($cant_2);
-
-                for ($i=0; $i < $count_3; $i++) {
-                    $data6 = array(
-                        'id'              => $exp_par_comi_10['id'],
-                        'n_certif'=> $exp_par_comi_10['n_certif'],
-                        'rif_cont'=> $certifi['rif_cont'],
-                        'organo10'   		=> $exp_par_comi_10['organo10'][$i],
-                        'act_adminis_desid'   => $exp_par_comi_10['act_adminis_desid'][$i],
-                        'n_acto'      => $exp_par_comi_10['n_acto'][$i],
-                        'fecha_act' 	 => $exp_par_comi_10['fecha_act'][$i],
-                        'area_10' 	 => $exp_par_comi_10['area_10'][$i],
-                        'dura_comi' 	   => $exp_par_comi_10['dura_comi'][$i],
-                              
-                    );
-                    $this->db->insert('certificacion.exp_par_comi_10',$data6);
-                }
-
-                $this->db->where('rif_cont', $rif_cont);
-                // $this->db->where('id_p_acc', 0);
-                 $this->db->delete('certificacion.exp_dic_cap_3');
-                
-                 $id = $id;
-                $cant_4 = $exp_dic_cap_3['organo3'];
-                $count_5 = count($cant_4);
-
-                for ($i=0; $i < $count_5; $i++) {
-                    $data7 = array(
-                        'id'              => $exp_dic_cap_3['id'],
-                       
-                        'rif_cont'=> $certifi['rif_cont'],
-                        'organo3'   		=> $exp_dic_cap_3['organo3'][$i],
-                        'actividad3'   => $exp_dic_cap_3['actividad3'][$i],
-                        'desde3'      => $exp_dic_cap_3['desde3'][$i],
-                        'hasta3' 	 => $exp_dic_cap_3['hasta3'][$i],
-                       
-                        
-                       
-                    );
-                    $this->db->insert('certificacion.exp_dic_cap_3',$data7);
-                }
-
-
-         }
-         return true;
-        
-    }
-    public function renovacion__certificacion($rif_cont,$certifi,   //Renovar certificacion  pj
-    $experi_empre_capa,$experi_empre_cap_comisi,
-    $infor_per_prof,$for_mat_contr_publ,$exp_par_comi_10, $exp_dic_cap_3,$infor_per_natu){
-        $this->db->where('rif_cont', $rif_cont);
-        // $this->db->where('id_p_proyecto', $id_p_proyecto);
-         $update = $this->db->update('certificacion.certificaciones', $certifi);
-
-         if ($update){
-             $this->db->where('rif_cont', $rif_cont);
-            // $this->db->where('id_p_acc', 0);
-             $this->db->delete('certificacion.experi_empre_capa');	
-            
-                 $cant_proy = $experi_empre_capa['organo_experi_empre_capa'];
-                 $count_prog = count($cant_proy);
-                 for ($i=0; $i < $count_prog; $i++) {
-                     $data_inf = array(
-                       'id'              => $experi_empre_capa['id'],
-                         'organo_experi_empre_capa'   		    => $experi_empre_capa['organo_experi_empre_capa'][$i],
-                         'actividad_experi_empre_capa'          	=> $experi_empre_capa['actividad_experi_empre_capa'][$i],
-                         'desde_experi_empre_capa'           	=> $experi_empre_capa['desde_experi_empre_capa'][$i],
-                         'hasta_experi_empre_capa' 	            => $experi_empre_capa['hasta_experi_empre_capa'][$i],
-                         'n_certif'=> $experi_empre_capa['n_certif'],
-                         'rif_cont'             => $experi_empre_capa['rif_cont'],  
-                         'nro_comprobante'=> $experi_empre_capa['nro_comprobante']
-                         
-                     );
-                     $this->db->insert('certificacion.experi_empre_capa',$data_inf);
-                 }
-
-                 $this->db->where('rif_cont', $rif_cont);
-                // $this->db->where('id_p_acc', 0);
-                 $this->db->delete('certificacion.experi_empre_cap_comisi');
-                
-                 $cant_pff = $experi_empre_cap_comisi['organo_expe'];
-                 $count_pff = count($cant_pff);
-
-                 for ($i=0; $i < $count_pff; $i++) {
-
-                     $data2 = array(
-                        'id'              => $experi_empre_cap_comisi['id'],
-                        'nro_comprobante'             => $experi_empre_cap_comisi['nro_comprobante'],
-                        'n_certif'=> $experi_empre_cap_comisi['n_certif'],
-                        'rif_cont'=> $experi_empre_cap_comisi['rif_cont'],
-                        'organo_expe'   		        => $experi_empre_cap_comisi['organo_expe'][$i],
-                        'actividad_exp'          	=> $experi_empre_cap_comisi['actividad_exp'][$i],
-                        'desde_exp'             => $experi_empre_cap_comisi['desde_exp'][$i],
-                        'hasta_exp' 	            => $experi_empre_cap_comisi['hasta_exp'][$i],
-                     );
-                     $this->db->insert('certificacion.experi_empre_cap_comisi',$data2);
-                 }
-                 $this->db->where('rif_cont', $rif_cont);
-                 // $this->db->where('id_p_acc', 0);
-                  $this->db->delete('certificacion.infor_per_natu');
-                 $cant_pfft = $infor_per_natu['nombre_ape'];
-                 $count_pffr = count($cant_pfft);
- 
-                 for ($i=0; $i < $count_pffr; $i++) {
-                     $data3 = array(
-                        'id'              => $infor_per_natu['id'],
-                         'nro_comprobante'=> $infor_per_natu['nro_comprobante'],
-                         'n_certif'=> $infor_per_natu['n_certif'],
-                         'rif_cont'=> $infor_per_natu['rif_cont'],
-                         'nombre_ape'   		        => $infor_per_natu['nombre_ape'][$i],
-                         'cedula'          	=> $infor_per_natu['cedula'][$i],
-                         'rif'             => $infor_per_natu['rif'][$i],
-                         'bolivar_estimado' 	            => $infor_per_natu['bolivar_estimado'][$i],
-                         'pj' 	            => $infor_per_natu['pj'],
-                         'sub_total' 	            => $infor_per_natu['sub_total'],
-                         'total_final' 	            => $infor_per_natu['total_bss'],
-                        
-                     );
-                     $this->db->insert('certificacion.infor_per_natu',$data3);
-                 }
-
-
-                 $this->db->where('rif_cont', $rif_cont);
-                // $this->db->where('id_p_acc', 0);
-                 $this->db->delete('certificacion.infor_per_prof');
-                 $cant_pfftt = $infor_per_prof['for_academica'];
-                $count_pffrt = count($cant_pfftt);
-
-                for ($i=0; $i < $count_pffrt; $i++) {
-                    $data4 = array(
-                        'id'              => $infor_per_prof['id'],
-                        'n_certif'=> $infor_per_prof['n_certif'],
-                        'rif_cont'=> $infor_per_prof['rif_cont'],
-                        'for_academica'   		=> $infor_per_prof['for_academica'][$i],
-                        'titulo'          	=> $infor_per_prof['titulo'][$i],
-                        'ano'             => $infor_per_prof['ano'][$i],
-                        'culminacion' 	 => $infor_per_prof['culminacion'][$i],
-                        'curso' 	            => $infor_per_prof['curso'][$i],
-                        'nro_comprobante'=> $infor_per_prof['nro_comprobante']
-                        
-                       
-                    );
-                    $this->db->insert('certificacion.infor_per_prof',$data4);
-                }
-
-                $this->db->where('rif_cont', $rif_cont);
-                // $this->db->where('id_p_acc', 0);
-                 $this->db->delete('certificacion.for_mat_contr_publ');
-                
-                 
-                $cant_1 = $for_mat_contr_publ['taller'];
-                $count_1 = count($cant_1);
-
-                for ($i=0; $i < $count_1; $i++) {
-                    $data5 = array(
-                        'id'              => $for_mat_contr_publ['id'],
-                        'n_certif'=> $for_mat_contr_publ['n_certif'],
-                        'rif_cont'=> $certifi['rif_cont'],
-                        'taller'   		=> $for_mat_contr_publ['taller'][$i],
-                        'institucion'   => $for_mat_contr_publ['institucion'][$i],
-                        'hor_dura'      => $for_mat_contr_publ['hor_dura'][$i],
-                        'certi' 	 => $for_mat_contr_publ['certi'][$i],
-                        'fech_cert' 	 => $for_mat_contr_publ['fech_cert'][$i],
-                        'vigencia' 	   => $for_mat_contr_publ['vigencia'][$i],
-                        'nro_comprobante'=> $for_mat_contr_publ['nro_comprobante']
-                        
-                       
-                    );
-                    $this->db->insert('certificacion.for_mat_contr_publ',$data5);
-                }
-                $this->db->where('rif_cont', $rif_cont);
-                // $this->db->where('id_p_acc', 0);
-                 $this->db->delete('certificacion.exp_par_comi_10');
-                
-                 
-                $cant_2 = $exp_par_comi_10['organo10'];
-                $count_3 = count($cant_2);
-
-                for ($i=0; $i < $count_3; $i++) {
-                    $data6 = array(
-                        'id'              => $exp_par_comi_10['id'],
-                        'n_certif'=> $exp_par_comi_10['n_certif'],
-                        'rif_cont'=> $certifi['rif_cont'],
-                        'organo10'   		=> $exp_par_comi_10['organo10'][$i],
-                        'act_adminis_desid'   => $exp_par_comi_10['act_adminis_desid'][$i],
-                        'n_acto'      => $exp_par_comi_10['n_acto'][$i],
-                        'fecha_act' 	 => $exp_par_comi_10['fecha_act'][$i],
-                        'area_10' 	 => $exp_par_comi_10['area_10'][$i],
-                        'dura_comi' 	   => $exp_par_comi_10['dura_comi'][$i],
-                              
-                    );
-                    $this->db->insert('certificacion.exp_par_comi_10',$data6);
-                }
-
-                $this->db->where('rif_cont', $rif_cont);
-                // $this->db->where('id_p_acc', 0);
-                 $this->db->delete('certificacion.exp_dic_cap_3');
-                
-                 $this->db->select('max(e.id) as id');
-                 $query = $this->db->get('certificacion.exp_dic_cap_3 e');
-                 $response3 = $query->row_array();
-                 $id = $response3['id'] + 1 ;
-                $cant_4 = $exp_dic_cap_3['organo3'];
-                $count_5 = count($cant_4);
-
-                for ($i=0; $i < $count_5; $i++) {
-                    $data7 = array(
-                        'id'              => $exp_dic_cap_3['id'],
-                        'n_certif'=> $exp_dic_cap_3['n_certif'],
-                        'rif_cont'=> $certifi['rif_cont'],
-                        'organo3'   		=> $exp_dic_cap_3['organo3'][$i],
-                        'actividad3'   => $exp_dic_cap_3['actividad3'][$i],
-                        'desde3'      => $exp_dic_cap_3['desde3'][$i],
-                        'hasta3' 	 => $exp_dic_cap_3['hasta3'][$i],
-                       
-                        
-                       
-                    );
-                    $this->db->insert('certificacion.exp_dic_cap_3',$data7);
-                }
-
-
-         }
-         return true;
-        
-    }
-    public function save_renovacion__certificacion_pn($rif_cont,$certifi,   //Renovar certificacion  pn
-    $infor_per_prof,$for_mat_contr_publ,$exp_par_comi_10, $exp_dic_cap_3,$infor_per_natu){
-        $this->db->where('rif_cont', $rif_cont);
-        // $this->db->where('id_p_proyecto', $id_p_proyecto);
-         $update = $this->db->update('certificacion.certificaciones', $certifi);
-
-         if ($update){
-         
-              
+        if ($update) {
             $this->db->where('rif_cont', $rif_cont);
             // $this->db->where('id_p_acc', 0);
-             $this->db->delete('certificacion.infor_per_natu');
-             $id = $id;
-                 $data2 = array(
+            $this->db->delete('certificacion.experi_empre_capa');
+            $cant_proy = $experi_empre_capa['organo_experi_empre_capa'];
+            $count_prog = count($cant_proy);
+            for ($i = 0; $i < $count_prog; $i++) {
+                $data_inf = array(
+                    'id'              => $experi_empre_capa['id'],
+                    'organo_experi_empre_capa'               => $experi_empre_capa['organo_experi_empre_capa'][$i],
+                    'actividad_experi_empre_capa'              => $experi_empre_capa['actividad_experi_empre_capa'][$i],
+                    'desde_experi_empre_capa'               => $experi_empre_capa['desde_experi_empre_capa'][$i],
+                    'hasta_experi_empre_capa'                 => $experi_empre_capa['hasta_experi_empre_capa'][$i],
+                    'n_certif' => $experi_empre_capa['n_certif'],
+                    'rif_cont'             => $experi_empre_capa['rif_cont'],
+                    'nro_comprobante' => $experi_empre_capa['nro_comprobante']
+
+                );
+                $this->db->insert('certificacion.experi_empre_capa', $data_inf);
+            }
+
+            $this->db->where('rif_cont', $rif_cont);
+            // $this->db->where('id_p_acc', 0);
+            $this->db->delete('certificacion.experi_empre_cap_comisi');
+
+            $cant_pff = $experi_empre_cap_comisi['organo_expe'];
+            $count_pff = count($cant_pff);
+
+            for ($i = 0; $i < $count_pff; $i++) {
+
+                $data2 = array(
+                    'id'              => $experi_empre_cap_comisi['id'],
+                    'nro_comprobante'             => $experi_empre_cap_comisi['nro_comprobante'],
+                    'n_certif' => $experi_empre_cap_comisi['n_certif'],
+                    'rif_cont' => $experi_empre_cap_comisi['rif_cont'],
+                    'organo_expe'                   => $experi_empre_cap_comisi['organo_expe'][$i],
+                    'actividad_exp'              => $experi_empre_cap_comisi['actividad_exp'][$i],
+                    'desde_exp'             => $experi_empre_cap_comisi['desde_exp'][$i],
+                    'hasta_exp'                 => $experi_empre_cap_comisi['hasta_exp'][$i],
+                );
+                $this->db->insert('certificacion.experi_empre_cap_comisi', $data2);
+            }
+            ////persona natural
+            $this->db->where('rif_cont', $rif_cont);
+            // $this->db->where('id_p_acc', 0);
+            $this->db->delete('certificacion.infor_per_natu');
+            $cant_pfft = $infor_per_natu['nombre_ape'];
+            $count_pffr = count($cant_pfft);
+
+            for ($i = 0; $i < $count_pffr; $i++) {
+                $data3 = array(
+                    'id'              => $experi_empre_cap_comisi['id'],
+                    'nro_comprobante' => $experi_empre_capa['nro_comprobante'],
+                    'n_certif' => $experi_empre_cap_comisi['n_certif'],
+                    'rif_cont' => $certifi['rif_cont'],
+                    'nombre_ape'                   => $infor_per_natu['nombre_ape'][$i],
+                    'cedula'              => $infor_per_natu['cedula'][$i],
+                    'rif'             => $infor_per_natu['rif'][$i],
+                    'bolivar_estimado'                 => $infor_per_natu['bolivar_estimado'][$i],
+                    'pj'                 => $infor_per_natu['pj'],
+                    'sub_total'                 => $infor_per_natu['sub_total'],
+                    'total_final'                 => $infor_per_natu['total_bss'],
+                    'status'                 => 1,
+
+                );
+                $this->db->insert('certificacion.infor_per_natu', $data3);
+            }
+
+            $this->db->where('rif_cont', $rif_cont);
+            // $this->db->where('id_p_acc', 0);
+            $this->db->delete('certificacion.infor_per_prof');
+
+            $this->db->select('max(e.id) as id');
+            $query = $this->db->get('certificacion.infor_per_prof e');
+            $response3 = $query->row_array();
+            $id = $response3['id'] + 1;
+            $cant_pfftt = $infor_per_prof['for_academica'];
+            $count_pffrt = count($cant_pfftt);
+
+            for ($i = 0; $i < $count_pffrt; $i++) {
+                $data4 = array(
+                    'id'              => $experi_empre_cap_comisi['id'],
+                    'n_certif' => $infor_per_prof['n_certif'],
+                    'rif_cont' => $infor_per_prof['rif_cont'],
+                    'for_academica'           => $infor_per_prof['for_academica'][$i],
+                    'titulo'              => $infor_per_prof['titulo'][$i],
+                    'ano'             => $infor_per_prof['ano'][$i],
+                    'culminacion'      => $infor_per_prof['culminacion'][$i],
+                    'curso'                 => $infor_per_prof['curso'][$i],
+                    'nro_comprobante' => $infor_per_prof['nro_comprobante'],
+                    'cedula'              => $infor_per_natu['cedula'][$i],
+
+
+                );
+                $this->db->insert('certificacion.infor_per_prof', $data4);
+            }
+
+            $this->db->where('rif_cont', $rif_cont);
+            // $this->db->where('id_p_acc', 0);
+            $this->db->delete('certificacion.for_mat_contr_publ');
+
+
+            $cant_1 = $for_mat_contr_publ['taller'];
+            $count_1 = count($cant_1);
+
+            for ($i = 0; $i < $count_1; $i++) {
+                $data5 = array(
+                    'id'              => $experi_empre_cap_comisi['id'],
+                    'n_certif' => $for_mat_contr_publ['n_certif'],
+                    'rif_cont' => $certifi['rif_cont'],
+                    'taller'           => $for_mat_contr_publ['taller'][$i],
+                    'institucion'   => $for_mat_contr_publ['institucion'][$i],
+                    'hor_dura'      => $for_mat_contr_publ['hor_dura'][$i],
+                    'certi'      => $for_mat_contr_publ['certi'][$i],
+                    'fech_cert'      => $for_mat_contr_publ['fech_cert'][$i],
+                    'vigencia'        => $for_mat_contr_publ['vigencia'][$i],
+                    'nro_comprobante' => $certifi['nro_comprobante'],
+                    'cedula'              => $infor_per_natu['cedula'][$i],
+
+
+                );
+                $this->db->insert('certificacion.for_mat_contr_publ', $data5);
+            }
+            $this->db->where('rif_cont', $rif_cont);
+            // $this->db->where('id_p_acc', 0);
+            $this->db->delete('certificacion.exp_par_comi_10');
+
+
+            $cant_2 = $exp_par_comi_10['organo10'];
+            $count_3 = count($cant_2);
+
+            for ($i = 0; $i < $count_3; $i++) {
+                $data6 = array(
+                    'id'              => $experi_empre_cap_comisi['id'],
+                    'n_certif' => $exp_par_comi_10['n_certif'],
+                    'rif_cont' => $certifi['rif_cont'],
+                    'organo10'           => $exp_par_comi_10['organo10'][$i],
+                    'act_adminis_desid'   => $exp_par_comi_10['act_adminis_desid'][$i],
+                    'n_acto'      => $exp_par_comi_10['n_acto'][$i],
+                    'fecha_act'      => $exp_par_comi_10['fecha_act'][$i],
+                    'area_10'      => $exp_par_comi_10['area_10'][$i],
+                    'dura_comi'        => $exp_par_comi_10['dura_comi'][$i],
+                    //'cedula'          	=> $infor_per_natu['cedula'][$i],
+                    'cedula'           => $exp_par_comi_10['cedul10'][$i],
+
+
+
+                );
+                $this->db->insert('certificacion.exp_par_comi_10', $data6);
+            }
+
+            $this->db->where('rif_cont', $rif_cont);
+            // $this->db->where('id_p_acc', 0);
+            $this->db->delete('certificacion.exp_dic_cap_3');
+
+
+            $cant_4 = $exp_dic_cap_3['organo3'];
+            $count_5 = count($cant_4);
+
+            for ($i = 0; $i < $count_5; $i++) {
+                $data7 = array(
+                    'id'              => $experi_empre_cap_comisi['id'],
+
+                    'rif_cont' => $certifi['rif_cont'],
+                    'organo3'           => $exp_dic_cap_3['organo3'][$i],
+                    'actividad3'   => $exp_dic_cap_3['actividad3'][$i],
+                    'desde3'      => $exp_dic_cap_3['desde3'][$i],
+                    'hasta3'      => $exp_dic_cap_3['hasta3'][$i],
+                    'cedula'              => $infor_per_natu['cedula'][$i],
+
+
+
+                );
+                $this->db->insert('certificacion.exp_dic_cap_3', $data7);
+            }
+        }
+        return true;
+    }
+    public function sav_editar__certificacion_pn(
+        $rif_cont,
+        $certifi,
+        $infor_per_natu,
+        $infor_per_prof,
+        $for_mat_contr_publ,
+        $exp_par_comi_10,
+        $exp_dic_cap_3
+    ) { // guardar datos de certi PN
+        $this->db->where('rif_cont', $rif_cont);
+        // $this->db->where('id_p_proyecto', $id_p_proyecto);
+        $update = $this->db->update('certificacion.certificaciones', $certifi);
+
+        if ($update) {
+            $this->db->where('rif_cont', $rif_cont);
+            // $this->db->where('id_p_acc', 0);
+            $this->db->delete('certificacion.infor_per_natu');
+            $id = $id;
+            $data2 = array(
+                'id'              => $infor_per_natu['id'],
+                'nombre_ape'             => $infor_per_natu['nombre_ape'],
+                'cedula' => $infor_per_natu['cedula'],
+                'rif' => $infor_per_natu['rif'],
+                'sub_total'                   => $infor_per_natu['sub_total'],
+                'total_final'              => $infor_per_natu['total_final'],
+                'n_certif'             => $infor_per_natu['n_certif'],
+                'rif_cont'                 => $infor_per_natu['rif_cont'],
+                'nro_comprobante'                 => $infor_per_natu['nro_comprobante'],
+            );
+            $this->db->insert('certificacion.infor_per_natu ', $data2);
+
+
+            $this->db->where('rif_cont', $rif_cont);
+            // $this->db->where('id_p_acc', 0);
+            $this->db->delete('certificacion.infor_per_prof');
+
+            $id = $id;
+            $cant_pfftt = $infor_per_prof['for_academica'];
+            $count_pffrt = count($cant_pfftt);
+
+            for ($i = 0; $i < $count_pffrt; $i++) {
+                $data4 = array(
+                    'id'              => $infor_per_prof['id'],
+                    'n_certif' => $infor_per_prof['n_certif'],
+                    'rif_cont' => $infor_per_prof['rif_cont'],
+                    'for_academica'           => $infor_per_prof['for_academica'][$i],
+                    'titulo'              => $infor_per_prof['titulo'][$i],
+                    'ano'             => $infor_per_prof['ano'][$i],
+                    'culminacion'      => $infor_per_prof['culminacion'][$i],
+                    'curso'                 => $infor_per_prof['curso'][$i],
+                    'nro_comprobante' => $infor_per_prof['nro_comprobante']
+
+
+                );
+                $this->db->insert('certificacion.infor_per_prof', $data4);
+            }
+
+            $this->db->where('rif_cont', $rif_cont);
+            // $this->db->where('id_p_acc', 0);
+            $this->db->delete('certificacion.for_mat_contr_publ');
+
+            $id = $id;
+            $cant_1 = $for_mat_contr_publ['taller'];
+            $count_1 = count($cant_1);
+
+            for ($i = 0; $i < $count_1; $i++) {
+                $data5 = array(
+                    'id'              => $for_mat_contr_publ['id'],
+                    'n_certif' => $for_mat_contr_publ['nro_comprobante'],
+                    'rif_cont' => $certifi['rif_cont'],
+                    'taller'           => $for_mat_contr_publ['taller'][$i],
+                    'institucion'   => $for_mat_contr_publ['institucion'][$i],
+                    'hor_dura'      => $for_mat_contr_publ['hor_dura'][$i],
+                    'certi'      => $for_mat_contr_publ['certi'][$i],
+                    'fech_cert'      => $for_mat_contr_publ['fech_cert'][$i],
+                    'vigencia'        => $for_mat_contr_publ['vigencia'][$i],
+                    'nro_comprobante' => $for_mat_contr_publ['nro_comprobante']
+
+
+                );
+                $this->db->insert('certificacion.for_mat_contr_publ', $data5);
+            }
+            $this->db->where('rif_cont', $rif_cont);
+            // $this->db->where('id_p_acc', 0);
+            $this->db->delete('certificacion.exp_par_comi_10');
+
+            $id = $id;
+            $cant_2 = $exp_par_comi_10['organo10'];
+            $count_3 = count($cant_2);
+
+            for ($i = 0; $i < $count_3; $i++) {
+                $data6 = array(
+                    'id'              => $exp_par_comi_10['id'],
+                    'n_certif' => $exp_par_comi_10['n_certif'],
+                    'rif_cont' => $certifi['rif_cont'],
+                    'organo10'           => $exp_par_comi_10['organo10'][$i],
+                    'act_adminis_desid'   => $exp_par_comi_10['act_adminis_desid'][$i],
+                    'n_acto'      => $exp_par_comi_10['n_acto'][$i],
+                    'fecha_act'      => $exp_par_comi_10['fecha_act'][$i],
+                    'area_10'      => $exp_par_comi_10['area_10'][$i],
+                    'dura_comi'        => $exp_par_comi_10['dura_comi'][$i],
+
+                );
+                $this->db->insert('certificacion.exp_par_comi_10', $data6);
+            }
+
+            $this->db->where('rif_cont', $rif_cont);
+            // $this->db->where('id_p_acc', 0);
+            $this->db->delete('certificacion.exp_dic_cap_3');
+
+            $id = $id;
+            $cant_4 = $exp_dic_cap_3['organo3'];
+            $count_5 = count($cant_4);
+
+            for ($i = 0; $i < $count_5; $i++) {
+                $data7 = array(
+                    'id'              => $exp_dic_cap_3['id'],
+
+                    'rif_cont' => $certifi['rif_cont'],
+                    'organo3'           => $exp_dic_cap_3['organo3'][$i],
+                    'actividad3'   => $exp_dic_cap_3['actividad3'][$i],
+                    'desde3'      => $exp_dic_cap_3['desde3'][$i],
+                    'hasta3'      => $exp_dic_cap_3['hasta3'][$i],
+
+
+
+                );
+                $this->db->insert('certificacion.exp_dic_cap_3', $data7);
+            }
+        }
+        return true;
+    }
+    public function renovacion__certificacion(
+        $rif_cont,
+        $certifi,   //Renovar certificacion  pj
+        $experi_empre_capa,
+        $experi_empre_cap_comisi,
+        $infor_per_prof,
+        $for_mat_contr_publ,
+        $exp_par_comi_10,
+        $exp_dic_cap_3,
+        $infor_per_natu
+    ) {
+        $this->db->where('rif_cont', $rif_cont);
+        // $this->db->where('id_p_proyecto', $id_p_proyecto);
+        $update = $this->db->update('certificacion.certificaciones', $certifi);
+
+        if ($update) {
+            $this->db->where('rif_cont', $rif_cont);
+            // $this->db->where('id_p_acc', 0);
+            $this->db->delete('certificacion.experi_empre_capa');
+
+            $cant_proy = $experi_empre_capa['organo_experi_empre_capa'];
+            $count_prog = count($cant_proy);
+            for ($i = 0; $i < $count_prog; $i++) {
+                $data_inf = array(
+                    'id'              => $experi_empre_capa['id'],
+                    'organo_experi_empre_capa'               => $experi_empre_capa['organo_experi_empre_capa'][$i],
+                    'actividad_experi_empre_capa'              => $experi_empre_capa['actividad_experi_empre_capa'][$i],
+                    'desde_experi_empre_capa'               => $experi_empre_capa['desde_experi_empre_capa'][$i],
+                    'hasta_experi_empre_capa'                 => $experi_empre_capa['hasta_experi_empre_capa'][$i],
+                    'n_certif' => $experi_empre_capa['n_certif'],
+                    'rif_cont'             => $experi_empre_capa['rif_cont'],
+                    'nro_comprobante' => $experi_empre_capa['nro_comprobante']
+
+                );
+                $this->db->insert('certificacion.experi_empre_capa', $data_inf);
+            }
+
+            $this->db->where('rif_cont', $rif_cont);
+            // $this->db->where('id_p_acc', 0);
+            $this->db->delete('certificacion.experi_empre_cap_comisi');
+
+            $cant_pff = $experi_empre_cap_comisi['organo_expe'];
+            $count_pff = count($cant_pff);
+
+            for ($i = 0; $i < $count_pff; $i++) {
+
+                $data2 = array(
+                    'id'              => $experi_empre_cap_comisi['id'],
+                    'nro_comprobante'             => $experi_empre_cap_comisi['nro_comprobante'],
+                    'n_certif' => $experi_empre_cap_comisi['n_certif'],
+                    'rif_cont' => $experi_empre_cap_comisi['rif_cont'],
+                    'organo_expe'                   => $experi_empre_cap_comisi['organo_expe'][$i],
+                    'actividad_exp'              => $experi_empre_cap_comisi['actividad_exp'][$i],
+                    'desde_exp'             => $experi_empre_cap_comisi['desde_exp'][$i],
+                    'hasta_exp'                 => $experi_empre_cap_comisi['hasta_exp'][$i],
+                );
+                $this->db->insert('certificacion.experi_empre_cap_comisi', $data2);
+            }
+            $this->db->where('rif_cont', $rif_cont);
+            // $this->db->where('id_p_acc', 0);
+            $this->db->delete('certificacion.infor_per_natu');
+            $cant_pfft = $infor_per_natu['nombre_ape'];
+            $count_pffr = count($cant_pfft);
+
+            for ($i = 0; $i < $count_pffr; $i++) {
+                $data3 = array(
                     'id'              => $infor_per_natu['id'],
-                    'nombre_ape'             => $infor_per_natu['nombre_ape'],
-                    'cedula'=> $infor_per_natu['cedula'],
-                    'rif'=> $infor_per_natu['rif'],
-                    'sub_total'   		        => $infor_per_natu['sub_total'],
-                    'total_final'          	=> $infor_per_natu['total_final'],
-                    'n_certif'             => $infor_per_natu['n_certif'],
-                    'rif_cont' 	            => $infor_per_natu['rif_cont'],
-                    'nro_comprobante' 	            => $infor_per_natu['nro_comprobante'],
-                 );
-                 $this->db->insert('certificacion.infor_per_natu ',$data2);
+                    'nro_comprobante' => $infor_per_natu['nro_comprobante'],
+                    'n_certif' => $infor_per_natu['n_certif'],
+                    'rif_cont' => $infor_per_natu['rif_cont'],
+                    'nombre_ape'                   => $infor_per_natu['nombre_ape'][$i],
+                    'cedula'              => $infor_per_natu['cedula'][$i],
+                    'rif'             => $infor_per_natu['rif'][$i],
+                    'bolivar_estimado'                 => $infor_per_natu['bolivar_estimado'][$i],
+                    'pj'                 => $infor_per_natu['pj'],
+                    'sub_total'                 => $infor_per_natu['sub_total'],
+                    'total_final'                 => $infor_per_natu['total_bss'],
+
+                );
+                $this->db->insert('certificacion.infor_per_natu', $data3);
+            }
 
 
-                 $this->db->where('rif_cont', $rif_cont);
-                // $this->db->where('id_p_acc', 0);
-                 $this->db->delete('certificacion.infor_per_prof');
-                
-                 
-                 $cant_pfftt = $infor_per_prof['for_academica'];
-                $count_pffrt = count($cant_pfftt);
+            $this->db->where('rif_cont', $rif_cont);
+            // $this->db->where('id_p_acc', 0);
+            $this->db->delete('certificacion.infor_per_prof');
+            $cant_pfftt = $infor_per_prof['for_academica'];
+            $count_pffrt = count($cant_pfftt);
 
-                for ($i=0; $i < $count_pffrt; $i++) {
-                    $data4 = array(
-                        'id'              => $infor_per_prof['id'],
-                        'n_certif'=> $infor_per_prof['n_certif'],
-                        'rif_cont'=> $infor_per_prof['rif_cont'],
-                        'for_academica'   		=> $infor_per_prof['for_academica'][$i],
-                        'titulo'          	=> $infor_per_prof['titulo'][$i],
-                        'ano'             => $infor_per_prof['ano'][$i],
-                        'culminacion' 	 => $infor_per_prof['culminacion'][$i],
-                        'curso' 	            => $infor_per_prof['curso'][$i],
-                        'nro_comprobante'=> $infor_per_prof['nro_comprobante']
-                        
-                       
-                    );
-                    $this->db->insert('certificacion.infor_per_prof',$data4);
-                }
-
-                $this->db->where('rif_cont', $rif_cont);
-                // $this->db->where('id_p_acc', 0);
-                 $this->db->delete('certificacion.for_mat_contr_publ');
-                
-                $cant_1 = $for_mat_contr_publ['taller'];
-                $count_1 = count($cant_1);
-
-                for ($i=0; $i < $count_1; $i++) {
-                    $data5 = array(
-                        'id'              => $for_mat_contr_publ['id'],
-                        'n_certif'=> $for_mat_contr_publ['n_certif'],
-                        'rif_cont'=> $certifi['rif_cont'],
-                        'taller'   		=> $for_mat_contr_publ['taller'][$i],
-                        'institucion'   => $for_mat_contr_publ['institucion'][$i],
-                        'hor_dura'      => $for_mat_contr_publ['hor_dura'][$i],
-                        'certi' 	 => $for_mat_contr_publ['certi'][$i],
-                        'fech_cert' 	 => $for_mat_contr_publ['fech_cert'][$i],
-                        'vigencia' 	   => $for_mat_contr_publ['vigencia'][$i],
-                        'nro_comprobante'=> $for_mat_contr_publ['nro_comprobante']
-                        
-                       
-                    );
-                    $this->db->insert('certificacion.for_mat_contr_publ',$data5);
-                }
-                $this->db->where('rif_cont', $rif_cont);
-                // $this->db->where('id_p_acc', 0);
-                 $this->db->delete('certificacion.exp_par_comi_10');
-                
-                 
-                $cant_2 = $exp_par_comi_10['organo10'];
-                $count_3 = count($cant_2);
-
-                for ($i=0; $i < $count_3; $i++) {
-                    $data6 = array(
-                        'id'              => $exp_par_comi_10['id'],
-                        'n_certif'=> $exp_par_comi_10['n_certif'],
-                        'rif_cont'=> $certifi['rif_cont'],
-                        'organo10'   		=> $exp_par_comi_10['organo10'][$i],
-                        'act_adminis_desid'   => $exp_par_comi_10['act_adminis_desid'][$i],
-                        'n_acto'      => $exp_par_comi_10['n_acto'][$i],
-                        'fecha_act' 	 => $exp_par_comi_10['fecha_act'][$i],
-                        'area_10' 	 => $exp_par_comi_10['area_10'][$i],
-                        'dura_comi' 	   => $exp_par_comi_10['dura_comi'][$i],
-                              
-                    );
-                    $this->db->insert('certificacion.exp_par_comi_10',$data6);
-                }
-
-                $this->db->where('rif_cont', $rif_cont);
-                // $this->db->where('id_p_acc', 0);
-                 $this->db->delete('certificacion.exp_dic_cap_3');
-                
-                
-                $cant_4 = $exp_dic_cap_3['organo3'];
-                $count_5 = count($cant_4);
-
-                for ($i=0; $i < $count_5; $i++) {
-                    $data7 = array(
-                        'id'              => $exp_dic_cap_3['id'],
-                        'n_certif'=> $exp_dic_cap_3['n_certif'],
-                        'rif_cont'=> $certifi['rif_cont'],
-                        'organo3'   		=> $exp_dic_cap_3['organo3'][$i],
-                        'actividad3'   => $exp_dic_cap_3['actividad3'][$i],
-                        'desde3'      => $exp_dic_cap_3['desde3'][$i],
-                        'hasta3' 	 => $exp_dic_cap_3['hasta3'][$i],
-                       
-                        
-                       
-                    );
-                    $this->db->insert('certificacion.exp_dic_cap_3',$data7);
-                }
+            for ($i = 0; $i < $count_pffrt; $i++) {
+                $data4 = array(
+                    'id'              => $infor_per_prof['id'],
+                    'n_certif' => $infor_per_prof['n_certif'],
+                    'rif_cont' => $infor_per_prof['rif_cont'],
+                    'for_academica'           => $infor_per_prof['for_academica'][$i],
+                    'titulo'              => $infor_per_prof['titulo'][$i],
+                    'ano'             => $infor_per_prof['ano'][$i],
+                    'culminacion'      => $infor_per_prof['culminacion'][$i],
+                    'curso'                 => $infor_per_prof['curso'][$i],
+                    'nro_comprobante' => $infor_per_prof['nro_comprobante']
 
 
-         }
-         return true;
-        
+                );
+                $this->db->insert('certificacion.infor_per_prof', $data4);
+            }
+
+            $this->db->where('rif_cont', $rif_cont);
+            // $this->db->where('id_p_acc', 0);
+            $this->db->delete('certificacion.for_mat_contr_publ');
+
+
+            $cant_1 = $for_mat_contr_publ['taller'];
+            $count_1 = count($cant_1);
+
+            for ($i = 0; $i < $count_1; $i++) {
+                $data5 = array(
+                    'id'              => $for_mat_contr_publ['id'],
+                    'n_certif' => $for_mat_contr_publ['n_certif'],
+                    'rif_cont' => $certifi['rif_cont'],
+                    'taller'           => $for_mat_contr_publ['taller'][$i],
+                    'institucion'   => $for_mat_contr_publ['institucion'][$i],
+                    'hor_dura'      => $for_mat_contr_publ['hor_dura'][$i],
+                    'certi'      => $for_mat_contr_publ['certi'][$i],
+                    'fech_cert'      => $for_mat_contr_publ['fech_cert'][$i],
+                    'vigencia'        => $for_mat_contr_publ['vigencia'][$i],
+                    'nro_comprobante' => $for_mat_contr_publ['nro_comprobante']
+
+
+                );
+                $this->db->insert('certificacion.for_mat_contr_publ', $data5);
+            }
+            $this->db->where('rif_cont', $rif_cont);
+            // $this->db->where('id_p_acc', 0);
+            $this->db->delete('certificacion.exp_par_comi_10');
+
+
+            $cant_2 = $exp_par_comi_10['organo10'];
+            $count_3 = count($cant_2);
+
+            for ($i = 0; $i < $count_3; $i++) {
+                $data6 = array(
+                    'id'              => $exp_par_comi_10['id'],
+                    'n_certif' => $exp_par_comi_10['n_certif'],
+                    'rif_cont' => $certifi['rif_cont'],
+                    'organo10'           => $exp_par_comi_10['organo10'][$i],
+                    'act_adminis_desid'   => $exp_par_comi_10['act_adminis_desid'][$i],
+                    'n_acto'      => $exp_par_comi_10['n_acto'][$i],
+                    'fecha_act'      => $exp_par_comi_10['fecha_act'][$i],
+                    'area_10'      => $exp_par_comi_10['area_10'][$i],
+                    'dura_comi'        => $exp_par_comi_10['dura_comi'][$i],
+
+                );
+                $this->db->insert('certificacion.exp_par_comi_10', $data6);
+            }
+
+            $this->db->where('rif_cont', $rif_cont);
+            // $this->db->where('id_p_acc', 0);
+            $this->db->delete('certificacion.exp_dic_cap_3');
+
+            $this->db->select('max(e.id) as id');
+            $query = $this->db->get('certificacion.exp_dic_cap_3 e');
+            $response3 = $query->row_array();
+            $id = $response3['id'] + 1;
+            $cant_4 = $exp_dic_cap_3['organo3'];
+            $count_5 = count($cant_4);
+
+            for ($i = 0; $i < $count_5; $i++) {
+                $data7 = array(
+                    'id'              => $exp_dic_cap_3['id'],
+                    'n_certif' => $exp_dic_cap_3['n_certif'],
+                    'rif_cont' => $certifi['rif_cont'],
+                    'organo3'           => $exp_dic_cap_3['organo3'][$i],
+                    'actividad3'   => $exp_dic_cap_3['actividad3'][$i],
+                    'desde3'      => $exp_dic_cap_3['desde3'][$i],
+                    'hasta3'      => $exp_dic_cap_3['hasta3'][$i],
+
+
+
+                );
+                $this->db->insert('certificacion.exp_dic_cap_3', $data7);
+            }
+        }
+        return true;
+    }
+    public function save_renovacion__certificacion_pn(
+        $rif_cont,
+        $certifi,   //Renovar certificacion  pn
+        $infor_per_prof,
+        $for_mat_contr_publ,
+        $exp_par_comi_10,
+        $exp_dic_cap_3,
+        $infor_per_natu
+    ) {
+        $this->db->where('rif_cont', $rif_cont);
+        // $this->db->where('id_p_proyecto', $id_p_proyecto);
+        $update = $this->db->update('certificacion.certificaciones', $certifi);
+
+        if ($update) {
+
+
+            $this->db->where('rif_cont', $rif_cont);
+            // $this->db->where('id_p_acc', 0);
+            $this->db->delete('certificacion.infor_per_natu');
+            $id = $id;
+            $data2 = array(
+                'id'              => $infor_per_natu['id'],
+                'nombre_ape'             => $infor_per_natu['nombre_ape'],
+                'cedula' => $infor_per_natu['cedula'],
+                'rif' => $infor_per_natu['rif'],
+                'sub_total'                   => $infor_per_natu['sub_total'],
+                'total_final'              => $infor_per_natu['total_final'],
+                'n_certif'             => $infor_per_natu['n_certif'],
+                'rif_cont'                 => $infor_per_natu['rif_cont'],
+                'nro_comprobante'                 => $infor_per_natu['nro_comprobante'],
+            );
+            $this->db->insert('certificacion.infor_per_natu ', $data2);
+
+
+            $this->db->where('rif_cont', $rif_cont);
+            // $this->db->where('id_p_acc', 0);
+            $this->db->delete('certificacion.infor_per_prof');
+
+
+            $cant_pfftt = $infor_per_prof['for_academica'];
+            $count_pffrt = count($cant_pfftt);
+
+            for ($i = 0; $i < $count_pffrt; $i++) {
+                $data4 = array(
+                    'id'              => $infor_per_prof['id'],
+                    'n_certif' => $infor_per_prof['n_certif'],
+                    'rif_cont' => $infor_per_prof['rif_cont'],
+                    'for_academica'           => $infor_per_prof['for_academica'][$i],
+                    'titulo'              => $infor_per_prof['titulo'][$i],
+                    'ano'             => $infor_per_prof['ano'][$i],
+                    'culminacion'      => $infor_per_prof['culminacion'][$i],
+                    'curso'                 => $infor_per_prof['curso'][$i],
+                    'nro_comprobante' => $infor_per_prof['nro_comprobante']
+
+
+                );
+                $this->db->insert('certificacion.infor_per_prof', $data4);
+            }
+
+            $this->db->where('rif_cont', $rif_cont);
+            // $this->db->where('id_p_acc', 0);
+            $this->db->delete('certificacion.for_mat_contr_publ');
+
+            $cant_1 = $for_mat_contr_publ['taller'];
+            $count_1 = count($cant_1);
+
+            for ($i = 0; $i < $count_1; $i++) {
+                $data5 = array(
+                    'id'              => $for_mat_contr_publ['id'],
+                    'n_certif' => $for_mat_contr_publ['n_certif'],
+                    'rif_cont' => $certifi['rif_cont'],
+                    'taller'           => $for_mat_contr_publ['taller'][$i],
+                    'institucion'   => $for_mat_contr_publ['institucion'][$i],
+                    'hor_dura'      => $for_mat_contr_publ['hor_dura'][$i],
+                    'certi'      => $for_mat_contr_publ['certi'][$i],
+                    'fech_cert'      => $for_mat_contr_publ['fech_cert'][$i],
+                    'vigencia'        => $for_mat_contr_publ['vigencia'][$i],
+                    'nro_comprobante' => $for_mat_contr_publ['nro_comprobante']
+
+
+                );
+                $this->db->insert('certificacion.for_mat_contr_publ', $data5);
+            }
+            $this->db->where('rif_cont', $rif_cont);
+            // $this->db->where('id_p_acc', 0);
+            $this->db->delete('certificacion.exp_par_comi_10');
+
+
+            $cant_2 = $exp_par_comi_10['organo10'];
+            $count_3 = count($cant_2);
+
+            for ($i = 0; $i < $count_3; $i++) {
+                $data6 = array(
+                    'id'              => $exp_par_comi_10['id'],
+                    'n_certif' => $exp_par_comi_10['n_certif'],
+                    'rif_cont' => $certifi['rif_cont'],
+                    'organo10'           => $exp_par_comi_10['organo10'][$i],
+                    'act_adminis_desid'   => $exp_par_comi_10['act_adminis_desid'][$i],
+                    'n_acto'      => $exp_par_comi_10['n_acto'][$i],
+                    'fecha_act'      => $exp_par_comi_10['fecha_act'][$i],
+                    'area_10'      => $exp_par_comi_10['area_10'][$i],
+                    'dura_comi'        => $exp_par_comi_10['dura_comi'][$i],
+
+                );
+                $this->db->insert('certificacion.exp_par_comi_10', $data6);
+            }
+
+            $this->db->where('rif_cont', $rif_cont);
+            // $this->db->where('id_p_acc', 0);
+            $this->db->delete('certificacion.exp_dic_cap_3');
+
+
+            $cant_4 = $exp_dic_cap_3['organo3'];
+            $count_5 = count($cant_4);
+
+            for ($i = 0; $i < $count_5; $i++) {
+                $data7 = array(
+                    'id'              => $exp_dic_cap_3['id'],
+                    'n_certif' => $exp_dic_cap_3['n_certif'],
+                    'rif_cont' => $certifi['rif_cont'],
+                    'organo3'           => $exp_dic_cap_3['organo3'][$i],
+                    'actividad3'   => $exp_dic_cap_3['actividad3'][$i],
+                    'desde3'      => $exp_dic_cap_3['desde3'][$i],
+                    'hasta3'      => $exp_dic_cap_3['hasta3'][$i],
+
+
+
+                );
+                $this->db->insert('certificacion.exp_dic_cap_3', $data7);
+            }
+        }
+        return true;
     }
 
-    public function certificaciones_id($data){
+    public function certificaciones_id($data)
+    {
         $this->db->select('m.*');
         $this->db->from('certificacion.certificaciones m');
-       
+
         $this->db->where('m.id', $data['id']);
-    
+
         $query = $this->db->get();
         $resultado = $query->row_array();
         return $resultado;
@@ -1075,212 +1132,220 @@ class Certificacion_model extends CI_model
 
 
 
-    public function guardar_proc_pag($data){
+    public function guardar_proc_pag($data)
+    {
         // se guardan los fecha de vigencia 
-    
-        $this->db->select('e.id as id, e.rif_cont');
-            $this->db->where('e.rif_cont', $data['rif_cont']);
-            $query = $this->db->get('certificacion.certificaciones e');
-            $response = $query->row_array();
-          
-                $id = $response['id'] + 0;
-        $data1 = array('status' => $data['status'],
-                        'vigen_cert_desde' => $data['vigen_cert_desde'],
 
-                        'vigen_cert_hasta' => $data['vigen_cert_hasta'],
-                        'user_snc_aprob' => $data['users'],
-                        'fecha_status' => date('Y-m-d h:i:s'),
-                        'observacion' => $data['observacion'],
-                        
-                    );
-                   
-                        
+        $this->db->select('e.id as id, e.rif_cont');
+        $this->db->where('e.rif_cont', $data['rif_cont']);
+        $query = $this->db->get('certificacion.certificaciones e');
+        $response = $query->row_array();
+
+        $id = $response['id'] + 0;
+        $data1 = array(
+            'status' => $data['status'],
+            'vigen_cert_desde' => $data['vigen_cert_desde'],
+
+            'vigen_cert_hasta' => $data['vigen_cert_hasta'],
+            'user_snc_aprob' => $data['users'],
+            'fecha_status' => date('Y-m-d h:i:s'),
+            'observacion' => $data['observacion'],
+
+        );
+
+
         $this->db->where('rif_cont', $data['rif_cont']);
         $update = $this->db->update('certificacion.certificaciones', $data1);
 
         //return true;
         return $id;
-    
-    } 
+    }
 
 
     //pdf
-    public function ver_pdfs($data){
+    public function ver_pdfs($data)
+    {
         $this->db->select('m.*, b.nombre_ape, b.cedula');
         $this->db->from('certificacion.certificaciones m');
         $this->db->join('certificacion.infor_per_natu b', 'b.id = m.id', 'left');
         $this->db->where('m.id', $data);
-      $query = $this->db->get();
+        $query = $this->db->get();
         $resultado = $query->row_array();
         return $resultado;
     }
-    public function ver_pdfs_2($data){
-           
+    public function ver_pdfs_2($data)
+    {
+
         $this->db->select('m.*, b.nombre_ape, b.cedula,b.status');
         $this->db->join('certificacion.infor_per_natu b', 'b.id = m.id', 'left');
-       $this->db->where('m.id', $data);
-       $this->db->where('b.status', 1);
+        $this->db->where('m.id', $data);
+        $this->db->where('b.status', 1);
         $query = $this->db->get('certificacion.certificaciones m');
         return $result = $query->result_array();
     }
     ///////////////////////////////////////////////registro pn
-    public function cons_nro_comprobantenn(){
+    public function cons_nro_comprobantenn()
+    {
         $this->db->select('id,id_comprobante,nro_comprobante,tipo_pers');
-        $this->db->where('tipo_pers ', 2 );
+        $this->db->where('tipo_pers ', 2);
         $this->db->order_by('id_comprobante desc');
         $query = $this->db->get('certificacion.certificaciones ');
         $response = $query->row_array();
         return $response;
     }
-    public function save_certificacion_pn($certifi, 
-    $infor_per_natu,$infor_per_prof,$for_mat_contr_publ,$exp_par_comi_10,$exp_dic_cap_3){
-      $qrcode_data = $this->_generate_data_qrcode();
-      $this->db->select('max(e.id_comprobante) as id_comprobante,e.tipo_pers');
+    public function save_certificacion_pn(
+        $certifi,
+        $infor_per_natu,
+        $infor_per_prof,
+        $for_mat_contr_publ,
+        $exp_par_comi_10,
+        $exp_dic_cap_3
+    ) {
+        $qrcode_data = $this->_generate_data_qrcode();
+        $this->db->select('max(e.id_comprobante) as id_comprobante,e.tipo_pers');
         $this->db->where('e.tipo_pers', 2);
-        $this->db->group_by('e.tipo_pers'); 
+        $this->db->group_by('e.tipo_pers');
         $query = $this->db->get('certificacion.certificaciones e');
         $respon = $query->row_array();
-        $id_comprobante = $respon['id_comprobante'] + 1 ;
+        $id_comprobante = $respon['id_comprobante'] + 1;
 
         $this->db->select('max(e.id) as id');
         $query = $this->db->get('certificacion.certificaciones e');
         $response3 = $query->row_array();
-        $id = $response3['id'] + 1 ;
+        $id = $response3['id'] + 1;
         $certifi1 = array(
 
-            'id'=> $id,
-            'id_comprobante'=> $id_comprobante,
-            'nro_comprobante'=> $certifi['nro_comprobante'],
-            'n_certif'=> $certifi['n_certif'],
-            'rif_cont'=> $certifi['rif_cont'],
-            'nombre'=> $certifi['nombre'],
-            'tipo_pers'=> $certifi['tipo_pers'],
-            'objetivo'=> $certifi['objetivo'],
-            'cont_prog'=> $certifi['cont_prog'],
-            'total_bss'=> $certifi['total_bss'],
-            'n_ref'=> $certifi['n_ref'],
-            'banco_e'=> $certifi['banco_e'],
-            'banco_rec'=> $certifi['banco_rec'],
-            'fecha_trans'=> $certifi['fecha_trans'],
-            'monto_trans'=> $certifi['monto_trans'],
-            'declara'=> $certifi['declara'],
+            'id' => $id,
+            'id_comprobante' => $id_comprobante,
+            'nro_comprobante' => $certifi['nro_comprobante'],
+            'n_certif' => $certifi['n_certif'],
+            'rif_cont' => $certifi['rif_cont'],
+            'nombre' => $certifi['nombre'],
+            'tipo_pers' => $certifi['tipo_pers'],
+            'objetivo' => $certifi['objetivo'],
+            'cont_prog' => $certifi['cont_prog'],
+            'total_bss' => $certifi['total_bss'],
+            'n_ref' => $certifi['n_ref'],
+            'banco_e' => $certifi['banco_e'],
+            'banco_rec' => $certifi['banco_rec'],
+            'fecha_trans' => $certifi['fecha_trans'],
+            'monto_trans' => $certifi['monto_trans'],
+            'declara' => $certifi['declara'],
             'acepto' => $certifi['acepto'],
-            'fecha_solic'=> $certifi['fecha_solic'],
-            'user_soli'=> $certifi['user_soli'],
+            'fecha_solic' => $certifi['fecha_solic'],
+            'user_soli' => $certifi['user_soli'],
             'status' => $certifi['status'],
-             'qrcode_path'   => $this->_generate_qrcode($this->input->post('rif_cont'),$qrcode_data), //memanggil method _generate_qrcode dengan mengirimkan dua parameter yaitu data fullname dan data qrcode
+            'qrcode_path'   => $this->_generate_qrcode($this->input->post('rif_cont'), $qrcode_data), //memanggil method _generate_qrcode dengan mengirimkan dua parameter yaitu data fullname dan data qrcode
             'qrcode_data'   => $qrcode_data
-            );         
-        $quers =$this->db->insert('certificacion.certificaciones',$certifi1);
+        );
+        $quers = $this->db->insert('certificacion.certificaciones', $certifi1);
 
-            if ($quers) {
+        if ($quers) {
 
-                $id = $id;
-
-            
-                    $data3 = array(
-                        'id'              => $id,
-                        'nro_comprobante'=> $certifi['nro_comprobante'],
-                        'n_certif'=> $certifi['n_certif'],
-                        'rif_cont'=> $certifi['rif_cont'],
-                        'nombre_ape'   		        => $infor_per_natu['nombre_ape'],
-                        'cedula'          	=> $infor_per_natu['cedula'],
-                        'rif'             => $infor_per_natu['rif'],
-                        'bolivar_estimado' 	            => $infor_per_natu['bolivar_estimado'],
-                        //'pj' 	            => $infor_per_natu['pj'],
-                        'sub_total' 	            => $infor_per_natu['sub_total'],
-                        'total_final' 	            => $infor_per_natu['total_bss'],
-                       
-                    );
-                    $this->db->insert('certificacion.infor_per_natu',$data3);
-                
-
-                $cant_pfftt = $infor_per_prof['for_academica'];
-                $count_pffrt = count($cant_pfftt);
-
-                for ($i=0; $i < $count_pffrt; $i++) {
-                    $data4 = array(
-                        'id'              => $id,
-                        'n_certif'=> $certifi['n_certif'],
-                        'rif_cont'=> $certifi['rif_cont'],
-                        'for_academica'   		=> $infor_per_prof['for_academica'][$i],
-                        'titulo'          	=> $infor_per_prof['titulo'][$i],
-                        'ano'             => $infor_per_prof['ano'][$i],
-                        'culminacion' 	 => $infor_per_prof['culminacion'][$i],
-                        'curso' 	            => $infor_per_prof['curso'][$i],
-                        'nro_comprobante'=> $certifi['nro_comprobante']
-                        
-                       
-                    );
-                    $this->db->insert('certificacion.infor_per_prof',$data4);
-                }
-
-                $cant_1 = $for_mat_contr_publ['taller'];
-                $count_1 = count($cant_1);
-
-                for ($i=0; $i < $count_1; $i++) {
-                    $data5 = array(
-                        'id'              => $id,
-                        'n_certif'=> $certifi['n_certif'],
-                        'rif_cont'=> $certifi['rif_cont'],
-                        'taller'   		=> $for_mat_contr_publ['taller'][$i],
-                        'institucion'   => $for_mat_contr_publ['institucion'][$i],
-                        'hor_dura'      => $for_mat_contr_publ['hor_dura'][$i],
-                        'certi' 	 => $for_mat_contr_publ['certi'][$i],
-                        'fech_cert' 	 => $for_mat_contr_publ['fech_cert'][$i],
-                        'vigencia' 	   => $for_mat_contr_publ['vigencia'][$i],
-                        'nro_comprobante'=> $certifi['nro_comprobante']
-                        
-                       
-                    );
-                    $this->db->insert('certificacion.for_mat_contr_publ',$data5);
-                }
-                $cant_2 = $exp_par_comi_10['organo10'];
-                $count_3 = count($cant_2);
-
-                for ($i=0; $i < $count_3; $i++) {
-                    $data6 = array(
-                        'id'              => $id,
-                        'n_certif'=> $certifi['n_certif'],
-                        'rif_cont'=> $certifi['rif_cont'],
-                        'organo10'   		=> $exp_par_comi_10['organo10'][$i],
-                        'act_adminis_desid'   => $exp_par_comi_10['act_adminis_desid'][$i],
-                        'n_acto'      => $exp_par_comi_10['n_acto'][$i],
-                        'fecha_act' 	 => $exp_par_comi_10['fecha_act'][$i],
-                        'area_10' 	 => $exp_par_comi_10['area_10'][$i],
-                        'dura_comi' 	   => $exp_par_comi_10['dura_comi'][$i],
-                       
-                        
-                       
-                    );
-                    $this->db->insert('certificacion.exp_par_comi_10',$data6);
-                }
-
-                $cant_4 = $exp_dic_cap_3['organo3'];
-                $count_5 = count($cant_4);
-
-                for ($i=0; $i < $count_5; $i++) {
-                    $data7 = array(
-                        'id'              => $id,
-                        'n_certif'=> $certifi['n_certif'],
-                        'rif_cont'=> $certifi['rif_cont'],
-                        'organo3'   		=> $exp_dic_cap_3['organo3'][$i],
-                        'actividad3'   => $exp_dic_cap_3['actividad3'][$i],
-                        'desde3'      => $exp_dic_cap_3['desde3'][$i],
-                        'hasta3' 	 => $exp_dic_cap_3['hasta3'][$i],
-                       
-                        
-                       
-                    );
-                    $this->db->insert('certificacion.exp_dic_cap_3',$data7);
-                }
+            $id = $id;
 
 
+            $data3 = array(
+                'id'              => $id,
+                'nro_comprobante' => $certifi['nro_comprobante'],
+                'n_certif' => $certifi['n_certif'],
+                'rif_cont' => $certifi['rif_cont'],
+                'nombre_ape'                   => $infor_per_natu['nombre_ape'],
+                'cedula'              => $infor_per_natu['cedula'],
+                'rif'             => $infor_per_natu['rif'],
+                'bolivar_estimado'                 => $infor_per_natu['bolivar_estimado'],
+                //'pj' 	            => $infor_per_natu['pj'],
+                'sub_total'                 => $infor_per_natu['sub_total'],
+                'total_final'                 => $infor_per_natu['total_bss'],
+
+            );
+            $this->db->insert('certificacion.infor_per_natu', $data3);
+
+
+            $cant_pfftt = $infor_per_prof['for_academica'];
+            $count_pffrt = count($cant_pfftt);
+
+            for ($i = 0; $i < $count_pffrt; $i++) {
+                $data4 = array(
+                    'id'              => $id,
+                    'n_certif' => $certifi['n_certif'],
+                    'rif_cont' => $certifi['rif_cont'],
+                    'for_academica'           => $infor_per_prof['for_academica'][$i],
+                    'titulo'              => $infor_per_prof['titulo'][$i],
+                    'ano'             => $infor_per_prof['ano'][$i],
+                    'culminacion'      => $infor_per_prof['culminacion'][$i],
+                    'curso'                 => $infor_per_prof['curso'][$i],
+                    'nro_comprobante' => $certifi['nro_comprobante']
+
+
+                );
+                $this->db->insert('certificacion.infor_per_prof', $data4);
             }
-            return true;
+
+            $cant_1 = $for_mat_contr_publ['taller'];
+            $count_1 = count($cant_1);
+
+            for ($i = 0; $i < $count_1; $i++) {
+                $data5 = array(
+                    'id'              => $id,
+                    'n_certif' => $certifi['n_certif'],
+                    'rif_cont' => $certifi['rif_cont'],
+                    'taller'           => $for_mat_contr_publ['taller'][$i],
+                    'institucion'   => $for_mat_contr_publ['institucion'][$i],
+                    'hor_dura'      => $for_mat_contr_publ['hor_dura'][$i],
+                    'certi'      => $for_mat_contr_publ['certi'][$i],
+                    'fech_cert'      => $for_mat_contr_publ['fech_cert'][$i],
+                    'vigencia'        => $for_mat_contr_publ['vigencia'][$i],
+                    'nro_comprobante' => $certifi['nro_comprobante']
+
+
+                );
+                $this->db->insert('certificacion.for_mat_contr_publ', $data5);
+            }
+            $cant_2 = $exp_par_comi_10['organo10'];
+            $count_3 = count($cant_2);
+
+            for ($i = 0; $i < $count_3; $i++) {
+                $data6 = array(
+                    'id'              => $id,
+                    'n_certif' => $certifi['n_certif'],
+                    'rif_cont' => $certifi['rif_cont'],
+                    'organo10'           => $exp_par_comi_10['organo10'][$i],
+                    'act_adminis_desid'   => $exp_par_comi_10['act_adminis_desid'][$i],
+                    'n_acto'      => $exp_par_comi_10['n_acto'][$i],
+                    'fecha_act'      => $exp_par_comi_10['fecha_act'][$i],
+                    'area_10'      => $exp_par_comi_10['area_10'][$i],
+                    'dura_comi'        => $exp_par_comi_10['dura_comi'][$i],
+
+
+
+                );
+                $this->db->insert('certificacion.exp_par_comi_10', $data6);
+            }
+
+            $cant_4 = $exp_dic_cap_3['organo3'];
+            $count_5 = count($cant_4);
+
+            for ($i = 0; $i < $count_5; $i++) {
+                $data7 = array(
+                    'id'              => $id,
+                    'n_certif' => $certifi['n_certif'],
+                    'rif_cont' => $certifi['rif_cont'],
+                    'organo3'           => $exp_dic_cap_3['organo3'][$i],
+                    'actividad3'   => $exp_dic_cap_3['actividad3'][$i],
+                    'desde3'      => $exp_dic_cap_3['desde3'][$i],
+                    'hasta3'      => $exp_dic_cap_3['hasta3'][$i],
+
+
+
+                );
+                $this->db->insert('certificacion.exp_dic_cap_3', $data7);
+            }
+        }
+        return true;
     }
 
-/// este se usa cuando esta en prueba
+    /// este se usa cuando esta en prueba
     // public function llenar_contratista($data){
     //     $this->db_c->select('c.user_id,
     //                         c.edocontratista_id,
@@ -1322,8 +1387,9 @@ class Certificacion_model extends CI_model
     //             return $result;
     //         }
     //}
-//-------------------------------------------------------
-    public function llenar_contratista_rp($data){
+    //-------------------------------------------------------
+    public function llenar_contratista_rp($data)
+    {
         $this->db_c->select('proceso_id,
                            cedrif,
                            concat(nomacc, \'\' ,apeacc) as repr,
@@ -1332,7 +1398,7 @@ class Certificacion_model extends CI_model
         $query = $this->db_c->get('public.accionistas');
         $result = $query->result_array();
 
-        if ($result == Array ()) {
+        if ($result == array()) {
             $this->db->select('cedrif,
                                concat(nomacc, \'\' ,apeacc) as repr,
                                cargo ');
@@ -1340,13 +1406,14 @@ class Certificacion_model extends CI_model
             $query = $this->db->get('evaluacion_desempenio.accionistas_nr');
 
             return $result = $query->result_array();
-        }else {
+        } else {
             return $result;
         }
     }
 
 
-    public function llenar_contratistas($data){
+    public function llenar_contratistas($data)
+    {
         $this->db_b->select('*');
         $this->db_b->where('rifced', $data['rif_b']);
         $this->db_b->order_by("proceso_id", "Desc");
@@ -1354,88 +1421,89 @@ class Certificacion_model extends CI_model
         return $response = $query->row_array(); // sin el foreach
     }
 
-    public function get_data($qrcode_data="")
- {
-  $this->db->select('*')
-        ->from($this->table);
- 
-     if(!empty($qrcode_data)){
-      $this->db->where('qrcode_data', $qrcode_data);
-     }
- 
-     $res = $this->db->get();
-     return $res->result_array();
- }
- 
- public function save_data()
- {
-  //memanggil method _generate_data_qrcode untuk proses generate data qrcode
-  $qrcode_data = $this->_generate_data_qrcode();
- 
-  $data = array(
+    public function get_data($qrcode_data = "")
+    {
+        $this->db->select('*')
+            ->from($this->table);
+
+        if (!empty($qrcode_data)) {
+            $this->db->where('qrcode_data', $qrcode_data);
+        }
+
+        $res = $this->db->get();
+        return $res->result_array();
+    }
+
+    public function save_data()
+    {
+        //memanggil method _generate_data_qrcode untuk proses generate data qrcode
+        $qrcode_data = $this->_generate_data_qrcode();
+
+        $data = array(
             'fullname'      => $this->input->post('fullname'),
             'email'       => $this->input->post('email'),
-            'qrcode_path'   => $this->_generate_qrcode($this->input->post('fullname'),$qrcode_data), //memanggil method _generate_qrcode dengan mengirimkan dua parameter yaitu data fullname dan data qrcode
+            'qrcode_path'   => $this->_generate_qrcode($this->input->post('fullname'), $qrcode_data), //memanggil method _generate_qrcode dengan mengirimkan dua parameter yaitu data fullname dan data qrcode
             'qrcode_data'   => $qrcode_data
         );
-        $this->db->insert($this->table,$data);
- }
- 
- //generate qrcode data
-   public function _generate_data_qrcode()
-   {
-     $this->load->helper('string');
-     $code = strtoupper(random_string('alnum', 6));
-     //proses cek data qrcode untuk memastikan data qrcode bersifat unik
-     $cek_data=$this->get_data($code); 
-     if(!empty($cek_data)){
-      //jika data qrcode ada yang sama, maka karakter terakhir dari data qrcode
-      //akan di-replace dengan angka jumlah data yang sama + 1
-        $code = substr_replace($code, count($cek_data)+1, 5);
-     }
-     return $code;
-   }
- 
- 
- //generate image qrcode
-   public function _generate_qrcode($fullname, $data_code)
-   {
-    //load libraru qrcode
-     $this->load->library('ciqrcode');
- 
-     //persiapan direktori untuk menyimpan image qrcode hasil generate. 
-     //Path dan nama direktori bisa kalian sesuaikan dengan kebutuhan kalian
-     $directory = "./assets/img/qrcode";
-     //persiapan filename untuk image qrcode. Diambil dari data fullname tanpa spasi + 3 digit angka random
-     $file_name = str_replace(" ", "", strtolower($fullname)).rand(pow(10, 2), pow(10, 3)-1);
- 
-     //pembuatan direktori jika belum ada
-     if (!is_dir($directory)) {
-        mkdir($directory, 777, TRUE);
-     }
- 
-     $config['cacheable']    = true; //boolean, the default is true
-     $config['quality']      = true; //boolean, the default is true
-     $config['size']         = '1024'; //interger, the default is 1024
-     $config['black']        = array(224,255,255); // array, default is array(255,255,255)
-     $config['white']        = array(70,130,180); // array, default is array(0,0,0)
-     $this->ciqrcode->initialize($config);
- 
-     //menyisipkan ekstensi png pada filename qrcode
-     $image_name=$file_name.'.png';
- 
-     $params['data'] = $data_code; //data yang akan di jadikan QR CODE
-     $params['level'] = 'H'; //H=High
-     $params['size'] = 10;
-     $params['savename'] = $directory.'/'.$image_name;
-    
-     $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
-     
-     return  $image_name;
-  }
- 
-  public function llenar_contratista($data){  // esta es para consultar certificado en produccion
-    $this->db_c->select('c.user_id,
+        $this->db->insert($this->table, $data);
+    }
+
+    //generate qrcode data
+    public function _generate_data_qrcode()
+    {
+        $this->load->helper('string');
+        $code = strtoupper(random_string('alnum', 6));
+        //proses cek data qrcode untuk memastikan data qrcode bersifat unik
+        $cek_data = $this->get_data($code);
+        if (!empty($cek_data)) {
+            //jika data qrcode ada yang sama, maka karakter terakhir dari data qrcode
+            //akan di-replace dengan angka jumlah data yang sama + 1
+            $code = substr_replace($code, count($cek_data) + 1, 5);
+        }
+        return $code;
+    }
+
+
+    //generate image qrcode
+    public function _generate_qrcode($fullname, $data_code)
+    {
+        //load libraru qrcode
+        $this->load->library('ciqrcode');
+
+        //persiapan direktori untuk menyimpan image qrcode hasil generate. 
+        //Path dan nama direktori bisa kalian sesuaikan dengan kebutuhan kalian
+        $directory = "./assets/img/qrcode";
+        //persiapan filename untuk image qrcode. Diambil dari data fullname tanpa spasi + 3 digit angka random
+        $file_name = str_replace(" ", "", strtolower($fullname)) . rand(pow(10, 2), pow(10, 3) - 1);
+
+        //pembuatan direktori jika belum ada
+        if (!is_dir($directory)) {
+            mkdir($directory, 777, TRUE);
+        }
+
+        $config['cacheable']    = true; //boolean, the default is true
+        $config['quality']      = true; //boolean, the default is true
+        $config['size']         = '1024'; //interger, the default is 1024
+        $config['black']        = array(224, 255, 255); // array, default is array(255,255,255)
+        $config['white']        = array(70, 130, 180); // array, default is array(0,0,0)
+        $this->ciqrcode->initialize($config);
+
+        //menyisipkan ekstensi png pada filename qrcode
+        $image_name = $file_name . '.png';
+
+        $params['data'] = $data_code; //data yang akan di jadikan QR CODE
+        $params['level'] = 'H'; //H=High
+        $params['size'] = 10;
+        $params['savename'] = $directory . '/' . $image_name;
+
+        $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
+
+        return  $image_name;
+    }
+
+    public function llenar_contratista($data)
+    {  // esta es para consultar certificado en produccion
+        $this->db_c->select('c.user_id,
                         c.edocontratista_id,
                         c.rifced,
                         c.numcertrnc,
@@ -1448,13 +1516,13 @@ class Certificacion_model extends CI_model
                         c.percontacto,
                         c.telf1,
                         c.ultprocaprob');
-    $this->db_c->join('public.estados e', 'e.id = c.estado_id');
-    $this->db_c->join('public.municipios m', 'm.id = c.municipio_id');
-    $this->db_c->join('public.ciudades c2', 'c2.id = c.ciudade_id');
-    $this->db_c->where('c.numcertrnc',$data['rif_b']);
-    //$query = $this->db_c->get('public.contratistas c');
-    $query = $this->db_c->get('public.contratistas c');
-    $result = $query->row_array();
+        $this->db_c->join('public.estados e', 'e.id = c.estado_id');
+        $this->db_c->join('public.municipios m', 'm.id = c.municipio_id');
+        $this->db_c->join('public.ciudades c2', 'c2.id = c.ciudade_id');
+        $this->db_c->where('c.numcertrnc', $data['rif_b']);
+        //$query = $this->db_c->get('public.contratistas c');
+        $query = $this->db_c->get('public.contratistas c');
+        $result = $query->row_array();
         if ($result == '') {
             $this->db->select('c.user_id,
                                  c.edocontratista_id,
@@ -1468,195 +1536,717 @@ class Certificacion_model extends CI_model
                                  c.procactual');
             $this->db->join('public.estados e', 'e.id = c.estado_id');
             $this->db->join('public.municipios m', 'm.id = c.municipio_id');
-            $this->db->where('c.numcertrnc',$data['rif_b']);
+            $this->db->where('c.numcertrnc', $data['rif_b']);
             $query = $this->db->get('evaluacion_desempenio.contratistas_nr c');
             return $result = $query->row_array();
-        }else {
+        } else {
             return $result;
         }
-}
-
-function consultar_exonerado($data){
-    $this->db->select('*');
-    $this->db->where('rif', $data['rif_organoente']);
-    $query = $this->db->get('certificacion.exonerado');
-    return $response = $query->row_array();
-}
-
-public function valida_exon($numcertrnc2){
-    $this->db->select('numcertrnc');
-    $this->db->where('numcertrnc ', $numcertrnc2);
-    //$this->db->order_by('id desc');
-    $query = $this->db->get('certificacion.exonerado');
-    $response = $query->row_array();
-    return $response;
-}
-function consultar_exonerado_2(){
-    $this->db->select('*');
-    $this->db->from('certificacion.exonerado');
-   // $this->db->order_by("codigo_b", "Asc");
-    $query = $this->db->get();
-    return $query->result_array();
-}
-
-//GUARDAR
-function registrar_b($data){
-    $this->db->insert('certificacion.exonerado',$data);
-    return true;
-}
-//VER PARA ver exonerado y editar
-function consulta_b($data){
-    $this->db->select('*');
-    $this->db->from('certificacion.exonerado');
-    $this->db->where('id_exonerado', $data['id_exonerado']);
-   // $this->db->order_by("codigo_b", "Asc");
-    $query = $this->db->get();
-    if (count($query->result()) > 0) {
-        return $query->row();
     }
-}
-//EDITAR exonerado en bd
-function editar_b($data){
-    $this->db->where('id_exonerado', $data['id_exonerado']);
-    $update = $this->db->update('certificacion.exonerado', $data);
-    return true;
-}
-//ELIMAR
-function eliminar_b($data){
-    $this->db->where('id_exonerado', $data['id_exonerado']);
-    $query = $this->db->delete('certificacion.exonerado');
-    return true;
-}
 
-// esto es facilitador
-
-public function consulta_facilitador($usuario){
-    $this->db->select('c.user_soli, c.rif_cont, e.nombre_ape, e.cedula, e.rif, e.status ');
-  
-    $this->db->join('certificacion.infor_per_natu e', 'e.rif_cont = c.rif_cont');
-    $this->db->where('c.user_soli', $usuario);
-   
-    $query = $this->db->get('certificacion.certificaciones c');
-    return $result = $query->result_array();
-}
-
-function consulta_facilitadores($data){
-    $this->db->select('rif_cont,cedula,status');
-    $this->db->from('certificacion.infor_per_natu');
-    $this->db->where('cedula', $data['cedula']);
-    
-    $query = $this->db->get();
-    if (count($query->result()) > 0) {
-        return $query->row();
+    function consultar_exonerado($data)
+    {
+        $this->db->select('*');
+        $this->db->where('rif', $data['rif_organoente']);
+        $query = $this->db->get('certificacion.exonerado');
+        return $response = $query->row_array();
     }
-}
-function cambiar_estatus($data){
-    $this->db->where('cedula', $data['cedula']);
-    $this->db->where('rif_cont', $data['rif_cont']);
-    $update = $this->db->update('certificacion.infor_per_natu', $data);
-    return true;
-}
-/////////////////////////////////reporte por vencimiento
-public function consultar_vencimiento($data){
-    $this->db->select("nro_comprobante, nombre, rif_cont, n_certif, tipo_pers, vigen_cert_desde, vigen_cert_hasta,");
-    
-    $this->db->where('vigen_cert_hasta >=', $data['desde']);
-    $this->db->where('vigen_cert_hasta <=', $data['hasta']);
-    $this->db->order_by('nro_comprobante');
-    
-    $query = $this->db->get('certificacion.certificaciones ');
-    return $query->result_array();
-}
-public function status($data){
-    if ($data['status'] == '1') {
-        $this->db->select("nro_comprobante, nombre, rif_cont, n_certif, tipo_pers, vigen_cert_desde, status,vigen_cert_hasta,fecha_status");
-        $this->db->where('status', $data['status']);
-        $this->db->where('fecha_solic >=', $data['desde']);
-        $this->db->where('fecha_solic <=', $data['hasta']);
-        $this->db->order_by('nro_comprobante');
 
-        $query = $this->db->get('certificacion.certificaciones ');
+    public function valida_exon($numcertrnc2)
+    {
+        $this->db->select('numcertrnc');
+        $this->db->where('numcertrnc ', $numcertrnc2);
+        //$this->db->order_by('id desc');
+        $query = $this->db->get('certificacion.exonerado');
+        $response = $query->row_array();
+        return $response;
+    }
+    function consultar_exonerado_2()
+    {
+        $this->db->select('*');
+        $this->db->from('certificacion.exonerado');
+        // $this->db->order_by("codigo_b", "Asc");
+        $query = $this->db->get();
         return $query->result_array();
-       } else {
-        $this->db->select("nro_comprobante, nombre, rif_cont, n_certif, tipo_pers, vigen_cert_desde, status,vigen_cert_hasta,fecha_status");
-        $this->db->where('status', $data['status']);
-        $this->db->where('fecha_status >=', $data['desde']);
-        $this->db->where('fecha_status <=', $data['hasta']);
+    }
+
+    //GUARDAR
+    function registrar_b($data)
+    {
+        $this->db->insert('certificacion.exonerado', $data);
+        return true;
+    }
+    //VER PARA ver exonerado y editar
+    function consulta_b($data)
+    {
+        $this->db->select('*');
+        $this->db->from('certificacion.exonerado');
+        $this->db->where('id_exonerado', $data['id_exonerado']);
+        // $this->db->order_by("codigo_b", "Asc");
+        $query = $this->db->get();
+        if (count($query->result()) > 0) {
+            return $query->row();
+        }
+    }
+    //EDITAR exonerado en bd
+    function editar_b($data)
+    {
+        $this->db->where('id_exonerado', $data['id_exonerado']);
+        $update = $this->db->update('certificacion.exonerado', $data);
+        return true;
+    }
+    //ELIMAR
+    function eliminar_b($data)
+    {
+        $this->db->where('id_exonerado', $data['id_exonerado']);
+        $query = $this->db->delete('certificacion.exonerado');
+        return true;
+    }
+
+    // esto es facilitador
+
+    public function consulta_facilitador($usuario)
+    {
+        $this->db->select('c.user_soli, c.rif_cont, e.nombre_ape, e.cedula, e.rif, e.status ');
+
+        $this->db->join('certificacion.infor_per_natu e', 'e.rif_cont = c.rif_cont');
+        $this->db->where('c.user_soli', $usuario);
+
+        $query = $this->db->get('certificacion.certificaciones c');
+        return $result = $query->result_array();
+    }
+
+    function consulta_facilitadores($data)
+    {
+        $this->db->select('rif_cont,cedula,status');
+        $this->db->from('certificacion.infor_per_natu');
+        $this->db->where('cedula', $data['cedula']);
+
+        $query = $this->db->get();
+        if (count($query->result()) > 0) {
+            return $query->row();
+        }
+    }
+    function cambiar_estatus($data)
+    {
+        $this->db->where('cedula', $data['cedula']);
+        $this->db->where('rif_cont', $data['rif_cont']);
+        $update = $this->db->update('certificacion.infor_per_natu', $data);
+        return true;
+    }
+    /////////////////////////////////reporte por vencimiento
+    public function consultar_vencimiento($data)
+    {
+        $this->db->select("nro_comprobante, nombre, rif_cont, n_certif, tipo_pers, vigen_cert_desde, vigen_cert_hasta,");
+
+        $this->db->where('vigen_cert_hasta >=', $data['desde']);
+        $this->db->where('vigen_cert_hasta <=', $data['hasta']);
         $this->db->order_by('nro_comprobante');
 
         $query = $this->db->get('certificacion.certificaciones ');
         return $query->result_array();
     }
-}
-/////////////////////////////llamado a concurso externo//////////////////////////////////////////////////
+    public function status($data)
+    {
+        if ($data['status'] == '1') {
+            $this->db->select("nro_comprobante, nombre, rif_cont, n_certif, tipo_pers, vigen_cert_desde, status,vigen_cert_hasta,fecha_status");
+            $this->db->where('status', $data['status']);
+            $this->db->where('fecha_solic >=', $data['desde']);
+            $this->db->where('fecha_solic <=', $data['hasta']);
+            $this->db->order_by('nro_comprobante');
+
+            $query = $this->db->get('certificacion.certificaciones ');
+            return $query->result_array();
+        } else {
+            $this->db->select("nro_comprobante, nombre, rif_cont, n_certif, tipo_pers, vigen_cert_desde, status,vigen_cert_hasta,fecha_status");
+            $this->db->where('status', $data['status']);
+            $this->db->where('fecha_status >=', $data['desde']);
+            $this->db->where('fecha_status <=', $data['hasta']);
+            $this->db->order_by('nro_comprobante');
+
+            $query = $this->db->get('certificacion.certificaciones ');
+            return $query->result_array();
+        }
+    }
+    /////////////////////////////llamado a concurso externo//////////////////////////////////////////////////
 
 
-function consulta_llamado($data){
-    $id=$data['numero_proceso'];
-    $this->db->select('c.*, m.descripcion, me.descripcion as descr, obj.descripcion as obj');
-    $this->db->join('public.modalidad m', 'm.id_modalidad = c.id_modalidad');
-    $this->db->join('public.mecanismo me', 'me.id_mecanismo = c.id_mecanismo');
-    $this->db->join('public.objeto_contratacion obj', 'obj.id_objeto_contratacion = c.id_objeto_contratacion');
-    $this->db->from('public.llamado_concurso_view c');
-    $this->db->where("numero_proceso",$id);
-   // $this->db->order_by("codigo_b", "Asc");
-    $query = $this->db->get();
-    if (count($query->result()) > 0) {
+    function consulta_llamado($data)
+    {
+        $id = $data['numero_proceso'];
+        $this->db->select('c.*, m.descripcion, me.descripcion as descr, obj.descripcion as obj');
+        $this->db->join('public.modalidad m', 'm.id_modalidad = c.id_modalidad');
+        $this->db->join('public.mecanismo me', 'me.id_mecanismo = c.id_mecanismo');
+        $this->db->join('public.objeto_contratacion obj', 'obj.id_objeto_contratacion = c.id_objeto_contratacion');
+        $this->db->from('public.llamado_concurso_view c');
+        $this->db->where("numero_proceso", $id);
+        // $this->db->order_by("codigo_b", "Asc");
+        $query = $this->db->get();
+        if (count($query->result()) > 0) {
+            return $query->row();
+        }
+    }
+    public function consulta_llamados($data)
+    {
+        $id = $data['numero_proceso'];
+        $this->db->select('m.* ');
+        $this->db->from('public.llamado_concurso_view  m');
+        $this->db->like("numero_proceso", $id);
+        $query = $this->db->get();
+        $resultado = $query->row_array();
+        return $resultado;
+    }
+    function consultar_llamados_externos1()
+    {
+        $this->db->select('rif_organoente,organoente,numero_proceso,estatus,objeto_contratacion,fecha_disponible_llamado ');
+        $this->db->from('public.llamado_concurso_view');
+        $this->db->order_by("fecha_disponible_llamado", "desc");
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function consultar_llamados_externos($date)
+    {
+
+        $this->db->select('rif_organoente,organoente,numero_proceso,estatus,objeto_contratacion,fecha_disponible_llamado as formatted_date,fecha_disponible_llamado,denominacion_proceso,estado');
+        $this->db->from('public.llamado_concurso_view');
+        $this->db->where("id_llcestatus >", "3");
+        $this->db->where('fecha_disponible_llamado <=', $date);
+        $this->db->order_by("fecha_disponible_llamado", "desc");
+        $query = $this->db->get();
+        return $query->result_array();
+
+        // $query = $this->db->query("SELECT rif_organoente,organoente,numero_proceso,estatus,objeto_contratacion,
+
+        // to_char(fecha_disponible_llamado,'DD/MM/YYYY') as formatted_date ,fecha_disponible_llamado,denominacion_proceso,estado
+
+
+        // FROM public.llamado_concurso_view 
+        // where estatus= 'Iniciado' and fecha_disponible_llamado<='31-05-2023'" 
+        //                            );
+        // return $response = $query->result_array();
+
+    }
+    ////////////consulta para pago 2
+    function consulta_pago_2($data)
+    {
+        $this->db->select('id,rif_cont,total_bss');
+        $this->db->from('certificacion.certificaciones');
+        $this->db->where('id', $data['id']);
+
+        $query = $this->db->get();
+        if (count($query->result()) > 0) {
+            return $query->row();
+        }
+    }
+    function guardar_pago_2($data)
+    {
+        $this->db->where('id', $data['id']);
+        $update = $this->db->update('certificacion.certificaciones', $data);
+        return true;
+    }
+
+
+    /////////////////////////
+
+    private function _generate_data_qrcode1()
+    {
+        return uniqid() . '_' . time();
+    }
+
+    private function _generate_qrcode1($rif, $data_qrcode)
+    {
+        $path = './uploads/qrcodes/';
+        if (!is_dir($path)) {
+            mkdir($path, 0777, TRUE);
+        }
+        $file_name = 'qrcode_' . $rif . '_' . time() . '.png';
+
+        $params['data'] = $data_qrcode;
+        $params['level'] = 'H';
+        $params['size'] = 10;
+        $params['savename'] = FCPATH . $path . $file_name;
+
+        $this->ciqrcode->generate($params);
+        return $path . $file_name;
+    }
+
+    // Nueva función para guardar la certificación inicial
+    public function save_initial_certificacion_pn($data)
+    {
+        $this->db->trans_begin();
+
+        // 1. Obtener el siguiente id_comprobante
+        $this->db->select('MAX(id_comprobante) as max_id_comprobante');
+        $this->db->where('tipo_pers', 2);
+        $query = $this->db->get('certificacion.certificaciones');
+        $result = $query->row_array();
+        $next_id_comprobante = ($result['max_id_comprobante'] === null) ? 1 : $result['max_id_comprobante'] + 1;
+
+        $formatted_nro_comprobante = 'PN-' . str_pad($next_id_comprobante, 19, '0', STR_PAD_LEFT);
+
+        // 2. Obtener el siguiente id global
+        $this->db->select('MAX(id) as max_id');
+        $query_global_id = $this->db->get('certificacion.certificaciones');
+        $result_global_id = $query_global_id->row_array();
+        $next_global_id = ($result_global_id['max_id'] === null) ? 1 : $result_global_id['max_id'] + 1;
+
+        // Datos para la tabla principal 'certificacion.certificaciones'
+        // ¡Aquí simplificamos al máximo!
+        $certificaciones_data = array(
+            'id'              => $next_global_id, // Usamos el ID generado
+            'id_comprobante'  => $next_id_comprobante,
+            'nro_comprobante' => $formatted_nro_comprobante,
+            'nombre'          => $data['nombre'],
+            'rif_cont'        => $data['rif_cont'],
+            'tipo_pers'       => $data['tipo_pers'],
+            'objetivo'        => $data['objetivo'],
+            'cont_prog'       => $data['cont_prog'],
+            'fecha_solic'     => $data['fecha_solic'],
+            'user_soli'       => $data['user_soli'],
+            'status'          => $data['status'],
+            // Dejar los campos numéricos como cadenas directas si son VARCHAR y permitir NULL
+            'total_bss'       => $data['total_bss'], // Se espera ya formateado de frontend
+            'monto_trans'     => $data['monto_trans'], // Se espera ya formateado de frontend
+            'n_ref'           => $data['n_ref'],
+            'banco_e'         => $data['banco_e'],
+            'banco_rec'       => $data['banco_rec'],
+            'fecha_trans'     => $data['fecha_trans'], // Puede ser NULL si no viene
+            // Todos los demás campos que son NULL en tu tabla se pueden omitir aquí
+            // o establecer explícitamente a NULL si es necesario
+            'n_certif'          => NULL,
+            'vigen_cert_desde'  => NULL,
+            'vigen_cert_hasta'  => NULL,
+            'observacion'       => NULL,
+            'user_snc_aprob'    => NULL,
+            'fecha_status'      => NULL,
+            'declara'           => NULL,
+            'acepto'            => NULL,
+            'qrcode_path'       => NULL,
+            'qrcode_data'       => NULL,
+            'pago2'             => NULL,
+            'motivo_pago_2'     => NULL,
+            'banco_e2'          => NULL,
+            'nro_referencia2'   => NULL,
+            'fecha_trans2'      => NULL,
+            'banco_rec_2'       => NULL,
+            'revision'          => NULL,
+            'fechatrnas2'       => NULL,
+            'fecha_ven_solici'  => NULL
+        );
+
+        $this->db->insert('certificacion.certificaciones', $certificaciones_data);
+
+        if ($this->db->affected_rows() > 0) {
+            // Inserción de infor_per_natu (si es que siempre va con la principal)
+            // Puedes simplificar esto también, o quitarlo temporalmente para aislar el problema
+            $infor_per_natu_to_insert = array(
+                'id'               => $next_global_id,
+                'nro_comprobante'  => $formatted_nro_comprobante,
+                'rif_cont'         => $data['rif_cont'],
+                'nombre_ape'       => $data['nombre'],
+                'bolivar_estimado' => $data['total_bss'], // De nuevo, si es VARCHAR, solo pasa el string
+                'total_final'      => $data['total_bss'],
+                'sub_total'        => NULL, // Se puede calcular en el frontend o dejar nulo por ahora
+                'cedula'           => NULL,
+                'n_certif'         => NULL
+            );
+            $this->db->insert('certificacion.infor_per_natu', $infor_per_natu_to_insert);
+
+
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                return ['success' => false, 'message' => 'Error en la transacción al guardar información de persona natural.'];
+            } else {
+                $this->db->trans_commit();
+                return ['success' => true, 'cert_id' => $next_global_id, 'nro_comprobante' => $formatted_nro_comprobante];
+            }
+        } else {
+            $this->db->trans_rollback();
+            return ['success' => false, 'message' => 'No se pudo insertar la certificación principal.'];
+        }
+    }
+    // Obtener información de la certificación principal por ID
+    public function get_cert_info_by_id($cert_id)
+    {
+        $this->db->select('nro_comprobante, n_certif, rif_cont, nombre');
+        $this->db->where('id', $cert_id);
+        $query = $this->db->get('certificacion.certificaciones');
         return $query->row();
     }
-}
-public function consulta_llamados($data){
-    $id=$data['numero_proceso'];
-    $this->db->select('m.* ');
-    $this->db->from('public.llamado_concurso_view  m');
-    $this->db->like("numero_proceso",$id);
-  $query = $this->db->get();
-    $resultado = $query->row_array();
-    return $resultado;
-}
-function consultar_llamados_externos1(){
-    $this->db->select('rif_organoente,organoente,numero_proceso,estatus,objeto_contratacion,fecha_disponible_llamado ');
-    $this->db->from('public.llamado_concurso_view');
-    $this->db->order_by("fecha_disponible_llamado", "desc");
-    $query = $this->db->get();
-    return $query->result_array();
-}
-public function consultar_llamados_externos($date){
 
-    $this->db->select('rif_organoente,organoente,numero_proceso,estatus,objeto_contratacion,fecha_disponible_llamado as formatted_date,fecha_disponible_llamado,denominacion_proceso,estado');
-    $this->db->from('public.llamado_concurso_view');
-    $this->db->where ("id_llcestatus >", "3");
-    $this->db->where('fecha_disponible_llamado <=', $date);
-    $this->db->order_by("fecha_disponible_llamado", "desc");
-    $query = $this->db->get();
-    return $query->result_array();
-  
-    // $query = $this->db->query("SELECT rif_organoente,organoente,numero_proceso,estatus,objeto_contratacion,
-    
-    // to_char(fecha_disponible_llamado,'DD/MM/YYYY') as formatted_date ,fecha_disponible_llamado,denominacion_proceso,estado
-
-
-    // FROM public.llamado_concurso_view 
-    // where estatus= 'Iniciado' and fecha_disponible_llamado<='31-05-2023'" 
-    //                            );
-    // return $response = $query->result_array();
-
-}
-////////////consulta para pago 2
-function consulta_pago_2($data){
-    $this->db->select('id,rif_cont,total_bss');
-    $this->db->from('certificacion.certificaciones');
-    $this->db->where('id', $data['id']);
-    
-    $query = $this->db->get();
-    if (count($query->result()) > 0) {
-        return $query->row();
+    // Función para guardar Información de Persona Natural (si no se hizo en la principal)
+    public function save_infor_persona_natural($data)
+    {
+        // Verificar si ya existe un registro para esta certificación y actualizar, o insertar
+        $this->db->where('id', $data['id']);
+        $query = $this->db->get('certificacion.infor_per_natu');
+        if ($query->num_rows() > 0) {
+            $this->db->where('id', $data['id']);
+            return $this->db->update('certificacion.infor_per_natu', $data);
+        } else {
+            return $this->db->insert('certificacion.infor_per_natu', $data);
+        }
     }
-}
-function guardar_pago_2($data){
-    $this->db->where('id', $data['id']);
-    $update = $this->db->update('certificacion.certificaciones', $data);
-    return true;
-}
 
+
+    // Función para agregar Formación Profesional
+    public function add_formacion_profesional($data)
+    {
+        return $this->db->insert('certificacion.infor_per_prof', $data);
+    }
+
+    // Función para obtener la lista de formación profesional
+    public function get_formacion_profesional_by_cert_id($cert_id)
+    {
+        $this->db->where('id', $cert_id);
+        $query = $this->db->get('certificacion.infor_per_prof');
+        return $query->result();
+    }
+
+    // Función para eliminar formación profesional
+    public function delete_formacion_profesional($id_infor_prof)
+    {
+        $this->db->where('id_infor_prof', $id_infor_prof);
+        return $this->db->delete('certificacion.infor_per_prof');
+    }
+
+    // Funciones similares (add, get, delete) para:
+    // - for_mat_contr_publ
+    // - exp_par_comi_10
+    // - exp_dic_cap_3
+
+    // Función para actualizar la certificación (declaración y status)
+    public function update_certificacion_status($cert_id, $data_update)
+    {
+        $this->db->where('id', $cert_id);
+        return $this->db->update('certificacion.certificaciones', $data_update);
+    }
+
+    public function save_certificacion2(
+        $certifi,
+        $experi_empre_capa,
+        $experi_empre_cap_comisi
+
+    ) {
+
+        $qrcode_data = $this->_generate_data_qrcode();
+        $this->db->select('max(e.id_comprobante) as id_comprobante,e.tipo_pers');
+        $this->db->where('e.tipo_pers', 1);
+        $this->db->group_by('e.tipo_pers');
+        $query = $this->db->get('certificacion.certificaciones e');
+        $respon = $query->row_array();
+        $id_comprobante = $respon['id_comprobante'] + 1;
+
+        $this->db->select('max(e.id) as id');
+        $query = $this->db->get('certificacion.certificaciones e');
+        $response3 = $query->row_array();
+        $id = $response3['id'] + 1;
+        $certifi1 = array(
+
+            'id' => $id,
+            'id_comprobante' => $id_comprobante,
+            'nro_comprobante' => $certifi['nro_comprobante'],
+            'n_certif' => $certifi['n_certif'],
+            'rif_cont' => $certifi['rif_cont'],
+            'nombre' => $certifi['nombre'],
+            'tipo_pers' => $certifi['tipo_pers'],
+            'objetivo' => $certifi['objetivo'],
+            'cont_prog' => $certifi['cont_prog'],
+            'total_bss' => $certifi['total_bss'],
+            'n_ref' => $certifi['n_ref'],
+            'banco_e' => $certifi['banco_e'],
+            'banco_rec' => $certifi['banco_rec'],
+            'fecha_trans' => $certifi['fecha_trans'],
+            'monto_trans' => $certifi['monto_trans'],
+            'declara' => $certifi['declara'],
+            'acepto' => $certifi['acepto'],
+            'fecha_solic' => $certifi['fecha_solic'],
+            'user_soli' => $certifi['user_soli'],
+            'status' => $certifi['status'],
+            'qrcode_path'   => $this->_generate_qrcode($this->input->post('rif_cont'), $qrcode_data), //memanggil method _generate_qrcode dengan mengirimkan dua parameter yaitu data fullname dan data qrcode
+            'qrcode_data'   => $qrcode_data
+        );
+        $quers = $this->db->insert('certificacion.certificaciones', $certifi1);
+
+        if ($quers) {
+            $this->db->select('max(e.id) as id');
+            $query = $this->db->get('certificacion.experi_empre_capa e');
+            $response3 = $query->row_array();
+            $id = $response3['id'] + 1;
+
+            $cant_proy = $experi_empre_capa['organo_experi_empre_capa'];
+            $count_prog = count($cant_proy);
+            for ($i = 0; $i < $count_prog; $i++) {
+                $data1 = array(
+                    'id'              => $id,
+                    'organo_experi_empre_capa'               => $experi_empre_capa['organo_experi_empre_capa'][$i],
+                    'actividad_experi_empre_capa'              => $experi_empre_capa['actividad_experi_empre_capa'][$i],
+                    'desde_experi_empre_capa'               => $experi_empre_capa['desde_experi_empre_capa'][$i],
+                    'hasta_experi_empre_capa'                 => $experi_empre_capa['hasta_experi_empre_capa'][$i],
+                    'n_certif' => $certifi['n_certif'],
+                    'rif_cont'             => $experi_empre_capa['rif_cont'],
+                    'nro_comprobante' => $experi_empre_capa['nro_comprobante']
+                );
+                $this->db->insert('certificacion.experi_empre_capa', $data1);
+            }
+            $this->db->select('max(e.id) as id');
+            $query = $this->db->get('certificacion.experi_empre_cap_comisi e');
+            $response3 = $query->row_array();
+            $id = $response3['id'] + 1;
+            $cant_pff = $experi_empre_cap_comisi['organo_expe'];
+            $count_pff = count($cant_pff);
+
+            for ($i = 0; $i < $count_pff; $i++) {
+                $data2 = array(
+                    'id'              => $id,
+                    'nro_comprobante'             => $experi_empre_cap_comisi['nro_comprobante'],
+                    'n_certif' => $certifi['n_certif'],
+                    'rif_cont' => $experi_empre_cap_comisi['rif_cont'],
+                    'organo_expe'                   => $experi_empre_cap_comisi['organo_expe'][$i],
+                    'actividad_exp'              => $experi_empre_cap_comisi['actividad_exp'][$i],
+                    'desde_exp'             => $experi_empre_cap_comisi['desde_exp'][$i],
+                    'hasta_exp'                 => $experi_empre_cap_comisi['hasta_exp'][$i],
+
+                );
+                $this->db->insert('certificacion.experi_empre_cap_comisi', $data2);
+            }
+
+
+            return true;
+        }
+    }
+
+    function check_miemb_certi($id_comision)
+    {
+
+        $this->db->select('id, nro_comprobante, rif_cont, n_certif, nombre_ape, cedula, rif, bolivar_estimado, pj, sub_total, total_final, status, nombre_desin, cargo_desin, motivo');
+        // $this->db->join('comisiones.area_miembro c2', 'c2.id_area_miembro = pi2.id_area_miembro');
+        // $this->db->join('comisiones.tp_miembro c3', 'c3.id_tp_miembro = pi2.id_tp_miembro');
+        // $this->db->join('comisiones.status_comision st', 'st.id_status = pi2.id_status');
+        // $this->db->join('comisiones.status_miembro c4', 'c4.id_status_miembro = pi2.id_cert');
+        $this->db->where('id ', $id_comision);
+        $this->db->from('certificacion.infor_per_natu');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    function registrar_facilitadoresjs($data)
+    {
+        $this->db->insert('certificacion.infor_per_natu', $data);
+        return true;
+    }
+
+    public function save_inff($data) // Keep the existing function name
+    {
+        // Obtener el siguiente id_per
+        $this->db->select('MAX(e.id_per) as max_id_per'); // Changed alias for clarity
+        $query = $this->db->get('certificacion.infor_per_prof e');
+        $result = $query->row_array();
+        $next_id_per = ($result['max_id_per'] ?? 0) + 1;
+
+        $insert_data = array(
+            'id'             => $data['id_miembro'],      // This 'id' refers to the ID from infor_per_natu
+            'rif_cont'       => $data['cedula'],           // Asumiendo que rif_cont es la cédula aquí
+            'n_certif'       => null,                       // No hay campo para n_certif en tu form de acá. Dejar null.
+            'for_academica'  => $data['fm_ac'],            // Desde el select de Formación Académica
+            'titulo'         => $data['titulo'],
+            'ano'            => $data['anioi'],            // Mapeando 'anioi' a 'ano'
+            'culminacion'    => $data['anioc'],
+            'curso'          => $data['curso'],
+            'nro_comprobante' => $data['nro_comprobante'], // Desde el campo oculto
+            'cedula'         => $data['cedula'],           // La cédula del miembro
+            'id_per'         => $next_id_per,               // El ID autogenerado para esta tabla
+        );
+
+        // Debugging (optional): Log data before insertion
+        log_message('debug', 'Data for infor_per_prof insertion: ' . print_r($insert_data, true));
+
+        $query = $this->db->insert('certificacion.infor_per_prof', $insert_data);
+
+        if ($query) {
+            return 1; // Success
+        } else {
+            log_message('error', 'Error inserting into certificacion.infor_per_prof: ' . $this->db->error()['message']);
+            return 0; // Error
+        }
+    }
+
+    function check_miemb_inf_ac($cedula_del_miembro_actual)
+    {
+        // Add this line to see the value received by the model
+        log_message('debug', 'Value of $id_miembros received in model: ' . $cedula_del_miembro_actual);
+
+        $this->db->select('id, rif_cont, n_certif, for_academica, titulo, ano, culminacion, curso, nro_comprobante, cedula, id_per');
+        $this->db->where('cedula', $cedula_del_miembro_actual);
+        $this->db->from('certificacion.infor_per_prof');
+
+        // To see the exact query CodeIgniter generates:
+        // echo $this->db->last_query();
+        // die();
+
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    function check_miemb_inf_contr_pub($cedula_del_miembro_actual)
+    {
+        // Add this line to see the value received by the model
+        log_message('debug', 'Value of $id_miembros received in model: ' . $cedula_del_miembro_actual);
+
+        $this->db->select('id, rif_cont, n_certif, taller, institucion, hor_dura, certi, fech_cert, vigencia, nro_comprobante, cedula, id_form');
+        $this->db->where('cedula', $cedula_del_miembro_actual);
+        $this->db->from('certificacion.for_mat_contr_publ');
+
+        // To see the exact query CodeIgniter generates:
+        // echo $this->db->last_query();
+        // die();
+
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    function check_miemb_inf_EXP_10($cedula_del_miembro_actual)
+    {
+        // Add this line to see the value received by the model
+        // log_message('debug', 'Value of $id_miembros received in model: ' . $cedula_del_miembro_actual);
+
+        $this->db->select('id, rif_cont, n_certif, organo10, act_adminis_desid, n_acto, fecha_act, area_10, dura_comi, nro_comprobante, cedula, id_exp_10');
+        $this->db->where('cedula', $cedula_del_miembro_actual);
+        $this->db->from('certificacion.exp_par_comi_10');
+
+        // To see the exact query CodeIgniter generates:
+        // echo $this->db->last_query();
+        // die();
+
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    function check_miemb_inf_EXP_3($cedula_del_miembro_actual)
+    {
+        // Add this line to see the value received by the model
+        // log_message('debug', 'Value of $id_miembros received in model: ' . $cedula_del_miembro_actual);
+
+        $this->db->select('id, rif_cont, n_certif, organo3, actividad3, desde3, hasta3, cedula, id_dic_cap_3');
+        $this->db->where('cedula', $cedula_del_miembro_actual);
+        $this->db->from('certificacion.exp_dic_cap_3');
+
+        // To see the exact query CodeIgniter generates:
+        // echo $this->db->last_query();
+        // die();
+
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function save_formacion_cp($data)
+    {
+        // Obtener el siguiente id_form. Asumiendo que id_form es auto-incrementable
+        // Si id_form no es auto-incrementable o es una secuencia específica, ajusta esta lógica.
+        $this->db->select('MAX(t.id_form) as max_id_form');
+        $query = $this->db->get('certificacion.for_mat_contr_publ t');
+        $result = $query->row_array();
+        $next_id_form = ($result['max_id_form'] ?? 0) + 1;
+
+        $insert_data = array(
+            'id'             => $data['id_comision'],      // ID del miembro de infor_per_natu
+            'rif_cont'       => $data['cedula'],           // O el RIF que corresponda si es diferente a la cédula
+            'n_certif'       => $data['certi'],            // Número de certificado
+            'taller'         => $data['taller'],
+            'institucion'    => $data['institucion'],
+            'hor_dura'       => $data['hor_dura'],
+            'certi'          => $data['certi'],            // Aquí hay duplicidad con n_certif, revisa tu tabla
+            'fech_cert'      => $data['fech_cert'],
+            'vigencia'       => $data['vigencia'],
+            'nro_comprobante' => $data['nro_comprobante'],
+            'cedula'         => $data['cedula'],
+            'id_form'        => $next_id_form,
+        );
+
+        // print_r($insert_data); die; // Descomentar para depurar los datos antes de insertar
+
+        $query = $this->db->insert('certificacion.for_mat_contr_publ', $insert_data);
+
+        if ($query) {
+            return 1; // Éxito
+        } else {
+            // Puedes loggear el error del DB si necesitas más detalles
+            // log_message('error', 'Error inserting into for_mat_contr_publ: ' . $this->db->error()['message']);
+            return 0; // Error
+        }
+    }
+    public function get_member_basic_info_by_cedula($id_miembros)
+    {
+        $this->db->select('id, cedula, nro_comprobante'); // Select the columns you need
+        $this->db->where('cedula', $id_miembros);
+        $this->db->from('certificacion.infor_per_natu'); // Assuming this table holds cedula and nro_comprobante
+        $query = $this->db->get();
+        return $query->row_array(); // Return a single row (array) or null if not found
+    }
+
+    public function save_experiencia_comision($data)
+    {
+        // Obtener el siguiente id_exp_10. Asumiendo que id_exp_10 es auto-incrementable
+        $this->db->select('MAX(t.id_exp_10) as max_id_exp_10');
+        $query = $this->db->get('certificacion.exp_par_comi_10 t');
+        $result = $query->row_array();
+        $next_id_exp_10 = ($result['max_id_exp_10'] ?? 0) + 1;
+
+        $insert_data = array(
+            'id'                 => $data['id_comision'],      // ID del miembro de infor_per_natu
+            'rif_cont'           => $data['cedula'],           // O el RIF que corresponda si es diferente a la cédula
+            'n_certif'           => null,                       // No parece haber un campo n_certif en tu form para esto
+            'organo10'           => $data['organo10'],
+            'act_adminis_desid'  => $data['act_adminis_desid'],
+            'n_acto'             => $data['n_acto'],
+            'fecha_act'          => $data['fecha_act'],
+            'area_10'            => $data['area_10'],
+            'dura_comi'          => $data['dura_comi'],
+            'nro_comprobante'    => $data['nro_comprobante'],
+            'cedula'             => $data['cedula'],
+            'id_exp_10'          => $next_id_exp_10,
+        );
+
+        // print_r($insert_data); die; // Descomentar para depurar los datos antes de insertar
+
+        $query = $this->db->insert('certificacion.exp_par_comi_10', $insert_data);
+
+        if ($query) {
+            return 1; // Éxito
+        } else {
+            // Loggear el error del DB si necesitas más detalles
+            log_message('error', 'Error inserting into exp_par_comi_10: ' . $this->db->error()['message']);
+            return 0; // Error
+        }
+    }
+    public function save_dictado_capacitacion($data)
+    {
+        // Obtener el siguiente id_dic_cap_3
+        $this->db->select('MAX(t.id_dic_cap_3) as max_id_dic_cap_3');
+        $query = $this->db->get('certificacion.exp_dic_cap_3 t');
+        $result = $query->row_array();
+        $next_id_dic_cap_3 = ($result['max_id_dic_cap_3'] ?? 0) + 1; // Usar 0 si es nulo + 1
+
+        $insert_data = array(
+            'id'             => $data['id_comision'],      // Este 'id' se refiere al ID del miembro de infor_per_natu
+            'rif_cont'       => $data['cedula'],           // Asumiendo que rif_cont es la cédula del miembro
+            'n_certif'       => null,                       // Mantener null si no hay campo en el formulario
+            'organo3'        => $data['organo3'],
+            'actividad3'     => $data['actividad3'],
+            'desde3'         => $data['desde3'],
+            'hasta3'         => $data['hasta3'],
+            'cedula'         => $data['cedula'],           // La cédula del miembro
+            'id_dic_cap_3'   => $next_id_dic_cap_3,         // <-- AHORA INCLUIMOS ESTE ID
+            // 'nro_comprobante' no está en tu estructura de tabla, no lo incluimos
+        );
+
+        // print_r($insert_data); die; // Descomentar para depurar los datos antes de insertar
+
+        $query = $this->db->insert('certificacion.exp_dic_cap_3', $insert_data);
+
+        if ($query) {
+            return 1; // Éxito
+        } else {
+            log_message('error', 'Error inserting into exp_dic_cap_3: ' . $this->db->error()['message']);
+            return 0; // Error
+        }
+    }
 }

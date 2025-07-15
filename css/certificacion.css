@@ -1,0 +1,109 @@
+/* Colores principales */
+:root {
+    --primary-dark-blue: #1A2B42;
+    /* Azul oscuro para fondos */
+    --secondary-wine-red: #800020;
+    /* Vinotinto para botones principales */
+    --light-grey: #f8f9fa;
+    /* Gris claro para texto/fondos de contenido */
+    --medium-blue: #4A6C8C;
+    /* Azul medio para elementos secundarios */
+}
+
+/* Sidebar y encabezados de panel */
+.sidebar-bg {
+    background-color: var(--primary-dark-blue);
+    /* Otros estilos para el sidebar */
+}
+
+.panel-heading {
+    background-color: var(--primary-dark-blue);
+    color: var(--light-grey);
+    border-bottom: 1px solid var(--medium-blue);
+}
+
+.panel-title {
+    color: var(--light-grey);
+}
+
+/* Panel Body - considera un fondo claro para el contenido */
+.panel-body {
+    background-color: white;
+    /* O un light-grey si prefieres */
+    color: #343a40;
+    /* Texto oscuro */
+}
+
+/* Botones principales */
+.btn-success {
+    /* Usar para "Guardar Certificación" */
+    background-color: var(--secondary-wine-red);
+    border-color: var(--secondary-wine-red);
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #6a001a;
+    /* Un vinotinto más oscuro al pasar el ratón */
+    border-color: #6a001a;
+}
+
+/* Botones de navegación (Anterior/Siguiente) */
+.btn-primary {
+    background-color: var(--medium-blue);
+    border-color: var(--medium-blue);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #3A5B7B;
+    border-color: #3A5B7B;
+}
+
+/* Nav tabs */
+.nav-tabs {
+    background-color: var(--primary-dark-blue) !important;
+    /* Asegura el fondo oscuro para las pestañas */
+    border-bottom: 1px solid var(--medium-blue);
+}
+
+.nav-tabs .nav-link {
+    color: var(--light-grey);
+    /* Texto de las pestañas */
+    border: none;
+    border-radius: 0;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: var(--secondary-wine-red);
+    /* Pestaña activa en vinotinto */
+    color: white;
+    border-bottom: 3px solid white;
+    /* Línea blanca debajo de la pestaña activa */
+}
+
+/* Inputs y labels */
+label {
+    color: #343a40;
+    /* Color de texto estándar */
+}
+
+input.form-control,
+textarea.form-control,
+select.form-control {
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    padding: .375rem .75rem;
+}
+
+/* Tablas */
+.table thead {
+    background-color: var(--medium-blue);
+    /* Encabezado de tabla en azul medio */
+    color: white;
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #dee2e6;
+}

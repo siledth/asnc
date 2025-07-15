@@ -11,35 +11,27 @@
 
                 <div class="col-12 text-center mt-3 mb-3">
                     <h4 class="text-center mb-3 mt-3">
-                        Reporte de Movimientos BDV
+                        Reporte de Pagos de Diplomados
                     </h4>
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-4">
-                            <label>Número de Cuenta</label>
-                            <input class="form-control" type="text" name="cuenta_bdv" id="cuenta_bdv"
-                                value="01020552270000042877" readonly>
+                            <label>Ingrese Fecha Desde</label>
+                            <input class="form-control" type="date" name="fechad" id="fechad" value="2025-06-20">
                         </div>
                         <div class="col-4">
-                            <label>Fecha Desde</label>
-                            <input class="form-control" type="date" name="fechad_bdv" id="fechad_bdv"
-                                value="<?= date('Y-m-d', strtotime('-30 days')) ?>">
+                            <label>Ingrese fecha Hasta</label>
+                            <input class="form-control" type="date" name="fechah" id="fechah" value="2025-07-14">
                         </div>
-                        <div class="col-4">
-                            <label>Fecha Hasta</label>
-                            <input class="form-control" type="date" name="fechah_bdv" id="fechah_bdv"
-                                value="<?= date('Y-m-d') ?>">
-                        </div>
-                        <div class="col-12 mt-4 text-center">
-                            <button type="button" class="btn btn-primary" onclick="buscarMovimientosBDV();"
-                                name="button">
-                                <i class="fas fa-search"></i> Buscar Movimientos
+                        <div class="col-4 mt-4">
+                            <button type="button" class="btn btn-primary" onclick="buscarPagos();" name="button">
+                                <i class="fas fa-search"></i> Buscar
                             </button>
-                            <button type="button" class="btn btn-success" onclick="exportToExcelMovimientosBDV();">
+                            <button type="button" class="btn btn-success" onclick="exportToExcelPagos();">
                                 <i class="fas fa-file-excel"></i> Excel
                             </button>
-                            <button type="button" class="btn btn-danger" onclick="exportToPDFMovimientosBDV();">
+                            <button type="button" class="btn btn-danger" onclick="exportToPDFPagos();">
                                 <i class="fas fa-file-pdf"></i> PDF
                             </button>
                         </div>
@@ -47,28 +39,33 @@
                 </div>
             </div>
         </div>
-        <div id="loadingMovimientosBDV" style="display: none; text-align: center; margin: 20px;">
-            <h4 class="text-center mb-3 mt-3">Consultando movimientos, por favor espere...</h4>
+        <div id="loadingPagos" style="display: none; text-align: center; margin: 20px;">
+            <h4 class="text-center mb-3 mt-3">Buscando pagos, por favor espere...</h4>
         </div>
 
-        <div class="col-lg-12" style="display: none" id="movimientosResultadosBDV">
+        <div class="col-lg-12" style="display: none" id="pagosResultados">
             <div class="panel panel-inverse">
                 <div class="panel-heading">
-                    <h4 class="panel-title text-center"><b>Resultados de Movimientos BDV</b></h4>
+                    <h4 class="panel-title text-center"><b>Resultados de Pagos</b></h4>
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-12">
                             <div class="table-responsive">
-                                <table id="tabla-movimientos-bdv" class="table table-bordered table-hover">
+                                <table id="tabla-pagos" class="table table-bordered table-hover">
                                     <thead style="background:#e4e7e8">
                                         <tr class="text-center">
+                                            <th>ID Pago</th>
+
+                                            <th>Cód. Planilla</th>
+                                            <th>Diplomado</th>
+                                            <th>Monto</th>
+                                            <th>Fecha Pago</th>
                                             <th>Referencia</th>
-                                            <th>Fecha</th>
-                                            <th>Mov. Tipo</th>
-                                            <th>Importe</th>
-                                            <th>Saldo</th>
-                                            <th>Observación</th>
+                                            <th>Banco Origen</th>
+                                            <th>Forma Pago</th>
+
+                                            <th>Observaciones</th>
                                         </tr>
                                     </thead>
                                     <tbody class="text-center">
@@ -76,7 +73,7 @@
                                 </table>
                             </div>
                             <div class="d-flex justify-content-center mt-3">
-                                <ul class="pagination" id="movimientos-pagination-bdv"></ul>
+                                <ul class="pagination" id="pagos-pagination"></ul>
                             </div>
                         </div>
                     </div>
@@ -86,4 +83,4 @@
     </div>
 </div>
 
-<script src="<?= base_url() ?>js/reportesG/reporte_movimientos_bdv.js"></script>
+<script src="<?= base_url() ?>js/reportesG/reporte_pagos.js"></script>

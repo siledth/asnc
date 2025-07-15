@@ -101,6 +101,7 @@ class Diplomado extends CI_Controller
         $this->load->view('diplomado/reportes/Mov_CCP.php');
         $this->load->view('templates/footer.php');
     }
+
     public function generarReporte()
     {
         header('Content-Type: application/json');
@@ -2521,5 +2522,103 @@ class Diplomado extends CI_Controller
         $this->load->view('templates/navigator.php');
         $this->load->view('diplomado/reportes/report_general.php', $data);
         $this->load->view('templates/footer.php');
+    }
+
+    ///////////reporte
+    public function reportePago()
+    {
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('diplomado/reportes/reporte_pagos_view.php');
+        $this->load->view('templates/footer.php');
+    }
+
+    public function generarReportePagos()
+    {
+        header('Content-Type: application/json');
+
+        try {
+            $fechad = $this->input->post('fechad');
+            $fechah = $this->input->post('fechah');
+
+            if (empty($fechad) || empty($fechah)) {
+                throw new Exception('Debe especificar ambas fechas');
+            }
+
+            // Convertir fechas a formato Y-m-d para la base de datos
+            $fechad_db = date('Y-m-d', strtotime($fechad));
+            $fechah_db = date('Y-m-d', strtotime($fechah));
+
+            if (strtotime($fechah_db) < strtotime($fechad_db)) {
+                throw new Exception('La fecha hasta no puede ser menor que la fecha desde');
+            }
+
+            $pagos = $this->Diplomado_model->obtenerPagosPorFecha($fechad_db, $fechah_db);
+
+            if (empty($pagos)) {
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'No se encontraron pagos para el rango de fechas especificado.',
+                    'data' => []
+                ]);
+                return;
+            }
+
+            echo json_encode([
+                'success' => true,
+                'data' => $pagos
+            ]);
+        } catch (Exception $e) {
+            echo json_encode([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+    public function generarReporteMovimientosBDV()
+    {
+        header('Content-Type: application/json'); // La respuesta siempre será JSON
+
+        // Capturar el JSON enviado desde el frontend
+        $input = json_decode($this->input->raw_input_stream, true);
+
+        if (!isset($input['cuenta']) || !isset($input['fechaIni']) || !isset($input['fechaFin'])) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Datos de entrada incompletos.'
+            ]);
+            return;
+        }
+
+        $cuenta = $input['cuenta'];
+        $fechaIni = $input['fechaIni']; // Formato DD/MM/YYYY
+        $fechaFin = $input['fechaFin']; // Formato DD/MM/YYYY
+
+        try {
+            // El modelo se encargará de la lógica de la API
+            $response = $this->Diplomado_model->obtenerMovimientosBDV($cuenta, $fechaIni, $fechaFin);
+
+            // Validar la respuesta de la API
+            if (isset($response['code']) && $response['code'] === '1000' && isset($response['data']['movs'])) {
+                echo json_encode([
+                    'success' => true,
+                    'message' => $response['message'],
+                    'data' => $response['data'] // Enviar todo el objeto data de la API (incluye totalOfMovements y movs)
+                ]);
+            } else {
+                // Si la API devuelve un error o un formato inesperado
+                echo json_encode([
+                    'success' => false,
+                    'message' => $response['message'] ?? 'Error desconocido al consultar la API BDV.',
+                    'data' => null
+                ]);
+            }
+        } catch (Exception $e) {
+            log_message('error', 'Error al llamar a la API BDV: ' . $e->getMessage());
+            echo json_encode([
+                'success' => false,
+                'message' => 'Error interno del servidor al consultar movimientos: ' . $e->getMessage()
+            ]);
+        }
     }
 }
