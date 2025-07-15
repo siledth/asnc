@@ -55,7 +55,7 @@
                                 <li class="nav-items">
                                     <a href="#programa_taller" data-toggle="tab" class="nav-link active">
                                         <span class="d-sm-none">Tab 1</span>
-                                        <span class="d-sm-block d-none" style="font-size: 10px;">
+                                        <span class="d-sm-block d-none" style="font-size: 12px;">
                                             Nombre del <br> curso o taller
                                         </span>
                                     </a>
@@ -63,7 +63,7 @@
                                 <li class="nav-items">
                                     <a href="#experi_empre_capa" data-toggle="tab" class="nav-link">
                                         <span class="d-sm-none">Tab 2</span>
-                                        <span class="d-sm-block d-none" style="font-size: 8px;">
+                                        <span class="d-sm-block d-none" style="font-size: 12px;">
                                             Experiencia de la <br> Empresa en
                                             Capacitación <br>en
                                             Materias Relacionadas<br> Con Contratación <br>Pública (en los<br>
@@ -76,7 +76,7 @@
                                 <li class="nav-items">
                                     <a href="#experi_empre_cap_comisi" data-toggle="tab" class="nav-link">
                                         <span class="d-sm-none">Tab 3</span>
-                                        <span class="d-sm-block d-none" style="font-size: 8px;">
+                                        <span class="d-sm-block d-none" style="font-size: 12px;">
                                             Experiencia de la <br> Empresa en
                                             Capacitación <br>en
                                             Comisión de <br>Contrataciones(en los <br> últimos 3 años)

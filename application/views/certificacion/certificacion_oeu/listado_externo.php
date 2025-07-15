@@ -56,7 +56,7 @@
                                 <div class="col-4">
                                     <button onclick="location.href='<?php echo base_url() ?>index.php/Certificacion/reg_pn'"
                                         type="button" class="btn btn-lg btn-default" name="button">
-                                        Registrar CertificaciónGTRTG PN
+                                        Registrar Certificación PN
                                     </button>
                                 </div>
                             <?php }

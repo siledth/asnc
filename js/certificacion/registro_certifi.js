@@ -190,10 +190,12 @@ function guardar_registro2(){
 
             event.preventDefault();
             var datos = new FormData($("#reg_bien")[0]);
-           var base_url  = window.location.origin+'/asnc/index.php/Certificacion/registrar_certificacion2';
-               var base_url_2 = window.location.origin + "/asnc/index.php/Certificacion/Listado_certificacion_interno_contralodira";
+        //    var base_url  = window.location.origin+'/asnc/index.php/Certificacion/registrar_certificacion2';
+        //        var base_url_2 = window.location.origin + "/asnc/index.php/Certificacion/Listado_certificacion_interno_contralodira";
 
-            // var base_url = '/index.php/Certificacion/registrar_certificacion';
+            var base_url = '/index.php/Certificacion/registrar_certificacion2';
+            var base_url_2 = '/index.php/Certificacion/Listado_certificacion_interno_contralodira';
+
             $.ajax({
                 url:base_url,
                 method: 'POST',
@@ -334,7 +336,8 @@ function save_inf_ac() {
                 return false;
             }
 
-            var base_url = window.location.origin + '/asnc/index.php/Certificacion/save_inff';
+            // var base_url = window.location.origin + '/asnc/index.php/Certificacion/save_inff';
+					var base_url = '/index.php/Certificacion/save_inff';
 
             $.ajax({
                 url: base_url,
