@@ -204,7 +204,8 @@ function save_modif_exp(){
             var cargo = $('#cargo').val();
             var desde = $('#desde').val();
             var hasta = $('#hasta').val();
-        var base_url =window.location.origin+'/asnc/index.php/Comision_contrata/editar_modal_exp_miembro';
+        // var base_url =window.location.origin+'/asnc/index.php/Comision_contrata/editar_modal_exp_miembro';
+            var base_url = '/index.php/Comision_contrata/editar_modal_exp_miembro';
 
             // var base_url = '/index.php/Programacion/editar_fila_ip_b';
 
@@ -295,9 +296,10 @@ function save_formacion_cp() {
                 $('#fech_cert').focus();
                 return false;
             }
-            // Agrega más validaciones si es necesario, por ejemplo para 'vigencia'
-
-            var base_url = window.location.origin + '/asnc/index.php/Certificacion/save_formacion_cp'; // Nueva ruta en el controlador
+             
+            var base_url = '/index.php/certificacion/save_formacion_cp';
+           
+            // var base_url = window.location.origin + '/asnc/index.php/Certificacion/save_formacion_cp';  
 
             $.ajax({
                 url: base_url,
@@ -554,8 +556,9 @@ function save_experiencia_comision() {
                 return false;
             }
 
+       var base_url = '/index.php/certificacion/save_experiencia_comision';
 
-            var base_url = window.location.origin + '/asnc/index.php/Certificacion/save_experiencia_comision'; // Nueva ruta en el controlador
+            // var base_url = window.location.origin + '/asnc/index.php/Certificacion/save_experiencia_comision'; // Nueva ruta en el controlador
 
             $.ajax({
                 url: base_url,
@@ -692,9 +695,10 @@ function save_dictado_capacitacion() {
                  $('#desde3').focus();
                  return false;
             }
+       var base_url = '/index.php/certificacion/save_dictado_capacitacion';
 
 
-            var base_url = window.location.origin + '/asnc/index.php/Certificacion/save_dictado_capacitacion'; // Nueva ruta en el controlador
+            // var base_url = window.location.origin + '/asnc/index.php/Certificacion/save_dictado_capacitacion'; // Nueva ruta en el controlador
 
             $.ajax({
                 url: base_url,
@@ -826,14 +830,15 @@ function save_inf_ac_new() {
                 return false;
             }
 
+            var base_url = '/index.php/certificacion/save_inff';
 
-            var base_url = window.location.origin + '/asnc/index.php/Certificacion/save_inff'; // This function name is already in your controller
+            // var base_url = window.location.origin + '/asnc/index.php/Certificacion/save_inff';  
 
             $.ajax({
                 url: base_url,
                 method: 'POST',
                 data: {
-                    id_miembro: id_miembros_natu_academica_add, // Pass member ID for linking
+                    id_miembro: id_miembros_natu_academica_add,  
                     cedula: cedula_modal_academica_add,
                     nro_comprobante: nro_comprobante_modal_academica_add,
                     fm_ac: fm_ac,
