@@ -89,7 +89,7 @@
                                 <div class="col-md-4 mb-2 mb-md-0">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text" id="ivaLabel">IVA (16%)</span>
+                                            <span class="input-group-text" id="ivaLabel">IVA </span>
                                         </div>
                                         <input type="text" id="iva" name="iva"
                                             class="form-control text-right font-weight-bold" style="font-size: 1.2rem;"
@@ -121,8 +121,8 @@
                             </div>
                             <div class="row g-6">
                                 <div class="col-xl-6 col-lg-6 col-md-6">
-                                    <label for="iva_credito" class="form-label fw-semibold">IVA (<span
-                                            id="ivaPercentLabel">16</span>%) Crédito:</label>
+                                    <label for="iva_credito" class="form-label fw-semibold">IVA <span
+                                            id="ivaPercentLabel"></span> Crédito:</label>
                                     <input type="text" id="iva_credito" name="iva_credito"
                                         class="form-control text-end fw-bold py-2"
                                         style="font-size: 1.1rem; background-color: #f8f9fa;" readonly>
@@ -201,9 +201,34 @@
                             <label for="bancoOrigen" class="required-field">Banco de Origen</label>
                             <select id="bancoOrigen" name="bancoOrigen" class="form-control">
                                 <option value="0">Seleccione una opción</option>
-                                <option value="0102">Banco de Venezuela </option>
-                                <option value="0114">Bancaribe </option>
-                                <option value="0172">Banca Amiga </option>
+                                <option value="0102">Banco de Venezuela</option>
+                                <option value="0114">Bancaribe</option>
+                                <option value="0172">Banca Amiga</option>
+                                <option value="0105">Banco Mercantil C.A., Banco Universal</option>
+                                <option value="0108">Banco Provincial, S.A. Banco Universal</option>
+                                <option value="0115">Banco Exterior C.A., Banco Universal</option>
+                                <option value="0128">Banco Caroní C.A., Banco Universal </option>
+                                <option value="0134">Banesco Banco Universal, C.A.</option>
+                                <option value="0137">Banco Sofitasa Banco Universal, C.A</option>
+                                <option value="0138">Banco de la Gente Emprendedora C.A.</option>
+                                <option value="0151">Banco Fondo Común, C.A Banco Universal</option>
+                                <option value="0156">100% Banco, Banco Comercial, C.A</option>
+                                <option value="0163">Banco del Tesoro C.A., Banco Universal</option>
+                                <option value="0166">Banco Agrícola de Venezuela C.A., Banco Universal
+                                </option>
+                                <option value="0168">Bancrecer S.A., Banco Microfinanciero</option>
+                                <option value="0171">Banco Activo C.A., Banco Universal</option>
+                                <option value="0174">Banplus Banco Universal, C.A.</option>
+                                <option value="0169">Mi Banco, Banco Microfinanciero, C.A.</option>
+                                <option value="0175">Banco Bicentenario del Pueblo, Banco Universal C.A.
+                                </option>
+                                <option value="0177">Banco de la Fuerza Armada Nacional Bolivariana, B.U
+                                </option>
+                                <option value="0191">Banco Nacional de Crédito C.A., Banco Universal
+                                </option>
+                                <option value="0157">DelSur, Banco Universal C.A</option>
+
+
                             </select>
                         </div>
 
