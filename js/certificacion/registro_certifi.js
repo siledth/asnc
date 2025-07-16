@@ -246,7 +246,7 @@ function registrar_facilitadoresjs(){
 					event.preventDefault();
 					var datos = new FormData($("#guardar_ba")[0]);
 					// var base_url =window.location.origin+'/asnc/index.php/Certificacion/registrar_facilitadoresjs';
-					var base_url = '/index.php/Certificacion/registrar_b';
+					var base_url = '/index.php/Certificacion/registrar_facilitadoresjs';
 					$.ajax({
 						url:base_url,
 						method: 'POST',
