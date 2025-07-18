@@ -133,7 +133,7 @@ function validateEmail() {
       var base_url = '/index.php/User/getUserDetailsByCedula';
 
     //var base_url = window.location.origin + '/asnc/index.php/User/getUserDetailsByCedula';
-    console.log("AJAX URL: " + base_url);
+    //console.log("AJAX URL: " + base_url);
 
     if (cedula.length > 0) {
         $.ajax({
@@ -144,7 +144,7 @@ function validateEmail() {
             },
             dataType: 'json',
             success: function(response) {
-                console.log("AJAX Success Response:", response);
+              //  console.log("AJAX Success Response:", response);
                 if (response.status === 'success' && response.data) {
                     const user = response.data;
                     $('#name_f').val(user.nombrefun);
