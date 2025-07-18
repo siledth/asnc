@@ -1141,5 +1141,21 @@ class User extends CI_Controller
     //     }
     //     return TRUE;
     // }
+    public function getUserDetailsByCedula()
+    {
+        $cedula = $this->input->post('cedula');
 
+        if (empty($cedula)) {
+            echo json_encode(['status' => 'error', 'message' => 'Cédula no proporcionada.']);
+            return;
+        }
+
+        $user_details = $this->User_model->get_funcionario_by_cedula($cedula);
+
+        if ($user_details) {
+            echo json_encode(['status' => 'success', 'data' => $user_details]);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Usuario no encontrado.']);
+        }
+    }
 }

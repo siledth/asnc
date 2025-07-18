@@ -105,7 +105,7 @@
                                             <td>Persona Nat. </td>
                                         <?php endif; ?>
                                         <td class="center">
-                                            <a href="<?php echo base_url(); ?>index.php/Certificacion/ver_certifi?id=<?php echo $datos['rif_cont']; ?>"
+                                            <a href="<?php echo base_url(); ?>index.php/Certificacion/ver_ficha_tecnica?id=<?php echo $datos['id']; ?>"
                                                 class="button">
                                                 <i class="fas fa-lg fa-fw fa-eye" style="color: green;"> </i>
                                                 <a />

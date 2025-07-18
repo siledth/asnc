@@ -2069,4 +2069,274 @@ class Certificacion extends CI_Controller
         $response = $this->Certificacion_model->save_dictado_capacitacion($data);
         echo json_encode($response); // Devolver 1 para éxito, 0 o mensaje para error
     }
+
+    //////////////editar informacion de los facilitadores 
+    // Método para obtener los datos de un registro académico por su ID (para edición)
+    public function get_inf_academica_by_id()
+    {
+        if (!$this->session->userdata('session')) {
+            echo json_encode(['error' => 'Sesión no iniciada']);
+            return;
+        }
+
+        $id_per = $this->input->post('id_per'); // Recibe el id_per del registro
+
+        if (!$id_per) {
+            echo json_encode(['error' => 'ID de registro no proporcionado']);
+            return;
+        }
+
+        $data = $this->Certificacion_model->get_inf_academica_by_id($id_per);
+        echo json_encode($data); // Devuelve los datos como JSON
+    }
+
+    // Método para actualizar un registro de información académica
+    public function update_inf_academica()
+    {
+        if (!$this->session->userdata('session')) {
+            echo json_encode(['error' => 'Sesión no iniciada']);
+            return;
+        }
+
+        $id_per = $this->input->post('id_per'); // ID del registro a actualizar
+
+        // Recoger los datos actualizados del formulario
+        $update_data = array(
+            'for_academica' => $this->input->post('for_academica'),
+            'titulo'        => $this->input->post('titulo'),
+            'ano'           => $this->input->post('ano'),
+            'culminacion'   => $this->input->post('culminacion'),
+            'curso'         => $this->input->post('curso')
+        );
+
+        if (!$id_per || empty($update_data)) {
+            echo json_encode(['error' => 'Datos insuficientes para actualizar']);
+            return;
+        }
+
+        $response = $this->Certificacion_model->update_inf_academica($id_per, $update_data);
+        echo json_encode($response); // Devuelve 1 para éxito, 0 para error
+    }
+
+    public function get_formacion_cp_by_id()
+    {
+        if (!$this->session->userdata('session')) {
+            echo json_encode(['error' => 'Sesión no iniciada']);
+            return;
+        }
+
+        $id_form = $this->input->post('id_form'); // Recibe el id_form del registro
+
+        if (!$id_form) {
+            echo json_encode(['error' => 'ID de registro no proporcionado']);
+            return;
+        }
+
+        $data = $this->Certificacion_model->get_formacion_cp_by_id($id_form);
+        echo json_encode($data); // Devuelve los datos como JSON
+    }
+
+    // Método para actualizar un registro de Formación Contratación Pública
+    public function update_formacion_cp()
+    {
+        if (!$this->session->userdata('session')) {
+            echo json_encode(['error' => 'Sesión no iniciada']);
+            return;
+        }
+
+        $id_form = $this->input->post('id_form'); // ID del registro a actualizar
+
+        // Recoger los datos actualizados del formulario
+        $update_data = array(
+            'taller'       => $this->input->post('taller'),
+            'institucion'  => $this->input->post('institucion'),
+            'hor_dura'     => $this->input->post('hor_dura'),
+            'certi'        => $this->input->post('certi'), // Asegúrate que sea el campo correcto en DB
+            'fech_cert'    => $this->input->post('fech_cert'),
+            'vigencia'     => $this->input->post('vigencia')
+        );
+
+        if (!$id_form || empty($update_data)) {
+            echo json_encode(['error' => 'Datos insuficientes para actualizar']);
+            return;
+        }
+
+        $response = $this->Certificacion_model->update_formacion_cp($id_form, $update_data);
+        echo json_encode($response); // Devuelve 1 para éxito, 0 para error
+    }
+    public function get_exp_comis_by_id()
+    {
+        if (!$this->session->userdata('session')) {
+            echo json_encode(['error' => 'Sesión no iniciada']);
+            return;
+        }
+
+        $id_exp_10 = $this->input->post('id_exp_10'); // Recibe el id_exp_10 del registro
+
+        if (!$id_exp_10) {
+            echo json_encode(['error' => 'ID de registro no proporcionado']);
+            return;
+        }
+
+        $data = $this->Certificacion_model->get_exp_comis_by_id($id_exp_10);
+        echo json_encode($data); // Devuelve los datos como JSON
+    }
+
+    // Método para actualizar un registro de Experiencia en Comisiones
+    public function update_exp_comis()
+    {
+        if (!$this->session->userdata('session')) {
+            echo json_encode(['error' => 'Sesión no iniciada']);
+            return;
+        }
+
+        $id_exp_10 = $this->input->post('id_exp_10'); // ID del registro a actualizar
+
+        // Recoger los datos actualizados del formulario
+        $update_data = array(
+            'organo10'          => $this->input->post('organo10'),
+            'act_adminis_desid' => $this->input->post('act_adminis_desid'),
+            'n_acto'            => $this->input->post('n_acto'),
+            'fecha_act'         => $this->input->post('fecha_act'),
+            'area_10'           => $this->input->post('area_10'),
+            'dura_comi'         => $this->input->post('dura_comi')
+        );
+
+        if (!$id_exp_10 || empty($update_data)) {
+            echo json_encode(['error' => 'Datos insuficientes para actualizar']);
+            return;
+        }
+
+        $response = $this->Certificacion_model->update_exp_comis($id_exp_10, $update_data);
+        echo json_encode($response); // Devuelve 1 para éxito, 0 para error
+    }
+    public function get_dictado_cap_by_id()
+    {
+        if (!$this->session->userdata('session')) {
+            echo json_encode(['error' => 'Sesión no iniciada']);
+            return;
+        }
+
+        $id_dic_cap_3 = $this->input->post('id_dic_cap_3'); // Recibe el id_dic_cap_3 del registro
+
+        if (!$id_dic_cap_3) {
+            echo json_encode(['error' => 'ID de registro no proporcionado']);
+            return;
+        }
+
+        $data = $this->Certificacion_model->get_dictado_cap_by_id($id_dic_cap_3);
+        echo json_encode($data); // Devuelve los datos como JSON
+    }
+
+    // Método para actualizar un registro de Dictado de Capacitación
+    public function update_dictado_cap()
+    {
+        if (!$this->session->userdata('session')) {
+            echo json_encode(['error' => 'Sesión no iniciada']);
+            return;
+        }
+
+        $id_dic_cap_3 = $this->input->post('id_dic_cap_3'); // ID del registro a actualizar
+
+        // Recoger los datos actualizados del formulario
+        $update_data = array(
+            'organo3'    => $this->input->post('organo3'),
+            'actividad3' => $this->input->post('actividad3'),
+            'desde3'     => $this->input->post('desde3'),
+            'hasta3'     => $this->input->post('hasta3')
+        );
+
+        if (!$id_dic_cap_3 || empty($update_data)) {
+            echo json_encode(['error' => 'Datos insuficientes para actualizar']);
+            return;
+        }
+
+        $response = $this->Certificacion_model->update_dictado_cap($id_dic_cap_3, $update_data);
+        echo json_encode($response); // Devuelve 1 para éxito, 0 para error
+    }
+    ////////////// ficha tecnica de contraloria
+    public function ver_ficha_tecnica()
+    {
+        if (!$this->session->userdata('session')) redirect('login');
+
+        $id_certificacion = $this->input->get('id'); // Asumo que el ID de la certificación viene por GET
+
+        if (!$id_certificacion) {
+            // Redirigir o mostrar error si no hay ID de certificación
+            redirect('alguna_pagina_de_error_o_lista');
+            return;
+        }
+
+        // --- 1. Obtener Información de Certificación principal ---
+        $data['certificacion_info'] = $this->Certificacion_model->get_certificacion_info($id_certificacion);
+
+        if (!$data['certificacion_info']) {
+            // No se encontró la certificación
+            redirect('alguna_pagina_de_error_o_lista');
+            return;
+        }
+
+        //experiencia d ela empresa 3 años
+        $data['experiencia_empresa'] = $this->Certificacion_model->get_experiencia_empresa($id_certificacion);
+        //experiencia de la empresa 5 años esto lo agregue
+        $data['experiencia_empresa10'] = $this->Certificacion_model->get_experiencia_empresa10($id_certificacion);
+
+
+        // --- 3. Obtener Información de Facilitadores ---
+        // Asumo que los facilitadores vinculados a esta certificación se pueden obtener
+        // por el 'id' de la certificación o por alguna otra columna en infor_per_natu que la vincule.
+        // Si certificaciones no tiene un ID de facilitador, podemos buscar facilitadores
+        // asociados al 'rif_cont' de la certificación, o se debe aclarar cómo se vinculan.
+        // Para simplificar, asumiré que `certificacion_info` puede tener `rif_cont` o `cedula_facilitador`
+        // y que los detalles del facilitador se buscan con la `cedula`.
+        // Si la tabla 'certificaciones' tiene una relación uno a muchos con 'infor_per_natu',
+        // o un campo 'cedula_facilitador' directamente.
+        // Para este ejemplo, si `certificaciones` no tiene una relación directa con `infor_per_natu`,
+        // tendrías que adaptar esta parte.
+
+        // === ADAPTACIÓN CLAVE: CÓMO OBTENER LOS FACILITADORES DE ESTA CERTIFICACIÓN ===
+        // Opción A: Si 'certificaciones' tiene un campo 'cedula_facilitador' o similar
+        // $facilitador_cedula = $data['certificacion_info']['cedula_facilitador'];
+        // $facilitadores_basic_info = $this->Certificacion_model->get_member_basic_info_by_cedula($facilitador_cedula);
+        //
+        // Opción B: Si necesitas obtener MULTIPLES facilitadores asociados por el ID de la certificacion.
+        // Esto implicaría una tabla intermedia como certificacion_facilitadores (id_cert, id_facilitador)
+        // $data['facilitadores_ids'] = $this->Certificacion_model->get_facilitator_ids_for_cert($id_certificacion);
+        //
+        // Opción C (Simplificación si no hay vínculo claro y solo quieres mostrar TODOS los facilitadores o buscar por rif_cont):
+        // Basándome en la descripción y las tablas, parece que 'infor_per_natu' es una tabla general de personas.
+        // Las tablas de formación y experiencia de los facilitadores se vinculan a 'infor_per_natu' por 'id' y 'cedula'.
+        //
+        // Para la "Ficha Técnica", lo más lógico es que muestre los facilitadores que están 'vinculados' a esa certificación.
+        // Si no hay un vínculo explícito en `certificaciones`, podríamos listar los que tienen registros en `infor_per_natu`.
+        // Asumo que la `cedula` del facilitador se usará como identificador principal para buscar sus detalles.
+        // Por ahora, obtendré TODOS los facilitadores de `infor_per_natu` para DEMOSTRACIÓN, pero tú deberías filtrar.
+        // Una opción más realista es que `certificaciones` tenga una columna `facilitador_cedula` o `facilitador_id`.
+
+        // **Para este ejemplo, buscaremos los facilitadores directamente asociados al `rif_cont` de la certificación principal**
+        // (Esto es una ASUNCIÓN, si tu modelo de datos es diferente, deberás cambiarlo).
+        $rif_cont_certificacion = $data['certificacion_info']['rif_cont'];
+        $facilitadores = $this->Certificacion_model->get_facilitadores_by_rif_cont($id_certificacion);
+
+        $data['facilitadores_detalles'] = [];
+        foreach ($facilitadores as $facilitador) {
+            $facilitador_cedula = $facilitador['cedula'];
+            $facilitador_id_infor_per_natu = $facilitador['id']; // El ID de la tabla infor_per_natu
+
+            // Obtener la información detallada para cada facilitador
+            $facilitador_detail = $facilitador; // Iniciar con la info básica
+            $facilitador_detail['formacion_academica'] = $this->Certificacion_model->check_miemb_inf_ac($facilitador_cedula); // Asumo que esta ya hace el JOIN
+            $facilitador_detail['formacion_cp'] = $this->Certificacion_model->check_miemb_inf_contr_pub($facilitador_cedula);
+            $facilitador_detail['experiencia_comisiones'] = $this->Certificacion_model->check_miemb_inf_exp_comis($facilitador_cedula); // Nuevo
+            $facilitador_detail['dictado_capacitacion'] = $this->Certificacion_model->check_miemb_inf_cap_dictado($facilitador_cedula); // Nuevo
+
+            $data['facilitadores_detalles'][] = $facilitador_detail;
+        }
+
+
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('certificacion/certificacion_oeu/ficha_tecnica.php', $data); // Nueva vista
+        $this->load->view('templates/footer.php');
+    }
 }

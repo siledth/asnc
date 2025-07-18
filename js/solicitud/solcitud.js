@@ -1,3 +1,4 @@
+ 
 function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
     var rif_b = $('#rif_b').val();
     if (rif_b == ''){
@@ -118,8 +119,52 @@ function validateEmail() {
 
     var recaptchaWidgetId;
 
+ function fetchUserDetails() {
+    console.log("fetchUserDetails function called!");
+    const cedula = $('#cedula_f').val();
+    console.log("Cédula entered: " + cedula);
 
+    // Clear previous user details if any
+    $('#name_f').val('');
+    $('#apellido_f').val('');
+    $('#cargo_f').val('');
+    $('#telefono_f').val('');
+    $('#correo').val('');
+      var base_url = '/index.php/User/getUserDetailsByCedula';
 
+    //var base_url = window.location.origin + '/asnc/index.php/User/getUserDetailsByCedula';
+   // console.log("AJAX URL: " + base_url);
+
+    if (cedula.length > 0) {
+        $.ajax({
+            url: base_url,
+            type: 'POST',
+            data: {
+                cedula: cedula
+            },
+            dataType: 'json',
+            success: function(response) {
+                console.log("AJAX Success Response:", response);
+                if (response.status === 'success' && response.data) {
+                    const user = response.data;
+                    $('#name_f').val(user.nombrefun);
+                    $('#apellido_f').val(user.apellido);
+                    $('#cargo_f').val(user.cargo);
+                    $('#telefono_f').val(user.tele_1);
+                    $('#correo').val(user.email);
+                } else {
+                    console.log('Usuario no encontrado o error: ' + response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX Error: " + status + error);
+                console.error("Response Text:", xhr.responseText);
+            }
+        });
+    } else {
+        console.log("Cédula is empty, not making AJAX call.");
+    }
+}
 
 function save(event) {
     event.preventDefault();
@@ -284,3 +329,8 @@ function save(event) {
         }
     });
 }
+
+$(document).ready(function() {
+    console.log("Document is ready, attaching blur event to #cedula_f");
+    $('#cedula_f').on('blur', fetchUserDetails);
+});

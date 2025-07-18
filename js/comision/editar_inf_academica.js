@@ -883,3 +883,632 @@ function save_inf_ac_new() {
         }
     });
 }
+
+///////////////////////editar la informacion 
+function modal(id_per_to_edit) { // Renombrado para mayor claridad
+    // Asigna el ID del registro a editar al campo oculto del modal
+    $('#id_per_edit').val(id_per_to_edit);
+
+    // Limpia el formulario antes de cargar nuevos datos
+    $('#form_edit_academica')[0].reset();
+    $('#camb_id_academico').val('0').trigger('change');
+    $('#curso_edit').val('0'); // Resetear también el select de curso
+
+    // Realiza una llamada AJAX para obtener los datos del registro académico
+    var base_url = window.location.origin + '/asnc/index.php/Certificacion/get_inf_academica_by_id';
+
+    $.ajax({
+        url: base_url,
+        method: 'POST',
+        data: { id_per: id_per_to_edit }, // Envía el ID del registro
+        dataType: 'json',
+        success: function(response) {
+            if (response) {
+                // Rellena los campos del modal con los datos recibidos
+                $('#fm_ac1_display').val(response.desc_academico); // Asume que el JOIN ya te trae la descripción
+                $('#id_academico_current').val(response.for_academica); // ID de la formación académica actual
+                $('#titulo_edit').val(response.titulo);
+                $('#anioi_edit').val(response.ano); // Mapeo de DB 'ano' a 'anioi_edit'
+                $('#anioc_edit').val(response.culminacion);
+                $('#curso_edit').val(response.curso).trigger('change'); // Selecciona el valor en el select
+
+                // Si se va a cambiar la formación académica, asegúrate de que el select2 se inicialice
+                $("#camb_id_academico").select2({
+                    dropdownParent: $("#exampleModal") // Asegura que el select2 se inicialice en el modal
+                });
+
+            } else {
+                Swal.fire('Error', 'No se encontraron datos para editar.', 'error');
+                $('#exampleModal').modal('hide'); // Cierra el modal si no hay datos
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error("AJAX Error: ", textStatus, errorThrown);
+            Swal.fire('Error', 'Ocurrió un error al cargar los datos para edición.', 'error');
+            $('#exampleModal').modal('hide');
+        }
+    });
+}
+
+// --- Función para guardar las modificaciones ---
+function save_modif_inf_acad() {
+    event.preventDefault();
+
+    swal.fire({
+        title: '¿Guardar Cambios?',
+        text: '¿Deseas actualizar la información académica?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: '¡Sí, Actualizar!'
+    }).then((result) => {
+        if (result.value == true) {
+            // Obtener los valores del formulario de edición
+            var id_per_edit = $('#id_per_edit').val(); // El ID del registro que se está editando
+            var fm_ac_selected = $('#camb_id_academico').val(); // El nuevo ID de formación académica (si se cambió)
+            var fm_ac_original = $('#id_academico_current').val(); // El ID original (para saber si se cambió)
+
+            // Usar el nuevo ID si se seleccionó, de lo contrario, usar el original
+            var for_academica_to_save = (fm_ac_selected != '0' && fm_ac_selected !== null) ? fm_ac_selected : fm_ac_original;
+
+            var titulo_edit = $('#titulo_edit').val();
+            var anioi_edit = $('#anioi_edit').val();
+            var anioc_edit = $('#anioc_edit').val();
+            var curso_edit = $('#curso_edit').val();
+
+            // Validaciones (similar a las de agregar)
+            if (for_academica_to_save == '0' || for_academica_to_save === null) {
+                Swal.fire('Atención', 'Seleccione la "Formación Académica".', 'warning');
+                $('#camb_id_academico').focus();
+                return false;
+            }
+            if (titulo_edit === '') {
+                Swal.fire('Atención', 'El campo "Título Obtenido" no puede estar vacío.', 'warning');
+                $('#titulo_edit').focus();
+                return false;
+            }
+            if (anioi_edit === '') {
+                Swal.fire('Atención', 'El campo "Año de Inicio" no puede estar vacío.', 'warning');
+                $('#anioi_edit').focus();
+                return false;
+            }
+            if (curso_edit == '1' && anioc_edit === '') {
+                Swal.fire('Atención', 'El campo "Culminación" debe estar lleno si no está en curso.', 'warning');
+                $('#anioc_edit').focus();
+                return false;
+            }
+            if (curso_edit == '0') {
+                Swal.fire('Atención', 'Seleccione si la formación está "En Curso".', 'warning');
+                $('#curso_edit').focus();
+                return false;
+            }
+            // Basic year validation (assuming 4 digits)
+            if (anioi_edit.length !== 4 || isNaN(anioi_edit)) {
+                Swal.fire('Atención', 'El "Año de Inicio" debe ser un año válido de 4 dígitos.', 'warning');
+                $('#anioi_edit').focus();
+                return false;
+            }
+            if (curso_edit == '1' && anioc_edit.length !== 4 || (curso_edit == '1' && isNaN(anioc_edit))) {
+                Swal.fire('Atención', 'El "Año de Culminación" debe ser un año válido de 4 dígitos si no está en curso.', 'warning');
+                $('#anioc_edit').focus();
+                return false;
+            }
+            if (curso_edit == '1' && parseInt(anioi_edit) > parseInt(anioc_edit)) {
+                Swal.fire('Advertencia', 'El "Año de Inicio" no puede ser mayor que el "Año de Culminación".', 'warning');
+                $('#anioi_edit').focus();
+                return false;
+            }
+
+            var base_url = window.location.origin + '/asnc/index.php/Certificacion/update_inf_academica'; // Nueva ruta para actualizar
+
+            $.ajax({
+                url: base_url,
+                method: 'POST',
+                data: {
+                    id_per: id_per_edit, // ID del registro a actualizar
+                    for_academica: for_academica_to_save,
+                    titulo: titulo_edit,
+                    ano: anioi_edit, // Mapeo para la base de datos
+                    culminacion: anioc_edit,
+                    curso: curso_edit
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response == 1) { // Asumiendo que el controlador devuelve 1 para éxito
+                        swal.fire({
+                            title: '¡Actualizado!',
+                            text: 'La información académica se ha actualizado correctamente.',
+                            type: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Ok'
+                        }).then((result) => {
+                            if (result.value == true) {
+                                location.reload(); // Recargar la página para ver los cambios
+                            }
+                        });
+                    } else {
+                        Swal.fire('Error', 'No se pudo actualizar la información académica.', 'error');
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("AJAX Error: ", textStatus, errorThrown);
+                    Swal.fire('Error', 'Ocurrió un error al procesar la solicitud de actualización.', 'error');
+                }
+            });
+        }
+    });
+}
+
+function modal_contr_pub(id_form_to_edit) {
+    // Asigna el ID del registro a editar al campo oculto del modal
+    $('#id_form_edit').val(id_form_to_edit);
+
+    // Limpia el formulario antes de cargar nuevos datos
+    $('#form_edit_contratacion_publica')[0].reset();
+    $('#vigencia_edit').val(''); // Limpiar también la vigencia
+    $('#vigencia_edit').css('border', ''); // Quitar cualquier borde rojo
+
+    // Realiza una llamada AJAX para obtener los datos del registro
+    var base_url = window.location.origin + '/asnc/index.php/Certificacion/get_formacion_cp_by_id';
+
+    $.ajax({
+        url: base_url,
+        method: 'POST',
+        data: { id_form: id_form_to_edit },
+        dataType: 'json',
+        success: function(response) {
+            if (response) {
+                // Rellena los campos del modal con los datos recibidos
+                $('#taller_edit').val(response.taller);
+                $('#institucion_edit').val(response.institucion);
+                $('#hor_dura_edit').val(response.hor_dura);
+                $('#certi_edit').val(response.certi); // Asegúrate que 'certi' o 'n_certif' sea el correcto
+                $('#fech_cert_edit').val(response.fech_cert); // Formato YYYY-MM-DD necesario para input type="date"
+
+                // Disparar el cálculo de vigencia para mostrarlo al cargar
+                calculateVigenciaEditCP();
+
+            } else {
+                Swal.fire('Error', 'No se encontraron datos para editar.', 'error');
+                $('#modalEditContratacionPublica').modal('hide');
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error("AJAX Error: ", textStatus, errorThrown);
+            Swal.fire('Error', 'Ocurrió un error al cargar los datos para edición.', 'error');
+            $('#modalEditContratacionPublica').modal('hide');
+        }
+    });
+}
+
+// --- Función para calcular la vigencia en el modal de EDICIÓN de Contratación Pública ---
+// Esta es una versión específica para el modal de edición para evitar conflictos de IDs
+function calculateVigenciaEditCP() {
+    const fechCertInput = $('#fech_cert_edit'); // Usar ID del modal de edición
+    const vigenciaInput = $('#vigencia_edit'); // Usar ID del modal de edición
+    const fechaCertificadoStr = fechCertInput.val();
+
+    vigenciaInput.val('');
+    vigenciaInput.css('border', '');
+
+    if (fechaCertificadoStr) {
+        const momentFechaCert = moment(fechaCertificadoStr);
+
+        if (!momentFechaCert.isValid()) {
+            return true; // No es un fallo de validación de negocio, solo una fecha incompleta/inválida
+        }
+
+        const momentFechaActual = moment();
+
+        if (momentFechaCert.isAfter(momentFechaActual)) {
+            vigenciaInput.val('Fecha Futura No Válida');
+            vigenciaInput.css('border', '2px solid orange');
+            Swal.fire({
+                title: 'Advertencia',
+                text: 'La fecha del certificado no puede ser en el futuro.',
+                icon: 'warning'
+            });
+            return false;
+        }
+
+        const diffYears = momentFechaActual.diff(momentFechaCert, 'years', true);
+        const yearsPassed = momentFechaActual.diff(momentFechaCert, 'years');
+        const monthsPassedRemainder = momentFechaActual.diff(momentFechaCert.clone().add(yearsPassed, 'years'), 'months');
+
+        let vigenciaText = '';
+        if (yearsPassed > 0) {
+            vigenciaText += `${yearsPassed} año${yearsPassed !== 1 ? 's' : ''}`;
+        }
+        if (monthsPassedRemainder > 0) {
+            if (vigenciaText !== '') vigenciaText += ' y ';
+            vigenciaText += `${monthsPassedRemainder} mes${monthsPassedRemainder !== 1 ? 'es' : ''}`;
+        }
+        if (yearsPassed === 0 && monthsPassedRemainder === 0) {
+            vigenciaText = 'Menos de 1 mes';
+        }
+        vigenciaInput.val(vigenciaText);
+
+        if (diffYears > 2) {
+            Swal.fire({
+                title: 'Advertencia',
+                text: 'La vigencia del certificado excede los 2 años (' + vigenciaText + ').',
+                icon: 'warning'
+            });
+            vigenciaInput.css('border', '2px solid red');
+            return false;
+        } else {
+            vigenciaInput.css('border', '');
+        }
+    }
+    return true;
+}
+
+// --- Evento para el campo de fecha de edición ---
+$(document).ready(function() {
+    // ... (tus otras inicializaciones de select2 y eventos) ...
+
+    $('#fech_cert_edit').on('change', function() {
+        calculateVigenciaEditCP();
+    });
+
+    $('#fech_cert_edit').on('blur', function() {
+        if ($(this).data('changed_edit') !== true) {
+            calculateVigenciaEditCP();
+        }
+        $(this).data('changed_edit', false);
+    });
+
+    $('#fech_cert_edit').on('input', function() {
+        $('#vigencia_edit').val('');
+        $('#vigencia_edit').css('border', '');
+        $(this).data('changed_edit', true);
+    });
+});
+
+// --- Función para guardar las modificaciones de Formación Contratación Pública ---
+function save_modif_contr_pub() {
+    event.preventDefault();
+
+    // Validar la vigencia del certificado antes de enviar
+    if (!calculateVigenciaEditCP()) { // Usar la función de cálculo del modal de edición
+        return; // Detener el proceso de guardado si la validación falla
+    }
+
+    swal.fire({
+        title: '¿Guardar Cambios?',
+        text: '¿Deseas actualizar la información de capacitación en contratación pública?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: '¡Sí, Actualizar!'
+    }).then((result) => {
+        if (result.value == true) {
+            // Obtener los valores del formulario de edición
+            var id_form_edit = $('#id_form_edit').val(); // El ID del registro que se está editando
+
+            var taller_edit = $('#taller_edit').val();
+            var institucion_edit = $('#institucion_edit').val();
+            var hor_dura_edit = $('#hor_dura_edit').val();
+            var certi_edit = $('#certi_edit').val();
+            var fech_cert_edit = $('#fech_cert_edit').val();
+            var vigencia_edit = $('#vigencia_edit').val(); // Valor calculado
+
+            // Validaciones (similar a las de agregar)
+            if (taller_edit === '') { Swal.fire('Atención', 'El campo "Taller o Curso" no puede estar vacío.', 'warning'); $('#taller_edit').focus(); return false; }
+            if (institucion_edit === '') { Swal.fire('Atención', 'El campo "Institución" no puede estar vacío.', 'warning'); $('#institucion_edit').focus(); return false; }
+            if (hor_dura_edit === '' || parseInt(hor_dura_edit) <= 0) { Swal.fire('Atención', 'El campo "Horas de Duración" no puede estar vacío y debe ser mayor que cero.', 'warning'); $('#hor_dura_edit').focus(); return false; }
+            if (certi_edit === '') { Swal.fire('Atención', 'El campo "N.º del Certificado" no puede estar vacío.', 'warning'); $('#certi_edit').focus(); return false; }
+            if (fech_cert_edit === '') { Swal.fire('Atención', 'El campo "Fecha Certificado" no puede estar vacío.', 'warning'); $('#fech_cert_edit').focus(); return false; }
+
+            var base_url = window.location.origin + '/asnc/index.php/Certificacion/update_formacion_cp'; // Nueva ruta para actualizar
+
+            $.ajax({
+                url: base_url,
+                method: 'POST',
+                data: {
+                    id_form: id_form_edit, // ID del registro a actualizar
+                    taller: taller_edit,
+                    institucion: institucion_edit,
+                    hor_dura: hor_dura_edit,
+                    certi: certi_edit,
+                    fech_cert: fech_cert_edit,
+                    vigencia: vigencia_edit
+                    // No se pasan id, rif_cont, nro_comprobante, cedula ya que no deberían cambiar al editar un registro existente
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response == 1) { // Asumiendo que el controlador devuelve 1 para éxito
+                        swal.fire({
+                            title: '¡Actualizado!',
+                            text: 'La información de capacitación se ha actualizado correctamente.',
+                            type: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Ok'
+                        }).then((result) => {
+                            if (result.value == true) {
+                                location.reload(); // Recargar la página para ver los cambios
+                            }
+                        });
+                    } else {
+                        Swal.fire('Error', 'No se pudo actualizar la información de capacitación.', 'error');
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("AJAX Error: ", textStatus, errorThrown);
+                    Swal.fire('Error', 'Ocurrió un error al procesar la solicitud de actualización.', 'error');
+                }
+            });
+        }
+    });
+}
+function modal_exp_comis(id_exp_10_to_edit) {
+    // Asigna el ID del registro a editar al campo oculto del modal
+    $('#id_exp_10_edit').val(id_exp_10_to_edit);
+
+    // Limpia el formulario antes de cargar nuevos datos
+    $('#form_edit_exp_comisiones')[0].reset();
+    $('#act_adminis_desid_edit').val('Gaceta').trigger('change'); // Resetear a valor por defecto
+    $('#area_10_edit').val('Legal').trigger('change'); // Resetear a valor por defecto
+
+    // Realiza una llamada AJAX para obtener los datos del registro
+    var base_url = window.location.origin + '/asnc/index.php/Certificacion/get_exp_comis_by_id';
+
+    $.ajax({
+        url: base_url,
+        method: 'POST',
+        data: { id_exp_10: id_exp_10_to_edit },
+        dataType: 'json',
+        success: function(response) {
+            if (response) {
+                // Rellena los campos del modal con los datos recibidos
+                $('#organo10_edit').val(response.organo10);
+                $('#act_adminis_desid_edit').val(response.act_adminis_desid).trigger('change'); // Seleccionar en select2
+                $('#n_acto_edit').val(response.n_acto);
+                $('#fecha_act_edit').val(response.fecha_act); // Formato YYYY-MM-DD necesario para input type="date"
+                $('#area_10_edit').val(response.area_10).trigger('change'); // Seleccionar en select2
+                $('#dura_comi_edit').val(response.dura_comi);
+
+                // Inicializar select2 para los campos en el modal de edición
+                $("#act_adminis_desid_edit").select2({
+                    dropdownParent: $("#modalEditExpComisiones")
+                });
+                $("#area_10_edit").select2({
+                    dropdownParent: $("#modalEditExpComisiones")
+                });
+
+            } else {
+                Swal.fire('Error', 'No se encontraron datos para editar.', 'error');
+                $('#modalEditExpComisiones').modal('hide');
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error("AJAX Error: ", textStatus, errorThrown);
+            Swal.fire('Error', 'Ocurrió un error al cargar los datos para edición.', 'error');
+            $('#modalEditExpComisiones').modal('hide');
+        }
+    });
+}
+
+// --- NUEVA FUNCIÓN: save_modif_exp_comis ---
+function save_modif_exp_comis() {
+    event.preventDefault();
+
+    swal.fire({
+        title: '¿Guardar Cambios?',
+        text: '¿Deseas actualizar la experiencia en comisiones de contrataciones?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: '¡Sí, Actualizar!'
+    }).then((result) => {
+        if (result.value == true) {
+            // Obtener los valores del formulario de edición
+            var id_exp_10_edit = $('#id_exp_10_edit').val(); // El ID del registro que se está editando
+
+            var organo10_edit = $('#organo10_edit').val();
+            var act_adminis_desid_edit = $('#act_adminis_desid_edit').val();
+            var n_acto_edit = $('#n_acto_edit').val();
+            var fecha_act_edit = $('#fecha_act_edit').val();
+            var area_10_edit = $('#area_10_edit').val();
+            var dura_comi_edit = $('#dura_comi_edit').val();
+
+            // Validaciones (similar a las de agregar)
+            if (organo10_edit === '') { Swal.fire('Atención', 'El campo "Órgano o Ente" no puede estar vacío.', 'warning'); $('#organo10_edit').focus(); return false; }
+            if (act_adminis_desid_edit === '') { Swal.fire('Atención', 'Seleccione un "Acto Administrativo de Designación".', 'warning'); $('#act_adminis_desid_edit').focus(); return false; }
+            if (n_acto_edit === '') { Swal.fire('Atención', 'El campo "N° del Acto" no puede estar vacío.', 'warning'); $('#n_acto_edit').focus(); return false; }
+            if (fecha_act_edit === '') { Swal.fire('Atención', 'El campo "Fecha" del acto administrativo no puede estar vacío.', 'warning'); $('#fecha_act_edit').focus(); return false; }
+            if (area_10_edit === '') { Swal.fire('Atención', 'Seleccione un "Área".', 'warning'); $('#area_10_edit').focus(); return false; }
+            if (dura_comi_edit === '') { Swal.fire('Atención', 'El campo "Duración en la Comisión" no puede estar vacío.', 'warning'); $('#dura_comi_edit').focus(); return false; }
+
+            // Validación de fecha futura
+            const momentFechaActEdit = moment(fecha_act_edit);
+            const momentFechaActual = moment();
+            if (momentFechaActEdit.isAfter(momentFechaActual)) {
+                Swal.fire('Advertencia', 'La fecha del acto administrativo no puede ser en el futuro.', 'warning');
+                $('#fecha_act_edit').focus();
+                return false;
+            }
+
+            var base_url = window.location.origin + '/asnc/index.php/Certificacion/update_exp_comis'; // Nueva ruta para actualizar
+
+            $.ajax({
+                url: base_url,
+                method: 'POST',
+                data: {
+                    id_exp_10: id_exp_10_edit, // ID del registro a actualizar
+                    organo10: organo10_edit,
+                    act_adminis_desid: act_adminis_desid_edit,
+                    n_acto: n_acto_edit,
+                    fecha_act: fecha_act_edit,
+                    area_10: area_10_edit,
+                    dura_comi: dura_comi_edit
+                    // No se pasan id, rif_cont, n_certif, nro_comprobante, cedula ya que no deberían cambiar al editar un registro existente
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response == 1) { // Asumiendo que el controlador devuelve 1 para éxito
+                        swal.fire({
+                            title: '¡Actualizado!',
+                            text: 'La experiencia en comisiones se ha actualizado correctamente.',
+                            type: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Ok'
+                        }).then((result) => {
+                            if (result.value == true) {
+                                location.reload(); // Recargar la página para ver los cambios
+                            }
+                        });
+                    } else {
+                        Swal.fire('Error', 'No se pudo actualizar la experiencia en comisiones.', 'error');
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("AJAX Error: ", textStatus, errorThrown);
+                    Swal.fire('Error', 'Ocurrió un error al procesar la solicitud de actualización.', 'error');
+                }
+            });
+        }
+    });
+}
+function modal_dictado_cap(id_dic_cap_3_to_edit) {
+    // Asigna el ID del registro a editar al campo oculto del modal
+    $('#id_dic_cap_3_edit').val(id_dic_cap_3_to_edit);
+
+    // Limpia el formulario antes de cargar nuevos datos
+    $('#form_edit_dictado_capacitacion')[0].reset();
+
+    // Realiza una llamada AJAX para obtener los datos del registro
+    var base_url = window.location.origin + '/asnc/index.php/Certificacion/get_dictado_cap_by_id';
+
+    $.ajax({
+        url: base_url,
+        method: 'POST',
+        data: { id_dic_cap_3: id_dic_cap_3_to_edit },
+        dataType: 'json',
+        success: function(response) {
+            if (response) {
+                // Rellena los campos del modal con los datos recibidos
+                $('#organo3_edit').val(response.organo3);
+                $('#actividad3_edit').val(response.actividad3);
+                $('#desde3_edit').val(response.desde3); // Formato YYYY-MM-DD necesario para input type="date"
+                $('#hasta3_edit').val(response.hasta3); // Formato YYYY-MM-DD necesario para input type="date"
+
+            } else {
+                Swal.fire('Error', 'No se encontraron datos para editar.', 'error');
+                $('#modalEditDictadoCapacitacion').modal('hide');
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error("AJAX Error: ", textStatus, errorThrown);
+            Swal.fire('Error', 'Ocurrió un error al cargar los datos para edición.', 'error');
+            $('#modalEditDictadoCapacitacion').modal('hide');
+        }
+    });
+}
+
+// --- NUEVA FUNCIÓN: save_modif_dictado_cap ---
+function save_modif_dictado_cap() {
+    event.preventDefault();
+
+    swal.fire({
+        title: '¿Guardar Cambios?',
+        text: '¿Deseas actualizar la experiencia en dictado de capacitación?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: '¡Sí, Actualizar!'
+    }).then((result) => {
+        if (result.value == true) {
+            // Obtener los valores del formulario de edición
+            var id_dic_cap_3_edit = $('#id_dic_cap_3_edit').val(); // El ID del registro que se está editando
+
+            var organo3_edit = $('#organo3_edit').val();
+            var actividad3_edit = $('#actividad3_edit').val();
+            var desde3_edit = $('#desde3_edit').val();
+            var hasta3_edit = $('#hasta3_edit').val();
+
+            // Validaciones (similar a las de agregar)
+            if (organo3_edit === '') { Swal.fire('Atención', 'El campo "Órgano o Ente" no puede estar vacío.', 'warning'); $('#organo3_edit').focus(); return false; }
+            if (actividad3_edit === '') { Swal.fire('Atención', 'El campo "Actividad" no puede estar vacío.', 'warning'); $('#actividad3_edit').focus(); return false; }
+            if (desde3_edit === '') { Swal.fire('Atención', 'El campo "Desde" no puede estar vacío.', 'warning'); $('#desde3_edit').focus(); return false; }
+            if (hasta3_edit === '') { Swal.fire('Atención', 'El campo "Hasta" no puede estar vacío.', 'warning'); $('#hasta3_edit').focus(); return false; }
+
+            // Validar fechas lógicas y que no sean futuras
+            const momentDesde3Edit = moment(desde3_edit);
+            const momentHasta3Edit = moment(hasta3_edit);
+            const momentFechaActual = moment();
+
+            if (!momentDesde3Edit.isValid() || !momentHasta3Edit.isValid()) {
+                Swal.fire('Atención', 'Las fechas "Desde" y "Hasta" deben ser válidas.', 'warning');
+                return false;
+            }
+            if (momentDesde3Edit.isAfter(momentHasta3Edit)) {
+                Swal.fire('Advertencia', 'La fecha "Desde" no puede ser posterior a la fecha "Hasta".', 'warning');
+                $('#desde3_edit').focus();
+                return false;
+            }
+            if (momentHasta3Edit.isAfter(momentFechaActual)) {
+                Swal.fire('Advertencia', 'La fecha "Hasta" no puede ser en el futuro.', 'warning');
+                $('#hasta3_edit').focus();
+                return false;
+            }
+            // Validación para "últimos 3 años" - La fecha 'Desde' no debe ser anterior a 3 años desde hoy
+            const threeYearsAgo = momentFechaActual.clone().subtract(3, 'years'); // Use .clone() to not modify original momentFechaActual
+            if (momentDesde3Edit.isBefore(threeYearsAgo)) {
+                 Swal.fire('Advertencia', 'La experiencia debe ser de los últimos 3 años (a partir de la fecha "Desde").', 'warning');
+                 $('#desde3_edit').focus();
+                 return false;
+            }
+
+
+            var base_url = window.location.origin + '/asnc/index.php/Certificacion/update_dictado_cap'; // Nueva ruta para actualizar
+
+            $.ajax({
+                url: base_url,
+                method: 'POST',
+                data: {
+                    id_dic_cap_3: id_dic_cap_3_edit, // ID del registro a actualizar
+                    organo3: organo3_edit,
+                    actividad3: actividad3_edit,
+                    desde3: desde3_edit,
+                    hasta3: hasta3_edit
+                    // No se pasan id, rif_cont, n_certif, cedula ya que no deberían cambiar al editar un registro existente
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response == 1) { // Asumiendo que el controlador devuelve 1 para éxito
+                        swal.fire({
+                            title: '¡Actualizado!',
+                            text: 'La experiencia en dictado de capacitación se ha actualizado correctamente.',
+                            type: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Ok'
+                        }).then((result) => {
+                            if (result.value == true) {
+                                location.reload(); // Recargar la página para ver los cambios
+                            }
+                        });
+                    } else {
+                        Swal.fire('Error', 'No se pudo actualizar la experiencia en dictado de capacitación.', 'error');
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("AJAX Error: ", textStatus, errorThrown);
+                    Swal.fire('Error', 'Ocurrió un error al procesar la solicitud de actualización.', 'error');
+                }
+            });
+        }
+    });
+}

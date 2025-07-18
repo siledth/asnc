@@ -1616,4 +1616,17 @@ class User_model extends CI_Model
             return 0; // Error general de base de datos
         }
     }
+
+    public function get_funcionario_by_cedula($cedula)
+    {
+        $this->db->select('nombrefun, apellido, tipo_cedula, cedula, cargo, oficina, tele_1, tele_2, fecha_designacion, numero_gaceta, email, tipo_funcionario, unidad, fecha, obser, id_usuario, id');
+        $this->db->from('seguridad.funcionarios');
+        $this->db->where('cedula', $cedula);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->row_array(); // Return a single row as an associative array
+        }
+        return null; // No user found
+    }
 }

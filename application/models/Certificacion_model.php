@@ -2076,14 +2076,10 @@ class Certificacion_model extends CI_model
         // Add this line to see the value received by the model
         log_message('debug', 'Value of $id_miembros received in model: ' . $cedula_del_miembro_actual);
 
-        $this->db->select('id, rif_cont, n_certif, for_academica, titulo, ano, culminacion, curso, nro_comprobante, cedula, id_per');
-        $this->db->where('cedula', $cedula_del_miembro_actual);
-        $this->db->from('certificacion.infor_per_prof');
-
-        // To see the exact query CodeIgniter generates:
-        // echo $this->db->last_query();
-        // die();
-
+        $this->db->select('t1.id, t1.rif_cont, t1.n_certif, t1.for_academica, t1.titulo, t1.ano, t1.culminacion, t1.curso, t1.nro_comprobante, t1.cedula, t1.id_per, t2.desc_academico');
+        $this->db->join('comisiones.academico t2', 't2.id_academico = t1.for_academica', 'left');
+        $this->db->where('t1.cedula', $cedula_del_miembro_actual);
+        $this->db->from('certificacion.infor_per_prof t1');
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -2248,5 +2244,157 @@ class Certificacion_model extends CI_model
             log_message('error', 'Error inserting into exp_dic_cap_3: ' . $this->db->error()['message']);
             return 0; // Error
         }
+    }
+
+    /////////////////editar  informacion de facilitadores
+    // Método para obtener un registro académico por su id_per
+    function get_inf_academica_by_id($id_per)
+    {
+        $this->db->select('t1.*, t2.desc_academico'); // Selecciona todos los campos de infor_per_prof y la descripción de academico
+        $this->db->from('certificacion.infor_per_prof t1');
+        $this->db->join('comisiones.academico t2', 't2.id_academico = t1.for_academica', 'left'); // JOIN para obtener desc_academico
+        $this->db->where('t1.id_per', $id_per); // Filtra por el ID específico del registro
+        $query = $this->db->get();
+        return $query->row_array(); // Devuelve una sola fila
+    }
+
+    // Método para actualizar un registro de información académica
+    public function update_inf_academica($id_per, $data)
+    {
+        $this->db->where('id_per', $id_per);
+        $query = $this->db->update('certificacion.infor_per_prof', $data);
+
+        if ($query) {
+            return 1; // Éxito
+        } else {
+            log_message('error', 'Error updating certificacion.infor_per_prof for id_per ' . $id_per . ': ' . $this->db->error()['message']);
+            return 0; // Error
+        }
+    }
+    function get_formacion_cp_by_id($id_form)
+    {
+        $this->db->select('id, rif_cont, n_certif, taller, institucion, hor_dura, certi, fech_cert, vigencia, nro_comprobante, cedula, id_form');
+        $this->db->from('certificacion.for_mat_contr_publ');
+        $this->db->where('id_form', $id_form); // Filtra por el ID específico del registro
+        $query = $this->db->get();
+        return $query->row_array(); // Devuelve una sola fila
+    }
+
+    // Método para actualizar un registro de Formación Contratación Pública
+    public function update_formacion_cp($id_form, $data)
+    {
+        $this->db->where('id_form', $id_form);
+        $query = $this->db->update('certificacion.for_mat_contr_publ', $data);
+
+        if ($query) {
+            return 1; // Éxito
+        } else {
+            log_message('error', 'Error updating certificacion.for_mat_contr_publ for id_form ' . $id_form . ': ' . $this->db->error()['message']);
+            return 0; // Error
+        }
+    }
+    function get_exp_comis_by_id($id_exp_10)
+    {
+        $this->db->select('organo10, act_adminis_desid, n_acto, fecha_act, area_10, dura_comi, nro_comprobante, cedula, id_exp_10');
+        $this->db->from('certificacion.exp_par_comi_10');
+        $this->db->where('id_exp_10', $id_exp_10); // Filtra por el ID específico del registro
+        $query = $this->db->get();
+        return $query->row_array(); // Devuelve una sola fila
+    }
+
+    // Método para actualizar un registro de Experiencia en Comisiones
+    public function update_exp_comis($id_exp_10, $data)
+    {
+        $this->db->where('id_exp_10', $id_exp_10);
+        $query = $this->db->update('certificacion.exp_par_comi_10', $data);
+
+        if ($query) {
+            return 1; // Éxito
+        } else {
+            log_message('error', 'Error updating certificacion.exp_par_comi_10l for id_exp_10 ' . $id_exp_10 . ': ' . $this->db->error()['message']);
+            return 0; // Error
+        }
+    }
+    function get_dictado_cap_by_id($id_dic_cap_3)
+    {
+        $this->db->select('id, rif_cont, n_certif, organo3, actividad3, desde3, hasta3, cedula, id_dic_cap_3');
+        $this->db->from('certificacion.exp_dic_cap_3');
+        $this->db->where('id_dic_cap_3', $id_dic_cap_3); // Filtra por el ID específico del registro
+        $query = $this->db->get();
+        return $query->row_array(); // Devuelve una sola fila
+    }
+
+    // Método para actualizar un registro de Dictado de Capacitación
+    public function update_dictado_cap($id_dic_cap_3, $data)
+    {
+        $this->db->where('id_dic_cap_3', $id_dic_cap_3);
+        $query = $this->db->update('certificacion.exp_dic_cap_3', $data);
+
+        if ($query) {
+            return 1; // Éxito
+        } else {
+            log_message('error', 'Error updating certificacion.exp_dic_cap_3 for id_dic_cap_3 ' . $id_dic_cap_3 . ': ' . $this->db->error()['message']);
+            return 0; // Error
+        }
+    }
+
+    public function get_certificacion_info($id_certificacion)
+    {
+        $this->db->select('id, nro_comprobante, nombre, rif_cont, fecha_solic, objetivo, cont_prog');
+        $this->db->from('certificacion.certificaciones');
+        $this->db->where('id', $id_certificacion);
+        $query = $this->db->get();
+        return $query->row_array(); // Retorna una sola fila
+    }
+
+    // 2. Obtener experiencia de la empresa en capacitación
+    public function get_experiencia_empresa($id_certificacion)
+    {
+        // Asumo que 'experi_empre_cap_comisi' se relaciona con 'certificaciones' por 'id'
+        // Si se relaciona por 'rif_cont' o 'nro_comprobante', ajusta el where
+        $this->db->select('id, nro_comprobante, rif_cont, n_certif, organo_expe, actividad_exp, desde_exp, hasta_exp');
+        $this->db->from('certificacion.experi_empre_cap_comisi');
+        $this->db->where('id', $id_certificacion); // ASUNCIÓN: 'id' de certificaciones
+        $query = $this->db->get();
+        return $query->result_array(); // Retorna múltiples filas
+    }
+    // 2. Obtener experiencia de la empresa en capacitación
+    public function get_experiencia_empresa10($id_certificacion)
+    {
+        // Asumo que 'experi_empre_cap_comisi' se relaciona con 'certificaciones' por 'id'
+        // Si se relaciona por 'rif_cont' o 'nro_comprobante', ajusta el where
+        $this->db->select('id, nro_comprobante, rif_cont, n_certif, organo_experi_empre_capa, actividad_experi_empre_capa, desde_experi_empre_capa, hasta_experi_empre_capa');
+        $this->db->from('certificacion.experi_empre_capa');
+        $this->db->where('id', $id_certificacion); // ASUNCIÓN: 'id' de certificaciones
+        $query = $this->db->get();
+        return $query->result_array(); // Retorna múltiples filas
+    }
+
+    // 3. Obtener facilitadores asociados por rif_cont (ASUNCIÓN para el ejemplo)
+    public function get_facilitadores_by_rif_cont($id_certificacion)
+    {
+        $this->db->select('id, nombre_ape, cedula, rif'); // Selecciona las columnas básicas del facilitador
+        $this->db->from('certificacion.infor_per_natu');
+        $this->db->where('id', $id_certificacion); // Asumo que rif_cont es el campo de unión
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function check_miemb_inf_exp_comis($cedula)
+    {
+        $this->db->select('id, rif_cont, n_certif, organo10, act_adminis_desid, n_acto, fecha_act, area_10, dura_comi, nro_comprobante, cedula, id_exp_10');
+        $this->db->from('certificacion.exp_par_comi_10');
+        $this->db->where('cedula', $cedula);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    // 7. Obtener Dictado de Capacitación de un Facilitador (NUEVA si no la tienes, o ajusta una existente)
+    public function check_miemb_inf_cap_dictado($cedula)
+    {
+        $this->db->select('id, rif_cont, n_certif, organo3, actividad3, desde3, hasta3, cedula, id_dic_cap_3');
+        $this->db->from('certificacion.exp_dic_cap_3');
+        $this->db->where('cedula', $cedula);
+        $query = $this->db->get();
+        return $query->result_array();
     }
 }

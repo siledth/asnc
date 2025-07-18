@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Solicitud de Usuarios SNC SNC</title>
+    <title>Solicitud de Usuarios SNC </title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -58,7 +58,8 @@
                     enctype="multipart/form-data">
 
                     <div class="form-section">
-                        <h5 class="text-primary mb-3"><i class="fas fa-building mr-2"></i>Datos del Órgano / Ente</h5>
+                        <h5 class="text-primary mb-3"><i class="fas fa-building mr-2"></i>Datos del Órgano / Ente
+                            Solicitante</h5>
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label for="rif_b">
@@ -77,7 +78,7 @@
                         <div id='existe' style="display: none;">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="sel_rif_nombre5">Rif del Órgano / Ente:</label>
+                                    <label for="sel_rif_nombre5">Rif del Órgano / Ente :</label>
                                     <input class="form-control" type="text" name="sel_rif_nombre5" id="sel_rif_nombre5"
                                         readonly>
                                 </div>
@@ -113,30 +114,12 @@
                             </div>
                         </div>
 
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="rifadscrito">
-                                    RIF Órgano/Ente de Adscripción:
-                                    <span class="required-asterisk">*</span>
-                                </label>
-                                <input id="rifadscrito" name="rifadscrito" class="form-control" onkeypress="may(this);"
-                                    placeholder="G123456789"
-                                    oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/,'')"
-                                    onkeyup="this.value=this.value.toUpperCase();">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="nameadscrito">
-                                    Nombre Órgano/Ente de Adscripción:
-                                    <span class="required-asterisk">*</span>
-                                </label>
-                                <input id="nameadscrito" name="nameadscrito" class="form-control">
-                            </div>
-                        </div>
+
 
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="cod_onapre">
-                                    Código ONAPRE
+                                    Código ONAPRE Órgano/Ente Solicitante
                                     <span class="required-asterisk">*</span>
                                 </label>
                                 <input type="text" id="cod_onapre" name="cod_onapre" class="form-control"
@@ -144,14 +127,14 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="siglas">
-                                    Siglas
+                                    Siglas Órgano/Ente Solicitante
                                     <span class="required-asterisk">*</span>
                                 </label>
                                 <input type="text" id="siglas" name="siglas" class="form-control" placeholder="Siglas"
                                     maxlength="12">
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="id_clasificacion">Clasificación:</label>
+                                <label for="id_clasificacion">Clasificación Órgano/Ente Solicitante:</label>
                                 <select id="id_clasificacion" name="id_clasificacion" class="form-control">
                                     <option value="0">-Seleccione -</option>
                                     <?php foreach ($clasificacion as $data): ?>
@@ -166,7 +149,7 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="tel_local">
-                                    Teléfono Local
+                                    Teléfono Local Órgano/Ente Solicitante
                                     <span class="required-asterisk">*</span>
                                 </label>
                                 <input type="number" id="tel_local" name="tel_local" class="form-control"
@@ -175,7 +158,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="pag_web">
-                                    Página Web
+                                    Página Web Órgano/Ente Solicitante
                                     <span class="required-asterisk">*</span>
                                 </label>
                                 <input type="text" id="pag_web" name="pag_web" class="form-control"
@@ -186,6 +169,7 @@
 
                     <div class="form-section">
                         <h5 class="text-primary mb-3"><i class="fas fa-map-marker-alt mr-2"></i>Dirección Fiscal
+                            Órgano/Ente Solicitante
                             <span class="required-asterisk">*</span>
                         </h5>
                         <div class="form-row">
@@ -229,6 +213,11 @@
                         </h5>
                         <div class="form-row">
                             <div class="form-group col-md-6">
+                                <label for="cargo__max_a_f">Cédula de Identidad</label>
+                                <input type="text" id="cedula__max_a_f" name="cedula__max_a_f" maxlength="20"
+                                    class="form-control" placeholder="">
+                            </div>
+                            <div class="form-group col-md-6">
                                 <label for="name_max_a_f">Nombre(s) y Apellido(s):</label>
                                 <input type="text" id="name_max_a_f" name="name_max_a_f" maxlength="50"
                                     class="form-control" placeholder="Nombre completo">
@@ -238,6 +227,49 @@
                                 <input type="text" id="cargo__max_a_f" name="cargo__max_a_f" maxlength="50"
                                     class="form-control" placeholder="Cargo">
                             </div>
+                            <div class="form-group col-md-6">
+                                <label for="cargo__max_a_f">Acto Administrativo de Designación:</label>
+                                <input type="text" id="actoad__max_a_f" name="actoad__max_a_f" maxlength="50"
+                                    class="form-control" placeholder="">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="cargo__max_a_f"> Nº:</label>
+                                <input type="text" id="n__max_a_f" name="n__max_a_f" maxlength="50" class="form-control"
+                                    placeholder="">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="cargo__max_a_f"> Fechaº:</label>
+                                <input type="date" id="fecha__max_a_f" name="fecha__max_a_f" maxlength="50"
+                                    class="form-control" placeholder="">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="cargo__max_a_f"> Gaceta:</label>
+                                <input type="text" id="gaceta__max_a_f" name="gaceta__max_a_f" maxlength="50"
+                                    class="form-control" placeholder="">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="cargo__max_a_f"> Fechaº:</label>
+                                <input type="date" id="gfecha__max_a_f" name="gfecha__max_a_f" maxlength="50"
+                                    class="form-control" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="rifadscrito">
+                                RIF Órgano/Ente de Adscripción:
+                                <span class="required-asterisk">*</span>
+                            </label>
+                            <input id="rifadscrito" name="rifadscrito" class="form-control" onkeypress="may(this);"
+                                placeholder="G123456789" oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/,'')"
+                                onkeyup="this.value=this.value.toUpperCase();">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="nameadscrito">
+                                Nombre Órgano/Ente de Adscripción:
+                                <span class="required-asterisk">*</span>
+                            </label>
+                            <input id="nameadscrito" name="nameadscrito" class="form-control">
                         </div>
                     </div>
 
@@ -249,7 +281,7 @@
                         <div class="form-row">
                             <div class="form-group col-md-3">
                                 <label for="cedula_f">Cédula de Identidad:</label>
-                                <input type="text" id="cedula_f" name="cedula_f" maxlength="8" onblur="validateUsers();"
+                                <input type="text" id="cedula_f" name="cedula_f" maxlength="8"
                                     placeholder="Sin puntos ni comas" class="form-control" />
                             </div>
                             <div class="form-group col-md-5">

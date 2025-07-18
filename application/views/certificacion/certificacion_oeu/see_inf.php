@@ -59,14 +59,14 @@
                                 <tbody>
                                     <?php foreach ($academico as $data): ?>
                                         <tr class="odd gradeX" style="text-align:center">
-                                            <td><?= $data['titulo'] ?></td>
+                                            <td><?= $data['desc_academico'] ?></td>
                                             <td><?= $data['titulo'] ?></td>
                                             <td><?= $data['ano'] ?></td>
                                             <td><?= $data['culminacion'] ?></td>
 
                                             <td class="center">
-                                                <a onclick="modal(<?php echo $data['id_inf_academ'] ?>);"
-                                                    data-toggle="modal" data-target="#exampleModal" style="color: white">
+                                                <a onclick="modal(<?php echo $data['id_per'] ?>);" data-toggle="modal"
+                                                    data-target="#exampleModal" style="color: white">
                                                     <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
                                                         style="color: darkgreen;"></i>
                                                 </a>
@@ -102,9 +102,10 @@
                                         <td><?= $data['certi'] ?> </td>
                                         <td><?= $data['fech_cert'] ?> </td>
                                         <td class="center">
-                                            <a onclick="modal_exp(<?php echo $data['id_form'] ?>);" data-toggle="modal"
-                                                data-target="#exp" style="color: white">
-                                                <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
+                                            <a onclick="modal_contr_pub(<?php echo $data['id_form']; ?>);"
+                                                data-toggle="modal" data-target="#modalEditContratacionPublica"
+                                                style="color: white">
+                                                <i title="Editar" class="fas fa-lg fa-fw fa-highlighter"
                                                     style="color: darkgreen;"></i>
                                             </a>
                                         </td>
@@ -128,7 +129,7 @@
                                     <th>Fecha</th>
                                     <th>Área</th>
                                     <th>Duración en la Comisión (tiempo)</th>
-
+                                    <th>Acción</th>
 
                                 </tr>
                             </thead>
@@ -144,7 +145,14 @@
                                         <td><?= $data['area_10'] ?> </td>
 
                                         <td><?= $data['dura_comi'] ?> </td>
-
+                                        <td class="center">
+                                            <a onclick="modal_exp_comis(<?php echo $data['id_exp_10']; ?>);"
+                                                data-toggle="modal" data-target="#modalEditExpComisiones"
+                                                style="color: white">
+                                                <i title="Editar" class="fas fa-lg fa-fw fa-highlighter"
+                                                    style="color: darkgreen;"></i>
+                                            </a>
+                                        </td>
 
                                     </tr>
                                 <?php endforeach; ?>
@@ -164,7 +172,7 @@
                                     <th>Actividad</th>
                                     <th>Desde</th>
                                     <th>Hasta</th>
-
+                                    <th>Acción</th>
 
                                 </tr>
                             </thead>
@@ -177,7 +185,14 @@
                                         <td><?= $data['actividad3'] ?> </td>
                                         <td><?= $data['desde3'] ?> </td>
                                         <td><?= $data['hasta3'] ?> </td>
-
+                                        <td class="center">
+                                            <a onclick="modal_dictado_cap(<?php echo $data['id_dic_cap_3']; ?>);"
+                                                data-toggle="modal" data-target="#modalEditDictadoCapacitacion"
+                                                style="color: white">
+                                                <i title="Editar" class="fas fa-lg fa-fw fa-highlighter"
+                                                    style="color: darkgreen;"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -204,17 +219,20 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" id="guardar_proc_pag" name="guardar_proc_pag" data-parsley-validate="true"
-                    method="POST" enctype="multipart/form-data">
+                <form class="form-horizontal" id="form_edit_academica" name="form_edit_academica"
+                    data-parsley-validate="true" method="POST" enctype="multipart/form-data">
                     <div class="row">
                         <div class="card card-outline-danger">
                             <h5 class="mt-0 text-center"><b>INFORMACIÓN ACADÉMICA</b></h5>
                             <div class="row ">
+                                <input type="hidden" name="id_per_edit" id="id_per_edit">
+
                                 <div class="form-group col-4">
-                                    <label>Formación Académica :</label>
-                                    <input class="form-control" type="text" name="fm_ac1" id="fm_ac1" readonly>
-                                    <input class="form-control" type="hidden" name="id_academico" id="id_academico"
+                                    <label>Formación Académica Actual:</label>
+                                    <input class="form-control" type="text" name="fm_ac1_display" id="fm_ac1_display"
                                         readonly>
+                                    <input class="form-control" type="hidden" name="id_academico_current"
+                                        id="id_academico_current" readonly>
                                 </div>
                                 <div class="form-group col-4">
                                     <label> Cambiar Formación Académica <i
@@ -222,25 +240,32 @@
                                             class="fas fa-question-circle"></i></label>
                                     <select class="form-control" name="camb_id_academico" id="camb_id_academico">
                                         <option value="0">Seleccione</option>
+                                        <?php foreach ($carrera as $data_carrera) : ?>
+                                            <option value="<?= $data_carrera['id_academico'] ?>">
+                                                <?= $data_carrera['desc_academico'] ?>
+                                            </option>
+                                        <?php endforeach; ?>
                                     </select>
-                                    <input class="form-control" type="hidden" name="id_inf_academ" id="id_inf_academ"
-                                        readonly>
-                                    <input class="form-control" type="hidden" name="id_comision" id="id_comision"
-                                        readonly>
-                                    <input class="form-control" type="hidden" name="id_miembros" id="id_miembros"
-                                        readonly>
                                 </div>
                                 <div class="form-group col-4">
                                     <label>Título Obtenido:</label>
-                                    <input class="form-control" type="text" name="titulo" id="titulo">
+                                    <input class="form-control" type="text" name="titulo_edit" id="titulo_edit">
                                 </div>
                                 <div class="form-group col-4">
                                     <label> Año de Inicio (aaaa)</label>
-                                    <input class="form-control" type="text" name="anioi" id="anioi">
+                                    <input class="form-control" type="text" name="anioi_edit" id="anioi_edit">
                                 </div>
                                 <div class="form-group col-4">
                                     <label>Culminación:</label>
-                                    <input class="form-control" type="text" name="anioc" id="anioc">
+                                    <input class="form-control" type="text" name="anioc_edit" id="anioc_edit">
+                                </div>
+                                <div class="form-group col-4">
+                                    <label>En Curso:</label>
+                                    <select name="curso_edit" id="curso_edit">
+                                        <option value="0">Seleccione</option>
+                                        <option value="1">No</option>
+                                        <option value="2">Si</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -248,15 +273,206 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" onclick="javascript:window.location.reload()" class="btn btn-secondary"
-                    data-dismiss="modal">Cerrar</button>
-                <button type="button" id="guardar_pago_fin" onclick="save_modif_inf_acad();"
-                    class="my-button">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="guardar_modificacion_academica" onclick="save_modif_inf_acad();"
+                    class="my-button">Guardar Cambios</button>
             </div>
         </div>
     </div>
 </div>
+<div class="modal fade" id="modalEditContratacionPublica" tabindex="-1" role="dialog"
+    aria-labelledby="modalEditContratacionPublicaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditContratacionPublicaLabel">Editar Formación en Materia de
+                    Contratación Pública</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="form_edit_contratacion_publica" name="form_edit_contratacion_publica"
+                    data-parsley-validate="true" method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="card card-outline-danger">
+                            <h5 class="mt-0 text-center"><b>INFORMACIÓN DE CAPACITACIÓN EN CONTRATACIÓN PÚBLICA</b></h5>
+                            <div class="row ">
+                                <input type="hidden" name="id_form_edit" id="id_form_edit">
 
+                                <div class="form-group col-8">
+                                    <label> Taller o Curso de Comisión de Contrataciones <b title="Campo Obligatorio"
+                                            style="color:red">*</b></label>
+                                    <input class="form-control" type="text" name="taller_edit" id="taller_edit"
+                                        placeholder="Nombre" onkeyup="mayusculas(this);">
+                                </div>
+                                <div class="form-group col-4">
+                                    <label>Institución donde realizó la Formación<b title="Campo Obligatorio"
+                                            style="color:red">*</b></label>
+                                    <input class="form-control" type="text" name="institucion_edit"
+                                        id="institucion_edit" placeholder="institucion" onkeyup="mayusculas(this);">
+                                </div>
+                                <div class="form-group col-4">
+                                    <label>Horas de Duración <b title="Campo Obligatorio"
+                                            style="color:red">*</b></label>
+                                    <input class="form-control" type="number" name="hor_dura_edit" id="hor_dura_edit">
+                                </div>
+                                <div class="form-group col-4">
+                                    <label>N.º del Certificado <b title="Campo Obligatorio"
+                                            style="color:red">*</b></label>
+                                    <input class="form-control" type="text" name="certi_edit" id="certi_edit"
+                                        onkeyup="mayusculas(this);">
+                                </div>
+                                <div class="form-group col-4">
+                                    <label>Fecha Certificado <b title="Campo Obligatorio"
+                                            style="color:red">*</b></label>
+                                    <input class="form-control" type="date" name="fech_cert_edit" id="fech_cert_edit">
+                                </div>
+                                <div class="form-group col-4">
+                                    <label>Vigencia<b title="Campo Obligatorio" style="color:red">no
+                                            debe dar mas de 2 años</b></label>
+                                    <input class="form-control" type="text" name="vigencia_edit" id="vigencia_edit"
+                                        readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="guardar_modificacion_contr_pub" onclick="save_modif_contr_pub();"
+                    class="my-button">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalEditExpComisiones" tabindex="-1" role="dialog"
+    aria-labelledby="modalEditExpComisionesLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditExpComisionesLabel">Editar Experiencia en Comisiones de
+                    Contrataciones (Últimos 10 Años)</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="form_edit_exp_comisiones" name="form_edit_exp_comisiones"
+                    data-parsley-validate="true" method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="card card-outline-danger">
+                            <h5 class="mt-0 text-center"><b>EXPERIENCIA EN COMISIONES DE CONTRATACIONES</b></h5>
+                            <div class="row ">
+                                <input type="hidden" name="id_exp_10_edit" id="id_exp_10_edit">
+
+                                <div class="form-group col-8">
+                                    <label> Órgano o Ente de la Comisión de Contrataciones <b title="Campo Obligatorio"
+                                            style="color:red">*</b></label>
+                                    <input class="form-control" type="text" name="organo10_edit" id="organo10_edit"
+                                        placeholder="Nombre" onkeyup="mayusculas(this);">
+                                </div>
+                                <div class="form-group col-6">
+                                    <label>Acto Administrativo de Designación<b title="Campo Obligatorio"
+                                            style="color:red">*</b></label>
+                                    <select style="width: 100%;" class="default-select2 form-control"
+                                        id="act_adminis_desid_edit" name="act_adminis_desid_edit">
+                                        <option value="Gaceta">Gaceta</option>
+                                        <option value="Providencia">Providencia</option>
+                                        <option value="Resolución">Resolución</option>
+                                        <option value="Punto de Cuenta">Punto de Cuenta</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-4">
+                                    <label>N° del Acto <b title="Campo Obligatorio" style="color:red">*</b></label>
+                                    <input class="form-control" type="number" name="n_acto_edit" id="n_acto_edit">
+                                </div>
+                                <div class="form-group col-4">
+                                    <label>Fecha <b title="Campo Obligatorio" style="color:red">*</b></label>
+                                    <input class="form-control" type="date" name="fecha_act_edit" id="fecha_act_edit">
+                                </div>
+                                <div class="form-group col-6">
+                                    <label>Área <b title="Campo Obligatorio" style="color:red">*</b></label>
+                                    <select style="width: 100%;" class="default-select2 form-control" id="area_10_edit"
+                                        name="area_10_edit">
+                                        <option value="Legal">Legal</option>
+                                        <option value="Económica Financiera">Económica Financiera</option>
+                                        <option value="Técnica">Técnica</option>
+                                        <option value="Secretario">Secretario</option>
+                                        <option value="Secretaria">Secretaria</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-4">
+                                    <label>Duración en la Comisión (tiempo) <b title="Campo Obligatorio"
+                                            style="color:red">*</b></label>
+                                    <input class="form-control" type="text" name="dura_comi_edit" id="dura_comi_edit">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="guardar_modificacion_exp_comis" onclick="save_modif_exp_comis();"
+                    class="my-button">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalEditDictadoCapacitacion" tabindex="-1" role="dialog"
+    aria-labelledby="modalEditDictadoCapacitacionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditDictadoCapacitacionLabel">Editar Experiencia en Dictado de
+                    Capacitación (Últimos 3 Años)</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="form_edit_dictado_capacitacion" name="form_edit_dictado_capacitacion"
+                    data-parsley-validate="true" method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="card card-outline-danger">
+                            <h5 class="mt-0 text-center"><b>EXPERIENCIA EN DICTADO DE CAPACITACIÓN</b></h5>
+                            <div class="row ">
+                                <input type="hidden" name="id_dic_cap_3_edit" id="id_dic_cap_3_edit">
+
+                                <div class="form-group col-8">
+                                    <label> Órgano o Ente de la Comisión de Contrataciones <b title="Campo Obligatorio"
+                                            style="color:red">*</b></label>
+                                    <input class="form-control" type="text" name="organo3_edit" id="organo3_edit"
+                                        placeholder="Nombre" onkeyup="mayusculas(this);">
+                                </div>
+                                <div class="form-group col-4">
+                                    <label>Actividad<b title="Campo Obligatorio" style="color:red">*</b></label>
+                                    <input class="form-control" type="text" name="actividad3_edit" id="actividad3_edit"
+                                        placeholder="Actividad" onkeyup="mayusculas(this);">
+                                </div>
+                                <div class="form-group col-4">
+                                    <label>Desde <b title="Campo Obligatorio" style="color:red">*</b></label>
+                                    <input class="form-control" type="date" name="desde3_edit" id="desde3_edit">
+                                </div>
+                                <div class="form-group col-4">
+                                    <label>Hasta <b title="Campo Obligatorio" style="color:red">*</b></label>
+                                    <input class="form-control" type="date" name="hasta3_edit" id="hasta3_edit">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="guardar_modificacion_dictado_cap" onclick="save_modif_dictado_cap();"
+                    class="my-button">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="exp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
