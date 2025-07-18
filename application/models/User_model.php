@@ -1210,6 +1210,14 @@ class User_model extends CI_Model
                 'rifadscrito'         => $data['rifadscrito'],
                 'nameadscrito'         => $data['nameadscrito'],
                 'ccp_facilitadores'         => $ccp_facilitadores,
+                'cedula__max_a_f'         => $data['cedula__max_a_f'],
+                'actoad__max_a_f'         => $data['actoad__max_a_f'],
+                'n__max_a_f'         => $data['n__max_a_f'],
+                'fecha__max_a_f'         => $data['fecha__max_a_f'],
+                'gaceta__max_a_f'         => $data['gaceta__max_a_f'],
+                'gfecha__max_a_f'         => $data['gfecha__max_a_f'],
+
+
 
 
             );
@@ -1235,6 +1243,12 @@ class User_model extends CI_Model
                         'direccion_fiscal'         => $data['direccion_fiscal'],
                         'rifadscrito'         => $data['rifadscrito'],
                         'nameadscrito'         => $data['nameadscrito'],
+                        'cedula__max_a_f'         => $data['cedula__max_a_f'],
+                        'actoad__max_a_f'         => $data['actoad__max_a_f'],
+                        'n__max_a_f'         => $data['n__max_a_f'],
+                        'fecha__max_a_f'         => $data['fecha__max_a_f'],
+                        'gaceta__max_a_f'         => $data['gaceta__max_a_f'],
+                        'gfecha__max_a_f'         => $data['gfecha__max_a_f'],
 
                     );
                     $this->db->insert('public.sorg_ent_no_snc', $data3);
@@ -1247,18 +1261,22 @@ class User_model extends CI_Model
     function consulta_solictud($data1)
     {
 
-        $query = $this->db->query("SELECT c.*, o.descripcion,  cl.desc_clasificacion, e.descedo, m.descmun, p.descparro
+        $query = $this->db->query("SELECT c.*, o.descripcion,o.rif  , cl.rif as rifasdcr, cl.descripcion as nombreascrito,al.desc_acto_admin,
+        cl.cod_onapre, cl.id_estado, cl.id_municipio, cl.id_parroquia, cl.siglas, cl.direccion as dri, cl.pagina_web, cl.id_clasificacion, c2.desc_clasificacion, 
+         e.descedo, m.descmun, p.descparro
           
             
                  FROM public.solicitud_user c 
                 join  public.organoente o on o.rif = c.rif	
-                join  public.estados e on e.id = c.id_estado_n	
-                join  public.municipios m on m.id = c.id_municipio_n	
-                join  public.parroquias p on p.id = c.id_parroquia_n	
-                join  public.clasificacion cl on cl.id_clasificacion = c.id_clasificacion
-                -- join  public.organoente a on a.id_organoente = o.id_organoenteads	
+                	
+                 join  public.organoente cl on cl.id_organoente = o.id_organoenteads
+                  join  public.estados e on e.id = cl.id_estado
+                  join  public.municipios m on m.id = cl.id_municipio	
+                  join  public.parroquias p on p.id = cl.id_parroquia	
+                 join  comisiones.acto_admin al on al.id_acto_admin = c.actoad__max_a_f
 
-                    
+                 join  public.clasificacion c2 on c2.id_clasificacion =  cl.id_clasificacion	
+
                  where c.id_solicitud_user = '$data1' 
                   ");
         if ($query->num_rows() > 0) {
@@ -1288,7 +1306,7 @@ class User_model extends CI_Model
         $query = $this->db->query("SELECT c.*, o.descripcion,o.id_estado_n, o.id_municipio_n, o.id_parroquia_n, o.siglas, 
             o.direccion_fiscal as dri,o.siglas,o.cod_onapre, o.id_clasificacion, o.tel_local ,
              cl.desc_clasificacion,  e.descedo, m.descmun, p.descparro,  o.pag_web, o.name_max_a_f, o.cargo__max_a_f, 
-             o.rifadscrito, o.nameadscrito
+             o.rifadscrito, o.nameadscrito, o.cedula__max_a_f, o.actoad__max_a_f, o.n__max_a_f, o.fecha__max_a_f, o.gaceta__max_a_f, o.gfecha__max_a_f, al.desc_acto_admin
             
                  FROM public.solicitud_user c 
                 join  public.sorg_ent_no_snc o on o.rif = c.rif	
@@ -1296,6 +1314,7 @@ class User_model extends CI_Model
                 join  public.municipios m on m.id = o.id_municipio_n	
                 join  public.parroquias p on p.id = o.id_parroquia_n	
                 join  public.clasificacion cl on cl.id_clasificacion = o.id_clasificacion
+                join  comisiones.acto_admin al on al.id_acto_admin = c.actoad__max_a_f
 
                     
                  where c.id_solicitud_user = '$data1' 

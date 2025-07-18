@@ -1077,12 +1077,12 @@ class User extends CI_Controller
 
         // 2. Aplicar Form Validation de CodeIgniter (¡MUY IMPORTANTE!)
         $this->form_validation->set_rules('rif_b', 'RIF', 'required|alpha_dash|max_length[10]'); // rif_b: guiones y letras/numeros
-        $this->form_validation->set_rules('rifadscrito', 'RIF Órgano Adscripción', 'required|alpha_dash|max_length[15]');
-        $this->form_validation->set_rules('nameadscrito', 'Nombre Órgano Adscripción', 'required|trim|max_length[200]');
-        $this->form_validation->set_rules('cod_onapre', 'Código ONAPRE', 'required|numeric|max_length[10]');
-        $this->form_validation->set_rules('siglas', 'Siglas', 'required|trim|max_length[50]');
-        $this->form_validation->set_rules('tel_local', 'Teléfono Local', 'required|numeric|max_length[15]');
-        $this->form_validation->set_rules('pag_web', 'Página Web', 'required|trim|valid_url|max_length[100]');
+        // $this->form_validation->set_rules('rifadscrito', 'RIF Órgano Adscripción', 'required|alpha_dash|max_length[15]');
+        // $this->form_validation->set_rules('nameadscrito', 'Nombre Órgano Adscripción', 'required|trim|max_length[200]');
+        // $this->form_validation->set_rules('cod_onapre', 'Código ONAPRE', 'required|numeric|max_length[10]');
+        // $this->form_validation->set_rules('siglas', 'Siglas', 'required|trim|max_length[50]');
+        // $this->form_validation->set_rules('tel_local', 'Teléfono Local', 'required|numeric|max_length[15]');
+        // $this->form_validation->set_rules('pag_web', 'Página Web', 'required|trim|valid_url|max_length[100]');
         $this->form_validation->set_rules('name_max_a_f', 'Nombre Máxima Autoridad', 'required|trim|max_length[100]');
         $this->form_validation->set_rules('cargo__max_a_f', 'Cargo Máxima Autoridad', 'required|trim|max_length[50]');
         $this->form_validation->set_rules('name_f', 'Nombre Funcionario', 'required|trim|max_length[100]');
@@ -1091,6 +1091,9 @@ class User extends CI_Controller
         $this->form_validation->set_rules('cargo_f', 'Cargo Funcionario', 'required|trim|max_length[50]');
         $this->form_validation->set_rules('telefono_f', 'Teléfono Funcionario', 'required|numeric|max_length[15]');
         $this->form_validation->set_rules('correo', 'Correo', 'required|trim|valid_email|max_length[200]');
+        $this->form_validation->set_rules('cedula__max_a_f', 'Cédula maxima autoridad', 'required|numeric|max_length[10]');
+
+
 
         // Validaciones para checkboxes (si son importantes, valida que existan en el POST)
         // No necesitas reglas para 'on'/'off', solo que estén presentes si se marcan
@@ -1098,11 +1101,13 @@ class User extends CI_Controller
 
         // Aquí se pueden agregar más reglas según la naturaleza de cada campo
         // Ejemplo para dropdowns:
-        $this->form_validation->set_rules('id_clasificacion', 'Clasificación', 'required|numeric');
-        $this->form_validation->set_rules('id_estado_n', 'Estado', 'required|numeric');
-        $this->form_validation->set_rules('id_municipio_n', 'Municipio', 'required|numeric');
-        $this->form_validation->set_rules('id_parroquia_n', 'Parroquia', 'required|numeric');
-        $this->form_validation->set_rules('direccion_fiscal', 'Dirección Fiscal', 'required|trim|max_length[500]');
+        // $this->form_validation->set_rules('id_clasificacion', 'Clasificación', 'required|numeric');
+        $this->form_validation->set_rules('actoad__max_a_f', 'acto', 'required|numeric');
+
+        // $this->form_validation->set_rules('id_estado_n', 'Estado', 'required|numeric');
+        // $this->form_validation->set_rules('id_municipio_n', 'Municipio', 'required|numeric');
+        // $this->form_validation->set_rules('id_parroquia_n', 'Parroquia', 'required|numeric');
+        // $this->form_validation->set_rules('direccion_fiscal', 'Dirección Fiscal', 'required|trim|max_length[500]');
 
 
         if ($this->form_validation->run() == FALSE) {

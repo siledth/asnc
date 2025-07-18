@@ -89,8 +89,8 @@ class Solicitud extends CI_Controller
                 foreach ($data as $d) {
 
                     $pdf->SetFont('Arial', 'B', 9);
-
-                    $pdf->Cell(35, 5, utf8_decode('Órgano / Ente / Adscrito:'), 0, 0, 'R');
+                    //
+                    $pdf->Cell(56, 5, utf8_decode('Órgano / Ente / Adscrito Solicitante:'), 0, 0, 'R');
 
                     $pdf->SetFont('Arial', '', 9);
                     $pdf->MultiCell(125, 5, utf8_decode($d->descripcion), 0, 'L');
@@ -100,54 +100,80 @@ class Solicitud extends CI_Controller
                     $pdf->Cell(35, 5, utf8_decode('RIF:'), 0, 0, 'R');
                     $pdf->SetFont('Arial', '', 9);
                     $pdf->Cell(20, 5, $d->rif, 0, 1, 'C');
+
                     $pdf->SetFont('Arial', 'B', 9);
-                    $pdf->Cell(42, 5, utf8_decode('Órgano/Ente de Adscripción:'), 0, 0, 'R');
+                    $pdf->Cell(46, 5, utf8_decode('Órgano/Ente de Adscripción:'), 0, 0, 'R');
                     $pdf->SetFont('Arial', '', 9);
-                    $pdf->Cell(40, 5, $d->rifadscrito, 0, 1, 'L');
-                    $pdf->MultiCell(200, 5, utf8_decode($d->nameadscrito), 0, 'L');
+                    if ($d->rifasdcr = 0) {
+                        $pdf->Cell(40, 5, $d->rifasdcr, 0, 1, 'L');
+                        $pdf->MultiCell(200, 5, utf8_decode($d->nombreascrito), 0, 'L');
+                    } else {
+                        $pdf->Cell(20, 5, $d->rif, 0, 1, 'C');
+                        $pdf->MultiCell(125, 5, utf8_decode($d->descripcion), 0, 'L');
+                    }
                     $pdf->SetFont('Arial', 'B', 9);
-                    $pdf->Cell(9, 5, utf8_decode('Siglas:'), 0, 0, 'R');
+                    $pdf->Cell(13, 5, utf8_decode('Siglas:'), 0, 0, 'R');
                     $pdf->SetFont('Arial', '', 9);
                     $pdf->Cell(20, 5, utf8_decode($d->siglas), 0, 0, 'L');
                     $pdf->SetFont('Arial', 'B', 9);
-                    $pdf->Cell(30, 5, utf8_decode('Codigo ONAPRE:'), 0, 0, 'R');
+                    $pdf->Cell(30, 5, utf8_decode('Codigo ONAPRE'), 0, 0, 'R');
                     $pdf->SetFont('Arial', '', 9);
-                    $pdf->Cell(10, 5, $d->cod_onapre, 0, 0, 'L');
+                    $pdf->Cell(10, 5, $d->cod_onapre, 0, 0, 'C');
                     $pdf->SetFont('Arial', 'B', 9);
                     $pdf->Cell(35, 5, utf8_decode('Clasificación:'), 0, 0, 'R');
                     $pdf->SetFont('Arial', '', 9);
-                    $pdf->Cell(55, 5, $d->desc_clasificacion, 0, 1, 'C');
+                    $pdf->Cell(50, 5, $d->desc_clasificacion, 0, 1, 'C');
                     $pdf->SetFont('Arial', 'B', 9);
-                    $pdf->Cell(13, 5, utf8_decode('Telefono:'), 0, 0, 'R');
+                    $pdf->Cell(16, 5, utf8_decode('Telefono:'), 0, 0, 'R');
                     $pdf->SetFont('Arial', '', 9);
                     $pdf->Cell(20, 5, utf8_decode($d->tel_local), 0, 0, 'L');
                     $pdf->SetFont('Arial', 'B', 9);
                     $pdf->Cell(15, 5, utf8_decode('Estado:'), 0, 0, 'L');
                     $pdf->SetFont('Arial', '', 9);
-                    $pdf->Cell(25, 5, $d->descedo, 0, 0, 'L');
+                    $pdf->Cell(30, 5, $d->descedo, 0, 0, 'L');
                     $pdf->SetFont('Arial', 'B', 9);
                     $pdf->Cell(20, 5, utf8_decode('Municipio:'), 0, 0, 'L');
                     $pdf->SetFont('Arial', '', 9);
-                    $pdf->Cell(50, 5, utf8_decode($d->descmun), 0, 0, 'L');
+                    $pdf->Cell(33, 5, utf8_decode($d->descmun), 0, 0, 'L');
                     $pdf->SetFont('Arial', 'B', 9);
-                    $pdf->Cell(20, 5, utf8_decode('Parroquia:'), 0, 0, 'L');
-                    $pdf->SetFont('Arial', '', 7);
+                    $pdf->Cell(15, 5, utf8_decode('Parroquia:'), 0, 0, 'L');
+                    $pdf->SetFont('Arial', '', 9);
                     $pdf->Cell(15, 5, utf8_decode($d->descparro), 0, 1, 'L');
                     $pdf->SetFont('Arial', 'B', 9);
-                    $pdf->Cell(-3, 5, '', 0, 0, 'L');
-
-                    $pdf->Cell(10, 5, utf8_decode('Dirección:'), 0, 0, 'L');
-                    $pdf->Cell(10, 5, '', 0, 0, 'L');
-
+                    $pdf->Cell(17, 5, utf8_decode('Dirección:'), 0, 0, 'R');
                     $pdf->SetFont('Arial', '', 9);
-                    $pdf->MultiCell(180, 5, utf8_decode($d->direccion_fiscal), 0, 'L');
+                    $pdf->MultiCell(180, 5, utf8_decode($d->dri), 0, 'L');
                     $pdf->SetFont('Arial', 'B', 9);
-                    $pdf->Cell(50, 5, utf8_decode('Máxima Autoridad o Cuentadante:'), 0, 0, 'R');
-                    $pdf->Cell(100, 5, utf8_decode('Cargo Máxima Autoridad o Cuentadante:'), 0, 1, 'R');
+                    $pdf->Cell(62, 5, utf8_decode('Cédula Máxima Autoridad o Cuentadante:'), 0, 0, 'R');
+                    $pdf->Cell(90, 5, utf8_decode('Máxima Autoridad o Cuentadante:'), 0, 1, 'R');
 
                     $pdf->SetFont('Arial', '', 9);
-                    $pdf->Cell(50, 5, utf8_decode($d->name_max_a_f), 0, 0, 'C');
-                    $pdf->Cell(150, 5, utf8_decode($d->cargo__max_a_f), 0, 1, 'C');
+                    $pdf->Cell(50, 5, utf8_decode($d->cedula__max_a_f), 0, 0, 'C');
+                    $pdf->Cell(150, 5, utf8_decode($d->name_max_a_f), 0, 1, 'C');
+
+                    $pdf->SetFont('Arial', 'B', 9);
+
+                    $pdf->Cell(62, 5, utf8_decode('Cargo Máxima Autoridad o Cuentadante:'), 0, 0, 'R');
+                    $pdf->Cell(90, 5, utf8_decode('Acto Administrativo de Designación:'), 0, 1, 'R');
+                    $pdf->SetFont('Arial', '', 9);
+                    $pdf->Cell(50, 5, utf8_decode($d->cargo__max_a_f), 0, 0, 'C');
+                    $pdf->Cell(150, 5, utf8_decode($d->desc_acto_admin), 0, 1, 'C');
+                    $pdf->SetFont('Arial', 'B', 9);
+
+
+                    $pdf->Cell(62, 5, utf8_decode('Nº: Acto Administrativo de Designación:'), 0, 0, 'R');
+                    $pdf->Cell(50, 5, utf8_decode('Fecha:'), 0, 1, 'R');
+
+                    $pdf->SetFont('Arial', '', 9);
+                    $pdf->Cell(50, 5, utf8_decode($d->n__max_a_f), 0, 0, 'C');
+                    $pdf->Cell(150, 5, utf8_decode($d->fecha__max_a_f), 0, 1, 'C');
+                    $pdf->SetFont('Arial', 'B', 9);
+
+                    $pdf->Cell(62, 5, utf8_decode('Gaceta:'), 0, 0, 'R');
+                    $pdf->Cell(50, 5, utf8_decode('Fecha:'), 0, 1, 'R');
+                    $pdf->SetFont('Arial', '', 9);
+                    $pdf->Cell(50, 5, utf8_decode($d->gaceta__max_a_f), 0, 0, 'C');
+                    $pdf->Cell(150, 5, utf8_decode($d->gfecha__max_a_f), 0, 1, 'C');
                 }
             }
         } else {
@@ -210,12 +236,37 @@ class Solicitud extends CI_Controller
                     $pdf->SetFont('Arial', '', 9);
                     $pdf->MultiCell(180, 5, utf8_decode($d2->dri), 0, 'L');
                     $pdf->SetFont('Arial', 'B', 9);
-                    $pdf->Cell(50, 5, utf8_decode('Máxima Autoridad o Cuentadante:'), 0, 0, 'R');
-                    $pdf->Cell(100, 5, utf8_decode('Cargo Máxima Autoridad o Cuentadante:'), 0, 1, 'R');
+                    $pdf->SetFont('Arial', 'B', 9);
+                    $pdf->Cell(62, 5, utf8_decode('Cédula Máxima Autoridad o Cuentadante:'), 0, 0, 'R');
+                    $pdf->Cell(90, 5, utf8_decode('Máxima Autoridad o Cuentadante:'), 0, 1, 'R');
 
                     $pdf->SetFont('Arial', '', 9);
-                    $pdf->Cell(50, 5, $d2->name_max_a_f, 0, 0, 'C');
-                    $pdf->Cell(150, 5, $d2->cargo__max_a_f, 0, 1, 'C');
+                    $pdf->Cell(50, 5, utf8_decode($d2->cedula__max_a_f), 0, 0, 'C');
+                    $pdf->Cell(150, 5, utf8_decode($d2->name_max_a_f), 0, 1, 'C');
+
+                    $pdf->SetFont('Arial', 'B', 9);
+
+                    $pdf->Cell(62, 5, utf8_decode('Cargo Máxima Autoridad o Cuentadante:'), 0, 0, 'R');
+                    $pdf->Cell(90, 5, utf8_decode('Acto Administrativo de Designación:'), 0, 1, 'R');
+                    $pdf->SetFont('Arial', '', 9);
+                    $pdf->Cell(50, 5, utf8_decode($d2->cargo__max_a_f), 0, 0, 'C');
+                    $pdf->Cell(150, 5, utf8_decode($d2->desc_acto_admin), 0, 1, 'C');
+                    $pdf->SetFont('Arial', 'B', 9);
+
+
+                    $pdf->Cell(62, 5, utf8_decode('Nº: Acto Administrativo de Designación:'), 0, 0, 'R');
+                    $pdf->Cell(50, 5, utf8_decode('Fecha:'), 0, 1, 'R');
+
+                    $pdf->SetFont('Arial', '', 9);
+                    $pdf->Cell(50, 5, utf8_decode($d2->n__max_a_f), 0, 0, 'C');
+                    $pdf->Cell(150, 5, utf8_decode($d2->fecha__max_a_f), 0, 1, 'C');
+                    $pdf->SetFont('Arial', 'B', 9);
+
+                    $pdf->Cell(62, 5, utf8_decode('Gaceta:'), 0, 0, 'R');
+                    $pdf->Cell(50, 5, utf8_decode('Fecha:'), 0, 1, 'R');
+                    $pdf->SetFont('Arial', '', 9);
+                    $pdf->Cell(50, 5, utf8_decode($d2->gaceta__max_a_f), 0, 0, 'C');
+                    $pdf->Cell(150, 5, utf8_decode($d2->gfecha__max_a_f), 0, 1, 'C');
                 }
             }
         }

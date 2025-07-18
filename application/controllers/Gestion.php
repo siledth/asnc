@@ -227,17 +227,15 @@ class Gestion extends CI_Controller
     $data['final']  = $this->User_model->consulta_organoente();
     $data['clasificacion'] = $this->Configuracion_model->consulta_clasificacion();
 
+    $data['acto'] = $this->Configuracion_model->consulta_acto_admin();
+
     $data['estados']    = $this->Configuracion_model->consulta_estados();
     $data['objeto']    = $this->Configuracion_model->objeto();
-    // $this->load->view('templates/header.php');
-    // $this->load->view('templates/navsinsesion.php');
+
     $this->load->view('templates/headerlog');
     $this->load->view('templates/navbarlog');
     $this->load->view('solicitud/solicitud.php', $data);
     $this->load->view('templates/footerlog');
-
-    // $this->load->view('templates/footer.php');
-
   }
 
 

@@ -111,100 +111,126 @@
                                     </label>
                                     <input id="razon_social" name="razon_social" class="form-control">
                                 </div>
-                            </div>
-                        </div>
 
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="cod_onapre">
+                                            Código ONAPRE Órgano/Ente Solicitante
+                                            <span class="required-asterisk">*</span>
+                                        </label>
+                                        <input type="text" id="cod_onapre" name="cod_onapre" class="form-control"
+                                            placeholder="Código Onapre" maxlength="20">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="siglas">
+                                            Siglas Órgano/Ente Solicitante
+                                            <span class="required-asterisk">*</span>
+                                        </label>
+                                        <input type="text" id="siglas" name="siglas" class="form-control"
+                                            placeholder="Siglas" maxlength="12">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="id_clasificacion">Clasificación Órgano/Ente Solicitante:</label>
+                                        <select id="id_clasificacion" name="id_clasificacion" class="form-control">
+                                            <option value="0">-Seleccione -</option>
+                                            <?php foreach ($clasificacion as $data): ?>
+                                                <option value="<?= htmlspecialchars($data['id_clasificacion']) ?>">
+                                                    <?= htmlspecialchars($data['desc_clasificacion']) ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
 
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="tel_local">
+                                            Teléfono Local Órgano/Ente Solicitante
+                                            <span class="required-asterisk">*</span>
+                                        </label>
+                                        <input type="number" id="tel_local" name="tel_local" class="form-control"
+                                            placeholder="042XXXXXXXX">
+                                        <p id="errorMsg" class="text-danger"></p>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="pag_web">
+                                            Página Web Órgano/Ente Solicitante
+                                            <span class="required-asterisk">*</span>
+                                        </label>
+                                        <input type="text" id="pag_web" name="pag_web" class="form-control"
+                                            placeholder="ej. www.ejemplo.com" maxlength="20">
+                                    </div>
+                                </div>
+                            </div>
 
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="cod_onapre">
-                                    Código ONAPRE Órgano/Ente Solicitante
+                            <div class="form-section">
+                                <h5 class="text-primary mb-3"><i class="fas fa-map-marker-alt mr-2"></i>Dirección Fiscal
+                                    Órgano/Ente Solicitante
                                     <span class="required-asterisk">*</span>
-                                </label>
-                                <input type="text" id="cod_onapre" name="cod_onapre" class="form-control"
-                                    placeholder="Código Onapre" maxlength="20">
+                                </h5>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="id_estado_n">Estado:</label>
+                                        <select class="form-control" name="id_estado_n" id="id_estado_n"
+                                            onchange="llenar_municipio(); ">
+                                            <option value="0">Seleccione</option>
+                                            <?php foreach ($estados as $data): ?>
+                                                <option value="<?= htmlspecialchars($data['id']) ?>">
+                                                    <?= htmlspecialchars($data['descedo']) ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="id_municipio_n">Municipio:</label>
+                                        <select class="form-control" name="id_municipio_n" id="id_municipio_n"
+                                            onchange="llenar_parroquia();">
+                                            <option value="0">Seleccione</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="id_parroquia_n">Parroquia:</label>
+                                        <select class="form-control" name="id_parroquia_n" id="id_parroquia_n">
+                                            <option value="0">Seleccione</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="direccion_fiscal">Dirección Fiscal Completa:</label>
+                                    <textarea class="form-control" id="direccion_fiscal" name="direccion_fiscal"
+                                        rows="3" placeholder="Indique la dirección fiscal completa"></textarea>
+                                </div>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="siglas">
-                                    Siglas Órgano/Ente Solicitante
-                                    <span class="required-asterisk">*</span>
-                                </label>
-                                <input type="text" id="siglas" name="siglas" class="form-control" placeholder="Siglas"
-                                    maxlength="12">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="id_clasificacion">Clasificación Órgano/Ente Solicitante:</label>
-                                <select id="id_clasificacion" name="id_clasificacion" class="form-control">
-                                    <option value="0">-Seleccione -</option>
-                                    <?php foreach ($clasificacion as $data): ?>
-                                        <option value="<?= htmlspecialchars($data['id_clasificacion']) ?>">
-                                            <?= htmlspecialchars($data['desc_clasificacion']) ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="tel_local">
-                                    Teléfono Local Órgano/Ente Solicitante
-                                    <span class="required-asterisk">*</span>
-                                </label>
-                                <input type="number" id="tel_local" name="tel_local" class="form-control"
-                                    placeholder="042XXXXXXXX">
-                                <p id="errorMsg" class="text-danger"></p>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="pag_web">
-                                    Página Web Órgano/Ente Solicitante
-                                    <span class="required-asterisk">*</span>
-                                </label>
-                                <input type="text" id="pag_web" name="pag_web" class="form-control"
-                                    placeholder="ej. www.ejemplo.com" maxlength="20">
+                            <div class="form-section">
+                                <h5 class="text-primary mb-3"><i class="fas fa-building mr-2"></i>Datos del Órgano /
+                                    Ente
+                                    de Adscripción</h5>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="rifadscrito">
+                                            RIF Órgano/Ente de Adscripción:
+                                            <span class="required-asterisk">*</span>
+                                        </label>
+                                        <input id="rifadscrito" name="rifadscrito" class="form-control"
+                                            onkeypress="may(this);" placeholder="G123456789"
+                                            oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/,'')"
+                                            onkeyup="this.value=this.value.toUpperCase();">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="nameadscrito">
+                                            Nombre Órgano/Ente de Adscripción:
+                                            <span class="required-asterisk">*</span>
+                                        </label>
+                                        <input id="nameadscrito" name="nameadscrito" class="form-control">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-section">
-                        <h5 class="text-primary mb-3"><i class="fas fa-map-marker-alt mr-2"></i>Dirección Fiscal
-                            Órgano/Ente Solicitante
-                            <span class="required-asterisk">*</span>
-                        </h5>
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="id_estado_n">Estado:</label>
-                                <select class="form-control" name="id_estado_n" id="id_estado_n"
-                                    onchange="llenar_municipio(); ">
-                                    <option value="0">Seleccione</option>
-                                    <?php foreach ($estados as $data): ?>
-                                        <option value="<?= htmlspecialchars($data['id']) ?>">
-                                            <?= htmlspecialchars($data['descedo']) ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="id_municipio_n">Municipio:</label>
-                                <select class="form-control" name="id_municipio_n" id="id_municipio_n"
-                                    onchange="llenar_parroquia();">
-                                    <option value="0">Seleccione</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="id_parroquia_n">Parroquia:</label>
-                                <select class="form-control" name="id_parroquia_n" id="id_parroquia_n">
-                                    <option value="0">Seleccione</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="direccion_fiscal">Dirección Fiscal Completa:</label>
-                            <textarea class="form-control" id="direccion_fiscal" name="direccion_fiscal" rows="3"
-                                placeholder="Indique la dirección fiscal completa"></textarea>
-                        </div>
-                    </div>
+
+
+
 
                     <div class="form-section">
                         <h5 class="text-primary mb-3"><i class="fas fa-user-tie mr-2"></i>Datos de la Máxima Autoridad o
@@ -229,8 +255,16 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="cargo__max_a_f">Acto Administrativo de Designación:</label>
-                                <input type="text" id="actoad__max_a_f" name="actoad__max_a_f" maxlength="50"
-                                    class="form-control" placeholder="">
+                                <select id="actoad__max_a_f" name="actoad__max_a_f" class="form-control">
+                                    <option value="0">-Seleccione -</option>
+                                    <?php foreach ($acto as $data): ?>
+                                        <option value="<?= htmlspecialchars($data['id_acto_admin']) ?>">
+                                            <?= htmlspecialchars($data['desc_acto_admin']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+
+
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="cargo__max_a_f"> Nº:</label>
@@ -254,24 +288,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="rifadscrito">
-                                RIF Órgano/Ente de Adscripción:
-                                <span class="required-asterisk">*</span>
-                            </label>
-                            <input id="rifadscrito" name="rifadscrito" class="form-control" onkeypress="may(this);"
-                                placeholder="G123456789" oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/,'')"
-                                onkeyup="this.value=this.value.toUpperCase();">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="nameadscrito">
-                                Nombre Órgano/Ente de Adscripción:
-                                <span class="required-asterisk">*</span>
-                            </label>
-                            <input id="nameadscrito" name="nameadscrito" class="form-control">
-                        </div>
-                    </div>
+
+
 
                     <div class="form-section">
                         <h5 class="text-primary mb-3"><i class="fas fa-user mr-2"></i>Datos del Usuario o Usuaria de la

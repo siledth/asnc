@@ -161,6 +161,13 @@ class Configuracion_model extends CI_model
         $query = $this->db->get('public.clasificacion');
         return $result = $query->result_array();
     }
+    public function consulta_acto_admin()
+    {
+        $this->db->select('id_acto_admin, desc_acto_admin');
+        $this->db->order_by('id_acto_admin asc');
+        $query = $this->db->get('comisiones.acto_admin');
+        return $result = $query->result_array();
+    }
     public function save_ente($data1)
     {
 
