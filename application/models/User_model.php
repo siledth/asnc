@@ -1262,7 +1262,7 @@ class User_model extends CI_Model
     {
 
         $query = $this->db->query("SELECT c.*, o.descripcion,o.rif  , cl.rif as rifasdcr, cl.descripcion as nombreascrito,al.desc_acto_admin,
-        o.cod_onapre as code_onapre, o.id_estado, o.id_municipio, o.id_parroquia, o.siglas as sliglas_, o.direccion as dri, o.pagina_web, o.id_clasificacion, c2.desc_clasificacion, 
+        o.cod_onapre as code_onapres, o.id_estado, o.id_municipio, o.id_parroquia, o.siglas as sliglas_, o.direccion as dri, o.pagina_web, o.id_clasificacion, c2.desc_clasificacion, 
          e.descedo, m.descmun, p.descparro, o.tel1 as tele_     
                  FROM public.solicitud_user c 
                 join  public.organoente o on o.rif = c.rif	

@@ -118,7 +118,7 @@ class Solicitud extends CI_Controller
                     $pdf->SetFont('Arial', 'B', 9);
                     $pdf->Cell(30, 5, utf8_decode('Codigo ONAPRE'), 0, 0, 'R');
                     $pdf->SetFont('Arial', '', 9);
-                    $pdf->Cell(10, 5, $d->code_onapre, 0, 0, 'C');
+                    $pdf->Cell(10, 5, $d->code_onapres, 0, 0, 'C');
                     $pdf->SetFont('Arial', 'B', 9);
                     $pdf->Cell(35, 5, utf8_decode('Clasificación:'), 0, 0, 'R');
                     $pdf->SetFont('Arial', '', 9);
@@ -403,6 +403,6 @@ class Solicitud extends CI_Controller
 * Para el Módulo de Consulta de Contratista se crearán hasta un máximo de tres (3) Claves
 * Por cada Usuario o Usuaria debe remitirse una Planilla de Solicitud                  '), 0, 'J');
 
-        $pdf->Output('Solicitud Usuario SNC', 'D');
+        $pdf->Output('Solicitud Usuario SNC', 'I');
     }
 }
