@@ -2751,9 +2751,9 @@ class Certificacion_model extends CI_model
                 }
             }
 
-            return array('success' => true, 'id' => $inserted_cert_db_id);; // Retornar el ID de la certificación principal insertada
+            return true;; // Retornar el ID de la certificación principal insertada
         }
-        return array('success' => false, 'message' => 'Error al insertar la certificación principal.');
+        return false;
     }
 
     // Asegúrate de que la función _generate_qrcode está definida en este mismo modelo
