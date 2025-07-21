@@ -28,8 +28,8 @@ function buscarPagos() {
 
     document.getElementById('loadingPagos').style.display = 'block';
     document.getElementById('pagosResultados').style.display = 'none';
-    // const baseUrl = '/index.php/'; // Ajusta esta URL si tu base_url es diferente
-   const baseUrl = window.location.origin + '/asnc/index.php/';
+     const baseUrl = '/index.php/'; // Ajusta esta URL si tu base_url es diferente
+   //const baseUrl = window.location.origin + '/asnc/index.php/';
 
     fetch(baseUrl + 'Diplomado/generarReportePagos', {
         method: 'POST',
