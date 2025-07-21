@@ -162,10 +162,7 @@ function guardar_registro2(){
         alert("Debe aceptar La Declaración Para Continuar con el Registro, en el menu Declaración")
         document.reg_bien.acepto.focus()
         return 0;
- }
- 
- 
-
+            }
 
         if (result.value == true) {
 
@@ -184,7 +181,7 @@ function guardar_registro2(){
                 contentType: false,
                 processData: false,
                 success: function(response){
-                    if(response > 0) {
+                    if (response.success) { 
                         swal.fire({
                             title: 'Registro Exitoso, por favor para continuar ingrese sus facilitadores ',
                             type: 'success',
@@ -192,13 +189,30 @@ function guardar_registro2(){
                             confirmButtonColor: '#3085d6',
                             confirmButtonText: 'Ok'
                         }).then((result) => {
-                            if (result.value == true) {
+                            if (result.isConfirmed) { // Usa result.isConfirmed
                                 window.location.href = base_url_2;
                             }
                         });
+                    } else {
+                        // Manejar el caso de error si el modelo devuelve success: false
+                        swal.fire(
+                            'Error',
+                            response.message || 'Hubo un problema al registrar la certificación.',
+                            'error'
+                        );
                     }
+                },
+                error: function(xhr, status, error) {
+                    // Manejo de errores de AJAX (ej. error de red, error 500 del servidor)
+                    console.error("AJAX error: ", status, error);
+                    console.error("Response Text: ", xhr.responseText);
+                    swal.fire(
+                        'Error',
+                        'Hubo un problema de comunicación con el servidor. Intente de nuevo más tarde.',
+                        'error'
+                    );
                 }
-            })
+            });
         }
     });
 }
