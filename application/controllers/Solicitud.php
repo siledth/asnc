@@ -114,11 +114,11 @@ class Solicitud extends CI_Controller
                     $pdf->SetFont('Arial', 'B', 9);
                     $pdf->Cell(13, 5, utf8_decode('Siglas:'), 0, 0, 'R');
                     $pdf->SetFont('Arial', '', 9);
-                    $pdf->Cell(20, 5, utf8_decode($d->siglas), 0, 0, 'L');
+                    $pdf->Cell(20, 5, utf8_decode($d->sliglas_), 0, 0, 'L');
                     $pdf->SetFont('Arial', 'B', 9);
                     $pdf->Cell(30, 5, utf8_decode('Codigo ONAPRE'), 0, 0, 'R');
                     $pdf->SetFont('Arial', '', 9);
-                    $pdf->Cell(10, 5, $d->cod_onapre, 0, 0, 'C');
+                    $pdf->Cell(10, 5, $d->code_onapre, 0, 0, 'C');
                     $pdf->SetFont('Arial', 'B', 9);
                     $pdf->Cell(35, 5, utf8_decode('Clasificación:'), 0, 0, 'R');
                     $pdf->SetFont('Arial', '', 9);
@@ -126,7 +126,7 @@ class Solicitud extends CI_Controller
                     $pdf->SetFont('Arial', 'B', 9);
                     $pdf->Cell(16, 5, utf8_decode('Telefono:'), 0, 0, 'R');
                     $pdf->SetFont('Arial', '', 9);
-                    $pdf->Cell(20, 5, utf8_decode($d->tel_local), 0, 0, 'L');
+                    $pdf->Cell(20, 5, utf8_decode($d->tele_), 0, 0, 'L');
                     $pdf->SetFont('Arial', 'B', 9);
                     $pdf->Cell(15, 5, utf8_decode('Estado:'), 0, 0, 'L');
                     $pdf->SetFont('Arial', '', 9);
