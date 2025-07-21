@@ -1,11 +1,11 @@
 function modal(id) {
     var id_inf_academ = id;
-        var base_url =window.location.origin+'/asnc/index.php/Comision_contrata/consulta_infomr_acade_miembro';
-        var base_url2 =window.location.origin+'/asnc/index.php/Comision_contrata/llenar_forma_aca_mod';
+        // var base_url =window.location.origin+'/asnc/index.php/Comision_contrata/consulta_infomr_acade_miembro';
+        // var base_url2 =window.location.origin+'/asnc/index.php/Comision_contrata/llenar_forma_aca_mod';
         // var base_url3 =window.location.origin+'/asnc/index.php/Programacion/llenar_alic_iva_mod';
 
-        // var base_url = '/index.php/Programacion/consultar_item_modal_bienes';
-        //  var base_url2 = '/index.php/ccccc';
+         var base_url = '/index.php/Comision_contrata/consulta_infomr_acade_miembro';
+         var base_url2 = '/index.php/Comision_contrata/llenar_forma_aca_mod';
         // var base_url3 = '/index.php/Programacion/llenar_alic_iva_mod';
         // var base_url7 = '/index.php/Programacion/llenar_ff_';
     $.ajax({
@@ -84,7 +84,8 @@ function save_modif_inf_acad(){
             var titulo = $('#titulo').val();
             var anioi = $('#anioi').val();
             var anioc = $('#anioc').val();
-        var base_url =window.location.origin+'/asnc/index.php/Comision_contrata/editar_informacion_academica';
+        //  var base_url =window.location.origin+'/asnc/index.php/Comision_contrata/editar_informacion_academica';
+         var base_url = '/index.php/Comision_contrata/editar_informacion_academica';
 
             // var base_url = '/index.php/Programacion/editar_fila_ip_b';
 
@@ -125,8 +126,11 @@ function save_modif_inf_acad(){
 
 function modal_exp(id) {
     var id_inf_exp5 = id;
-        var base_url =window.location.origin+'/asnc/index.php/Comision_contrata/consulta_infomr_modal_exp_miembro';
-       var base_url2 =window.location.origin+'/asnc/index.php/Comision_contrata/llenar_ente';
+    //     var base_url =window.location.origin+'/asnc/index.php/Comision_contrata/consulta_infomr_modal_exp_miembro';
+    //    var base_url2 =window.location.origin+'/asnc/index.php/Comision_contrata/llenar_ente';
+
+         var base_url = '/index.php/Comision_contrata/consulta_infomr_modal_exp_miembro';
+         var base_url2 = '/index.php/Comision_contrata/llenar_ente';
 
         // var base_url3 =window.location.origin+'/asnc/index.php/Programacion/llenar_alic_iva_mod';
 
@@ -556,7 +560,7 @@ function save_experiencia_comision() {
                 return false;
             }
 
-       var base_url = '/index.php/certificacion/save_experiencia_comision';
+            var base_url = '/index.php/certificacion/save_experiencia_comision';
 
             // var base_url = window.location.origin + '/asnc/index.php/Certificacion/save_experiencia_comision'; // Nueva ruta en el controlador
 
@@ -695,7 +699,7 @@ function save_dictado_capacitacion() {
                  $('#desde3').focus();
                  return false;
             }
-       var base_url = '/index.php/certificacion/save_dictado_capacitacion';
+           var base_url = '/index.php/certificacion/save_dictado_capacitacion';
 
 
             // var base_url = window.location.origin + '/asnc/index.php/Certificacion/save_dictado_capacitacion'; // Nueva ruta en el controlador
@@ -895,7 +899,8 @@ function modal(id_per_to_edit) { // Renombrado para mayor claridad
     $('#curso_edit').val('0'); // Resetear también el select de curso
 
     // Realiza una llamada AJAX para obtener los datos del registro académico
-    var base_url = window.location.origin + '/asnc/index.php/Certificacion/get_inf_academica_by_id';
+    // var base_url = window.location.origin + '/asnc/index.php/Certificacion/get_inf_academica_by_id';
+    var base_url = '/index.php/Certificacion/get_inf_academica_by_id';
 
     $.ajax({
         url: base_url,
@@ -1000,8 +1005,9 @@ function save_modif_inf_acad() {
                 $('#anioi_edit').focus();
                 return false;
             }
+            var base_url = '/index.php/Certificacion/update_inf_academica';
 
-            var base_url = window.location.origin + '/asnc/index.php/Certificacion/update_inf_academica'; // Nueva ruta para actualizar
+            // var base_url = window.location.origin + '/asnc/index.php/Certificacion/update_inf_academica'; // Nueva ruta para actualizar
 
             $.ajax({
                 url: base_url,
@@ -1052,8 +1058,9 @@ function modal_contr_pub(id_form_to_edit) {
     $('#vigencia_edit').css('border', ''); // Quitar cualquier borde rojo
 
     // Realiza una llamada AJAX para obtener los datos del registro
-    var base_url = window.location.origin + '/asnc/index.php/Certificacion/get_formacion_cp_by_id';
-
+    // var base_url = window.location.origin + '/asnc/index.php/Certificacion/get_formacion_cp_by_id';
+    var base_url = '/index.php/Certificacion/get_formacion_cp_by_id';
+     
     $.ajax({
         url: base_url,
         method: 'POST',
@@ -1205,7 +1212,8 @@ function save_modif_contr_pub() {
             if (certi_edit === '') { Swal.fire('Atención', 'El campo "N.º del Certificado" no puede estar vacío.', 'warning'); $('#certi_edit').focus(); return false; }
             if (fech_cert_edit === '') { Swal.fire('Atención', 'El campo "Fecha Certificado" no puede estar vacío.', 'warning'); $('#fech_cert_edit').focus(); return false; }
 
-            var base_url = window.location.origin + '/asnc/index.php/Certificacion/update_formacion_cp'; // Nueva ruta para actualizar
+            // var base_url = window.location.origin + '/asnc/index.php/Certificacion/update_formacion_cp'; // Nueva ruta para actualizar
+            var base_url = '/index.php/Certificacion/update_formacion_cp';
 
             $.ajax({
                 url: base_url,
@@ -1257,7 +1265,8 @@ function modal_exp_comis(id_exp_10_to_edit) {
     $('#area_10_edit').val('Legal').trigger('change'); // Resetear a valor por defecto
 
     // Realiza una llamada AJAX para obtener los datos del registro
-    var base_url = window.location.origin + '/asnc/index.php/Certificacion/get_exp_comis_by_id';
+    // var base_url = window.location.origin + '/asnc/index.php/Certificacion/get_exp_comis_by_id';
+    var base_url = '/index.php/Certificacion/get_exp_comis_by_id';
 
     $.ajax({
         url: base_url,
@@ -1337,7 +1346,8 @@ function save_modif_exp_comis() {
                 return false;
             }
 
-            var base_url = window.location.origin + '/asnc/index.php/Certificacion/update_exp_comis'; // Nueva ruta para actualizar
+            // var base_url = window.location.origin + '/asnc/index.php/Certificacion/update_exp_comis'; // Nueva ruta para actualizar
+            var base_url = '/index.php/Certificacion/update_exp_comis';
 
             $.ajax({
                 url: base_url,
@@ -1387,7 +1397,8 @@ function modal_dictado_cap(id_dic_cap_3_to_edit) {
     $('#form_edit_dictado_capacitacion')[0].reset();
 
     // Realiza una llamada AJAX para obtener los datos del registro
-    var base_url = window.location.origin + '/asnc/index.php/Certificacion/get_dictado_cap_by_id';
+    // var base_url = window.location.origin + '/asnc/index.php/Certificacion/get_dictado_cap_by_id';
+            var base_url = '/index.php/Certificacion/get_dictado_cap_by_id';
 
     $.ajax({
         url: base_url,
@@ -1472,7 +1483,8 @@ function save_modif_dictado_cap() {
             }
 
 
-            var base_url = window.location.origin + '/asnc/index.php/Certificacion/update_dictado_cap'; // Nueva ruta para actualizar
+            // var base_url = window.location.origin + '/asnc/index.php/Certificacion/update_dictado_cap'; // Nueva ruta para actualizar
+            var base_url = '/index.php/Certificacion/update_dictado_cap';
 
             $.ajax({
                 url: base_url,
