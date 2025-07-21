@@ -10,7 +10,7 @@
                             <div class="card-block">
                                 <blockquote class="card-blockquote" style="margin-bottom: -19px;">
                                     <p class="f-s-18 text-inverse f-w-600"> <?= $descripcion ?>.</p>
-                                    <p class="f-s-16">Fechanfghddf.: <?= $time ?> <br>
+                                    <p class="f-s-16">Fecha: <?= $time ?> <br>
                                 </blockquote>
                             </div>
                         </div>
@@ -21,10 +21,7 @@
 
                         <div class="row">
 
-                            <button onclick="location.href='<?php echo base_url() ?>index.php/Certificacion/registrar2'"
-                                type="button" class="btn btn-lg btn-default" name="button">
-                                Registrar Certificación PJ
-                            </button>
+
                             <?php if (isset(($ver['user_soli']))) {
 
                                 if ($ver['tipo_pers'] == 2) { ?>
