@@ -1262,20 +1262,17 @@ class User_model extends CI_Model
     {
 
         $query = $this->db->query("SELECT c.*, o.descripcion,o.rif  , cl.rif as rifasdcr, cl.descripcion as nombreascrito,al.desc_acto_admin,
-        cl.cod_onapre as code_onapre, cl.id_estado, cl.id_municipio, cl.id_parroquia, cl.siglas as sliglas_, cl.direccion as dri, cl.pagina_web, cl.id_clasificacion, c2.desc_clasificacion, 
-         e.descedo, m.descmun, p.descparro, cl.tel1 as tele_
-          
-            
+        o.cod_onapre as code_onapre, o.id_estado, o.id_municipio, o.id_parroquia, o.siglas as sliglas_, o.direccion as dri, o.pagina_web, o.id_clasificacion, c2.desc_clasificacion, 
+         e.descedo, m.descmun, p.descparro, o.tel1 as tele_     
                  FROM public.solicitud_user c 
                 join  public.organoente o on o.rif = c.rif	
-                	
                  join  public.organoente cl on cl.id_organoente = o.id_organoenteads
-                  join  public.estados e on e.id = cl.id_estado
-                  join  public.municipios m on m.id = cl.id_municipio	
-                  join  public.parroquias p on p.id = cl.id_parroquia	
+                  join  public.estados e on e.id = o.id_estado
+                  join  public.municipios m on m.id = o.id_municipio	
+                  join  public.parroquias p on p.id = o.id_parroquia	
                  join  comisiones.acto_admin al on al.id_acto_admin = c.actoad__max_a_f
 
-                 join  public.clasificacion c2 on c2.id_clasificacion =  cl.id_clasificacion	
+                 join  public.clasificacion c2 on c2.id_clasificacion =  o.id_clasificacion	
 
                  where c.id_solicitud_user = '$data1' 
                   ");
