@@ -195,7 +195,7 @@ class Pdfcertificacion extends CI_Controller // Este es el controlador que se ac
         if (empty($comprobante_id) || !is_numeric($comprobante_id)) {
             log_message('error', 'verpdf: ID de certificación no válido o faltante: ' . var_export($comprobante_id, true));
             $this->session->set_flashdata('error_message', 'ID de certificación no válido o faltante para generar PDF.');
-            redirect('alguna_pagina_de_lista_certificaciones');
+            redirect('ver_ficha_tecnica');
             return;
         }
 
@@ -205,7 +205,7 @@ class Pdfcertificacion extends CI_Controller // Este es el controlador que se ac
         if (!$certificacion_info) {
             log_message('error', 'verpdf: No se encontró información para la certificación ID: ' . $comprobante_id);
             $this->session->set_flashdata('error_message', 'No se encontró información para la certificación solicitada para PDF.');
-            redirect('alguna_pagina_de_lista_certificaciones');
+            redirect('ver_ficha_tecnica');
             return;
         }
 
