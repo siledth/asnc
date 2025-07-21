@@ -189,13 +189,30 @@ function guardar_registro2(){
                             confirmButtonColor: '#3085d6',
                             confirmButtonText: 'Ok'
                         }).then((result) => {
-                            if (result.value == true) {
+                            if (result.isConfirmed) { // Usa result.isConfirmed
                                 window.location.href = base_url_2;
                             }
                         });
+                    } else {
+                        // Manejar el caso de error si el modelo devuelve success: false
+                        swal.fire(
+                            'Error',
+                            response.message || 'Hubo un problema al registrar la certificación.',
+                            'error'
+                        );
                     }
+                },
+                error: function(xhr, status, error) {
+                    // Manejo de errores de AJAX (ej. error de red, error 500 del servidor)
+                    console.error("AJAX error: ", status, error);
+                    console.error("Response Text: ", xhr.responseText);
+                    swal.fire(
+                        'Error',
+                        'Hubo un problema de comunicación con el servidor. Intente de nuevo más tarde.',
+                        'error'
+                    );
                 }
-            })
+            });
         }
     });
 }
