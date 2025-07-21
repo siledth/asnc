@@ -428,7 +428,7 @@ $(document).ready(function() {
             },
             error: function() { 
                 console.error("Error in validateEmail."); 
-                Swal.fire('Connection Error', 'Could not verify email availability.', 'error'); 
+                Swal.fire(' Error', 'veriviga el correo.', 'error'); 
                 $("#guardar_user").prop('disabled', true);
                 $('#result-email').html('');
             }
@@ -482,7 +482,7 @@ $(document).ready(function() {
             },
             error: function() { 
                 console.error("Error in validateCedula."); 
-                Swal.fire('Connection Error', 'Could not verify cedula availability.', 'error'); 
+                Swal.fire(' Error', 'verifia la cedula.', 'error'); 
                 $("#guardar_user").prop('disabled', true);
                 $('#result-cedula').html('');
             }
@@ -519,28 +519,28 @@ $(document).ready(function() {
         
         // --- Required Field Validations (with SweetAlert2) ---
         console.log("Starting required field validations...");
-        if (id_unidad == 0) { Swal.fire('Attention', 'You must select an Organization/Entity.', 'warning'); document.getElementById("id_unidad").focus(); return false; }
-        if (nombrefun === '') { Swal.fire('Attention', 'You must enter the full name of the official.', 'warning'); document.getElementById("nombrefun").focus(); return false; }
-        if (apellido === '') { Swal.fire('Attention', 'You must enter the full last name of the official.', 'warning'); document.getElementById("apellido").focus(); return false; }
-        if (cedula === '') { Swal.fire('Attention', 'You must enter the Identity Card.', 'warning'); document.getElementById("cedula").focus(); return false; }
-        if (cargo === '') { Swal.fire('Attention', 'You must enter the position.', 'warning'); document.getElementById("cargo").focus(); return false; }
-        if (tele_1 === '') { Swal.fire('Attention', 'You must enter the Main Phone Number.', 'warning'); document.getElementById("tele_1").focus(); return false; }
-        if (oficina === '') { Swal.fire('Attention', 'You must enter the Office.', 'warning'); document.getElementById("oficina").focus(); return false; }         
-        if (fecha_designacion === '') { Swal.fire('Attention', 'You must enter the Appointment/Request Date.', 'warning'); document.getElementById("fecha_designacion").focus(); return false; }
-        if (numero_gaceta === '') { Swal.fire('Attention', 'You must enter the Gazette/Resolution/Office Number.', 'warning'); document.getElementById("numero_gaceta").focus(); return false; }
-        if (obser === '') { Swal.fire('Attention', 'You must enter Observations.', 'warning'); document.getElementById("obser").focus(); return false; } 
-        if (email === '') { Swal.fire('Attention', 'You must enter the Institutional Email.', 'warning'); document.getElementById("email").focus(); return false; } 
-        if (usuario === '') { Swal.fire('Attention', 'You must enter a Username.', 'warning'); document.getElementById("usuario").focus(); return false; }
-        if (password === '') { Swal.fire('Attention', 'You must enter a Password.', 'warning'); document.getElementById("password").focus(); return false; }
-        if (password !== repeatPassord) { Swal.fire('Password Error', 'Passwords do not match. Please try again.', 'error'); document.getElementById("repeatPassord").focus(); return false; }
+        if (id_unidad == 0) { Swal.fire('Atencion', 'Seleccione Organo o Ente', 'warning'); document.getElementById("id_unidad").focus(); return false; }
+        if (nombrefun === '') { Swal.fire('Atencion', 'ingrese nombre de funcionario.', 'warning'); document.getElementById("nombrefun").focus(); return false; }
+        if (apellido === '') { Swal.fire('Atencion', 'ingrese apellido del funcionario.', 'warning'); document.getElementById("apellido").focus(); return false; }
+        if (cedula === '') { Swal.fire('Atencion', 'ingrese cedula', 'warning'); document.getElementById("cedula").focus(); return false; }
+        if (cargo === '') { Swal.fire('Atencion', 'ingrese cargo.', 'warning'); document.getElementById("cargo").focus(); return false; }
+        if (tele_1 === '') { Swal.fire('Atencion', 'ingrese numero telefonico.', 'warning'); document.getElementById("tele_1").focus(); return false; }
+        if (oficina === '') { Swal.fire('Atencion', 'ingrese numero telefonico.', 'warning'); document.getElementById("oficina").focus(); return false; }         
+        if (fecha_designacion === '') { Swal.fire('atencion', 'ingrese fecha de designacion.', 'warning'); document.getElementById("fecha_designacion").focus(); return false; }
+        if (numero_gaceta === '') { Swal.fire('Atencion', 'ingrese numero de gaceta.', 'warning'); document.getElementById("numero_gaceta").focus(); return false; }
+        if (obser === '') { Swal.fire('Atencion', 'ingrese observacion.', 'warning'); document.getElementById("obser").focus(); return false; } 
+        if (email === '') { Swal.fire('Atencion', 'ingrese correo institucional.', 'warning'); document.getElementById("email").focus(); return false; } 
+        if (usuario === '') { Swal.fire('Atencion', 'ingrese usuario.', 'warning'); document.getElementById("usuario").focus(); return false; }
+        if (password === '') { Swal.fire('Atencion', 'ingrese clave.', 'warning'); document.getElementById("password").focus(); return false; }
+        if (password !== repeatPassord) { Swal.fire('Password Error', 'claves no coinciden inente de nuevo.', 'error'); document.getElementById("repeatPassord").focus(); return false; }
 
         console.log("Required field validations completed. All fields OK.");
 
         // Final check: If the save button is disabled by an onblur validation, prevent submission.
         if ($("#guardar_user").is(':disabled')) {
             Swal.fire({
-                title: 'Validation Error',
-                text: 'There are errors in the form (e.g., duplicate Cédula, Email, or Username). Please correct them before saving.',
+                title: 'Error',
+                text: 'Hay errores en el formulario (por ejemplo, cédula, correo electrónico o nombre de usuario duplicados). Corríjalos antes de guardarlos.',
                 icon: 'error',
                 showConfirmButton: true
             });
@@ -549,8 +549,8 @@ $(document).ready(function() {
 
         // If all validations pass, show final confirmation
         Swal.fire({
-            title: "Register?",
-            text: "Are you sure you want to register this new user?",
+            title: "Registrar?",
+            text: "Seguro de registrar?",
             icon: "question",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -583,8 +583,8 @@ $(document).ready(function() {
 
                         if (response && response.success) {
                             Swal.fire({
-                                title: 'Registration Successful',
-                                text: response.message || 'The user has been registered successfully.',
+                                title: 'Registo',
+                                text: response.message || 'registrado.',
                                 icon: 'success',
                                 showConfirmButton: true
                             }).then(() => {
@@ -593,7 +593,7 @@ $(document).ready(function() {
                         } else {
                             Swal.fire({
                                 title: 'Registration Error',
-                                text: response.message || 'An unknown error occurred while registering the user. Please check the data and try again.',
+                                text: response.message || 'ocurrio un erro intente de nuevo.',
                                 icon: 'error',
                                 showConfirmButton: true
                             });
@@ -609,7 +609,7 @@ $(document).ready(function() {
 
                         Swal.fire({
                             title: 'Connection Error',
-                            text: 'Could not contact the server. Please try again. Check the console for details.',
+                            text: 'error de conexion intente de nuevo.',
                             icon: 'error',
                             showConfirmButton: true
                         });
