@@ -21,7 +21,10 @@
 
                         <div class="row">
 
-
+                            <button onclick="location.href='<?php echo base_url() ?>index.php/Certificacion/registrar2'"
+                                type="button" class="btn btn-lg btn-default" name="button">
+                                Registrar Certificación PJ
+                            </button>
                             <?php if (isset(($ver['user_soli']))) {
 
                                 if ($ver['tipo_pers'] == 2) { ?>
@@ -123,41 +126,41 @@
                                                         <a />
                                                     <?php elseif (($datos['tipo_pers'] == 1) && ($datos['status'] == 2)) : ?>
 
-                                                        <a href="<?php echo base_url(); ?>index.php/Certificacion/renovar_certificacion1?id=<?php echo $datos['rif_cont']; ?>"
+                                                        <!-- <a href="<?php echo base_url(); ?>index.php/Certificacion/renovar_certificacion1?id=<?php echo $datos['rif_cont']; ?>"
                                                             class="button">
                                                             <i class="fas fa-lg fa-fw  fa-edit" style="color: red;"><br><br>
                                                                 Renovar</i>
-                                                            <a />
-                                                        <?php elseif (($datos['tipo_pers'] == 2) && ($datos['status'] == 2)) : ?>
+                                                            <a /> -->
+                                                    <?php elseif (($datos['tipo_pers'] == 2) && ($datos['status'] == 2)) : ?>
 
-                                                            <a href="<?php echo base_url(); ?>index.php/Certificacion/renovar_certificacion_pn?id=<?php echo $datos['rif_cont']; ?>"
+                                                        <a href="<?php echo base_url(); ?>index.php/Certificacion/renovar_certificacion_pn?id=<?php echo $datos['rif_cont']; ?>"
+                                                            class="button">
+                                                            <i class="fas fa-lg fa-fw  fa-edit" style="color: red;"><br><br>
+                                                                Renovar pn</i>
+                                                            <a />
+                                                        <?php endif; ?>
+                                                        <?php if (($datos['tipo_pers'] == 1) && $datos['status'] == 1) : ?>
+                                                            <!-- <a href="<?php echo base_url(); ?>index.php/Certificacion/editar_certificacion?id=<?php echo $datos['rif_cont']; ?>"
                                                                 class="button">
-                                                                <i class="fas fa-lg fa-fw  fa-edit" style="color: red;"><br><br>
-                                                                    Renovar pn</i>
+                                                                <i class="fas fa-lg fa-fw  fa-edit"></i>
+                                                                <a /> -->
+
+                                                            <a href="<?php echo base_url(); ?>index.php/Certificacion/miemb2?id=<?php echo $datos['id']; ?>"
+                                                                class="button">
+                                                                <i title="Agregar Facilitadores"
+                                                                    class="fas fa-2x fa-fw fa-clipboard-list"
+                                                                    style="color: red;"></i>
                                                                 <a />
-                                                            <?php endif; ?>
-                                                            <?php if (($datos['tipo_pers'] == 1) && $datos['status'] == 1) : ?>
-                                                                <a href="<?php echo base_url(); ?>index.php/Certificacion/editar_certificacion?id=<?php echo $datos['rif_cont']; ?>"
+                                                            <?php elseif (($datos['tipo_pers'] == 2) && $datos['status'] == 1): ?>
+
+
+                                                                <a href="<?php echo base_url(); ?>index.php/Certificacion/editar_certificacion_pn?id=<?php echo $datos['rif_cont']; ?>"
                                                                     class="button">
                                                                     <i class="fas fa-lg fa-fw  fa-edit"></i>
                                                                     <a />
 
-                                                                    <a href="<?php echo base_url(); ?>index.php/Certificacion/miemb2?id=<?php echo $datos['id']; ?>"
-                                                                        class="button">
-                                                                        <i title="Agregar Facilitadores"
-                                                                            class="fas fa-2x fa-fw fa-clipboard-list"
-                                                                            style="color: red;"></i>
-                                                                        <a />
-                                                                    <?php elseif (($datos['tipo_pers'] == 2) && $datos['status'] == 1): ?>
 
-
-                                                                        <a href="<?php echo base_url(); ?>index.php/Certificacion/editar_certificacion_pn?id=<?php echo $datos['rif_cont']; ?>"
-                                                                            class="button">
-                                                                            <i class="fas fa-lg fa-fw  fa-edit"></i>
-                                                                            <a />
-
-
-                                                                        <?php endif; ?>
+                                                                <?php endif; ?>
 
 
 

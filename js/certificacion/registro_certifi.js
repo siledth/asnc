@@ -112,8 +112,8 @@ if (document.reg_bien.monto_trans.value.length==0){
 
             event.preventDefault();
             var datos = new FormData($("#reg_bien")[0]);
-           var base_url  = window.location.origin+'/asnc/index.php/Certificacion/registrar_certificacion';
-            // var base_url = '/index.php/Certificacion/registrar_certificacion';
+        //    var base_url  = window.location.origin+'/asnc/index.php/Certificacion/registrar_certificacion';
+            var base_url = '/index.php/Certificacion/registrar_certificacion';
             $.ajax({
                 url:base_url,
                 method: 'POST',
@@ -164,36 +164,17 @@ function guardar_registro2(){
         return 0;
  }
  
-//  if (document.reg_bien.ubicacion.value.length==0){
-//     alert("No Puede dejar el campo ubicacion vacio, Ingrese una ubicacion")
-//     document.reg_bien.ubicacion.focus()
-//     return 0;
-// }
-// if (document.reg_bien.pies.value.length==0){
-//     alert("No Puede dejar el campo Pie vacio, Ingrese un Pie")
-//     document.reg_bien.pies.focus()
-//     return 0;
-// }
-// if (document.reg_bien.canon.value.length==0){
-//     alert("No Puede dejar el campo canon vacio, Ingrese un canon")
-//     document.reg_bien.canon.focus()
-//     return 0;
-// }
-// if (document.reg_bien.fecha_pago.value.length==0){
-//     alert("No Puede dejar el campo  fecha Pago, Ingrese un fecha Pago")
-//     document.reg_bien.fecha_pago.focus()
-//     return 0;
-// }
+ 
 
 
         if (result.value == true) {
 
             event.preventDefault();
             var datos = new FormData($("#reg_bien")[0]);
-        //    var base_url  = window.location.origin+'/asnc/index.php/Certificacion/registrar_certificacion2';
+        //    var base_url  = window.location.origin+'/asnc/index.php/Certificacion/registrar_certificacion3';
         //        var base_url_2 = window.location.origin + "/asnc/index.php/Certificacion/Listado_certificacion_interno_contralodira";
 
-            var base_url = '/index.php/Certificacion/registrar_certificacion2';
+            var base_url = '/index.php/Certificacion/registrar_certificacion3';
             var base_url_2 = '/index.php/Certificacion/Listado_certificacion_interno_contralodira';
 
             $.ajax({
@@ -203,7 +184,7 @@ function guardar_registro2(){
                 contentType: false,
                 processData: false,
                 success: function(response){
-                    if(response == 'true') {
+                    if(response > 0) {
                         swal.fire({
                             title: 'Registro Exitoso, por favor para continuar ingrese sus facilitadores ',
                             type: 'success',

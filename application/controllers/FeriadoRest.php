@@ -1,8 +1,6 @@
 <?php
 
-/**
- * @author Gary Diaz <garyking1982@gmail.com>
- */
+
 
 use ASNC\Libraries\RestController;
 use Application\Model\Mensaje;
@@ -20,13 +18,15 @@ require_once APPPATH . "/models/Mensaje.php";
  * @author Gary Díaz
  */
 
-class FeriadoRest extends RestController {
+class FeriadoRest extends RestController
+{
 
   //**************************************************************************
   //***             Solicitudes Rest de Feriados Especificos               ***
   //**************************************************************************
 
-  public function feriado_especifico_delete($strfecha) {
+  public function feriado_especifico_delete($strfecha)
+  {
     try {
       $fecha = $this->convertirStringDate($strfecha);
       $this->load->model('dao/FeriadoDAO');
@@ -46,7 +46,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriado_especifico_get($strfecha) {
+  public function feriado_especifico_get($strfecha)
+  {
     try {
       $fecha = $this->convertirStringDate($strfecha);
       $this->load->model('dao/FeriadoDAO');
@@ -63,7 +64,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriado_especifico_post() {
+  public function feriado_especifico_post()
+  {
     try {
       $feriadoEspecifico = $this->_post_args;
       $this->load->model('dao/FeriadoDAO');
@@ -83,7 +85,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriado_especifico_put() {
+  public function feriado_especifico_put()
+  {
     try {
       $feriadoEspecifico = $this->_put_args;
       $this->load->model('dao/FeriadoDAO');
@@ -103,7 +106,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriados_especificos_cercanos_get($strfecha) {
+  public function feriados_especificos_cercanos_get($strfecha)
+  {
     try {
       $fecha = $this->convertirStringDate($strfecha);
       $this->load->model('dao/FeriadoDAO');
@@ -120,7 +124,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriados_especificos_por_anio_get($anio) {
+  public function feriados_especificos_por_anio_get($anio)
+  {
     try {
       $this->load->model('dao/FeriadoDAO');
       $feriados = $this->FeriadoDAO->getFeriadosEspecificosPorAnio($anio);
@@ -136,7 +141,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriados_especificos_get() {
+  public function feriados_especificos_get()
+  {
     try {
       $this->load->model('dao/FeriadoDAO');
       $feriados = $this->FeriadoDAO->getFeriadosEspecificos();
@@ -152,7 +158,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriados_especificos_put() {
+  public function feriados_especificos_put()
+  {
     try {
       $descripcion = $this->_put_args['descripcion'];
       $this->load->model('dao/FeriadoDAO');
@@ -169,7 +176,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriados_especificos2_put() {
+  public function feriados_especificos2_put()
+  {
     try {
       $descripcion = $this->_put_args['descripcion'];
       $this->load->model('dao/FeriadoDAO');
@@ -190,7 +198,8 @@ class FeriadoRest extends RestController {
   //***            Solicitudes Rest de Feriados Nacionales                 ***
   //**************************************************************************
 
-  public function feriado_nacional_delete($mes, $dia) {
+  public function feriado_nacional_delete($mes, $dia)
+  {
     try {
       $this->load->model('dao/FeriadoDAO');
       $rs = $this->FeriadoDAO->eliminarFeriadoNacional($mes, $dia);
@@ -209,7 +218,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriado_nacional_get($mes, $dia) {
+  public function feriado_nacional_get($mes, $dia)
+  {
     try {
       $this->load->model('dao/FeriadoDAO');
       $feriado = $this->FeriadoDAO->buscarFeriadoNacional($mes, $dia);
@@ -225,7 +235,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriado_nacional_post() {
+  public function feriado_nacional_post()
+  {
     try {
       $feriadoNacional = $this->_post_args;
       $this->load->model('dao/FeriadoDAO');
@@ -245,7 +256,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriado_nacional_put() {
+  public function feriado_nacional_put()
+  {
     try {
       $feriadoNacional = $this->_put_args;
       $this->load->model('dao/FeriadoDAO');
@@ -265,7 +277,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriados_nacionales_cercanos_get($mes) {
+  public function feriados_nacionales_cercanos_get($mes)
+  {
     try {
       $this->load->model('dao/FeriadoDAO');
       $feriados = $this->FeriadoDAO->getFeriadosNacionalesCercanos($mes);
@@ -281,7 +294,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriados_nacionales_get() {
+  public function feriados_nacionales_get()
+  {
     try {
       $this->load->model('dao/FeriadoDAO');
       $feriados = $this->FeriadoDAO->getFeriadosNacionales();
@@ -297,7 +311,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriados_nacionales_put() {
+  public function feriados_nacionales_put()
+  {
     try {
       $descripcion = $this->_put_args['descripcion'];
       $this->load->model('dao/FeriadoDAO');
@@ -318,7 +333,8 @@ class FeriadoRest extends RestController {
   //***             Solicitudes Rest de Feriados Estadales                 *** 
   //**************************************************************************
 
-  public function feriado_estadal_delete($id_estado, $mes, $dia) {
+  public function feriado_estadal_delete($id_estado, $mes, $dia)
+  {
     try {
       $this->load->model('dao/FeriadoDAO');
       $rs = $this->FeriadoDAO->eliminarFeriadoEstadal($id_estado, $mes, $dia);
@@ -337,7 +353,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriado_estadal_get($id_estado, $mes, $dia) {
+  public function feriado_estadal_get($id_estado, $mes, $dia)
+  {
     try {
       $this->load->model('dao/FeriadoDAO');
       $feriado = $this->FeriadoDAO->buscarFeriadoEstadal($id_estado, $mes, $dia);
@@ -353,7 +370,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriado_estadal_post() {
+  public function feriado_estadal_post()
+  {
     try {
       $feriadoEstadal = $this->_post_args;
       $this->load->model('dao/FeriadoDAO');
@@ -373,7 +391,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriado_estadal_put() {
+  public function feriado_estadal_put()
+  {
     try {
       $feriadoEstadal = $this->_put_args;
       $this->load->model('dao/FeriadoDAO');
@@ -393,7 +412,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriados_estadales_get($idEstado) {
+  public function feriados_estadales_get($idEstado)
+  {
     try {
       $this->load->model('dao/FeriadoDAO');
       $feriados = $this->FeriadoDAO->getFeriadosEstadales($idEstado);
@@ -411,7 +431,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriados_estadales_cercanos_get($idEstado, $mes) {
+  public function feriados_estadales_cercanos_get($idEstado, $mes)
+  {
     try {
       $this->load->model('dao/FeriadoDAO');
       $feriados = $this->FeriadoDAO->getFeriadosEstadalesCercanos($idEstado, $mes);
@@ -427,7 +448,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriados_estadales_put() {
+  public function feriados_estadales_put()
+  {
     try {
       $args = $this->_put_args;
       $this->load->model('dao/FeriadoDAO');
@@ -448,7 +470,8 @@ class FeriadoRest extends RestController {
   //***             Solicitudes Rest de Feriados Municipales               *** 
   //**************************************************************************
 
-  public function feriado_municipal_delete($id_municipio, $mes, $dia) {
+  public function feriado_municipal_delete($id_municipio, $mes, $dia)
+  {
     try {
       $this->load->model('dao/FeriadoDAO');
       $rs = $this->FeriadoDAO->eliminarFeriadoMunicipal($id_municipio, $mes, $dia);
@@ -467,7 +490,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriado_municipal_get($id_municipio, $mes, $dia) {
+  public function feriado_municipal_get($id_municipio, $mes, $dia)
+  {
     try {
       $this->load->model('dao/FeriadoDAO');
       $feriado = $this->FeriadoDAO->buscarFeriadoMunicipal($id_municipio, $mes, $dia);
@@ -483,7 +507,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriado_municipal_post() {
+  public function feriado_municipal_post()
+  {
     try {
       $feriadoMunicipal = $this->_post_args;
       $this->load->model('dao/FeriadoDAO');
@@ -503,7 +528,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriado_municipal_put() {
+  public function feriado_municipal_put()
+  {
     try {
       $feriadoMunicipal = $this->_put_args;
       $this->load->model('dao/FeriadoDAO');
@@ -523,7 +549,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriados_municipales_get($idMunicipio) {
+  public function feriados_municipales_get($idMunicipio)
+  {
     try {
       $this->load->model('dao/FeriadoDAO');
       $feriados = $this->FeriadoDAO->getFeriadosMunicipales($idMunicipio);
@@ -542,7 +569,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriados_municipales_cercanos_get($idMunicipio, $mes) {
+  public function feriados_municipales_cercanos_get($idMunicipio, $mes)
+  {
     try {
       $this->load->model('dao/FeriadoDAO');
       $feriados = $this->FeriadoDAO->getFeriadosMunicipalesCercanos($idMunicipio, $mes);
@@ -558,7 +586,8 @@ class FeriadoRest extends RestController {
     }
   }
 
-  public function feriados_municipales_put() {
+  public function feriados_municipales_put()
+  {
     try {
       $descripcion = $this->_put_args['descripcion'];
       $this->load->model('dao/FeriadoDAO');
@@ -579,7 +608,8 @@ class FeriadoRest extends RestController {
   //***                        Funciones Internas                          *** 
   //**************************************************************************
 
-  private function convertirStringDate(string $strfecha, string $formato = "Y-m-d") {
+  private function convertirStringDate(string $strfecha, string $formato = "Y-m-d")
+  {
     $dt = DateTime::createFromFormat($formato, $strfecha);
     if (date_format($dt, $formato) == $strfecha) {
       return $dt;

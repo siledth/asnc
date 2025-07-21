@@ -764,6 +764,8 @@
                                                 Consulta Cuenta CCP</a></li>
                                         <li><a href="<?= base_url() ?>index.php/Diplomado/reportePago">-
                                                 Reporte de Pagos</a></li>
+                                        <!-- <li><a href="<?= base_url() ?>index.php/EmailSender/correos">-
+                                                correos</a></li> -->
 
                                     <?php endif; ?>
 

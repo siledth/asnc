@@ -1,8 +1,6 @@
 <?php
 
-/**
- * @author Gary Diaz <garyking1982@gmail.com>
- */
+
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
@@ -21,16 +19,19 @@ require_once APPPATH . "/models/Mensaje.php";
  *
  * @author Gary Díaz
  */
-class DireccionRest extends RestController {
+class DireccionRest extends RestController
+{
 
-    public function __construct($config = 'rest') {
+    public function __construct($config = 'rest')
+    {
         parent::__construct($config);
     }
 
     /**
      * Lista todos de los Estados de la Base de la Datos
      * * */
-    public function estados_get() {
+    public function estados_get()
+    {
         try {
             $this->load->model('dao/DireccionDAO');
             $datos = $this->DireccionDAO->getEstados();
@@ -50,7 +51,8 @@ class DireccionRest extends RestController {
      * Encuentra el estado con el id especificado
      * @param type $id
      */
-    public function estado_get($id) {
+    public function estado_get($id)
+    {
         try {
             $this->load->model('dao/DireccionDAO');
             $estado = $this->DireccionDAO->getEstado($id);
@@ -70,7 +72,8 @@ class DireccionRest extends RestController {
      * Lista los municipios del estado con el id especificado
      * @param type $idEstado
      */
-    public function municipios_get($idEstado) {
+    public function municipios_get($idEstado)
+    {
         try {
             $this->load->model('dao/DireccionDAO');
             $municipios = $this->DireccionDAO->getMunicipios($idEstado);
@@ -91,7 +94,8 @@ class DireccionRest extends RestController {
      * Busca el municipio con el id especificado
      * @param type $id
      */
-    public function municipio_get($id) {
+    public function municipio_get($id)
+    {
         try {
             $this->load->model('dao/DireccionDAO');
             $municipio = $this->DireccionDAO->getMunicipio($id);
@@ -107,7 +111,8 @@ class DireccionRest extends RestController {
         }
     }
 
-    public function parroquias_get($idEstado) {
+    public function parroquias_get($idEstado)
+    {
         try {
             $this->load->model('dao/DireccionDAO');
             $parroquias = $this->DireccionDAO->getParroquias($idEstado);
@@ -124,7 +129,8 @@ class DireccionRest extends RestController {
         }
     }
 
-    public function parroquia_get($id) {
+    public function parroquia_get($id)
+    {
         try {
             $this->load->model('dao/DireccionDAO');
             $parroquia = $this->DireccionDAO->getParroquia($id);

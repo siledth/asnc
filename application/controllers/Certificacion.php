@@ -1008,18 +1008,39 @@ class Certificacion extends CI_Controller
 
     //////////pdf
 
+    // public function verpdf()
+    // {
+    //     if (!$this->session->userdata('session')) redirect('login');
+    //     $comprobante = $this->input->get('id');
+
+    //     $data['descripcion'] = $this->session->userdata('unidad');
+    //     $data['rif'] = $this->session->userdata('rif');
+
+    //     $data['time'] = date("d-m-Y");
+    //     // $data =	$this->Certificacion_model->certificaciones_id($data);
+    //     $data['inf_pdf'] =    $this->Certificacion_model->ver_pdfs($comprobante);
+    //     $data['ver_pdfs_2'] =    $this->Certificacion_model->ver_pdfs_2($comprobante);
+
+
+    //     $this->load->view('templates/header.php');
+    //     $this->load->view('templates/navigator.php');
+    //     $this->load->view('certificacion/pdf.php', $data);
+    //     $this->load->view('templates/footer.php');
+    // }
     public function verpdf()
     {
         if (!$this->session->userdata('session')) redirect('login');
         $comprobante = $this->input->get('id');
 
+        // *** Solución: Asegurarse de que $comprobante es un entero ***
+        $id_limpio = (int)$comprobante; // Convertir explícitamente a entero
+
         $data['descripcion'] = $this->session->userdata('unidad');
         $data['rif'] = $this->session->userdata('rif');
-
         $data['time'] = date("d-m-Y");
-        // $data =	$this->Certificacion_model->certificaciones_id($data);
-        $data['inf_pdf'] =    $this->Certificacion_model->ver_pdfs($comprobante);
-        $data['ver_pdfs_2'] =    $this->Certificacion_model->ver_pdfs_2($comprobante);
+
+        $data['inf_pdf'] = $this->Certificacion_model->ver_pdfs($id_limpio); // Usar el ID limpio
+        $data['ver_pdfs_2'] = $this->Certificacion_model->ver_pdfs_2($id_limpio); // Usar el ID limpio
 
 
         $this->load->view('templates/header.php');
@@ -1027,6 +1048,7 @@ class Certificacion extends CI_Controller
         $this->load->view('certificacion/pdf.php', $data);
         $this->load->view('templates/footer.php');
     }
+
     public function verpdf2()
     {
 
@@ -1043,6 +1065,33 @@ class Certificacion extends CI_Controller
         $this->load->view('certificacion/pdf_ext.php', $data);
         $this->load->view('templates/footer.php');
     }
+
+
+
+    public function verpdf3()
+    {
+        if (!$this->session->userdata('session')) redirect('login');
+        $comprobante = $this->input->get('id');
+
+        // *** ASEGURAR QUE $comprobante ES UN ENTERO ***
+        $id_limpio = (int)$comprobante;
+
+        $data['descripcion'] = $this->session->userdata('unidad');
+        $data['rif'] = $this->session->userdata('rif');
+        $data['time'] = date("d-m-Y");
+
+        // Obtener la información principal de la certificación
+        $data['inf_certificacion'] = $this->Certificacion_model->ver_pdfs($id_limpio);
+        // Obtener la lista de facilitadores para esa certificación
+        $data['facilitadores'] = $this->Certificacion_model->ver_pdfs_2($id_limpio);
+
+
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('certificacion/pdf.php', $data); // Pasar $data al archivo pdf.php
+        $this->load->view('templates/footer.php');
+    }
+
     ///////////////////////////////////////////////////////////////// registrar PN//////////////////////////////////////
     public function registrar_pn()
     {
@@ -1808,138 +1857,159 @@ class Certificacion extends CI_Controller
         $this->load->view('templates/footer.php');
     }
 
+    // public function registrar_certificacion2()
+    // {
+    //     if (!$this->session->userdata('session')) redirect('login');
+    //     $acc_cargar = $this->input->POST('acc_cargar');
+    //     $numcertrnc = $this->input->post("numcertrnc");
+    //     $rif_cont = $this->input->post("rif_cont");
+    //     $nombresocial = $this->input->post("nombre");
+    //     $tipo_pers = 1; //persona juridica
+    //     $objetivo = $this->input->post("objetivo");
+    //     $cont_prog  = $this->input->post("cont_prog");
+    //     $total_bss  = $this->input->post("total_bss");
+    //     $n_ref  = $this->input->post("n_ref");
+    //     $banco_e  = $this->input->post("banco_e");
+    //     $banco_rec  = $this->input->post("banco_rec");
+    //     $fecha_trans = $this->input->post("fecha_trans");
+    //     $monto_trans  = $this->input->post("monto_trans");
+    //     $declara  = $this->input->post("declara");
+    //     $acepto  = $this->input->post("acepto");
+    //     $percontacto  = $this->input->post("percontacto");
+    //     $usuario = $this->session->userdata('id_user');
+    //     $declara  = "Declaro que la información y datos suministrados en esta Ficha son fidedignos, por lo que autorizo la pertinencia de su verificación. Convengo que de llegar a comprobarse que se ha incurrido en inexactitud o falsedad en los datos aquí suministrados, quedará sin efecto la CERTIFICACIÓN.";
+    //     $acepto  = "SI";
+    //     $fecha_solic  = date('Y-m-d');
+
+    //     $status  = '1'; //estats pendiente  
+    //     $nro_comprobante = $this->input->post("nro_comprobantes");
+
+    //     $certifi = array(
+    //         "nro_comprobante"  =>  $nro_comprobante,
+    //         "n_certif"  =>  $numcertrnc,
+    //         "rif_cont"    =>        $rif_cont,
+    //         "nombre"  =>       $nombresocial,
+    //         "tipo_pers"     =>     1,
+    //         "objetivo"      =>      $objetivo,
+    //         "cont_prog"     =>      $cont_prog,
+    //         "total_bss"     =>     $total_bss,
+    //         "n_ref"         =>    $n_ref,
+    //         "banco_e"       =>     $banco_e,
+    //         "banco_rec"     =>    $banco_rec,
+    //         "fecha_trans"   =>     $fecha_trans,
+    //         "monto_trans"   =>     $monto_trans,
+    //         "declara"       =>     $declara,
+    //         "acepto"        =>    $acepto,
+    //         "fecha_solic"   =>   date("Y-m-d"),
+    //         "user_soli"     =>  $usuario,
+    //         "status"        =>   1
+
+
+    //     );
+
+    //     $experi_empre_capa = array( //experi_empre_capa
+    //         'organo_experi_empre_capa'       => $this->input->post('organo_experi_empre_capa'),
+    //         'actividad_experi_empre_capa'     => $this->input->post('actividad_experi_empre_capa'),
+    //         'desde_experi_empre_capa'    => $this->input->post('desde_experi_empre_capa'),
+    //         'hasta_experi_empre_capa'         => $this->input->post('hasta_experi_empre_capa'),
+    //         "n_certif"     => $this->input->post("n_ref"),
+    //         "rif_cont"     => $this->input->post("rif_cont"),
+    //         "nro_comprobante"  =>  $nro_comprobante,
+
+    //     );
+
+    //     $experi_empre_cap_comisi = array( // experien cap 3 años
+    //         'organo_expe'        => $this->input->post('organo_expe'),
+    //         'actividad_exp'   => $this->input->post('actividad_exp'),
+    //         'desde_exp'  => $this->input->post('desde_exp'),
+    //         'hasta_exp'      => $this->input->post('hasta_exp'),
+    //         "n_certif"     => $this->input->post("n_ref"),
+    //         "rif_cont"     => $this->input->post("rif_cont"),
+    //         "nro_comprobante"  =>  $nro_comprobante,
+
+    //     );
+
+    //     $data = $this->Certificacion_model->save_certificacion2(
+    //         $certifi,
+    //         $experi_empre_capa,
+    //         $experi_empre_cap_comisi,
+    //         // $infor_per_natu,
+    //         // $infor_per_prof,
+    //         // $for_mat_contr_publ,
+    //         // $exp_par_comi_10,
+    //         // $exp_dic_cap_3
+    //     );
+    //     echo json_encode($data);
+    // }
+
     public function registrar_certificacion2()
     {
         if (!$this->session->userdata('session')) redirect('login');
-        $acc_cargar = $this->input->POST('acc_cargar');
+
         $numcertrnc = $this->input->post("numcertrnc");
         $rif_cont = $this->input->post("rif_cont");
         $nombresocial = $this->input->post("nombre");
-        $tipo_pers = 1; //persona juridica
         $objetivo = $this->input->post("objetivo");
         $cont_prog  = $this->input->post("cont_prog");
-        $total_bss  = $this->input->post("total_bss");
-        $n_ref  = $this->input->post("n_ref");
-        $banco_e  = $this->input->post("banco_e");
-        $banco_rec  = $this->input->post("banco_rec");
-        $fecha_trans = $this->input->post("fecha_trans");
-        $monto_trans  = $this->input->post("monto_trans");
+        $total_bss  = $this->input->post("total_bss"); // These might not be used for juridica, double check
+        $n_ref  = $this->input->post("n_ref"); // This seems to be used as n_certif in your model, confirm its purpose
+        $banco_e  = $this->input->post("banco_e"); // These might not be used for juridica, double check
+        $banco_rec  = $this->input->post("banco_rec"); // These might not be used for juridica, double check
+        $fecha_trans = $this->input->post("fecha_trans"); // These might not be used for juridica, double check
+        $monto_trans   = str_replace('.', '', $this->input->post("monto_trans")); // Remove dots for monetary value
+        $monto_trans   = str_replace(',', '.', $monto_trans); // Replace comma with dot for decimal
         $declara  = $this->input->post("declara");
         $acepto  = $this->input->post("acepto");
-        $percontacto  = $this->input->post("percontacto");
         $usuario = $this->session->userdata('id_user');
-        $declara  = "Declaro que la información y datos suministrados en esta Ficha son fidedignos, por lo que autorizo la pertinencia de su verificación. Convengo que de llegar a comprobarse que se ha incurrido en inexactitud o falsedad en los datos aquí suministrados, quedará sin efecto la CERTIFICACIÓN.";
-        $acepto  = "SI";
         $fecha_solic  = date('Y-m-d');
-
-        $status  = '1'; //estats pendiente  
+        $status  = '1'; //estats pendiente
         $nro_comprobante = $this->input->post("nro_comprobantes");
 
+        // Main Certification Data
         $certifi = array(
-            "nro_comprobante"  =>  $nro_comprobante,
-            "n_certif"  =>  $numcertrnc,
-            "rif_cont"    =>        $rif_cont,
-            "nombre"  =>       $nombresocial,
-            "tipo_pers"     =>     1,
-            "objetivo"      =>      $objetivo,
-            "cont_prog"     =>      $cont_prog,
-            "total_bss"     =>     $total_bss,
-            "n_ref"         =>    $n_ref,
-            "banco_e"       =>     $banco_e,
-            "banco_rec"     =>    $banco_rec,
-            "fecha_trans"   =>     $fecha_trans,
-            "monto_trans"   =>     $monto_trans,
-            "declara"       =>     $declara,
-            "acepto"        =>    $acepto,
-            "fecha_solic"   =>   date("Y-m-d"),
-            "user_soli"     =>  $usuario,
-            "status"        =>   1
-
-
+            "nro_comprobante" => $nro_comprobante,
+            "n_certif"        => $numcertrnc,
+            "rif_cont"        => $rif_cont,
+            "nombre"          => $nombresocial,
+            "tipo_pers"       => 1, //persona juridica
+            "objetivo"        => $objetivo,
+            "cont_prog"       => $cont_prog,
+            "total_bss"       => $total_bss,
+            "n_ref"           => $n_ref, // This is potentially your certificate number, be consistent
+            "banco_e"         => $banco_e,
+            "banco_rec"       => $banco_rec,
+            "fecha_trans"     => $fecha_trans,
+            "monto_trans"     => $monto_trans,
+            "declara"         => "Declaro que la información y datos suministrados en esta Ficha son fidedignos, por lo que autorizo la pertinencia de su verificación. Convengo que de llegar a comprobarse que se ha incurrido en inexactitud o falsedad en los datos aquí suministrados, quedará sin efecto la CERTIFICACIÓN.",
+            "acepto"          => "SI",
+            "fecha_solic"     => date("Y-m-d"),
+            "user_soli"       => $usuario,
+            "status"          => 1
         );
 
-        $experi_empre_capa = array( //experi_empre_capa
-            'organo_experi_empre_capa'       => $this->input->post('organo_experi_empre_capa'),
-            'actividad_experi_empre_capa'     => $this->input->post('actividad_experi_empre_capa'),
-            'desde_experi_empre_capa'    => $this->input->post('desde_experi_empre_capa'),
-            'hasta_experi_empre_capa'         => $this->input->post('hasta_experi_empre_capa'),
-            "n_certif"     => $this->input->post("n_ref"),
-            "rif_cont"     => $this->input->post("rif_cont"),
-            "nro_comprobante"  =>  $nro_comprobante,
-
+        // Data for experi_empre_capa (Experience in Training in Public Procurement)
+        $experi_empre_capa_data = array(
+            'organo_experi_empre_capa'    => $this->input->post('organo_experi_empre_capa'),
+            'actividad_experi_empre_capa' => $this->input->post('actividad_experi_empre_capa'),
+            'desde_experi_empre_capa'     => $this->input->post('desde_experi_empre_capa'),
+            'hasta_experi_empre_capa'     => $this->input->post('hasta_experi_empre_capa')
         );
 
-        $experi_empre_cap_comisi = array( // experien cap 3 años
-            'organo_expe'        => $this->input->post('organo_expe'),
+        // Data for experi_empre_cap_comisi (Experience in Training in Contracting Commissions)
+        $experi_empre_cap_comisi_data = array(
+            'organo_expe'     => $this->input->post('organo_expe'),
             'actividad_exp'   => $this->input->post('actividad_exp'),
-            'desde_exp'  => $this->input->post('desde_exp'),
-            'hasta_exp'      => $this->input->post('hasta_exp'),
-            "n_certif"     => $this->input->post("n_ref"),
-            "rif_cont"     => $this->input->post("rif_cont"),
-            "nro_comprobante"  =>  $nro_comprobante,
-
+            'desde_exp'       => $this->input->post('desde_exp'),
+            'hasta_exp'       => $this->input->post('hasta_exp')
         );
-        // $infor_per_natu = array( // registro de persona natural
-        //     'nombre_ape'        => $this->input->post('nombre_ape'),
-        //     'cedula'   => $this->input->post('cedula'),
-        //     'rif'  => $this->input->post('rif'),
-        //     'bolivar_estimado'      => $this->input->post('bolivar_estimado'),
-        //     "pj"     => $this->input->post("pj"),
-        //     "sub_total"     => $this->input->post("sub_total"),
-        //     "total_bss"     => $this->input->post("total_bss"),
-        //     "status"     => 1,
-
-
-        // );
-        // $infor_per_prof = array( // registro infor profesional de la persona
-        //     'for_academica'        => $this->input->post('for_academica'),
-        //     'titulo'   => $this->input->post('titulo'),
-        //     'ano'  => $this->input->post('ano'),
-        //     'culminacion'      => $this->input->post('culminacion'),
-        //     "curso"     => $this->input->post("curso")
-        // );
-
-        // $for_mat_contr_publ = array( // registro frmacion en mat de contra publica
-        //     'taller'        => $this->input->post('taller'),
-        //     'institucion'   => $this->input->post('institucion'),
-        //     'hor_dura'  => $this->input->post('hor_dura'),
-        //     'certi'      => $this->input->post('certi'),
-        //     "fech_cert"     => $this->input->post("fech_cert"),
-        //     "vigencia"     => $this->input->post("vigencia"),
-        // );
-
-        // $exp_par_comi_10 = array( // registro infor profesional de la persona
-        //     'organo10'        => $this->input->post('organo10'),
-        //     'act_adminis_desid'   => $this->input->post('act_adminis_desid'),
-        //     'n_acto'  => $this->input->post('n_acto'),
-        //     'fecha_act'      => $this->input->post('fecha_act'),
-        //     "area_10"     => $this->input->post("area_10"),
-        //     "dura_comi"     => $this->input->post("dura_comi"),
-        // );
-        // $exp_dic_cap_3 = array( // registro infor profesional de la persona
-        //     'organo3'        => $this->input->post('organo3'),
-        //     'actividad3'   => $this->input->post('actividad3'),
-        //     'desde3'  => $this->input->post('desde3'),
-        //     'hasta3'      => $this->input->post('hasta3'),
-
-        // );
-
-
 
         $data = $this->Certificacion_model->save_certificacion2(
             $certifi,
-            $experi_empre_capa,
-            $experi_empre_cap_comisi,
-            // $infor_per_natu,
-            // $infor_per_prof,
-            // $for_mat_contr_publ,
-            // $exp_par_comi_10,
-            // $exp_dic_cap_3
+            $experi_empre_capa_data, // Pass the collected array directly
+            $experi_empre_cap_comisi_data // Pass the collected array directly
         );
         echo json_encode($data);
     }
-
-
     public function miemb2()
     {
         if (!$this->session->userdata('session')) redirect('login');
@@ -2338,5 +2408,75 @@ class Certificacion extends CI_Controller
         $this->load->view('templates/navigator.php');
         $this->load->view('certificacion/certificacion_oeu/ficha_tecnica.php', $data); // Nueva vista
         $this->load->view('templates/footer.php');
+    }
+
+    public function registrar_certificacion3()
+    {
+        if (!$this->session->userdata('session')) redirect('login');
+
+        $numcertrnc = $this->input->post("numcertrnc");
+        $rif_cont = $this->input->post("rif_cont");
+        $nombresocial = $this->input->post("nombre");
+        $objetivo = $this->input->post("objetivo");
+        $cont_prog  = $this->input->post("cont_prog");
+        $total_bss  = $this->input->post("total_bss"); // These might not be used for juridica, double check
+        $n_ref  = $this->input->post("n_ref"); // This seems to be used as n_certif in your model, confirm its purpose
+        $banco_e  = $this->input->post("banco_e"); // These might not be used for juridica, double check
+        $banco_rec  = $this->input->post("banco_rec"); // These might not be used for juridica, double check
+        $fecha_trans = $this->input->post("fecha_trans"); // These might not be used for juridica, double check
+        $monto_trans   = str_replace('.', '', $this->input->post("monto_trans")); // Remove dots for monetary value
+        $monto_trans   = str_replace(',', '.', $monto_trans); // Replace comma with dot for decimal
+        $declara  = $this->input->post("declara");
+        $acepto  = $this->input->post("acepto");
+        $usuario = $this->session->userdata('id_user');
+        $fecha_solic  = date('Y-m-d');
+        $status  = '1'; //estats pendiente
+        $nro_comprobante = $this->input->post("nro_comprobantes");
+
+        // Main Certification Data
+        $certifi = array(
+            "nro_comprobante" => $nro_comprobante,
+            "n_certif"        => $numcertrnc,
+            "rif_cont"        => $rif_cont,
+            "nombre"          => $nombresocial,
+            "tipo_pers"       => 1, //persona juridica
+            "objetivo"        => $objetivo,
+            "cont_prog"       => $cont_prog,
+            "total_bss"       => $total_bss,
+            "n_ref"           => $n_ref, // This is potentially your certificate number, be consistent
+            "banco_e"         => $banco_e,
+            "banco_rec"       => $banco_rec,
+            "fecha_trans"     => $fecha_trans,
+            "monto_trans"     => $monto_trans,
+            "declara"         => "Declaro que la información y datos suministrados en esta Ficha son fidedignos, por lo que autorizo la pertinencia de su verificación. Convengo que de llegar a comprobarse que se ha incurrido en inexactitud o falsedad en los datos aquí suministrados, quedará sin efecto la CERTIFICACIÓN.",
+            "acepto"          => "SI",
+            "fecha_solic"     => date("Y-m-d"),
+            "user_soli"       => $usuario,
+            "status"          => 1
+        );
+
+        // Data for experi_empre_capa (Experience in Training in Public Procurement)
+        $experi_empre_capa_data = array(
+            'organo_experi_empre_capa'    => $this->input->post('organo_experi_empre_capa'),
+            'actividad_experi_empre_capa' => $this->input->post('actividad_experi_empre_capa'),
+            'desde_experi_empre_capa'     => $this->input->post('desde_experi_empre_capa'),
+            'hasta_experi_empre_capa'     => $this->input->post('hasta_experi_empre_capa')
+        );
+
+        // Data for experi_empre_cap_comisi (Experience in Training in Contracting Commissions)
+        $experi_empre_cap_comisi_data = array(
+            'organo_expe'     => $this->input->post('organo_expe'),
+            'actividad_exp'   => $this->input->post('actividad_exp'),
+            'desde_exp'       => $this->input->post('desde_exp'),
+            'hasta_exp'       => $this->input->post('hasta_exp')
+        );
+        $verification_url_base = base_url('index.php/verificador/certificado?id=');
+        $data = $this->Certificacion_model->save_certificacion3(
+            $certifi,
+            $experi_empre_capa_data, // Pass the collected array directly
+            $experi_empre_cap_comisi_data, // Pass the collected array directly
+            $verification_url_base
+        );
+        echo json_encode($data);
     }
 }

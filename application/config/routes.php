@@ -47,9 +47,10 @@ $route['Diplomado/solic_juridica'] = 'Diplomado/solic_juridica';
 
 $route['Diplomado/pago'] = 'Diplomado/pago';
 
+$route['emailsender'] = 'EmailSender/correos'; // Para que emailsender/ cargue el formulario
+$route['emailsender/send_bulk_emails'] = 'EmailSender/send_bulk_emails'; // Para que el formulario haga submit
 
-
-
+$route['verificador/certificado'] = 'Verificador/certificado';
 
 
 $route['pdf']['get'] = 'Gestion/pdf';
