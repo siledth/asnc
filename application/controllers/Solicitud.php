@@ -403,6 +403,6 @@ class Solicitud extends CI_Controller
 * Para el Módulo de Consulta de Contratista se crearán hasta un máximo de tres (3) Claves
 * Por cada Usuario o Usuaria debe remitirse una Planilla de Solicitud                  '), 0, 'J');
 
-        $pdf->Output('Solicitud Usuario SNC', 'I');
+        $pdf->Output('Solicitud Usuario SNC', 'D');
     }
 }
