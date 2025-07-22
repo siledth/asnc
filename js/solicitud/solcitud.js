@@ -1,64 +1,133 @@
  
-function consultar_rif(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
+// function consultar_rif() {
+//     var rif_b = $('#rif_b').val(); // Get the RIF from the initial input field
+//     if (rif_b == '') {
+//         swal({
+//             title: "¡ATENCIÓN!",
+//             text: "El campo RIF no puede estar vacío.",
+//             type: "warning",
+//             showCancelButton: false,
+//             confirmButtonColor: "#00897b",
+//             confirmButtonText: "CONTINUAR",
+//             closeOnConfirm: false
+//         });
+//     } else {
+//         // var base_url = '/index.php/gestion/consulta_og';
+//    var base_url = window.location.origin+'/asnc/index.php/gestion/consulta_og';
+
+//         $.ajax({
+//             url: base_url,
+//             method: 'post',
+//             data: { rif_b: rif_b },
+//             dataType: 'json',
+//             success: function (data) {
+//                 if (data === null) { // If data is null, the RIF was not found in public.organoente
+//                     $("#no_existe").show();    // Show fields for manual entry
+//                     $("#existe").hide();       // Hide read-only fields
+
+//                     // Clear any previously displayed values in the "existe" section
+//                     $('#sel_rif_nombre5').val('');
+//                     $('#nombre_conta_5').val('');
+//                     $('#cod_onapre_existe').val('');
+//                     $('#siglas_existe').val('');
+//                     $('#clasificacion_existe').val('');
+//                     $('#tel_local_existe').val('');
+//                     $('#pag_web_existe').val('');
+
+//                     // --- NEW LINE ADDED HERE ---
+//                     $('#rif_55').val(rif_b); // Transfer the RIF from rif_b to rif_55
+
+//                 } else { // RIF was found in public.organoente
+//                     $("#existe").show();       // Show read-only fields
+//                     $("#no_existe").hide();    // Hide fields for manual entry
+
+//                     // Populate the read-only fields with data from the organoente
+//                     $('#sel_rif_nombre5').val(data.rif);
+//                     $('#nombre_conta_5').val(data.descripcion);
+//                     $('#cod_onapre_existe').val(data.cod_onapre);
+//                     $('#siglas_existe').val(data.siglas);
+//                     $('#clasificacion_existe').val(data.clasificacion_nombre);
+//                     $('#tel_local_existe').val(data.telefono_local);
+//                     $('#pag_web_existe').val(data.pagina_web);
+//                 }
+//             },
+//             error: function(jqXHR, textStatus, errorThrown) {
+//                 console.error("Error en la consulta de RIF:", textStatus, errorThrown);
+//                 swal("¡ERROR!", "Ocurrió un problema al consultar el RIF. Por favor, inténtelo de nuevo.", "error");
+//                 // Ensure form state is consistent on error, perhaps default to 'no_existe'
+//                 $("#no_existe").show();
+//                 $("#existe").hide();
+//                 $('#rif_55').val(rif_b); // Also transfer on error
+//             }
+//         });
+//     }
+// }
+function consultar_rif() {
     var rif_b = $('#rif_b').val();
-    if (rif_b == ''){
-        swal({
-            title: "¡ATENCION!",
-            text: "El campo no puede estar vacio.",
-            type: "warning",
-            showCancelButton: false,
-            confirmButtonColor: "#00897b",
-            confirmButtonText: "CONTINUAR",
-            closeOnConfirm: false
-        }, function(){
-            swal("Deleted!", "Your imaginary file has been deleted.", "success");
-        });
-        $('#ueba').attr("disabled", true);
-    }else{
-        $("#items").show();
-        //  var base_url  = window.location.origin+'/asnc/index.php/gestion/consulta_og';
-        //  var base_url2 = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
+    var $form = $('#sav_ext'); // Referencia al formulario
 
-      var base_url = '/index.php/gestion/consulta_og';
-        var base_url2 = '/index.php/evaluacion_desempenio/llenar_contratista_rp';
-
-        $.ajax({
-            url:base_url,
-            method: 'post',
-            data: {rif_b: rif_b},
-            dataType: 'json',
-            success: function(data){
-                if (data == null) {
-                    $("#no_existe").show();
-                    $("#existe").hide();
-
-                   // $('#exitte').val(0);
-
-                }else{
-                    $("#existe").show();
-                    $("#no_existe").hide();                  
-
-                    $('#sel_rif_nombre5').val(data['rif']);
-                    $('#nombre_conta_5').val(data['descripcion']);
-                    
-
-                    var rif_cont_nr = data['rifced'];
-                    var ultprocaprob = data['ultprocaprob'];
-                    $.ajax({
-                        url:base_url2,
-                        method: 'post',
-                        data: {ultprocaprob: ultprocaprob,
-                              rif_cont_nr: rif_cont_nr},
-                        dataType: 'json',
-                        success: function(data){
-                            $.each(data, function(index, response){
-                            });
-                        }
-                    });
-                }
-            }
-        })
+    if (rif_b == '') {
+        swal.fire({ title: "¡ATENCIÓN!", text: "El campo RIF no puede estar vacío.", type: "warning" });
+        $("#existe").hide();
+        $("#no_existe").hide();
+        $form.attr('data-rif-status', ''); // Resetear el estado si el campo RIF está vacío
+        return;
     }
+                // var base_url = window.location.origin + '/asnc/index.php/gestion/llenar_organos_planila';
+
+    var base_url = '/index.php/gestion/llenar_organos_planila';
+
+    $.ajax({
+        url: base_url,
+        method: 'post',
+        data: { rif_b: rif_b },
+        dataType: 'json',
+        success: function (data) {
+            if (data === null) { // RIF NO ENCONTRADO
+                $("#no_existe").show();
+                $("#existe").hide();
+
+                // Limpiar campos de la sección 'existe'
+                $('#sel_rif_nombre5').val('');
+                $('#nombre_conta_5').val('');
+                $('#cod_onapre_existe').val('');
+                $('#siglas_existe').val('');
+                $('#clasificacion_existe').val('');
+                $('#tel_local_existe').val('');
+                $('#pag_web_existe').val('');
+
+                // Transferir RIF a la sección 'no_existe'
+                $('#rif_55').val(rif_b);
+
+                $form.attr('data-rif-status', 'no_existe'); // Establecer el estado del formulario
+
+            } else { // RIF ENCONTRADO
+                $("#existe").show();
+                $("#no_existe").hide();
+
+                // Rellenar campos de la sección 'existe'
+                $('#sel_rif_nombre5').val(data.rif);
+                $('#nombre_conta_5').val(data.descripcion);
+                $('#cod_onapre_existe').val(data.cod_onapre);
+                $('#siglas_existe').val(data.siglas);
+                $('#clasificacion_existe').val(data.clasificacion_nombre);
+                $('#tel_local_existe').val(data.telefono_local);
+                $('#pag_web_existe').val(data.pagina_web);
+
+                $form.attr('data-rif-status', 'existe'); // Establecer el estado del formulario
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error("Error en la consulta de RIF:", textStatus, errorThrown);
+            swal.fire("¡ERROR!", "Ocurrió un problema al consultar el RIF. Por favor, inténtelo de nuevo.", "error");
+
+            // En caso de error, asumir que no existe y mostrar 'no_existe'
+            $("#no_existe").show();
+            $("#existe").hide();
+            $('#rif_55').val(rif_b);
+            $form.attr('data-rif-status', 'no_existe'); // Establecer el estado del formulario en 'no_existe' en caso de error
+        }
+    });
 }
 function llenar_municipio(){
     var id_estado_n = $('#id_estado_n').val();
@@ -168,74 +237,140 @@ function validateEmail() {
 
 function save(event) {
     event.preventDefault();
-    
+      var $form = $('#sav_ext');
+    var rifStatus = $form.attr('data-rif-status'); // Obtener el estado del RIF
       // --- Validaciones de campos (del lado del cliente) ---
     // Si alguna validación falla, mostraremos el SweetAlert
     // Y luego REINICIAREMOS el CAPTCHA inmediatamente.
 
-    if (document.sav_ext.rif_b.value.length == 0) {
-        swal.fire({ title: 'No Puede dejar campo RIF vacío', text: 'Ingrese un valor.', type: 'warning' }).then(() => { resetRecaptcha(); });
-        document.sav_ext.rif_b.focus(); return 0; }
-    // if (document.sav_ext.rifadscrito.value.length == 0) {
-    //     swal.fire({ title: 'Debe ingresar RIF Órgano/Ente de Adscripción', type: 'warning' }).then(() => { resetRecaptcha(); });
-    //     document.sav_ext.rifadscrito.focus(); return 0; }
-    // if (document.sav_ext.nameadscrito.value.length == 0) {
-    //     swal.fire({ title: 'Debe ingresar Nombre Órgano/Ente de Adscripción', type: 'warning' }).then(() => { resetRecaptcha(); });
-    //     document.sav_ext.nameadscrito.focus(); return 0; }
-    // if (document.sav_ext.cod_onapre.value.length == 0) {
-    //     swal.fire({ title: 'Debe ingresar Código ONAPRE', type: 'warning' }).then(() => { resetRecaptcha(); });
-    //     document.sav_ext.cod_onapre.focus(); return 0; }
-    // if (document.sav_ext.siglas.value.length == 0) {
-    //     swal.fire({ title: 'Debe ingresar Siglas', type: 'warning' }).then(() => { resetRecaptcha(); });
-    //     document.sav_ext.siglas.focus(); return 0; }
-    // if (document.sav_ext.tel_local.value.length == 0) {
-    //     swal.fire({ title: 'Debe ingresar teléfono de contacto', type: 'warning' }).then(() => { resetRecaptcha(); });
-    //     document.sav_ext.tel_local.focus(); return 0; }
-    // if (document.sav_ext.pag_web.value.length == 0) {
-    //     swal.fire({ title: 'Debe ingresar página web de contacto', type: 'warning' }).then(() => { resetRecaptcha(); });
-    //     document.sav_ext.pag_web.focus(); return 0; }
-    if (document.sav_ext.name_max_a_f.value.length == 0) {
+    // if (document.sav_ext.rif_b.value.length == 0) {
+    //     swal.fire({ title: 'No Puede dejar campo RIF vacío', text: 'Ingrese un valor.', type: 'warning' }).then(() => { resetRecaptcha(); });
+    //     document.sav_ext.rif_b.focus(); return 0; }
+         // 1. Validar que el RIF principal haya sido consultado
+    if (!rifStatus) { // Si el estado no está definido, significa que rif_b no se ha consultado o está vacío
+        swal.fire({ title: 'Atención', text: 'Por favor, ingrese y valide el RIF antes de continuar.', type: 'warning' });
+        document.sav_ext.rif_b.focus();
+        resetRecaptcha();
+        return 0;
+    }
+
+     if (rifStatus === 'no_existe') {
+        // --- Campos OBLIGATORIOS cuando el RIF NO existe ---
+        if (document.sav_ext.rif_55.value.length === 0) {
+            swal.fire({ title: 'Debe ingresar el RIF del Órgano/Ente', type: 'warning' }).then(() => { resetRecaptcha(); });
+            document.sav_ext.rif_55.focus(); return 0;
+        }
+        if (document.sav_ext.razon_social.value.length === 0) {
+            swal.fire({ title: 'Debe ingresar el Nombre del Órgano/Ente', type: 'warning' }).then(() => { resetRecaptcha(); });
+            document.sav_ext.razon_social.focus(); return 0;
+        }
+        if (document.sav_ext.cod_onapre.value.length === 0) {
+            swal.fire({ title: 'Debe ingresar el Código ONAPRE', type: 'warning' }).then(() => { resetRecaptcha(); });
+            document.sav_ext.cod_onapre.focus(); return 0;
+        }
+        if (document.sav_ext.siglas.value.length === 0) {
+            swal.fire({ title: 'Debe ingresar las Siglas del Órgano/Ente', type: 'warning' }).then(() => { resetRecaptcha(); });
+            document.sav_ext.siglas.focus(); return 0;
+        }
+        if (document.sav_ext.id_clasificacion.value === '0') { // Para select, verificar el valor por defecto
+            swal.fire({ title: 'Debe seleccionar la Clasificación del Órgano/Ente', type: 'warning' }).then(() => { resetRecaptcha(); });
+            document.sav_ext.id_clasificacion.focus(); return 0;
+        }
+        if (document.sav_ext.tel_local.value.length === 0) {
+            swal.fire({ title: 'Debe ingresar el Teléfono Local del Órgano/Ente', type: 'warning' }).then(() => { resetRecaptcha(); });
+            document.sav_ext.tel_local.focus(); return 0;
+        }
+        if (document.sav_ext.pag_web.value.length === 0) {
+            swal.fire({ title: 'Debe ingresar la Página Web del Órgano/Ente', type: 'warning' }).then(() => { resetRecaptcha(); });
+            document.sav_ext.pag_web.focus(); return 0;
+        }
+        if (document.sav_ext.id_estado_n.value === '0') {
+            swal.fire({ title: 'Debe seleccionar el Estado de la Dirección Fiscal', type: 'warning' }).then(() => { resetRecaptcha(); });
+            document.sav_ext.id_estado_n.focus(); return 0;
+        }
+        if (document.sav_ext.id_municipio_n.value === '0') {
+            swal.fire({ title: 'Debe seleccionar el Municipio de la Dirección Fiscal', type: 'warning' }).then(() => { resetRecaptcha(); });
+            document.sav_ext.id_municipio_n.focus(); return 0;
+        }
+        if (document.sav_ext.id_parroquia_n.value === '0') {
+            swal.fire({ title: 'Debe seleccionar la Parroquia de la Dirección Fiscal', type: 'warning' }).then(() => { resetRecaptcha(); });
+            document.sav_ext.id_parroquia_n.focus(); return 0;
+        }
+        if (document.sav_ext.direccion_fiscal.value.length === 0) {
+            swal.fire({ title: 'Debe ingresar la Dirección Fiscal Completa', type: 'warning' }).then(() => { resetRecaptcha(); });
+            document.sav_ext.direccion_fiscal.focus(); return 0;
+        }
+        if (document.sav_ext.rifadscrito.value.length === 0) {
+            swal.fire({ title: 'Debe ingresar el RIF del Órgano/Ente de Adscripción', type: 'warning' }).then(() => { resetRecaptcha(); });
+            document.sav_ext.rifadscrito.focus(); return 0;
+        }
+        if (document.sav_ext.nameadscrito.value.length === 0) {
+            swal.fire({ title: 'Debe ingresar el Nombre del Órgano/Ente de Adscripción', type: 'warning' }).then(() => { resetRecaptcha(); });
+            document.sav_ext.nameadscrito.focus(); return 0;
+        }
+    } else if (rifStatus === 'existe') {
+        // --- Campos que NO son obligatorios cuando el RIF ya existe ---
+        // (No necesitamos validarlos aquí, ya que no son visibles/editables)
+        // Puedes quitar las validaciones comentadas que tenías anteriormente
+    }
+
+     if (document.sav_ext.name_max_a_f.value.length == 0) {
         swal.fire({ title: 'Debe ingresar Nombre de la máxima autoridad o cuentadante', type: 'warning' }).then(() => { resetRecaptcha(); });
         document.sav_ext.name_max_a_f.focus(); return 0; }
     if (document.sav_ext.cargo__max_a_f.value.length == 0) {
         swal.fire({ title: 'Debe ingresar Cargo de la máxima autoridad o cuentadante', type: 'warning' }).then(() => { resetRecaptcha(); });
         document.sav_ext.cargo__max_a_f.focus(); return 0; }
-    if (document.sav_ext.name_f.value.length == 0) {
-        swal.fire({ title: 'Debe ingresar nombre funcionario', type: 'warning' }).then(() => { resetRecaptcha(); });
+    if (document.sav_ext.cedula__max_a_f.value.length == 0) {
+        swal.fire({ title: 'Debe ingresar cédula de la máxima autoridad', type: 'warning' }).then(() => { resetRecaptcha(); });
+        document.sav_ext.cedula__max_a_f.focus(); return 0; }
+    if (document.sav_ext.actoad__max_a_f.value == '0') { // Si es un select
+        swal.fire({ title: 'Debe seleccionar el Acto Administrativo de Designación', type: 'warning' }).then(() => { resetRecaptcha(); });
+        document.sav_ext.actoad__max_a_f.focus(); return 0; }
+    if (document.sav_ext.n__max_a_f.value.length == 0) {
+        swal.fire({ title: 'Debe ingresar el N° del Acto Administrativo', type: 'warning' }).then(() => { resetRecaptcha(); });
+        document.sav_ext.n__max_a_f.focus(); return 0; }
+    if (document.sav_ext.fecha__max_a_f.value.length == 0) {
+        swal.fire({ title: 'Debe ingresar la Fecha del Acto Administrativo', type: 'warning' }).then(() => { resetRecaptcha(); });
+        document.sav_ext.fecha__max_a_f.focus(); return 0; }
+    if (document.sav_ext.gaceta__max_a_f.value.length == 0) {
+        swal.fire({ title: 'Debe ingresar la Gaceta del Acto Administrativo', type: 'warning' }).then(() => { resetRecaptcha(); });
+        document.sav_ext.gaceta__max_a_f.focus(); return 0; }
+    if (document.sav_ext.gfecha__max_a_f.value.length == 0) {
+        swal.fire({ title: 'Debe ingresar la Fecha de la Gaceta del Acto Administrativo', type: 'warning' }).then(() => { resetRecaptcha(); });
+        document.sav_ext.gfecha__max_a_f.focus(); return 0; }
+
+        if (document.sav_ext.name_f.value.length == 0) {
+        swal.fire({ title: 'Debe ingresar el Nombre del Usuario o Usuaria de la Clave', type: 'warning' }).then(() => { resetRecaptcha(); });
         document.sav_ext.name_f.focus(); return 0; }
     if (document.sav_ext.apellido_f.value.length == 0) {
-        swal.fire({ title: 'Debe ingresar Apellido del funcionario', type: 'warning' }).then(() => { resetRecaptcha(); });
+        swal.fire({ title: 'Debe ingresar el Apellido del Usuario o Usuaria de la Clave', type: 'warning' }).then(() => { resetRecaptcha(); });
         document.sav_ext.apellido_f.focus(); return 0; }
     if (document.sav_ext.cedula_f.value.length == 0) {
-        swal.fire({ title: 'Debe ingresar cédula de identidad del funcionario', type: 'warning' }).then(() => { resetRecaptcha(); });
+        swal.fire({ title: 'Debe ingresar la Cédula de Identidad del Usuario o Usuaria de la Clave', type: 'warning' }).then(() => { resetRecaptcha(); });
         document.sav_ext.cedula_f.focus(); return 0; }
     if (document.sav_ext.cargo_f.value.length == 0) {
-        swal.fire({ title: 'Debe ingresar cargo del funcionario', type: 'warning' }).then(() => { resetRecaptcha(); });
+        swal.fire({ title: 'Debe ingresar el Cargo del Usuario o Usuaria de la Clave', type: 'warning' }).then(() => { resetRecaptcha(); });
         document.sav_ext.cargo_f.focus(); return 0; }
     if (document.sav_ext.telefono_f.value.length == 0) {
-        swal.fire({ title: 'No Puede dejar campo teléfono, ingrese un valor', type: 'warning' }).then(() => { resetRecaptcha(); });
+        swal.fire({ title: 'Debe ingresar el Teléfono del Usuario o Usuaria de la Clave', type: 'warning' }).then(() => { resetRecaptcha(); });
         document.sav_ext.telefono_f.focus(); return 0; }
     if (document.sav_ext.correo.value.length == 0) {
-        swal.fire({ title: 'No Puede dejar campo correo, ingrese un valor', type: 'warning' }).then(() => { resetRecaptcha(); });
+        swal.fire({ title: 'Debe ingresar el Correo Electrónico del Usuario o Usuaria de la Clave', type: 'warning' }).then(() => { resetRecaptcha(); });
         document.sav_ext.correo.focus(); return 0; }
-    if (document.sav_ext.cedula__max_a_f.value.length == 0) {
-            swal.fire({ title: 'No Puede dejar campo cedula maxima autoridad, ingrese un valor', type: 'warning' }).then(() => { resetRecaptcha(); });
-            document.sav_ext.cedula__max_a_f.focus(); return 0; }
-    if (document.sav_ext.n__max_a_f.value.length == 0) {
-            swal.fire({ title: 'No Puede dejar campo N° maxima autoridad, ingrese un valor', type: 'warning' }).then(() => { resetRecaptcha(); });
-            document.sav_ext.n__max_a_f.focus(); return 0; } 
-    if (document.sav_ext.fecha__max_a_f.value.length == 0) {
-            swal.fire({ title: 'No Puede dejar campo fecha  , ingrese un valor', type: 'warning' }).then(() => { resetRecaptcha(); });
-            document.sav_ext.fecha__max_a_f.focus(); return 0; }     
-    if (document.sav_ext.gaceta__max_a_f.value.length == 0) {
-            swal.fire({ title: 'No Puede dejar campo Gaceta  , ingrese un valor', type: 'warning' }).then(() => { resetRecaptcha(); });
-            document.sav_ext.gaceta__max_a_f.focus(); return 0; }   
-    if (document.sav_ext.gfecha__max_a_f.value.length == 0) {
-            swal.fire({ title: 'No Puede dejar campo fecha gaceta  , ingrese un valor', type: 'warning' }).then(() => { resetRecaptcha(); });
-            document.sav_ext.gfecha__max_a_f.focus(); return 0; }       
     // --- FIN Validaciones de campos ---
 
+ var anyCheckboxChecked = false;
+    $('#sav_ext .form-section:has(h5:contains("Solicitud de Acceso a los Módulos")) input[type="checkbox"]').each(function() {
+        if ($(this).is(':checked')) {
+            anyCheckboxChecked = true;
+            return false; // Exit the loop early
+        }
+    });
 
+    if (!anyCheckboxChecked) {
+        swal.fire({ title: 'Debe seleccionar al menos un Módulo de Acceso', type: 'warning' }).then(() => { resetRecaptcha(); });
+        return 0;
+    }
     // Obtener la respuesta de reCAPTCHA JUSTO ANTES de la confirmación de envío
     var recaptcha_response = grecaptcha.getResponse();
 
@@ -269,7 +404,8 @@ function save(event) {
 
 
             if (result.value) {
-                var datos = new FormData($("#sav_ext")[0]);
+                // var datos = new FormData($("#sav_ext")[0]); esto comente siled
+                var datos = new FormData($form[0]);
                  // Añadir el token de reCAPTCHA al FormData
                     datos.append('g-recaptcha-response', recaptcha_response);
                 // var base_url = window.location.origin + '/asnc/index.php/User/save_solicitud';

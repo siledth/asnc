@@ -245,6 +245,13 @@ class Gestion extends CI_Controller
     $data =  $this->User_model->llenar_organos($data);
     echo json_encode($data);
   }
+  public function llenar_organos_planila()
+  {
+    $data = $this->input->post();
+    $data =  $this->User_model->llenar_organos_planila($data);
+    echo json_encode($data);
+  }
+
   public function consulta_og2()
   {
     $data = $this->input->post();

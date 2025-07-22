@@ -55,7 +55,7 @@
             </div>
             <div class="card-body">
                 <form class="form-horizontal" id="sav_ext" name="sav_ext" data-parsley-validate="true" method="POST"
-                    enctype="multipart/form-data">
+                    enctype="multipart/form-data" data-rif-status="">
 
                     <div class="form-section">
                         <h5 class="text-primary mb-3"><i class="fas fa-building mr-2"></i>Datos del Órgano / Ente
@@ -88,6 +88,35 @@
                                         readonly>
                                 </div>
                             </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="cod_onapre_existe">Código ONAPRE:</label>
+                                    <input class="form-control" type="text" name="cod_onapre_existe"
+                                        id="cod_onapre_existe" readonly>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="siglas_existe">Siglas:</label>
+                                    <input class="form-control" type="text" name="siglas_existe" id="siglas_existe"
+                                        readonly>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="clasificacion_existe">Clasificación Órgano/Ente:</label>
+                                    <input class="form-control" type="text" name="clasificacion_existe"
+                                        id="clasificacion_existe" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="tel_local_existe">Teléfono:</label>
+                                    <input class="form-control" type="text" name="tel_local_existe"
+                                        id="tel_local_existe" readonly>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="pag_web_existe">Página Web:</label>
+                                    <input class="form-control" type="text" name="pag_web_existe" id="pag_web_existe"
+                                        readonly>
+                                </div>
+                            </div>
                         </div>
 
                         <div id='no_existe' style="display: none;">
@@ -109,13 +138,16 @@
                                         Nombre del Órgano / Ente:
                                         <span class="required-asterisk">*</span>
                                     </label>
-                                    <input id="razon_social" name="razon_social" class="form-control">
+                                    <input id="razon_social" name="razon_social" class="form-control"
+                                        data-parsley-required="false"
+                                        data-parsley-error-message="Este campo es obligatorio.">
+
                                 </div>
 
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
                                         <label for="cod_onapre">
-                                            Código ONAPRE Órgano/Ente Solicitante
+                                            Código ONAPRE Órgano/Ente
                                             <span class="required-asterisk">*</span>
                                         </label>
                                         <input type="text" id="cod_onapre" name="cod_onapre" class="form-control"
@@ -123,14 +155,16 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label for="siglas">
-                                            Siglas Órgano/Ente Solicitante
+                                            Siglas Órgano/Ente
                                             <span class="required-asterisk">*</span>
                                         </label>
                                         <input type="text" id="siglas" name="siglas" class="form-control"
                                             placeholder="Siglas" maxlength="12">
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label for="id_clasificacion">Clasificación Órgano/Ente Solicitante:</label>
+                                        <label for="id_clasificacion">Clasificación Órgano/Ente:</label>
+                                        <span class="required-asterisk">*</span>
+
                                         <select id="id_clasificacion" name="id_clasificacion" class="form-control">
                                             <option value="0">-Seleccione -</option>
                                             <?php foreach ($clasificacion as $data): ?>
@@ -145,7 +179,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="tel_local">
-                                            Teléfono Local Órgano/Ente Solicitante
+                                            Teléfono Órgano/Ente
                                             <span class="required-asterisk">*</span>
                                         </label>
                                         <input type="number" id="tel_local" name="tel_local" class="form-control"
@@ -154,7 +188,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="pag_web">
-                                            Página Web Órgano/Ente Solicitante
+                                            Página Web Órgano/Ente
                                             <span class="required-asterisk">*</span>
                                         </label>
                                         <input type="text" id="pag_web" name="pag_web" class="form-control"
@@ -201,30 +235,7 @@
                                         rows="3" placeholder="Indique la dirección fiscal completa"></textarea>
                                 </div>
                             </div>
-                            <div class="form-section">
-                                <h5 class="text-primary mb-3"><i class="fas fa-building mr-2"></i>Datos del Órgano /
-                                    Ente
-                                    de Adscripción</h5>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="rifadscrito">
-                                            RIF Órgano/Ente de Adscripción:
-                                            <span class="required-asterisk">*</span>
-                                        </label>
-                                        <input id="rifadscrito" name="rifadscrito" class="form-control"
-                                            onkeypress="may(this);" placeholder="G123456789"
-                                            oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/,'')"
-                                            onkeyup="this.value=this.value.toUpperCase();">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="nameadscrito">
-                                            Nombre Órgano/Ente de Adscripción:
-                                            <span class="required-asterisk">*</span>
-                                        </label>
-                                        <input id="nameadscrito" name="nameadscrito" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
 
@@ -240,21 +251,25 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="cargo__max_a_f">Cédula de Identidad</label>
+                                <span class="required-asterisk">*</span>
                                 <input type="text" id="cedula__max_a_f" name="cedula__max_a_f" maxlength="20"
                                     class="form-control" placeholder="">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="name_max_a_f">Nombre(s) y Apellido(s):</label>
+                                <span class="required-asterisk">*</span>
                                 <input type="text" id="name_max_a_f" name="name_max_a_f" maxlength="50"
                                     class="form-control" placeholder="Nombre completo">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="cargo__max_a_f">Cargo:</label>
+                                <span class="required-asterisk">*</span>
                                 <input type="text" id="cargo__max_a_f" name="cargo__max_a_f" maxlength="50"
                                     class="form-control" placeholder="Cargo">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="cargo__max_a_f">Acto Administrativo de Designación:</label>
+                                <span class="required-asterisk">*</span>
                                 <select id="actoad__max_a_f" name="actoad__max_a_f" class="form-control">
                                     <option value="0">-Seleccione -</option>
                                     <?php foreach ($acto as $data): ?>
@@ -268,47 +283,77 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="cargo__max_a_f"> Nº:</label>
+                                <span class="required-asterisk">*</span>
                                 <input type="text" id="n__max_a_f" name="n__max_a_f" maxlength="50" class="form-control"
                                     placeholder="">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="cargo__max_a_f"> Fechaº:</label>
+                                <span class="required-asterisk">*</span>
                                 <input type="date" id="fecha__max_a_f" name="fecha__max_a_f" maxlength="50"
                                     class="form-control" placeholder="">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="cargo__max_a_f"> Gaceta:</label>
+                                <span class="required-asterisk">*</span>
                                 <input type="text" id="gaceta__max_a_f" name="gaceta__max_a_f" maxlength="50"
                                     class="form-control" placeholder="">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="cargo__max_a_f"> Fechaº:</label>
+                                <span class="required-asterisk">*</span>
                                 <input type="date" id="gfecha__max_a_f" name="gfecha__max_a_f" maxlength="50"
                                     class="form-control" placeholder="">
                             </div>
                         </div>
                     </div>
 
-
+                    <div class="form-section">
+                        <h5 class="text-primary mb-3"><i class="fas fa-building mr-2"></i>Datos del Órgano /
+                            Ente
+                            de Adscripción</h5>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="rifadscrito">
+                                    RIF Órgano/Ente de Adscripción:
+                                    <span class="required-asterisk">*</span>
+                                </label>
+                                <input id="rifadscrito" name="rifadscrito" class="form-control" onkeypress="may(this);"
+                                    placeholder="G123456789"
+                                    oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/,'')"
+                                    onkeyup="this.value=this.value.toUpperCase();">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="nameadscrito">
+                                    Nombre Órgano/Ente de Adscripción:
+                                    <span class="required-asterisk">*</span>
+                                </label>
+                                <input id="nameadscrito" name="nameadscrito" class="form-control">
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="form-section">
                         <h5 class="text-primary mb-3"><i class="fas fa-user mr-2"></i>Datos del Usuario o Usuaria de la
-                            Clave
+                            Clave del Organo u Ente Contratante
                             <span class="required-asterisk">*</span>
                         </h5>
                         <div class="form-row">
                             <div class="form-group col-md-3">
                                 <label for="cedula_f">Cédula de Identidad:</label>
+                                <span class="required-asterisk">*</span>
                                 <input type="text" id="cedula_f" name="cedula_f" maxlength="8"
                                     placeholder="Sin puntos ni comas" class="form-control" />
                             </div>
                             <div class="form-group col-md-5">
                                 <label for="name_f">Nombre completo:</label>
+                                <span class="required-asterisk">*</span>
                                 <input type="text" id="name_f" name="name_f" maxlength="50" class="form-control"
                                     placeholder="Nombre completo">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="apellido_f">Apellido Completo:</label>
+                                <span class="required-asterisk">*</span>
                                 <input type="text" id="apellido_f" name="apellido_f" maxlength="50" class="form-control"
                                     placeholder="Apellido completo">
                             </div>
@@ -316,11 +361,13 @@
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="cargo_f">Cargo:</label>
+                                <span class="required-asterisk">*</span>
                                 <input type="text" id="cargo_f" name="cargo_f" placeholder="Cargo" maxlength="50"
                                     class="form-control" />
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="telefono_f">Teléfono:</label>
+                                <span class="required-asterisk">*</span>
                                 <input type="text" id="telefono_f" name="telefono_f" placeholder="Teléfono 1"
                                     maxlength="20" class="form-control" />
                             </div>
@@ -331,6 +378,7 @@
                                         title="Institucional o cifrado seguro. A este correo se enviará el usuario y/o clave."></i>
                                     <span class="required-asterisk">*</span>
                                 </label>
+                                <span class="required-asterisk">*</span>
                                 <input type="email" id="correo" name="correo" class="form-control"
                                     placeholder="ingrese correo institucional" oninput="validateEmail()">
                             </div>
@@ -445,8 +493,15 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div id="recaptcha-widget-main"></div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="nameadscrito">
+                                Todos los campos son obligatorios
+                                <span class="required-asterisk">*</span>
+                            </label>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-center">
@@ -463,6 +518,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"
         integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous">
     </script>
+
     <script src="<?= base_url() ?>/js/solicitud/solcitud.js"></script>
 </body>
 

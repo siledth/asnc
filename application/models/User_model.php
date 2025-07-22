@@ -1077,7 +1077,27 @@ class User_model extends CI_Model
 
         return $result;
     }
+    public function llenar_organos_planila($data)
+    {
+        $this->db->select('
+                        o.rif,
+                        o.descripcion,
+                        o.cod_onapre,
+                        o.siglas,
+                        o.tel1 AS telefono_local,
+                        o.pagina_web,
+                        c.desc_clasificacion AS clasificacion_nombre
+                       ');
+        $this->db->from('public.organoente o');
+        $this->db->join('public.clasificacion c', 'o.id_clasificacion = c.id_clasificacion', 'left'); // Left join to get classification description
+        $this->db->where('o.rif', $data['rif_b']);
+        $query = $this->db->get();
+        $result = $query->row_array();
 
+        // If $result is null, it means the RIF was not found in public.organoente.
+        // We simply return null, which will be handled by your JavaScript.
+        return $result;
+    }
 
     public function save_solicitud($data)
     {
