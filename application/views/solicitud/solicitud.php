@@ -288,7 +288,7 @@
                                     placeholder="">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="cargo__max_a_f"> Fecha Acto Administrativoº:</label>
+                                <label for="cargo__max_a_f"> Fecha Acto Administrativo:</label>
                                 <span class="required-asterisk">*</span>
                                 <input type="date" id="fecha__max_a_f" name="fecha__max_a_f" maxlength="50"
                                     class="form-control" placeholder="">
