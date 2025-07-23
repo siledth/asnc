@@ -1324,21 +1324,22 @@ class User_model extends CI_Model
     function consulta_solictud3($data1)
     {
 
-        $query = $this->db->query("SELECT c.*, o.descripcion,o.id_estado_n, o.id_municipio_n, o.id_parroquia_n, o.siglas, 
+        $query = $this->db->query("SELECT o.rif as rif_noin, o.descripcion as no_descripcion ,o.id_estado_n, 
+        o.id_municipio_n, o.id_parroquia_n, o.siglas, 
             o.direccion_fiscal as dri,o.siglas,o.cod_onapre, o.id_clasificacion, o.tel_local ,
              cl.desc_clasificacion,  e.descedo, m.descmun, p.descparro,  o.pag_web, o.name_max_a_f, o.cargo__max_a_f, 
-             o.rifadscrito, o.nameadscrito, o.cedula__max_a_f, o.actoad__max_a_f, o.n__max_a_f, o.fecha__max_a_f, o.gaceta__max_a_f, o.gfecha__max_a_f, al.desc_acto_admin
+             o.rifadscrito, o.nameadscrito, o.cedula__max_a_f, o.actoad__max_a_f, 
+             o.n__max_a_f, o.fecha__max_a_f, o.gaceta__max_a_f, o.gfecha__max_a_f, al.desc_acto_admin, c.id_solicitud_user
             
-                 FROM public.solicitud_user c 
-                join  public.sorg_ent_no_snc o on o.rif = c.rif	
-                join  public.estados e on e.id = o.id_estado_n	
-                join  public.municipios m on m.id = o.id_municipio_n	
-                join  public.parroquias p on p.id = o.id_parroquia_n	
-                join  public.clasificacion cl on cl.id_clasificacion = o.id_clasificacion
-                join  comisiones.acto_admin al on al.id_acto_admin = c.actoad__max_a_f
-
-                    
-                 where c.id_solicitud_user = '$data1' 
+                 FROM public.sorg_ent_no_snc o 
+                join  public.solicitud_user c on c.id_solicitud_user = o.id_solicitud_user	
+                 join  public.estados e on e.id = o.id_estado_n	
+                 join  public.municipios m on m.id = o.id_municipio_n	
+                 join  public.parroquias p on p.id = o.id_parroquia_n	
+                 join  public.clasificacion cl on cl.id_clasificacion = o.id_clasificacion
+                 join  comisiones.acto_admin al on al.id_acto_admin = c.actoad__max_a_f
+                   
+                 where o.id_solicitud_user = '$data1' 
                   ");
         if ($query->num_rows() > 0) {
             return $query->result();
