@@ -131,7 +131,7 @@
                                     <input title="Debe ingresar una palabra para realizar la busqueda" type="text"
                                         class="form-control" onkeyup="this.value=this.value.toUpperCase();"
                                         name="rif_55" id="rif_55"
-                                        oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/,'')">
+                                        oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/,'')" readonly>
                                 </div>
                                 <div class="form-group col-md-8">
                                     <label for="razon_social">
@@ -182,7 +182,7 @@
                                             Teléfono Órgano/Ente
                                             <span class="required-asterisk">*</span>
                                         </label>
-                                        <input type="number" id="tel_local" name="tel_local" class="form-control"
+                                        <input type="text" id="tel_local" name="tel_local" class="form-control"
                                             placeholder="042XXXXXXXX">
                                         <p id="errorMsg" class="text-danger"></p>
                                     </div>
@@ -288,7 +288,7 @@
                                     placeholder="">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="cargo__max_a_f"> Fechaº:</label>
+                                <label for="cargo__max_a_f"> Fecha Acto Administrativoº:</label>
                                 <span class="required-asterisk">*</span>
                                 <input type="date" id="fecha__max_a_f" name="fecha__max_a_f" maxlength="50"
                                     class="form-control" placeholder="">
@@ -300,7 +300,7 @@
                                     class="form-control" placeholder="">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="cargo__max_a_f"> Fechaº:</label>
+                                <label for="cargo__max_a_f"> Fecha de la Gaceta:</label>
                                 <span class="required-asterisk">*</span>
                                 <input type="date" id="gfecha__max_a_f" name="gfecha__max_a_f" maxlength="50"
                                     class="form-control" placeholder="">
@@ -378,9 +378,9 @@
                                         title="Institucional o cifrado seguro. A este correo se enviará el usuario y/o clave."></i>
                                     <span class="required-asterisk">*</span>
                                 </label>
-                                <span class="required-asterisk">*</span>
+
                                 <input type="email" id="correo" name="correo" class="form-control"
-                                    placeholder="ingrese correo institucional" oninput="validateEmail()">
+                                    placeholder="ingrese correo institucional">
                             </div>
                         </div>
                     </div>

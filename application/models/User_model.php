@@ -1086,10 +1086,14 @@ class User_model extends CI_Model
                         o.siglas,
                         o.tel1 AS telefono_local,
                         o.pagina_web,
-                        c.desc_clasificacion AS clasificacion_nombre
+                        c.desc_clasificacion AS clasificacion_nombre,
+                         o.id_organoenteads,
+                         cl.rif AS rifadscrito_bd,
+                        cl.descripcion AS nombreadscrito_bd
                        ');
         $this->db->from('public.organoente o');
-        $this->db->join('public.clasificacion c', 'o.id_clasificacion = c.id_clasificacion', 'left'); // Left join to get classification description
+        $this->db->join('public.clasificacion c', 'o.id_clasificacion = c.id_clasificacion', 'left');
+        $this->db->join('public.organoente cl', 'cl.id_organoente = o.id_organoenteads', 'left');
         $this->db->where('o.rif', $data['rif_b']);
         $query = $this->db->get();
         $result = $query->row_array();

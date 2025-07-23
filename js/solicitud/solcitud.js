@@ -1,81 +1,90 @@
  
+
 // function consultar_rif() {
-//     var rif_b = $('#rif_b').val(); // Get the RIF from the initial input field
+//     var rif_b = $('#rif_b').val();
+//     var $form = $('#sav_ext'); // Referencia al formulario
+
 //     if (rif_b == '') {
-//         swal({
-//             title: "¡ATENCIÓN!",
-//             text: "El campo RIF no puede estar vacío.",
-//             type: "warning",
-//             showCancelButton: false,
-//             confirmButtonColor: "#00897b",
-//             confirmButtonText: "CONTINUAR",
-//             closeOnConfirm: false
-//         });
-//     } else {
-//         // var base_url = '/index.php/gestion/consulta_og';
-//    var base_url = window.location.origin+'/asnc/index.php/gestion/consulta_og';
+//         swal.fire({ title: "¡ATENCIÓN!", text: "El campo RIF no puede estar vacío.", type: "warning" });
+//         $("#existe").hide();
+//         $("#no_existe").hide();
+//         $form.attr('data-rif-status', ''); // Resetear el estado si el campo RIF está vacío
+//         return;
+//     }
+//                 // var base_url = window.location.origin + '/asnc/index.php/gestion/llenar_organos_planila';
 
-//         $.ajax({
-//             url: base_url,
-//             method: 'post',
-//             data: { rif_b: rif_b },
-//             dataType: 'json',
-//             success: function (data) {
-//                 if (data === null) { // If data is null, the RIF was not found in public.organoente
-//                     $("#no_existe").show();    // Show fields for manual entry
-//                     $("#existe").hide();       // Hide read-only fields
+//     var base_url = '/index.php/gestion/llenar_organos_planila';
 
-//                     // Clear any previously displayed values in the "existe" section
-//                     $('#sel_rif_nombre5').val('');
-//                     $('#nombre_conta_5').val('');
-//                     $('#cod_onapre_existe').val('');
-//                     $('#siglas_existe').val('');
-//                     $('#clasificacion_existe').val('');
-//                     $('#tel_local_existe').val('');
-//                     $('#pag_web_existe').val('');
-
-//                     // --- NEW LINE ADDED HERE ---
-//                     $('#rif_55').val(rif_b); // Transfer the RIF from rif_b to rif_55
-
-//                 } else { // RIF was found in public.organoente
-//                     $("#existe").show();       // Show read-only fields
-//                     $("#no_existe").hide();    // Hide fields for manual entry
-
-//                     // Populate the read-only fields with data from the organoente
-//                     $('#sel_rif_nombre5').val(data.rif);
-//                     $('#nombre_conta_5').val(data.descripcion);
-//                     $('#cod_onapre_existe').val(data.cod_onapre);
-//                     $('#siglas_existe').val(data.siglas);
-//                     $('#clasificacion_existe').val(data.clasificacion_nombre);
-//                     $('#tel_local_existe').val(data.telefono_local);
-//                     $('#pag_web_existe').val(data.pagina_web);
-//                 }
-//             },
-//             error: function(jqXHR, textStatus, errorThrown) {
-//                 console.error("Error en la consulta de RIF:", textStatus, errorThrown);
-//                 swal("¡ERROR!", "Ocurrió un problema al consultar el RIF. Por favor, inténtelo de nuevo.", "error");
-//                 // Ensure form state is consistent on error, perhaps default to 'no_existe'
+//     $.ajax({
+//         url: base_url,
+//         method: 'post',
+//         data: { rif_b: rif_b },
+//         dataType: 'json',
+//         success: function (data) {
+//             if (data === null) { // RIF NO ENCONTRADO
 //                 $("#no_existe").show();
 //                 $("#existe").hide();
-//                 $('#rif_55').val(rif_b); // Also transfer on error
+
+//                 // Limpiar campos de la sección 'existe'
+//                 $('#sel_rif_nombre5').val('');
+//                 $('#nombre_conta_5').val('');
+//                 $('#cod_onapre_existe').val('');
+//                 $('#siglas_existe').val('');
+//                 $('#clasificacion_existe').val('');
+//                 $('#tel_local_existe').val('');
+//                 $('#pag_web_existe').val('');
+
+//                 // Transferir RIF a la sección 'no_existe'
+//                 $('#rif_55').val(rif_b);
+
+//                 $form.attr('data-rif-status', 'no_existe'); // Establecer el estado del formulario
+
+//             } else { // RIF ENCONTRADO
+//                 $("#existe").show();
+//                 $("#no_existe").hide();
+
+//                 // Rellenar campos de la sección 'existe'
+//                 $('#sel_rif_nombre5').val(data.rif);
+//                 $('#nombre_conta_5').val(data.descripcion);
+//                 $('#cod_onapre_existe').val(data.cod_onapre);
+//                 $('#siglas_existe').val(data.siglas);
+//                 $('#clasificacion_existe').val(data.clasificacion_nombre);
+//                 $('#tel_local_existe').val(data.telefono_local);
+//                 $('#pag_web_existe').val(data.pagina_web);
+
+//                 $form.attr('data-rif-status', 'existe'); // Establecer el estado del formulario
 //             }
-//         });
-//     }
+//         },
+//         error: function(jqXHR, textStatus, errorThrown) {
+//             console.error("Error en la consulta de RIF:", textStatus, errorThrown);
+//             swal.fire("¡ERROR!", "Ocurrió un problema al consultar el RIF. Por favor, inténtelo de nuevo.", "error");
+
+//             // En caso de error, asumir que no existe y mostrar 'no_existe'
+//             $("#no_existe").show();
+//             $("#existe").hide();
+//             $('#rif_55').val(rif_b);
+//             $form.attr('data-rif-status', 'no_existe'); // Establecer el estado del formulario en 'no_existe' en caso de error
+//         }
+//     });
 // }
 function consultar_rif() {
-    var rif_b = $('#rif_b').val();
-    var $form = $('#sav_ext'); // Referencia al formulario
+    var rif_b = $('#rif_b').val().trim();
+    var $form = $('#sav_ext');
 
-    if (rif_b == '') {
+    if (rif_b === '') {
         swal.fire({ title: "¡ATENCIÓN!", text: "El campo RIF no puede estar vacío.", type: "warning" });
         $("#existe").hide();
         $("#no_existe").hide();
-        $form.attr('data-rif-status', ''); // Resetear el estado si el campo RIF está vacío
+        $form.attr('data-rif-status', '');
+
+        // Si el RIF principal está vacío, limpiar y habilitar adscripción para ingreso manual
+        $('#rifadscrito').val('').prop('readonly', false).attr('required', true);
+        $('#nameadscrito').val('').prop('readonly', false).attr('required', true);
+        resetRecaptcha();
         return;
     }
-                // var base_url = window.location.origin + '/asnc/index.php/gestion/llenar_organos_planila';
-
     var base_url = '/index.php/gestion/llenar_organos_planila';
+   // var base_url = window.location.origin + '/asnc/index.php/gestion/llenar_organos_planila';
 
     $.ajax({
         url: base_url,
@@ -83,7 +92,9 @@ function consultar_rif() {
         data: { rif_b: rif_b },
         dataType: 'json',
         success: function (data) {
-            if (data === null) { // RIF NO ENCONTRADO
+            console.log("Datos recibidos del servidor:", data); // Mantenemos este log para depuración
+
+            if (data === null) { // RIF Principal NO ENCONTRADO
                 $("#no_existe").show();
                 $("#existe").hide();
 
@@ -99,9 +110,14 @@ function consultar_rif() {
                 // Transferir RIF a la sección 'no_existe'
                 $('#rif_55').val(rif_b);
 
-                $form.attr('data-rif-status', 'no_existe'); // Establecer el estado del formulario
+                $form.attr('data-rif-status', 'no_existe');
 
-            } else { // RIF ENCONTRADO
+                // Si el RIF principal NO existe, permitir ingreso manual de adscripción
+                // Los campos se mantienen vacíos para que el usuario los llene.
+                $('#rifadscrito').val('').prop('readonly', false).attr('required', true);
+                $('#nameadscrito').val('').prop('readonly', false).attr('required', true);
+
+            } else { // RIF Principal ENCONTRADO
                 $("#existe").show();
                 $("#no_existe").hide();
 
@@ -114,20 +130,151 @@ function consultar_rif() {
                 $('#tel_local_existe').val(data.telefono_local);
                 $('#pag_web_existe').val(data.pagina_web);
 
-                $form.attr('data-rif-status', 'existe'); // Establecer el estado del formulario
+                $form.attr('data-rif-status', 'existe');
+
+                // --- Lógica para Datos del Órgano/Ente de Adscripción ---
+                // Si id_organoenteads es exactamente '0' o null/undefined
+                if (data.id_organoenteads === '0' || data.id_organoenteads === null || data.id_organoenteads === undefined) {
+                    // Si no hay una adscripción real (id_organoenteads es '0' o nulo),
+                    // llenamos con los datos del mismo órgano y los hacemos editables.
+                    $('#rifadscrito').val(data.rif).prop('readonly', false).attr('required', true);
+                    $('#nameadscrito').val(data.descripcion).prop('readonly', false).attr('required', true);
+                } else {
+                    // Si hay una adscripción real (id_organoenteads es diferente de '0' y no nulo),
+                    // llenamos con los datos de la adscripción y los hacemos de solo lectura.
+                    $('#rifadscrito').val(data.rifadscrito_bd || '').prop('readonly', true).removeAttr('required');
+                    $('#nameadscrito').val(data.nombreadscrito_bd || '').prop('readonly', true).removeAttr('required');
+                }
             }
+            resetRecaptcha();
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            console.error("Error en la consulta de RIF:", textStatus, errorThrown);
+            console.error("Error en la solicitud AJAX:", textStatus, errorThrown, jqXHR.responseText);
             swal.fire("¡ERROR!", "Ocurrió un problema al consultar el RIF. Por favor, inténtelo de nuevo.", "error");
 
-            // En caso de error, asumir que no existe y mostrar 'no_existe'
             $("#no_existe").show();
             $("#existe").hide();
             $('#rif_55').val(rif_b);
-            $form.attr('data-rif-status', 'no_existe'); // Establecer el estado del formulario en 'no_existe' en caso de error
+            $form.attr('data-rif-status', 'no_existe');
+
+            // En caso de error, hacer los campos de adscripción editables y vacíos
+            $('#rifadscrito').val('').prop('readonly', false).attr('required', true);
+            $('#nameadscrito').val('').prop('readonly', false).attr('required', true);
+            resetRecaptcha();
         }
     });
+}
+function validateTelefonoF() {
+    const telefonoInput = document.getElementById('telefono_f');
+    const telefonoValue = telefonoInput.value.trim(); // Obtener el valor y eliminar espacios en blanco
+
+    // Expresión regular para permitir solo dígitos
+    const numericPattern = /^[0-9]+$/;
+
+    // Reiniciar mensajes de error previos
+    // (Asegúrate de tener un elemento para mostrar el error, si no, puedes usar swal.fire)
+    // Por ejemplo, podrías tener un <p id="errorTelefonoF" class="text-danger"></p> debajo del input
+    // const errorMsgElement = document.getElementById('errorTelefonoF');
+    // if (errorMsgElement) errorMsgElement.textContent = '';
+
+    // Validación 1: Solo números
+    if (!numericPattern.test(telefonoValue)) {
+        swal.fire({
+            title: "¡ATENCIÓN!",
+            text: "El teléfono solo puede contener números.",
+            type: "warning"
+        }).then(() => {
+            telefonoInput.value = ''; // Limpiar el campo
+            telefonoInput.focus();   // Poner el foco de nuevo en el campo
+        });
+        return false;
+    }
+
+    // Validación 2: Mayor que 0
+    // Convertir a número para la comparación, pero mantener el valor original si empieza con 0
+    if (telefonoValue.length > 0 && parseInt(telefonoValue, 10) === 0) {
+        swal.fire({
+            title: "¡ATENCIÓN!",
+            text: "El número de teléfono no puede ser cero.",
+            type: "warning"
+        }).then(() => {
+            telefonoInput.value = '';
+            telefonoInput.focus();
+        });
+        return false;
+    }
+
+    // Validación 3: Máximo 20 caracteres
+    if (telefonoValue.length > 20) {
+        swal.fire({
+            title: "¡ATENCIÓN!",
+            text: "El número de teléfono no puede exceder los 20 dígitos.",
+            type: "warning"
+        }).then(() => {
+            telefonoInput.value = telefonoValue.substring(0, 20); // Recortar a 20 caracteres
+            telefonoInput.focus();
+        });
+        return false; // Aunque se haya recortado, es bueno indicar que hubo un problema inicial
+    }
+
+    // Si todas las validaciones pasan
+    return true;
+}
+function validateTelefonoF2() {
+    const telefonoInput = document.getElementById('tel_local');
+    const telefonoValue = telefonoInput.value.trim(); // Obtener el valor y eliminar espacios en blanco
+
+    // Expresión regular para permitir solo dígitos
+    const numericPattern = /^[0-9]+$/;
+
+    // Reiniciar mensajes de error previos
+    // (Asegúrate de tener un elemento para mostrar el error, si no, puedes usar swal.fire)
+    // Por ejemplo, podrías tener un <p id="errorTelefonoF" class="text-danger"></p> debajo del input
+    // const errorMsgElement = document.getElementById('errorTelefonoF');
+    // if (errorMsgElement) errorMsgElement.textContent = '';
+
+    // Validación 1: Solo números
+    if (!numericPattern.test(telefonoValue)) {
+        swal.fire({
+            title: "¡ATENCIÓN!",
+            text: "El teléfono solo puede contener números.",
+            type: "warning"
+        }).then(() => {
+            telefonoInput.value = ''; // Limpiar el campo
+            telefonoInput.focus();   // Poner el foco de nuevo en el campo
+        });
+        return false;
+    }
+
+    // Validación 2: Mayor que 0
+    // Convertir a número para la comparación, pero mantener el valor original si empieza con 0
+    if (telefonoValue.length > 0 && parseInt(telefonoValue, 10) === 0) {
+        swal.fire({
+            title: "¡ATENCIÓN!",
+            text: "El número de teléfono no puede ser cero.",
+            type: "warning"
+        }).then(() => {
+            telefonoInput.value = '';
+            telefonoInput.focus();
+        });
+        return false;
+    }
+
+    // Validación 3: Máximo 20 caracteres
+    if (telefonoValue.length > 20) {
+        swal.fire({
+            title: "¡ATENCIÓN!",
+            text: "El número de teléfono no puede exceder los 20 dígitos.",
+            type: "warning"
+        }).then(() => {
+            telefonoInput.value = telefonoValue.substring(0, 20); // Recortar a 20 caracteres
+            telefonoInput.focus();
+        });
+        return false; // Aunque se haya recortado, es bueno indicar que hubo un problema inicial
+    }
+
+    // Si todas las validaciones pasan
+    return true;
 }
 function llenar_municipio(){
     var id_estado_n = $('#id_estado_n').val();
@@ -168,23 +315,35 @@ function llenar_parroquia(){
     });
 }
 
-function validateEmail() {
-        const emailInput = document.getElementById('correo');
+ function validateEmail() {
+    const emailInput = document.getElementById('correo');
+    const emailValue = emailInput.value.trim();
+
+    const gmailPattern = /@gmail\.com$/i;
+    const hotmailPattern = /@hotmail\.com$/i;
+
+    if (gmailPattern.test(emailValue) || hotmailPattern.test(emailValue)) {
+        swal.fire({
+            title: "¡ATENCIÓN!",
+            text: "Solo se permiten correos institucionales (no @gmail.com ni @hotmail.com).",
+            type: "warning"
+        }).then(() => {
+            emailInput.value = '';
+            emailInput.focus();
+        });
         const guardarButton = document.getElementById('guardar');
-        const emailValue = emailInput.value;
-
-        // Expresiones regulares para validar correos de Gmail y Hotmail
-        const gmailPattern = /@gmail\.com$/i;
-        const hotmailPattern = /@hotmail\.com$/i;
-
-        // Verificar si el correo es de Gmail o Hotmail
-        if (gmailPattern.test(emailValue) || hotmailPattern.test(emailValue)) {
-            guardarButton.disabled = true; // Deshabilitar el botón
-             showAlert(); 
-        } else {
-            guardarButton.disabled = false; // Habilitar el botón
+        if (guardarButton) {
+            guardarButton.disabled = true;
         }
+        return false;
+    } else {
+        const guardarButton = document.getElementById('guardar');
+        if (guardarButton) {
+            guardarButton.disabled = false;
+        }
+        return true;
     }
+}
 
     var recaptchaWidgetId;
 
@@ -483,4 +642,7 @@ function save(event) {
 $(document).ready(function() {
     console.log("Document is ready, attaching blur event to #cedula_f");
     $('#cedula_f').on('blur', fetchUserDetails);
+     $('#telefono_f').on('blur', validateTelefonoF); 
+     $('#tel_local').on('blur', validateTelefonoF2);  
+      $('#correo').on('input', validateEmail);
 });
