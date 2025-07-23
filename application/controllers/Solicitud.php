@@ -162,7 +162,7 @@ class Solicitud extends CI_Controller
 
 
                     $pdf->Cell(62, 5, utf8_decode('Nº: Acto Administrativo de Designación:'), 0, 0, 'R');
-                    $pdf->Cell(50, 5, utf8_decode('Fecha:'), 0, 1, 'R');
+                    $pdf->Cell(50, 5, utf8_decode('Fecha Acto Administrativo de Designación :'), 0, 1, 'R');
 
                     $pdf->SetFont('Arial', '', 9);
                     $pdf->Cell(50, 5, utf8_decode($d->n__max_a_f), 0, 0, 'C');
@@ -170,7 +170,7 @@ class Solicitud extends CI_Controller
                     $pdf->SetFont('Arial', 'B', 9);
 
                     $pdf->Cell(62, 5, utf8_decode('Gaceta:'), 0, 0, 'R');
-                    $pdf->Cell(50, 5, utf8_decode('Fecha:'), 0, 1, 'R');
+                    $pdf->Cell(50, 5, utf8_decode('Fecha Gaceta:'), 0, 1, 'R');
                     $pdf->SetFont('Arial', '', 9);
                     $pdf->Cell(50, 5, utf8_decode($d->gaceta__max_a_f), 0, 0, 'C');
                     $pdf->Cell(150, 5, utf8_decode($d->gfecha__max_a_f), 0, 1, 'C');
@@ -237,36 +237,36 @@ class Solicitud extends CI_Controller
                     $pdf->MultiCell(180, 5, utf8_decode($d2->dri), 0, 'L');
                     $pdf->SetFont('Arial', 'B', 9);
                     $pdf->SetFont('Arial', 'B', 9);
-                    $pdf->Cell(62, 5, utf8_decode('Cédula Máxima Autoridad o Cuentadante:'), 0, 0, 'R');
-                    $pdf->Cell(90, 5, utf8_decode('Máxima Autoridad o Cuentadante:'), 0, 1, 'R');
+                    // $pdf->Cell(62, 5, utf8_decode('Cédula Máxima Autoridad o Cuentadante:'), 0, 0, 'R');
+                    // $pdf->Cell(90, 5, utf8_decode('Máxima Autoridad o Cuentadante:'), 0, 1, 'R');
 
-                    $pdf->SetFont('Arial', '', 9);
-                    $pdf->Cell(50, 5, utf8_decode($d2->cedula__max_a_f), 0, 0, 'C');
-                    $pdf->Cell(150, 5, utf8_decode($d2->name_max_a_f), 0, 1, 'C');
+                    // $pdf->SetFont('Arial', '', 9);
+                    // $pdf->Cell(50, 5, utf8_decode($d2->cedula__max_a_f), 0, 0, 'C');
+                    // $pdf->Cell(150, 5, utf8_decode($d2->name_max_a_f), 0, 1, 'C');
 
-                    $pdf->SetFont('Arial', 'B', 9);
+                    // $pdf->SetFont('Arial', 'B', 9);
 
-                    $pdf->Cell(62, 5, utf8_decode('Cargo Máxima Autoridad o Cuentadante:'), 0, 0, 'R');
-                    $pdf->Cell(90, 5, utf8_decode('Acto Administrativo de Designación:'), 0, 1, 'R');
-                    $pdf->SetFont('Arial', '', 9);
-                    $pdf->Cell(50, 5, utf8_decode($d2->cargo__max_a_f), 0, 0, 'C');
-                    $pdf->Cell(150, 5, utf8_decode($d2->desc_acto_admin), 0, 1, 'C');
-                    $pdf->SetFont('Arial', 'B', 9);
+                    // $pdf->Cell(62, 5, utf8_decode('Cargo Máxima Autoridad o Cuentadante:'), 0, 0, 'R');
+                    // $pdf->Cell(90, 5, utf8_decode('Acto Administrativo de Designación:'), 0, 1, 'R');
+                    // $pdf->SetFont('Arial', '', 9);
+                    // $pdf->Cell(50, 5, utf8_decode($d2->cargo__max_a_f), 0, 0, 'C');
+                    // $pdf->Cell(150, 5, utf8_decode($d2->desc_acto_admin), 0, 1, 'C');
+                    // $pdf->SetFont('Arial', 'B', 9);
 
 
-                    $pdf->Cell(62, 5, utf8_decode('Nº: Acto Administrativo de Designación:'), 0, 0, 'R');
-                    $pdf->Cell(50, 5, utf8_decode('Fecha:'), 0, 1, 'R');
+                    // $pdf->Cell(62, 5, utf8_decode('Nº: Acto Administrativo de Designación:'), 0, 0, 'R');
+                    // $pdf->Cell(50, 5, utf8_decode('Fecha Acto Administrativo de Designación:'), 0, 1, 'R');
 
-                    $pdf->SetFont('Arial', '', 9);
-                    $pdf->Cell(50, 5, utf8_decode($d2->n__max_a_f), 0, 0, 'C');
-                    $pdf->Cell(150, 5, utf8_decode($d2->fecha__max_a_f), 0, 1, 'C');
-                    $pdf->SetFont('Arial', 'B', 9);
+                    // $pdf->SetFont('Arial', '', 9);
+                    // $pdf->Cell(50, 5, utf8_decode($d2->n__max_a_f), 0, 0, 'C');
+                    // $pdf->Cell(150, 5, utf8_decode($d2->fecha__max_a_f), 0, 1, 'C');
+                    // $pdf->SetFont('Arial', 'B', 9);
 
-                    $pdf->Cell(62, 5, utf8_decode('Gaceta:'), 0, 0, 'R');
-                    $pdf->Cell(50, 5, utf8_decode('Fecha:'), 0, 1, 'R');
-                    $pdf->SetFont('Arial', '', 9);
-                    $pdf->Cell(50, 5, utf8_decode($d2->gaceta__max_a_f), 0, 0, 'C');
-                    $pdf->Cell(150, 5, utf8_decode($d2->gfecha__max_a_f), 0, 1, 'C');
+                    // $pdf->Cell(62, 5, utf8_decode('Gaceta:'), 0, 0, 'R');
+                    // $pdf->Cell(50, 5, utf8_decode('Fecha Gaceta:'), 0, 1, 'R');
+                    // $pdf->SetFont('Arial', '', 9);
+                    // $pdf->Cell(50, 5, utf8_decode($d2->gaceta__max_a_f), 0, 0, 'C');
+                    // $pdf->Cell(150, 5, utf8_decode($d2->gfecha__max_a_f), 0, 1, 'C');
                 }
             }
         }
