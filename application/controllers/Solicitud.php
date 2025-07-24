@@ -161,7 +161,7 @@ class Solicitud extends CI_Controller
                     $pdf->SetFont('Arial', 'B', 9);
 
 
-                    $pdf->Cell(62, 5, utf8_decode('Nº: Acto Administrativo de Designación:'), 0, 0, 'R');
+                    $pdf->Cell(62, 5, utf8_decode('Nº Acto Administrativo de Designación:'), 0, 0, 'R');
                     $pdf->Cell(92, 5, utf8_decode('Fecha Acto Administrativo de Designación :'), 0, 1, 'R');
 
                     $pdf->SetFont('Arial', '', 9);
