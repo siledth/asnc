@@ -325,7 +325,7 @@ function llenar_parroquia(){
     if (gmailPattern.test(emailValue) || hotmailPattern.test(emailValue)) {
         swal.fire({
             title: "¡ATENCIÓN!",
-            text: "Solo se permiten correos institucionales (no @gmail.com ni @hotmail.com).",
+            text: "Solo se permiten correos institucionales o Cifrados (no @gmail.com ni @hotmail.com).",
             type: "warning"
         }).then(() => {
             emailInput.value = '';
