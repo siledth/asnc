@@ -537,6 +537,8 @@
 
                                             <li><a href="<?= base_url() ?>index.php/Contratista/comisario_busqueda">
                                                     -Consulta Avanzada </a></li>
+                                            <li><a href="<?= base_url() ?>index.php/Contratista/list">-Consulta de
+                                                    resultado Avanzada</a></li>
                                         <?php endif; ?>
 
                                         <!-- <li><a href="<?= base_url() ?>index.php/Contratista/infor_contrat_comi_conta">
@@ -765,7 +767,7 @@
                                         <li><a href="<?= base_url() ?>index.php/Diplomado/reportePago">-
                                                 Reporte de Pagos</a></li>
                                         <!-- <li><a href="<?= base_url() ?>index.php/EmailSender/correos">-
-                                                correos</a></li> -->
+                                            correos</a></li> -->
 
                                     <?php endif; ?>
 
