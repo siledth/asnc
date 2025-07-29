@@ -7,8 +7,8 @@
             <div class="card card-outline-danger text-center bg-white">
                 <div class="card-block">
                     <blockquote class="card-blockquote" style="margin-bottom: -19px;">
-                        <p class="f-s-18 text-inverse f-w-600">Nombre Órgano / Ente: <?=$des_unidad?>.</p>
-                        <p class="f-s-16">RIF.: <?=$rif?> <br>
+                        <p class="f-s-18 text-inverse f-w-600">Nombre Órgano / Ente: <?= $des_unidad ?>.</p>
+                        <p class="f-s-16">RIF.: <?= $rif ?> <br>
 
 
 
@@ -28,33 +28,37 @@
                             <tr style="text-align:center">
                                 <th style="color:white;">Rif</th>
                                 <th style="color:white;">Descripción</th>
-                                <?php if ($this->session->userdata('perfil') == 1 || $this->session->userdata('perfil') == 14) : ?>
+                                <?php if ($this->session->userdata('perfil') == 1 || $this->session->userdata('perfil') == 14 || $this->session->userdata('perfil') == 3) : ?>
 
-                                <th style="color:white;">Acción</th>
+                                    <th style="color:white;">Acción</th>
                                 <?php endif; ?>
 
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach($list as $data):?>
-                            <tr class="odd gradeX" style="text-align:center">
-                                <td><?=$data['rif']?> </td>
-                                <td><?=$data['descripcion']?> </td>
+                            <?php foreach ($list as $data): ?>
+                                <tr class="odd gradeX" style="text-align:center">
+                                    <td><?= $data['rif'] ?> </td>
+                                    <td><?= $data['descripcion'] ?> </td>
 
-                                <?php if ($this->session->userdata('perfil') == 1 || $this->session->userdata('perfil') == 14) : ?>
+                                    <?php if ($this->session->userdata('perfil') == 1 || $this->session->userdata('perfil') == 14 || $this->session->userdata('perfil') == 3) : ?>
 
-                                <td class="center">
-                                    <a onclick="modal(<?php echo $data['id_organoente'] ?>);" data-toggle="modal"
-                                        data-target="#myModal_bienes" style="color: white">
-                                        <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
-                                            style="color: darkgreen;"></i>
-                                    </a>
+                                        <td class="center">
+                                            <a onclick="modal(<?php echo $data['id_organoente'] ?>);" data-toggle="modal"
+                                                data-target="#myModal_bienes" style="color: white">
+                                                <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
+                                                    style="color: darkgreen;"></i>
+                                            </a>
+                                            <a onclick="openMaximaAutoridadModal(<?php echo $data['id_organoente']; ?>);"
+                                                data-toggle="modal" data-target="#myModal_max_autoridad" style="color: white"
+                                                class="btn btn-sm btn-info ml-2">
+                                                <i title="Máxima Autoridad" class="fas fa-user-tie" style="color: white;"></i>
+                                            </a>
+                                        </td>
+                                    <?php endif; ?>
 
-                                </td>
-                                <?php endif; ?>
-
-                            </tr>
-                            <?php endforeach;?>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -188,4 +192,86 @@
         </div>
     </div>
     <!-- /////////////////////////////editar items de bienes este-->
-    <script src="<?=base_url()?>/js/configuracion/updatelist.js"></script>
+    <script src="<?= base_url() ?>/js/configuracion/updatelist.js"></script>
+
+    <div id="myModal_max_autoridad" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Datos de la Máxima Autoridad o Cuentadante</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="form_max_autoridad" name="form_max_autoridad" method="POST">
+                        <input type="hidden" name="id_organoente_max_auth" id="id_organoente_max_auth">
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="cedula__max_a_f_modal">Cédula de Identidad</label>
+                                <span class="required-asterisk">*</span>
+                                <input type="text" id="cedula__max_a_f_modal" name="cedula__max_a_f_modal"
+                                    maxlength="20" class="form-control" placeholder="">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="name_max_a_f_modal">Nombre(s) y Apellido(s):</label>
+                                <span class="required-asterisk">*</span>
+                                <input type="text" id="name_max_a_f_modal" name="name_max_a_f_modal" maxlength="50"
+                                    class="form-control" placeholder="Nombre completo">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="cargo__max_a_f_modal">Cargo :</label>
+                                <span class="required-asterisk">*</span>
+                                <input type="text" id="cargo__max_a_f_modal" name="cargo__max_a_f_modal" maxlength="50"
+                                    class="form-control" placeholder="Cargo">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="actoad__max_a_f_modal">Acto Administrativo de Designación:</label>
+                                <span class="required-asterisk">*</span>
+                                <select id="actoad__max_a_f_modal" name="actoad__max_a_f_modal" class="form-control">
+                                    <option value="0">-Seleccione -</option>
+                                    <?php // Asegúrate de que $acto se pase a esta vista si la cargas dinámicamente o está disponible globalmente
+                                    // Si este modal se carga como parte de la vista principal del listado, $acto ya debería estar disponible
+                                    if (isset($acto) && is_array($acto)) : ?>
+                                        <?php foreach ($acto as $data): ?>
+                                            <option value="<?= htmlspecialchars($data['id_acto_admin']) ?>">
+                                                <?= htmlspecialchars($data['desc_acto_admin']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="n__max_a_f_modal"> Nº Acto Administrativo:</label>
+                                <span class="required-asterisk">*</span>
+                                <input type="text" id="n__max_a_f_modal" name="n__max_a_f_modal" maxlength="50"
+                                    class="form-control" placeholder="">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="fecha__max_a_f_modal"> Fecha Acto Administrativo:</label>
+                                <span class="required-asterisk">*</span>
+                                <input type="date" id="fecha__max_a_f_modal" name="fecha__max_a_f_modal" maxlength="50"
+                                    class="form-control" placeholder="">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="gaceta__max_a_f_modal"> Gaceta:</label>
+                                <span class="required-asterisk">*</span>
+                                <input type="text" id="gaceta__max_a_f_modal" name="gaceta__max_a_f_modal"
+                                    maxlength="50" class="form-control" placeholder="">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="gfecha__max_a_f_modal"> Fecha de la Gaceta:</label>
+                                <span class="required-asterisk">*</span>
+                                <input type="date" id="gfecha__max_a_f_modal" name="gfecha__max_a_f_modal"
+                                    maxlength="50" class="form-control" placeholder="">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="my-button btn btn-primary"
+                        onclick="saveMaximaAutoridad();">Guardar</button>
+                    <button type="button" class="my-button btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>

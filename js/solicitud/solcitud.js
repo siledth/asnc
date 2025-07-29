@@ -84,7 +84,7 @@ function consultar_rif() {
         return;
     }
     var base_url = '/index.php/gestion/llenar_organos_planila';
-   // var base_url = window.location.origin + '/asnc/index.php/gestion/llenar_organos_planila';
+//    var base_url = window.location.origin + '/asnc/index.php/gestion/llenar_organos_planila';
 
     $.ajax({
         url: base_url,
@@ -161,6 +161,65 @@ function consultar_rif() {
             $('#rifadscrito').val('').prop('readonly', false).attr('required', true);
             $('#nameadscrito').val('').prop('readonly', false).attr('required', true);
             resetRecaptcha();
+        }
+    });
+}
+function consultar_rif_adscripcion() {
+    const rifAdscritoInput = $('#rifadscrito');
+    const nameAdscritoInput = $('#nameadscrito');
+    const rifAdscritoValue = rifAdscritoInput.val().trim();
+
+    // Solo realizamos la búsqueda si el campo NO es de solo lectura (es decir, el usuario PUEDE escribir en él)
+    if (rifAdscritoInput.prop('readonly')) {
+        return; // Salir si el campo ya está bloqueado
+    }
+
+    // Limpiar el campo de nombre adscrito antes de la nueva búsqueda
+    nameAdscritoInput.val('');
+    nameAdscritoInput.prop('readonly', false); // Asegurarse de que sea editable por defecto para el usuario
+
+    if (rifAdscritoValue === '') {
+        // Si el RIF de adscripción está vacío, el nombre adscrito debe ser editable
+        nameAdscritoInput.val('').prop('readonly', false);
+        return;
+    }
+
+    // Usaremos la misma URL de tu controlador que llama a llenar_organos_planila
+    // Asumimos que esta URL es capaz de buscar cualquier RIF y devolver data.descripcion
+    var base_url = '/index.php/gestion/llenar_organos_planila2';
+
+    // var base_url = window.location.origin + '/asnc/index.php/gestion/llenar_organos_planila2';
+
+    $.ajax({
+        url: base_url,
+        method: 'post',
+        data: { rif_b: rifAdscritoValue }, // Usamos rif_b porque el backend espera ese parámetro
+        dataType: 'json',
+        success: function (data) {
+            console.log("Datos de Adscripción recibidos:", data); // Para depuración
+
+            if (data && data.descripcion) { // Si el RIF adscrito se encontró y tiene una descripción
+                nameAdscritoInput.val(data.descripcion);
+                nameAdscritoInput.prop('readonly', true); // Hacerlo de solo lectura
+            } else {
+                // Si el RIF adscrito no se encontró, permitir que el usuario ingrese el nombre
+                nameAdscritoInput.val('').prop('readonly', false);
+                swal.fire({
+                    title: "RIF de Adscripción no encontrado",
+                    text: "Por favor, ingrese el nombre del Órgano/Ente de Adscripción manualmente.",
+                    type: "info"
+                });
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error("Error al consultar RIF de Adscripción:", textStatus, errorThrown);
+            // En caso de error, permitir que el usuario ingrese el nombre
+            nameAdscritoInput.val('').prop('readonly', false);
+            swal.fire({
+                title: "Error de consulta",
+                text: "No se pudo verificar el RIF de Adscripción. Por favor, ingrese el nombre manualmente.",
+                type: "error"
+            });
         }
     });
 }
@@ -393,6 +452,30 @@ function llenar_parroquia(){
         console.log("Cédula is empty, not making AJAX call.");
     }
 }
+function handleGacetaInput() {
+    const gacetaInput = document.getElementById('gaceta__max_a_f');
+    const gfechaInput = document.getElementById('gfecha__max_a_f');
+    const gacetaValue = gacetaInput.value.trim().toLowerCase(); // Get value and convert to lowercase for case-insensitive comparison
+
+    // Check if the gaceta value matches "s/i", "sin informacion", or "si"
+    if (gacetaValue === 's/i' || gacetaValue === 'sin informacion' || gacetaValue === 'si') {
+        // Get current date in YYYY-MM-DD format
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed
+        const day = today.getDate().toString().padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
+
+        gfechaInput.value = formattedDate;
+        gfechaInput.readOnly = true; // Make the date field read-only
+        gfechaInput.style.backgroundColor = '#e9ecef'; // Optional: style to indicate it's read-only
+    } else {
+        // If gaceta value is something else, clear the date and make it editable
+        gfechaInput.value = '';
+        gfechaInput.readOnly = false; // Make the date field editable
+        gfechaInput.style.backgroundColor = ''; // Remove background style
+    }
+}
 
 function save(event) {
     event.preventDefault();
@@ -428,7 +511,7 @@ function save(event) {
             document.sav_ext.cod_onapre.focus(); return 0;
         }
         if (document.sav_ext.siglas.value.length === 0) {
-            swal.fire({ title: 'Debe ingresar las Siglas del Órgano/Ente', type: 'warning' }).then(() => { resetRecaptcha(); });
+            swal.fire({ title: 'Debe ingresar las Siglas del Órgano/Ente, en caso de no poseer sigla ingrese S/I', type: 'warning' }).then(() => { resetRecaptcha(); });
             document.sav_ext.siglas.focus(); return 0;
         }
         if (document.sav_ext.id_clasificacion.value === '0') { // Para select, verificar el valor por defecto
@@ -440,7 +523,7 @@ function save(event) {
             document.sav_ext.tel_local.focus(); return 0;
         }
         if (document.sav_ext.pag_web.value.length === 0) {
-            swal.fire({ title: 'Debe ingresar la Página Web del Órgano/Ente', type: 'warning' }).then(() => { resetRecaptcha(); });
+            swal.fire({ title: 'Debe ingresar la Página Web del Órgano/Ente, en caso de no poseer Página Web ingrese S/I', type: 'warning' }).then(() => { resetRecaptcha(); });
             document.sav_ext.pag_web.focus(); return 0;
         }
         if (document.sav_ext.id_estado_n.value === '0') {
@@ -473,6 +556,25 @@ function save(event) {
         // Puedes quitar las validaciones comentadas que tenías anteriormente
     }
 
+       // --- VALIDACIÓN CONDICIONAL DE RIF DE ADSCRIPCIÓN Y NOMBRE ---
+    // Esta condición verifica si los campos de adscripción deben ser llenados por el usuario.
+    // Esto ocurre si:
+    // 1. El RIF principal NO existía (rifStatus === 'no_existe')
+    // O
+    // 2. El RIF principal SÍ existe (rifStatus === 'existe'), PERO el campo rifadscrito NO es de solo lectura.
+    //    (Lo cual significa que el órgano principal no tenía una adscripción predefinida en la BD,
+    //     y los campos se dejaron editables para que el usuario los llene).
+    if (rifStatus === 'no_existe' || (rifStatus === 'existe' && ($('#rifadscrito').prop('readonly') === false))) {
+        if (document.sav_ext.rifadscrito.value.length === 0) {
+            swal.fire({ title: 'Debe ingresar el RIF del Órgano/Ente de Adscripción', type: 'warning' }).then(() => { resetRecaptcha(); });
+            document.sav_ext.rifadscrito.focus(); return 0;
+        }
+        if (document.sav_ext.nameadscrito.value.length === 0) {
+            swal.fire({ title: 'Debe ingresar el Nombre del Órgano/Ente de Adscripción', type: 'warning' }).then(() => { resetRecaptcha(); });
+            document.sav_ext.nameadscrito.focus(); return 0;
+        }
+    }
+
      if (document.sav_ext.name_max_a_f.value.length == 0) {
         swal.fire({ title: 'Debe ingresar Nombre de la máxima autoridad o cuentadante', type: 'warning' }).then(() => { resetRecaptcha(); });
         document.sav_ext.name_max_a_f.focus(); return 0; }
@@ -492,7 +594,7 @@ function save(event) {
         swal.fire({ title: 'Debe ingresar la Fecha del Acto Administrativo', type: 'warning' }).then(() => { resetRecaptcha(); });
         document.sav_ext.fecha__max_a_f.focus(); return 0; }
     if (document.sav_ext.gaceta__max_a_f.value.length == 0) {
-        swal.fire({ title: 'Debe ingresar la Gaceta del Acto Administrativo', type: 'warning' }).then(() => { resetRecaptcha(); });
+        swal.fire({ title: 'Debe ingresar la Gaceta del Acto Administrativo en caso de no poseer ingresar S/I', type: 'warning' }).then(() => { resetRecaptcha(); });
         document.sav_ext.gaceta__max_a_f.focus(); return 0; }
     if (document.sav_ext.gfecha__max_a_f.value.length == 0) {
         swal.fire({ title: 'Debe ingresar la Fecha de la Gaceta del Acto Administrativo', type: 'warning' }).then(() => { resetRecaptcha(); });
@@ -516,6 +618,7 @@ function save(event) {
     if (document.sav_ext.correo.value.length == 0) {
         swal.fire({ title: 'Debe ingresar el Correo Electrónico del Usuario o Usuaria de la Clave', type: 'warning' }).then(() => { resetRecaptcha(); });
         document.sav_ext.correo.focus(); return 0; }
+        
     // --- FIN Validaciones de campos ---
 
  var anyCheckboxChecked = false;
@@ -640,9 +743,22 @@ function save(event) {
 }
 
 $(document).ready(function() {
-    console.log("Document is ready, attaching blur event to #cedula_f");
+   // console.log("Document is ready, attaching blur event to #cedula_f");
     $('#cedula_f').on('blur', fetchUserDetails);
      $('#telefono_f').on('blur', validateTelefonoF); 
      $('#tel_local').on('blur', validateTelefonoF2);  
       $('#correo').on('input', validateEmail);
+      $('#gaceta__max_a_f').on('input', handleGacetaInput);
+     $('#rifadscrito').on('blur', consultar_rif_adscripcion);
+    // Para que la validación se haga cuando pega o se autocompleta:
+    $('#rifadscrito').on('input', function() {
+        // Solo llamar a la función si el campo NO es de solo lectura.
+        // Esto previene que se dispare cuando el campo ya fue pre-llenado y bloqueado por la lógica del RIF principal.
+        if (!$(this).prop('readonly')) {
+            // Puedes agregar un pequeño retraso si el servidor es lento para evitar múltiples llamadas rápidas
+            // al escribir, pero para "pegar" o "autocompletar" se dispara una vez.
+            // Para simplificar, lo llamamos directamente:
+            consultar_rif_adscripcion();
+        }
+    });
 });

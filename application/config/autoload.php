@@ -147,7 +147,8 @@ $autoload['model'] = array(
     'Tablas_comi_model',
     'Rnc_model',
     'ReporteG_model',
-    'Diplomado_model'
+    'Diplomado_model',
+    'MaximaAutoridad_model'
 
     // 'reportegeneral_model'
 

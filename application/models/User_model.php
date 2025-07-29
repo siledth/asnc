@@ -1670,4 +1670,12 @@ class User_model extends CI_Model
         }
         return null; // No user found
     }
+    public function buscar_organo_por_rif($rif_valor_a_buscar)
+    {
+        $this->db->select('rif,descripcion');
+        $this->db->from('public.organoente');
+        $this->db->where('rif', $rif_valor_a_buscar);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
 }

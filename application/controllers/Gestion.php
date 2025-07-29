@@ -251,6 +251,17 @@ class Gestion extends CI_Controller
     $data =  $this->User_model->llenar_organos_planila($data);
     echo json_encode($data);
   }
+  public function llenar_organos_planila2()
+  {
+    // Obtener SOLO el valor del parámetro 'rif_b' que viene del POST.
+    // Aunque en el JS el input es 'rifadscrito', lo estás enviando como 'rif_b'.
+    $rif_valor_a_buscar = $this->input->post('rif_b');
+
+    // Pasar solo la cadena de texto (el RIF) a la función del modelo
+    $data_from_db = $this->User_model->buscar_organo_por_rif($rif_valor_a_buscar);
+
+    echo json_encode($data_from_db);
+  }
 
   public function consulta_og2()
   {
