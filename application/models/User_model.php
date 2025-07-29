@@ -1202,7 +1202,15 @@ class User_model extends CI_Model
 
             $exit_rnc = 1;
         }
+        $cargo_maxima = $data['actoad__max_a_f'];
+        if ($cargo_maxima == 0) {
 
+
+            $cargo_maxima = 1;
+        } else {
+
+            $cargo_maxima = $data['actoad__max_a_f'];
+        }
         $this->db->select('max(e.id_solicitud_user) as id');
         $query = $this->db->get('public.solicitud_user e');
         $response = $query->row_array();
@@ -1214,7 +1222,8 @@ class User_model extends CI_Model
                 'rif'      => $data['rif_b'],
                 'name_f'    => $data['name_f'],
                 'name_max_a_f'         => $data['name_max_a_f'],
-                'cargo__max_a_f'         => $data['cargo__max_a_f'],
+                // 'cargo__max_a_f'         => $data['cargo__max_a_f'],
+                'cargo__max_a_f'         => $cargo_maxima,
                 'apellido_f'          => $data['apellido_f'],
                 'cedula_f'        => $data['cedula_f'],
                 'cargo_f'       => $data['cargo_f'],

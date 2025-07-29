@@ -1124,7 +1124,7 @@ class User extends CI_Controller
         // Ahora pasas $post_data a tu modelo.
         $data_to_model = $post_data; // O construye un array específico si no quieres pasar todo
 
-        // ----- FIN: Saneamiento y Validación de Datos del Formulario -----
+        // ----- FIN: Saneamiento y Validación de Datos del Formulario   -----
 
 
         // Ahora llamas a tu modelo.
