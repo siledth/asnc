@@ -71,20 +71,46 @@ function consultar_rif() {
     var rif_b = $('#rif_b').val().trim();
     var $form = $('#sav_ext');
 
+    // Referencias a los campos de Máxima Autoridad
+    const cedulaMaxAF = $('#cedula__max_a_f');
+    const nameMaxAF = $('#name_max_a_f');
+    const cargoMaxAF = $('#cargo__max_a_f');
+    const actoadMaxAF = $('#actoad__max_a_f');
+    const nMaxAF = $('#n__max_a_f');
+    const fechaMaxAF = $('#fecha__max_a_f');
+    const gacetaMaxAF = $('#gaceta__max_a_f');
+    const gfechaMaxAF = $('#gfecha__max_a_f');
+
     if (rif_b === '') {
         swal.fire({ title: "¡ATENCIÓN!", text: "El campo RIF no puede estar vacío.", type: "warning" });
         $("#existe").hide();
         $("#no_existe").hide();
         $form.attr('data-rif-status', '');
 
-        // Si el RIF principal está vacío, limpiar y habilitar adscripción para ingreso manual
+        // Limpiar y habilitar campos de adscripción
         $('#rifadscrito').val('').prop('readonly', false).attr('required', true);
         $('#nameadscrito').val('').prop('readonly', false).attr('required', true);
+
+        // Limpiar y habilitar campos de Máxima Autoridad
+        cedulaMaxAF.val('').prop('readonly', false);
+        nameMaxAF.val('').prop('readonly', false);
+        cargoMaxAF.val('').prop('readonly', false);
+        actoadMaxAF.val('0').prop('disabled', false); // Seleccionar "Seleccione" y habilitar
+        nMaxAF.val('').prop('readonly', false);
+        fechaMaxAF.val('').prop('readonly', false);
+        gacetaMaxAF.val('').prop('readonly', false);
+        gfechaMaxAF.val('').prop('readonly', false).css('background-color', ''); // Resetear estilo
+        // Esto es importante para que handleGacetaInput funcione correctamente en la planilla principal
+        $('#gaceta__max_a_f').off('input').on('input', handleGacetaInput); // Re-adjuntar el evento si se eliminó
+        handleGacetaInput(); // Llamarlo para estado inicial
+
         resetRecaptcha();
         return;
     }
+
     var base_url = '/index.php/gestion/llenar_organos_planila';
-//    var base_url = window.location.origin + '/asnc/index.php/gestion/llenar_organos_planila';
+    // var base_url = window.location.origin + '/asnc/index.php/gestion/llenar_organos_planila';
+
 
     $.ajax({
         url: base_url,
@@ -92,7 +118,7 @@ function consultar_rif() {
         data: { rif_b: rif_b },
         dataType: 'json',
         success: function (data) {
-            console.log("Datos recibidos del servidor:", data); // Mantenemos este log para depuración
+            console.log("Datos recibidos del servidor:", data);
 
             if (data === null) { // RIF Principal NO ENCONTRADO
                 $("#no_existe").show();
@@ -112,10 +138,21 @@ function consultar_rif() {
 
                 $form.attr('data-rif-status', 'no_existe');
 
-                // Si el RIF principal NO existe, permitir ingreso manual de adscripción
-                // Los campos se mantienen vacíos para que el usuario los llene.
+                // Limpiar y habilitar campos de adscripción
                 $('#rifadscrito').val('').prop('readonly', false).attr('required', true);
                 $('#nameadscrito').val('').prop('readonly', false).attr('required', true);
+
+                // Limpiar y habilitar campos de Máxima Autoridad
+                cedulaMaxAF.val('').prop('readonly', false);
+                nameMaxAF.val('').prop('readonly', false);
+                cargoMaxAF.val('').prop('readonly', false);
+                actoadMaxAF.val('0').prop('disabled', false);
+                nMaxAF.val('').prop('readonly', false);
+                fechaMaxAF.val('').prop('readonly', false);
+                gacetaMaxAF.val('').prop('readonly', false);
+                gfechaMaxAF.val('').prop('readonly', false).css('background-color', '');
+                $('#gaceta__max_a_f').off('input').on('input', handleGacetaInput);
+                handleGacetaInput();
 
             } else { // RIF Principal ENCONTRADO
                 $("#existe").show();
@@ -133,17 +170,42 @@ function consultar_rif() {
                 $form.attr('data-rif-status', 'existe');
 
                 // --- Lógica para Datos del Órgano/Ente de Adscripción ---
-                // Si id_organoenteads es exactamente '0' o null/undefined
                 if (data.id_organoenteads === '0' || data.id_organoenteads === null || data.id_organoenteads === undefined) {
-                    // Si no hay una adscripción real (id_organoenteads es '0' o nulo),
-                    // llenamos con los datos del mismo órgano y los hacemos editables.
                     $('#rifadscrito').val(data.rif).prop('readonly', false).attr('required', true);
                     $('#nameadscrito').val(data.descripcion).prop('readonly', false).attr('required', true);
                 } else {
-                    // Si hay una adscripción real (id_organoenteads es diferente de '0' y no nulo),
-                    // llenamos con los datos de la adscripción y los hacemos de solo lectura.
                     $('#rifadscrito').val(data.rifadscrito_bd || '').prop('readonly', true).removeAttr('required');
                     $('#nameadscrito').val(data.nombreadscrito_bd || '').prop('readonly', true).removeAttr('required');
+                }
+
+                // --- NUEVA LÓGICA para Datos de la Máxima Autoridad ---
+                // Verifica si hay datos de Máxima Autoridad
+                if (data.ma_cedula) { // Asumiendo que 'ma_cedula' es un buen indicador de que hay datos
+                    cedulaMaxAF.val(data.ma_cedula).prop('readonly', true);
+                    nameMaxAF.val(data.ma_nombre).prop('readonly', true);
+                    cargoMaxAF.val(data.ma_cargo).prop('readonly', true);
+                    actoadMaxAF.val(data.ma_id_acto_admin).prop('disabled', true); // Deshabilitar select
+                    nMaxAF.val(data.ma_n_acto_admin).prop('readonly', true);
+                    fechaMaxAF.val(data.ma_fecha_acto_admin).prop('readonly', true);
+                    gacetaMaxAF.val(data.ma_gaceta).prop('readonly', true);
+                    gfechaMaxAF.val(data.ma_fecha_gaceta).prop('readonly', true).css('background-color', '#e9ecef');
+
+                    // Desactivar el evento 'input' de handleGacetaInput si los campos son de solo lectura
+                    $('#gaceta__max_a_f').off('input');
+
+                } else {
+                    // Si el RIF principal existe pero NO hay datos de Máxima Autoridad, dejarlos editables
+                    cedulaMaxAF.val('').prop('readonly', false);
+                    nameMaxAF.val('').prop('readonly', false);
+                    cargoMaxAF.val('').prop('readonly', false);
+                    actoadMaxAF.val('0').prop('disabled', false);
+                    nMaxAF.val('').prop('readonly', false);
+                    fechaMaxAF.val('').prop('readonly', false);
+                    gacetaMaxAF.val('').prop('readonly', false);
+                    gfechaMaxAF.val('').prop('readonly', false).css('background-color', '');
+                    // Asegurarse de que el evento handleGacetaInput esté activo
+                    $('#gaceta__max_a_f').off('input').on('input', handleGacetaInput);
+                    handleGacetaInput(); // Llamar para estado inicial si Gaceta ya tiene S/I
                 }
             }
             resetRecaptcha();
@@ -157,9 +219,21 @@ function consultar_rif() {
             $('#rif_55').val(rif_b);
             $form.attr('data-rif-status', 'no_existe');
 
-            // En caso de error, hacer los campos de adscripción editables y vacíos
+            // En caso de error, hacer todos los campos editables
             $('#rifadscrito').val('').prop('readonly', false).attr('required', true);
             $('#nameadscrito').val('').prop('readonly', false).attr('required', true);
+
+            cedulaMaxAF.val('').prop('readonly', false);
+            nameMaxAF.val('').prop('readonly', false);
+            cargoMaxAF.val('').prop('readonly', false);
+            actoadMaxAF.val('0').prop('disabled', false);
+            nMaxAF.val('').prop('readonly', false);
+            fechaMaxAF.val('').prop('readonly', false);
+            gacetaMaxAF.val('').prop('readonly', false);
+            gfechaMaxAF.val('').prop('readonly', false).css('background-color', '');
+            $('#gaceta__max_a_f').off('input').on('input', handleGacetaInput);
+            handleGacetaInput();
+
             resetRecaptcha();
         }
     });
