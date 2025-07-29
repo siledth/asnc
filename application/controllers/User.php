@@ -1102,7 +1102,7 @@ class User extends CI_Controller
         // Aquí se pueden agregar más reglas según la naturaleza de cada campo
         // Ejemplo para dropdowns:
         // $this->form_validation->set_rules('id_clasificacion', 'Clasificación', 'required|numeric');
-        $this->form_validation->set_rules('actoad__max_a_f', 'acto', 'required|numeric');
+        // $this->form_validation->set_rules('actoad__max_a_f', 'acto', 'required|numeric');
 
         // $this->form_validation->set_rules('id_estado_n', 'Estado', 'required|numeric');
         // $this->form_validation->set_rules('id_municipio_n', 'Municipio', 'required|numeric');
