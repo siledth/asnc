@@ -418,5 +418,6 @@ class Solicitud extends CI_Controller
 * Por cada Usuario o Usuaria debe remitirse una Planilla de Solicitud                  '), 0, 'J');
 
         $pdf->Output('Solicitud Usuario SNC', 'D');
+        //
     }
 }
