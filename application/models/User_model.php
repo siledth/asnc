@@ -1223,7 +1223,7 @@ class User_model extends CI_Model
                 'name_f'    => $data['name_f'],
                 'name_max_a_f'         => $data['name_max_a_f'],
                 // 'cargo__max_a_f'         => $data['cargo__max_a_f'],
-                'cargo__max_a_f'         => $cargo_maxima,
+                'cargo__max_a_f'         => 1,
                 'apellido_f'          => $data['apellido_f'],
                 'cedula_f'        => $data['cedula_f'],
                 'cargo_f'       => $data['cargo_f'],
