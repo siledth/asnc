@@ -107,7 +107,7 @@ function consultar_rif() {
         resetRecaptcha();
         return;
     }
-
+//
     var base_url = '/index.php/gestion/llenar_organos_planila';
     // var base_url = window.location.origin + '/asnc/index.php/gestion/llenar_organos_planila';
 
