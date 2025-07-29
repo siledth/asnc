@@ -1202,15 +1202,7 @@ class User_model extends CI_Model
 
             $exit_rnc = 1;
         }
-        $cargo_maxima = $data['actoad__max_a_f'];
-        if ($cargo_maxima == 0) {
 
-
-            $cargo_maxima = 1;
-        } else {
-
-            $cargo_maxima = $data['actoad__max_a_f'];
-        }
         $this->db->select('max(e.id_solicitud_user) as id');
         $query = $this->db->get('public.solicitud_user e');
         $response = $query->row_array();
@@ -1256,15 +1248,12 @@ class User_model extends CI_Model
                 'rifadscrito'         => $data['rifadscrito'],
                 'nameadscrito'         => $data['nameadscrito'],
                 'ccp_facilitadores'         => $ccp_facilitadores,
-                'cedula__max_a_f'         => $data['cedula__max_a_f'],
-                'actoad__max_a_f'         => 1,
-                'n__max_a_f'         => $data['n__max_a_f'],
-                'fecha__max_a_f'         => $data['fecha__max_a_f'],
-                'gaceta__max_a_f'         => $data['gaceta__max_a_f'],
-                'gfecha__max_a_f'         => $data['gfecha__max_a_f'],
-
-
-
+                // 'cedula__max_a_f'         => $data['cedula__max_a_f'],
+                // 'actoad__max_a_f'         => 1,
+                // 'n__max_a_f'         => 1,
+                // 'fecha__max_a_f'         => $data['fecha__max_a_f'],
+                // 'gaceta__max_a_f'         => $data['gaceta__max_a_f'],
+                // 'gfecha__max_a_f'         => $data['gfecha__max_a_f'],
 
             );
             $x = $this->db->insert('public.solicitud_user', $data1);
@@ -1307,19 +1296,22 @@ class User_model extends CI_Model
     function consulta_solictud($data1)
     {
 
-        $query = $this->db->query("SELECT c.*, o.descripcion,o.rif  , cl.rif as rifasdcr, cl.descripcion as nombreascrito,al.desc_acto_admin,
-        o.cod_onapre as code_onapres, o.id_estado, o.id_municipio, o.id_parroquia, o.siglas as sliglas_, o.direccion as dri, o.pagina_web, o.id_clasificacion, c2.desc_clasificacion, 
-         e.descedo, m.descmun, p.descparro, o.tel1 as tele_     
+        $query = $this->db->query("SELECT c.*, o.descripcion,o.rif, cl.rif as rifasdcr, cl.descripcion as nombreascrito, o.id_organoente,
+        al.desc_acto_admin,
+        o.cod_onapre as code_onapres, o.id_estado, o.id_municipio, o.id_parroquia, o.siglas as sliglas_, 
+        o.direccion as dri, o.pagina_web, o.id_clasificacion, c2.desc_clasificacion, 
+         e.descedo, m.descmun, p.descparro, o.tel1 as tele_,
+          ma.cedula as cedulamax, ma.nombre as namemax, ma.cargo as cargoma, ma.id_acto_admin, ma.n_acto_admin as n_actoma, ma.fecha_acto_admin, 
+          ma.gaceta as gacetama, ma.fecha_gaceta as fecha_gacetma
                  FROM public.solicitud_user c 
                 join  public.organoente o on o.rif = c.rif	
                  join  public.organoente cl on cl.id_organoente = o.id_organoenteads
+                LEFT join  public.maxima_autoridad ma on ma.id_organoente = o.id_organoente
                   join  public.estados e on e.id = o.id_estado
                   join  public.municipios m on m.id = o.id_municipio	
                   join  public.parroquias p on p.id = o.id_parroquia	
-                 join  comisiones.acto_admin al on al.id_acto_admin = c.actoad__max_a_f
-
+                 join  comisiones.acto_admin al on al.id_acto_admin = ma.id_acto_admin
                  join  public.clasificacion c2 on c2.id_clasificacion =  o.id_clasificacion	
-
                  where c.id_solicitud_user = '$data1' 
                   ");
         if ($query->num_rows() > 0) {

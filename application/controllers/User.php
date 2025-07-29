@@ -1084,7 +1084,7 @@ class User extends CI_Controller
         // $this->form_validation->set_rules('tel_local', 'Teléfono Local', 'required|numeric|max_length[15]');
         // $this->form_validation->set_rules('pag_web', 'Página Web', 'required|trim|valid_url|max_length[100]');
         $this->form_validation->set_rules('name_max_a_f', 'Nombre Máxima Autoridad', 'required|trim|max_length[100]');
-        $this->form_validation->set_rules('cargo__max_a_f', 'Cargo Máxima Autoridad', 'required|trim|max_length[50]');
+        // $this->form_validation->set_rules('cargo__max_a_f', 'Cargo Máxima Autoridad', 'required|trim|max_length[50]');
         $this->form_validation->set_rules('name_f', 'Nombre Funcionario', 'required|trim|max_length[100]');
         $this->form_validation->set_rules('apellido_f', 'Apellido Funcionario', 'required|trim|max_length[100]');
         $this->form_validation->set_rules('cedula_f', 'Cédula Funcionario', 'required|numeric|max_length[10]');

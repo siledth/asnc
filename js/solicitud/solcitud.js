@@ -658,9 +658,9 @@ function save(event) {
     if (document.sav_ext.cedula__max_a_f.value.length == 0) {
         swal.fire({ title: 'Debe ingresar cédula de la máxima autoridad', type: 'warning' }).then(() => { resetRecaptcha(); });
         document.sav_ext.cedula__max_a_f.focus(); return 0; }
-    if (document.sav_ext.actoad__max_a_f.value == '0') { // Si es un select
-        swal.fire({ title: 'Debe seleccionar el Acto Administrativo de Designación', type: 'warning' }).then(() => { resetRecaptcha(); });
-        document.sav_ext.actoad__max_a_f.focus(); return 0; }
+    // if (document.sav_ext.actoad__max_a_f.value == '0') { // Si es un select
+    //     swal.fire({ title: 'Debe seleccionar el Acto Administrativo de Designación', type: 'warning' }).then(() => { resetRecaptcha(); });
+    //     document.sav_ext.actoad__max_a_f.focus(); return 0; }
     if (document.sav_ext.n__max_a_f.value.length == 0) {
         swal.fire({ title: 'Debe ingresar el N° del Acto Administrativo', type: 'warning' }).then(() => { resetRecaptcha(); });
         document.sav_ext.n__max_a_f.focus(); return 0; }
@@ -746,8 +746,8 @@ function save(event) {
                     datos.append('g-recaptcha-response', recaptcha_response);
                 // var base_url = window.location.origin + '/asnc/index.php/User/save_solicitud';
                 // var base_url_pdf_download = window.location.origin + '/asnc/index.php/Solicitud/pdfrt?id=';
-                var base_url = '/index.php/User/save_solicitud';
-                var base_url_pdf_download = '/index.php/Solicitud/pdfrt?id=';
+                // var base_url = '/index.php/User/save_solicitud';
+                // var base_url_pdf_download = '/index.php/Solicitud/pdfrt?id=';
 
 
                 $.ajax({
