@@ -1088,11 +1088,9 @@ class User_model extends CI_Model
             o.pagina_web,
             c.desc_clasificacion AS clasificacion_nombre,
             o.id_organoenteads,
-            o.id_organoente, -- <--- Necesitamos el ID del órgano para buscar la máxima autoridad
+            o.id_organoente, 
             cl.rif AS rifadscrito_bd,
             cl.descripcion AS nombreadscrito_bd,
-
-            -- Datos de la Máxima Autoridad
             ma.cedula AS ma_cedula,
             ma.nombre AS ma_nombre,
             ma.cargo AS ma_cargo,
@@ -1104,8 +1102,11 @@ class User_model extends CI_Model
         ');
         $this->db->from('public.organoente o');
         $this->db->join('public.clasificacion c', 'o.id_clasificacion = c.id_clasificacion', 'left');
+        // Este JOIN es para el Órgano de Adscripción del mismo tipo (o.id_organoenteads)
         $this->db->join('public.organoente cl', 'cl.id_organoente = o.id_organoenteads', 'left');
-        // NUEVO JOIN para la Máxima Autoridad
+        // Este es el JOIN CLAVE para la Máxima Autoridad
+        // Aquí se relaciona el id_organoente del órgano principal (o.id_organoente)
+        // con el id_organoente de la tabla maxima_autoridad (ma.id_organoente)
         $this->db->join('public.maxima_autoridad ma', 'ma.id_organoente = o.id_organoente', 'left');
         $this->db->where('o.rif', $data['rif_b']);
         $query = $this->db->get();
