@@ -1257,7 +1257,7 @@ class User_model extends CI_Model
                 'nameadscrito'         => $data['nameadscrito'],
                 'ccp_facilitadores'         => $ccp_facilitadores,
                 'cedula__max_a_f'         => $data['cedula__max_a_f'],
-                'actoad__max_a_f'         => $data['actoad__max_a_f'],
+                'actoad__max_a_f'         => 1,
                 'n__max_a_f'         => $data['n__max_a_f'],
                 'fecha__max_a_f'         => $data['fecha__max_a_f'],
                 'gaceta__max_a_f'         => $data['gaceta__max_a_f'],
