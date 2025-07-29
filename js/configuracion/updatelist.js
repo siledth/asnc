@@ -418,7 +418,7 @@ function saveMaximaAutoridad() {
         confirmButtonText: "¡Sí, Guardar!",
     }).then((result) => {
         if (result.value) {
-             var base_url = '/index.php/Configuracion/get_maxima_autoridad_data';
+             var base_url = '/index.php/Configuracion/save_maxima_autoridad_data';
 
             // var base_url = window.location.origin + '/asnc/index.php/Configuracion/save_maxima_autoridad_data';
             
