@@ -148,16 +148,28 @@ class Solicitud extends CI_Controller
                     $pdf->Cell(90, 5, utf8_decode('Máxima Autoridad o Cuentadante:'), 0, 1, 'R');
 
                     $pdf->SetFont('Arial', '', 9);
-                    $pdf->Cell(50, 5, utf8_decode($d->cedulamax), 0, 0, 'C');
-                    $pdf->Cell(150, 5, utf8_decode($d->namemax), 0, 1, 'C');
+                    if ($d->cedulamax == '') {
+                        $pdf->Cell(50, 5, utf8_decode($d->cedula__max_a_f), 0, 0, 'C');
+                        $pdf->Cell(150, 5, utf8_decode($d->name_max_a_f), 0, 1, 'C'); // fedfsdfdsfdsfdsfdsfdsfdsfds
+                    } else {
+                        $pdf->Cell(50, 5, utf8_decode($d->cedulamax), 0, 0, 'C');
+                        $pdf->Cell(150, 5, utf8_decode($d->namemax), 0, 1, 'C');
+                    }
+
 
                     $pdf->SetFont('Arial', 'B', 9);
 
                     $pdf->Cell(62, 5, utf8_decode('Cargo Máxima Autoridad o Cuentadante:'), 0, 0, 'R');
                     $pdf->Cell(90, 5, utf8_decode('Acto Administrativo de Designación:'), 0, 1, 'R');
                     $pdf->SetFont('Arial', '', 9);
-                    $pdf->Cell(50, 5, utf8_decode($d->cargoma), 0, 0, 'C');
-                    $pdf->Cell(150, 5, utf8_decode($d->desc_acto_admin), 0, 1, 'C');
+                    if ($d->cedulamax == '') {
+                        $pdf->Cell(50, 5, utf8_decode($d->cargo__max_a_f), 0, 0, 'C');
+                        $pdf->Cell(150, 5, utf8_decode($d->desc_acto_admin), 0, 1, 'C'); // fedfsdfdsfdsfdsfdsfdsfdsfds
+                    } else {
+                        $pdf->Cell(50, 5, utf8_decode($d->cargoma), 0, 0, 'C');
+                        $pdf->Cell(150, 5, utf8_decode($d->desc_acto_admin), 0, 1, 'C');
+                    }
+
                     $pdf->SetFont('Arial', 'B', 9);
 
 
@@ -165,22 +177,39 @@ class Solicitud extends CI_Controller
                     $pdf->Cell(92, 5, utf8_decode('Fecha Acto Administrativo de Designación :'), 0, 1, 'R');
 
                     $pdf->SetFont('Arial', '', 9);
-                    $pdf->Cell(50, 5, utf8_decode($d->n_actoma), 0, 0, 'C');
-                    $pdf->Cell(150, 5, date("d/m/Y", strtotime($d->fecha_acto_admin)), 0, 1, 'C');
+                    if ($d->cedulamax == '') {
+                        $pdf->Cell(50, 5, utf8_decode($d->n__max_a_f), 0, 0, 'C');
+                        $pdf->Cell(150, 5, date("d/m/Y", strtotime($d->fecha__max_a_f)), 0, 1, 'C'); // fedfsdfdsfdsfdsfdsfdsfdsfds
+                    } else {
+                        $pdf->Cell(50, 5, utf8_decode($d->n_actoma), 0, 0, 'C');
+                        $pdf->Cell(150, 5, date("d/m/Y", strtotime($d->fecha_acto_admin)), 0, 1, 'C');
+                    }
+
+
                     $pdf->SetFont('Arial', 'B', 9);
 
                     $pdf->Cell(62, 5, utf8_decode('Gaceta:'), 0, 0, 'R');
                     $pdf->Cell(50, 5, utf8_decode('Fecha Gaceta:'), 0, 1, 'R');
                     $pdf->SetFont('Arial', '', 9);
-                    $pdf->Cell(50, 5, utf8_decode($d->gacetama), 0, 0, 'C');
-                    $pdf->Cell(
-                        150,
-                        5,
-                        date("d/m/Y", strtotime($d->fecha_gacetma)),
-                        0,
-                        1,
-                        'C'
-                    );
+
+                    $pdf->SetFont('Arial', '', 9);
+                    if ($d->cedulamax == '') {
+                        $pdf->Cell(50, 5, utf8_decode($d->gaceta__max_a_f), 0, 0, 'C');
+                        $pdf->Cell(150, 5, date("d/m/Y", strtotime($d->gfecha__max_a_f)), 0, 1, 'C'); // fedfsdfdsfdsfdsfdsfdsfdsfds
+                    } else {
+                        $pdf->Cell(50, 5, utf8_decode($d->gacetama), 0, 0, 'C');
+                        $pdf->Cell(150, 5, date("d/m/Y", strtotime($d->fecha_gacetma)), 0, 1, 'C');
+                    }
+
+                    // $pdf->Cell(50, 5, utf8_decode($d->gacetama), 0, 0, 'C');
+                    // $pdf->Cell(
+                    //     150,
+                    //     5,
+                    //     date("d/m/Y", strtotime($d->fecha_gacetma)),
+                    //     0,
+                    //     1,
+                    //     'C'
+                    // );
                 }
             }
         } else {

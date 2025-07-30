@@ -1248,12 +1248,12 @@ class User_model extends CI_Model
                 'rifadscrito'         => $data['rifadscrito'],
                 'nameadscrito'         => $data['nameadscrito'],
                 'ccp_facilitadores'         => $ccp_facilitadores,
-                // 'cedula__max_a_f'         => $data['cedula__max_a_f'],
-                // 'actoad__max_a_f'         => 1,
-                // 'n__max_a_f'         => 1,
-                // 'fecha__max_a_f'         => $data['fecha__max_a_f'],
-                // 'gaceta__max_a_f'         => $data['gaceta__max_a_f'],
-                // 'gfecha__max_a_f'         => $data['gfecha__max_a_f'],
+                'cedula__max_a_f'         => $data['cedula__max_a_f'],
+                'actoad__max_a_f'         => 1,
+                'n__max_a_f'         => 1,
+                'fecha__max_a_f'         => $data['fecha__max_a_f'],
+                'gaceta__max_a_f'         => $data['gaceta__max_a_f'],
+                'gfecha__max_a_f'         => $data['gfecha__max_a_f'],
 
             );
             $x = $this->db->insert('public.solicitud_user', $data1);
@@ -1310,7 +1310,7 @@ class User_model extends CI_Model
                   join  public.estados e on e.id = o.id_estado
                   join  public.municipios m on m.id = o.id_municipio	
                   join  public.parroquias p on p.id = o.id_parroquia	
-                 join  comisiones.acto_admin al on al.id_acto_admin = ma.id_acto_admin
+                LEFT join  comisiones.acto_admin al on al.id_acto_admin = ma.id_acto_admin
                  join  public.clasificacion c2 on c2.id_clasificacion =  o.id_clasificacion	
                  where c.id_solicitud_user = '$data1' 
                   ");
