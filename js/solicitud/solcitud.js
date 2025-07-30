@@ -746,8 +746,8 @@ function save(event) {
                     datos.append('g-recaptcha-response', recaptcha_response);
                 // var base_url = window.location.origin + '/asnc/index.php/User/save_solicitud';
                 // var base_url_pdf_download = window.location.origin + '/asnc/index.php/Solicitud/pdfrt?id=';
-                // var base_url = '/index.php/User/save_solicitud';
-                // var base_url_pdf_download = '/index.php/Solicitud/pdfrt?id=';
+                var base_url = '/index.php/User/save_solicitud';
+                var base_url_pdf_download = '/index.php/Solicitud/pdfrt?id=';
 
 
                 $.ajax({
