@@ -823,7 +823,7 @@ $(document).ready(function() {
      $('#tel_local').on('blur', validateTelefonoF2);  
       $('#correo').on('input', validateEmail);
       $('#gaceta__max_a_f').on('input', handleGacetaInput);
-     $('#rifadscrito').on('blur', consultar_rif_adscripcion);
+    //  $('#rifadscrito').on('blur', consultar_rif_adscripcion);
     // Para que la validación se haga cuando pega o se autocompleta:
     $('#rifadscrito').on('input', function() {
         // Solo llamar a la función si el campo NO es de solo lectura.
