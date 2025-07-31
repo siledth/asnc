@@ -823,16 +823,20 @@ $(document).ready(function() {
      $('#tel_local').on('blur', validateTelefonoF2);  
       $('#correo').on('input', validateEmail);
       $('#gaceta__max_a_f').on('input', handleGacetaInput);
-    //  $('#rifadscrito').on('blur', consultar_rif_adscripcion);
-    // Para que la validación se haga cuando pega o se autocompleta:
-    $('#rifadscrito').on('input', function() {
-        // Solo llamar a la función si el campo NO es de solo lectura.
-        // Esto previene que se dispare cuando el campo ya fue pre-llenado y bloqueado por la lógica del RIF principal.
+     $('#rifadscrito').on('blur', function() {
         if (!$(this).prop('readonly')) {
-            // Puedes agregar un pequeño retraso si el servidor es lento para evitar múltiples llamadas rápidas
-            // al escribir, pero para "pegar" o "autocompletar" se dispara una vez.
-            // Para simplificar, lo llamamos directamente:
             consultar_rif_adscripcion();
         }
+    });
+
+    // 2. Validar/Consultar específicamente cuando se pega contenido (paste)
+    $('#rifadscrito').on('paste', function() {
+        const $this = $(this);
+        // Usamos setTimeout para permitir que el valor pegado se asiente en el input
+        setTimeout(function() {
+            if (!$this.prop('readonly')) {
+                consultar_rif_adscripcion();
+            }
+        }, 0); // Un pequeño retraso de 0ms, solo para que el valor se actualice en el DOM
     });
 });
