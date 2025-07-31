@@ -281,33 +281,20 @@ class ReporteG_model extends CI_Model
         ", [$fechad, $fechah]);
         $total_miembros = $queryMiembros->row()->total_miembros;
 
-        //         // 5. Top 10 productos  rendido
-        //         $query9 = $this->db->query("
-        //                     SELECT 
-        //                     codigo_ccnu,
-        //     desc_ccnu,
-        //     COUNT(*) AS frecuencia,
-        //     SUM(COALESCE(NULLIF(REGEXP_REPLACE(cantidad, '[.,]', '', 'g'), '')::NUMERIC, 0)) / 
-        //         CASE WHEN COUNT(NULLIF(REGEXP_REPLACE(cantidad, '[.,]', '', 'g'), '')) > 0 
-        //              THEN 100 ELSE 1 END AS total_cantidad,
-        //     SUM(COALESCE(NULLIF(REGEXP_REPLACE(cantidad_ejecu, '[.,]', '', 'g'), '')::NUMERIC, 0)) / 
-        //         CASE WHEN COUNT(NULLIF(REGEXP_REPLACE(cantidad_ejecu, '[.,]', '', 'g'), '')) > 0 
-        //              THEN 100 ELSE 1 END AS total_cantidad_ejecutada,
-        //     SUM(COALESCE(NULLIF(REGEXP_REPLACE(precio_total, '[.,]', '', 'g'), '')::NUMERIC, 0)) / 
-        //         CASE WHEN COUNT(NULLIF(REGEXP_REPLACE(precio_total, '[.,]', '', 'g'), '')) > 0 
-        //              THEN 100 ELSE 1 END AS total_precio
-        // FROM 
-        //     programacion.rendidicion              
-        //                 WHERE
-        //                 fecha_rendicion BETWEEN ? AND ?
-        //                 AND id_obj_comercial != 3
-        //                 GROUP BY
-        //     codigo_ccnu, desc_ccnu
-        // ORDER BY
-        //     frecuencia DESC
-        // LIMIT 10;
-        //         ", [$fechad, $fechah]);
-        //         $top_productosrendi = $query9->result_array();
+        //Consulta para el total de llamados a concurso
+        $queryLlamadosConcurso = $this->db->query("
+        SELECT COUNT(*) AS total_llamados
+        FROM public.llamado_concurso
+        WHERE fecha_disponible_llamado BETWEEN ? AND ? 
+    ", [$fechad, $fechah]);
+        $total_llamados_concurso = $queryLlamadosConcurso->row()->total_llamados;
+        // Consulta para el total de evaluaciones de desempeño
+        $queryEvaluaciones = $this->db->query("
+        SELECT COUNT(id) AS total_evaluaciones
+        FROM evaluacion_desempenio.evaluacion
+        WHERE fecha_reg_eval BETWEEN ? AND ? AND id_estatus = '1'
+    ", [$fechad, $fechah]);
+        $total_evaluaciones = $queryEvaluaciones->row()->total_evaluaciones;
         return [
             'total_programacion' => $total_programacion,
             'registros_por_anio' => $registros_por_anio,
@@ -333,6 +320,12 @@ class ReporteG_model extends CI_Model
                 'total_comisiones' => $total_comisiones,
                 'total_miembros' => $total_miembros
             ],
+            'llamados_concurso' => [
+                'total_llamados' => $total_llamados_concurso
+            ],
+            'evaluaciones_desempenio' => [
+                'total_evaluaciones' => $total_evaluaciones
+            ]
             //'top_productosrendi' => $top_productosrendi,
 
 

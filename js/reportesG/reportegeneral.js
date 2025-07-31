@@ -32,7 +32,7 @@ function buscar() {
     //var base_url = '/index.php/Publicaciones/busquedallcacciones';
     
     // Obtener la ruta base del formulario
-   //const baseUrl = window.location.origin + '/asnc/index.php/';
+  // const baseUrl = window.location.origin + '/asnc/index.php/';
    const baseUrl = '/index.php/';
     
     // Realizar petición AJAX
@@ -75,12 +75,20 @@ function buscar() {
         const comisiones = data.data.comisiones || {};
         const totalComisiones = comisiones.total_comisiones || 0;
         const totalMiembros = comisiones.total_miembros || 0;
-
+            // Datos de llamados a concurso
+            const llamadosConcurso = data.data.llamados_concurso || {};
+            const totalLlamadosConcurso = llamadosConcurso.total_llamados || 0;
+          // Datos de evaluaciones de desempeño
+            const evaluacionesDesempenio = data.data.evaluaciones_desempenio || {};
+            const totalEvaluaciones = evaluacionesDesempenio.total_evaluaciones || 0;
             // Verificar si hay datos
             const hasData = programacion > 0 || registrosPorAnio > 0  || notificadas > 0 || 
                           proyectos.total > 0 || acciones.total > 0 ||
                           topProductos.length > 0 ||
-                          top_productosrendi.length > 0;
+                          top_productosrendi.length > 0 || totalLlamadosConcurso > 0 ||
+                            totalEvaluaciones > 0;
+
+        
             
             if (!hasData) {
                 Swal.fire({
@@ -174,7 +182,20 @@ function buscar() {
                 <td>${totalComisiones}</td>
                 <td>${totalMiembros}</td>
             </tr>
+            
         `;
+        // Mostrar tabla de llamados a concurso
+          document.querySelector('#tabla-llamados-concurso tbody').innerHTML = `
+                <tr>
+                    <td>${totalLlamadosConcurso}</td>
+                </tr>
+            `;
+        // Mostrar tabla de evaluaciones de desempeño
+            document.querySelector('#tabla-evaluaciones tbody').innerHTML = `
+                <tr>
+                    <td>${totalEvaluaciones}</td>
+                </tr>
+            `;
         } else {
             Swal.fire({
                 icon: 'error',
@@ -183,6 +204,9 @@ function buscar() {
                 confirmButtonText: 'Entendido'
             });
         }
+        
+
+
     })
     .catch(error => {
         console.error('Error:', error);
@@ -226,7 +250,9 @@ function exportToExcel() {
         { name: 'Acciones', id: 'tabla-acciones' },
         { name: 'Top_Productos', id: 'tabla-top-productos' },
 
-        { name: 'Comisiones', id: 'tabla-comisiones' }
+        { name: 'Comisiones', id: 'tabla-comisiones' },
+        { name: 'Llamados_Concurso', id: 'tabla-llamados-concurso' },
+         { name: 'Evaluaciones_Desempenio', id: 'tabla-evaluaciones' } 
 
     ];
     
@@ -322,6 +348,20 @@ function exportToPDF() {
        // Tabla de Top Productos (puede ser larga, manejamos paginación)
     doc.autoTable({
         html: '#tabla-comisiones',
+        startY: doc.lastAutoTable.finalY + 10,
+        ...tableConfig,
+        pageBreak: 'auto'
+    });
+     // Tabla de Llamados a Concurso
+    doc.autoTable({
+        html: '#tabla-llamados-concurso',
+        startY: doc.lastAutoTable.finalY + 10,
+        ...tableConfig,
+        pageBreak: 'auto'
+    });
+    // Tabla de Evaluaciones de Desempeño
+    doc.autoTable({
+        html: '#tabla-evaluaciones',
         startY: doc.lastAutoTable.finalY + 10,
         ...tableConfig,
         pageBreak: 'auto'

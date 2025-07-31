@@ -767,7 +767,7 @@
                                         <li><a href="<?= base_url() ?>index.php/Diplomado/reportePago">-
                                                 Reporte de Pagos</a></li>
                                         <!-- <li><a href="<?= base_url() ?>index.php/EmailSender/correos">-
-                                            correos</a></li> -->
+                                                correos</a></li> -->
 
                                     <?php endif; ?>
 
@@ -788,7 +788,7 @@
             </li>
         <?php endif; ?>
 
-        <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
+        <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1 || $this->session->userdata('perfil') == 14)) : ?>
             <li class="has-sub">
                 <a href="javascript:;">
                     <b class="caret"></b>

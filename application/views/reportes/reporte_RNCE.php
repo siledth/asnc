@@ -146,6 +146,26 @@
                                     <!-- JS insertará datos aquí -->
                                 </tbody>
                             </table>
+                            <h5 class="mt-4">Llamados a Concurso</h5>
+                            <table id="tabla-llamados-concurso" class="table table-bordered table-hover">
+                                <thead style="background:#e4e7e8">
+                                    <tr class="text-center">
+                                        <th>Total Llamados a Concurso</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                </tbody>
+                            </table>
+                            <h5 class="mt-4">Evaluaciones de Desempeño</h5>
+                            <table id="tabla-evaluaciones" class="table table-bordered table-hover">
+                                <thead style="background:#e4e7e8">
+                                    <tr class="text-center">
+                                        <th>Total Evaluaciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
