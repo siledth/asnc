@@ -43,7 +43,7 @@ function cambiarEndDate2() {
     f = $("#vigen_cert_desde2").val();; // Read the date from the INPUT
     vec = f.split('-'); // Parse and convert to a vector
     var fecha = new Date(vec[0], vec[1] - 1, vec[2]); // Create the Date object (note that the month is 0-indexed)
-    fecha.setDate(fecha.getDate() + 30); // Add 30 days
+    fecha.setDate(fecha.getDate() + 60); // Add 60 days
     res = fecha.getFullYear() + '-' + ('0' + (fecha.getMonth() + 1)).slice(-2) + '-' + ('0' + fecha.getDate()).slice(-2); // Format the result
     $('#vigen_cert_hasta2').val(res);
 }
