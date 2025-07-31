@@ -346,6 +346,14 @@ class Configuracion extends CI_Controller
         $data =    $this->Configuracion_model->save_modif_org1($data);
         echo json_encode($data);
     }
+
+    public function llenar_adcrip()
+    {
+        if (!$this->session->userdata('session')) redirect('login');
+        $data = $this->input->post();
+        $data =    $this->Configuracion_model->llenar_adcrip($data);
+        echo json_encode($data);
+    }
     public function orga()
     { //nuevo filiares
         if (!$this->session->userdata('session'))
@@ -611,4 +619,50 @@ class Configuracion extends CI_Controller
     //     $data['acto'] = $this->MaximaAutoridad_model->get_actos_admin(); // Carga los actos para el modal
     //     $this->load->view('tu_vista_listado', $data); // Asegúrate de que esta sea tu vista principal del listado
     // }
+
+    public function get_organo_adscripcion_data()
+    {
+        $this->output->set_content_type('application/json');
+        $id_organoente = $this->input->post('id_organoente');
+
+        if ($id_organoente) {
+            $organo_data = $this->Configuracion_model->get_organo_with_adscripcion($id_organoente);
+            $all_organos = $this->Configuracion_model->get_all_organos_for_select(); // Obtiene todos los órganos para el select
+
+            echo json_encode([
+                'status' => 'success',
+                'organo_data' => $organo_data,
+                'all_organos' => $all_organos
+            ]);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'ID de Órgano/Ente no proporcionado.']);
+        }
+    }
+
+    /**
+     * Guarda la nueva adscripción para un órgano/ente.
+     */
+    public function save_organo_adscripcion()
+    {
+        $this->output->set_content_type('application/json');
+
+        $id_organoente = $this->input->post('id_organoente_adsc_modal');
+        $selected_id_adscripcion = $this->input->post('select_organo_adscripcion_modal');
+
+        // Validar que el ID del órgano principal esté presente
+        if (empty($id_organoente)) {
+            echo json_encode(['status' => 'error', 'message' => 'ID de Órgano/Ente principal no proporcionado.']);
+            return;
+        }
+
+        // El valor 0 significa "sin adscripción específica"
+        $new_id_organoenteads = ($selected_id_adscripcion === '0') ? 0 : $selected_id_adscripcion;
+
+        // Realiza la actualización en el modelo
+        if ($this->Configuracion_model->update_organo_adscripcion($id_organoente, $new_id_organoenteads)) {
+            echo json_encode(['status' => 'success', 'message' => 'Órgano de Adscripción actualizado exitosamente.']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Error al actualizar el Órgano de Adscripción.']);
+        }
+    }
 }

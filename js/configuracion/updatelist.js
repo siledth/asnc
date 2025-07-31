@@ -2,7 +2,13 @@ function modal(id) {
     var id_organoente = id;
        
         var base_url = '/index.php/Configuracion/read_list';
-         var base_url2 = '/index.php/Configuracion/llenar_edo';
+        var base_url2 = '/index.php/Configuracion/llenar_edo';
+    //  var base_url = window.location.origin + '/asnc/index.php/Configuracion/read_list';
+     
+    //  var base_url2 = window.location.origin + '/asnc/index.php/Configuracion/llenar_edo';
+
+
+
         // var base_url7 = '/index.php/Configuracion/llenar_ff_';
     $.ajax({
         url: base_url,
@@ -30,15 +36,12 @@ function modal(id) {
             $("#tel1").val(data["tel1"]);  
             $("#tel2").val(data["tel2"]);  
             $("#movil1").val(data["movil1"]);  
-            $("#movil2").val(data["movil2"]);  
-
-
-
-
+            $("#movil2").val(data["movil2"]); 
+           
                    
 
 
-         // llena el select de unidad de medida
+         // llena el select de estado
             var id_estado = data['id_estado'];
              
         $.ajax({
@@ -53,6 +56,8 @@ function modal(id) {
                 });
             }
         })
+
+        
             
 
           
@@ -182,7 +187,7 @@ function validateMaxLength(input) {
     }
    }
 
-   function save_modif_org(){//////////////////////////////////////////accion central
+   function save_modif_org(){////////////////////////////// 
     event.preventDefault();
 
     swal.fire({
@@ -213,7 +218,9 @@ function validateMaxLength(input) {
             var movil1 = $('#movil1').val();
             var movil2 = $('#movil2').val();
             var gaceta = $('#gaceta').val();
-
+       
+ 
+    //  var base_url = window.location.origin + '/asnc/index.php/Configuracion/save_modif_org1';
    
             var base_url = '/index.php/Configuracion/save_modif_org1'; 
 
@@ -238,7 +245,8 @@ function validateMaxLength(input) {
                     tel2: tel2,
                     movil1: movil1,
                     movil2: movil2,
-                    gaceta: gaceta,                   
+                    gaceta: gaceta, 
+                                    
 
                 },
                 dataType: 'json',
@@ -248,7 +256,7 @@ function validateMaxLength(input) {
                             title: 'Se Modifico la información con exito.',
                             type: 'success',
                             showCancelButton: false,
-                            confirmButtonColor: '#3085d6',
+                            confirmButtonColor: '#5f040cff',
                             confirmButtonText: 'Ok'
                         }).then((result) => {
                             if (result.value == true) {
@@ -462,3 +470,131 @@ $(document).ready(function() {
         handleGacetaInputModal();
     });
 });
+
+function openAdscripcionModal(id_organoente) {
+    // 1. Limpiar el formulario y establecer el ID del órgano principal
+    $('#form_adscripcion').trigger('reset');
+    $('#id_organoente_adsc_modal').val(id_organoente);
+    $('#current_adscripcion_display').val('Cargando...'); // Mensaje de carga
+
+    const selectAdscripcion = $('#select_organo_adscripcion_modal');
+
+    // Destruir Select2 si ya estaba inicializado para evitar duplicados
+    if (selectAdscripcion.data('select2')) {
+        selectAdscripcion.select2('destroy');
+    }
+    //   var base_url = window.location.origin + '/asnc/index.php/Configuracion/get_organo_adscripcion_data';
+            var base_url = '/index.php/Configuracion/get_organo_adscripcion_data'; 
+
+    // 2. Realizar la llamada AJAX para obtener datos y la lista de órganos
+    var base_url  ;
+
+    $.ajax({
+        url: base_url,
+        method: 'POST',
+        data: { id_organoente: id_organoente },
+        dataType: 'json',
+        success: function(response) {
+            console.log("Respuesta AJAX Adscripción:", response);
+            if (response.status === 'success') {
+                const organo_data = response.organo_data;
+                const all_organos = response.all_organos;
+
+                // Limpiar y llenar el select con la opción por defecto y los datos de la BD
+                selectAdscripcion.empty(); // Limpiar todas las opciones
+                selectAdscripcion.append('<option value="0">- Seleccione - (Órgano/Ente sin adscripción específica)</option>');
+                $.each(all_organos, function(index, organo) {
+                    selectAdscripcion.append(`<option value="${organo.id_organoente}">${organo.rif} - ${organo.descripcion}</option>`);
+                });
+
+                // Precargar la información actual si existe
+                if (organo_data) {
+                    if (organo_data.id_organoenteads && organo_data.id_organoenteads !== '0') {
+                        // Si tiene una adscripción, mostrarla en el display y seleccionarla en el select
+                        $('#current_adscripcion_display').val(`${organo_data.rif_adscripcion_actual} - ${organo_data.nombre_adscripcion_actual}`);
+                        selectAdscripcion.val(organo_data.id_organoenteads);
+                    } else {
+                        // Si no tiene adscripción (es '0' o null), indicarlo y dejar el select en "Seleccione"
+                        $('#current_adscripcion_display').val('Sin Órgano de Adscripción Específico Registrado');
+                        selectAdscripcion.val('0');
+                    }
+                }
+
+                // 3. Inicializar Select2 en el select después de cargar las opciones
+                selectAdscripcion.select2({
+                    dropdownParent: $('#myModal_adscripcion'), // Importante para que el Select2 se muestre correctamente dentro del modal
+                    placeholder: "Buscar o seleccionar un órgano",
+                    allowClear: true // Permite limpiar la selección
+                });
+
+            } else {
+                swal.fire("Error", response.message, "error");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error al cargar datos de Adscripción:", status, error, xhr.responseText);
+            swal.fire("Error", "No se pudieron cargar los datos del Órgano de Adscripción.", "error");
+        }
+    });
+
+    // 4. Abrir el modal
+    $('#myModal_adscripcion').modal('show');
+}
+
+// Función para guardar los datos del Órgano de Adscripción
+function saveOrganoAdscripcion() {
+    const id_organoente = $('#id_organoente_adsc_modal').val();
+    const selected_id_adscripcion = $('#select_organo_adscripcion_modal').val();
+
+    // Validación: Se debe seleccionar un órgano (o la opción "sin adscripción específica")
+    if (selected_id_adscripcion === null || selected_id_adscripcion === undefined) {
+        swal.fire('Atención', 'Debe seleccionar un Órgano/Ente de Adscripción.', 'warning').then(() => {
+            $('#select_organo_adscripcion_modal').focus();
+        });
+        return;
+    }
+
+    swal.fire({
+        title: "¿Confirmar?",
+        text: "¿Está seguro de guardar la configuración del Órgano de Adscripción?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "¡Sí, Guardar!",
+    }).then((result) => {
+        if (result.value) {
+    //   var base_url = window.location.origin + '/asnc/index.php/Configuracion/save_organo_adscripcion';
+            var base_url = '/index.php/Configuracion/save_organo_adscripcion'; 
+
+
+            var base_url  ;
+
+            $.ajax({
+                url: base_url,
+                method: "POST",
+                data: {
+                    id_organoente_adsc_modal: id_organoente,
+                    select_organo_adscripcion_modal: selected_id_adscripcion // Este es el ID final a guardar
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        swal.fire("Guardado", response.message, "success").then(() => {
+                           // $('#myModal_adscripcion').modal('hide'); // Cerrar el modal
+                            // Opcional: recargar la tabla o solo el elemento afectado si es necesario
+                             location.reload(); // Si quieres que se vea reflejado inmediatamente
+                        });
+                    } else {
+                        swal.fire("Error", response.message, "error");
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error al guardar adscripción:", status, error, xhr.responseText);
+                    swal.fire("Error", "Ocurrió un error al intentar guardar la adscripción.", "error");
+                }
+            });
+        }
+    });
+}

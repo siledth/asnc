@@ -154,6 +154,16 @@ class Configuracion_model extends CI_model
         return $result = $query->result_array();
     }
 
+    public function llenar_adcrip()
+    { //para inscribir un organo aun ente
+
+        $this->db->select('id_organoente  rif, descripcion as desc_organo,id_organoenteads,certificaciones');
+        $this->db->where('certificaciones', '0');
+        $query = $this->db->get('public.organoente');
+        return $result = $query->result_array();
+    }
+
+
     public function consulta_clasificacion()
     {
         $this->db->select('id_clasificacion, desc_clasificacion');
@@ -348,12 +358,15 @@ class Configuracion_model extends CI_model
             ' orn.id_organoente, orn.rif, orn.id_organoenteads, orn.tipo_organoente, 
         orn.descripcion, orn.cod_onapre, orn.id_estado, orn.id_municipio, orn.id_parroquia, 
         orn.siglas, orn.direccion, orn.gaceta, orn.fecha_gaceta, orn.pagina_web, orn.correo, orn.tel1, orn.tel2,
-        orn.movil1, orn.movil2, orn.usuario, orn.fecha, orn.codigo, orn.id_clasificacion, edo.descedo, mun.descmun , prq.descparro '
+        orn.movil1, orn.movil2, orn.usuario, orn.fecha, orn.codigo, orn.id_clasificacion, edo.descedo, mun.descmun , prq.descparro,
+        a.descripcion as nameadscripcion, a.id_organoente as id_adscritos'
         );
         $this->db->from('public.organoente orn');
         $this->db->join('public.estados edo', 'edo.id = orn.id_estado', 'left');
         $this->db->join('public.municipios mun', 'mun.id = orn.id_municipio', 'left');
         $this->db->join('public.parroquias prq', 'prq.id = orn.id_parroquia', 'left');
+        $this->db->join('public.organoente a', 'a.id_organoente = orn.id_organoenteads', 'left');
+
 
 
         $this->db->where('orn.id_organoente', $data['id_organoente']);
@@ -411,6 +424,7 @@ class Configuracion_model extends CI_model
         }
 
 
+
         $data1 = array(
             'descripcion'        => $data['descripcion'],
             'cod_onapre'         => $data['cod_onapre'],
@@ -426,8 +440,6 @@ class Configuracion_model extends CI_model
             'movil1'         => $data['movil1'],
             'movil2'         => $data['movil2'],
             'gaceta'         => $data['gaceta'],
-
-
 
         );
         $update = $this->db->update('public.organoente', $data1);
@@ -568,5 +580,53 @@ class Configuracion_model extends CI_model
 
             return true;
         }
+    }
+
+    public function get_organo_with_adscripcion($id_organoente)
+    {
+        $this->db->select('
+            o.id_organoente,
+            o.rif,
+            o.descripcion,
+            o.id_organoenteads,
+            adsc.rif AS rif_adscripcion_actual,
+            adsc.descripcion AS nombre_adscripcion_actual
+        ');
+        $this->db->from('public.organoente o');
+        // LEFT JOIN para obtener los datos del órgano de adscripción actual (si existe)
+        $this->db->join('public.organoente adsc', 'adsc.id_organoente = o.id_organoenteads', 'left');
+        $this->db->where('o.id_organoente', $id_organoente);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    /**
+     * Obtiene una lista de todos los órganos/entes disponibles (para el select de adscripción).
+     * @return array Lista de órganos/entes con id y descripción.
+     */
+    public function get_all_organos_for_select()
+    {
+        $this->db->select('id_organoente, rif, descripcion');
+        $this->db->from('public.organoente');
+        // Opcional: Puedes ordenar por descripción o rif
+        $this->db->order_by('descripcion', 'ASC');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    /**
+     * Actualiza el id_organoenteads para un órgano/ente específico.
+     * @param int $id_organoente El ID del órgano/ente a modificar.
+     * @param int $new_id_organoenteads El nuevo ID del órgano de adscripción.
+     * @return bool True si la actualización fue exitosa, false en caso contrario.
+     */
+    public function update_organo_adscripcion($id_organoente, $new_id_organoenteads)
+    {
+        $data = array(
+            'id_organoenteads' => $new_id_organoenteads,
+            //'fecha_actualizacion' => date('Y-m-d H:i:s') // Asumiendo que tienes este campo de actualización
+        );
+        $this->db->where('id_organoente', $id_organoente);
+        return $this->db->update('public.organoente', $data);
     }
 }
