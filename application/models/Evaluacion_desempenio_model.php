@@ -1175,7 +1175,86 @@ class Evaluacion_desempenio_model extends CI_model
     ////////////////////////////////////////////////////////////
 
 
+    ///evaluaciones new
+    public function buscar_contratista_por_rif($rif)
+    {
+        // 1. Buscar en la tabla principal de evaluaciones
+        $this->db->select('*');
+        $this->db->where('rifced', $rif);
+        $query = $this->db->get('evaluacion_desempenio.contratistas');
+        $result = $query->row_array();
+        if ($result) {
+            return ['status' => 'success', 'data' => $result];
+        }
 
+        // 2. Buscar en la tabla de no registrados
+        $this->db->select('*');
+        $this->db->where('rifced', $rif);
+        $query = $this->db->get('evaluacion_desempenio.contratistas_nr');
+        $result = $query->row_array();
+        if ($result) {
+            return ['status' => 'success', 'data' => $result];
+        }
 
+        // 3. Buscar en la base de datos externa (SNCenlinea)
+        $this->db_c->select('c.*, e.descedo, m.descmun, c2.descciu');
+        $this->db_c->from('public.contratistas c');
+        $this->db_c->join('public.estados e', 'e.id = c.estado_id', 'left');
+        $this->db_c->join('public.municipios m', 'm.id = c.municipio_id', 'left');
+        $this->db_c->join('public.ciudades c2', 'c2.id = c.ciudade_id', 'left');
+        $this->db_c->where('c.rifced', $rif);
+        $query = $this->db_c->get();
+        $result = $query->row_array();
 
+        if ($result) {
+            // Si se encuentra en la BD externa, insertar en la tabla local
+            $this->insertar_contratista_principal($result);
+            return ['status' => 'success', 'data' => $result];
+        }
+
+        // Si no se encuentra en ninguna de las tablas
+        return ['status' => 'not_found', 'message' => 'Contratista no encontrado'];
+    }
+    // Nueva función para insertar en la tabla evaluacion_desempenio.contratistas
+    private function insertar_contratista_principal($data)
+    {
+        // Mapea los datos del array $data (proveniente de public.contratistas)
+        // a un nuevo array con los campos exactos de evaluacion_desempenio.contratistas.
+        $data_insert = [
+            'user_id' => $this->session->userdata('id_user'), // Esto es un valor de sesión
+            'edocontratista_id' => $data['edocontratista_id'],
+            'objcontratista_id' => $data['objcontratista_id'],
+            'nivelfinanciero_id' => $data['nivelfinanciero_id'],
+            'racoficina_id' => $data['racoficina_id'],
+            'tipocontratista' => $data['tipocontratista'],
+            'estado_id' => $data['estado_id'],
+            'ciudade_id' => $data['ciudade_id'],
+            'municipio_id' => $data['municipio_id'],
+            'parroquia_id' => $data['parroquia_id'],
+            'rifced' => $data['rifced'],
+            'nombre' => $data['nombre'],
+            'tipopersona' => $data['tipopersona'],
+            'dencomerciale_id' => $data['dencomerciale_id'],
+            'ultprocaprob' => $data['ultprocaprob'],
+            'procactual' => $data['procactual'],
+            'dirfiscal' => $data['dirfiscal'],
+            'percontacto' => $data['percontacto'],
+            'telf1' => $data['telf1'],
+            'fecactsusc_at' => $data['fecactsusc_at'],
+            'fecvencsusc_at' => $data['fecvencsusc_at'],
+            'fecinscrnc_at' => $data['fecinscrnc_at'],
+            'fecvencrnc_at' => $data['fecvencrnc_at'],
+            'numcertrnc' => $data['numcertrnc'],
+            'numcontrol_certrnc' => $data['numcontrol_certrnc'],
+            'contimp_certrnc' => $data['contimp_certrnc'],
+            'contimp_copiarnc' => $data['contimp_copiarnc'],
+            'codedocont' => $data['codedocont'],
+            'loginant' => $data['loginant'],
+            'fecvencrechazo_at' => $data['fecvencrechazo_at'],
+            'recibido' => $data['recibido'],
+            'emprendedor' => $data['emprendedor'] // Asegúrate de que este campo exista en ambas tablas.
+        ];
+
+        $this->db->insert('evaluacion_desempenio.contratistas', $data_insert);
+    }
 }

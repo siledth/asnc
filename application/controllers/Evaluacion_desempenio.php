@@ -105,6 +105,22 @@ class Evaluacion_desempenio extends CI_Controller
 		$data =	$this->Evaluacion_desempenio_model->llenar_contratista_rp($data);
 		echo json_encode($data);
 	}
+
+
+	public function llenar_contratistafn()
+	{
+		if (!$this->session->userdata('session')) {
+			redirect('login');
+		}
+
+		$rif_b = $this->input->post('rif_b');
+
+		// Usar la nueva función del modelo para buscar el contratista
+		$contratista_data = $this->Evaluacion_desempenio_model->buscar_contratista_por_rif($rif_b);
+
+		// Devolver el resultado en formato JSON
+		echo json_encode($contratista_data);
+	}
 	//-------------------------------------------------
 
 	public function llenar_sub_modalidad()
