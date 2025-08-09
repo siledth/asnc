@@ -1300,4 +1300,95 @@ class Evaluacion_desempenio_model extends CI_model
     //     // --- FIN DE DEPURACIÓN EN JSON ---
     //     $this->db->insert('evaluacion_desempenio.contratistas', $data_insert);
     // }
+
+    public function get_evaluaciones_por_rango($fecha_desde, $fecha_hasta, $usuario)
+    {
+        // Asegúrate de que las fechas sean seguras para la consulta SQL
+        $fecha_desde = $this->db->escape_str($fecha_desde);
+        $fecha_hasta = $this->db->escape_str($fecha_hasta);
+
+        $this->db->select("
+        e.id,
+        e.fecha_reg_eval,
+        u.rif_organoente,
+        oe.descripcion AS organo_ente,
+        e.rif_contrat,
+        COALESCE(c.nombre, c_nr.nombre, 'Nombre no encontrado') AS contratista_ev,
+        e.calificacion
+    ");
+        $this->db->from('evaluacion_desempenio.evaluacion AS e');
+
+        // JOIN para obtener el RIF del Órgano/Ente desde la tabla de usuarios
+        $this->db->join('seguridad.usuarios AS u', 'u.id = e.id_usuario', 'inner');
+
+        // JOIN para obtener la descripción del Órgano/Ente
+        $this->db->join('public.organoente AS oe', 'oe.rif = u.rif_organoente', 'left');
+
+        // JOIN para obtener el nombre del contratista (principal)
+        $this->db->join('evaluacion_desempenio.contratistas AS c', 'e.rif_contrat = c.rifced', 'left');
+
+        // JOIN para obtener el nombre del contratista (no registrado)
+        $this->db->join('evaluacion_desempenio.contratistas_nr AS c_nr', 'e.rif_contrat = c_nr.rifced', 'left');
+
+
+        // Cláusula WHERE para el rango de fechas
+        $this->db->where("e.fecha_reg_eval BETWEEN '$fecha_desde' AND '$fecha_hasta'");
+        $this->db->where('e.id_usuario', $usuario);
+        $this->db->where('e.snc', 1);
+
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+
+    public function get_evaluaciones_por_rangosnc($filtros)
+    {
+        $this->db->select("
+        e.id,
+        e.fecha_reg_eval,
+        u.rif_organoente,
+        oe.descripcion AS organo_ente,
+        e.rif_contrat,
+        COALESCE(c.nombre, c_nr.nombre, 'Nombre no encontrado') AS contratista_ev,
+        e.calificacion
+    ");
+        $this->db->from('evaluacion_desempenio.evaluacion AS e');
+
+        $this->db->join('seguridad.usuarios AS u', 'u.id = e.id_usuario', 'inner');
+        $this->db->join('public.organoente AS oe', 'oe.rif = u.rif_organoente', 'left');
+        $this->db->join('evaluacion_desempenio.contratistas AS c', 'e.rif_contrat = c.rifced', 'left');
+        $this->db->join('evaluacion_desempenio.contratistas_nr AS c_nr', 'e.rif_contrat = c_nr.rifced', 'left');
+
+        // Construir la cláusula WHERE dinámicamente
+        if (!empty($filtros['fecha_desde']) && !empty($filtros['fecha_hasta'])) {
+            $this->db->where("e.fecha_reg_eval BETWEEN '{$filtros['fecha_desde']}' AND '{$filtros['fecha_hasta']}'");
+        }
+
+        if (!empty($filtros['id_evaluacion'])) {
+            $this->db->where('e.id', $filtros['id_evaluacion']);
+        }
+
+        if (!empty($filtros['rif_organoente'])) {
+            $this->db->like('u.rif_organoente', $filtros['rif_organoente']);
+        }
+
+        if (!empty($filtros['organo_ente'])) {
+            $this->db->like('oe.descripcion', $filtros['organo_ente']);
+        }
+
+        if (!empty($filtros['rif_contrat'])) {
+            $this->db->like('e.rif_contrat', $filtros['rif_contrat']);
+        }
+
+        if (!empty($filtros['contratista_ev'])) {
+            $this->db->where("(c.nombre ILIKE '%{$filtros['contratista_ev']}%' OR c_nr.nombre ILIKE '%{$filtros['contratista_ev']}%')");
+        }
+
+        if (!empty($filtros['calificacion'])) {
+            $this->db->where('e.calificacion', $filtros['calificacion']);
+        }
+
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 }

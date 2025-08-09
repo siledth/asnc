@@ -1,52 +1,60 @@
 <div class="sidebar-bg"></div>
 <div id="content" class="content">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-inverse">
-                <div class="col-12">
-                    <br>
-                    <h3 class="text-center">Evaluaciones Registradas</h3>
-                    <table id="data-table-default" class="table table-bordered table-hover">
-                        <thead style="background:#e4e7e8">
-                            <tr class="text-center">
-                                <th>ID</th>
-                                <th>Fecha Reg. Evaluación</th>
-                                <th>Rif de Contratante:</th>
-                                <th>Razón Social Contratante</th>
-                                <th>Rif contratista</th>
-                                <th>Razón Social contratista</th>
-                                <th>Calificación</th>
-                                <!-- <th>Estatus de Notificación</th> -->
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach($reportes_user as $data):?>
-                            <tr class="odd gradeX" style="text-align:center">
-                                <td><?=$data['id']?> </td>
-                                <td><?=$data['fecha_reg_eval']?> </td>
-                                <td><?=$data['rif_organoente']?> </td>
-                                <td><?=$data['organo_ente']?> </td>
-                                <td><?=$data['rif_contrat']?> </td>
-                                <td><?=$data['contratista_ev']?> </td>
-                                <td><?=$data['calificacion']?></td>
-                                <td class="center">
-                                    <a title="Visualizar e Imprimir la Evaluación de Desempeño"
-                                        href="<?php echo base_url();?>index.php/Evaluacion_desempenio/ver_evaluacion?id=<?php echo $data['id'];?>"
-                                        class="button">
-                                        <i class="fas fa-lg fa-fw fa-eye" style="color: green;"></i>
-                                        <a />
-                                </td>
-                            </tr>
-                            <?php endforeach;?>
-
-                        </tbody>
-                    </table>
-
+    <h2>Evaluaciones de Desempeño</h2>
+    <div class="panel panel-inverse" data-sortable-id="form-validation-1">
+        <div class="panel-heading">
+            <h4 class="panel-title">Seleccionar Rango de Fechas</h4>
+        </div>
+        <div class="panel-body">
+            <form id="form_reporte_evaluaciones" class="form-horizontal">
+                <div class="form-group row">
+                    <label class="col-md-2 col-form-label">Fecha Desde</label>
+                    <div class="col-md-4">
+                        <input type="date" class="form-control" id="fecha_desde" name="fecha_desde" required>
+                    </div>
+                    <label class="col-md-2 col-form-label">Fecha Hasta</label>
+                    <div class="col-md-4">
+                        <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta" required>
+                    </div>
                 </div>
+                <div class="form-group row">
+                    <div class="col-md-12 text-center mt-3">
+                        <button type="submit" class="my-button">Generar Reporte</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="panel panel-inverse" style="display: none;" id="tabla_reporte_container">
+        <div class="panel-heading">
+            <h4 class="panel-title">Resultados de la evaluaciones de desempeño</h4>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table id="data-table-reporte" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Fecha Reg. Evaluación</th>
+                            <th>RIF Órgano/Ente</th>
+                            <th>Órgano/Ente</th>
+                            <th>RIF Contratista</th>
+                            <th>Contratista</th>
+                            <th>Calificación</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
+            <nav aria-label="Page navigation example" class="mt-3">
+                <ul class="pagination" id="paginacion_tabla"></ul>
+            </nav>
         </div>
     </div>
 </div>
 
-<script src="<?=base_url()?>/js/eval_desempenio/notificacion.js"></script>
+
+<script src="<?= base_url() ?>js/eval_desempenio/evaluacionesulm.js"></script>

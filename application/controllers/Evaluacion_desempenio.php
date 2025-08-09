@@ -427,12 +427,36 @@ class Evaluacion_desempenio extends CI_Controller
 		$data['rif_organoente'] = $this->session->userdata('rif_organoente');
 		$usuario = $this->session->userdata('id_user');
 		//print_r($data['reportes']);die;
-		$data['reportes_user'] 	= $this->Evaluacion_desempenio_model->consulta_evaluaciones2($usuario);
+		///$data['reportes_user'] 	= $this->Evaluacion_desempenio_model->consulta_evaluaciones2($usuario);
 		$this->load->view('templates/header.php');
 		$this->load->view('templates/navigator.php');
 		$this->load->view('evaluacion_desempenio/consulta_externa.php', $data);
 		$this->load->view('templates/footer.php');
 	}
+	///consulta evaluaciones por mes 
+	public function generar_reporte_evaluaciones()
+	{
+		if (!$this->session->userdata('session')) {
+			redirect('login');
+		}
+		$usuario = $this->session->userdata('id_user');
+
+		$fecha_desde = $this->input->post('fecha_desde');
+		$fecha_hasta = $this->input->post('fecha_hasta');
+
+		if (empty($fecha_desde) || empty($fecha_hasta)) {
+			// Manejar el caso de fechas vacías
+			echo json_encode(['status' => 'error', 'message' => 'Las fechas no pueden estar vacías.']);
+			return;
+		}
+
+		// Llama a la función del modelo para obtener los datos
+		$data_reporte = $this->Evaluacion_desempenio_model->get_evaluaciones_por_rango($fecha_desde, $fecha_hasta, $usuario);
+
+		echo json_encode(['status' => 'success', 'data' => $data_reporte]);
+	}
+
+
 
 	public function ver_evaluacion()
 	{
@@ -984,5 +1008,21 @@ class Evaluacion_desempenio extends CI_Controller
 				"error" => $error_message
 			]);
 		}
+	}
+
+
+
+	public function generar_reporte_evaluacionessnc()
+	{
+		if (!$this->session->userdata('session')) {
+			redirect('login');
+		}
+
+		$filtros = $this->input->post();
+
+		// Llama a la función del modelo para obtener los datos
+		$data_reporte = $this->Evaluacion_desempenio_model->get_evaluaciones_por_rangosnc($filtros);
+
+		echo json_encode(['status' => 'success', 'data' => $data_reporte]);
 	}
 }
