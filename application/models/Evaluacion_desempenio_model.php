@@ -1207,8 +1207,47 @@ class Evaluacion_desempenio_model extends CI_model
         $result = $query->row_array();
 
         if ($result) {
-            // Si se encuentra en la BD externa, insertar en la tabla local
-            $this->insertar_contratista_principal($result);
+            // Mapeo los datos directamente aquí para mayor claridad y control
+            $data_insert = [
+                'id' => $result['id'],
+                'user_id' => $result['user_id'],
+                'edocontratista_id' => $result['edocontratista_id'],
+                'objcontratista_id' => $result['objcontratista_id'],
+                'nivelfinanciero_id' => $result['nivelfinanciero_id'],
+                'racoficina_id' => $result['racoficina_id'],
+                'tipocontratista' => $result['tipocontratista'],
+                'estado_id' => $result['estado_id'],
+                'ciudade_id' => $result['ciudade_id'],
+                'municipio_id' => $result['municipio_id'],
+                'parroquia_id' => $result['parroquia_id'],
+                'rifced' => $result['rifced'],
+                'nombre' => $result['nombre'],
+                'tipopersona' => $result['tipopersona'],
+                'dencomerciale_id' => $result['dencomerciale_id'],
+                'ultprocaprob' => $result['ultprocaprob'],
+                'procactual' => $result['procactual'],
+                'dirfiscal' => $result['dirfiscal'],
+                'percontacto' => $result['percontacto'],
+                'telf1' => $result['telf1'],
+                'fecactsusc_at' => $result['fecactsusc_at'],
+                'fecvencsusc_at' => $result['fecvencsusc_at'],
+                'fecinscrnc_at' => $result['fecinscrnc_at'],
+                'fecvencrnc_at' => $result['fecvencrnc_at'],
+                'numcertrnc' => $result['numcertrnc'],
+                'numcontrol_certrnc' => $result['numcontrol_certrnc'],
+                'contimp_certrnc' => $result['contimp_certrnc'],
+                'contimp_copiarnc' => $result['contimp_copiarnc'],
+                'codedocont' => $result['codedocont'],
+                'loginant' => $result['loginant'],
+                'fecvencrechazo_at' => $result['fecvencrechazo_at'],
+                'recibido' => $result['recibido'],
+                'emprendedor' => $result['emprendedor']
+            ];
+
+            // Insertar en la tabla evaluacion_desempenio.contratistas (la correcta)
+            $this->db->insert('evaluacion_desempenio.contratistas', $data_insert);
+
+            // Devolver los datos para que sean usados en la vista
             return ['status' => 'success', 'data' => $result];
         }
 
@@ -1216,45 +1255,49 @@ class Evaluacion_desempenio_model extends CI_model
         return ['status' => 'not_found', 'message' => 'Contratista no encontrado'];
     }
     // Nueva función para insertar en la tabla evaluacion_desempenio.contratistas
-    private function insertar_contratista_principal($data)
-    {
-        // Mapea los datos del array $data (proveniente de public.contratistas)
-        // a un nuevo array con los campos exactos de evaluacion_desempenio.contratistas.
-        $data_insert = [
-            'user_id' => $this->session->userdata('id_user'), // Esto es un valor de sesión
-            'edocontratista_id' => $data['edocontratista_id'],
-            'objcontratista_id' => $data['objcontratista_id'],
-            'nivelfinanciero_id' => $data['nivelfinanciero_id'],
-            'racoficina_id' => $data['racoficina_id'],
-            'tipocontratista' => $data['tipocontratista'],
-            'estado_id' => $data['estado_id'],
-            'ciudade_id' => $data['ciudade_id'],
-            'municipio_id' => $data['municipio_id'],
-            'parroquia_id' => $data['parroquia_id'],
-            'rifced' => $data['rifced'],
-            'nombre' => $data['nombre'],
-            'tipopersona' => $data['tipopersona'],
-            'dencomerciale_id' => $data['dencomerciale_id'],
-            'ultprocaprob' => $data['ultprocaprob'],
-            'procactual' => $data['procactual'],
-            'dirfiscal' => $data['dirfiscal'],
-            'percontacto' => $data['percontacto'],
-            'telf1' => $data['telf1'],
-            'fecactsusc_at' => $data['fecactsusc_at'],
-            'fecvencsusc_at' => $data['fecvencsusc_at'],
-            'fecinscrnc_at' => $data['fecinscrnc_at'],
-            'fecvencrnc_at' => $data['fecvencrnc_at'],
-            'numcertrnc' => $data['numcertrnc'],
-            'numcontrol_certrnc' => $data['numcontrol_certrnc'],
-            'contimp_certrnc' => $data['contimp_certrnc'],
-            'contimp_copiarnc' => $data['contimp_copiarnc'],
-            'codedocont' => $data['codedocont'],
-            'loginant' => $data['loginant'],
-            'fecvencrechazo_at' => $data['fecvencrechazo_at'],
-            'recibido' => $data['recibido'],
-            'emprendedor' => $data['emprendedor'] // Asegúrate de que este campo exista en ambas tablas.
-        ];
+    // private function insertar_contratista_principal($data)
+    // {
+    //     // Mapea los datos del array $data (proveniente de public.contratistas)
+    //     // a un nuevo array con los campos exactos de evaluacion_desempenio.contratistas.
+    //     $data_insert = [
+    //         'user_id' => $data['user_id'], // Esto es un valor de sesión
+    //         'edocontratista_id' => $data['edocontratista_id'],
+    //         'objcontratista_id' => $data['objcontratista_id'],
+    //         'nivelfinanciero_id' => $data['nivelfinanciero_id'],
+    //         'racoficina_id' => $data['racoficina_id'],
+    //         'tipocontratista' => $data['tipocontratista'],
+    //         'estado_id' => $data['estado_id'],
+    //         'ciudade_id' => $data['ciudade_id'],
+    //         'municipio_id' => $data['municipio_id'],
+    //         'parroquia_id' => $data['parroquia_id'],
+    //         'rifced' => $data['rifced'],
+    //         'nombre' => $data['nombre'],
+    //         'tipopersona' => $data['tipopersona'],
+    //         'dencomerciale_id' => $data['dencomerciale_id'],
+    //         'ultprocaprob' => $data['ultprocaprob'],
+    //         'procactual' => $data['procactual'],
+    //         'dirfiscal' => $data['dirfiscal'],
+    //         'percontacto' => $data['percontacto'],
+    //         'telf1' => $data['telf1'],
+    //         'fecactsusc_at' => $data['fecactsusc_at'],
+    //         'fecvencsusc_at' => $data['fecvencsusc_at'],
+    //         'fecinscrnc_at' => $data['fecinscrnc_at'],
+    //         'fecvencrnc_at' => $data['fecvencrnc_at'],
+    //         'numcertrnc' => $data['numcertrnc'],
+    //         'numcontrol_certrnc' => $data['numcontrol_certrnc'],
+    //         'contimp_certrnc' => $data['contimp_certrnc'],
+    //         'contimp_copiarnc' => $data['contimp_copiarnc'],
+    //         'codedocont' => $data['codedocont'],
+    //         'loginant' => $data['loginant'],
+    //         'fecvencrechazo_at' => $data['fecvencrechazo_at'],
+    //         'recibido' => $data['recibido'],
+    //         'emprendedor' => $data['emprendedor'] // Asegúrate de que este campo exista en ambas tablas.
+    //     ];
 
-        $this->db->insert('evaluacion_desempenio.contratistas', $data_insert);
-    }
+    //     // --- INICIO DE DEPURACIÓN EN JSON ---
+    //     // En lugar de hacer exit, devolvemos el array para que sea procesado por la función principal.
+    //     return ['debug_data' => $data_insert];
+    //     // --- FIN DE DEPURACIÓN EN JSON ---
+    //     $this->db->insert('evaluacion_desempenio.contratistas', $data_insert);
+    // }
 }

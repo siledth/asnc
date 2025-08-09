@@ -103,6 +103,8 @@ function consultar_rif(){
         data: {rif_b: rif_b},
         dataType: 'json',
         success: function(response){
+            console.log('Respuesta completa del servidor:');
+            console.log(response); 
             if (response.status == 'success') {
                 $("#existe").show();
                 $("#no_existe").hide();
@@ -121,6 +123,8 @@ function consultar_rif(){
                 // puedes hacerlo aquí con una segunda llamada AJAX
                 if (data['ultprocaprob']) {
                     var base_url2 = '/index.php/evaluacion_desempenio/llenar_contratista_rp';
+                // var base_url2 = window.location.origin+'/asnc/index.php/evaluacion_desempenio/llenar_contratista_rp';
+
                     $.ajax({
                         url: base_url2,
                         method: 'post',
