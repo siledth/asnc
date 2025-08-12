@@ -225,4 +225,46 @@ class Profile_controller extends CI_Controller
             echo json_encode(array('success' => false, 'message' => 'ID de usuario o datos de estado incompletos.'));
         }
     }
+
+    public function assign_profile_and_permissions()
+    {
+        $user_id = $this->input->post('user_id');
+        $permissions_data = $this->input->post('permissions');
+
+        if ($user_id && is_array($permissions_data)) {
+            $this->db->trans_start(); // Iniciar transacción
+
+            // 1. Obtener el nombre del usuario
+            $user_data = $this->User_model->get_user_by_id($user_id);
+            if (!$user_data) {
+                $this->db->trans_rollback();
+                echo json_encode(array('success' => false, 'message' => 'Usuario no encontrado.'));
+                return;
+            }
+
+            // 2. Insertar un nuevo perfil con el ID del usuario
+            $profile_name = "Perfil Usuario {$user_id} - {$user_data->nombre}";
+            $profile_data = array_merge($permissions_data, ['nombrep' => $profile_name, 'id_perfil' => $user_id]);
+            $profile_insert_success = $this->User_model->insert_new_profile($profile_data);
+
+            if (!$profile_insert_success) {
+                $this->db->trans_rollback();
+                echo json_encode(array('success' => false, 'message' => 'Error al crear el nuevo perfil.'));
+                return;
+            }
+
+            // 3. Actualizar la tabla de usuarios con el nuevo ID de perfil
+            $user_update_success = $this->User_model->update_user_assigned_profile($user_id, $user_id);
+
+            if ($this->db->trans_status() === FALSE || !$user_update_success) {
+                $this->db->trans_rollback();
+                echo json_encode(array('success' => false, 'message' => 'Error al actualizar el usuario. Operación revertida.'));
+            } else {
+                $this->db->trans_commit();
+                echo json_encode(array('success' => true, 'message' => 'Permisos y perfil asignados correctamente.'));
+            }
+        } else {
+            echo json_encode(array('success' => false, 'message' => 'Datos incompletos para la asignación.'));
+        }
+    }
 }

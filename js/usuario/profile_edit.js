@@ -32,16 +32,27 @@ $(document).ready(function() {
         'menu_certi', 'certificacion', 'certi_externo',
     ];
 
-    // --- Funciones del Modal (expuestas globalmente) ---
+    // --- Funciones de Modales (Edición y Asignación) ---
+
+    // Funciones del Modal de Edición (originales)
     window.openModal = function() { document.getElementById('editProfileModal').style.display = 'block'; }
     window.closeModal = function() { document.getElementById('editProfileModal').style.display = 'none'; }
-    document.querySelector('.close-button').addEventListener('click', closeModal);
-    window.onclick = function(event) { if (event.target == document.getElementById('editProfileModal')) { closeModal(); } };
+    document.querySelector('#editProfileModal .close-button').addEventListener('click', closeModal);
+
+    // NUEVAS Funciones del Modal de Asignación
+    window.openAssignModal = function() { document.getElementById('assignPermissionsModal').style.display = 'block'; }
+    window.closeAssignModal = function() { document.getElementById('assignPermissionsModal').style.display = 'none'; }
+    document.querySelector('#assignPermissionsModal .close-button').addEventListener('click', closeAssignModal);
+    
+    // Controlador de clics para cerrar cualquier modal
+    window.onclick = function(event) { 
+        if (event.target == document.getElementById('editProfileModal')) { closeModal(); }
+        if (event.target == document.getElementById('assignPermissionsModal')) { closeAssignModal(); }
+    };
 
     // --- Funciones Auxiliares ---
     function formatPermissionName(fieldName) {
-         
-        if (fieldName === 'certi_externo') {
+         if (fieldName === 'certi_externo') {
             return 'Certificación Facilitadores Externo CCP';  
         }
          if (fieldName === 'certificacion') {
@@ -50,33 +61,31 @@ $(document).ready(function() {
          if (fieldName === 'menu_certi') {
             return 'Menú Certificación Facilitadores CCP';  
         }
-        if (fieldName === 'consultas_certificado_exter_mb') {
+        if (fieldName === 'consultas_exter_mb_certificado') {
             return 'Consultas Miembros Externos Certificados'; 
         }
-        if (fieldName === 'registrar_programa_anual') {
+        if (fieldName === 'registrar_prog_anual') {
             return 'Registrar Programación Anual'; 
         }
-        // ... (puedes seguir añadiendo más condiciones para otros campos si lo deseas) ...
-
-
-        // Si no es un campo con un nombre personalizado, aplica el formato general:
-        // Reemplaza guiones bajos por espacios y capitaliza la primera letra de cada palabra.
+        
+        // Formato general
         return fieldName
             .replace(/_/g, ' ')
             .replace(/\b\w/g, char => char.toUpperCase());
     }
 
-    function renderPermissions(permissions) {
-        const permissionsGrid = $('#permissionsGrid');
+    // Modificada para ser genérica y usarse en ambos modales
+    function renderPermissions(permissions, containerId) {
+        const permissionsGrid = $(`#${containerId}`);
         permissionsGrid.empty();
         PERMISSION_FIELDS.forEach(field => {
             const isChecked = permissions[field] == 1; 
             const formattedName = formatPermissionName(field);
             const permissionHtml = `
                 <div class="permission-item">
-                    <label for="${field}">${formattedName}:</label>
+                    <label for="${containerId}-${field}">${formattedName}:</label>
                     <label class="switch">
-                        <input type="checkbox" id="${field}" name="permissions[${field}]" value="1" ${isChecked ? 'checked' : ''}>
+                        <input type="checkbox" id="${containerId}-${field}" name="permissions[${field}]" value="1" ${isChecked ? 'checked' : ''}>
                         <span class="slider"></span>
                     </label>
                 </div>
@@ -85,7 +94,7 @@ $(document).ready(function() {
         });
     }
 
-    // --- Funciones de Paginación y Filtrado ---
+    // --- Funciones de Paginación y Filtrado (Modificada) ---
 
     function updateLoadMoreButtonState() {
         if (currentOffset >= totalUsersCount) {
@@ -95,7 +104,7 @@ $(document).ready(function() {
         }
     }
 
-    // Modificada para mostrar la cédula y añadir el toggle de estado
+    // Modificada para añadir el botón de "Asignar Permisos"
     function addUsersToTable(users) {
         const tableBody = $('#userTableBody');
         if (users.length === 0 && currentOffset === 0) {
@@ -105,7 +114,6 @@ $(document).ready(function() {
                 tableBody.empty();
             }
             users.forEach(user => {
-                // Lógica de visualización de cédula:
                 let fullCedula = 'N/A';
                 if (user.cedula_funcionario) { 
                     if (user.tipo_cedula) { 
@@ -115,10 +123,16 @@ $(document).ready(function() {
                     }
                 }
 
-                // Determina si el usuario está activo (id_estatus = 1). Tu modelo ya debería traer este campo.
                 const isActive = (user.id_estatus == 1);
-                // Añade la clase 'slider-danger' si está inactivo para que el CSS lo pinte de rojo.
                 const sliderClass = isActive ? '' : 'slider-danger';
+                
+                // Lógica para mostrar el botón correcto
+                let actionsHtml = '';
+                if (user.perfil_id == 0) {
+                    actionsHtml = `<button class="assign-permissions-btn" data-user-id="${user.id}">Asignar Permisos</button>`;
+                } else {
+                    actionsHtml = `<button class="edit-profile-btn" data-user-id="${user.id}">Editar</button>`;
+                }
 
                 const row = `
                     <tr>
@@ -136,7 +150,7 @@ $(document).ready(function() {
                             </label>
                         </td>
                         <td>
-                            <button class="edit-profile-btn" data-user-id="${user.id}">Editar</button>
+                            ${actionsHtml}
                         </td>
                     </tr>
                 `;
@@ -161,9 +175,7 @@ $(document).ready(function() {
             organo_ente: currentFilterOrganoEnte
         };
 
-        // const getFilteredUsersUrl = window.location.origin + '/asnc/index.php/Profile_controller/get_filtered_users';
-                var getFilteredUsersUrl = '/index.php/Profile_controller/get_filtered_users';
-
+        var getFilteredUsersUrl = '/index.php/Profile_controller/get_filtered_users';
 
         $.ajax({
             url: getFilteredUsersUrl,
@@ -226,21 +238,19 @@ $(document).ready(function() {
         loadUsers(false);
     });
 
-    // --- NUEVO Evento para el Toggle de Estado ---
-    // Usamos delegación de eventos en 'body' porque los toggles se añaden dinámicamente.
+    // Evento para el Toggle de Estado
     $('body').on('change', '.status-toggle', function() {
-        const userId = $(this).data('user-id'); // Obtiene el ID del usuario del atributo data-user-id.
-        const isChecked = $(this).is(':checked'); // true si el switch está "prendido" (activo), false si está "apagado" (inactivo).
-        const newStatusVal = isChecked ? 1 : 4; // Determina el nuevo valor de id_estatus (1 para activo, 4 para inactivo).
+        const userId = $(this).data('user-id'); 
+        const isChecked = $(this).is(':checked');
+        const newStatusVal = isChecked ? 1 : 4; 
 
-        const statusText = isChecked ? 'activar' : 'Inhabilitar'; // Texto para el mensaje de SweetAlert.
+        const statusText = isChecked ? 'activar' : 'Inhabilitar'; 
         const confirmText = `¿Está seguro de ${statusText} al usuario ID ${userId}?`;
         const successMessage = isChecked ? 'Usuario activado correctamente.' : 'Usuario Inhabilitar correctamente.';
         const errorMessage = `Error al ${statusText} el usuario.`;
 
-        // Guarda una referencia al 'this' (el checkbox) para usarlo dentro de las callbacks de SweetAlert y AJAX.
         const $thisToggle = $(this); 
-        const $sliderSpan = $thisToggle.next('.slider'); // Referencia al slider visual para cambiar su color.
+        const $sliderSpan = $thisToggle.next('.slider'); 
 
         Swal.fire({
             title: 'Confirmar Acción',
@@ -252,8 +262,7 @@ $(document).ready(function() {
             confirmButtonText: 'Sí, continuar',
             cancelButtonText: 'Cancelar'
         }).then((result) => {
-            if (result.value) { // Si el usuario confirma la acción.
-                // const updateStatusUrl = window.location.origin + '/asnc/index.php/Profile_controller/update_user_status_ajax';
+            if (result.value) { 
                 var updateStatusUrl = '/index.php/Profile_controller/update_user_status_ajax';
 
                 $.ajax({
@@ -267,44 +276,106 @@ $(document).ready(function() {
                     success: function(response) {
                         if (response.success) {
                             Swal.fire('Éxito', successMessage, 'success');
-                            // Actualizar visualmente el color del slider:
-                            if (newStatusVal == 1) { // Si se activó
-                                $sliderSpan.removeClass('slider-danger'); // Quita la clase roja.
-                            } else { // Si se desactivó
-                                $sliderSpan.addClass('slider-danger'); // Añade la clase roja.
+                            if (newStatusVal == 1) { 
+                                $sliderSpan.removeClass('slider-danger'); 
+                            } else { 
+                                $sliderSpan.addClass('slider-danger'); 
                             }
-                            // Opcional: Podrías recargar la tabla aquí para asegurar consistencia, pero afectaría el UX.
-                            // currentOffset = 0;
-                            // loadUsers(false); 
                         } else {
                             Swal.fire('Error', errorMessage + ' ' + response.message, 'error');
-                            // Revertir el estado del toggle en la UI si la actualización falló en el servidor.
                             $thisToggle.prop('checked', !isChecked);
                         }
                     },
                     error: function(xhr, status, error) {
                         Swal.fire('Error de Conexión', 'No se pudo contactar al servidor para actualizar el estado.', 'error');
                         console.error("AJAX error: ", status, error, xhr.responseText);
-                        // Revertir el estado del toggle en la UI si hubo un error de conexión.
                         $thisToggle.prop('checked', !isChecked);
                     }
                 });
             } else {
-                // Si el usuario cancela la confirmación, revertir el estado del toggle en la UI.
                 $thisToggle.prop('checked', !isChecked);
             }
         });
     });
 
-    // --- Eventos para el Modal de Edición (Rellenado de campos) ---
+    // --- NUEVOS Eventos para el Botón y Modal de Asignación de Permisos ---
+
+    // Evento click en el botón "Asignar Permisos"
+    $('body').on('click', '.assign-permissions-btn', function() {
+        const userId = $(this).data('user-id');
+        const userName = $(this).closest('tr').find('td:nth-child(2)').text();
+        
+        $('#assignUserId').val(userId);
+        $('#assignUserName').val(userName);
+
+        const defaultPermissions = {}; // Un objeto vacío para que todos los checkboxes estén desmarcados
+        renderPermissions(defaultPermissions, 'assignPermissionsGrid');
+        
+        openAssignModal();
+    });
+
+    // Evento submit del formulario de ASIGNACIÓN de permisos
+    $('#assignPermissionsForm').on('submit', function(e) {
+        e.preventDefault();
+
+        const userId = $('#assignUserId').val();
+        
+        const permissionsData = {};
+        $('#assignPermissionsGrid input[type="checkbox"]').each(function() {
+            const nameAttr = $(this).attr('name');
+            const fieldName = nameAttr.substring(nameAttr.indexOf('[') + 1, nameAttr.indexOf(']'));
+            permissionsData[fieldName] = $(this).is(':checked') ? 1 : 0;
+        });
+
+        Swal.fire({
+            title: '¿Confirmar asignación?',
+            text: 'Se creará un nuevo perfil y se le asignarán los permisos seleccionados.',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, asignar',
+            cancelButtonText: 'No, cancelar'
+        }).then((result) => {
+            if (result.value) {
+                var assignProfileUrl = '/index.php/Profile_controller/assign_profile_and_permissions';
+
+                const dataToSend = {
+                    user_id: userId,
+                    permissions: permissionsData
+                };
+
+                $.ajax({
+                    url: assignProfileUrl,
+                    method: 'POST',
+                    data: dataToSend,
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire('Éxito', response.message, 'success').then(() => {
+                                closeAssignModal();
+                                currentOffset = 0;
+                                loadUsers(false); // Recarga la tabla para mostrar el cambio
+                            });
+                        } else {
+                            Swal.fire('Error', response.message, 'error');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire('Error de Conexión', 'No se pudieron asignar los permisos. Por favor, intente de nuevo.', 'error');
+                        console.error("AJAX error: ", status, error, xhr.responseText);
+                    }
+                });
+            }
+        });
+    });
+
+    // --- Eventos para el Modal de Edición Existente ---
 
     $('body').on('click', '.edit-profile-btn', function() {
         const userId = $(this).data('user-id');
         $('#editUserId').val(userId);
-
-        // const getUserDataUrl = window.location.origin + '/asnc/index.php/Profile_controller/get_user_data_for_edit';
-                var getUserDataUrl = '/index.php/Profile_controller/get_user_data_for_edit';
-
+        var getUserDataUrl = '/index.php/Profile_controller/get_user_data_for_edit';
 
         $.ajax({
             url: getUserDataUrl,
@@ -317,15 +388,12 @@ $(document).ready(function() {
                     const allProfiles = response.all_profiles;
                     const currentProfilePermissions = response.current_profile_permissions;
 
-                    // Campos de seguridad.usuarios
                     $('#userName').val(user.nombre);
                     $('#userEmail').val(user.email);
-
-                    // Campos de seguridad.funcionarios (Asegúrate de que 'nombrefun' esté bien!)
-                    $('#usernombrefun').val(user.nombrefun || ''); // Este es el campo que te preocupaba
+                    $('#usernombrefun').val(user.nombrefun || '');
                     $('#userApellido').val(user.apellido || '');
                     $('#userCedulaTipo').val(user.tipo_cedula || 'V'); 
-                    $('#userCedulaNum').val(user.cedula || ''); // Usar cedula_funcionario del modelo
+                    $('#userCedulaNum').val(user.cedula || '');
                     $('#userCargo').val(user.cargo || '');
                     $('#userOficina').val(user.oficina || '');
                     $('#userTele1').val(user.tele_1 || '');
@@ -337,7 +405,7 @@ $(document).ready(function() {
                         profileSelect.append(`<option value="${profile.id_perfil}" ${selected}>${profile.nombrep}</option>`);
                     });
 
-                    renderPermissions(currentProfilePermissions);
+                    renderPermissions(currentProfilePermissions, 'permissionsGrid');
                     openModal();
                 } else {
                     Swal.fire('Error', response.message, 'error');
@@ -350,13 +418,10 @@ $(document).ready(function() {
         });
     });
 
-    // Evento 'change' para el dropdown de perfil en el modal (sin cambios)
     $('#profileSelect').on('change', function() {
         const selectedProfileId = $(this).val();
         if (selectedProfileId) {
-            // const getPermissionsUrl = window.location.origin + '/asnc/index.php/Profile_controller/get_permissions_for_profile';
                 var getPermissionsUrl = '/index.php/Profile_controller/get_permissions_for_profile';
-
             
             $.ajax({
                 url: getPermissionsUrl,
@@ -365,7 +430,7 @@ $(document).ready(function() {
                 dataType: 'json',
                 success: function(response) {
                     if (response.success) {
-                        renderPermissions(response.permissions);
+                        renderPermissions(response.permissions, 'permissionsGrid');
                     } else {
                         Swal.fire('Error', 'No se pudieron cargar los permisos del perfil seleccionado.', 'error');
                         $('#permissionsGrid').empty();
@@ -381,7 +446,6 @@ $(document).ready(function() {
         }
     });
 
-    // Evento 'submit' del formulario de edición de perfil dentro del modal.
     $('#profileEditForm').on('submit', function(e) {
         e.preventDefault();
 
@@ -395,10 +459,9 @@ $(document).ready(function() {
             permissionsData[fieldName] = $(this).is(':checked') ? 1 : 0;
         });
 
-        // Recolectar los nuevos datos editables del usuario
         const newUserData = {
             new_nombre: $('#userName').val().trim(),
-            new_nombrefun: $('#usernombrefun').val().trim(), // ¡Este campo está aquí!
+            new_nombrefun: $('#usernombrefun').val().trim(), 
             new_apellido: $('#userApellido').val().trim(),
             new_cedula_tipo: $('#userCedulaTipo').val(),
             new_cedula_num: $('#userCedulaNum').val().trim(),
@@ -419,15 +482,13 @@ $(document).ready(function() {
             cancelButtonText: 'No, cancelar'
         }).then((result) => {
             if (result.value) {
-                // const updateProfileUrl = window.location.origin + '/asnc/index.php/Profile_controller/update_user_and_profile';
                 var updateProfileUrl = '/index.php/Profile_controller/update_user_and_profile';
-
 
                 const dataToSend = {
                     user_id: userId,
                     new_profile_id: newProfileId,
                     permissions: permissionsData,
-                    ...newUserData // Añadir todos los campos de usuario/funcionario aquí
+                    ...newUserData
                 };
 
                 $.ajax({
@@ -440,7 +501,7 @@ $(document).ready(function() {
                             Swal.fire('Éxito', response.message, 'success').then(() => {
                                 closeModal();
                                 currentOffset = 0;
-                                loadUsers(false); // Recarga la tabla para mostrar los cambios
+                                loadUsers(false);
                             });
                         } else {
                             Swal.fire('Error', response.message, 'error');

@@ -5,9 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edición de Usuario</title>
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
     <link href="<?= base_url('css/profile.css') ?>" rel="stylesheet">
 
 
@@ -60,7 +57,30 @@
             <button id="loadMoreUsersBtn">Cargar Más Usuarios</button>
         </div>
     </div>
+    <div id="assignPermissionsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeAssignModal()">&times;</span>
+            <h2>Asignar Permisos a Usuario</h2>
+            <form id="assignPermissionsForm">
+                <input type="hidden" id="assignUserId" name="user_id">
+                <div class="form-group">
+                    <label for="assignUserName">Nombre de Usuario:</label>
+                    <input type="text" id="assignUserName" readonly>
+                </div>
 
+                <div class="permissions-section">
+                    <h3>Seleccione los Permisos</h3>
+                    <div id="assignPermissionsGrid" class="permissions-grid">
+                    </div>
+                </div>
+
+                <div class="modal-buttons">
+                    <button type="button" class="btn-cancel" onclick="closeAssignModal()">Cancelar</button>
+                    <button type="submit" class="btn-save">Guardar Permisos</button>
+                </div>
+            </form>
+        </div>
+    </div>
     <div id="editProfileModal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>

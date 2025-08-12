@@ -1443,13 +1443,13 @@ class User_model extends CI_Model
         $query = $this->db->get();
         return $query->row_array(); // Returns a single row with all profile fields
     }
-    public function update_user_assigned_profile($user_id, $new_profile_id)
-    {
-        $data = array('perfil' => $new_profile_id);
-        $this->db->where('id', $user_id);
-        $this->db->update('seguridad.usuarios', $data);
-        return $this->db->affected_rows() > 0;
-    }
+    // public function update_user_assigned_profile($user_id, $new_profile_id)
+    // {
+    //     $data = array('perfil' => $new_profile_id);
+    //     $this->db->where('id', $user_id);
+    //     $this->db->update('seguridad.usuarios', $data);
+    //     return $this->db->affected_rows() > 0;
+    // }
     public function update_profile_permissions($profile_id, $permissions_data)
     {
         $this->db->where('id_perfil', $profile_id);
@@ -1691,5 +1691,40 @@ class User_model extends CI_Model
         $this->db->where('rif', $rif_valor_a_buscar);
         $query = $this->db->get();
         return $query->row_array();
+    }
+
+    /**
+     * Obtiene un usuario por su ID.
+     * @param int $user_id El ID del usuario.
+     * @return object|null Objeto del usuario o null si no se encuentra.
+     */
+    public function get_user_by_id($user_id)
+    {
+        $this->db->where('id', $user_id);
+        $query = $this->db->get('seguridad.usuarios');
+        return $query->row();
+    }
+
+    /**
+     * Inserta un nuevo perfil en la base de datos.
+     * @param array $profile_data Array de datos del perfil.
+     * @return bool True en caso de éxito, false en caso contrario.
+     */
+    public function insert_new_profile($profile_data)
+    {
+        return $this->db->insert('seguridad.perfil', $profile_data);
+    }
+
+    /**
+     * Actualiza el perfil asignado a un usuario.
+     * @param int $user_id El ID del usuario.
+     * @param int $new_profile_id El nuevo ID del perfil a asignar.
+     * @return bool True en caso de éxito, false en caso contrario.
+     */
+    public function update_user_assigned_profile($user_id, $new_profile_id)
+    {
+        $this->db->where('id', $user_id);
+        $this->db->update('seguridad.usuarios', ['perfil' => $new_profile_id]);
+        return $this->db->affected_rows() > 0;
     }
 }
