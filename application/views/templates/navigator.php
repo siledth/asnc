@@ -1060,6 +1060,11 @@
                                     <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Registro Usuarios
                                 </a>
                             </li>
+                            <li>
+                                <a href="<?= base_url() ?>index.php/Profile_controller/profile_editor">
+                                    <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Gestion de Usuarios
+                                </a>
+                            </li>
                         <?php endif; ?>
                         <?php if (($this->session->userdata('ver_user_desb') == 1)) : ?>
                             <li>
