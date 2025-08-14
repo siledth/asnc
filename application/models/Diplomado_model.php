@@ -1571,6 +1571,7 @@ class Diplomado_model extends CI_model
     ////notificaciones 
     public function get_pending_payments_all()
     {
+        log_message('debug', 'Ejecutando get_pending_payments_all...');
         $pending_payments = [];
 
         // --- 1. Pagos pendientes de inscripciones naturales (estatus 2) ---
@@ -1579,6 +1580,7 @@ class Diplomado_model extends CI_model
         $this->db->join('diplomado.diplomado d', 'd.id_diplomado = i.id_diplomado');
         $this->db->where('i.estatus', 2); // Estatus 2: planillas con deuda
         $query_natural = $this->db->get();
+        log_message('debug', 'Resultados de consulta natural: ' . count($query_natural->result_array()));
         $pending_payments = array_merge($pending_payments, $query_natural->result_array());
 
         // --- 2. Pagos pendientes de inscripciones grupales (estatus 2) ---
