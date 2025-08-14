@@ -41,7 +41,7 @@ class Home extends CI_Controller
         }
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
-        $this->load->view('home/index.php');
+        $this->load->view('home/index.php', $data);
         $this->load->view('templates/footer.php');
     }
     public function update_session()

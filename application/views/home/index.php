@@ -89,14 +89,15 @@
         </div>
     </div>
 
-    <script>
-        $(document).ready(function() {
-            const perfilId = <?php echo json_encode($perfil_id); ?>;
-            const pendingCount = <?php echo json_encode(count($pending_payments)); ?>;
 
-            if ((perfilId === 1 || perfilId === 9) && pendingCount > 0) {
-                $('#pendingPaymentsModal').modal('show');
-            }
-        });
-    </script>
 </body>
+<script>
+    $(document).ready(function() {
+        const perfilId = <?php echo json_encode($perfil_id); ?>;
+        const pendingCount = <?php echo json_encode(count($pending_payments)); ?>;
+
+        if ((perfilId === 1 || perfilId === 9) && pendingCount > 0) {
+            $('#pendingPaymentsModal').modal('show');
+        }
+    });
+</script>
