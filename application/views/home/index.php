@@ -36,7 +36,7 @@
         .table-responsive table {
             table-layout: fixed;
             /* Mantiene las columnas con un ancho fijo */
-            width: 80%;
+            width: 100%;
         }
 
         .table-responsive .col-id {
