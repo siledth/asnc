@@ -52,10 +52,7 @@
             /* Ajusta el ancho de la columna de Código Planilla */
         }
 
-        .table-responsive .col-fecha {
-            width: 20%;
-            /* Ajusta el ancho de la columna de Fecha Inscripción */
-        }
+
 
         .table-responsive .col-deuda {
             width: 15%;
