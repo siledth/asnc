@@ -1712,6 +1712,7 @@ class Diplomado extends CI_Controller
                         'codigo_planilla' => $result['codigo_planilla'],
                         'pay' => $result['pay'], // Este es el monto de la segunda cuota
                         'is_second_payment' => true,
+                        'fecha_limite_pago' => $result['fecha_limite_pago']
                     ]
                 ]);
             } else {

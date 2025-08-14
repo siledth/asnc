@@ -214,7 +214,7 @@
                                                 class="form-control text-right font-weight-bold" readonly>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="mitad_total_credito">1ra Cuota (Crédito)</label>
+                                            <label for="mitad_total_credito">Cuota a pagar(Crédito)</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend"><span
                                                         class="input-group-text">Bs.</span></div>

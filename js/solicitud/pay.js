@@ -666,6 +666,7 @@ function calcularCredito() {
     $('#iva_credito').val(ivaCredito.toFixed(2));
     $('#total_iva_credito').val(totalConIVACredito.toFixed(2));
     $('#mitad_total_credito').val(mitadTotal.toFixed(2));
+     $('#importe').val(mitadTotal.toFixed(2));
 }
 
 
@@ -687,11 +688,12 @@ function togglePagoFields() {
     if (tipoPago == '1') {
         $('#prontoPagoField').show();
         // Asignar el valor de total_iva a importe si es Pronto Pago
-        $('#importe').val($('#total_iva').val()); 
+       // $('#importe').val($('#total_iva').val()); 
     } else if (tipoPago == '2') {
         $('#creditoPagoField').show();
         // Asignar el valor de mitad_total_credito a importe si es Crédito
-        $('#importe').val($('#mitad_total_credito').val()); 
+       // $('#importe').val($('#mitad_total_credito').val()); 
+        calcularCredito(); 
     }
 
     // Al cambiar el tipo de pago, restablecer el pago como NO verificado
@@ -877,7 +879,7 @@ function Consultarplanilla()  {
 
                 $('#id_inscripcion').val(response.data.id_inscripcion || '');
                 $('#codigo_planilla_hidden').val(response.data.codigo_planilla || '');
-
+                $('#fecha_limite_pago').val(response.data.fecha_limite_pago || '');
                 if (response.data.is_second_payment) {
                     // Lógica para la segunda cuota de pago a crédito
                     $('#tipo_pago').val('2').prop('disabled', true); // Seleccionar y deshabilitar
@@ -885,6 +887,7 @@ function Consultarplanilla()  {
                     $('#importe').val(response.data.pay); // Asignar el monto de la segunda cuota al campo de importe
                     $('#creditoPagoField').show();
                     swal("¡Atención!", "Esta planilla tiene un pago a crédito pendiente. Por favor, registre la segunda cuota.", "info");
+                     togglePagoFields(); 
                 } else {
                     // Lógica para el pago inicial (pronto pago o primera cuota de crédito)
                     $('#fecha_limite_pago').val(response.data.fecha_limite_pago || '');

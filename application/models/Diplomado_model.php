@@ -163,36 +163,50 @@ class Diplomado_model extends CI_model
     {
         $codigo_planilla = $data['rif_b'];
 
-        $this->db->select('i.id_inscripcion, d.pay');
+        // Nueva consulta para contar los pagos de la planilla
+        $this->db->select('COUNT(p.id_pago) AS total_pagos, i.id_inscripcion, d.pay, i.fecha_limite_pago');
         $this->db->from('diplomado.pagos AS p');
         $this->db->join('diplomado.inscripciones AS i', 'i.id_inscripcion = p.id_inscripcion', 'inner');
         $this->db->join('diplomado.diplomado AS d', 'd.id_diplomado = i.id_diplomado', 'inner');
         $this->db->where('i.codigo_planilla', $codigo_planilla);
         $this->db->where('p.tipo_pago', 2); // Pago a crédito
-        $this->db->where('p.estatus', 1); // Estatus 1: primera cuota pagada y aprobada
-        $this->db->group_by('i.id_inscripcion, d.pay'); // Asegurar una fila única
+        $this->db->group_by('i.id_inscripcion, d.pay');
 
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
             $result = $query->row_array();
 
-            // Calcular los valores para el frontend
-            $credito = (float)$result['pay'];
-            $ivaCredito = $credito * 0.16;
-            $totalConIVACredito = $credito + $ivaCredito;
-            $segundaCuota = $totalConIVACredito / 2;
+            // 👉 VERIFICACIÓN CLAVE AQUÍ:
+            // Si ya hay un solo pago registrado para esta planilla,
+            // significa que es el momento de pagar la segunda cuota.
+            if ($result['total_pagos'] == 1) {
+                log_message('debug', 'Planilla encontrada con un pago a crédito existente. Se habilita el segundo pago.');
 
-            return [
-                'id_inscripcion' => $result['id_inscripcion'],
-                'codigo_planilla' => $codigo_planilla,
-                'pay' => $segundaCuota, // Usamos 'pay' para enviar el monto de la segunda cuota
-                'is_second_payment' => true // Marcador para saber que es la segunda cuota
-            ];
+                // Calcular el monto de la segunda cuota
+                $credito = (float)$result['pay'];
+                // $ivaCredito = $credito * 0.16;
+                // $totalConIVACredito = $credito + $ivaCredito;
+                $segundaCuota = $credito;
+
+                return [
+                    'id_inscripcion' => $result['id_inscripcion'],
+                    'codigo_planilla' => $codigo_planilla,
+                    'pay' => $segundaCuota,
+                    'is_second_payment' => true,
+                    'fecha_limite_pago' => $result['fecha_limite_pago']
+                ];
+            } else {
+                // Si tiene 0 o 2+ pagos, no es una planilla válida para la segunda cuota.
+                log_message('debug', 'Planilla con tipo_pago=2 tiene más de un pago o ninguno. No es válida para el segundo pago.');
+                return null;
+            }
         }
 
+        log_message('debug', 'No se encontró la planilla o no tiene pagos a crédito.');
         return null;
     }
+
 
     public function planilla_pay2($data)
     {
