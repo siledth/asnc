@@ -14,19 +14,19 @@
                 Sistema Integrado del Servicio Nacional de Contrataciones
             </h3>
         </div>
-        <!-- <div class="row justify-content-Left">
+        <div class="row justify-content-Left">
             <div class="col-md-8">
                 <div class="card card-outline-danger text-center bg-white">
                     <div class="card-block">
                         <blockquote class="card-blockquote" style="margin-bottom: -30px;">
                             <p class="f-s-16 text-inverse f-w-600">Nombre Órgano / Ente:
-                                <?php //echo $this->session->userdata('unidad'); 
+                                <?php echo $this->session->userdata('unidad');
                                 ?>.</p>
                         </blockquote>
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
 
 
 
@@ -103,7 +103,7 @@
                                     <thead class="thead-dark">
                                         <tr>
                                             <th class="col-id">Código Planilla</th>
-                                            <th class="col-fecha">Fecha Inscripción</th>
+
                                             <th>Tipo Inscripción</th>
                                             <th class="col-deuda">Monto de la Deuda</th>
                                             <th class="col-estatus">Estatus</th>
@@ -113,7 +113,7 @@
                                         <?php foreach ($pending_payments as $payment): ?>
                                             <tr>
                                                 <td><?= $payment['codigo_planilla'] ?></td>
-                                                <td><?= $payment['fecha_inscripcion'] ?></td>
+
                                                 <td><?= $payment['tipo_inscripcion'] ?></td>
                                                 <td>
                                                     <?php
