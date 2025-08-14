@@ -1574,46 +1574,87 @@ class Diplomado_model extends CI_model
         log_message('debug', 'Ejecutando get_pending_payments_all...');
         $pending_payments = [];
 
-        // --- 1. Pagos pendientes de inscripciones naturales (estatus 2) ---
-        $this->db->select('i.codigo_planilla, i.fecha_inscripcion, d.pronto_pago, d.pay, i.estatus, "Natural" AS tipo_inscripcion');
-        $this->db->from('diplomado.inscripciones i');
-        $this->db->join('diplomado.diplomado d', 'd.id_diplomado = i.id_diplomado');
-        $this->db->where('i.estatus', 2); // Estatus 2: planillas con deuda
-        $query_natural = $this->db->get();
-        log_message('debug', 'Resultados de consulta natural: ' . count($query_natural->result_array()));
-        $pending_payments = array_merge($pending_payments, $query_natural->result_array());
+        // --- Consulta combinada para obtener todos los pagos pendientes ---
+        $sql = "
+        (
+            SELECT
+                i.codigo_planilla,
+                i.fecha_inscripcion,
+                d.pronto_pago,
+                d.pay,
+                i.estatus,
+                'Natural' AS tipo_inscripcion
+            FROM
+                diplomado.inscripciones AS i
+            JOIN
+                diplomado.diplomado AS d ON d.id_diplomado = i.id_diplomado
+            WHERE
+                i.estatus = 2
+        )
+        UNION ALL
+        (
+            SELECT
+                ig.codigo_planilla,
+                ig.fecha_inscripcion,
+                d.pronto_pago,
+                d.pay,
+                ig.estatus,
+                'Jurídica' AS tipo_inscripcion
+            FROM
+                diplomado.inscripciones_grupales AS ig
+            JOIN
+                diplomado.diplomado AS d ON d.id_diplomado = ig.id_diplomado
+            WHERE
+                ig.estatus = 2
+        )
+        UNION ALL
+        (
+            SELECT
+                i.codigo_planilla,
+                i.fecha_inscripcion,
+                d.pronto_pago,
+                d.pay,
+                2 AS estatus,
+                'Natural' AS tipo_inscripcion
+            FROM
+                diplomado.pagos AS p
+            JOIN
+                diplomado.inscripciones AS i ON i.id_inscripcion = p.id_inscripcion
+            JOIN
+                diplomado.diplomado AS d ON d.id_diplomado = i.id_diplomado
+            WHERE
+                p.tipo_pago = 2
+            GROUP BY
+                i.codigo_planilla, i.fecha_inscripcion, d.pronto_pago, d.pay
+            HAVING
+                COUNT(p.id_pago) = 1
+        )
+        UNION ALL
+        (
+            SELECT
+                ig.codigo_planilla,
+                ig.fecha_inscripcion,
+                d.pronto_pago,
+                d.pay,
+                2 AS estatus,
+                'Jurídica' AS tipo_inscripcion
+            FROM
+                diplomado.pagos AS p
+            JOIN
+                diplomado.inscripciones_grupales AS ig ON ig.id_inscripcion_grupal = p.id_inscripcion
+            JOIN
+                diplomado.diplomado AS d ON d.id_diplomado = ig.id_diplomado
+            WHERE
+                p.tipo_pago = 2
+            GROUP BY
+                ig.codigo_planilla, ig.fecha_inscripcion, d.pronto_pago, d.pay
+            HAVING
+                COUNT(p.id_pago) = 1
+        )
+    ";
 
-        // --- 2. Pagos pendientes de inscripciones grupales (estatus 2) ---
-        $this->db->select('ig.codigo_planilla, ig.fecha_inscripcion, d.pronto_pago, d.pay, ig.estatus, "Jurídica" AS tipo_inscripcion');
-        $this->db->from('diplomado.inscripciones_grupales ig');
-        $this->db->join('diplomado.diplomado d', 'd.id_diplomado = ig.id_diplomado');
-        $this->db->where('ig.estatus', 2); // Estatus 2: planillas con deuda
-        $query_juridica = $this->db->get();
-        $pending_payments = array_merge($pending_payments, $query_juridica->result_array());
+        $query = $this->db->query($sql);
 
-        // --- 3. Pagos de crédito incompletos (1 cuota pagada) para ambos tipos de inscripciones ---
-        // Consulta para inscripciones naturales
-        $this->db->select('i.codigo_planilla, i.fecha_inscripcion, d.pronto_pago, d.pay, 2 AS estatus, "Natural" AS tipo_inscripcion');
-        $this->db->from('diplomado.pagos p');
-        $this->db->join('diplomado.inscripciones i', 'i.id_inscripcion = p.id_inscripcion', 'inner');
-        $this->db->join('diplomado.diplomado d', 'd.id_diplomado = i.id_diplomado', 'inner');
-        $this->db->where('p.tipo_pago', 2);
-        $this->db->group_by('i.codigo_planilla, i.fecha_inscripcion, d.pronto_pago, d.pay, i.estatus');
-        $this->db->having('COUNT(p.id_pago) = 1');
-        $query_credit_natural = $this->db->get();
-        $pending_payments = array_merge($pending_payments, $query_credit_natural->result_array());
-
-        // Consulta para inscripciones jurídicas
-        $this->db->select('ig.codigo_planilla, ig.fecha_inscripcion, d.pronto_pago, d.pay, 2 AS estatus, "Jurídica" AS tipo_inscripcion');
-        $this->db->from('diplomado.pagos p');
-        $this->db->join('diplomado.inscripciones_grupales ig', 'ig.id_inscripcion_grupal = p.id_inscripcion', 'inner');
-        $this->db->join('diplomado.diplomado d', 'd.id_diplomado = ig.id_diplomado', 'inner');
-        $this->db->where('p.tipo_pago', 2);
-        $this->db->group_by('ig.codigo_planilla, ig.fecha_inscripcion, d.pronto_pago, d.pay, ig.estatus');
-        $this->db->having('COUNT(p.id_pago) = 1');
-        $query_credit_juridica = $this->db->get();
-        $pending_payments = array_merge($pending_payments, $query_credit_juridica->result_array());
-
-        return $pending_payments;
+        return $query->result_array();
     }
 }
