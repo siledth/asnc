@@ -42,7 +42,7 @@
                         <i class="fas fa-exclamation-triangle mr-2"></i>Notificación de Pagos Pendientes
                     </h5>
                 </div>
-                <div class="card-body p-2">
+                <div class="card-body p-4">
                     <p class="text-secondary">Se han detectado planillas con pagos pendientes o incompletos que requieren su
                         atención.</p>
                     <div class="table-responsive">
@@ -51,9 +51,8 @@
                                 <tr>
                                     <th>Código Planilla</th>
                                     <th>Fecha Inscripción</th>
-                                    <th>Monto Pronto Pago</th>
-                                    <th>Monto Crédito</th>
                                     <th>Tipo Inscripción</th>
+                                    <th>Monto de la Deuda</th>
                                     <th>Estatus</th>
                                 </tr>
                             </thead>
@@ -62,9 +61,22 @@
                                     <tr>
                                         <td><?= $payment['codigo_planilla'] ?></td>
                                         <td><?= $payment['fecha_inscripcion'] ?></td>
-                                        <td><?= number_format($payment['pronto_pago'], 2, ',', '.') ?> Bs</td>
-                                        <td><?= number_format($payment['pay'], 2, ',', '.') ?> Bs</td>
                                         <td><?= $payment['tipo_inscripcion'] ?></td>
+                                        <td>
+                                            <?php
+                                            // Calculate and display the debt amount based on the status
+                                            if ($payment['estatus'] == 2) {
+                                                // For credit payments, the debt is half of the total pay + IVA
+                                                $total_con_iva = $payment['pay'] + ($payment['pay'] * 0.16);
+                                                $monto_deuda = $total_con_iva / 2;
+                                                echo number_format($monto_deuda, 2, ',', '.') . ' Bs';
+                                            } else {
+                                                // For pending pronto pago, the debt is the pronto pago amount + IVA
+                                                $total_con_iva = $payment['pronto_pago'] + ($payment['pronto_pago'] * 0.16);
+                                                echo number_format($total_con_iva, 2, ',', '.') . ' Bs';
+                                            }
+                                            ?>
+                                        </td>
                                         <td>
                                             <?php
                                             if ($payment['estatus'] == 2) {
