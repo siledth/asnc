@@ -751,19 +751,101 @@ function toggleGuardarPagoButton() {
 // --- 5. FUNCIONES PRINCIPALES DE FLUJO (Llamadas por botones o eventos) ---
 
 // FUNCIÓN PARA CONSULTAR PLANILLA (GLOBAL PARA onclick="Consultarplanilla()")
-function Consultarplanilla()  { 
-    console.log("--- Consultarplanilla INICIADO ---"); // CONSOLE LOG
+// function Consultarplanilla()  { 
+//     console.log("--- Consultarplanilla INICIADO ---"); // CONSOLE LOG
+//     var rif_b = $('#rif_b').val().trim();
+
+//     clearFieldError($('#rif_b')); 
+
+//     if (!rif_b) {
+//         swal("¡ATENCIÓN!", "El campo 'Código de la planilla' no puede estar vacío.", "warning");
+//         showFieldError($('#rif_b'), 'El código de la planilla es requerido.');
+//         resetRecaptchaPay(); 
+//         $("#existe").hide(); // Ocultar secciones de pago si el código está vacío
+//         toggleGuardarPagoButton(); 
+//         console.log("Consultarplanilla: Código de planilla vacío. Retornando."); 
+//         return;
+//     }
+
+//     $('#loading').show();
+//     $("#existe").hide();
+//     $("#no_existe").hide();
+
+//     // var base_url = window.location.origin+'/asnc/index.php/Diplomado/consulta_og'; 
+//     var base_url = '/index.php/Diplomado/consulta_og';
+
+//     $.ajax({
+//         url: base_url,
+//         method: 'POST',
+//         data: { rif_b: rif_b },
+//         dataType: 'json',
+//         success: function(response) {
+//             console.log("Consultarplanilla: Respuesta exitosa:", response); 
+//             $('#loading').hide();
+
+//             if (response.success && response.data) {
+//                 $("#existe").show();
+//                 $("#no_existe").hide();
+
+//                 $('#fecha_limite_pago').val(response.data.fecha_limite_pago || '');
+//                 $('#id_inscripcion').val(response.data.id_inscripcion || '');
+//                 $('#total_pago').val(response.data.pronto_pago || '');
+//                 $('#pay').val(response.data.pay || '');
+//                 $('#codigo_planilla_hidden').val(response.data.codigo_planilla || '');
+
+//                 calcularContado();
+//                 calcularCredito();
+//                 togglePagoFields(); 
+
+//                 $('#pagoVerificado').val('0'); 
+//                 resetRecaptchaPay(); 
+//                 toggleGuardarPagoButton(); 
+//                 console.log("Consultarplanilla: Planilla encontrada."); 
+//             } else {
+//                 $("#no_existe").show();
+//                 $("#existe").hide();
+
+//                 $('#fecha_limite_pago').val(''); $('#id_inscripcion').val('');
+//                 $('#total_pago').val(''); $('#pay').val(''); $('#codigo_planilla_hidden').val('');
+//                 $('#iva').val(''); $('#total_iva').val('');
+//                 $('#iva_credito').val(''); $('#total_iva_credito').val(''); $('#mitad_total_credito').val('');
+
+//                 $('#tipo_pago').val('0'); 
+//                 togglePagoFields(); 
+
+//                 swal("No encontrado", response.message || 'Planilla no encontrada.', "info");
+
+//                 resetRecaptchaPay(); 
+//                 toggleGuardarPagoButton(); 
+//                 console.log("Consultarplanilla: Planilla NO encontrada."); 
+//             }
+//         },
+//         error: function(xhr) {
+//             console.error("Consultarplanilla: Error AJAX:", xhr); 
+//             $('#loading').hide();
+//             swal("Error", "Ocurrió un error al consultar la planilla. Intente de nuevo.", "error");
+//             $("#existe").hide();
+//             $("#no_existe").hide();
+
+//             resetRecaptchaPay();
+//             toggleGuardarPagoButton(); 
+//         }
+//     });
+//     console.log("--- Consultarplanilla FINALIZADO ---"); 
+// }
+function Consultarplanilla()  {
+    console.log("--- Consultarplanilla INICIADO ---");
     var rif_b = $('#rif_b').val().trim();
 
-    clearFieldError($('#rif_b')); 
+    clearFieldError($('#rif_b'));
 
     if (!rif_b) {
         swal("¡ATENCIÓN!", "El campo 'Código de la planilla' no puede estar vacío.", "warning");
         showFieldError($('#rif_b'), 'El código de la planilla es requerido.');
-        resetRecaptchaPay(); 
-        $("#existe").hide(); // Ocultar secciones de pago si el código está vacío
-        toggleGuardarPagoButton(); 
-        console.log("Consultarplanilla: Código de planilla vacío. Retornando."); 
+        resetRecaptchaPay();
+        $("#existe").hide();
+        toggleGuardarPagoButton();
+        console.log("Consultarplanilla: Código de planilla vacío. Retornando.");
         return;
     }
 
@@ -771,7 +853,7 @@ function Consultarplanilla()  {
     $("#existe").hide();
     $("#no_existe").hide();
 
-    // var base_url = window.location.origin+'/asnc/index.php/Diplomado/consulta_og'; 
+    // var base_url = window.location.origin+'/asnc/index.php/Diplomado/consulta_og';
     var base_url = '/index.php/Diplomado/consulta_og';
 
     $.ajax({
@@ -780,28 +862,46 @@ function Consultarplanilla()  {
         data: { rif_b: rif_b },
         dataType: 'json',
         success: function(response) {
-            console.log("Consultarplanilla: Respuesta exitosa:", response); 
+            console.log("Consultarplanilla: Respuesta exitosa:", response);
             $('#loading').hide();
 
             if (response.success && response.data) {
                 $("#existe").show();
                 $("#no_existe").hide();
 
-                $('#fecha_limite_pago').val(response.data.fecha_limite_pago || '');
+                // Limpiar el estado de los campos antes de llenarlos
+                $('#tipo_pago').val('0').prop('disabled', false); // Restablecer select de tipo de pago
+                $('#fecha_limite_pago').val('');
+                $('#prontoPagoField').hide();
+                $('#creditoPagoField').hide();
+
                 $('#id_inscripcion').val(response.data.id_inscripcion || '');
-                $('#total_pago').val(response.data.pronto_pago || '');
-                $('#pay').val(response.data.pay || '');
                 $('#codigo_planilla_hidden').val(response.data.codigo_planilla || '');
 
-                calcularContado();
-                calcularCredito();
-                togglePagoFields(); 
+                if (response.data.is_second_payment) {
+                    // Lógica para la segunda cuota de pago a crédito
+                    $('#tipo_pago').val('2').prop('disabled', true); // Seleccionar y deshabilitar
+                    $('#pay').val(response.data.pay); // El backend ya envió el monto de la segunda cuota
+                    $('#importe').val(response.data.pay); // Asignar el monto de la segunda cuota al campo de importe
+                    $('#creditoPagoField').show();
+                    swal("¡Atención!", "Esta planilla tiene un pago a crédito pendiente. Por favor, registre la segunda cuota.", "info");
+                } else {
+                    // Lógica para el pago inicial (pronto pago o primera cuota de crédito)
+                    $('#fecha_limite_pago').val(response.data.fecha_limite_pago || '');
+                    $('#total_pago').val(response.data.pronto_pago || '');
+                    $('#pay').val(response.data.pay || '');
+                    
+                    calcularContado();
+                    calcularCredito();
+                    togglePagoFields();
+                }
 
-                $('#pagoVerificado').val('0'); 
-                resetRecaptchaPay(); 
-                toggleGuardarPagoButton(); 
-                console.log("Consultarplanilla: Planilla encontrada."); 
+                $('#pagoVerificado').val('0');
+                resetRecaptchaPay();
+                toggleGuardarPagoButton();
+                console.log("Consultarplanilla: Planilla encontrada.");
             } else {
+                // ... (Tu lógica existente para "Planilla no encontrada")
                 $("#no_existe").show();
                 $("#existe").hide();
 
@@ -810,28 +910,28 @@ function Consultarplanilla()  {
                 $('#iva').val(''); $('#total_iva').val('');
                 $('#iva_credito').val(''); $('#total_iva_credito').val(''); $('#mitad_total_credito').val('');
 
-                $('#tipo_pago').val('0'); 
-                togglePagoFields(); 
+                $('#tipo_pago').val('0').prop('disabled', false);
+                togglePagoFields();
 
                 swal("No encontrado", response.message || 'Planilla no encontrada.', "info");
 
-                resetRecaptchaPay(); 
-                toggleGuardarPagoButton(); 
-                console.log("Consultarplanilla: Planilla NO encontrada."); 
+                resetRecaptchaPay();
+                toggleGuardarPagoButton();
+                console.log("Consultarplanilla: Planilla NO encontrada.");
             }
         },
         error: function(xhr) {
-            console.error("Consultarplanilla: Error AJAX:", xhr); 
+            console.error("Consultarplanilla: Error AJAX:", xhr);
             $('#loading').hide();
             swal("Error", "Ocurrió un error al consultar la planilla. Intente de nuevo.", "error");
             $("#existe").hide();
             $("#no_existe").hide();
 
             resetRecaptchaPay();
-            toggleGuardarPagoButton(); 
+            toggleGuardarPagoButton();
         }
     });
-    console.log("--- Consultarplanilla FINALIZADO ---"); 
+    console.log("--- Consultarplanilla FINALIZADO ---");
 }
 async function _ejecutarVerificacionPago(recaptchaResponse) {
     console.log("--- _ejecutarVerificacionPago INICIADO (Etapa 1) ---");

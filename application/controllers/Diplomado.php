@@ -1703,20 +1703,31 @@ class Diplomado extends CI_Controller
         $result = $this->Diplomado_model->planilla_pay(['rif_b' => $rif_b]);
 
         if ($result) {
-            echo json_encode([
-                'success' => true,
-                'data' => [
-                    'fecha_limite_pago' => $result['fecha_limite_pago'],
-                    'id_inscripcion' => $result['id_inscripcion'],
-                    'pronto_pago' => $result['pronto_pago'],
-                    'pay' => $result['pay'],
-                    'codigo_planilla' => $result['codigo_planilla'],
-
-
-                ]
-            ]);
+            if (isset($result['is_second_payment']) && $result['is_second_payment'] === true) {
+                // Caso de la segunda cuota de pago a crédito
+                echo json_encode([
+                    'success' => true,
+                    'data' => [
+                        'id_inscripcion' => $result['id_inscripcion'],
+                        'codigo_planilla' => $result['codigo_planilla'],
+                        'pay' => $result['pay'], // Este es el monto de la segunda cuota
+                        'is_second_payment' => true,
+                    ]
+                ]);
+            } else {
+                // Caso de pago inicial (pronto pago o primera cuota de crédito)
+                echo json_encode([
+                    'success' => true,
+                    'data' => [
+                        'fecha_limite_pago' => $result['fecha_limite_pago'],
+                        'id_inscripcion' => $result['id_inscripcion'],
+                        'pronto_pago' => $result['pronto_pago'],
+                        'pay' => $result['pay'],
+                        'codigo_planilla' => $result['codigo_planilla'],
+                    ]
+                ]);
+            }
         } else {
-            // Asegúrate de que el status HTTP sea 200 aunque falle
             http_response_code(200);
             echo json_encode([
                 'success' => false,

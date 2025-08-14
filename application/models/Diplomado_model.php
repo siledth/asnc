@@ -106,6 +106,28 @@ class Diplomado_model extends CI_model
         $query = $this->db->get();
         return $query->result_array();
     }
+    // public function planilla_pay($data)
+    // {
+    //     // 1. Log del valor recibido (verifica en tu archivo de logs)
+    //     log_message('debug', 'Valor recibido en planilla_pay(): ' . print_r($data, true));
+
+    //     // 2. Verifica el valor exacto de rif_b
+    //     $rif_b = $data['rif_b'];
+    //     log_message('debug', 'Buscando planilla: ' . $rif_b);
+    //     $this->db->select('*');
+    //     $this->db->where('codigo_planilla', $rif_b);
+    //     // 3. Log de la consulta SQL generada (útil para ver si hay filtros incorrectos)
+    //     //log_message('debug', 'SQL: ' . $this->db->get_compiled_select('diplomado.ver_cod_pay'));
+
+    //     $query = $this->db->get('diplomado.ver_cod_pay');
+
+    //     if ($query->num_rows() > 0) {
+    //         return $query->row_array();
+    //     } else {
+    //         log_message('debug', 'No se encontró la planilla: ' . $rif_b);
+    //         return null;
+    //     }
+    // }
     public function planilla_pay($data)
     {
         // 1. Log del valor recibido (verifica en tu archivo de logs)
@@ -115,22 +137,63 @@ class Diplomado_model extends CI_model
         $rif_b = $data['rif_b'];
         log_message('debug', 'Buscando planilla: ' . $rif_b);
 
+        // --- PRIMERA BÚSQUEDA: Planilla en estado inicial de pago ---
+        // Consulta tu vista para encontrar planillas pendientes de pago.
         $this->db->select('*');
         $this->db->where('codigo_planilla', $rif_b);
+        $query_initial = $this->db->get('diplomado.ver_cod_pay');
 
-
-        // 3. Log de la consulta SQL generada (útil para ver si hay filtros incorrectos)
-        //log_message('debug', 'SQL: ' . $this->db->get_compiled_select('diplomado.ver_cod_pay'));
-
-        $query = $this->db->get('diplomado.ver_cod_pay');
-
-        if ($query->num_rows() > 0) {
-            return $query->row_array();
+        if ($query_initial->num_rows() > 0) {
+            log_message('debug', 'Planilla encontrada en estado de pago inicial.');
+            return $query_initial->row_array();
         } else {
-            log_message('debug', 'No se encontró la planilla: ' . $rif_b);
-            return null;
+            // --- SEGUNDA BÚSQUEDA: Si no se encuentra, delega al nuevo método. ---
+            log_message('debug', 'No se encontró la planilla para pago inicial. Buscando si ya tiene un pago a crédito.');
+            return $this->find_credit_payment($data);
         }
     }
+    /**
+     * Busca una planilla que ya haya realizado el primer pago a crédito
+     * y esté pendiente del segundo.
+     *
+     * @param array $data El array con el código de planilla (`rif_b`).
+     * @return array|null El resultado si se encuentra, de lo contrario null.
+     */
+    public function find_credit_payment($data)
+    {
+        $codigo_planilla = $data['rif_b'];
+
+        $this->db->select('i.id_inscripcion, d.pay');
+        $this->db->from('diplomado.pagos AS p');
+        $this->db->join('diplomado.inscripciones AS i', 'i.id_inscripcion = p.id_inscripcion', 'inner');
+        $this->db->join('diplomado.diplomado AS d', 'd.id_diplomado = i.id_diplomado', 'inner');
+        $this->db->where('i.codigo_planilla', $codigo_planilla);
+        $this->db->where('p.tipo_pago', 2); // Pago a crédito
+        $this->db->where('p.estatus', 1); // Estatus 1: primera cuota pagada y aprobada
+        $this->db->group_by('i.id_inscripcion, d.pay'); // Asegurar una fila única
+
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            $result = $query->row_array();
+
+            // Calcular los valores para el frontend
+            $credito = (float)$result['pay'];
+            $ivaCredito = $credito * 0.16;
+            $totalConIVACredito = $credito + $ivaCredito;
+            $segundaCuota = $totalConIVACredito / 2;
+
+            return [
+                'id_inscripcion' => $result['id_inscripcion'],
+                'codigo_planilla' => $codigo_planilla,
+                'pay' => $segundaCuota, // Usamos 'pay' para enviar el monto de la segunda cuota
+                'is_second_payment' => true // Marcador para saber que es la segunda cuota
+            ];
+        }
+
+        return null;
+    }
+
     public function planilla_pay2($data)
     {
         // 1. Log del valor recibido (verifica en tu archivo de logs)
