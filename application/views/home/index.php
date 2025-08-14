@@ -31,21 +31,20 @@
 
 
     </div>
-    <div class="modal fade" id="pendingPaymentsModal" tabindex="-1" role="dialog"
-        aria-labelledby="pendingPaymentsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-warning text-dark d-flex align-items-center">
-                    <h5 class="modal-title" id="pendingPaymentsModalLabel">
+    <?php
+    // Check if the user is an admin and if there are pending payments
+    if (($perfil_id == 1 || $perfil_id == 9) && count($pending_payments) > 0):
+    ?>
+        <div id="content2" class="content2">
+            <div class="card border-warning">
+                <div class="card-header bg-warning text-dark d-flex align-items-center">
+                    <h5 class="mb-0">
                         <i class="fas fa-exclamation-triangle mr-2"></i>Notificación de Pagos Pendientes
                     </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
-                <div class="modal-body p-4">
-                    <p class="text-secondary">Se han detectado planillas con pagos pendientes o incompletos que
-                        requieren su atención.</p>
+                <div class="card-body p-2">
+                    <p class="text-secondary">Se han detectado planillas con pagos pendientes o incompletos que requieren su
+                        atención.</p>
                     <div class="table-responsive">
                         <table class="table table-hover table-striped">
                             <thead class="thead-dark">
@@ -71,7 +70,6 @@
                                             if ($payment['estatus'] == 2) {
                                                 echo '<span class="badge badge-warning">Pago Incompleto (Crédito)</span>';
                                             } else {
-                                                // Considerar otros estatus si los tienes
                                                 echo '<span class="badge badge-secondary">Pendiente</span>';
                                             }
                                             ?>
@@ -82,23 +80,9 @@
                         </table>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                </div>
             </div>
         </div>
-    </div>
+    <?php endif; ?>
 
 
 </body>
-
-<script>
-    $(document).ready(function() {
-        const perfilId = <?php echo json_encode($perfil_id); ?>;
-        const pendingCount = <?php echo json_encode(count($pending_payments)); ?>;
-
-        if ((perfilId === 1 || perfilId === 9) && pendingCount > 0) {
-            $('#pendingPaymentsModal').modal('show');
-        }
-    });
-</script>

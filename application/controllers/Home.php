@@ -23,7 +23,8 @@ class Home extends CI_Controller
 
         }
         $data['username'] = $this->session->userdata('username');
-        $data['perfil_id'] = $this->session->userdata('perfil_id');
+        $data['perfil_id'] = $this->session->userdata('perfil');
+        // $this->session->userdata('perfil') == 1
         $data['menu_rnce'] = $this->session->userdata('menu_rnce');
         $data['menu_progr'] = $this->session->userdata('menu_progr');
         $data['perfil_nombre'] = $this->session->userdata('perfil_nombre');
