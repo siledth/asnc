@@ -91,6 +91,9 @@
 
 
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script>
     $(document).ready(function() {
         const perfilId = <?php echo json_encode($perfil_id); ?>;
@@ -98,6 +101,11 @@
 
         if ((perfilId === 1 || perfilId === 9) && pendingCount > 0) {
             $('#pendingPaymentsModal').modal('show');
+            // Agrega un console.log para verificar que la lógica se ejecuta
+            console.log('Modal intentando abrir. Perfil:', perfilId, 'Conteo:', pendingCount);
+        } else {
+            // Agrega un console.log para verificar que la lógica se está ignorando
+            console.log('Modal no se abrirá. Perfil:', perfilId, 'Conteo:', pendingCount);
         }
     });
 </script>
