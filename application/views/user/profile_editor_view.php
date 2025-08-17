@@ -16,10 +16,13 @@
         <h1>Gestión de Usuario</h1>
         <!-- NUEVOS BOTONES DE ACCIÓN -->
         <div class="action-buttons-container">
+            <a href="<?= base_url('index.php/user/create_user') ?>" class="btn-action">Creación de
+                Usuarios</a>
             <a href="<?= base_url('index.php/User_management_controller/v_assign_units') ?>" class="btn-action">Asignar
-                RIFs Adicionales</a>
+                Organos/Entes
+                Adicionales</a>
             <a href="<?= base_url('index.php/User_management_controller/v_manage_user_rifs') ?>"
-                class="btn-action">Gestionar RIFs de Usuario</a>
+                class="btn-action">Consulta de Organos/entes Asignados a un usuario</a>
         </div>
         <div class="filter-section">
             <div class="filter-group">
