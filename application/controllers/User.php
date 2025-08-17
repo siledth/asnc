@@ -1163,4 +1163,97 @@ class User extends CI_Controller
             echo json_encode(['status' => 'error', 'message' => 'Usuario no encontrado.']);
         }
     }
+
+
+    ///////////guardar usuario y permisos en una sola funcion 
+    /**
+     * Guarda un nuevo usuario, crea un perfil con el mismo ID y asigna los permisos.
+     */
+    public function save_user_with_profile()
+    {
+        // Recolección y validación de id_unidad
+        $parametros = $this->input->post('id_unidad');
+        if (empty($parametros) || $parametros == "0") {
+            echo json_encode(['success' => false, 'message' => 'Debe seleccionar un Órgano/Ente válido.']);
+            return;
+        }
+        $separar = explode("/", $parametros);
+        $codigo  = $separar[0];
+        $rif     = $separar[1];
+
+        // Generación de hash de contraseña
+        $password = $this->input->post('password');
+        $clave = password_hash(
+            base64_encode(
+                hash('sha256', $password, true)
+            ),
+            PASSWORD_DEFAULT
+        );
+
+        // Datos para la tabla seguridad.usuarios
+        $data_user = array(
+            'nombre'         => trim($this->input->post('usuario')),
+            'password'       => $clave,
+            'email'          => trim($this->input->post('email')),
+            'perfil'         => 0, // Se actualizará en el modelo
+            'foto'           => 1,
+            'estado'         => 1,
+            'ultimo_login'   => date("Y-m-d H:i:s"),
+            'fecha'          => date("Y-m-d H:i:s"),
+            'intentos'       => 0,
+            'unidad'         => $codigo,
+            'id_estatus'     => 1,
+            'fecha_update'   => date("Y-m-d H:i:s"),
+            'rif_organoente' => $rif,
+            'id_usuario_c'   => $this->session->userdata('id_user')
+        );
+
+        // Datos para la tabla seguridad.funcionarios
+        $data_funcionario = array(
+            'nombrefun'          => trim($this->input->post('nombrefun')),
+            'apellido'           => trim($this->input->post('apellido')),
+            'tipo_cedula'        => trim($this->input->post('tipo_ced')),
+            'cedula'             => trim($this->input->post('cedula')),
+            'cargo'              => trim($this->input->post('cargo')),
+            'oficina'            => trim($this->input->post('oficina')),
+            'tele_1'             => trim($this->input->post('tele_1')),
+            'tele_2'             => trim($this->input->post('tele_2')),
+            'fecha_designacion'  => $this->input->post('fecha_designacion'),
+            'numero_gaceta'      => trim($this->input->post('numero_gaceta')),
+            'email'              => trim($this->input->post('email')),
+            'tipo_funcionario'   => 3,
+            'unidad'             => $codigo,
+            'fecha'              => date("Y-m-d H:i:s"),
+            'obser'              => trim($this->input->post('obser'))
+        );
+
+        // Datos de permisos
+        $permissions_data = $this->input->post('permissions');
+
+        // Llama a la nueva función del modelo que maneja la transacción
+        $result_code = $this->User_model->save_user_with_profile_and_permissions(
+            $data_user,
+            $data_funcionario,
+            $permissions_data
+        );
+
+        switch ($result_code) {
+            case 1:
+                echo json_encode(['success' => true, 'message' => 'Usuario y perfil registrado exitosamente.']);
+                break;
+            case 2:
+                echo json_encode(['success' => false, 'message' => 'Error: La cédula ya se encuentra registrada.']);
+                break;
+            case 3:
+                echo json_encode(['success' => false, 'message' => 'Error: El correo electrónico ya se encuentra registrado.']);
+                break;
+            case 4:
+                echo json_encode(['success' => false, 'message' => 'Error: El nombre de usuario ya existe.']);
+                break;
+            case 0:
+            default:
+                echo json_encode(['success' => false, 'message' => 'Ocurrió un error inesperado al guardar los datos.']);
+                break;
+        }
+    }
 }

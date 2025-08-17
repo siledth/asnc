@@ -1727,4 +1727,70 @@ class User_model extends CI_Model
         $this->db->update('seguridad.usuarios', ['perfil' => $new_profile_id]);
         return $this->db->affected_rows() > 0;
     }
+
+
+    /**
+     * Guarda un nuevo usuario, crea un perfil asociado y asigna permisos en una única transacción.
+     * @param array $data_user Datos del usuario.
+     * @param array $data_funcionario Datos del funcionario.
+     * @param array $permissions_data Permisos a asignar al nuevo perfil.
+     * @return int Código de resultado (1 = éxito, 0 = error, 2, 3, 4 = validación).
+     */
+    public function save_user_with_profile_and_permissions($data_user, $data_funcionario, $permissions_data)
+    {
+        // 1. Validaciones de Unicidad
+        if ($this->username_exists($data_user['nombre'])) {
+            return 4;
+        }
+        if ($this->email_exists($data_user['email'])) {
+            return 3;
+        }
+        if ($this->cedula_exists($data_funcionario['cedula'])) {
+            return 2;
+        }
+
+        $this->db->trans_start();
+
+        try {
+            // 2. Insertar en seguridad.usuarios
+            $this->db->insert("seguridad.usuarios", $data_user);
+            if ($this->db->affected_rows() === 0 || $this->db->error()['code'] != 0) {
+                throw new Exception('Error al insertar en la tabla usuarios.');
+            }
+            $user_id_generado = $this->db->insert_id();
+
+            // 3. Preparar e Insertar en seguridad.funcionarios
+            $data_funcionario['id_usuario'] = $user_id_generado;
+            $this->db->insert('seguridad.funcionarios', $data_funcionario);
+            if ($this->db->affected_rows() === 0 || $this->db->error()['code'] != 0) {
+                throw new Exception('Error al insertar en la tabla funcionarios.');
+            }
+
+            // 4. Preparar e Insertar en seguridad.perfil (con el ID del usuario)
+            $profile_name = "Perfil Usuario {$user_id_generado} - {$data_user['nombre']}";
+            $profile_data = array_merge($permissions_data, ['id_perfil' => $user_id_generado, 'nombrep' => $profile_name]);
+            $this->db->insert('seguridad.perfil', $profile_data);
+            if ($this->db->affected_rows() === 0 || $this->db->error()['code'] != 0) {
+                throw new Exception('Error al insertar en la tabla perfil.');
+            }
+
+            // 5. Actualizar el campo 'perfil' en seguridad.usuarios con el nuevo ID
+            $this->db->where('id', $user_id_generado);
+            $this->db->update('seguridad.usuarios', ['perfil' => $user_id_generado]);
+            if ($this->db->affected_rows() === 0) {
+                throw new Exception('Error al actualizar el perfil del usuario.');
+            }
+
+            $this->db->trans_complete();
+
+            if ($this->db->trans_status() === FALSE) {
+                return 0;
+            } else {
+                return 1;
+            }
+        } catch (Exception $e) {
+            $this->db->trans_rollback();
+            return 0;
+        }
+    }
 }

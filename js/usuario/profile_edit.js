@@ -174,8 +174,9 @@ $(document).ready(function() {
             cedula: currentFilterCedula,
             organo_ente: currentFilterOrganoEnte
         };
+        var getFilteredUsersUrl =window.location.origin+'/asnc/index.php/Profile_controller/get_filtered_users';
 
-        var getFilteredUsersUrl = '/index.php/Profile_controller/get_filtered_users';
+        // var getFilteredUsersUrl = '/index.php/Profile_controller/get_filtered_users';
 
         $.ajax({
             url: getFilteredUsersUrl,
@@ -263,7 +264,8 @@ $(document).ready(function() {
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.value) { 
-                var updateStatusUrl = '/index.php/Profile_controller/update_user_status_ajax';
+                // var updateStatusUrl = '/index.php/Profile_controller/update_user_status_ajax';
+        var updateStatusUrl =window.location.origin+'/asnc/index.php/Profile_controller/update_user_status_ajax';
 
                 $.ajax({
                     url: updateStatusUrl,
@@ -338,7 +340,8 @@ $(document).ready(function() {
             cancelButtonText: 'No, cancelar'
         }).then((result) => {
             if (result.value) {
-                var assignProfileUrl = '/index.php/Profile_controller/assign_profile_and_permissions';
+                // var assignProfileUrl = '/index.php/Profile_controller/assign_profile_and_permissions';
+        var assignProfileUrl =window.location.origin+'/asnc/index.php/Profile_controller/assign_profile_and_permissions';
 
                 const dataToSend = {
                     user_id: userId,
@@ -375,7 +378,9 @@ $(document).ready(function() {
     $('body').on('click', '.edit-profile-btn', function() {
         const userId = $(this).data('user-id');
         $('#editUserId').val(userId);
-        var getUserDataUrl = '/index.php/Profile_controller/get_user_data_for_edit';
+        // var getUserDataUrl = '/index.php/Profile_controller/get_user_data_for_edit';
+        var getUserDataUrl =window.location.origin+'/asnc/index.php/Profile_controller/get_user_data_for_edit';
+
 
         $.ajax({
             url: getUserDataUrl,
@@ -421,7 +426,9 @@ $(document).ready(function() {
     $('#profileSelect').on('change', function() {
         const selectedProfileId = $(this).val();
         if (selectedProfileId) {
-                var getPermissionsUrl = '/index.php/Profile_controller/get_permissions_for_profile';
+                // var getPermissionsUrl = '/index.php/Profile_controller/get_permissions_for_profile';
+        var getPermissionsUrl =window.location.origin+'/asnc/index.php/Profile_controller/get_permissions_for_profile';
+                
             
             $.ajax({
                 url: getPermissionsUrl,
@@ -482,7 +489,9 @@ $(document).ready(function() {
             cancelButtonText: 'No, cancelar'
         }).then((result) => {
             if (result.value) {
-                var updateProfileUrl = '/index.php/Profile_controller/update_user_and_profile';
+                // var updateProfileUrl = '/index.php/Profile_controller/update_user_and_profile';
+        var updateProfileUrl =window.location.origin+'/asnc/index.php/Profile_controller/update_user_and_profile';
+
 
                 const dataToSend = {
                     user_id: userId,
