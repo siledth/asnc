@@ -492,7 +492,7 @@
   }
 
   .btn-action {
-      background-color: #007bff;
+      background-color: #4299e1;
       color: white;
       padding: 10px 15px;
       border-radius: 5px;
@@ -503,5 +503,5 @@
   }
 
   .btn-action:hover {
-      background-color: #0056b3;
+      background-color: #3182ce;
   }
