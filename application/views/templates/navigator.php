@@ -20,11 +20,33 @@
                     <b class="caret"></b>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
+                    <span class="dropdown-item">Seleccionar Órgano/Ente</span>
+                    <div class="dropdown-divider"></div>
+
+                    <?php if (!empty($this->session->userdata('todos_rifs'))): ?>
+                        <?php foreach ($this->session->userdata('todos_rifs') as $rif_info): ?>
+                            <?php
+                            $is_active = ($rif_info['rif_organoente'] == $this->session->userdata('rif_organoente'));
+                            $active_class = $is_active ? 'active' : '';
+                            ?>
+                            <a href="<?= base_url() ?>index.php/login/change_organoente/<?= $rif_info['rif_organoente'] ?>"
+                                class="dropdown-item <?= $active_class ?>">
+                                <?= $rif_info['rif_organoente'] ?>
+                                <?php if ($is_active): ?>
+                                    <i class="fa fa-check-circle" style="float: right;"></i>
+                                <?php endif; ?>
+                            </a>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <a href="javascript:;" class="dropdown-item disabled">No hay Órganos/Entes asignados</a>
+                    <?php endif; ?>
+
+                    <div class="dropdown-divider"></div>
                     <a href="<?= base_url() ?>index.php/login/logout" class="dropdown-item">Cerrar Sesión</a>
                     <a href="<?= base_url() ?>index.php/login/v_camb_clave" class="dropdown-item">Cambio de
                         Contraseña</a>
                     <a href="<?= base_url() ?>index.php/perfilinstitucional" class="dropdown-item">Perfil
-                        Intitucional</a>
+                        Institucional</a>
 
                 </div>
             </li>
@@ -1065,6 +1087,16 @@
                                     <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Gestion de Usuarios
                                 </a>
                             </li>
+                            <li>
+                                <a href="<?= base_url() ?>index.php/User_management_controller/v_assign_units">
+                                    <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Asignación de Unidades
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= base_url() ?>index.php/User_management_controller/v_manage_user_rifs">
+                                    <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Gestion de RIFs
+                                </a>
+                            </li>
                         <?php endif; ?>
                         <?php if (($this->session->userdata('ver_user_desb') == 1)) : ?>
                             <li>
@@ -1146,3 +1178,12 @@
         </div>
     </div>
     <div class="sidebar-bg"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('.dropdown-toggle-sub').on('click', function(e) {
+                e.preventDefault();
+                $(this).next('.dropdown-menu-sub').toggle();
+            });
+        });
+    </script>
