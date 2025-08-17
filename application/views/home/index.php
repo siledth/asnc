@@ -14,19 +14,19 @@
                 Sistema Integrado del Servicio Nacional de Contrataciones
             </h3>
         </div>
-        <!-- <div class="row justify-content-Left">
+        <div class="row justify-content-Left">
             <div class="col-md-8">
                 <div class="card card-outline-danger text-center bg-white">
                     <div class="card-block">
                         <blockquote class="card-blockquote" style="margin-bottom: -30px;">
                             <p class="f-s-16 text-inverse f-w-600">Nombre Órgano / Ente:
-                                <?php //echo $this->session->userdata('unidad'); 
+                                <?php echo $this->session->userdata('unidad');
                                 ?>.</p>
                         </blockquote>
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
 
 
 
