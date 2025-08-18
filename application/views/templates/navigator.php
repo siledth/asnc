@@ -1077,63 +1077,63 @@
                         </a>
                        </li> -->
 
-                            <li>
+                            <!-- <li>
                                 <a href="<?= base_url() ?>index.php/user/create_user">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Registro Usuarios
                                 </a>
-                            </li>
+                            </li> -->
                             <li>
                                 <a href="<?= base_url() ?>index.php/Profile_controller/profile_editor">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Gestion de Usuarios
                                 </a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a href="<?= base_url() ?>index.php/User_management_controller/v_assign_units">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Asignación de Unidades
                                 </a>
-                            </li>
-                            <li>
+                            </li> -->
+                            <!-- <li>
                                 <a href="<?= base_url() ?>index.php/User_management_controller/v_manage_user_rifs">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Gestion de RIFs
                                 </a>
-                            </li>
+                            </li> -->
                         <?php endif; ?>
                         <?php if (($this->session->userdata('ver_user_desb') == 1)) : ?>
-                            <li>
+                            <!-- <li>
                                 <a href="<?= base_url() ?>index.php/user/bloquear_usuario">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Inhabilitar Usuarios
                                 </a>
-                            </li>
+                            </li> -->
                         <?php endif; ?>
                         <?php if (($this->session->userdata('ver_user_desb') == 1)) : ?>
-                            <li>
+                            <!-- <li>
                                 <a href="<?= base_url() ?>index.php/user/desblo_usuario">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Desbloqueo de Usuarios
                                 </a>
-                            </li>
+                            </li> -->
                         <?php endif; ?>
                         <?php if (($this->session->userdata('ver_user_lista') == 1)) : ?>
-                            <li>
+                            <!-- <li>
                                 <a href="<?= base_url() ?>index.php/user/modif_usuarios">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Lista Usuarios SNC activos
                                 </a>
-                            </li>
+                            </li> -->
                         <?php endif; ?>
                         <?php if (($this->session->userdata('ver_user_lista') == 1)) : ?>
-                            <li>
+                            <!-- <li>
                                 <a href="<?= base_url() ?>index.php/user/lista_user_inactivos_snc">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Lista Usuarios SNC inactivos
                                 </a>
-                            </li>
+                            </li> -->
                         <?php endif; ?>
 
-                        <?php if (($this->session->userdata('ver_user_perfil') == 1)) : ?>
+                        <!-- <?php if (($this->session->userdata('ver_user_perfil') == 1)) : ?>
                             <li>
                                 <a href="<?= base_url() ?>index.php/user/perfil_">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Asignación de Permisos
                                 </a>
                             </li>
-                        <?php endif; ?>
+                        <?php endif; ?> -->
 
 
                         <?php if (($this->session->userdata('ver_user_perfil') == 1)) : ?>
@@ -1146,11 +1146,11 @@
 
                     <?php endif; ?>
                     <?php if (($this->session->userdata('permisos') == 1)) : ?>
-                        <li>
+                        <!-- <li>
                             <a href="<?= base_url() ?>index.php/user/create_user">
                                 <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Registro Usuarios
                             </a>
-                        </li>
+                        </li> -->
                         <li>
                             <a href="<?= base_url() ?>index.php/Profile_controller/profile_editor">
                                 <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Gestion de Usuarios

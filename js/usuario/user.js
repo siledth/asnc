@@ -797,8 +797,8 @@ $(document).ready(function() {
         }
 
         Swal.fire({
-            title: "Registrar?",
-            text: "Seguro de registrar?",
+            title: "Registrar",
+            text: "¿Seguro de registrar?",
             icon: "question",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
