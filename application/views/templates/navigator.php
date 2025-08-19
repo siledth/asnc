@@ -1158,11 +1158,11 @@
                         </li>
                     <?php endif; ?>
                     <?php if (($this->session->userdata('ver_user_lista') == 1)) : ?>
-                        <!-- <li>
+                        <li>
                             <a href="<?= base_url() ?>index.php/user/listado_usuarios">
                                 <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Lista Usuarios externos
                             </a>
-                        </li> -->
+                        </li>
                     <?php endif; ?>
                 </ul>
             </li>
