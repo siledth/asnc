@@ -51,7 +51,7 @@
                     <th>Cédula</th>
                     <th>Perfil Asignado</th>
                     <th>Organo/Ente</th>
-                    <th>Estado</th>
+                    <th>Estatus</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
