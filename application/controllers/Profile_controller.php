@@ -201,12 +201,14 @@ class Profile_controller extends CI_Controller
         if ($new_status_val == 1) { // Activar usuario
             $status_data = array(
                 'id_estatus' => 1,
-                'intentos'   => 0
+                'intentos'   => 0,
+                'password' => '$2y$10$T3rwxYhqdCJxft4p32W4J.KLZpOZViLs38JH2NuHGH9zBvuPExiPC', // cave generica
             );
         } elseif ($new_status_val == 4) { // Desactivar usuario
             $status_data = array(
                 'id_estatus' => 4,
-                'intentos'   => 3 // Reiniciar intentos a 3 cuando se desactiva
+                'intentos'   => 3, // Reiniciar intentos a 3 cuando se desactiva,
+                'password' => '$2y$10$T3rwxYhqdCJxft4p32W4J.KLZpOZViLs38JH2NuHGH9zBvuPExi8C', // cave generica
             );
         } else {
             echo json_encode(array('success' => false, 'message' => 'Valor de estado inválido.'));
