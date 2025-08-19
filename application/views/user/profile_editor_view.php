@@ -11,7 +11,7 @@
 </head>
 
 <body>
-
+    <div class="sidebar-bg"></div>
     <div class="container">
         <h1>Gestión de Usuario</h1>
         <!-- NUEVOS BOTONES DE ACCIÓN -->
