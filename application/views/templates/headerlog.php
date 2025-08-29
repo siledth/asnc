@@ -7,7 +7,9 @@
     <title>Sistema Integrado SNC - <?php echo $title ?? 'Inicio'; ?></title>
     <!-- Bootstrap CSS -->
 
-    <link href="<?= base_url() ?>bootstrap.min.css" />
+    <!-- <link href="<?= base_url() ?>Plantilla/admin/assets/js/bootstrap.min.css" /> -->
+    <link rel="stylesheet" href="<?= base_url('Plantilla/admin/assets/js/bootstrap.min.css') ?>" />
+
 
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
     <!-- Font Awesome -->
