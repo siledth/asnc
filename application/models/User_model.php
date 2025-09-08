@@ -490,6 +490,53 @@ class User_model extends CI_Model
         return $result = $query->result_array();
     }
 
+    /////////////////esto es para comisiones cargadas por otros usuarios
+    public function consulta_organoente_dinamica($rif_organoente)
+    {
+        // Si el usuario es el rif G200024518, trae todos los organos.
+        if ($rif_organoente == 'G200024518') {
+            $this->db->select("id_organoente, rif, id_organoenteads, tipo_organoente, descripcion, cod_onapre, id_estado, id_municipio, id_parroquia, siglas, direccion, 
+                        gaceta, fecha_gaceta, pagina_web, correo, tel1, tel2, movil1, movil2, usuario, fecha, codigo,certificaciones");
+            $this->db->where('certificaciones', '0');
+            $query = $this->db->get('public.organoente');
+            return $query->result_array();
+        } else {
+            // Para cualquier otro usuario, trae solo su descendencia.
+
+            // Primero, obtener el id_organoente a partir del rif
+            $this->db->select('id_organoente');
+            $this->db->where('rif', $rif_organoente);
+            $query = $this->db->get('public.organoente');
+            $result = $query->row_array();
+            $id_organo_usuario = $result['id_organoente'];
+
+            // Consulta recursiva para obtener la descendencia
+            $sql = "WITH RECURSIVE descendants AS (
+            SELECT 
+                organoente.id_organoente,
+                organoente.rif,
+                organoente.id_organoenteads,
+                organoente.descripcion,
+                1 AS level
+            FROM organoente
+            WHERE organoente.id_organoente = ?
+            UNION ALL
+            SELECT 
+                o.id_organoente,
+                o.rif,
+                o.id_organoenteads,
+                o.descripcion,
+                d.level + 1
+            FROM organoente o
+            JOIN descendants d ON o.id_organoenteads = d.id_organoente
+        )
+        SELECT id_organoente, rif, id_organoenteads, descripcion FROM descendants;";
+
+            $query = $this->db->query($sql, array($id_organo_usuario));
+            return $query->result_array();
+        }
+    }
+
 
     //perfiles
     public function consultar_perfiles()

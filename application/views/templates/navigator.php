@@ -144,12 +144,16 @@
 
 
                                         <?php if (($this->session->userdata('notif_comisi_externa_mib') == 1)) : ?>
-                                            <li><a href="<?= base_url() ?>index.php/Comision_contrata/logger_type_c">-
+                                            <!-- <li><a href="<?= base_url() ?>index.php/Comision_contrata/logger_type_c">-
+                                                    Notificaciòn al SNC</a></li> -->
+                                            <li><a href="<?= base_url() ?>index.php/Comision_contrata/logger_type_snc">-
                                                     Notificaciòn al SNC</a></li>
 
                                         <?php endif; ?>
                                         <?php if (($this->session->userdata('certi_miemb_externo') == 1)) : ?>
-                                            <li><a href="<?= base_url() ?>index.php/Comision_contrata/certificado">-
+                                            <!-- <li><a href="<?= base_url() ?>index.php/Comision_contrata/certificado">-
+                                                    Certificar Miembros</a></li> -->
+                                            <li><a href="<?= base_url() ?>index.php/Comision_contrata/certificadosnc">-
                                                     Certificar Miembros</a></li>
 
                                         <?php endif; ?>
@@ -772,7 +776,9 @@
                                 <li><a href="<?= base_url() ?>index.php/Diplomado/conciliado"><i
                                             class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Conciliar</a>
                                 </li>
-
+                                <li><a href="<?= base_url() ?>index.php/Diplomado/gestion_aprobacion"><i
+                                            class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Gestión de Aprobación</a>
+                                </li>
 
                                 <li class="has-sub">
                                     <a href="javascript:;">
@@ -826,7 +832,33 @@
                         <ul class="sub-menu">
 
                             <li><a href="<?= base_url() ?>index.php/ReporteRNCE/reporteG">- Reporte RNCE</a></li>
+                            <li><a href="<?= base_url() ?>index.php/ReporteOrganos/reporte_organoente">- Reportes
+                                </a></li>
+                            <li><a href="<?= base_url() ?>index.php/ReporteOrganosMensual/reporte_organoentemensual">-
+                                    Reportes organos_entes mes
+                                </a></li>
+                            <li><a href="<?= base_url() ?>index.php/ReporteUsuarios/reporte_usuarioM">-
+                                    Reportes usuarios mes
+                                </a></li>
+                            <li><a href="<?= base_url() ?>index.php/ReporteComisiones/reporte_comisionesm">-
+                                    Reportes comisiones mes
+                                </a></li>
+                            <li><a href="<?= base_url() ?>index.php/ReportePAC/reporte_PAC">-
+                                    Reportes PAC
+                                </a></li>
+                            <li><a href="<?= base_url() ?>index.php/ReporteLlamados/reporte_ReporteLlamados">-
+                                    Reportes llamados a concurso
+                                </a></li>
+                            <li><a href="<?= base_url() ?>index.php/ReporteEvaluaciones/reporte_ReporteEvaluaciones">-
+                                    Reportes evaluaciones de desempeño
+                                </a></li>
 
+                            <li><a href="<?= base_url() ?>index.php/ReporteGeneral/ReporteGeneral1">-
+                                    Reportes todos
+                                </a></li>
+                            <li><a href="<?= base_url() ?>index.php/ReporteTop10/reporte_top10">-
+                                    Reportes top 10
+                                </a></li>
 
 
 

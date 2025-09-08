@@ -21,30 +21,35 @@
                         </thead>
                         <tbody>
                             <?php foreach ($participantes as $data): ?>
-                                <tr class="odd gradeX" style="text-align:center">
-                                    <td><?= $data['cedula'] ?> </td>
+                            <tr class="odd gradeX" style="text-align:center">
+                                <td><?= $data['cedula'] ?> </td>
 
-                                    <td><?= $data['nombres'] ?> <?= $data['apellidos'] ?></td>
+                                <td><?= $data['nombres'] ?> <?= $data['apellidos'] ?></td>
 
 
-                                    <td>
+                                <td>
 
-                                        <a href="<?php echo base_url(); ?>index.php/Prei_juridico/pdfrt?id=<?php echo $data['codigo_planilla']; ?>"
+                                    <a href="<?php echo base_url(); ?>index.php/Prei_juridico/pdfrt?id=<?php echo $data['codigo_planilla']; ?>"
+                                        class="button">
+                                        <i class="fas   fa-2x  fa-cloud-download-alt" title="Certificado"
+                                            style="color: blue;"></i>
+                                        <a />
+
+
+
+                                        <a onclick="cargarIdInscripcion(<?php echo $data['id_participante'] ?>);"
+                                            data-toggle="modal" data-target="#dede" style="color: white">
+                                            <i title="Decisión" class="fas fa-2x fa-fw fa-address-card"
+                                                style="color: darkred;"></i>
+                                        </a>
+                                        <a href="<?php echo base_url(); ?>index.php/Diplomado/editar_pn_int?id=<?php echo $data['id_participante']; ?>"
                                             class="button">
-                                            <i class="fas   fa-2x  fa-cloud-download-alt" title="Certificado"
-                                                style="color: blue;"></i>
+                                            <i title="Editar Información" class="fas fa-2x fa-fw fa-clipboard-list"
+                                                style="color: black;"></i>
                                             <a />
+                                </td>
 
-
-
-                                            <a onclick="cargarIdInscripcion(<?php echo $data['id_participante'] ?>);"
-                                                data-toggle="modal" data-target="#dede" style="color: white">
-                                                <i title="Decisión" class="fas fa-2x fa-fw fa-address-card"
-                                                    style="color: darkred;"></i>
-                                            </a>
-                                    </td>
-
-                                </tr>
+                            </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -128,10 +133,10 @@
         </div>
     </div>
     <script>
-        function cargarIdInscripcion(id) {
-            // Asigna el ID al input del modal
-            document.getElementById('id_inscripcion').value = id;
-        }
+    function cargarIdInscripcion(id) {
+        // Asigna el ID al input del modal
+        document.getElementById('id_inscripcion').value = id;
+    }
     </script>
 
     <script src="<?= base_url() ?>/js/diplomado/diplomado.js"></script>

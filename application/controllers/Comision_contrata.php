@@ -258,13 +258,14 @@ class Comision_contrata extends CI_Controller
         if (!$this->session->userdata('session')) {
             redirect('login');
         }
-        $rif_organoente = $this->session->userdata('rif_organoente');
+        // Obtener el rif del usuario de la sesión
+        $rif_organoente_sesion = $this->session->userdata('rif_organoente');
         $data['time'] = date("Y-m-d"); // para calcular la vigencia
 
         $data['rif_organoente']          = $this->session->userdata('rif_organoente');
         $data['unidad']          = $this->session->userdata('unidad');
 
-        $data['comisiones'] = $this->Comision_contrata_model->check_logger_commissionsnc1();
+        $data['comisiones'] = $this->Comision_contrata_model->check_logger_commissionsnctodos($rif_organoente_sesion);
         $usuario = $this->session->userdata('id_user');
         $data['tp_contrata'] = $this->Comision_contrata_model->check_tipo_com();
         $data['area'] = $this->Comision_contrata_model->check_areas();
@@ -810,19 +811,23 @@ class Comision_contrata extends CI_Controller
         if (!$this->session->userdata('session')) {
             redirect('login');
         }
-        $rif_organoente = $this->session->userdata('rif_organoente');
 
-        $data['rif_organoente']          = $this->session->userdata('rif_organoente');
-        $data['unidad']          = $this->session->userdata('unidad');
+        // Obtener el rif del usuario de la sesión
+        $rif_organoente_sesion = $this->session->userdata('rif_organoente');
 
-        $data['comisiones'] = $this->Comision_contrata_model->check_logger_commission_snc();
-        $usuario = $this->session->userdata('id_user');
+        // ... (otras variables de sesión que ya tienes)
+        $data['rif_organoente'] = $rif_organoente_sesion;
+        $data['unidad'] = $this->session->userdata('unidad');
+
+        // Llamar al nuevo método del modelo para obtener la lista de organos filtrada
+        $data['final'] = $this->User_model->consulta_organoente_dinamica($rif_organoente_sesion);
+        $data['comisiones'] = $this->Comision_contrata_model->check_logger_commission_snc($rif_organoente_sesion);
+
+        // ... (el resto de tu código de controlador)
+        // $data['comisiones'] = $this->Comision_contrata_model->check_logger_commission_snc();
         $data['tp_contrata'] = $this->Comision_contrata_model->check_tipo_com();
         $data['area'] = $this->Comision_contrata_model->check_areas();
         $data['tipo'] = $this->Comision_contrata_model->check_tipo();
-        $data['final']  = $this->User_model->consulta_organoente();
-
-        //$data['mat'] = $this->Programacion_model->consulta_itemsr($data['id_programacion']);
 
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');

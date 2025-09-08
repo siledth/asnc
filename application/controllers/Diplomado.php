@@ -2477,18 +2477,18 @@ class Diplomado extends CI_Controller
     }
 
     /////// editar informacion de personas natural por el usuario interno SNC
+
     public function editar_pn_int()
     {
         if (!$this->session->userdata('session')) redirect('login');
-        //Información traido por el session de usuario para mostrar inf
 
         $data['id_participante'] = $this->input->get('id');
 
         $data['personal'] = $this->Diplomado_model->check_miemb_inf_ac($data['id_participante']);
-        $data['academico'] = $this->Diplomado_model->check_miemb_inf_exp5($data['id_participante']);
-        // $data['con_p'] = $this->Comision_contrata_model->check_miemb_inf_contr_pub($data['id_miembros']);
-        // $data['con_c'] = $this->Comision_contrata_model->check_miemb_inf_cap($data['id_miembros']);
-        // $data['final']  = $this->Comision_contrata_model->check_organo();
+        $data['academico'] = $this->Diplomado_model->check_miemb_inf_academica($data['id_participante']); // Se usa la nueva función
+        $data['grados_instruccion'] = $this->Diplomado_model->get_grados_instruccion(); // Nueva línea
+        $data['capacitaciones'] = $this->Diplomado_model->get_capacitaciones_by_participante($data['id_participante']);
+        $data['experiencia_laboral'] = $this->Diplomado_model->get_experiencia_5_anios_by_participante($data['id_participante']);
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
         $this->load->view('diplomado/edit_pn_int.php', $data);
@@ -2632,5 +2632,134 @@ class Diplomado extends CI_Controller
                 'message' => 'Error interno del servidor al consultar movimientos: ' . $e->getMessage()
             ]);
         }
+    }
+
+
+    // Nueva función para obtener los datos de una persona a través de AJAX
+    public function consulta_datos_academico()
+    {
+        $id_curriculum = $this->input->post('id_curriculum');
+        $data = $this->Diplomado_model->get_academico_for_edit($id_curriculum);
+        echo json_encode($data);
+    }
+
+    // Nueva función para guardar los cambios a través de AJAX
+    public function save_modif_exp()
+    {
+        $id_curriculum = $this->input->post('id_curriculum_edit');
+        $data = array(
+            'grado_instruccion' => $this->input->post('grado_instruccion'),
+            'titulo_obtenido' => $this->input->post('titulo_obtenido')
+        );
+        $this->Diplomado_model->update_academico($id_curriculum, $data);
+        echo json_encode(array('success' => true));
+    }
+    // Nueva función para obtener los datos de experiencia a través de AJAX
+    public function consulta_datos_experiencia()
+    {
+        $id_curriculum = $this->input->post('id_curriculum');
+        $data = $this->Diplomado_model->get_experiencia_for_edit($id_curriculum);
+        echo json_encode($data);
+    }
+
+    // Nueva función para guardar los cambios de experiencia a través de AJAX
+    public function save_modif_experiencia()
+    {
+        $id_curriculum = $this->input->post('id_curriculum_experiencia');
+        $data = array(
+            'experiencia_contrataciones_publicas' => $this->input->post('exp_5_anio'),
+
+        );
+        $this->Diplomado_model->update_experiencia($id_curriculum, $data);
+        echo json_encode(array('success' => true));
+    }
+
+    // Nueva función para obtener los datos de una capacitación a través de AJAX
+    public function consulta_datos_capacitacion()
+    {
+        $id_capacitacion = $this->input->post('id_capacitacion');
+        $data = $this->Diplomado_model->get_capacitacion_for_edit($id_capacitacion);
+        echo json_encode($data);
+    }
+
+    // Nueva función para guardar los cambios de capacitación a través de AJAX
+    public function save_modif_capacitacion()
+    {
+        $id_capacitacion = $this->input->post('id_capacitacion_edit');
+        $data = array(
+            'nombre_curso' => $this->input->post('nombre_curso'),
+            'institucion_formadora' => $this->input->post('institucion_formadora'),
+            'anio_realizacion' => $this->input->post('anio_realizacion'),
+            'horas' => $this->input->post('horas')
+        );
+        $this->Diplomado_model->update_capacitacion($id_capacitacion, $data);
+        echo json_encode(array('success' => true));
+    }
+    // Nueva función para obtener los datos de una experiencia laboral a través de AJAX
+    public function consulta_datos_experiencia_laboral()
+    {
+        $id_experienci_5_anio = $this->input->post('id_experienci_5_anio');
+        $data = $this->Diplomado_model->get_experiencia_laboral_for_edit($id_experienci_5_anio);
+        echo json_encode($data);
+    }
+
+    // Nueva función para guardar los cambios de experiencia laboral a través de AJAX
+    public function save_modif_experiencia_laboral()
+    {
+        $id_experienci_5_anio = $this->input->post('id_experiencia_laboral_edit');
+        $data = array(
+            'nombreinstitucion' => $this->input->post('nombre_institucion'),
+            'cargo' => $this->input->post('cargo'),
+            'tiempo' => $this->input->post('tiempo'),
+            'desde' => $this->input->post('desde'),
+            'hasta' => $this->input->post('hasta')
+        );
+        $this->Diplomado_model->update_experiencia_laboral($id_experienci_5_anio, $data);
+        echo json_encode(array('success' => true));
+    }
+    ///////////// aprobacion de participantes
+    public function gestion_aprobacion()
+    {
+        if (!$this->session->userdata('session')) redirect('login');
+
+        $data['diplomados'] = $this->Diplomado_model->get_diplomados_activos();
+
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('diplomado/gestion_aprobacion.php', $data);
+        $this->load->view('templates/footer.php');
+    }
+
+    // Carga la lista de participantes de un diplomado (AJAX)
+    public function get_participantes_por_diplomado()
+    {
+        $id_diplomado = $this->input->post('id_diplomado');
+        $page = $this->input->post('page') ? $this->input->post('page') : 1;
+        $per_page = 10;
+        $offset = ($page - 1) * $per_page;
+
+        $participantes = $this->Diplomado_model->get_participantes_pagados($id_diplomado, $per_page, $offset);
+        $total_records = $this->Diplomado_model->count_participantes_pagados($id_diplomado);
+        $total_pages = ceil($total_records / $per_page);
+
+        echo json_encode(array(
+            'participantes' => $participantes,
+            'total_pages' => $total_pages,
+            'current_page' => $page
+        ));
+    }
+
+    // Guarda el estatus de aprobación (AJAX)
+    public function save_estatus_aprobacion()
+    {
+        $data = array(
+            'id_participante' => $this->input->post('id_participante'),
+            'id_diplomado' => $this->input->post('id_diplomado'),
+            'estatus_aprobacion' => $this->input->post('estatus_aprobacion') == 'true' ? TRUE : FALSE
+        );
+
+        $this->Diplomado_model->update_estatus_aprobacion($data);
+
+        echo json_encode(array('success' => true));
     }
 }

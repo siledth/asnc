@@ -1371,9 +1371,7 @@ class Diplomado_model extends CI_model
     {
 
         $this->db->select('id_participante,cedula, nombres, apellidos, telefono, correo, edad, direccion');
-        //$this->db->join('comisiones.academico c2', 'c2.id_academico = pi2.id_academico');
-        // $this->db->join('comisiones.tp_miembro c3','c3.id_tp_miembro = pi2.id_tp_miembro');
-        // $this->db->join('comisiones.status_comision st','st.id_status = pi2.id_status');
+
 
         $this->db->where('id_participante', $id_participante);
         $this->db->from('diplomado.participantes');
@@ -1656,5 +1654,207 @@ class Diplomado_model extends CI_model
         $query = $this->db->query($sql);
 
         return $query->result_array();
+    }
+
+
+    /////////////////////////editar informacion natural
+    // Esta función es para mostrar los datos en la tabla de la vista
+    function check_miemb_inf_academica($id_participante)
+    {
+        $this->db->select('t1.id_curriculum, t1.titulo_obtenido, t2.desc_academico, t1.id_participante,t1.experiencia_contrataciones_publicas');
+        $this->db->from('diplomado.curriculum_participante t1');
+        $this->db->join('comisiones.academico t2', 't2.id_academico = t1.grado_instruccion');
+        $this->db->where('t1.id_participante', $id_participante);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    // Esta función es para traer la info académica de una persona para editarla
+    function get_academico_for_edit($id_curriculum)
+    {
+        $this->db->select('id_curriculum, grado_instruccion, titulo_obtenido');
+        $this->db->from('diplomado.curriculum_participante');
+        $this->db->where('id_curriculum', $id_curriculum);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    // Esta función obtiene la lista de grados de instrucción para el menú desplegable
+    function get_grados_instruccion()
+    {
+        $this->db->select('id_academico, desc_academico');
+        $this->db->from('comisiones.academico');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    // Esta función guarda los cambios en la base de datos
+    function update_academico($id_curriculum, $data)
+    {
+        $this->db->where('id_curriculum', $id_curriculum);
+        $this->db->update('diplomado.curriculum_participante', $data);
+        return true;
+    }
+
+    public function get_experiencia_for_edit($id_curriculum)
+    {
+        $this->db->select('id_curriculum, experiencia_contrataciones_publicas');
+        $this->db->from('diplomado.curriculum_participante');
+        $this->db->where('id_curriculum', $id_curriculum);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    // Esta función actualiza los años de experiencia en la base de datos
+    public function update_experiencia($id_curriculum, $data)
+    {
+        $this->db->where('id_curriculum', $id_curriculum);
+        $this->db->update('diplomado.curriculum_participante', $data);
+        return true;
+    }
+    // Nueva función para obtener la lista de capacitaciones del participante
+    public function get_capacitaciones_by_participante($id_participante)
+    {
+        $this->db->select('t2.*');
+        $this->db->from('diplomado.curriculum_participante t1');
+        $this->db->join('diplomado.capacitaciones_participante t2', 't2.id_curriculum = t1.id_curriculum');
+        $this->db->where('t1.id_participante', $id_participante);
+        $this->db->where('t1.tiene_capacitacion_contrataciones', 1);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    // Nueva función para obtener un registro de capacitación para editar
+    public function get_capacitacion_for_edit($id_capacitacion)
+    {
+        $this->db->select('*');
+        $this->db->from('diplomado.capacitaciones_participante');
+        $this->db->where('id_capacitacion', $id_capacitacion);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    // Nueva función para actualizar la información de una capacitación
+    public function update_capacitacion($id_capacitacion, $data)
+    {
+        $this->db->where('id_capacitacion', $id_capacitacion);
+        $this->db->update('diplomado.capacitaciones_participante', $data);
+        return true;
+    }
+    // Nueva función para obtener la lista de experiencias de los últimos 5 años del participante
+    public function get_experiencia_5_anios_by_participante($id_participante)
+    {
+        $this->db->select('t2.*');
+        $this->db->from('diplomado.curriculum_participante t1');
+        $this->db->join('diplomado.experienci_5_anio t2', 't2.id_curriculum = t1.id_curriculum');
+        $this->db->where('t1.id_participante', $id_participante);
+        $this->db->where('t1.exp_5_anio', 1); // Asumiendo que este es el campo que indica que tiene experiencia en los últimos 5 años
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    // Nueva función para obtener un registro de experiencia laboral para editar
+    public function get_experiencia_laboral_for_edit($id_experienci_5_anio)
+    {
+        $this->db->select('*');
+        $this->db->from('diplomado.experienci_5_anio');
+        $this->db->where('id_experienci_5_anio', $id_experienci_5_anio);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    // Nueva función para actualizar la información de una experiencia laboral
+    public function update_experiencia_laboral($id_experienci_5_anio, $data)
+    {
+        $this->db->where('id_experienci_5_anio', $id_experienci_5_anio);
+        $this->db->update('diplomado.experienci_5_anio', $data);
+        return true;
+    }
+
+    // Obtiene la lista de diplomados con estatus 1 (activos)
+    public function get_diplomados_activos()
+    {
+        $this->db->select('id_diplomado, name_d');
+        $this->db->where('estatus', 1);
+        $query = $this->db->get('diplomado.diplomado');
+        return $query->result_array();
+    }
+
+    // Obtiene la lista de participantes pagados de un diplomado, incluyendo estatus de aprobación
+    public function get_participantes_pagados($id_diplomado, $limit, $offset)
+    {
+        // Consulta para personas naturales pagadas
+        $this->db->select(
+            '
+            t1.id_participante,
+            t1.cedula,
+            t1.nombres,
+            t1.apellidos,
+            t1.id_tipo,
+            t3.estatus_aprobacion'
+        );
+        $this->db->from('diplomado.participantes t1');
+        $this->db->join('diplomado.inscripciones t2', 't2.id_participante = t1.id_participante');
+        $this->db->join('diplomado.aprobacion_participantes t3', 't3.id_participante = t1.id_participante AND t3.id_diplomado = t2.id_diplomado', 'left');
+        $this->db->where('t2.id_diplomado', $id_diplomado);
+        $this->db->where('t2.estatus', 4); // "Pagado - Inscrito"
+
+        $query_naturales = $this->db->get_compiled_select();
+
+        // Consulta para personas jurídicas pagadas
+        $this->db->select(
+            '
+            t1.id_participante,
+            t1.cedula,
+            t1.nombres,
+            t1.apellidos,
+            t1.id_tipo,
+            t4.estatus_aprobacion'
+        );
+        $this->db->from('diplomado.participantes t1');
+        $this->db->join('diplomado.inscripciones_participantes t2', 't2.id_participante = t1.id_participante');
+        $this->db->join('diplomado.inscripciones_grupales t3', 't3.id_inscripcion_grupal = t2.id_inscripcion_grupal');
+        $this->db->join('diplomado.aprobacion_participantes t4', 't4.id_participante = t1.id_participante AND t4.id_diplomado = t3.id_diplomado', 'left');
+        $this->db->where('t3.id_diplomado', $id_diplomado);
+        $this->db->where('t3.estatus', 4); // "Pagado - Inscrito"
+
+        $query_juridicas = $this->db->get_compiled_select();
+
+        // Unir las dos consultas y aplicar paginación
+        $query_final = $query_naturales . ' UNION ' . $query_juridicas . ' ORDER BY nombres LIMIT ' . $limit . ' OFFSET ' . $offset;
+        $query = $this->db->query($query_final);
+
+        return $query->result_array();
+    }
+
+    // Cuenta el total de participantes pagados para la paginación
+    public function count_participantes_pagados($id_diplomado)
+    {
+        $this->db->where('id_diplomado', $id_diplomado);
+        $this->db->where('estatus', 4);
+        $count_naturales = $this->db->count_all_results('diplomado.inscripciones');
+
+        $this->db->join('diplomado.inscripciones_grupales', 'inscripciones_grupales.id_inscripcion_grupal = inscripciones_participantes.id_inscripcion_grupal');
+        $this->db->where('inscripciones_grupales.id_diplomado', $id_diplomado);
+        $this->db->where('inscripciones_grupales.estatus', 4);
+        $count_juridicas = $this->db->count_all_results('diplomado.inscripciones_participantes');
+
+        return $count_naturales + $count_juridicas;
+    }
+
+
+    // Guarda o actualiza el estatus de aprobación de un participante
+    public function update_estatus_aprobacion($data)
+    {
+        // Primero, intenta actualizar el registro
+        $this->db->where('id_participante', $data['id_participante']);
+        $this->db->where('id_diplomado', $data['id_diplomado']);
+        $this->db->update('diplomado.aprobacion_participantes', $data);
+
+        // Si no se actualizó ninguna fila, inserta una nueva
+        if ($this->db->affected_rows() == 0) {
+            $this->db->insert('diplomado.aprobacion_participantes', $data);
+        }
+        return true;
     }
 }

@@ -15,15 +15,16 @@
             </h3>
         </div>
         <div class="row justify-content-Left">
-            <div class="col-md-6">
-                <div class="card card-outline-danger text-left bg-white">
-                    <div class="card-block">
-                        <blockquote class="card-blockquote" style="margin-bottom: -10px;">
-                            <p class="f-s-16 text-inverse f-w-600">Nombre Órgano / Ente:
-                                <?php echo $this->session->userdata('unidad');
-                                ?>.</p>
-                        </blockquote>
-                    </div>
+            <div class="col-md-8">
+                <div class="card-block">
+                    <blockquote class="card-blockquote" style="margin-bottom: -10px;">
+
+                        <h4 class="title1">
+                            <?php echo $this->session->userdata('unidad');
+                            ?>
+                        </h4>
+
+                    </blockquote>
                 </div>
             </div>
         </div>

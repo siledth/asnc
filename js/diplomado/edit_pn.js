@@ -1,13 +1,8 @@
 function modal(id) {
     var id_participante = id;
-        var base_url =window.location.origin+'/asnc/index.php/Diplomado/consulta_datos_pn';
-        // var base_url2 =window.location.origin+'/asnc/index.php/Comision_contrata/llenar_forma_aca_mod';
-        // var base_url3 =window.location.origin+'/asnc/index.php/Programacion/llenar_alic_iva_mod';
-
-        // var base_url = '/index.php/Programacion/consultar_item_modal_bienes';
-        //  var base_url2 = '/index.php/ccccc';
-        // var base_url3 = '/index.php/Programacion/llenar_alic_iva_mod';
-        // var base_url7 = '/index.php/Programacion/llenar_ff_';
+    var base_url = BASE_URL + 'index.php/Diplomado/consulta_datos_pn';
+        // var base_url =window.location.origin+'/asnc/index.php/Diplomado/consulta_datos_pn';
+        
     $.ajax({
         url: base_url,
         method: "post",
@@ -24,29 +19,7 @@ function modal(id) {
              $("#edad").val(data["edad"]);
              $("#direccion").val(data["direccion"]);
 
-            //  $("#desc_ccnu").val(data["desc_ccnu"]);
-            // $("#especificacion").val(data["especificacion"]);
-            // $('#id_unid_med_b').val(data['id_unidad_medida']);
-            // $('#unid_med_b').val(data['desc_unidad_medida']);
-
-            // $('#id_ff_b').val(data['id_fuente_financiamiento']);
-            // $('#ff_b').val(data['desc_fuente_financiamiento']);
-
-
-//  llena el select de unidad de medida
-            // var id_academico = data['id_academico'];
-            // $.ajax({
-            //     url:base_url2,
-            //     method: 'post',
-            //     data: {id_academico: id_academico},
-            //     dataType: 'json',
-            //     success: function(data){
-            //         $.each(data, function(index, data){
-            //             $('#camb_id_academico').append('<option value="'+data['id_academico']+'">'+data['desc_academico']+'</option>');
-            //         });
-            //     }
-            // })
- 
+     
         },
     });
 }
@@ -89,8 +62,9 @@ function save_modif_inf_acad(){
             var correo = $('#correo').val();
             var edad = $('#edad').val();
             var direccion = $('#direccion').val();
+            var base_url = BASE_URL + 'index.php/Diplomado/editar_datos_pn';
 
-        var base_url =window.location.origin+'/asnc/index.php/Diplomado/editar_datos_pn';
+        // var base_url =window.location.origin+'/asnc/index.php/Diplomado/editar_datos_pn';
 
             // var base_url = '/index.php/Programacion/editar_fila_ip_b';
 
@@ -129,121 +103,198 @@ function save_modif_inf_acad(){
 }
 // }
 
-function modal_exp(id) {
-    var id_inf_exp5 = id;
-        var base_url =window.location.origin+'/asnc/index.php/Comision_contrata/consulta_infomr_modal_exp_miembro';
-       var base_url2 =window.location.origin+'/asnc/index.php/Comision_contrata/llenar_ente';
+function modal_exp(id_curriculum) {
+    
+     var url = BASE_URL + 'index.php/Diplomado/consulta_datos_academico';
 
-        // var base_url3 =window.location.origin+'/asnc/index.php/Programacion/llenar_alic_iva_mod';
-
-        // var base_url = '/index.php/Programacion/consultar_item_modal_bienes';
-        //  var base_url2 = '/index.php/ccccc';
-        // var base_url3 = '/index.php/Programacion/llenar_alic_iva_mod';
-        // var base_url7 = '/index.php/Programacion/llenar_ff_';
     $.ajax({
-        url: base_url,
+        url: url,
         method: "post",
-        data: { id_inf_exp5: id_inf_exp5 },
+        data: { id_curriculum: id_curriculum },
         dataType: "json",
         success: function(data) {
-            $('#id_inf_exp5').val(id);
-            $("#arif").val(data["rif"]);
-            $("#descripcion").val(data["descripcion"]);
-            $("#area").val(data["areas"]);
-             $("#cargo").val(data["cargo"]);
-             $("#id_comision").val(data["id_comision"]);
-             $("#desde").val(data["desde"]);
-             $("#hasta").val(data["hasta"]);
-
-               var rif = data['rif'];
-            $.ajax({
-                url:base_url2,
-                method: 'post',
-                data: {rif: rif},
-                dataType: 'json',
-                success: function(data){
-                    $.each(data, function(index, data){
-                        $('#cam_org').append('<option value="'+data['rif']+'">'+data['descripcion']+'</option>');
-                    });
-                }
-            })
-         
- 
+            // Se llena el modal con la información obtenida
+            $("#id_curriculum_edit").val(data["id_curriculum"]);
+            $("#grado_instruccion").val(data["grado_instruccion"]);
+            $("#titulo_obtenido").val(data["titulo_obtenido"]);
         },
-    });
-}
-
-function save_modif_exp(){
-
-   // var anioi = 2024       
-        if ( area == '') {
-            swal.fire({
-                title: 'no puede dejar campos vacios , intente de nuevo',
-                type: 'warning',
-                showCancelButton: false,
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Ok'
-            }).then((result) => {
-                if (result.value == true) {
-                }
-            });
-           // return false; // no dejar guardar
-        }
-          
-        else{
-    event.preventDefault();
-
-    swal.fire({
-        title: '¿Seguro que desea guardar el registro?  ',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        cancelButtonText: 'Cancelar',
-        confirmButtonText: '¡Si, Modificar!'
-    }).then((result) => {
-        if (result.value == true) {
-            var id_inf_exp5 = $('#id_inf_exp5').val();
-            var arif = $('#arif').val();
-            var cam_org = $('#cam_org').val();
-            var areas = $('#area').val();
-            var cargo = $('#cargo').val();
-            var desde = $('#desde').val();
-            var hasta = $('#hasta').val();
-        var base_url =window.location.origin+'/asnc/index.php/Comision_contrata/editar_modal_exp_miembro';
-
-            // var base_url = '/index.php/Programacion/editar_fila_ip_b';
-
-            $.ajax({
-                url:base_url,
-                method: 'post',
-                data:{
-                    id_inf_exp5: id_inf_exp5,
-                    arif: arif,
-                    cam_org: cam_org,
-                    areas: areas,
-                    cargo:cargo,
-                    desde:desde,
-                    hasta:hasta                    
-                },
-                dataType: 'json',
-                success: function(response){
-                    if(response == 1) {
-                        swal.fire({
-                            title: 'Se Modificó la información con exito.',
-                            type: 'success',
-                            showCancelButton: false,
-                            confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'Ok'
-                        }).then((result) => {
-                            if (result.value == true) {
-                                location.reload();
-                            }
-                        });
-                    }
-                }
-            })
+        error: function(xhr, status, error) {
+            console.error("Error al cargar los datos académicos:", error);
+            // Opcional: mostrar un mensaje de error en la interfaz
         }
     });
 }
+
+function save_modif_exp() {
+     var base_url = BASE_URL + 'index.php/Diplomado/save_modif_exp';
+    var form_data = new FormData(document.getElementById("guardar_expe"));
+
+    $.ajax({
+        url: base_url,
+        method: "POST",
+        data: form_data,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        success: function(data) {
+            if (data.success) {
+                // Mensaje de éxito y recarga de la página para ver los cambios
+                alert("Información académica actualizada con éxito.");
+                window.location.reload();
+            } else {
+                alert("Hubo un error al guardar los cambios.");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error al guardar los datos:", error);
+            alert("Hubo un error en la comunicación con el servidor.");
+        }
+    });
+}
+// Nueva función para cargar los datos de experiencia en el modal
+function modal_experiencia(id_curriculum) {
+    var url = BASE_URL + 'index.php/Diplomado/consulta_datos_experiencia';
+
+    $.ajax({
+        url: url,
+        method: "post",
+        data: { id_curriculum: id_curriculum },
+        dataType: "json",
+        success: function(data) {
+            // Se llena el modal con la información obtenida
+            $("#id_curriculum_experiencia").val(data["id_curriculum"]);
+            $("#exp_5_anio").val(data["experiencia_contrataciones_publicas"]);
+            
+        },
+        error: function(xhr, status, error) {
+            console.error("Error al cargar los datos de experiencia:", error);
+        }
+    });
+}
+
+// Nueva función para guardar los cambios de experiencia
+function save_modif_experiencia() {
+    var url = BASE_URL + 'index.php/Diplomado/save_modif_experiencia';
+    var form_data = new FormData(document.getElementById("guardar-experiencia"));
+
+    $.ajax({
+        url: url,
+        method: "POST",
+        data: form_data,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        success: function(data) {
+            if (data.success) {
+                alert("Años de experiencia actualizados con éxito.");
+                window.location.reload();
+            } else {
+                alert("Hubo un error al guardar los cambios.");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error al guardar los datos:", error);
+            alert("Hubo un error en la comunicación con el servidor.");
+        }
+    });
+}
+
+// Nueva función para cargar los datos de la capacitación en el modal
+function modal_capacitacion(id_capacitacion) {
+    var url = BASE_URL + 'index.php/Diplomado/consulta_datos_capacitacion';
+
+    $.ajax({
+        url: url,
+        method: "post",
+        data: { id_capacitacion: id_capacitacion },
+        dataType: "json",
+        success: function(data) {
+            // Se llena el modal con la información obtenida
+            $("#id_capacitacion_edit").val(data["id_capacitacion"]);
+            $("#nombre_curso").val(data["nombre_curso"]);
+            $("#institucion_formadora").val(data["institucion_formadora"]);
+            $("#anio_realizacion").val(data["anio_realizacion"]);
+            $("#horas").val(data["horas"]);
+        },
+        error: function(xhr, status, error) {
+            console.error("Error al cargar los datos de capacitación:", error);
+        }
+    });
+}
+
+// Nueva función para guardar los cambios de la capacitación
+function save_modif_capacitacion() {
+    var url = BASE_URL + 'index.php/Diplomado/save_modif_capacitacion';
+    var form_data = new FormData(document.getElementById("guardar-capacitacion"));
+
+    $.ajax({
+        url: url,
+        method: "POST",
+        data: form_data,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        success: function(data) {
+            if (data.success) {
+                alert("Capacitación actualizada con éxito.");
+                window.location.reload();
+            } else {
+                alert("Hubo un error al guardar los cambios.");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error al guardar los datos:", error);
+            alert("Hubo un error en la comunicación con el servidor.");
+        }
+    });
+}
+// Nueva función para cargar los datos de la experiencia laboral en el modal
+function modal_experiencia_laboral(id_experienci_5_anio) {
+    var url = BASE_URL + 'index.php/Diplomado/consulta_datos_experiencia_laboral';
+
+    $.ajax({
+        url: url,
+        method: "post",
+        data: { id_experienci_5_anio: id_experienci_5_anio },
+        dataType: "json",
+        success: function(data) {
+            // Se llena el modal con la información obtenida
+            $("#id_experiencia_laboral_edit").val(data["id_experienci_5_anio"]);
+            $("#nombreinstitucion").val(data["nombreinstitucion"]);
+            $("#cargo").val(data["cargo"]);
+            $("#tiempo").val(data["tiempo"]);
+            $("#desde").val(data["desde"]);
+            $("#hasta").val(data["hasta"]);
+        },
+        error: function(xhr, status, error) {
+            console.error("Error al cargar los datos de experiencia laboral:", error);
+        }
+    });
+}
+
+// Nueva función para guardar los cambios de la experiencia laboral
+function save_modif_experiencia_laboral() {
+    var url = BASE_URL + 'index.php/Diplomado/save_modif_experiencia_laboral';
+    var form_data = new FormData(document.getElementById("guardar-experiencia-laboral"));
+
+    $.ajax({
+        url: url,
+        method: "POST",
+        data: form_data,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        success: function(data) {
+            if (data.success) {
+                alert("Experiencia laboral actualizada con éxito.");
+                window.location.reload();
+            } else {
+                alert("Hubo un error al guardar los cambios.");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error al guardar los datos:", error);
+            alert("Hubo un error en la comunicación con el servidor.");
+        }
+    });
 }
