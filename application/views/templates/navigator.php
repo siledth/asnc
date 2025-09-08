@@ -834,8 +834,8 @@
                                     Reporte Reporte General Consolidado
                                 </a></li>
                             <!-- <li><a href="<?= base_url() ?>index.php/ReporteRNCE/reporteG">- Reporte RNCE</a></li> -->
-                            <li><a href="<?= base_url() ?>index.php/ReporteOrganos/reporte_organoente">- Reportes
-                                </a></li>
+                            <!-- <li><a href="<?= base_url() ?>index.php/ReporteOrganos/reporte_organoente">- Reportes
+                                </a></li> -->
                             <li><a href="<?= base_url() ?>index.php/ReporteOrganosMensual/reporte_organoentemensual">-
                                     Reportes organos_entes mes
                                 </a></li>
