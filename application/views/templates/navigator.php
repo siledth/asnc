@@ -830,8 +830,10 @@
                             <span>RNCE</span>
                         </a>
                         <ul class="sub-menu">
-
-                            <li><a href="<?= base_url() ?>index.php/ReporteRNCE/reporteG">- Reporte RNCE</a></li>
+                            <li><a href="<?= base_url() ?>index.php/ReporteGeneral/ReporteGeneral1">-
+                                    Reporte Reporte General Consolidado
+                                </a></li>
+                            <!-- <li><a href="<?= base_url() ?>index.php/ReporteRNCE/reporteG">- Reporte RNCE</a></li> -->
                             <li><a href="<?= base_url() ?>index.php/ReporteOrganos/reporte_organoente">- Reportes
                                 </a></li>
                             <li><a href="<?= base_url() ?>index.php/ReporteOrganosMensual/reporte_organoentemensual">-
@@ -853,9 +855,7 @@
                                     Reportes evaluaciones de desempeño
                                 </a></li>
 
-                            <li><a href="<?= base_url() ?>index.php/ReporteGeneral/ReporteGeneral1">-
-                                    Reportes todos
-                                </a></li>
+
                             <li><a href="<?= base_url() ?>index.php/ReporteTop10/reporte_top10">-
                                     Reportes top 10
                                 </a></li>
