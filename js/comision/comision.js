@@ -5,8 +5,8 @@ function modal_ce(id_comision) {
    var base_url = '/index.php/Comision_contrata/consultar_t';
       // var base_url2 = '/index.php/certificacion/llenar_contratista_rp';
 
-    //  var base_url =
-    //      window.location.origin + "/asnc/index.php/Certificacion/consultar_certificacion";
+     var base_url =
+        //  window.location.origin + "/asnc/index.php/Comision_contrata/consultar_t";
 
    
 
@@ -721,7 +721,7 @@ function valideKey(evt){
                 }
             });
         }
-        function guardar_proc_pago() {
+        function guardar_notificacion() {
             event.preventDefault();
             swal
                 .fire({
@@ -746,11 +746,11 @@ function valideKey(evt){
                 event.preventDefault();
                 var datos = new FormData($("#guardar_proc_pag")[0]);
                 var base_url = '/index.php/Comision_contrata/guardar_proc_pag';
-                var base_url_3 = '/index.php/Certificacion/verpdf?id=';
+                // var base_url_3 = '/index.php/Certificacion/verpdf?id=';
         
               
                 //  var base_url =   window.location.origin +  "/asnc/index.php/Comision_contrata/guardar_proc_pag";
-                //  var base_url_2 = window.location.origin + "/asnc/index.php/Certificacion/Listado_certificacion";
+                // // var base_url_2 = window.location.origin + "/asnc/index.php/Certificacion/Listado_certificacion";
                 //      var base_url_3 = window.location.origin + "/asnc/index.php/Certificacion/verpdf?id=";
                 $.ajax({
                     url: base_url,
@@ -758,38 +758,25 @@ function valideKey(evt){
                     data: datos,
                     contentType: false,
                     processData: false,
-                    success: function(response) {
-                       var menj = ' ';
-                       /* if (response == "true") {
-                            swal
-                                .fire({
-                                    title: "Registro Exitoso",
-                                    type: "success",
-                                    showCancelButton: false,
-                                    confirmButtonColor: "#3085d6",
-                                    confirmButtonText: "Ok",
-                                })
-                                .then((result) => {
-                                    if (result.value == true) {
-                                        window.location.href = base_url_2;
-                                    }
-                                });
-                        }*/
-                        if(response != '') {
-                            swal.fire({
-                                title: 'Registro Exitoso ',
-                                text: menj + response,
-                                type: 'success',
-                                showCancelButton: false,
-                                confirmButtonColor: '#3085d6',
-                                confirmButtonText: 'Ok'
-                            }).then((result) => {
-                                if (result.value == true){
-                                    location.reload();
-                                }
-                            });
-                        }
-                    },
+                  success: function(response) {
+    var res = JSON.parse(response);
+    if(res.status === 'success') {
+        swal.fire({
+            title: res.msg,
+            type: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then(() => location.reload());
+    } else {
+        swal.fire({
+            title: 'Error',
+            text: res.msg,
+            type: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        });
+    }
+},
                 });
             }
                  

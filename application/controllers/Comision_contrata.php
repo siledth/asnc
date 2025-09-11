@@ -235,17 +235,6 @@ class Comision_contrata extends CI_Controller
         $rif = $this->session->userdata('rif_organoente');
         $id_comision = $data['id'];
 
-
-        // $data2 = $this->Programacion_model->consulta_total_objeto_acc($id_programacion);
-
-        // $data3 = $this->Programacion_model->consulta_total_acc($id_programacion);
-
-        // $data4 = $this->Programacion_model->consulta_total_objeto_py2($id_programacion);
-        //print_r($data4);die;
-
-        // $data5 = $this->Programacion_model->consulta_total_PYT($id_programacion); 
-
-        // $data = $this->Programacion_model->enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $data3, $data4, $data5);
         $data = $this->Comision_contrata_model->enviar_snc1($data, $des_unidad, $codigo_onapre, $rif);
 
         print_r($data);
@@ -980,14 +969,21 @@ class Comision_contrata extends CI_Controller
         $data =    $this->Comision_contrata_model->consultar_t($data);
         echo json_encode($data);
     }
+    // public function guardar_proc_pag()
+    // { //se guardA EL NUEVO ESTATUS DEL CERTIFICADO
+    //     if (!$this->session->userdata('session')) redirect('login');
+    //     $data['time'] = date("d-m-Y");
+    //     $data['users'] = $this->session->userdata('id_user');
+    //     $data = $this->input->post();
+    //     $data =    $this->Comision_contrata_model->guardar_proc_pag($data);
+    //     echo json_encode($data);
+    // }
     public function guardar_proc_pag()
-    { //se guardA EL NUEVO ESTATUS DEL CERTIFICADO
+    {
         if (!$this->session->userdata('session')) redirect('login');
-        $data['time'] = date("d-m-Y");
-        $data['users'] = $this->session->userdata('id_user');
         $data = $this->input->post();
-        $data =    $this->Comision_contrata_model->guardar_proc_pag($data);
-        echo json_encode($data);
+        $response = $this->Comision_contrata_model->guardar_proc_pag($data);
+        echo json_encode($response);
     }
     public function read_send2() //hacer un pdf de comprobante programacion final para ver por el snc
     { //programacion

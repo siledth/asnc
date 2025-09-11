@@ -540,6 +540,8 @@ class Comision_contrata_model extends CI_model
             return true;
         }
     }
+
+
     function consulta_total_objeto_acc($data1)
     { //da totales agrupados por bienes, servicio, obras
 
@@ -1144,9 +1146,145 @@ class Comision_contrata_model extends CI_model
         $resultado = $query->row_array();
         return $resultado;
     }
+    // public function guardar_proc_pag($data)
+    // {
+    //     // se guardan los fecha de vigencia 
+    //     $qrcode_data = $this->_generate_data_qrcode2();
+    //     $this->db->select('max(e.n) as id1');
+    //     $query1 = $this->db->get('comisiones.certificado e');
+    //     $response4 = $query1->row_array();
+    //     $id1 = $response4['id1'] + 1;
+
+    //     $this->db->select('rif_organoente as rif_cont');
+    //     $this->db->where('id_comision', $data['id_mesualidad_ver']);
+    //     $query2 = $this->db->get('comisiones.comision');
+    //     $response5 = $query2->row_array();
+    //     $rif_cont = $response5['rif_cont'];
+
+
+
+    //     $p = 'Nº SNC-CMC-2025-000';
+    //     $r = $id1;
+    //     $concatenated_variable = (string) $p . '' . (string) $r;
+
+    //     $data1 = array(
+    //         //'status' => $data['status'],
+    //         // 'vigen_cert_desde' => $data['vigen_cert_desde'],
+
+    //         // 'vigen_cert_hasta' => $data['vigen_cert_hasta'],
+    //         'id_comision' => $data['id_mesualidad_ver'],
+    //         'fecha_creacion' => date('Y-m-d'),
+    //         'fecha_notifiacion' => date('Y-m-d'),
+
+
+    //         'n' => $id1,
+    //         'comprobante' => $concatenated_variable,
+    //         'qrcode_path'   => $this->_generate_qrcode2($rif_cont, $qrcode_data), //memanggil method _generate_qrcode dengan mengirimkan dua parameter yaitu data fullname dan data qrcode
+    //         'qrcode_data'   => $qrcode_data
+
+    //     );
+
+
+
+    //     $this->db->insert('comisiones.certificado', $data1);
+    //     //return true;
+
+    //     $this->db->select('id_cert');
+    //     $this->db->where('id_comision', $data['id_mesualidad_ver']);
+    //     $this->db->where('id_status', 1);
+    //     $query3 = $this->db->get('comisiones.miembros');
+    //     // $response3 = $query3->result_array();
+
+    //     if ($query3->num_rows() > 0) {
+    //         $data5 = array(
+    //             //'status' => $data['status'],
+    //             'vigentedesde' => $data['vigen_cert_desde2'],
+
+    //             'vigentehasta' => $data['vigen_cert_hasta2'],
+    //             'snc' => 2, //notificado
+
+
+    //         );
+
+    //         $this->db->where('id_comision', $data['id_mesualidad_ver']);
+    //         $this->db->where('id_cert', 3);
+    //         $update = $this->db->update('comisiones.miembros', $data5);
+    //         $data6 = array(
+    //             //'status' => $data['status'],
+    //             'vigentedesde' => $data['vigen_cert_desde'],
+
+    //             'vigentehasta' => $data['vigen_cert_hasta'],
+    //             'snc' => 2, //notificado
+
+
+    //         );
+
+    //         $this->db->where('id_comision', $data['id_mesualidad_ver']);
+    //         $this->db->where('id_cert', 2);
+
+    //         $update = $this->db->update('comisiones.miembros', $data6);
+    //         return true;
+    //     } else {
+    //         return 0;
+    //     }
+    //     // foreach ($response3 as $row) {
+    //     //     $idc = $row['id_cert'];
+    //     //     if ($idc == 2) {
+    //     //         $data5 = array(
+    //     //             //'status' => $data['status'],
+    //     //              'vigentedesde' => $data['vigen_cert_desde'],
+
+    //     //              'vigentehasta' => $data['vigen_cert_hasta'],
+
+    //     //         );
+
+
+    //     //         $this->db->where('id_comision', $data['id_mesualidad_ver']);
+    //     //         $this->db->where('id_cert', 2);
+
+    //     //         $update = $this->db->update('comisiones.miembros', $data5);
+    //     //             return true;
+    //     //     }else {
+
+    //     //         $data6 = array(
+    //     //             //'status' => $data['status'],
+    //     //              'vigentedesde' => $data['vigen_cert_desde2'],
+
+    //     //              'vigentehasta' => $data['vigen_cert_hasta2'],
+
+    //     //         );
+
+
+    //     //         $this->db->where('id_comision', $data['id_mesualidad_ver']);
+    //     //         $this->db->where('id_cert', 3);
+
+    //     //         $update = $this->db->update('comisiones.miembros', $data6);
+    //     //             return true;
+
+    //     //     }
+    //     // }
+
+
+
+
+    // }
     public function guardar_proc_pag($data)
     {
-        // se guardan los fecha de vigencia 
+        // Verificar si ya existe un certificado notificado para la comisión
+        $this->db->select('id_comision');
+        $this->db->where('id_comision', $data['id_mesualidad_ver']);
+        $this->db->from('comisiones.certificado');
+        $existe = $this->db->get()->row_array();
+
+        if ($existe) {
+            // Ya existe un certificado → no crear otro
+            return array(
+                'status' => 'error',
+                'msg'    => 'Esta comisión ya fue notificada previamente.'
+            );
+        }
+
+        // Si no existe, se procede a generar el nuevo certificado
         $qrcode_data = $this->_generate_data_qrcode2();
         $this->db->select('max(e.n) as id1');
         $query1 = $this->db->get('comisiones.certificado e');
@@ -1159,114 +1297,58 @@ class Comision_contrata_model extends CI_model
         $response5 = $query2->row_array();
         $rif_cont = $response5['rif_cont'];
 
-
-
         $p = 'Nº SNC-CMC-2025-000';
         $r = $id1;
         $concatenated_variable = (string) $p . '' . (string) $r;
 
         $data1 = array(
-            //'status' => $data['status'],
-            // 'vigen_cert_desde' => $data['vigen_cert_desde'],
-
-            // 'vigen_cert_hasta' => $data['vigen_cert_hasta'],
-            'id_comision' => $data['id_mesualidad_ver'],
-            'fecha_creacion' => date('Y-m-d'),
+            'id_comision'     => $data['id_mesualidad_ver'],
+            'fecha_creacion'  => date('Y-m-d'),
             'fecha_notifiacion' => date('Y-m-d'),
-
-
-            'n' => $id1,
-            'comprobante' => $concatenated_variable,
-            'qrcode_path'   => $this->_generate_qrcode2($rif_cont, $qrcode_data), //memanggil method _generate_qrcode dengan mengirimkan dua parameter yaitu data fullname dan data qrcode
-            'qrcode_data'   => $qrcode_data
-
+            'n'               => $id1,
+            'comprobante'     => $concatenated_variable,
+            'qrcode_path'     => $this->_generate_qrcode2($rif_cont, $qrcode_data),
+            'qrcode_data'     => $qrcode_data
         );
 
-
-
         $this->db->insert('comisiones.certificado', $data1);
-        //return true;
 
+        // Actualización de miembros
         $this->db->select('id_cert');
         $this->db->where('id_comision', $data['id_mesualidad_ver']);
         $this->db->where('id_status', 1);
         $query3 = $this->db->get('comisiones.miembros');
-        // $response3 = $query3->result_array();
 
         if ($query3->num_rows() > 0) {
             $data5 = array(
-                //'status' => $data['status'],
                 'vigentedesde' => $data['vigen_cert_desde2'],
-
                 'vigentehasta' => $data['vigen_cert_hasta2'],
-                'snc' => 2, //notificado
-
-
+                'snc'          => 2 // notificado
             );
-
             $this->db->where('id_comision', $data['id_mesualidad_ver']);
             $this->db->where('id_cert', 3);
-            $update = $this->db->update('comisiones.miembros', $data5);
+            $this->db->update('comisiones.miembros', $data5);
+
             $data6 = array(
-                //'status' => $data['status'],
                 'vigentedesde' => $data['vigen_cert_desde'],
-
                 'vigentehasta' => $data['vigen_cert_hasta'],
-                'snc' => 2, //notificado
-
-
+                'snc'          => 2 // notificado
             );
-
             $this->db->where('id_comision', $data['id_mesualidad_ver']);
             $this->db->where('id_cert', 2);
+            $this->db->update('comisiones.miembros', $data6);
 
-            $update = $this->db->update('comisiones.miembros', $data6);
-            return true;
+            return array(
+                'status' => 'success',
+                'msg'    => 'Registro Exitoso'
+            );
         } else {
-            return 0;
+            return array(
+                'status' => 'error',
+                'msg'    => 'No hay miembros asociados a esta comisión.'
+            );
         }
-        // foreach ($response3 as $row) {
-        //     $idc = $row['id_cert'];
-        //     if ($idc == 2) {
-        //         $data5 = array(
-        //             //'status' => $data['status'],
-        //              'vigentedesde' => $data['vigen_cert_desde'],
-
-        //              'vigentehasta' => $data['vigen_cert_hasta'],
-
-        //         );
-
-
-        //         $this->db->where('id_comision', $data['id_mesualidad_ver']);
-        //         $this->db->where('id_cert', 2);
-
-        //         $update = $this->db->update('comisiones.miembros', $data5);
-        //             return true;
-        //     }else {
-
-        //         $data6 = array(
-        //             //'status' => $data['status'],
-        //              'vigentedesde' => $data['vigen_cert_desde2'],
-
-        //              'vigentehasta' => $data['vigen_cert_hasta2'],
-
-        //         );
-
-
-        //         $this->db->where('id_comision', $data['id_mesualidad_ver']);
-        //         $this->db->where('id_cert', 3);
-
-        //         $update = $this->db->update('comisiones.miembros', $data6);
-        //             return true;
-
-        //     }
-        // }
-
-
-
-
     }
-
     function comprobante2($data1)
     {
         //$id=$data['numero_proceso'];
