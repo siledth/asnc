@@ -159,7 +159,7 @@ $(document).ready(function() {
                     );
                     $("#btn_guar_2").prop('disabled', false);
 
-                } else if (data === "existe") {
+                } else if (data === "1") {
                     $('#result-anio').html(
                         '<div class="alert alert-danger"><strong>Error!</strong> Ese período ya está registrado para este Organo/Ente.</div>'
                     );
