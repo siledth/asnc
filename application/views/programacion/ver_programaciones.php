@@ -165,7 +165,7 @@ $(document).ready(function() {
                     );
                     $("#btn_guar_2").prop('disabled', true);
 
-                } else if (data === "fuera_rango") {
+                } else if (data === "0") {
                     var anio_actual = new Date().getFullYear();
                     var anio_siguiente = anio_actual + 1;
 

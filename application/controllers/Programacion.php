@@ -54,14 +54,14 @@ class Programacion extends CI_Controller
 
         // Validar rango
         if ($anio != $anio_actual && $anio != $anio_siguiente) {
-            echo "fuera_rango";
+            echo "0";
             return;
         }
 
         // Validar si ya existe
         $existe = $this->Programacion_model->valida_anios($anio, $des_unidad);
         if ($existe) {
-            echo "existe";
+            echo "1";
             return;
         }
 
