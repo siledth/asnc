@@ -3,7 +3,7 @@ function enviar(id_programacion) {
     swal
         .fire({
             title: "¿Seguro que desea remitir al SNC la Programación seleccionada?.",
-            text: "Enviar solo cuando se haya terminado de cargar la programacion. Una vez enviada debereas realizar una modificación segun ley.",
+            text: "Enviar solo cuando se haya terminado de cargar la programacion.",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
