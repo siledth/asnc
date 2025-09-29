@@ -158,13 +158,13 @@
                     if (data.trim() ===
                         "ok") { // <-- usa .trim() para evitar espacios/saltos de línea
                         $('#result-anio').html(
-                            '<div class="alert alert-success"><strong>Bien!</strong> Período disponible.</div>'
+                            '<div class="alert alert-success"><strong>Bien!</strong>  desea guardar este año de programación.</div>'
                         );
                         $("#btn_guar_2").prop('disabled', false);
 
                     } else if (data.trim() === "1") {
                         $('#result-anio').html(
-                            '<div class="alert alert-danger"><strong>Atención!</strong> Ese período ya está registrado para este Organo/Ente.</div>'
+                            '<div class="alert alert-danger"><strong>Atención!</strong> Ese período ya se encuentra registrado.</div>'
                         );
                         $("#btn_guar_2").prop('disabled', true);
 
