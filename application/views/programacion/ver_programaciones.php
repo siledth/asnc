@@ -152,20 +152,23 @@
                     anio: anio
                 },
                 success: function(data) {
-                    // data puede ser "ok", "existe", "fuera_rango"
-                    if (data === "ok") {
+                    // data puede ser "ok", "1", "0"
+                    console.log("Respuesta del servidor:", data); // <-- AGREGA ESTO
+
+                    if (data.trim() ===
+                        "ok") { // <-- usa .trim() para evitar espacios/saltos de línea
                         $('#result-anio').html(
                             '<div class="alert alert-success"><strong>Bien!</strong> Período disponible.</div>'
                         );
                         $("#btn_guar_2").prop('disabled', false);
 
-                    } else if (data === "1") {
+                    } else if (data.trim() === "1") {
                         $('#result-anio').html(
                             '<div class="alert alert-danger"><strong>Atención!</strong> Ese período ya está registrado para este Organo/Ente.</div>'
                         );
                         $("#btn_guar_2").prop('disabled', true);
 
-                    } else if (data === "0") {
+                    } else if (data.trim() === "0") {
                         var anio_actual = new Date().getFullYear();
                         var anio_siguiente = anio_actual + 1;
 
@@ -174,6 +177,7 @@
                             anio_actual + ' y ' + anio_siguiente + '.</div>'
                         );
                         $("#btn_guar_2").prop('disabled', true);
+
                     } else {
                         $('#result-anio').html(
                             '<div class="alert alert-danger"><strong>Error!</strong> No se puede registrar el año</div>'
@@ -181,6 +185,7 @@
                         $("#btn_guar_2").prop('disabled', true);
                     }
                 },
+
                 error: function() {
                     $('#result-anio').html(
                         '<div class="alert alert-danger"><strong>Error!</strong> No se pudo validar el año. Intente de nuevo.</div>'
