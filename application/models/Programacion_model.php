@@ -3018,6 +3018,164 @@ class Programacion_model extends CI_model
     //     return true;
     // }
     /////////////cambia el status de la programacion enviar al snc
+    // public function enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $data3, $data4, $data5)
+    // {
+    //     $this->db->select('anio');
+    //     $this->db->where('id_programacion', $data['id']);
+    //     $query1 = $this->db->get('programacion.programacion');
+    //     $response4 = $query1->row_array();
+    //     $id1 = $response4['anio'] + 0;
+    //     //ACC 1
+    //     $id_obj_comr_obra_a = 0;
+    //     $precio_total_obra_a = 0;
+    //     $porcentaje_obra_a = 0;
+    //     $id_obj_comr_bien_a = 0;
+    //     $precio_total_bien_a = 0;
+    //     $porcentaje_bien_a = 0;
+    //     $id_obj_comr_serv_a = 0;
+    //     $precio_total_serv_a = 0;
+    //     $porcentaje_serv_a = 0;
+
+    //     if ($data2 != '') {
+    //         foreach ($data2 as $d2) {
+    //             if ($d2->id_obj_comercial != '' && $d2->id_obj_comercial == '3') {
+    //                 $id_obj_comr_obra_a = $d2->id_obj_comercial;
+    //                 $precio_total_obra_a = number_format($d2->precio_total, 2, ",", ".");
+
+    //                 foreach ($data3 as $d3) {
+    //                     $porcentaje_obra_a = $d2->precio_total / $d3->precio_total * 100;
+    //                 }
+    //             } else if ($d2->id_obj_comercial != '' && $d2->id_obj_comercial == 1) {
+    //                 $id_obj_comr_bien_a = $d2->id_obj_comercial;
+    //                 $precio_total_bien_a = number_format($d2->precio_total, 2, ",", ".");
+
+    //                 foreach ($data3 as $d3) {
+    //                     $porcentaje_bien_a = $d2->precio_total / $d3->precio_total * 100;
+    //                 }
+    //             } else if ($d2->id_obj_comercial != '' && $d2->id_obj_comercial == 2) {
+    //                 $id_obj_comr_serv_a = $d2->id_obj_comercial;
+    //                 $precio_total_serv_a = number_format($d2->precio_total, 2, ",", ".");
+
+    //                 foreach ($data3 as $d3) {
+    //                     $porcentaje_serv_a = $d2->precio_total / $d3->precio_total * 100;
+    //                 }
+    //             }
+    //         }
+
+    //         foreach ($data3 as $total_ass) {
+    //             $total_acc = $total_ass->precio_total;
+    //         }
+    //     } else {
+    //         $id_obj_comr_obra_a = 0;
+    //         $precio_total_obra_a = 0;
+    //         $porcentaje_obra_a = 0;
+    //         $id_obj_comr_bien_a = 0;
+    //         $precio_total_bien_a = 0;
+    //         $porcentaje_bien_a = 0;
+    //         $id_obj_comr_serv_ac = 0;
+    //         $precio_total_serv_a = 0;
+    //         $porcentaje_serv_a = 0;
+    //         $total_acc = 0;
+    //     }
+
+    //     //PROYECTO 0
+
+    //     $id_obj_comr_obra_p = 0;
+    //     $precio_total_obra_p = 0;
+    //     $porcentaje_obra_p = 0;
+    //     $id_obj_comr_bien_p = 0;
+    //     $precio_total_bien_p = 0;
+    //     $porcentaje_bien_p = 0;
+    //     $id_obj_comr_serv_p = 0;
+    //     $precio_total_serv_p = 0;
+    //     $porcentaje_serv_p = 0;
+
+    //     if ($data4 != '') {
+    //         foreach ($data4 as $d) {
+    //             if ($d->id_obj_comercial != '' && $d->id_obj_comercial == 3) {
+    //                 $id_obj_comr_obra_p = $d->id_obj_comercial;
+    //                 $precio_total_obra_p = number_format($d->precio_total, 2, ",", ".");
+
+    //                 foreach ($data5 as $d3) {
+    //                     $porcentaje_obra_p = $d->precio_total / $d3->precio_total_py * 100;
+    //                 }
+    //             } else if ($d->id_obj_comercial != '' && $d->id_obj_comercial == 1) {
+    //                 $id_obj_comr_bien_p = $d->id_obj_comercial;
+    //                 $precio_total_bien_p = number_format($d->precio_total, 2, ",", ".");
+
+    //                 foreach ($data5 as $d3) {
+    //                     $porcentaje_bien_p = $d->precio_total / $d3->precio_total_py * 100;
+    //                 }
+    //             } else if ($d->id_obj_comercial != '' && $d->id_obj_comercial == 2) {
+    //                 $id_obj_comr_serv_p = $d->id_obj_comercial;
+    //                 $precio_total_serv_p = number_format($d->precio_total, 2, ",", ".");
+
+    //                 foreach ($data5 as $d3) {
+    //                     $porcentaje_serv_p = $d->precio_total / $d3->precio_total_py * 100;
+    //                 }
+    //             }
+    //         }
+
+    //         foreach ($data5 as $total_ass) {
+    //             $total_proy = $total_ass->precio_total_py;
+    //         }
+    //     } else {
+    //         $id_obj_comr_obra_p = 0;
+    //         $precio_total_obra_p = 0;
+    //         $porcentaje_obra_p = 0;
+    //         $id_obj_comr_bien_p = 0;
+    //         $precio_total_bien_p = 0;
+    //         $porcentaje_bien_p = 0;
+    //         $id_obj_comr_serv_p = 0;
+    //         $precio_total_serv_p = 0;
+    //         $porcentaje_serv_p = 0;
+    //         $total_proy = 0;
+    //     }
+
+    //     $resulta = array(
+    //         'id_programacion'      => $data['id'],
+    //         'des_unidad'            => $des_unidad,
+    //         'codigo_onapre'         => $codigo_onapre,
+
+    //         'rif'                   => $rif,
+    //         'id_p_acc_proy'         => 0,
+    //         'id_obj_comr_obra'      => $id_obj_comr_obra_p,
+    //         'precio_total_obra'     => $precio_total_obra_p,
+    //         'porcentaje_obra'       => $porcentaje_obra_p,
+    //         'id_obj_comr_bien'      => $id_obj_comr_bien_p,
+    //         'precio_total_bien'     => $precio_total_bien_p,
+    //         'porcentaje_bien'       => $porcentaje_bien_p,
+    //         'id_obj_comr_serv'      => $id_obj_comr_serv_p,
+    //         'precio_total_serv'     => $precio_total_serv_p,
+    //         'porcentaje_serv'       => $porcentaje_serv_p,
+    //         'total_proy'            => $total_proy,
+    //         'id_p_acc'              => 1,
+    //         'id_obj_comr_obra_a'    => $id_obj_comr_obra_a,
+    //         'precio_total_obra_a'   => $precio_total_obra_a,
+    //         'porcentaje_obra_a'     => $porcentaje_obra_a,
+    //         'id_obj_comr_bien_a'    => $id_obj_comr_bien_a,
+    //         'precio_total_bien_a'   => $precio_total_bien_a,
+    //         'porcentaje_bien_a'     => $porcentaje_bien_a,
+    //         'id_obj_comr_serv_a'    => $id_obj_comr_serv_a,
+    //         'precio_total_serv_a'   => $precio_total_serv_a,
+    //         'porcentaje_serv_a'     => $porcentaje_serv_a,
+    //         'total_acc'             => $total_acc,
+    //         'id_usuario'            => $this->session->userdata('id_user'),
+    //         'anio'            => $id1,
+
+    //     );
+    //     //   print_r($resulta);die;
+    //     $this->db->insert('programacion.inf_enviada', $resulta);
+
+    //     $data1 = array(
+    //         'estatus' => '2', // se puede reprogramar y rendir 
+    //         'id_usuario' => $this->session->userdata('id_user'),
+    //         'date_sending' => date('Y-m-d h:i:s')
+    //     );
+    //     $this->db->where('id_programacion', $data['id']);
+    //     $update = $this->db->update('programacion.programacion', $data1);
+    //     return true;
+    // }
     public function enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $data3, $data4, $data5)
     {
         $this->db->select('anio');
@@ -3025,7 +3183,8 @@ class Programacion_model extends CI_model
         $query1 = $this->db->get('programacion.programacion');
         $response4 = $query1->row_array();
         $id1 = $response4['anio'] + 0;
-        //ACC 1
+
+        // Valores iniciales ACC
         $id_obj_comr_obra_a = 0;
         $precio_total_obra_a = 0;
         $porcentaje_obra_a = 0;
@@ -3035,51 +3194,36 @@ class Programacion_model extends CI_model
         $id_obj_comr_serv_a = 0;
         $precio_total_serv_a = 0;
         $porcentaje_serv_a = 0;
+        $total_acc = 0;
 
         if ($data2 != '') {
             foreach ($data2 as $d2) {
                 if ($d2->id_obj_comercial != '' && $d2->id_obj_comercial == '3') {
                     $id_obj_comr_obra_a = $d2->id_obj_comercial;
                     $precio_total_obra_a = number_format($d2->precio_total, 2, ",", ".");
-
                     foreach ($data3 as $d3) {
                         $porcentaje_obra_a = $d2->precio_total / $d3->precio_total * 100;
                     }
                 } else if ($d2->id_obj_comercial != '' && $d2->id_obj_comercial == 1) {
                     $id_obj_comr_bien_a = $d2->id_obj_comercial;
                     $precio_total_bien_a = number_format($d2->precio_total, 2, ",", ".");
-
                     foreach ($data3 as $d3) {
                         $porcentaje_bien_a = $d2->precio_total / $d3->precio_total * 100;
                     }
                 } else if ($d2->id_obj_comercial != '' && $d2->id_obj_comercial == 2) {
                     $id_obj_comr_serv_a = $d2->id_obj_comercial;
                     $precio_total_serv_a = number_format($d2->precio_total, 2, ",", ".");
-
                     foreach ($data3 as $d3) {
                         $porcentaje_serv_a = $d2->precio_total / $d3->precio_total * 100;
                     }
                 }
             }
-
             foreach ($data3 as $total_ass) {
                 $total_acc = $total_ass->precio_total;
             }
-        } else {
-            $id_obj_comr_obra_a = 0;
-            $precio_total_obra_a = 0;
-            $porcentaje_obra_a = 0;
-            $id_obj_comr_bien_a = 0;
-            $precio_total_bien_a = 0;
-            $porcentaje_bien_a = 0;
-            $id_obj_comr_serv_ac = 0;
-            $precio_total_serv_a = 0;
-            $porcentaje_serv_a = 0;
-            $total_acc = 0;
         }
 
-        //PROYECTO 0
-
+        // Valores iniciales PROY
         $id_obj_comr_obra_p = 0;
         $precio_total_obra_p = 0;
         $porcentaje_obra_p = 0;
@@ -3089,93 +3233,86 @@ class Programacion_model extends CI_model
         $id_obj_comr_serv_p = 0;
         $precio_total_serv_p = 0;
         $porcentaje_serv_p = 0;
+        $total_proy = 0;
 
         if ($data4 != '') {
             foreach ($data4 as $d) {
                 if ($d->id_obj_comercial != '' && $d->id_obj_comercial == 3) {
                     $id_obj_comr_obra_p = $d->id_obj_comercial;
                     $precio_total_obra_p = number_format($d->precio_total, 2, ",", ".");
-
                     foreach ($data5 as $d3) {
                         $porcentaje_obra_p = $d->precio_total / $d3->precio_total_py * 100;
                     }
                 } else if ($d->id_obj_comercial != '' && $d->id_obj_comercial == 1) {
                     $id_obj_comr_bien_p = $d->id_obj_comercial;
                     $precio_total_bien_p = number_format($d->precio_total, 2, ",", ".");
-
                     foreach ($data5 as $d3) {
                         $porcentaje_bien_p = $d->precio_total / $d3->precio_total_py * 100;
                     }
                 } else if ($d->id_obj_comercial != '' && $d->id_obj_comercial == 2) {
                     $id_obj_comr_serv_p = $d->id_obj_comercial;
                     $precio_total_serv_p = number_format($d->precio_total, 2, ",", ".");
-
                     foreach ($data5 as $d3) {
                         $porcentaje_serv_p = $d->precio_total / $d3->precio_total_py * 100;
                     }
                 }
             }
-
             foreach ($data5 as $total_ass) {
                 $total_proy = $total_ass->precio_total_py;
             }
-        } else {
-            $id_obj_comr_obra_p = 0;
-            $precio_total_obra_p = 0;
-            $porcentaje_obra_p = 0;
-            $id_obj_comr_bien_p = 0;
-            $precio_total_bien_p = 0;
-            $porcentaje_bien_p = 0;
-            $id_obj_comr_serv_p = 0;
-            $precio_total_serv_p = 0;
-            $porcentaje_serv_p = 0;
-            $total_proy = 0;
         }
 
+        // 🚨 Validación: si no tiene cargas (ACC ni PROY) no se puede enviar
+        if ($total_acc == 0 && $total_proy == 0) {
+            return "no_data"; // devolvemos mensaje de error
+        }
+
+        // Datos a insertar en tabla de histórico inf_enviada
         $resulta = array(
             'id_programacion'      => $data['id'],
-            'des_unidad'            => $des_unidad,
-            'codigo_onapre'         => $codigo_onapre,
-
-            'rif'                   => $rif,
-            'id_p_acc_proy'         => 0,
-            'id_obj_comr_obra'      => $id_obj_comr_obra_p,
-            'precio_total_obra'     => $precio_total_obra_p,
-            'porcentaje_obra'       => $porcentaje_obra_p,
-            'id_obj_comr_bien'      => $id_obj_comr_bien_p,
-            'precio_total_bien'     => $precio_total_bien_p,
-            'porcentaje_bien'       => $porcentaje_bien_p,
-            'id_obj_comr_serv'      => $id_obj_comr_serv_p,
-            'precio_total_serv'     => $precio_total_serv_p,
-            'porcentaje_serv'       => $porcentaje_serv_p,
-            'total_proy'            => $total_proy,
-            'id_p_acc'              => 1,
-            'id_obj_comr_obra_a'    => $id_obj_comr_obra_a,
-            'precio_total_obra_a'   => $precio_total_obra_a,
-            'porcentaje_obra_a'     => $porcentaje_obra_a,
-            'id_obj_comr_bien_a'    => $id_obj_comr_bien_a,
-            'precio_total_bien_a'   => $precio_total_bien_a,
-            'porcentaje_bien_a'     => $porcentaje_bien_a,
-            'id_obj_comr_serv_a'    => $id_obj_comr_serv_a,
-            'precio_total_serv_a'   => $precio_total_serv_a,
-            'porcentaje_serv_a'     => $porcentaje_serv_a,
-            'total_acc'             => $total_acc,
-            'id_usuario'            => $this->session->userdata('id_user'),
-            'anio'            => $id1,
-
+            'des_unidad'           => $des_unidad,
+            'codigo_onapre'        => $codigo_onapre,
+            'rif'                  => $rif,
+            'id_p_acc_proy'        => 0,
+            'id_obj_comr_obra'     => $id_obj_comr_obra_p,
+            'precio_total_obra'    => $precio_total_obra_p,
+            'porcentaje_obra'      => $porcentaje_obra_p,
+            'id_obj_comr_bien'     => $id_obj_comr_bien_p,
+            'precio_total_bien'    => $precio_total_bien_p,
+            'porcentaje_bien'      => $porcentaje_bien_p,
+            'id_obj_comr_serv'     => $id_obj_comr_serv_p,
+            'precio_total_serv'    => $precio_total_serv_p,
+            'porcentaje_serv'      => $porcentaje_serv_p,
+            'total_proy'           => $total_proy,
+            'id_p_acc'             => 1,
+            'id_obj_comr_obra_a'   => $id_obj_comr_obra_a,
+            'precio_total_obra_a'  => $precio_total_obra_a,
+            'porcentaje_obra_a'    => $porcentaje_obra_a,
+            'id_obj_comr_bien_a'   => $id_obj_comr_bien_a,
+            'precio_total_bien_a'  => $precio_total_bien_a,
+            'porcentaje_bien_a'    => $porcentaje_bien_a,
+            'id_obj_comr_serv_a'   => $id_obj_comr_serv_a,
+            'precio_total_serv_a'  => $precio_total_serv_a,
+            'porcentaje_serv_a'    => $porcentaje_serv_a,
+            'total_acc'            => $total_acc,
+            'id_usuario'           => $this->session->userdata('id_user'),
+            'anio'                 => $id1,
         );
-        //   print_r($resulta);die;
+
         $this->db->insert('programacion.inf_enviada', $resulta);
 
+        // Actualizar estatus de la programación
         $data1 = array(
-            'estatus' => '2', // se puede reprogramar y rendir 
-            'id_usuario' => $this->session->userdata('id_user'),
+            'estatus'      => '2',
+            'id_usuario'   => $this->session->userdata('id_user'),
             'date_sending' => date('Y-m-d h:i:s')
         );
         $this->db->where('id_programacion', $data['id']);
-        $update = $this->db->update('programacion.programacion', $data1);
+        $this->db->update('programacion.programacion', $data1);
+
         return true;
     }
+
     //////////////////gUARDAR agregar mas items servicio proyecto
     function Guardar_mas_item_py_servicio($data, $p_ffinanciamiento)
     {
@@ -5187,6 +5324,15 @@ class Programacion_model extends CI_model
         } else {
             return 0;
         }
+    }
+    public function valida_anios($anio, $des_unidad)
+    {
+        $this->db->select('anio');
+        $this->db->where('anio', $anio);
+        $this->db->where('unidad', $des_unidad);
+        $query = $this->db->get('programacion.programacion');
+
+        return $query->num_rows() > 0; // true si existe, false si no
     }
     public function consultar_acc_todo($id_programacion)
     {

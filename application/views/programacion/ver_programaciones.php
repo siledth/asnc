@@ -44,86 +44,35 @@
                                         <td class="center">
 
                                             <?php if ($lista['estatus'] == 0): ?>
+                                                <!-- Si estatus = 0 -->
                                                 <a href="<?php echo base_url(); ?>index.php/programacion/nueva_prog?id=<?php echo $lista['id_programacion']; ?>"
                                                     class="button">
                                                     <i class="fas fa-lg fa-fw fa-edit" title="Cargar Programación"></i>
-                                                    <a />
-                                                    <a title="Remitir al SNC"
-                                                        onclick="enviar(<?php echo $lista['id_programacion']; ?>);"
-                                                        class="button">
-                                                        <i class="fas fa-lg fa-fw fa-upload" style="color: green;"></i>
-                                                        <a />
+                                                </a>
 
-                                                    <?php endif; ?>
-                                                    <?php if ($lista['estatus'] == 2) {
+                                                <a href="javascript:void(0);" title="Remitir al SNC"
+                                                    onclick="enviar(<?php echo $lista['id_programacion']; ?>);" class="button">
+                                                    <i class="fas fa-lg fa-fw fa-upload" style="color: green;"></i>
+                                                </a>
 
-                                                        if ($lista['anio'] == $anios) {
+                                            <?php elseif ($lista['estatus'] == 2): ?>
+                                                <!-- Si estatus = 2 -->
+                                                <a href="<?php echo base_url(); ?>index.php/programacion/ver_programacion_final?id=<?php echo $lista['id_programacion']; ?>"
+                                                    class="button">
+                                                    <i class="fas fa-print fa-lg" title="Imprimir Carga"
+                                                        style="color: black;"></i>
+                                                </a>
 
-                                                            // Si el estatus es 2 y el año es igual a $anios
-
-                                                    ?>
-                                                            <a href="<?php echo base_url(); ?>index.php/programacion/nueva_prog?id=<?php echo $lista['id_programacion']; ?>"
-                                                                class="button">
-                                                                <i class="fas fa-lg fa-fw fa-edit" style="color:black"
-                                                                    title="Editar programación"></i>
-                                                                <a />
-                                                                <a title="Notificar Programación Editada al SNC"
-                                                                    onclick="enviar(<?php echo $lista['id_programacion']; ?>);"
-                                                                    class="button">
-                                                                    <i class="fas fa-lg fa-fw fa-upload" style="color: green;"></i>
-                                                                    <a />
-                                                                    <a href="<?php echo base_url(); ?>index.php/programacion/ver_programacion_final?id=<?php echo $lista['id_programacion']; ?>"
-                                                                        class="button">
-                                                                        <i class="fas fa-print fa-lg" title="Imprimir Carga"
-                                                                            style="color: black;"></i>
-                                                                        <a />
-                                                                        <!-- <a href="<?php echo base_url(); ?>index.php/programacion/certi_progra?id=<?php echo $lista['id_programacion']; ?>"
-                                                        class="button">
-                                                        <i class="fas fa-lg fa-fw fa-eye" style="color: green;"
-                                                            title="Cargar información de la re-programación"></i>
-                                                        <a /> -->
-
-                                                                        <a href="<?php echo base_url(); ?>index.php/programacion/read_send?id=<?php echo $lista['id_programacion']; ?>"
-                                                                            class="button">
-                                                                            <i class="fas   fa-lg fa-cloud-download-alt"
-                                                                                title="Descargar Certificado de Cumplimiento ART.38 #1"
-                                                                                style="color: blue;"></i>
-                                                                            <a />
-
-                                                                        <?php
-
-                                                                    } else {
-
-                                                                        // Si el estatus es 2 pero el año es diferente a $anios
-
-                                                                        ?>
-
-                                                                            <a href="<?php echo base_url(); ?>index.php/programacion/ver_programacion_final?id=<?php echo $lista['id_programacion']; ?>"
-                                                                                class="button">
-                                                                                <i class="fas fa-print fa-lg" title="Imprimir Carga"
-                                                                                    style="color: black;"></i>
-                                                                                <a />
-                                                                                <!-- <a href="<?php echo base_url(); ?>index.php/programacion/certi_progra?id=<?php echo $lista['id_programacion']; ?>"
-                                                        class="button">
-                                                        <i class="fas fa-lg fa-fw fa-eye" style="color: green;"
-                                                            title="Cargar información de la re-programación"></i>
-                                                        <a /> -->
-
-                                                                                <a href="<?php echo base_url(); ?>index.php/programacion/read_send_organos_entes?id=<?php echo $lista['id_programacion']; ?>"
-                                                                                    class="button">
-                                                                                    <i class="fas   fa-lg fa-cloud-download-alt"
-                                                                                        title="Descargar Certificado de Cumplimiento ART.38 #1"
-                                                                                        style="color: blue;"></i>
-                                                                                    <a />
-
-                                                                            <?php
-
-                                                                        }
-                                                                    }
-
-                                                                            ?>
+                                                <a href="<?php echo base_url(); ?>index.php/programacion/read_send?id=<?php echo $lista['id_programacion']; ?>"
+                                                    class="button">
+                                                    <i class="fas fa-lg fa-cloud-download-alt"
+                                                        title="Descargar Certificado de Cumplimiento ART.38 #1"
+                                                        style="color: blue;"></i>
+                                                </a>
+                                            <?php endif; ?>
 
                                         </td>
+
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -181,45 +130,47 @@
     }
 </script>
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('#anio').on('blur', function() {
-            // url(http://localhost/asnc/Plantilla/img/images.jpeg);
-            $('#result-anio').html('<img src="http://localhost/asnc/Plantilla/img/5.gif"/>')
-                .fadeOut(1000);
-            var no = 0;
+    // $(document).ready(function() {
+    //     $('#anio').on('blur', function() {
+    //         $('#result-anio').html('<img src="/Plantilla/img/5.gif"/>').fadeOut(1000);
 
-            var anio = $(this).val();
-            var dataString = 'anio=' + anio;
-            // var base_url = window.location.origin + '/asnc/index.php/Login/validad_cedula'
-            var base_url = '/index.php/Programacion/validadanio';
-            $.ajax({
-                type: "POST",
-                url: base_url,
-                data: dataString,
-                success: function(data) {
-                    // console.log(data);
-                    if (data == no) {
-                        $('#result-anio').fadeIn(1600).html(
-                            '<div class="alert alert-success"><strong>Bien!</strong> Período disponible.</div>'
-                        );
-                        $("#btn_guar_2").prop('disabled', false)
+    //         var anio = $(this).val();
+    //         var base_url = '/index.php/Programacion/validadanio';
 
-                    } else {
-                        $('#result-anio').fadeIn(1600).html(
-                            '<div class="alert alert-danger"><strong>Período ya Registrado!</strong> .</div>'
-                        );
-                        $("#btn_guar_2").prop('disabled', true)
+    //         $.ajax({
+    //             type: "POST",
+    //             url: base_url,
+    //             data: {
+    //                 anio: anio
+    //             },
+    //             success: function(data) {
+    //                 // data puede ser "ok", "existe", "fuera_rango"
+    //                 if (data == "ok") {
+    //                     $('#result-anio').fadeIn(1600).html(
+    //                         '<div class="alert alert-success"><strong>Bien!</strong> Período disponible.</div>'
+    //                     );
+    //                     $("#btn_guar_2").prop('disabled', false);
 
-                    } ///DESABILITAR BOTON UNA VEZ ENVIADA LA INFORMACION
+    //                 } else if (data == "existe") {
+    //                     $('#result-anio').fadeIn(1600).html(
+    //                         '<div class="alert alert-danger"><strong>Error!</strong> Ese período ya está registrado para esta unidad.</div>'
+    //                     );
+    //                     $("#btn_guar_2").prop('disabled', true);
 
+    //                 } else if (data == "fuera_rango") {
+    //                     var anio_actual = new Date().getFullYear();
+    //                     var anio_siguiente = anio_actual + 1;
 
-
-
-
-                }
-            });
-        });
-    });
+    //                     $('#result-anio').fadeIn(1600).html(
+    //                         '<div class="alert alert-warning"><strong>Atención!</strong> Solo se permite programar los años ' +
+    //                         anio_actual + ' y ' + anio_siguiente + '.</div>'
+    //                     );
+    //                     $("#btn_guar_2").prop('disabled', true);
+    //                 }
+    //             }
+    //         });
+    //     });
+    // });
 </script>
 <script src="<?= base_url() ?>/js/programacion.js"></script>
 <script src="<?= base_url() ?>/js/programacion/enviar.js"></script>

@@ -44,6 +44,30 @@ class Programacion extends CI_Controller
         //$data = $this->input->post();
         echo json_encode($data);
     }
+
+    public function valida_anios()
+    {
+        $des_unidad = $this->session->userdata('id_unidad');
+        $anio = (int) $this->input->post('anio');
+        $anio_actual = date('Y');
+        $anio_siguiente = $anio_actual + 1;
+
+        // Validar rango
+        if ($anio != $anio_actual && $anio != $anio_siguiente) {
+            echo "fuera_rango";
+            return;
+        }
+
+        // Validar si ya existe
+        $existe = $this->Programacion_model->valida_anios($anio, $des_unidad);
+        if ($existe) {
+            echo "existe";
+            return;
+        }
+
+        // Si pasa todas las validaciones
+        echo "ok";
+    }
     //----Agregar año de programacion----
     public function agg_programacion_anio()
     {
@@ -2257,8 +2281,14 @@ class Programacion extends CI_Controller
         $data5 = $this->Programacion_model->consulta_total_PYT($id_programacion);
 
         $data = $this->Programacion_model->enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $data3, $data4, $data5);
-        print_r($data);
-        die;
+        // print_r($data);
+        // die;
+        if ($data === "no_data") {
+            echo json_encode("no_data");
+        } else {
+            echo json_encode(1);
+        }
+        exit;
         //echo json_encode($data);
     }
 

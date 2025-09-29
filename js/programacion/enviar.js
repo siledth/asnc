@@ -2,18 +2,19 @@ function enviar(id_programacion) {
     event.preventDefault();
     swal
         .fire({
-            title: "¿Seguro que desea enviar la Programación seleccionada?",
+            title: "¿Seguro que desea remitir al SNC la Programación seleccionada?.",
+            text: "Enviar solo cuando se haya terminado de cargar la programacion. Una vez enviada debereas realizar una modificación segun ley.",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             cancelButtonText: "Cancelar",
-            confirmButtonText: "¡Si, Enviar!",
+            confirmButtonText: "¡Si, Remitir!",
         })
         .then((result) => {
             if (result.value == true) {
                 var id = id_programacion;
-             //  var base_url =window.location.origin+'/asnc/index.php/Programacion/enviar_snc';
+            //   var base_url =window.location.origin+'/asnc/index.php/Programacion/enviar_snc';
                var base_url = '/index.php/Programacion/enviar_snc';
                    
                 $.ajax({
@@ -23,23 +24,30 @@ function enviar(id_programacion) {
                         id: id,
                     },
                     dataType: "json",
-                    success: function(response) {
-                        if (response == 1) {
-                            swal
-                                .fire({
-                                    title: "Proceso Enviado",
-                                    type: "success",
-                                    showCancelButton: false,
-                                    confirmButtonColor: "#3085d6",
-                                    confirmButtonText: "Ok",
-                                })
-                                .then((result) => {
-                                    if (result.value == true) {
-                                        location.reload();
-                                    }
-                                });
-                        }
-                    },
+                  success: function(response) {
+    if (response == 1) {
+        swal.fire({
+            title: "Proceso Enviado",
+            type: "success",
+            showCancelButton: false,
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "Ok",
+        }).then((result) => {
+            if (result.value == true) {
+                location.reload();
+            }
+        });
+    } else if (response == "no_data") {
+        swal.fire({
+            title: "",
+            text: "Debe realizar al menos una carga (acción centralizada o Proyecto) antes de remitir al SNC.",
+            type: "error",
+            confirmButtonColor: "#d33",
+            confirmButtonText: "Cerrar"
+        });
+    }
+}
+
                 });
             }
         });
@@ -302,7 +310,7 @@ function enviar(id_programacion) {
                     event.preventDefault();
                     var datos = new FormData($("#resgistrar_anio")[0]);
                    // var base_url =window.location.origin+'/asnc/index.php/programacion/agg_programacion_anio';
-                    var base_url = '/index.php/programacion/agg_programacion_anio';
+                   var base_url = '/index.php/programacion/agg_programacion_anio';
                     $.ajax({
                         url:base_url,
                         method: 'POST',
@@ -328,3 +336,62 @@ function enviar(id_programacion) {
                 }
             });
         }
+
+        $(document).ready(function () {
+    $('#anio').on('blur', function () {
+        var anio = $(this).val();
+         var base_url = '/index.php/Programacion/valida_anios';
+        //var base_url =window.location.origin+'/asnc/index.php/Programacion/valida_anios';
+
+
+        if (anio === '') {
+            $('#result-anio').html(
+                '<div class="alert alert-warning"><strong>Atención!</strong> Debe ingresar un año válido.</div>'
+            );
+            $("#btn_guar_2").prop('disabled', true);
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: base_url,
+            data: { anio: anio },
+            success: function (data) {
+                // data puede ser "ok", "existe", "fuera_rango"
+                if (data === "ok") {
+                    $('#result-anio').html(
+                        '<div class="alert alert-success"><strong>Bien!</strong> Período disponible.</div>'
+                    );
+                    $("#btn_guar_2").prop('disabled', false);
+
+                } else if (data === "existe") {
+                    $('#result-anio').html(
+                        '<div class="alert alert-danger"><strong>Error!</strong> Ese período ya está registrado para esta unidad.</div>'
+                    );
+                    $("#btn_guar_2").prop('disabled', true);
+
+                } else if (data === "fuera_rango") {
+                    var anio_actual = new Date().getFullYear();
+                    var anio_siguiente = anio_actual + 1;
+
+                    $('#result-anio').html(
+                        '<div class="alert alert-warning"><strong>Atención!</strong> Solo se permite programar los años ' +
+                        anio_actual + ' y ' + anio_siguiente + '.</div>'
+                    );
+                    $("#btn_guar_2").prop('disabled', true);
+                } else {
+                    $('#result-anio').html(
+                        '<div class="alert alert-danger"><strong>Error!</strong> Respuesta inesperada del servidor.</div>'
+                    );
+                    $("#btn_guar_2").prop('disabled', true);
+                }
+            },
+            error: function () {
+                $('#result-anio').html(
+                    '<div class="alert alert-danger"><strong>Error!</strong> No se pudo validar el año. Intente de nuevo.</div>'
+                );
+                $("#btn_guar_2").prop('disabled', true);
+            }
+        });
+    });
+});
