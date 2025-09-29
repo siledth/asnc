@@ -48,7 +48,7 @@ class Programacion extends CI_Controller
     public function valida_anios()
     {
         $des_unidad = $this->session->userdata('id_unidad');
-        $anio = (int) $this->input->post('anio');
+        $anio = $this->input->post('anio');
         $anio_actual = date('Y');
         $anio_siguiente = $anio_actual + 1;
 

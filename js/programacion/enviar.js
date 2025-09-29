@@ -309,7 +309,7 @@ function enviar(id_programacion) {
         
                     event.preventDefault();
                     var datos = new FormData($("#resgistrar_anio")[0]);
-                   // var base_url =window.location.origin+'/asnc/index.php/programacion/agg_programacion_anio';
+                  //  var base_url =window.location.origin+'/asnc/index.php/programacion/agg_programacion_anio';
                    var base_url = '/index.php/programacion/agg_programacion_anio';
                     $.ajax({
                         url:base_url,
@@ -337,61 +337,4 @@ function enviar(id_programacion) {
             });
         }
 
-        $(document).ready(function () {
-    $('#anio').on('blur', function () {
-        var anio = $(this).val();
-         var base_url = '/index.php/Programacion/valida_anios';
-        //var base_url =window.location.origin+'/asnc/index.php/Programacion/valida_anios';
-
-
-        if (anio === '') {
-            $('#result-anio').html(
-                '<div class="alert alert-warning"><strong>Atención!</strong> Debe ingresar un año válido.</div>'
-            );
-            $("#btn_guar_2").prop('disabled', true);
-            return;
-        }
-
-        $.ajax({
-            type: "POST",
-            url: base_url,
-            data: { anio: anio },
-            success: function (data) {
-                // data puede ser "ok", "existe", "fuera_rango"
-                if (data === "ok") {
-                    $('#result-anio').html(
-                        '<div class="alert alert-success"><strong>Bien!</strong> Período disponible.</div>'
-                    );
-                    $("#btn_guar_2").prop('disabled', false);
-
-                } else if (data === "existe") {
-                    $('#result-anio').html(
-                        '<div class="alert alert-danger"><strong>Error!</strong> Ese período ya está registrado para esta unidad.</div>'
-                    );
-                    $("#btn_guar_2").prop('disabled', true);
-
-                } else if (data === "fuera_rango") {
-                    var anio_actual = new Date().getFullYear();
-                    var anio_siguiente = anio_actual + 1;
-
-                    $('#result-anio').html(
-                        '<div class="alert alert-warning"><strong>Atención!</strong> Solo se permite programar los años ' +
-                        anio_actual + ' y ' + anio_siguiente + '.</div>'
-                    );
-                    $("#btn_guar_2").prop('disabled', true);
-                } else {
-                    $('#result-anio').html(
-                        '<div class="alert alert-danger"><strong>Error!</strong> Respuesta inesperada del servidor.</div>'
-                    );
-                    $("#btn_guar_2").prop('disabled', true);
-                }
-            },
-            error: function () {
-                $('#result-anio').html(
-                    '<div class="alert alert-danger"><strong>Error!</strong> No se pudo validar el año. Intente de nuevo.</div>'
-                );
-                $("#btn_guar_2").prop('disabled', true);
-            }
-        });
-    });
-});
+        

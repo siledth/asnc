@@ -39,41 +39,41 @@
                             </thead>
                             <tbody>
                                 <?php foreach ($ver_programaciones as $lista): ?>
-                                    <tr class="odd gradeX" style="text-align:center">
-                                        <td><?= $lista['anio'] ?> </td>
-                                        <td class="center">
+                                <tr class="odd gradeX" style="text-align:center">
+                                    <td><?= $lista['anio'] ?> </td>
+                                    <td class="center">
 
-                                            <?php if ($lista['estatus'] == 0): ?>
-                                                <!-- Si estatus = 0 -->
-                                                <a href="<?php echo base_url(); ?>index.php/programacion/nueva_prog?id=<?php echo $lista['id_programacion']; ?>"
-                                                    class="button">
-                                                    <i class="fas fa-lg fa-fw fa-edit" title="Cargar Programación"></i>
-                                                </a>
+                                        <?php if ($lista['estatus'] == 0): ?>
+                                        <!-- Si estatus = 0 -->
+                                        <a href="<?php echo base_url(); ?>index.php/programacion/nueva_prog?id=<?php echo $lista['id_programacion']; ?>"
+                                            class="button">
+                                            <i class="fas fa-lg fa-fw fa-edit" title="Cargar Programación"></i>
+                                        </a>
 
-                                                <a href="javascript:void(0);" title="Remitir al SNC"
-                                                    onclick="enviar(<?php echo $lista['id_programacion']; ?>);" class="button">
-                                                    <i class="fas fa-lg fa-fw fa-upload" style="color: green;"></i>
-                                                </a>
+                                        <a href="javascript:void(0);" title="Remitir al SNC"
+                                            onclick="enviar(<?php echo $lista['id_programacion']; ?>);" class="button">
+                                            <i class="fas fa-lg fa-fw fa-upload" style="color: green;"></i>
+                                        </a>
 
-                                            <?php elseif ($lista['estatus'] == 2): ?>
-                                                <!-- Si estatus = 2 -->
-                                                <a href="<?php echo base_url(); ?>index.php/programacion/ver_programacion_final?id=<?php echo $lista['id_programacion']; ?>"
-                                                    class="button">
-                                                    <i class="fas fa-print fa-lg" title="Imprimir Carga"
-                                                        style="color: black;"></i>
-                                                </a>
+                                        <?php elseif ($lista['estatus'] == 2): ?>
+                                        <!-- Si estatus = 2 -->
+                                        <a href="<?php echo base_url(); ?>index.php/programacion/ver_programacion_final?id=<?php echo $lista['id_programacion']; ?>"
+                                            class="button">
+                                            <i class="fas fa-print fa-lg" title="Imprimir Carga"
+                                                style="color: black;"></i>
+                                        </a>
 
-                                                <a href="<?php echo base_url(); ?>index.php/programacion/read_send?id=<?php echo $lista['id_programacion']; ?>"
-                                                    class="button">
-                                                    <i class="fas fa-lg fa-cloud-download-alt"
-                                                        title="Descargar Certificado de Cumplimiento ART.38 #1"
-                                                        style="color: blue;"></i>
-                                                </a>
-                                            <?php endif; ?>
+                                        <a href="<?php echo base_url(); ?>index.php/programacion/read_send?id=<?php echo $lista['id_programacion']; ?>"
+                                            class="button">
+                                            <i class="fas fa-lg fa-cloud-download-alt"
+                                                title="Descargar Certificado de Cumplimiento ART.38 #1"
+                                                style="color: blue;"></i>
+                                        </a>
+                                        <?php endif; ?>
 
-                                        </td>
+                                    </td>
 
-                                    </tr>
+                                </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
@@ -118,59 +118,78 @@
     </div>
 </div>
 <script type="text/javascript">
-    function valideKey(evt) {
-        var code = (evt.which) ? evt.which : evt.keyCode;
-        if (code == 8) { // backspace.
-            return true;
-        } else if (code >= 48 && code <= 57) { // is a number.
-            return true;
-        } else { // other keys.
-            return false;
-        }
+function valideKey(evt) {
+    var code = (evt.which) ? evt.which : evt.keyCode;
+    if (code == 8) { // backspace.
+        return true;
+    } else if (code >= 48 && code <= 57) { // is a number.
+        return true;
+    } else { // other keys.
+        return false;
     }
+}
 </script>
 <script type="text/javascript">
-    // $(document).ready(function() {
-    //     $('#anio').on('blur', function() {
-    //         $('#result-anio').html('<img src="/Plantilla/img/5.gif"/>').fadeOut(1000);
+$(document).ready(function() {
+    $('#anio').on('blur', function() {
+        var anio = $(this).val();
+        var base_url = '/index.php/Programacion/valida_anios';
+        //   var base_url = window.location.origin + '/asnc/index.php/Programacion/valida_anios';
 
-    //         var anio = $(this).val();
-    //         var base_url = '/index.php/Programacion/validadanio';
 
-    //         $.ajax({
-    //             type: "POST",
-    //             url: base_url,
-    //             data: {
-    //                 anio: anio
-    //             },
-    //             success: function(data) {
-    //                 // data puede ser "ok", "existe", "fuera_rango"
-    //                 if (data == "ok") {
-    //                     $('#result-anio').fadeIn(1600).html(
-    //                         '<div class="alert alert-success"><strong>Bien!</strong> Período disponible.</div>'
-    //                     );
-    //                     $("#btn_guar_2").prop('disabled', false);
+        if (anio === '') {
+            $('#result-anio').html(
+                '<div class="alert alert-warning"><strong>Atención!</strong> Debe ingresar un año válido.</div>'
+            );
+            $("#btn_guar_2").prop('disabled', true);
+            return;
+        }
 
-    //                 } else if (data == "existe") {
-    //                     $('#result-anio').fadeIn(1600).html(
-    //                         '<div class="alert alert-danger"><strong>Error!</strong> Ese período ya está registrado para esta unidad.</div>'
-    //                     );
-    //                     $("#btn_guar_2").prop('disabled', true);
+        $.ajax({
+            type: "POST",
+            url: base_url,
+            data: {
+                anio: anio
+            },
+            success: function(data) {
+                // data puede ser "ok", "existe", "fuera_rango"
+                if (data === "ok") {
+                    $('#result-anio').html(
+                        '<div class="alert alert-success"><strong>Bien!</strong> Período disponible.</div>'
+                    );
+                    $("#btn_guar_2").prop('disabled', false);
 
-    //                 } else if (data == "fuera_rango") {
-    //                     var anio_actual = new Date().getFullYear();
-    //                     var anio_siguiente = anio_actual + 1;
+                } else if (data === "existe") {
+                    $('#result-anio').html(
+                        '<div class="alert alert-danger"><strong>Error!</strong> Ese período ya está registrado para este Organo/Ente.</div>'
+                    );
+                    $("#btn_guar_2").prop('disabled', true);
 
-    //                     $('#result-anio').fadeIn(1600).html(
-    //                         '<div class="alert alert-warning"><strong>Atención!</strong> Solo se permite programar los años ' +
-    //                         anio_actual + ' y ' + anio_siguiente + '.</div>'
-    //                     );
-    //                     $("#btn_guar_2").prop('disabled', true);
-    //                 }
-    //             }
-    //         });
-    //     });
-    // });
+                } else if (data === "fuera_rango") {
+                    var anio_actual = new Date().getFullYear();
+                    var anio_siguiente = anio_actual + 1;
+
+                    $('#result-anio').html(
+                        '<div class="alert alert-warning"><strong>Atención!</strong> Solo se permite programar los años ' +
+                        anio_actual + ' y ' + anio_siguiente + '.</div>'
+                    );
+                    $("#btn_guar_2").prop('disabled', true);
+                } else {
+                    $('#result-anio').html(
+                        '<div class="alert alert-danger"><strong>Error!</strong> No se puede registrar el año</div>'
+                    );
+                    $("#btn_guar_2").prop('disabled', true);
+                }
+            },
+            error: function() {
+                $('#result-anio').html(
+                    '<div class="alert alert-danger"><strong>Error!</strong> No se pudo validar el año. Intente de nuevo.</div>'
+                );
+                $("#btn_guar_2").prop('disabled', true);
+            }
+        });
+    });
+});
 </script>
 <script src="<?= base_url() ?>/js/programacion.js"></script>
 <script src="<?= base_url() ?>/js/programacion/enviar.js"></script>
