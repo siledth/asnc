@@ -2043,7 +2043,7 @@ class Programacion_model extends CI_model
             'vigente' => false,
             'fecha_version' => date('Y-m-d H:i:s'),
             'tipo_operacion' => 'DELETEd',
-            'id_usuario_operacion' => $id_usuario
+            'id_usuario' => $id_usuario
         ]);
 
         // 🔹 2. Desactivar los ítems asociados
