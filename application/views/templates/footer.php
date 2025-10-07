@@ -93,219 +93,241 @@
 <script src="<?= base_url() ?>/js/llamadoconcurso.js?<?= time() ?>"></script>
 <script src="<?= base_url() ?>/js/asnc.app.js?<?= time() ?>"></script>
 <script type="text/javascript">
-$(document).ready(function() {
-    var table = $('#data-table').DataTable({
-        dom: "Bfrtip",
-        pageLength: 5,
-        buttons: [
-
-            {
+    $(document).ready(function() {
+        var table = $('#tabla-programaciones-anios').DataTable({
+            dom: "Bfrtip",
+            pageLength: 5,
+            buttons: [{
                 extend: "excel",
                 text: "Exportar Hoja de Càlculo"
-            }
-        ]
-    });
-});
-$(document).ready(function() {
-    var table = $('#data-table5').DataTable({
-        dom: "Bfrtip",
-        pageLength: 5,
-        buttons: [
+            }],
 
-            {
-                extend: "excel",
-                text: "Exportar Hoja de Càlculo"
-            }
-        ]
-    });
-});
-$(document).ready(function() {
-    var table = $('#data-table6').DataTable({
-        dom: "Bfrtip",
-        pageLength: 5,
-        buttons: [
+            // 💡 CLAVE 1: Desactivar el autodescubrimiento y forzar el tipo
+            "columnDefs": [{
+                    "type": "num",
+                    "targets": 0
+                } // Indica que la primera columna (índice 0) es numérica
+            ],
 
-            {
-                extend: "excel",
-                text: "Exportar Hoja de Càlculo"
-            }
-        ]
+            // 💡 CLAVE 2: Establecer el orden inicial
+            "order": [
+                [0, "desc"]
+            ] // Ordenar por la primera columna (índice 0) de forma descendente ("desc")
+        });
     });
-});
-$(document).ready(function() {
-    var table = $('#data-table7').DataTable({
-        dom: "Bfrtip",
-        pageLength: 5,
-        buttons: [
+    $(document).ready(function() {
+        var table = $('#data-table').DataTable({
+            dom: "Bfrtip",
+            pageLength: 5,
+            buttons: [
 
-            {
-                extend: "excel",
-                text: "Exportar Hoja de Càlculo"
-            }
-        ]
+                {
+                    extend: "excel",
+                    text: "Exportar Hoja de Càlculo"
+                }
+            ]
+        });
     });
-});
-$(document).ready(function() {
-    var table = $('#data-table8').DataTable({
-        dom: "Bfrtip",
-        pageLength: 5,
-        buttons: [
+    $(document).ready(function() {
+        var table = $('#data-table5').DataTable({
+            dom: "Bfrtip",
+            pageLength: 5,
+            buttons: [
 
-            {
-                extend: "excel",
-                text: "Exportar Hoja de Càlculo"
-            }
-        ]
+                {
+                    extend: "excel",
+                    text: "Exportar Hoja de Càlculo"
+                }
+            ]
+        });
     });
-});
-$(document).ready(function() {
-    var table = $('#data-table9').DataTable({
-        dom: "Bfrtip",
-        pageLength: 5,
-        buttons: [
+    $(document).ready(function() {
+        var table = $('#data-table6').DataTable({
+            dom: "Bfrtip",
+            pageLength: 5,
+            buttons: [
 
-            {
+                {
+                    extend: "excel",
+                    text: "Exportar Hoja de Càlculo"
+                }
+            ]
+        });
+    });
+    $(document).ready(function() {
+        var table = $('#data-table7').DataTable({
+            dom: "Bfrtip",
+            pageLength: 5,
+            buttons: [
+
+                {
+                    extend: "excel",
+                    text: "Exportar Hoja de Càlculo"
+                }
+            ]
+        });
+    });
+    $(document).ready(function() {
+        var table = $('#data-table8').DataTable({
+            dom: "Bfrtip",
+            pageLength: 5,
+            buttons: [
+
+                {
+                    extend: "excel",
+                    text: "Exportar Hoja de Càlculo"
+                }
+            ]
+        });
+    });
+    $(document).ready(function() {
+        var table = $('#data-table9').DataTable({
+            dom: "Bfrtip",
+            pageLength: 5,
+            buttons: [
+
+                {
+                    extend: "excel",
+                    text: "Exportar Hoja de Càlculo"
+                }
+            ]
+        });
+    });
+    $(document).ready(function() {
+        var table = $('#data-table4').DataTable({
+            dom: "Bfrtip",
+            pageLength: 5, // Establecer el número de filas por página a 5
+            buttons: [{
                 extend: "excel",
-                text: "Exportar Hoja de Càlculo"
-            }
-        ]
+                text: "Exportar Hoja de Cálculo"
+            }]
+        });
     });
-});
-$(document).ready(function() {
-    var table = $('#data-table4').DataTable({
-        dom: "Bfrtip",
-        pageLength: 5, // Establecer el número de filas por página a 5
-        buttons: [{
-            extend: "excel",
-            text: "Exportar Hoja de Cálculo"
-        }]
+    $(document).ready(function() {
+        var table = $('#data-tablever_programacion_final').DataTable({
+            dom: "Bfrtip",
+            buttons: [{
+                extend: "pdf",
+                text: "Exportar a PDF",
+                orientation: 'landscape',
+                title: function() {
+                    return 'Reporte Plan de Compra fecha de Impresión- ' + new Date()
+                        .toLocaleString();
+                },
+                customize: function(doc) {
+                    doc.pageMargins = [5, 10, 10, 10]; // left, top, right, bottom
+                    doc.defaultStyle.fontSize =
+                        8; // You can adjust the font size to fit more content
+                    doc.pageSize = 'A3'; // Change the page size to A3, which has more width
+                }
+            }]
+        });
     });
-});
-$(document).ready(function() {
-    var table = $('#data-tablever_programacion_final').DataTable({
-        dom: "Bfrtip",
-        buttons: [{
-            extend: "pdf",
-            text: "Exportar a PDF",
-            orientation: 'landscape',
-            title: function() {
-                return 'Reporte Plan de Compra fecha de Impresión- ' + new Date()
-                    .toLocaleString();
-            },
-            customize: function(doc) {
-                doc.pageMargins = [5, 10, 10, 10]; // left, top, right, bottom
-                doc.defaultStyle.fontSize =
-                    8; // You can adjust the font size to fit more content
-                doc.pageSize = 'A3'; // Change the page size to A3, which has more width
-            }
-        }]
+    $(document).ready(function() {
+        var table = $('#data-tablever_rendicion').DataTable({
+            dom: "Bfrtip",
+            buttons: [{
+                extend: "pdf",
+                text: "Exportar a PDF",
+                orientation: 'landscape',
+                title: function() {
+                    return 'Resumen Rendición fecha de Impresión- ' + new Date()
+                        .toLocaleString();
+                },
+                customize: function(doc) {
+                    doc.pageMargins = [5, 10, 10, 10]; // left, top, right, bottom
+                    doc.defaultStyle.fontSize =
+                        7; // You can adjust the font size to fit more content
+                    doc.pageSize = 'A3'; // Change the page size to A3, which has more width
+                },
+                exportOptions: {
+                    columns: [17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
+                        34, 35, 36, 38, 39, 40, 41
+                    ], // include columns 16 and onwards
+                    footer: true // keep the footer
+                }
+            }]
+        });
     });
-});
-$(document).ready(function() {
-    var table = $('#data-tablever_rendicion').DataTable({
-        dom: "Bfrtip",
-        buttons: [{
-            extend: "pdf",
-            text: "Exportar a PDF",
-            orientation: 'landscape',
-            title: function() {
-                return 'Resumen Rendición fecha de Impresión- ' + new Date()
-                    .toLocaleString();
-            },
-            customize: function(doc) {
-                doc.pageMargins = [5, 10, 10, 10]; // left, top, right, bottom
-                doc.defaultStyle.fontSize =
-                    7; // You can adjust the font size to fit more content
-                doc.pageSize = 'A3'; // Change the page size to A3, which has more width
-            },
-            exportOptions: {
-                columns: [17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
-                    34, 35, 36, 38, 39, 40, 41
-                ], // include columns 16 and onwards
-                footer: true // keep the footer
-            }
-        }]
-    });
-});
 </script>
 <script>
-// $(document).ready(function() {
-//   var table = $('#data-tablepdf').DataTable({
-//     dom: "Bfrtip",
-//     buttons: [
-//       {
-//         extend: "pdf",
-//         text: "Exportar a PDF",
-//         orientation: 'landscape',
-//         title: function() {
-//           return 'Resuldado del LLamado a Concurso - ' + new Date().toLocaleString();
-//         },
-//         customize: function(doc) {
-//           doc.pageMargins = [5, 10, 10, 10]; // left, top, right, bottom
-//         }
-//       }
-//     ]
-//   });
-// });
+    // $(document).ready(function() {
+    //   var table = $('#data-tablepdf').DataTable({
+    //     dom: "Bfrtip",
+    //     buttons: [
+    //       {
+    //         extend: "pdf",
+    //         text: "Exportar a PDF",
+    //         orientation: 'landscape',
+    //         title: function() {
+    //           return 'Resuldado del LLamado a Concurso - ' + new Date().toLocaleString();
+    //         },
+    //         customize: function(doc) {
+    //           doc.pageMargins = [5, 10, 10, 10]; // left, top, right, bottom
+    //         }
+    //       }
+    //     ]
+    //   });
+    // });
 </script>
 <script>
-$(document).ready(function() {
-    var table = $('#data-tablepdf').DataTable({
-        dom: "Bfrtip",
-        buttons: [{
-            extend: "pdf",
-            text: "Exportar a PDF",
-            orientation: 'landscape',
-            title: function() {
-                return 'Resultados del LLamado a Concurso - ' + new Date().toLocaleString();
-            },
-            customize: function(doc) {
-                doc.pageMargins = [5, 10, 10, 10]; // left, top, right, bottom
-            },
-            exportOptions: {
-                columns: ':visible:not(:last-child)'
-            }
-        }]
+    $(document).ready(function() {
+        var table = $('#data-tablepdf').DataTable({
+            dom: "Bfrtip",
+            buttons: [{
+                extend: "pdf",
+                text: "Exportar a PDF",
+                orientation: 'landscape',
+                title: function() {
+                    return 'Resultados del LLamado a Concurso - ' + new Date().toLocaleString();
+                },
+                customize: function(doc) {
+                    doc.pageMargins = [5, 10, 10, 10]; // left, top, right, bottom
+                },
+                exportOptions: {
+                    columns: ':visible:not(:last-child)'
+                }
+            }]
+        });
     });
-});
 </script>
 <script>
-$(document).ready(function() {
-    var table = $('#data-tablepdfpt').DataTable({
-        dom: "Bfrtip",
-        buttons: [{
-            extend: "pdf",
-            text: "Exportar a PDF",
-            orientation: 'landscape',
-            title: function() {
-                return 'Totales por Partida Presupuestaria - ' + new Date()
-                    .toLocaleString();
-            },
-            customize: function(doc) {
-                doc.pageMargins = [5, 10, 10, 10]; // left, top, right, bottom
-            }
-        }]
+    $(document).ready(function() {
+        var table = $('#data-tablepdfpt').DataTable({
+            dom: "Bfrtip",
+            buttons: [{
+                extend: "pdf",
+                text: "Exportar a PDF",
+                orientation: 'landscape',
+                title: function() {
+                    return 'Totales por Partida Presupuestaria - ' + new Date()
+                        .toLocaleString();
+                },
+                customize: function(doc) {
+                    doc.pageMargins = [5, 10, 10, 10]; // left, top, right, bottom
+                }
+            }]
+        });
     });
-});
 </script>
 
 <script>
-$(document).ready(function() {
-    App.init();
-    TableManageButtons.init();
-    TableManageDefault.init();
+    $(document).ready(function() {
+        App.init();
+        TableManageButtons.init();
+        TableManageDefault.init();
 
 
 
-    TableManageAutofill.init();
-    FormPlugins.init();
-    Gallery.init();
-    Highlight.init();
-    var ubiAct = window.location + "";
-    var arrayURL = ubiAct.split("index.php");
-    ubiAct = arrayURL[1];
-    SncApp.cargarDatosDePagina(ubiAct);
-});
+        TableManageAutofill.init();
+        FormPlugins.init();
+        Gallery.init();
+        Highlight.init();
+        var ubiAct = window.location + "";
+        var arrayURL = ubiAct.split("index.php");
+        ubiAct = arrayURL[1];
+        SncApp.cargarDatosDePagina(ubiAct);
+    });
 </script>
 <!-- <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

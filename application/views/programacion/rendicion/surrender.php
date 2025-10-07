@@ -1261,6 +1261,9 @@
         </div>
     </div>
 </div>
+<script>
+    const BASE_URL = '<?= base_url() ?>';
+</script>
 <script src="<?= base_url() ?>/js/programacion/yield.js"></script>
 <script src="<?= base_url() ?>/js/programacion/rendpy.js"></script>
 <script src="<?= base_url() ?>/js/programacion/editar_factu.js"></script>

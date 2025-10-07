@@ -1,9 +1,8 @@
-
 <div class="sidebar-bg"></div>
 <div id="content" class="content">
     <div class="row">
-		<div class="col-lg-12">
-            <div  class="panel panel-inverse" >
+        <div class="col-lg-12">
+            <div class="panel panel-inverse">
 
                 <div class="row">
                     <div class="col-1"></div>
@@ -11,21 +10,24 @@
                         <div class="card card-outline-danger text-center bg-white">
                             <div class="card-block">
                                 <blockquote class="card-blockquote" style="margin-bottom: -19px;">
-                                    <p class="f-s-16 text-inverse f-w-600">Nombre Órgano / Ente: <?=$des_unidad?>.</p>
-                                    <p class="f-s-14">RIF.: <?=$rif?> <br>
-                                    Código ONAPRE: <?=$codigo_onapre?></p>
+                                    <p class="f-s-16 text-inverse f-w-600">Nombre Órgano / Ente: <?= $des_unidad ?>.</p>
+                                    <p class="f-s-14">RIF.: <?= $rif ?> <br>
+                                        Código ONAPRE: <?= $codigo_onapre ?></p>
                                 </blockquote>
                             </div>
                         </div>
                     </div>
 
-                   
-                    <div class="col-3">
 
+                    <div class="col-3">
+                        <?php
+                        $anio_actual = $anio_actual;
+                        $mes_actual  = $mes_actual;
+                        ?>
                     </div>
                     <div class="col-6 text-center mt-1">
                         <h3 class="text-center">Disponibles para Rendir</h3>
-                        <table id="data-table-autofill" class="table table-hover">
+                        <table id="tabla-programaciones-anios" class="table table-hover">
                             <thead style="background:#e4e7e8">
                                 <tr class="text-center">
                                     <th>Año de la Programación</th>
@@ -33,52 +35,34 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach($ver_programaciones as $lista):?>
-                                <tr class="odd gradeX" style="text-align:center">
-                                    <td><?=$lista['anio']?> </td>
-                                    <td class="center">
-                                        <!-- <a href="<?php echo base_url();?>index.php/programacion/consultar_item_rendir?id=<?php echo $lista['id_programacion'];?>"
-                                            class="button">
-                                            <i class="fas fa-lg fa-fw fa-eye" title="Cargar información de la programación"></i>
-                                        <a/> -->
-                                        <!-- <a href="<?php echo base_url();?>index.php/programacion/consultar_item_rendir?id=<?php echo $lista['id_programacion'];?>"
-                                            class="button">
-                                            <i class="fas fa-registered fa-lg" title="Rendir" style="color: red;"></i>
-                                        <a/> -->
-                                        <a href="<?php echo base_url();?>index.php/programacion/consultar_item_rendir2?id=<?php echo $lista['id_programacion'];?>"
-                                            class="button">
-                                            <i class="fas fa-registered fa-lg" title="Rendir2" style="color: red;"></i>
-                                        <a/>
-                                        
-                                                           
-                                                            <!-- <a onclick="modal(<?php echo $lista['id_programacion'] ?>);" data-toggle="modal"
-                                                            data-target="#proyecto" style="color: white">
-                                                            <i title="Enviar al SNC Rendición" class="fas  fas fa-lg fa-fw fa-upload"
-                                                                style="color: darkgreen;"></i>
-                                                             </a> -->
-                                                            <!-- <button
-                                                        onclick="location.href='<?php echo base_url()?>index.php/Programacion/ver_rendicion_realizadas?id=<?php echo $lista['id_programacion'];?>'"
-                                                        type="button" class="btn btn-lg btn-default" name="button">
-                                                        Ver items Rendidos 
-                                                    </button> -->
+                                <?php foreach ($ver_programaciones as $lista): ?>
+                                    <?php
+                                    $anio_programacion = $lista['anio'];
+                                    $puede_rendir = false;
 
-                                                    <!-- <a href="<?php echo base_url();?>index.php/programacion/comprobante_rendicion?id=<?php echo $lista['id_programacion'];?>"
-                                            class="button">
-                                            <i class="fas   fa-lg fa-cloud-download-alt" title="Certificado" style="color: blue;"></i>
-                                        <a/> -->
-                                                    <!-- <button
-                                                        onclick="location.href='<?php echo base_url()?>index.php/programacion/comprobante_rendicion?id=<?php echo $lista['id_programacion'];?>'"
-                                                        type="button" class="fas fa-2x  fa-cloud-download-alt" style="color:blue" name="button"> 
-                                                    </button>   -->
-                                                    <!-- <button
-                                                        onclick="location.href='<?php echo base_url()?>index.php/Programacion/hojaEnBlanco?id=<?php echo $lista['id_programacion'];?>'"
-                                                        type="button" class="btn btn-lg btn-default" name="button">
-                                                        Ver 
-                                                    </button> -->
-                                                       
-                                    </td>
-                                </tr>
-                                <?php endforeach;?>
+                                    // Regla: se puede rendir el año actual o hasta marzo del siguiente
+                                    if ($anio_programacion == $anio_actual) {
+                                        $puede_rendir = true;
+                                    } elseif ($anio_programacion == $anio_actual - 1 && $mes_actual <= 3) {
+                                        $puede_rendir = true;
+                                    }
+                                    ?>
+
+                                    <tr class="odd gradeX" style="text-align:center">
+                                        <td><?= $lista['anio'] ?></td>
+                                        <td class="center">
+                                            <?php if ($puede_rendir): ?>
+                                                <a href="<?= base_url(); ?>index.php/programacion/consultar_item_rendir2?id=<?= $lista['id_programacion']; ?>"
+                                                    class="button">
+                                                    <i class="fas fa-registered fa-lg" title="Rendir" style="color: red;"></i>
+                                                </a>
+                                            <?php else: ?>
+                                                <i class="fas fa-ban fa-lg" title="No disponible para rendir"
+                                                    style="color: gray;"></i>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
@@ -103,7 +87,8 @@
                     <div class="row">
                         <div class="col-12"></div>
                         <div class="col-12">
-                        <input class="form-control" type="hidden" name="id_programacion" id="id_programacion" readonly>
+                            <input class="form-control" type="hidden" name="id_programacion" id="id_programacion"
+                                readonly>
 
                             <label style="color:red;">Seleccione Trimestre a Notificar (Obligatorio).leer <b
                                     style="color:red">*</b></label><i style="color: red;"
@@ -111,16 +96,16 @@
 
                             <select class="form-control" name="llenar_trimestre7" id="llenar_trimestre7">
                                 <option value="0">Seleccione</option>
-                                <option value="1">Primer  Trimestre</option>
+                                <option value="1">Primer Trimestre</option>
                                 <option value="2">Segundo Trimestre</option>
-                                <option value="3">Tercer  Trimestre</option>
-                                <option value="4">Cuarto  Trimestre</option>
+                                <option value="3">Tercer Trimestre</option>
+                                <option value="4">Cuarto Trimestre</option>
 
 
 
                             </select>
                         </div>
- 
+
 
                     </div>
 
@@ -130,12 +115,13 @@
             <div class="modal-footer">
                 <button type="button" onclick="javascript:window.location.reload()" class="my-button"
                     data-dismiss="modal">Cerrar</button>
-                <button type="button" id="rendi_py1" onclick="enviar();"
-                class="my-button">Guardar</button>
+                <button type="button" id="rendi_py1" onclick="enviar();" class="my-button">Guardar</button>
             </div>
         </div>
     </div>
 </div>
-
-<script src="<?=base_url()?>/js/programacion.js"></script>
-<script src="<?=base_url()?>/js/programacion/enviar_rendi.js"></script>
+<script>
+    const BASE_URL = '<?= base_url() ?>';
+</script>
+<script src="<?= base_url() ?>/js/programacion.js"></script>
+<script src="<?= base_url() ?>/js/programacion/enviar_rendi.js"></script>

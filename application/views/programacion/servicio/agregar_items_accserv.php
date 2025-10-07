@@ -7,9 +7,9 @@
             <div class="card card-outline-danger text-center bg-white">
                 <div class="card-block">
                     <blockquote class="card-blockquote" style="margin-bottom: -19px;">
-                        <p class="f-s-18 text-inverse f-w-600">Nombre Órgano / Ente: <?=$des_unidad?>.</p>
-                        <p class="f-s-16">RIF.: <?=$rif?> <br>
-                            Código ONAPRE: <?=$codigo_onapre?> <br>
+                        <p class="f-s-18 text-inverse f-w-600">Nombre Órgano / Ente: <?= $des_unidad ?>.</p>
+                        <p class="f-s-16">RIF.: <?= $rif ?> <br>
+                            Código ONAPRE: <?= $codigo_onapre ?> <br>
 
 
                             <!-- <input type="hidden" name="fecha_est" id="fecha_est" value=""> -->
@@ -20,14 +20,14 @@
         <div class="col-lg-12">
             <div class="panel panel-inverse" data-sortable-id="form-validation-1">
 
-                <?php foreach($inf_1_acc as $inf_1_acc):?><?php endforeach;?>
+                <?php foreach ($inf_1_acc as $inf_1_acc): ?><?php endforeach; ?>
 
                 <div class="col-6 mt-3 form-group">
                     <label>Acción Centralizada<b style="color:red">*</b></label><br>
                     <select style="width: 100%;" name="id_accion_centralizada" id="id_accion_centralizada"
                         class="default-select2 form-control" readonly>
-                        <option value="<?=$inf_1_acc['id_accion_centralizada']?>">
-                            <?=$inf_1_acc['desc_accion_centralizada']?></option>
+                        <option value="<?= $inf_1_acc['id_accion_centralizada'] ?>">
+                            <?= $inf_1_acc['desc_accion_centralizada'] ?></option>
 
                     </select>
                 </div>
@@ -35,9 +35,9 @@
                 <div class="form-group mt-2 col-3">
                     <label id="accbienes">Objeto de Contratación</label><br>
                     <input type="hidden" id="id_obj_comercial" name="id_obj_comercial"
-                        value="<?=$inf_1_acc['id_obj_comercial']?>">
+                        value="<?= $inf_1_acc['id_obj_comercial'] ?>">
                     <input type="text" id="desc_objeto_contrata" name="desc_objeto_contrata"
-                        value="<?=$inf_1_acc['desc_objeto_contrata']?>" class="form-control" readonly>
+                        value="<?= $inf_1_acc['desc_objeto_contrata'] ?>" class="form-control" readonly>
                 </div>
                 <div class="col-12">
                     <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
@@ -48,10 +48,11 @@
                     <div class="panel-body">
                         <div class="row">
                             <input type="hidden" id="id_obj_comercial" name="id_obj_comercial"
-                                value="<?=$inf_1_acc['id_obj_comercial']?>">
-                            <input type="hidden" id="id_proyectoii" name="id_proyectoii" value="<?=$id_programacion?>">
+                                value="<?= $inf_1_acc['id_obj_comercial'] ?>">
+                            <input type="hidden" id="id_proyectoii" name="id_proyectoii"
+                                value="<?= $id_programacion ?>">
                             <input type="hidden" id="id_programacion" name="id_programacion"
-                                value="<?=$id_p_acc_centralizada?>">
+                                value="<?= $id_p_acc_centralizada ?>">
                             <div class="col-12 text-center">
                                 <h4 style="color:red;">Información Items Fuente Financiamiento (IFF)</h4>
                             </div>
@@ -63,10 +64,10 @@
                                     class="default-select2 form-control">
                                     <option value="0">Seleccione</option>
                                     <?php foreach ($part_pres as $data): ?>
-                                    <option
-                                        value="<?=$data['id_partida_presupuestaria']?>/<?=$data['desc_partida_presupuestaria']?>/<?=$data['codigopartida_presupuestaria']?>">
-                                        <?=$data['codigopartida_presupuestaria']?>/<?=$data['desc_partida_presupuestaria']?>
-                                    </option>
+                                        <option
+                                            value="<?= $data['id_partida_presupuestaria'] ?>/<?= $data['desc_partida_presupuestaria'] ?>/<?= $data['codigopartida_presupuestaria'] ?>">
+                                            <?= $data['codigopartida_presupuestaria'] ?>/<?= $data['desc_partida_presupuestaria'] ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -77,7 +78,7 @@
                                     class="default-select2 form-control" multiple="multiple">
                                     <option value="0">Seleccione</option>
                                     <?php foreach ($estados as $data): ?>
-                                    <option value="<?=$data['descedo']?>"><?=$data['descedo']?></option>
+                                        <option value="<?= $data['descedo'] ?>"><?= $data['descedo'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -87,9 +88,9 @@
                                     name="fuente_financiamiento_acc" class="default-select2 form-control">
                                     <option value="0">Seleccione</option>
                                     <?php foreach ($fuente as $data): ?>
-                                    <option
-                                        value="<?=$data['id_fuente_financiamiento']?>/<?=$data['desc_fuente_financiamiento']?>">
-                                        <?=$data['desc_fuente_financiamiento']?></option>
+                                        <option
+                                            value="<?= $data['id_fuente_financiamiento'] ?>/<?= $data['desc_fuente_financiamiento'] ?>">
+                                            <?= $data['desc_fuente_financiamiento'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -116,7 +117,7 @@
                                                 class="fas fa-question-circle"></i></label>
                                         <input title="Debe ingresar una palabra para realizar la búsqueda" type="text"
                                             class="form-control" onKeyUp="this.value=this.value.toUpperCase();"
-                                            name="ccnu_b" id="ccnu_b" onblur="buscar_ccnnu();">
+                                            name="ccnu_b" id="ccnu_b" onblur="buscar_ccnnua();">
                                     </div>
 
                                     <div class="col-8">
@@ -146,8 +147,8 @@
                                     class="form-control default-select2">
                                     <option value="">SELECCIONE</option>
                                     <?php foreach ($unid as $data): ?>
-                                    <option value="<?=$data['id_unidad_medida']?>/<?=$data['desc_unidad_medida']?>">
-                                        <?=$data['desc_unidad_medida']?></option>
+                                        <option value="<?= $data['id_unidad_medida'] ?>/<?= $data['desc_unidad_medida'] ?>">
+                                            <?= $data['desc_unidad_medida'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -156,18 +157,20 @@
                                     (Obligatorio). <b style="color:red">*</b></label><i style="color: red;"
                                     title="Seleccione la Fecha estimada de ejecución del Servicio."
                                     class="fas fa-question-circle"></i><br>
-                                    <span class="input-group-addon">-</span> <label>Fecha de Desde</label><b style="color:red">*</b>
+                                <span class="input-group-addon">-</span> <label>Fecha de Desde</label><b
+                                    style="color:red">*</b>
 
-                                    <input type="date" class="form-control" id="fecha_desde" onchange="verif_d();"
-                                        onblur="habilitar_trim();" name="fecha_desde" placeholder="Desde" />
-                                    <span class="input-group-addon">-</span>   <label>Fecha Hasta</label><b style="color:red">*</b>
+                                <input type="date" class="form-control" id="fecha_desde" onchange="verif_d();"
+                                    onblur="habilitar_trim();" name="fecha_desde" placeholder="Desde" />
+                                <span class="input-group-addon">-</span> <label>Fecha Hasta</label><b
+                                    style="color:red">*</b>
 
-                                    <input type="date" class="form-control" id="fecha_hasta" onchange="verif_h();"
-                                        onblur="habilitar_trim();" name="fecha_hasta" placeholder="Hasta" />
+                                <input type="date" class="form-control" id="fecha_hasta" onchange="verif_h();"
+                                    onblur="habilitar_trim();" name="fecha_hasta" placeholder="Hasta" />
                             </div>
                             <div class="col-12">
                                 <div class="card card-outline-danger">
-                                    <h5 class="mt-3 text-center"><b>Distribución del porcentaje  de la
+                                    <h5 class="mt-3 text-center"><b>Distribución del porcentaje de la
                                             Ejecución
                                             Trimestral</b><b style="color:red">*Leer</b><i style="color: red;"
                                             title="Para ingresar los datos correspondientes a cada trimestre, debe ingresar un Rango de Fecha."
@@ -221,8 +224,8 @@
                                     class="form-control">
                                     <option value="">SELECCIONE</option>
                                     <?php foreach ($iva as $data): ?>
-                                    <option value="<?=$data['desc_alicuota_iva']?>/<?=$data['desc_porcentaj']?>">
-                                        <?=$data['desc_porcentaj']?></option>
+                                        <option value="<?= $data['desc_alicuota_iva'] ?>/<?= $data['desc_porcentaj'] ?>">
+                                            <?= $data['desc_porcentaj'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -309,51 +312,51 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach($accion as $data):?>
-                            <tr class="odd gradeX" style="text-align:center">
-                                <td><?=$data['id_p_items']?> </td>
-                                <td><?=$data['codigopartida_presupuestaria']?> </td>
-                                <td><?=$data['desc_ccnu']?> </td>
-                                <td><?=$data['especificacion']?> </td>
-                                <td><?=$data['desc_unidad_medida']?> </td>
-                                <td><?=$data['fecha_desde']?> </td>
-                                <td><?=$data['fecha_hasta']?> </td>
-                                <td><?=$data['cantidad']?> </td>
-                                <td><?=$data['i']?> </td>
-                                <td><?=$data['ii']?> </td>
-                                <td><?=$data['iii']?> </td>
-                                <td><?=$data['iv']?> </td>
-                                <td><?=$data['cant_total_distribuir']?> </td>
+                            <?php foreach ($accion as $data): ?>
+                                <tr class="odd gradeX" style="text-align:center">
+                                    <td><?= $data['id_p_items'] ?> </td>
+                                    <td><?= $data['codigopartida_presupuestaria'] ?> </td>
+                                    <td><?= $data['desc_ccnu'] ?> </td>
+                                    <td><?= $data['especificacion'] ?> </td>
+                                    <td><?= $data['desc_unidad_medida'] ?> </td>
+                                    <td><?= $data['fecha_desde'] ?> </td>
+                                    <td><?= $data['fecha_hasta'] ?> </td>
+                                    <td><?= $data['cantidad'] ?> </td>
+                                    <td><?= $data['i'] ?> </td>
+                                    <td><?= $data['ii'] ?> </td>
+                                    <td><?= $data['iii'] ?> </td>
+                                    <td><?= $data['iv'] ?> </td>
+                                    <td><?= $data['cant_total_distribuir'] ?> </td>
 
-                                <td><?=$data['precio_total']?> </td>
-                                <td><?=$data['alicuota_iva']?> </td>
-                                <td><?=$data['iva_estimado']?> </td>
-                                <td><?=$data['monto_estimado']?> </td>
-                                <td class="center">
-                                    <!-- <a onclick="modal(<?php echo $data['id_p_items'] ?>);" data-toggle="modal"
+                                    <td><?= $data['precio_total'] ?> </td>
+                                    <td><?= $data['alicuota_iva'] ?> </td>
+                                    <td><?= $data['iva_estimado'] ?> </td>
+                                    <td><?= $data['monto_estimado'] ?> </td>
+                                    <td class="center">
+                                        <!-- <a onclick="modal(<?php echo $data['id_p_items'] ?>);" data-toggle="modal"
                                         data-target="#myModal_bienes" style="color: white">
                                         <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
                                             style="color: darkgreen;"></i>
                                     </a> -->
 
-                                    <!-- <a href="<?php echo base_url();?>index.php/programacion/editar_item_servicio_acc?id=<?php echo $data['id_p_items'];?>/<?php echo $data['id_p_items'];?>"
+                                        <!-- <a href="<?php echo base_url(); ?>index.php/programacion/editar_item_servicio_acc?id=<?php echo $data['id_p_items']; ?>/<?php echo $data['id_p_items']; ?>"
                                             class="button">
                                             <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
                                             style="color: darkgreen;"></i>
                                         <a />  -->
-                                    <a onclick="modal(<?php echo $data['id_p_items'] ?>);" data-toggle="modal"
-                                        data-target="#myModal_bienes" style="color: white">
-                                        <i title="editar" class="fas  fa-lg fa-fw fa-highlighter"
-                                            style="color: darkgreen;"></i>
-                                    </a>
+                                        <a onclick="modal(<?php echo $data['id_p_items'] ?>);" data-toggle="modal"
+                                            data-target="#myModal_bienes" style="color: white">
+                                            <i title="editar" class="fas  fa-lg fa-fw fa-highlighter"
+                                                style="color: darkgreen;"></i>
+                                        </a>
 
-                                    <a onclick="eliminar_items_servi(<?php echo $data['id_p_items'];?>);"
-                                        class="button"><i class="fas fa-lg fa-fw  fa-trash-alt"
-                                            style="color:red"></i><a />
+                                        <a onclick="eliminar_items_servi(<?php echo $data['id_p_items']; ?>);"
+                                            class="button"><i class="fas fa-lg fa-fw  fa-trash-alt"
+                                                style="color:red"></i><a />
 
-                                </td>
-                            </tr>
-                            <?php endforeach;?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -361,7 +364,7 @@
                     <button type="button" class="my-button3" onclick="location.href='#accbienes'">Continuar con la Carga
                         de Acciòn Centralizada Servicios</button>
                     <button
-                        onclick="location.href='<?php echo base_url()?>index.php/programacion/nueva_prog?id=<?php echo $id_programacion;?>'"
+                        onclick="location.href='<?php echo base_url() ?>index.php/programacion/nueva_prog?id=<?php echo $id_programacion; ?>'"
                         type="button" class="my-button3" name="button">
                         Ir a Carga Plan de Compra
                     </button>
@@ -568,73 +571,75 @@
             </div>
         </div>
     </div>
-
+    <script>
+        const BASE_URL = '<?= base_url() ?>';
+    </script>
 
     <!-- ////////////////////////////////////////////GUARDA MAS ITEM EN LA BD DE SERVICIOS -->
-    <!-- <script src="<?=base_url()?>/js/programacion.js"></script> -->
-    <script src="<?=base_url()?>/js/calculos.js"></script>
-    <!-- <script src="<?=base_url()?>/js/servicio/agregar_ff.js"></script>
-<script src="<?=base_url()?>/js/servicio/agregar_ip.js"></script>
-<script src="<?=base_url()?>/js/servicio/registro.js"></script> -->
+    <!-- <script src="<?= base_url() ?>/js/programacion.js"></script> -->
+    <script src="<?= base_url() ?>/js/calculos.js"></script>
+    <!-- <script src="<?= base_url() ?>/js/servicio/agregar_ff.js"></script>
+<script src="<?= base_url() ?>/js/servicio/agregar_ip.js"></script>
+<script src="<?= base_url() ?>/js/servicio/registro.js"></script> -->
 
-    <script src="<?=base_url()?>/js/servicio/Guardar_mas_item_acc_servicio.js"></script>
-
-
-
-    <script src="<?=base_url()?>/js/eliminar.js"></script>
+    <script src="<?= base_url() ?>/js/servicio/Guardar_mas_item_acc_servicio.js"></script>
 
 
 
+    <script src="<?= base_url() ?>/js/eliminar.js"></script>
 
-    <!-- <script src="<?=base_url()?>/js/bien/llenar_editar_acc_b.js"></script> -->
-    <!-- <script src="<?=base_url()?>/js/bien/agregar_acc_centralizada_edit.js"></script>
-    <script src="<?=base_url()?>/js/bien/agregar_acc_centralizada_ff.js"></script> -->
 
-    <!-- <script src="<?=base_url()?>/js/bien/calculos_bienes_edit.js"></script> -->
+
+
+    <!-- <script src="<?= base_url() ?>/js/bien/llenar_editar_acc_b.js"></script> -->
+    <!-- <script src="<?= base_url() ?>/js/bien/agregar_acc_centralizada_edit.js"></script>
+    <script src="<?= base_url() ?>/js/bien/agregar_acc_centralizada_ff.js"></script> -->
+
+    <!-- <script src="<?= base_url() ?>/js/bien/calculos_bienes_edit.js"></script> -->
 
     <script>
-    $(document).ready(function() {
-        $("#precio_total").on('paste', function(e) {
-            e.preventDefault();
-            //alert('Esta acción está deshabilitada');
-        });
-        $("#I").on('paste', function(e) {
-            e.preventDefault();
-            //alert('Esta acción está deshabilitada');
-        });
-        $("#II").on('paste', function(e) {
-            e.preventDefault();
-            //alert('Esta acción está deshabilitada');
-        });
-        $("#III").on('paste', function(e) {
-            e.preventDefault();
-            //alert('Esta acción está deshabilitada');
-        });
-        $("#IV").on('paste', function(e) {
-            e.preventDefault();
-            //alert('Esta acción está deshabilitada');
-        });
-        $("#primero_b").on('paste', function(e) {
-            e.preventDefault();
-            //alert('Esta acción está deshabilitada');
-        });
-        $("#segundo_b").on('paste', function(e) {
-            e.preventDefault();
-            //alert('Esta acción está deshabilitada');
-        });
-        $("#tercero_b").on('paste', function(e) {
-            e.preventDefault();
-            //alert('Esta acción está deshabilitada');
-        });
-        $("#cuarto_b").on('paste', function(e) {
-            e.preventDefault();
-            //alert('Esta acción está deshabilitada');
-        });
-        $("#precio_total_mod_b1").on('paste', function(e) {
-            e.preventDefault();
-            //alert('Esta acción está deshabilitada');
-        });
+        $(document).ready(function() {
+            $("#precio_total").on('paste', function(e) {
+                e.preventDefault();
+                //alert('Esta acción está deshabilitada');
+            });
+            $("#I").on('paste', function(e) {
+                e.preventDefault();
+                //alert('Esta acción está deshabilitada');
+            });
+            $("#II").on('paste', function(e) {
+                e.preventDefault();
+                //alert('Esta acción está deshabilitada');
+            });
+            $("#III").on('paste', function(e) {
+                e.preventDefault();
+                //alert('Esta acción está deshabilitada');
+            });
+            $("#IV").on('paste', function(e) {
+                e.preventDefault();
+                //alert('Esta acción está deshabilitada');
+            });
+            $("#primero_b").on('paste', function(e) {
+                e.preventDefault();
+                //alert('Esta acción está deshabilitada');
+            });
+            $("#segundo_b").on('paste', function(e) {
+                e.preventDefault();
+                //alert('Esta acción está deshabilitada');
+            });
+            $("#tercero_b").on('paste', function(e) {
+                e.preventDefault();
+                //alert('Esta acción está deshabilitada');
+            });
+            $("#cuarto_b").on('paste', function(e) {
+                e.preventDefault();
+                //alert('Esta acción está deshabilitada');
+            });
+            $("#precio_total_mod_b1").on('paste', function(e) {
+                e.preventDefault();
+                //alert('Esta acción está deshabilitada');
+            });
 
-       
-    });
+
+        });
     </script>

@@ -1,10 +1,10 @@
-function buscar_ccnnu(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
+function buscar_ccnnua(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
     var ccnu_b = $('#ccnu_b').val();
-//esto llena ccnu de cargar nuevos items servicio
-    //var base_url =window.location.origin+'/asnc/index.php/Programacion/llenar_selc_ccnu_m';
-   var base_url = '/index.php/Programacion/llenar_selc_ccnu_m';
+//esto llena ccnu de cargar nuevos items bienes
+    // var base_url =window.location.origin+'/asnc/index.php/Programacion/llenar_selc_ccnu_m';
+  //  var base_url = '/index.php/Programacion/llenar_selc_ccnu_m';
     $.ajax({
-        url:base_url,
+        url:BASE_URL + 'index.php/Programacion/llenar_selc_ccnu_m',
         method: 'post',
         data: {ccnu_b_m: ccnu_b},
         dataType: 'json',
@@ -223,9 +223,9 @@ function guardar_acc_servicio(){
                 event.preventDefault();
                 var datos = new FormData($("#guardar_tcu")[0]);
                 //var base_url =window.location.origin+'/asnc/index.php/Programacion/Guardar_mas_item_py_servicio';
-                var base_url = '/index.php/Programacion/Guardar_mas_item_py_servicio';
+                // var base_url = '/index.php/Programacion/Guardar_mas_item_py_servicio';
                 $.ajax({
-                    url:base_url,
+                    url:BASE_URL + 'index.php/Programacion/Guardar_mas_item_py_servicio',
                     method: 'POST',
                     data: datos,
                     contentType: false,

@@ -117,6 +117,9 @@
         </div>
     </div>
 </div>
+<script>
+    const BASE_URL = '<?= base_url() ?>';
+</script>
 <script type="text/javascript">
     function valideKey(evt) {
         var code = (evt.which) ? evt.which : evt.keyCode;
@@ -134,7 +137,7 @@
         $('#anio').on('blur', function() {
             var anio = $(this).val();
             var base_url = '/index.php/Programacion/valida_anios';
-            //  var base_url = window.location.origin + '/asnc/index.php/Programacion/valida_anios';
+            // var base_url = window.location.origin + '/asnc/index.php/Programacion/valida_anios';
 
 
             if (anio === '') {

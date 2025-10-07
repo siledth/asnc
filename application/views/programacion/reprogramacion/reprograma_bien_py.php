@@ -7,9 +7,9 @@
             <div class="card card-outline-danger text-center bg-white">
                 <div class="card-block">
                     <blockquote class="card-blockquote" style="margin-bottom: -19px;">
-                        <p class="f-s-18 text-inverse f-w-600">Nombre Órgano / Ente: <?=$des_unidad?>.</p>
-                        <p class="f-s-16">RIF.: <?=$rif?> <br>
-                            Código ONAPRE: <?=$codigo_onapre?> <br>
+                        <p class="f-s-18 text-inverse f-w-600">Nombre Órgano / Ente: <?= $des_unidad ?>.</p>
+                        <p class="f-s-16">RIF.: <?= $rif ?> <br>
+                            Código ONAPRE: <?= $codigo_onapre ?> <br>
 
 
                             <!-- <input type="hidden" name="fecha_est" id="fecha_est" value=""> -->
@@ -20,12 +20,12 @@
         <div class="col-lg-12">
             <div class="panel panel-inverse" data-sortable-id="form-validation-1">
 
-                <?php foreach($inf_1_acc as $inf_1_acc):?><?php endforeach;?>
+                <?php foreach ($inf_1_acc as $inf_1_acc): ?><?php endforeach; ?>
 
                 <div class="col-6 mt-3 form-group">
                     <label>Nombre del Proyecto<b style="color:red">*</b></label><br>
                     <input type="text" id="desc_objeto_contrata" name="desc_objeto_contrata"
-                        value="<?=$inf_1_acc['nombre_proyecto']?>" class="form-control" readonly>
+                        value="<?= $inf_1_acc['nombre_proyecto'] ?>" class="form-control" readonly>
 
                     </select>
                 </div>
@@ -33,9 +33,9 @@
                 <div class="form-group mt-2 col-3">
                     <label>Objeto de Contratación</label><br>
                     <input type="hidden" id="id_obj_comercial" name="id_obj_comercial"
-                        value="<?=$inf_1_acc['id_obj_comercial']?>">
+                        value="<?= $inf_1_acc['id_obj_comercial'] ?>">
                     <input type="text" id="desc_objeto_contrata" name="desc_objeto_contrata"
-                        value="<?=$inf_1_acc['desc_objeto_contrata']?>" class="form-control" readonly>
+                        value="<?= $inf_1_acc['desc_objeto_contrata'] ?>" class="form-control" readonly>
                 </div>
                 <div class="col-12">
                     <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
@@ -46,16 +46,14 @@
                     <div class="panel-body">
                         <div class="row">
                             <input type="hidden" id="id_obj_comercial" name="id_obj_comercial"
-                                value="<?=$inf_1_acc['id_obj_comercial']?>">
-                                <label style="color: red;">Debe Ingresar una Observación</label> Leer<i
-                                    style="color: red;" title="Debe ingresar una Observación"
-                                    class="fas fa-question-circle"></i><br>
-                                <textarea class="form-control" rows="2" name="observaciones"
-                                    id="observaciones"></textarea>
+                                value="<?= $inf_1_acc['id_obj_comercial'] ?>">
+                            <label style="color: red;">Debe Ingresar una Observación</label> Leer<i style="color: red;"
+                                title="Debe ingresar una Observación" class="fas fa-question-circle"></i><br>
+                            <textarea class="form-control" rows="2" name="observaciones" id="observaciones"></textarea>
                             <input type="hidden" id="id_programacion3" name="id_programacion3"
-                                value="<?=$id_programacion?>">
+                                value="<?= $id_programacion ?>">
                             <input type="hidden" id="id_programacion" name="id_programacion"
-                                value="<?=$id_p_proyecto?>">
+                                value="<?= $id_p_proyecto ?>">
                             <div class="col-12 text-center">
                                 <h4 style="color:red;">Información Items Fuente Financiamiento (IFF)</h4>
                             </div>
@@ -67,10 +65,10 @@
                                     class="default-select2 form-control">
                                     <option value="0">Seleccione</option>
                                     <?php foreach ($part_pres as $data): ?>
-                                    <option
-                                        value="<?=$data['id_partida_presupuestaria']?>/<?=$data['desc_partida_presupuestaria']?>/<?=$data['codigopartida_presupuestaria']?>">
-                                        <?=$data['codigopartida_presupuestaria']?>/<?=$data['desc_partida_presupuestaria']?>
-                                    </option>
+                                        <option
+                                            value="<?= $data['id_partida_presupuestaria'] ?>/<?= $data['desc_partida_presupuestaria'] ?>/<?= $data['codigopartida_presupuestaria'] ?>">
+                                            <?= $data['codigopartida_presupuestaria'] ?>/<?= $data['desc_partida_presupuestaria'] ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -81,7 +79,7 @@
                                     class="default-select2 form-control" multiple="multiple">
                                     <option value="0">Seleccione</option>
                                     <?php foreach ($estados as $data): ?>
-                                    <option value="<?=$data['descedo']?>"><?=$data['descedo']?></option>
+                                        <option value="<?= $data['descedo'] ?>"><?= $data['descedo'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -91,9 +89,9 @@
                                     name="fuente_financiamiento_acc" class="default-select2 form-control">
                                     <option value="0">Seleccione</option>
                                     <?php foreach ($fuente as $data): ?>
-                                    <option
-                                        value="<?=$data['id_fuente_financiamiento']?>/<?=$data['desc_fuente_financiamiento']?>">
-                                        <?=$data['desc_fuente_financiamiento']?></option>
+                                        <option
+                                            value="<?= $data['id_fuente_financiamiento'] ?>/<?= $data['desc_fuente_financiamiento'] ?>">
+                                            <?= $data['desc_fuente_financiamiento'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -116,7 +114,7 @@
                                     <div class="col-4">
                                         <input title="Debe ingresar una palabra para realizar la busqueda" type="text"
                                             class="form-control" onKeyUp="this.value=this.value.toUpperCase();"
-                                            name="ccnu_b" id="ccnu_b" onblur="buscar_ccnnu();">
+                                            name="ccnu_b" id="ccnu_b" onblur="buscar_ccnnua();">
                                     </div>
                                     <div class="col-8">
                                         <select
@@ -138,8 +136,8 @@
                                     class="form-control default-select2">
                                     <option value="">SELECCIONE</option>
                                     <?php foreach ($unid as $data): ?>
-                                    <option value="<?=$data['id_unidad_medida']?>/<?=$data['desc_unidad_medida']?>">
-                                        <?=$data['desc_unidad_medida']?></option>
+                                        <option value="<?= $data['id_unidad_medida'] ?>/<?= $data['desc_unidad_medida'] ?>">
+                                            <?= $data['desc_unidad_medida'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -196,8 +194,8 @@
                                     onchange="calcular_bienes();" class="form-control default-select2">
                                     <option value="">SELECCIONE</option>
                                     <?php foreach ($iva as $data): ?>
-                                    <option value="<?=$data['desc_alicuota_iva']?>/<?=$data['desc_porcentaj']?>">
-                                        <?=$data['desc_porcentaj']?></option>
+                                        <option value="<?= $data['desc_alicuota_iva'] ?>/<?= $data['desc_porcentaj'] ?>">
+                                            <?= $data['desc_porcentaj'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -277,36 +275,36 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach($accion as $data):?>
-                            <tr class="odd gradeX" style="text-align:center">
-                                <td><?=$data['id_p_items']?> </td>
-                                <td><?=$data['codigopartida_presupuestaria']?> </td>
-                                <td><?=$data['desc_ccnu']?> </td>
-                                <td><?=$data['especificacion']?> </td>
-                                <td><?=$data['desc_unidad_medida']?> </td>
-                                <td><?=$data['cantidad']?> </td>
-                                <td><?=$data['i']?> </td>
-                                <td><?=$data['ii']?> </td>
-                                <td><?=$data['iii']?> </td>
-                                <td><?=$data['iv']?> </td>
-                                <td><?=$data['cant_total_distribuir']?> </td>
-                                <td><?=$data['costo_unitario']?> </td>
-                                <td><?=$data['precio_total']?> </td>
-                                <td><?=$data['alicuota_iva']?> </td>
-                                <td><?=$data['iva_estimado']?> </td>
-                                <td><?=$data['monto_estimado']?> </td>
-                                <td class="center">
-                                    <a onclick="modal(<?php echo $data['id_p_items'] ?>);" data-toggle="modal"
-                                        data-target="#myModal_bienes" style="color: white">
-                                        <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
-                                            style="color: darkgreen;"></i>
-                                    </a>
-                                    <a onclick="eliminar_items_bienes(<?php echo $data['id_p_items'];?>);"
-                                        class="button"><i class="fas fa-lg fa-fw  fa-trash-alt"
-                                            style="color:red"></i><a />
-                                </td>
-                            </tr>
-                            <?php endforeach;?>
+                            <?php foreach ($accion as $data): ?>
+                                <tr class="odd gradeX" style="text-align:center">
+                                    <td><?= $data['id_p_items'] ?> </td>
+                                    <td><?= $data['codigopartida_presupuestaria'] ?> </td>
+                                    <td><?= $data['desc_ccnu'] ?> </td>
+                                    <td><?= $data['especificacion'] ?> </td>
+                                    <td><?= $data['desc_unidad_medida'] ?> </td>
+                                    <td><?= $data['cantidad'] ?> </td>
+                                    <td><?= $data['i'] ?> </td>
+                                    <td><?= $data['ii'] ?> </td>
+                                    <td><?= $data['iii'] ?> </td>
+                                    <td><?= $data['iv'] ?> </td>
+                                    <td><?= $data['cant_total_distribuir'] ?> </td>
+                                    <td><?= $data['costo_unitario'] ?> </td>
+                                    <td><?= $data['precio_total'] ?> </td>
+                                    <td><?= $data['alicuota_iva'] ?> </td>
+                                    <td><?= $data['iva_estimado'] ?> </td>
+                                    <td><?= $data['monto_estimado'] ?> </td>
+                                    <td class="center">
+                                        <a onclick="modal(<?php echo $data['id_p_items'] ?>);" data-toggle="modal"
+                                            data-target="#myModal_bienes" style="color: white">
+                                            <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
+                                                style="color: darkgreen;"></i>
+                                        </a>
+                                        <a onclick="eliminar_items_servi2(<?php echo $data['id_p_items']; ?>);"
+                                            class="button"><i class="fas fa-lg fa-fw  fa-trash-alt"
+                                                style="color:red"></i><a />
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -469,23 +467,26 @@
             </div>
         </div>
     </div>
+    <script>
+        const BASE_URL = '<?= base_url() ?>';
+    </script>
     <!-- /////////////////////////////editar items de bienes -->
-    <script src="<?=base_url()?>/js/bien/modal_editar_items_bienes.js"></script>
+    <script src="<?= base_url() ?>/js/bien/modal_editar_items_bienes.js"></script>
     <!-- /////////////////////////////editar items de bienes -->
-    <script src="<?=base_url()?>/js/bien/llenar_editar_proy_b.js"></script>
-    <script src="<?=base_url()?>/js/bien/agregar_acc_centralizada_edit.js"></script>
-    <script src="<?=base_url()?>/js/bien/agregar_acc_centralizada_ff.js"></script>
-    <script src="<?=base_url()?>/js/bien/calculos_bienes_edit.js"></script>
+    <script src="<?= base_url() ?>/js/bien/llenar_editar_proy_b.js"></script>
+    <script src="<?= base_url() ?>/js/bien/agregar_acc_centralizada_edit.js"></script>
+    <script src="<?= base_url() ?>/js/bien/agregar_acc_centralizada_ff.js"></script>
+    <script src="<?= base_url() ?>/js/bien/calculos_bienes_edit.js"></script>
 
     <!-- ///////////////////////////////////////////////////////guardar items py bienes -->
-    <script src="<?=base_url()?>/js/bien/guardar_items_py_bien.js"></script>
+    <script src="<?= base_url() ?>/js/bien/guardar_items_py_bien.js"></script>
 
 
-    <!-- <script src="<?=base_url()?>/js/bien/llenar_editar_acc_b.js"></script> -->
-    <script src="<?=base_url()?>/js/bien/agregar_acc_centralizada_edit.js"></script>
-    <script src="<?=base_url()?>/js/bien/agregar_acc_centralizada_ff.js"></script>
+    <!-- <script src="<?= base_url() ?>/js/bien/llenar_editar_acc_b.js"></script> -->
+    <script src="<?= base_url() ?>/js/bien/agregar_acc_centralizada_edit.js"></script>
+    <script src="<?= base_url() ?>/js/bien/agregar_acc_centralizada_ff.js"></script>
 
-    <script src="<?=base_url()?>/js/bien/calculos_bienes_edit.js"></script>
+    <script src="<?= base_url() ?>/js/bien/calculos_bienes_edit.js"></script>
 
 
-    <script src="<?=base_url()?>/js/eliminar.js"></script>
+    <script src="<?= base_url() ?>/js/eliminar.js"></script>

@@ -244,9 +244,9 @@ function guardar_acc_servicio(){
                 event.preventDefault();
                 var datos = new FormData($("#guardar_tcu")[0]);
                 //var base_url =window.location.origin+'/asnc/index.php/Programacion/Guardar_mas_item_acc_obra';
-                var base_url = '/index.php/Programacion/Guardar_mas_item_acc_obra';
+                // var base_url = '/index.php/Programacion/Guardar_mas_item_acc_obra';
                 $.ajax({
-                    url:base_url,
+                    url:BASE_URL + 'index.php/Programacion/Guardar_mas_item_acc_obra',
                     method: 'POST',
                     data: datos,
                     contentType: false,

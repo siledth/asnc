@@ -3,7 +3,7 @@ function enviar(id_programacion) {
     swal
         .fire({
             title: "¿Seguro que desea remitir al SNC la Programación seleccionada?.",
-            text: "Enviar solo cuando se haya terminado de cargar la programacion.",
+            text: "Enviar solo cuando se haya terminado de cargar la programación.",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -15,10 +15,10 @@ function enviar(id_programacion) {
             if (result.value == true) {
                 var id = id_programacion;
             //   var base_url =window.location.origin+'/asnc/index.php/Programacion/enviar_snc';
-               var base_url = '/index.php/Programacion/enviar_snc';
+            //    var base_url = '/index.php/Programacion/enviar_snc';
                    
                 $.ajax({
-                    url: base_url,
+                    url: BASE_URL + 'index.php/Programacion/enviar_snc',
                     method: "post",
                     data: {
                         id: id,
@@ -258,10 +258,10 @@ function enviar(id_programacion) {
                 if (result.value == true) {
                     var id = id_programacion;
                   // var base_url =window.location.origin+'/asnc/index.php/Programacion/enviar_snc_reprogramacion';
-                   var base_url = '/index.php/Programacion/enviar_snc_reprogramacion';
+                //    var base_url = '/index.php/Programacion/enviar_snc_reprogramacion';
                        
                     $.ajax({
-                        url: base_url,
+                        url: BASE_URL + 'index.php/Programacion/enviar_snc_reprogramacion',
                         method: "post",
                         data: {
                             id: id,
@@ -309,7 +309,7 @@ function enviar(id_programacion) {
         
                     event.preventDefault();
                     var datos = new FormData($("#resgistrar_anio")[0]);
-                  //  var base_url =window.location.origin+'/asnc/index.php/programacion/agg_programacion_anio';
+                //    var base_url =window.location.origin+'/asnc/index.php/programacion/agg_programacion_anio';
                    var base_url = '/index.php/programacion/agg_programacion_anio';
                     $.ajax({
                         url:base_url,

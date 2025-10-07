@@ -26,16 +26,16 @@
     var id_programacion = id;
     
       //  var base_url6 =window.location.origin+'/asnc/index.php/Programacion/consultar_acc14'; 
-          var base_url6 = '/index.php/Programacion/consultar_acc14';
+        //   var base_url6 = '/index.php/Programacion/consultar_acc14';
         //var base_url7 =window.location.origin+'/asnc/index.php/Programacion/consultar_obto'; 
-          var base_url7 = '/index.php/Programacion/consultar_obto';
+        //   var base_url7 = '/index.php/Programacion/consultar_obto';
         var rifced = 1;       
         $("#id_programacion1").val(id_programacion);
         
         
         
         $.ajax({
-            url:base_url6,
+            url:BASE_URL + 'index.php/Programacion/consultar_acc14', 
             method: 'post',
             data: {rifced: rifced},
             dataType: 'json',
@@ -46,7 +46,7 @@
             }
         })
         $.ajax({
-            url:base_url7,
+            url:BASE_URL + 'index.php/Programacion/consultar_obto',
             method: 'post',
             data: {rifced: rifced},
             dataType: 'json',
@@ -82,10 +82,10 @@
                     event.preventDefault();
                     var datos = new FormData($("#save")[0]);
                            //     var base_url =window.location.origin+'/asnc/index.php/Programacion/nuevo_registro_acc_py';
-                     var base_url = '/index.php/Programacion/nuevo_registro_acc_py';
+                     //var base_url = '/index.php/Programacion/nuevo_registro_acc_py';
                     
                     $.ajax({
-                        url: base_url,
+                        url: BASE_URL + 'index.php/Programacion/nuevo_registro_acc_py', 
                         method: "POST",
                         data: datos,
                         contentType: false,
@@ -137,3 +137,56 @@
        
     //     });
     // }
+   function save_2(){
+
+        event.preventDefault();
+        swal
+            .fire({
+                title: "¿Registrar?",
+                text: "¿Esta seguro de registrar",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                cancelButtonText: "Cancelar",
+                confirmButtonText: "¡Si, guardar!",
+            })
+            .then((result) => {
+         
+            
+                if (result.value == true) {
+                    event.preventDefault();
+                    var datos = new FormData($("#save")[0]);
+                           //     var base_url =window.location.origin+'/asnc/index.php/Programacion/nuevo_registro_acc_py';
+                     //var base_url = '/index.php/Programacion/nuevo_registro_acc_py';
+                    
+                    $.ajax({
+                        url: BASE_URL + 'index.php/Programacion/nuevo_registro_acc_py2', 
+                        method: "POST",
+                        data: datos,
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            var menj = 'Guardado';
+                           
+                           if (response != '') {
+                            swal.fire({
+                                title: 'Registro Exitoso ',
+                                text: menj ,
+                                type: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Ok'
+                            }).then((result) => {
+                                if (result.value == true){
+                                    location.reload();
+                                }
+                            });
+                            }
+                            
+                        },
+                    });
+                }
+            });
+        
+    }

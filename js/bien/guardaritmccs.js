@@ -1,5 +1,25 @@
+function buscar_ccnnua(){ //PARA LLENAR EN SELECT DE CCNNU DENTRO DEL MODAL
+    var ccnu_b = $('#ccnu_b').val();
+//esto llena ccnu de cargar nuevos items bienes
+    // var base_url =window.location.origin+'/asnc/index.php/Programacion/llenar_selc_ccnu_m';
+  //  var base_url = '/index.php/Programacion/llenar_selc_ccnu_m';
+    $.ajax({
+        url:BASE_URL + 'index.php/Programacion/llenar_selc_ccnu_m',
+        method: 'post',
+        data: {ccnu_b_m: ccnu_b},
+        dataType: 'json',
+        success: function(data){
+            console.log(data);
+            $('#id_ccnu_acc').find('option').not(':first').remove();
+            $.each(data, function(index, response){
+                $('#id_ccnu_acc').append('<option value="'+response['codigo_ccnu']+'/'+response['desc_ccnu']+'">'+response['desc_ccnu']+'</option>');
+            });
+        }
+    })
+}
 
-/// bienes accion centralizada
+
+/// Guardar bienes accion centralizada
 
 function guardar_acc_bien(){
     var par_presupuestaria_acc = $("#par_presupuestaria_acc").val();
@@ -211,9 +231,9 @@ function guardar_acc_bien(){
                 event.preventDefault();
                 var datos = new FormData($("#guardar_tcu")[0]);
                 //var base_url =window.location.origin+'/asnc/index.php/Programacion/Guardar_mas_item_acc';
-                var base_url = '/index.php/Programacion/Guardar_mas_item_acc';
+                // var base_url = '/index.php/Programacion/Guardar_mas_item_acc';
                 $.ajax({
-                    url:base_url,
+                    url:BASE_URL + 'index.php/Programacion/Guardar_mas_item_acc',
                     method: 'POST',
                     data: datos,
                     contentType: false,

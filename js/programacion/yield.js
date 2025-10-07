@@ -1,14 +1,14 @@
 $('#matricular').on('select2:select', function (e) {
     var id_p_items = e.params.data['id'];
    
-        var base_url = '/index.php/Programacion/tolist_info';
-        var base_url2 = '/index.php/Programacion/llenar_modalidad';
+        // var base_url = '/index.php/Programacion/tolist_info';
+        // var base_url2 = '/index.php/Programacion/llenar_modalidad';
      
          
 
     
     $.ajax({
-        url: base_url,
+        url: BASE_URL + 'index.php/Programacion/tolist_info', 
         method: "post",
         data: { id_p_items: id_p_items },
         dataType: "json",

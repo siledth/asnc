@@ -264,6 +264,9 @@
         </div>
     </div>
 </div>
+<script>
+    const BASE_URL = '<?= base_url() ?>';
+</script>
 <script type="text/javascript">
     function valideKey(evt) {
         var code = (evt.which) ? evt.which : evt.keyCode;

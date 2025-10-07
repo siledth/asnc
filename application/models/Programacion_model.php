@@ -37,62 +37,100 @@ class Programacion_model extends CI_model
     //     $query = $this->db->get('programacion.programacion');
     //     return $query->row_array();
     // }
-
+    //crear proyectos y acciones centralizadas
     function nuevo_registro_acc_py($acc, $proy)
     {
         $this->db->select('max(e.id_p_proyecto) as id1');
         $query1 = $this->db->get('programacion.p_proyecto e');
         $response4 = $query1->row_array();
         $id1 = $response4['id1'] + 1;
-        if ($acc['acc_cargar'] == '1') {
 
-
+        if ($acc['acc_cargar'] == '1') { // Proyecto
             $data1 = array(
-                'id_p_proyecto'            => $id1,
+                'id_p_proyecto'   => $id1,
                 'id_programacion' => $proy['id_programacion'],
                 'nombre_proyecto' => $proy['nombre_proyecto'],
                 'id_obj_comercial' => $proy['id_obj_comercial'],
-                //  'id_usuario_operacion' => $proy['id_usuario'],
-                'estatus' => 1,
-                'fecha' => date('Y-m-d H:i:s'),
-                // 'fecha_fin_vigencia' => 'NULL',
-                // 'id_version_anterior_proyecto' => 'NULL',
-                //'tipo_operacion' => 'INSERT',
-
-
-
-
-
-
-
+                'estatus'         => 1,
+                'fecha'           => date('Y-m-d H:i:s'),
+                'id_original'     => $id1,   // 👈 importante
+                'version'         => 1,      // primera versión
+                'vigente'         => true,
+                'fecha_version'   => date('Y-m-d H:i:s'),
+                'usuario_version' => $proy['id_usuario']
             );
             $query = $this->db->insert('programacion.p_proyecto', $data1);
-        } elseif ($acc['acc_cargar'] == '2') {
+        } elseif ($acc['acc_cargar'] == '2') { // Acción centralizada
             $this->db->select('max(e.id_p_acc_centralizada) as id2');
             $query2 = $this->db->get('programacion.p_acc_centralizada e');
             $response5 = $query2->row_array();
             $id2 = $response5['id2'] + 1;
 
             $data2 = array(
-                'id_p_acc_centralizada'            => $id2,
-                'id_programacion' => $acc['id_programacion'],
+                'id_p_acc_centralizada' => $id2,
+                'id_programacion'       => $acc['id_programacion'],
                 'id_accion_centralizada' => $acc['id_p_acc_centralizada'],
-                'id_obj_comercial' => $acc['id_obj_comercial'],
-                //  'id_usuario_operacion' => $proy['id_usuario'],
-
-                'estatus' => 1,
-                'fecha' => date('Y-m-d H:i:s'),
-                //'tipo_operacion' => 'INSERT',
-
-
-
+                'id_obj_comercial'      => $acc['id_obj_comercial'],
+                'estatus'               => 1,
+                'fecha'                 => date('Y-m-d H:i:s'),
+                'id_original'           => $id2,   // 👈 importante
+                'version'               => 1,      // primera versión
+                'vigente'               => true,
+                'fecha_version'         => date('Y-m-d H:i:s'),
+                'usuario_version'       => $acc['id_usuario']
             );
             $query = $this->db->insert('programacion.p_acc_centralizada', $data2);
         }
+        return true;
+    }
+    function nuevo_registro_acc_pyv2($acc, $proy)
+    {
+        // Si es PROYECTO
+        if ($acc['acc_cargar'] == '1') {
+            $this->db->select('MAX(id_p_proyecto) as id1');
+            $id1 = $this->db->get('programacion.p_proyecto')->row()->id1 + 1;
 
+            $data1 = array(
+                'id_p_proyecto'   => $id1,
+                'id_programacion' => $proy['id_programacion'],
+                'nombre_proyecto' => $proy['nombre_proyecto'],
+                'id_obj_comercial' => $proy['id_obj_comercial'],
+                'estatus'         => 1,
+                'fecha'           => date('Y-m-d H:i:s'),
+                'id_original'     => $id1,   // opcional: podrías mantenerlo igual al id
+                'version'         => 2,      // 👈 SIEMPRE versión 2
+                'vigente'         => true,
+                'fecha_version'   => date('Y-m-d H:i:s'),
+                'usuario_version' => $proy['id_usuario']
+            );
+            $this->db->insert('programacion.p_proyecto', $data1);
+        }
+
+        // Si es ACCIÓN CENTRALIZADA
+        elseif ($acc['acc_cargar'] == '2') {
+            $this->db->select('MAX(id_p_acc_centralizada) as id2');
+            $id2 = $this->db->get('programacion.p_acc_centralizada')->row()->id2 + 1;
+
+            $data2 = array(
+                'id_p_acc_centralizada' => $id2,
+                'id_programacion'       => $acc['id_programacion'],
+                'id_accion_centralizada' => $acc['id_p_acc_centralizada'],
+                'id_obj_comercial'      => $acc['id_obj_comercial'],
+                'estatus'               => 1,
+                'fecha'                 => date('Y-m-d H:i:s'),
+                'id_original'           => $id2,   // igual al ID para mantener relación
+                'version'               => 2,      // 👈 SIEMPRE versión 2
+                'vigente'               => true,
+                'fecha_version'         => date('Y-m-d H:i:s'),
+                'usuario_version'       => $acc['id_usuario']
+            );
+            $this->db->insert('programacion.p_acc_centralizada', $data2);
+        }
 
         return true;
     }
+
+
     //Consulta los proyectos por separado de cada programación
     public function consultar_proyectos($id_programacion)
     {
@@ -105,6 +143,8 @@ class Programacion_model extends CI_model
         $this->db->join('programacion.objeto_contrata oc', 'oc.id_objeto_contrata = pp.id_obj_comercial');
         $this->db->join('programacion.programacion p', 'p.id_programacion = pp.id_programacion');
         $this->db->where('pp.id_programacion', $id_programacion);
+        $this->db->where('pp.vigente', 'true');
+
         $query = $this->db->get('programacion.p_proyecto pp');
         return $query->result_array();
     }
@@ -686,6 +726,8 @@ class Programacion_model extends CI_model
 
         $this->db->join('programacion.partida_presupuestaria pp', 'pp.id_partida_presupuestaria = pf.id_partidad_presupuestaria');
         $this->db->where('pf.id_proyecto', $id_programacion);
+        $this->db->where('pf.vigente', 'true');
+
         $this->db->group_by('pf.id_proyecto,
                              pf.id_partidad_presupuestaria,
                              pp.desc_partida_presupuestaria,
@@ -1335,6 +1377,8 @@ class Programacion_model extends CI_model
         //    $this->db->join('programacion.p_items ', 'p.id_enlace = pac.id_programacion');
 
         $this->db->where('pac.id_programacion', $id_programacion);
+        $this->db->where('pac.vigente', 'true');
+
         $query = $this->db->get('programacion.p_acc_centralizada pac');
         return $query->result_array();
     }
@@ -1947,6 +1991,87 @@ class Programacion_model extends CI_model
         return true;
     }
 
+    public function desactivar_acc_centralizada($data)
+    {
+        $id_acc = $data['id_items_acc'];
+        $id_usuario = $data['id_usuario'];
+
+        // 🔹 1. Marcar la acción centralizada como NO vigente
+        $this->db->where('id_p_acc_centralizada', $id_acc);
+        $update_acc = $this->db->update('programacion.p_acc_centralizada', [
+            'vigente' => false,
+            'fecha_version' => date('Y-m-d H:i:s'),
+            'tipo_operacion' => 'deletd',
+            'usuario_version' => $id_usuario
+        ]);
+
+        // 🔹 2. Marcar los ítems relacionados como NO vigentes
+        $this->db->where('id_enlace', $id_acc);
+        $this->db->where('id_p_acc', 1); // 1 = acción centralizada
+        $update_items = $this->db->update('programacion.p_items', [
+            'vigente' => false,
+            'fecha_fin_vigencia' => date('Y-m-d H:i:s'),
+            'tipo_operacion' => 'deletd',
+            'id_usuario_operacion' => $id_usuario
+        ]);
+
+        // (Opcional) 🔹 3. Si quieres marcar también la fuente de financiamiento
+        $this->db->where('id_enlace', $id_acc);
+        $this->db->where('id_p_acc', 1);
+        $this->db->update('programacion.p_ffinanciamiento', [
+            'vigente' => false,
+            'fecha_version' => date('Y-m-d H:i:s'),
+            'descripcion_ff' => 'deletd',
+            'usuario_version' => $id_usuario
+        ]);
+
+        if ($update_acc && $update_items) {
+
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+    public function desactivar_proyecto($data)
+    {
+        $id_proyecto = $data['id_proyecto'];
+        $id_usuario = $data['id_usuario'];
+
+        // 🔹 1. Desactivar el proyecto
+        $this->db->where('id_p_proyecto', $id_proyecto);
+        $update_proy = $this->db->update('programacion.p_proyecto', [
+            'vigente' => false,
+            'fecha_version' => date('Y-m-d H:i:s'),
+            'tipo_operacion' => 'DELETEd',
+            'id_usuario_operacion' => $id_usuario
+        ]);
+
+        // 🔹 2. Desactivar los ítems asociados
+        $this->db->where('id_enlace', $id_proyecto);
+        $this->db->where('id_p_acc', 0); // 0 = Proyecto
+        $update_items = $this->db->update('programacion.p_items', [
+            'vigente' => false,
+            'fecha_fin_vigencia' => date('Y-m-d H:i:s'),
+            'tipo_operacion' => 'DELETEd',
+            'id_usuario_operacion' => $id_usuario
+        ]);
+
+        // (Opcional) 🔹 3. Desactivar también fuentes de financiamiento
+        $this->db->where('id_enlace', $id_proyecto);
+        $this->db->where('id_p_acc', 0);
+        $this->db->update('programacion.p_ffinanciamiento', [
+            'vigente' => false,
+            'fecha_version' => date('Y-m-d H:i:s'),
+            'descripcion_ff' => 'DELETEd',
+            'usuario_version' => $id_usuario
+        ]);
+        if ($update_proy && $update_items) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
 
     public function editar_fila_ip_b_o($data)
     {
@@ -2129,6 +2254,10 @@ class Programacion_model extends CI_model
         $this->db->join('programacion.p_acc_centralizada p', 'p.id_p_acc_centralizada = pi2.id_enlace'); // esto viara cuando sea un proyecto consultar tabla proyecto
         $this->db->where('pi2.id_enlace', $id_p_acc_centralizada);
         $this->db->where('pi2.id_p_acc', 1);
+        // $this->db->where('pi2.vigente', 'TRUE');
+        $this->db->where('pi2.version', '1');
+
+
         $this->db->from('programacion.p_items pi2');
         $query = $this->db->get();
         return $query->result_array();
@@ -2166,6 +2295,7 @@ class Programacion_model extends CI_model
         $this->db->join('programacion.p_proyecto py', 'py.id_p_proyecto = pi2.id_enlace'); // esto viara cuando sea un proyecto consultar tabla proyecto
         $this->db->where('pi2.id_enlace', $id_p_proyecto);
         $this->db->where('pi2.id_p_acc', 0);
+        $this->db->where('pi2.vigente', 'TRUE');
         $this->db->from('programacion.p_items pi2');
         $query = $this->db->get();
         return $query->result_array();
@@ -2204,6 +2334,49 @@ class Programacion_model extends CI_model
         //  $this->db->join('programacion.p_acc_centralizada p','p.id_p_acc_centralizada = pi2.id_enlace');// esto viara cuando sea un proyecto consultar tabla proyecto
         $this->db->where('pi2.id_enlace', $id_p_proyecto);
         $this->db->where('pi2.id_p_acc', 0); //busca que sean proyectos
+        $this->db->where('pi2.vigente', 'TRUE');
+        // $this->db->where('pi2.version', '1');
+
+        $this->db->from('programacion.p_items pi2');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    function consultar_item_py_bienes2($id_p_proyecto)
+    {
+
+        $this->db->select('pi2.id_p_items,
+                               pi2.id_enlace,
+                               pi2.id_partidad_presupuestaria,
+                               pp.desc_partida_presupuestaria,
+                               pp.codigopartida_presupuestaria,
+                               pi2.id_ccnu,
+                               c2.desc_ccnu,
+                               pi2.fecha_desde,
+                               pi2.fecha_hasta,
+                               pi2.especificacion,
+                               pi2.id_unidad_medida,
+                               um.desc_unidad_medida,
+                               pi2.cantidad,
+                               pi2.costo_unitario,
+                               pi2.i,
+                               pi2.ii,
+                               pi2.iii,
+                               pi2.iv,
+                               pi2.cant_total_distribuir,
+                               pi2.precio_total,
+                               pi2.alicuota_iva,
+                               pi2.iva_estimado,
+                               pi2.monto_estimado,
+                               ');
+        $this->db->join('programacion.ccnu c2', 'c2.codigo_ccnu = pi2.id_ccnu');
+        $this->db->join('programacion.partida_presupuestaria pp', 'pp.id_partida_presupuestaria = pi2.id_partidad_presupuestaria');
+        $this->db->join('programacion.unidad_medida um', 'um.id_unidad_medida = pi2.id_unidad_medida');
+        //  $this->db->join('programacion.p_acc_centralizada p','p.id_p_acc_centralizada = pi2.id_enlace');// esto viara cuando sea un proyecto consultar tabla proyecto
+        $this->db->where('pi2.id_enlace', $id_p_proyecto);
+        $this->db->where('pi2.id_p_acc', 0); //busca que sean proyectos
+        // $this->db->where('pi2.vigente', 'TRUE');
+        $this->db->where('pi2.version', '1');
+
         $this->db->from('programacion.p_items pi2');
         $query = $this->db->get();
         return $query->result_array();
@@ -2353,11 +2526,56 @@ class Programacion_model extends CI_model
         $this->db->join('programacion.unidad_medida um', 'um.id_unidad_medida = pi2.id_unidad_medida');
         $this->db->where('pi2.id_enlace', $id_p_acc_centralizada);
         $this->db->where('pi2.id_p_acc', 1);
+        $this->db->where('pi2.version', 1);
+
         $this->db->from('programacion.p_items pi2');
         $query = $this->db->get();
         return $query->result_array();
     }
 
+    function consultar_tems_obrasv($id_p_acc_centralizada)
+    {
+
+        $this->db->select('pi2.id_p_items,
+                               pi2.id_enlace,
+                               pi2.id_partidad_presupuestaria,
+                               pp.desc_partida_presupuestaria,
+                               pp.codigopartida_presupuestaria,
+                               pi2.id_tip_obra,
+                               c2.descripcion_tip_obr,
+                               pi2.id_alcance_obra,
+                               c3.descripcion_alcance_obra,
+                               pi2.id_obj_obra,
+                               c4.descripcion_obj_obra,
+                               pi2.fecha_desde,
+                               pi2.fecha_hasta,
+                               pi2.especificacion,
+                               pi2.id_unidad_medida,
+                               um.desc_unidad_medida,
+                               pi2.cantidad,
+                               pi2.costo_unitario,
+                               pi2.i,
+                               pi2.ii,
+                               pi2.iii,
+                               pi2.iv,
+                               pi2.cant_total_distribuir,
+                               pi2.precio_total,
+                               pi2.alicuota_iva,
+                               pi2.iva_estimado,
+                               pi2.monto_estimado');
+        $this->db->join('programacion.tip_obra c2', 'c2.id_tip_obra = pi2.id_tip_obra');
+        $this->db->join('programacion.alcance_obra c3', 'c3.id_alcance_obra = pi2.id_alcance_obra');
+        $this->db->join('programacion.obj_obra c4', 'c4.id_obj_obra = pi2.id_obj_obra');
+        $this->db->join('programacion.partida_presupuestaria pp', 'pp.id_partida_presupuestaria = pi2.id_partidad_presupuestaria');
+        $this->db->join('programacion.unidad_medida um', 'um.id_unidad_medida = pi2.id_unidad_medida');
+        $this->db->where('pi2.id_enlace', $id_p_acc_centralizada);
+        $this->db->where('pi2.id_p_acc', 1);
+        $this->db->where('pi2.vigente', 'TRUE');
+
+        $this->db->from('programacion.p_items pi2');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
     //////////////////////consultar item obras para cargar mas items proyecto
     function consultar_tems_obras_py($id_p_proyecto)
     {
@@ -2396,6 +2614,49 @@ class Programacion_model extends CI_model
         $this->db->join('programacion.unidad_medida um', 'um.id_unidad_medida = pi2.id_unidad_medida');
         $this->db->where('pi2.id_enlace', $id_p_proyecto);
         $this->db->where('pi2.id_p_acc', 0); //indico que consulte los proyectos con ese id_enlace
+        $this->db->where('pi2.version', 1);
+        $this->db->from('programacion.p_items pi2');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    function consultar_tems_obras_pyv2($id_p_proyecto)
+    {
+
+        $this->db->select('pi2.id_p_items,
+                               pi2.id_enlace,
+                               pi2.id_partidad_presupuestaria,
+                               pp.desc_partida_presupuestaria,
+                               pp.codigopartida_presupuestaria,
+                               pi2.id_tip_obra,
+                               c2.descripcion_tip_obr,
+                               pi2.id_alcance_obra,
+                               c3.descripcion_alcance_obra,
+                               pi2.id_obj_obra,
+                               c4.descripcion_obj_obra,
+                               pi2.fecha_desde,
+                               pi2.fecha_hasta,
+                               pi2.especificacion,
+                               pi2.id_unidad_medida,
+                               um.desc_unidad_medida,
+                               pi2.cantidad,
+                               pi2.costo_unitario,
+                               pi2.i,
+                               pi2.ii,
+                               pi2.iii,
+                               pi2.iv,
+                               pi2.cant_total_distribuir,
+                               pi2.precio_total,
+                               pi2.alicuota_iva,
+                               pi2.iva_estimado,
+                               pi2.monto_estimado');
+        $this->db->join('programacion.tip_obra c2', 'c2.id_tip_obra = pi2.id_tip_obra');
+        $this->db->join('programacion.alcance_obra c3', 'c3.id_alcance_obra = pi2.id_alcance_obra');
+        $this->db->join('programacion.obj_obra c4', 'c4.id_obj_obra = pi2.id_obj_obra');
+        $this->db->join('programacion.partida_presupuestaria pp', 'pp.id_partida_presupuestaria = pi2.id_partidad_presupuestaria');
+        $this->db->join('programacion.unidad_medida um', 'um.id_unidad_medida = pi2.id_unidad_medida');
+        $this->db->where('pi2.id_enlace', $id_p_proyecto);
+        $this->db->where('pi2.id_p_acc', 0); //indico que consulte los proyectos con ese id_enlace
+        $this->db->where('pi2.vigente', 'TRUE');
         $this->db->from('programacion.p_items pi2');
         $query = $this->db->get();
         return $query->result_array();
@@ -2466,62 +2727,79 @@ class Programacion_model extends CI_model
         $response4 = $query1->row_array();
         $id1 = $response4['id1'] + 1;
 
+        // Insertamos con versión inicial
         $data1 = array(
             'id_p_items'            => $id1,
-            'id_enlace' => $data['id_enlace'],
-            'id_p_acc' => $data['id_p_acc'],
-
-            'id_obj_comercial' => $data['id_obj_comercial'],
-            'id_tip_obra' => $data['id_tip_obra'],
-            'id_alcance_obra' => $data['id_alcance_obra'],
-            'id_obj_obra' =>  $data['id_obj_obra'],
-            'fecha_desde' =>  $data['fecha_desde'],
-            'fecha_hasta' => $data['fecha_hasta'],
+            'id_enlace'             => $data['id_enlace'],
+            'id_p_acc'              => $data['id_p_acc'],
+            'id_obj_comercial'      => $data['id_obj_comercial'],
+            'id_tip_obra'           => $data['id_tip_obra'],
+            'id_alcance_obra'       => $data['id_alcance_obra'],
+            'id_obj_obra'           => $data['id_obj_obra'],
+            'fecha_desde'           => $data['fecha_desde'],
+            'fecha_hasta'           => $data['fecha_hasta'],
             'id_partidad_presupuestaria' => $data['id_partidad_presupuestaria'],
-            'id_ccnu'                 => $data['id_ccnu'],
-            'especificacion'         => $data['especificacion'],
-            'id_unidad_medida'          => $data['id_unidad_medida'],
-            'cantidad'          => $data['cantidad'],
-            'i'                   => $data['i'],
-            'ii'                     => $data['ii'],
-            'iii'                     => $data['iii'],
-            'iv'                      => $data['iv'],
-            'cant_total_distribuir'  => $data['cant_total_distribuir'],
-            'precio_total'             => $data['precio_total'],
-            'alicuota_iva'         => $data['alicuota_iva'],
-            'iva_estimado'             => $data['iva_estimado'],
-            'costo_unitario'         => $data['costo_unitario'],
-            'monto_estimado'         => $data['monto_estimado'],
-            'est_trim_1'          => $data['est_trim_1'],
-            'est_trim_2'          => $data['est_trim_2'],
-            'est_trim_3'         => $data['est_trim_3'],
-            'est_trim_4'          => $data['est_trim_4'],
-            'estimado_total_t_acc' => $data['estimado_total_t_acc'],
-            'estatus_rendi' => $data['estatus_rendi'],
-            'id_proyecto' => $data['id_proyecto'],
-            'id_usuario' => $data['id_usuario'],
-
-
-
+            'id_ccnu'               => $data['id_ccnu'],
+            'especificacion'        => $data['especificacion'],
+            'id_unidad_medida'      => $data['id_unidad_medida'],
+            'cantidad'              => $data['cantidad'],
+            'i'                     => $data['i'],
+            'ii'                    => $data['ii'],
+            'iii'                   => $data['iii'],
+            'iv'                    => $data['iv'],
+            'cant_total_distribuir' => $data['cant_total_distribuir'],
+            'precio_total'          => $data['precio_total'],
+            'alicuota_iva'          => $data['alicuota_iva'],
+            'iva_estimado'          => $data['iva_estimado'],
+            'costo_unitario'        => $data['costo_unitario'],
+            'monto_estimado'        => $data['monto_estimado'],
+            'est_trim_1'            => $data['est_trim_1'],
+            'est_trim_2'            => $data['est_trim_2'],
+            'est_trim_3'            => $data['est_trim_3'],
+            'est_trim_4'            => $data['est_trim_4'],
+            'estimado_total_t_acc'  => $data['estimado_total_t_acc'],
+            'estatus_rendi'         => $data['estatus_rendi'],
+            'id_proyecto'           => $data['id_proyecto'],
+            'id_usuario'            => $data['id_usuario'],
+            'id_original'           => $id1,
+            'version'               => 1,
+            'vigente'               => true,
+            'fecha_version'         => date('Y-m-d H:i:s'),
+            'usuario_version'       => $data['id_usuario']
         );
-        $quers = $this->db->insert("programacion.p_items", $data1);
-        // $this->db->insert('programacion.p_items',$data);
-        if ($quers) {
-            $id = $id;
 
+        $insert = $this->db->insert("programacion.p_items", $data1);
+
+        if ($insert) {
+            // // actualizamos id_original para que apunte a sí mismo (versión base)
+            // $this->db->set('id_original', $id1);
+            // $this->db->where('id_p_items', $id1);
+            // $this->db->update('programacion.p_items');
+
+            // insertar fuente de financiamiento asociada
             $data3 = array(
-                'id_p_items'    => $id1,
-                'id_estado'                   => $p_ffinanciamiento['id_estado'],
+                'id_p_items'             => $id1,
+                'id_estado'              => $p_ffinanciamiento['id_estado'],
                 'id_partidad_presupuestaria' => $p_ffinanciamiento['id_partidad_presupuestaria'],
-                'id_fuente_financiamiento'  => $p_ffinanciamiento['id_fuente_financiamiento'],
-                'porcentaje'                => $p_ffinanciamiento['porcentaje'],
-                'id_enlace' => $p_ffinanciamiento['id_enlace'],
-                'id_p_acc' => $p_ffinanciamiento['id_p_acc']
+                'id_fuente_financiamiento'   => $p_ffinanciamiento['id_fuente_financiamiento'],
+                'porcentaje'             => $p_ffinanciamiento['porcentaje'],
+                'id_enlace'              => $p_ffinanciamiento['id_enlace'],
+                'id_p_acc'               => $p_ffinanciamiento['id_p_acc'],
+                'id_original'           => $id1,
+                'version'               => 1,
+                'vigente'               => true,
+                'fecha_version'         => date('Y-m-d H:i:s'),
+                'usuario_version'       => $data['id_usuario']
+
             );
             $this->db->insert('programacion.p_ffinanciamiento', $data3);
+
             return true;
+        } else {
+            return false;
         }
     }
+
 
     ////////////////////////agrega mas items a BIENES REPROGRAMACION esta si ///////////////////
     function agregar_mas_item_reprogramado($data, $p_ffinanciamiento)
@@ -2633,13 +2911,18 @@ class Programacion_model extends CI_model
             'reprogramado' => 0,
             'id_proyecto' => $data['id_proyecto'],
             'id_usuario' => $data['id_usuario'],
+            'id_original'           => $id1,
+            'version'               => 1,
+            'vigente'               => true,
+            'fecha_version'         => date('Y-m-d H:i:s'),
+            'usuario_version'       => $data['id_usuario']
 
 
         );
         $quers = $this->db->insert("programacion.p_items", $data1);
         // $this->db->insert('programacion.p_items',$data);
         if ($quers) {
-            $id = $id;
+            // $id = $id;
 
             $data3 = array(
                 'id_p_items'    => $id1,
@@ -2648,7 +2931,12 @@ class Programacion_model extends CI_model
                 'id_fuente_financiamiento'  => $p_ffinanciamiento['id_fuente_financiamiento'],
                 'porcentaje'                => $p_ffinanciamiento['porcentaje'],
                 'id_enlace' => $p_ffinanciamiento['id_enlace'],
-                'id_p_acc' => $p_ffinanciamiento['id_p_acc']
+                'id_p_acc' => $p_ffinanciamiento['id_p_acc'],
+                'id_original'           => $id1,
+                'version'               => 1,
+                'vigente'               => true,
+                'fecha_version'         => date('Y-m-d H:i:s'),
+                'usuario_version'       => $data['id_usuario']
             );
             $this->db->insert('programacion.p_ffinanciamiento', $data3);
             return true;
@@ -2768,9 +3056,6 @@ class Programacion_model extends CI_model
         $query = $this->db->delete('programacion.p_items');
 
         if ($query) {
-            // $this->db->where('id_enlace', $data['id_items_proy']);
-            // $this->db->where('id_p_acc', 0);
-            // $query = $this->db->delete('programacion.p_items');
 
             $this->db->where('id_p_items', $data['id_p_items']);
             // $this->db->where('id_p_acc', 0);
@@ -2827,13 +3112,18 @@ class Programacion_model extends CI_model
             'estatus_rendi' => 0,
             'id_proyecto' => $data['id_proyecto'],
             'id_usuario' => $data['id_usuario'],
+            'id_original'           => $id1,
+            'version'               => 1,
+            'vigente'               => true,
+            'fecha_version'         => date('Y-m-d H:i:s'),
+            'usuario_version'       => $data['id_usuario']
 
 
         );
         $quers = $this->db->insert("programacion.p_items", $data1);
         // $this->db->insert('programacion.p_items',$data);
         if ($quers) {
-            $id = $id;
+            // $id = $id;
 
             $data3 = array(
                 'id_p_items'    => $id1,
@@ -2842,7 +3132,12 @@ class Programacion_model extends CI_model
                 'id_fuente_financiamiento'  => $p_ffinanciamiento['id_fuente_financiamiento'],
                 'porcentaje'                => $p_ffinanciamiento['porcentaje'],
                 'id_enlace' => $p_ffinanciamiento['id_enlace'],
-                'id_p_acc' => $p_ffinanciamiento['id_p_acc']
+                'id_p_acc' => $p_ffinanciamiento['id_p_acc'],
+                'id_original'           => $id1,
+                'version'               => 1,
+                'vigente'               => true,
+                'fecha_version'         => date('Y-m-d H:i:s'),
+                'usuario_version'       => $data['id_usuario']
             );
             $this->db->insert('programacion.p_ffinanciamiento', $data3);
             return true;
@@ -3354,6 +3649,11 @@ class Programacion_model extends CI_model
             'estatus_rendi' => $data['estatus_rendi'],
             'id_proyecto' => $data['id_proyecto'],
             'id_usuario' => $data['id_usuario'],
+            'id_original'           => $id1,
+            'version'               => 1,
+            'vigente'               => true,
+            'fecha_version'         => date('Y-m-d H:i:s'),
+            'usuario_version'       => $data['id_usuario']
 
 
         );
@@ -3369,7 +3669,12 @@ class Programacion_model extends CI_model
                 'id_fuente_financiamiento'  => $p_ffinanciamiento['id_fuente_financiamiento'],
                 'porcentaje'                => $p_ffinanciamiento['porcentaje'],
                 'id_enlace' => $p_ffinanciamiento['id_enlace'],
-                'id_p_acc' => $p_ffinanciamiento['id_p_acc']
+                'id_p_acc' => $p_ffinanciamiento['id_p_acc'],
+                'id_original'           => $id1, // agregamos el mismo ID como original
+                'version'               => 1,
+                'vigente'               => true,
+                'fecha_version'         => date('Y-m-d H:i:s'),
+                'usuario_version'       => $data['id_usuario']
             );
             $this->db->insert('programacion.p_ffinanciamiento', $data3);
             return true;
@@ -3417,6 +3722,11 @@ class Programacion_model extends CI_model
             'estatus_rendi' => $data['estatus_rendi'],
             'id_proyecto' => $data['id_proyecto'],
             'id_usuario' => $this->session->userdata('id_user'),
+            'id_original'           => $id1,
+            'version'               => 1,
+            'vigente'               => true,
+            'fecha_version'         => date('Y-m-d H:i:s'),
+            'usuario_version'       => $data['id_usuario']
 
 
         );
@@ -3432,7 +3742,12 @@ class Programacion_model extends CI_model
                 'id_fuente_financiamiento'  => $p_ffinanciamiento['id_fuente_financiamiento'],
                 'porcentaje'                => $p_ffinanciamiento['porcentaje'],
                 'id_enlace' => $p_ffinanciamiento['id_enlace'],
-                'id_p_acc' => $p_ffinanciamiento['id_p_acc']
+                'id_p_acc' => $p_ffinanciamiento['id_p_acc'],
+                'id_original'           => $id1,
+                'version'               => 1,
+                'vigente'               => true,
+                'fecha_version'         => date('Y-m-d H:i:s'),
+                'usuario_version'       => $data['id_usuario']
             );
             $this->db->insert('programacion.p_ffinanciamiento', $data3);
             return true;
@@ -3448,8 +3763,19 @@ class Programacion_model extends CI_model
         $this->db->where('unidad', $unidad);
         $this->db->where('estatus >', 1);
         $this->db->where('estatus <', 4);
+
+        // Opcional: Quita el $this->db->order_by() anterior para evitar conflictos
+
         $query = $this->db->get('programacion.programacion');
-        return $query->result_array();
+        $resultado = $query->result_array();
+
+        // SOLUCIÓN GARANTIZADA: Ordenar el array en PHP (Numérico Descendente)
+        usort($resultado, function ($a, $b) {
+            // Convierte a INT y resta para ordenar DESC (b - a)
+            return (int)$b['anio'] - (int)$a['anio'];
+        });
+
+        return $resultado;
     }
 
     //reprogrma servicio editar items
@@ -5295,9 +5621,32 @@ class Programacion_model extends CI_model
         $this->db->join('programacion.fuente_financiamiento f', 'f.id_fuente_financiamiento = ff.id_fuente_financiamiento', 'left');
         $this->db->join('programacion.unidad_medida un', 'un.id_unidad_medida = pac.id_unidad_medida', 'left');
         $this->db->join('programacion.objeto_contrata obj', 'obj.id_objeto_contrata = pac.id_obj_comercial', 'left');
-
-
         $this->db->where('pac.id_proyecto', $id_programacion);
+        $this->db->where('pac.version', 1);
+
+        $query = $this->db->get('programacion.p_items pac');
+        return $query->result_array();
+    }
+    public function Consultar_programacion_finalmodis($id_programacion)
+    {
+        $this->db->select('pac.id_p_items, pac.id_proyecto, pac.id_obj_comercial  , pac.id_enlace, pac.id_p_acc, 
+    pac.id_partidad_presupuestaria, pac.id_ccnu,
+    pac.id_tip_obra, pac.id_alcance_obra, pac.id_obj_obra, pac.fecha_desde, pac.fecha_hasta, pac.especificacion, pac.id_unidad_medida, 
+    pac.cantidad, pac.i, pac.ii, pac.iii, pac.iv, pac.costo_unitario, pac.precio_total, pac.alicuota_iva, pac.iva_estimado, pac.monto_estimado,    
+    cc.codigopartida_presupuestaria,cc.desc_partida_presupuestaria,
+                        ti.codigo_ccnu, ti.desc_ccnu,ff.id_fuente_financiamiento,ff.porcentaje,ff.id_estado,
+                         f.desc_fuente_financiamiento, un.desc_unidad_medida, obj.desc_objeto_contrata
+    
+    ');
+        $this->db->join('programacion.partida_presupuestaria cc', 'cc.id_partida_presupuestaria = pac.id_partidad_presupuestaria', 'left');
+        $this->db->join('programacion.ccnu ti', 'ti.codigo_ccnu = pac.id_ccnu', 'left');
+        $this->db->join('programacion.p_ffinanciamiento ff', 'ff.id_p_items = pac.id_p_items', 'left');
+        $this->db->join('programacion.fuente_financiamiento f', 'f.id_fuente_financiamiento = ff.id_fuente_financiamiento', 'left');
+        $this->db->join('programacion.unidad_medida un', 'un.id_unidad_medida = pac.id_unidad_medida', 'left');
+        $this->db->join('programacion.objeto_contrata obj', 'obj.id_objeto_contrata = pac.id_obj_comercial', 'left');
+        $this->db->where('pac.id_proyecto', $id_programacion);
+        $this->db->where('pac.vigente', 'true');
+
         $query = $this->db->get('programacion.p_items pac');
         return $query->result_array();
     }
@@ -5385,24 +5734,24 @@ class Programacion_model extends CI_model
         $query = $this->db->get('programacion.p_items pac');
         return $query->result_array();
     }
-    function consulta_total_acc($data1)
-    {
-        //$id=$data['numero_proceso'];
-        $query = $this->db->query("SELECT  pac.id_p_acc,pac.id_proyecto,
-    sum(to_number(pac.monto_estimado,'999999999999D99')) as precio_total
+    // function consulta_total_acc($data1)
+    // {
+    //     //$id=$data['numero_proceso'];
+    //     $query = $this->db->query("SELECT  pac.id_p_acc,pac.id_proyecto,
+    // sum(to_number(pac.monto_estimado,'999999999999D99')) as precio_total
 
-     FROM programacion.p_items pac 
-    --  left join public.modalidad m on m.id_modalidad = c.id_modalidad
-    --  left join public.mecanismo  cn on cn.id_mecanismo = c.id_mecanismo
-    --  join public.objeto_contratacion obj on obj.id_objeto_contratacion = c.id_objeto_contratacion	    
-     where pac.id_proyecto = '$data1' and pac.id_p_acc ='1'
-     group by pac.id_p_acc,pac.id_proyecto ");
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        } else {
-            return NULL;
-        }
-    }
+    //  FROM programacion.p_items pac 
+    // --  left join public.modalidad m on m.id_modalidad = c.id_modalidad
+    // --  left join public.mecanismo  cn on cn.id_mecanismo = c.id_mecanismo
+    // --  join public.objeto_contratacion obj on obj.id_objeto_contratacion = c.id_objeto_contratacion	    
+    //  where pac.id_proyecto = '$data1' and pac.id_p_acc ='1'
+    //  group by pac.id_p_acc,pac.id_proyecto ");
+    //     if ($query->num_rows() > 0) {
+    //         return $query->result();
+    //     } else {
+    //         return NULL;
+    //     }
+    // }
 
     function consulta_total_objeto_acc2($id_programacion)
     {
@@ -5421,27 +5770,27 @@ class Programacion_model extends CI_model
 
         return $query->result_array();
     }
-    function consulta_total_objeto_acc($data1)
-    { //da totales agrupados por bienes, servicio, obras
+    //     function consulta_total_objeto_acc($data1)
+    //     { //da totales agrupados por bienes, servicio, obras
 
-        $query = $this->db->query("SELECT  pac.id_p_acc,pac.id_proyecto,
-    pac.id_obj_comercial,ob.desc_objeto_contrata,
-   sum(to_number(pac.monto_estimado,'999999999999D99')) as precio_total
+    //         $query = $this->db->query("SELECT  pac.id_p_acc,pac.id_proyecto,
+    //     pac.id_obj_comercial,ob.desc_objeto_contrata,
+    //    sum(to_number(pac.monto_estimado,'999999999999D99')) as precio_total
+    //         FROM programacion.p_items pac 
+    //     --  left join public.modalidad m on m.id_modalidad = c.id_modalidad
+    //    -- join programacion.p_acc_centralizada i on i.id_p_acc_centralizada = pac.id_enlace	
+    //      join programacion.objeto_contrata ob on ob.id_objeto_contrata = pac.id_obj_comercial	
 
-     FROM programacion.p_items pac 
-    --  left join public.modalidad m on m.id_modalidad = c.id_modalidad
-   -- join programacion.p_acc_centralizada i on i.id_p_acc_centralizada = pac.id_enlace	
-     join programacion.objeto_contrata ob on ob.id_objeto_contrata = pac.id_obj_comercial	
-        
-     where pac.id_proyecto = '$data1' and pac.id_p_acc ='1'
-     group by pac.id_p_acc,pac.id_proyecto,
-    pac.id_obj_comercial,ob.desc_objeto_contrata ");
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        } else {
-            return NULL;
-        }
-    }
+    //      where pac.id_proyecto = '$data1' and pac.id_p_acc ='1'
+    //      group by pac.id_p_acc,pac.id_proyecto,
+    //     pac.id_obj_comercial,ob.desc_objeto_contrata ");
+    //         if ($query->num_rows() > 0) {
+    //             return $query->result();
+    //         } else {
+    //             return NULL;
+    //         }
+    //     }
+
     function consulta_total_objeto_acc_rendi1($data1)
     { //da totales agrupados por bienes, servicio, obras
 
@@ -5476,27 +5825,27 @@ class Programacion_model extends CI_model
             return NULL;
         }
     }
-    function consulta_total_objeto_py2($data1)
-    { //da totales agrupados por bienes, servicio, obras
+    // function consulta_total_objeto_py2($data1)
+    // { //da totales agrupados por bienes, servicio, obras
 
-        $query = $this->db->query("SELECT  pac.id_p_acc,pac.id_proyecto,
-        pac.id_obj_comercial,ob.desc_objeto_contrata,
-       sum(to_number(pac.monto_estimado,'999999999999D99')) as precio_total
-    
-         FROM programacion.p_items pac 
-        --  left join public.modalidad m on m.id_modalidad = c.id_modalidad
-       -- join programacion.p_acc_centralizada i on i.id_p_acc_centralizada = pac.id_enlace	
-         join programacion.objeto_contrata ob on ob.id_objeto_contrata = pac.id_obj_comercial	
-            
-         where pac.id_proyecto = '$data1' and pac.id_p_acc ='0'
-         group by pac.id_p_acc,pac.id_proyecto,
-        pac.id_obj_comercial,ob.desc_objeto_contrata ");
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        } else {
-            return NULL;
-        }
-    }
+    //     $query = $this->db->query("SELECT  pac.id_p_acc,pac.id_proyecto,
+    //     pac.id_obj_comercial,ob.desc_objeto_contrata,
+    //    sum(to_number(pac.monto_estimado,'999999999999D99')) as precio_total
+
+    //      FROM programacion.p_items pac 
+    //     --  left join public.modalidad m on m.id_modalidad = c.id_modalidad
+    //    -- join programacion.p_acc_centralizada i on i.id_p_acc_centralizada = pac.id_enlace	
+    //      join programacion.objeto_contrata ob on ob.id_objeto_contrata = pac.id_obj_comercial	
+
+    //      where pac.id_proyecto = '$data1' and pac.id_p_acc ='0'
+    //      group by pac.id_p_acc,pac.id_proyecto,
+    //     pac.id_obj_comercial,ob.desc_objeto_contrata ");
+    //     if ($query->num_rows() > 0) {
+    //         return $query->result();
+    //     } else {
+    //         return NULL;
+    //     }
+    // }
     function consulta_total_objeto_py1($id_programacion)
     {
 
@@ -5535,24 +5884,24 @@ class Programacion_model extends CI_model
         }
     }
 
-    function consulta_total_PYT($data1)
-    {
-        //$id=$data['numero_proceso'];
-        $query = $this->db->query("SELECT  pac.id_p_acc,pac.id_proyecto,
-    sum(to_number(pac.monto_estimado,'999999999999D99')) as precio_total_py
+    // function consulta_total_PYT($data1)
+    // {
+    //     //$id=$data['numero_proceso'];
+    //     $query = $this->db->query("SELECT  pac.id_p_acc,pac.id_proyecto,
+    // sum(to_number(pac.monto_estimado,'999999999999D99')) as precio_total_py
 
-     FROM programacion.p_items pac 
-    --  left join public.modalidad m on m.id_modalidad = c.id_modalidad
-    --  left join public.mecanismo  cn on cn.id_mecanismo = c.id_mecanismo
-    --  join public.objeto_contratacion obj on obj.id_objeto_contratacion = c.id_objeto_contratacion	    
-     where pac.id_proyecto = '$data1' and pac.id_p_acc ='0'
-     group by pac.id_p_acc,pac.id_proyecto ");
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        } else {
-            return NULL;
-        }
-    }
+    //  FROM programacion.p_items pac 
+    // --  left join public.modalidad m on m.id_modalidad = c.id_modalidad
+    // --  left join public.mecanismo  cn on cn.id_mecanismo = c.id_mecanismo
+    // --  join public.objeto_contratacion obj on obj.id_objeto_contratacion = c.id_objeto_contratacion	    
+    //  where pac.id_proyecto = '$data1' and pac.id_p_acc ='0'
+    //  group by pac.id_p_acc,pac.id_proyecto ");
+    //     if ($query->num_rows() > 0) {
+    //         return $query->result();
+    //     } else {
+    //         return NULL;
+    //     }
+    // }
     function anio_programacion($data1)
     {
         //$id=$data['numero_proceso'];
@@ -5904,6 +6253,8 @@ class Programacion_model extends CI_model
         $this->db->from('programacion.list_itms2');
         $this->db->where('id_p_acc', 1); //acc
         $this->db->where('id_proyecto', $id_programacion);
+        $this->db->where('vigente', 'true');
+
         $query = $this->db->get();
         return $result = $query->result_array();
     }
@@ -5914,14 +6265,17 @@ class Programacion_model extends CI_model
         $this->db->from('programacion.list_itms2');
         $this->db->where('id_p_acc', 0); //acc
         $this->db->where('id_proyecto', $id_programacion);
+        $this->db->where('vigente', 'true');
+
         $query = $this->db->get();
         return $result = $query->result_array();
     }
     public function tolist_info($data)
     {
+        $this->db->distinct();
         $this->db->select(
             '
-                m.id_p_items,
+                m.id_p_items,m.vigente,
                 m.id_p_acc,
                 m.id_enlace,
                 m.id_partidad_presupuestaria,
@@ -5977,6 +6331,7 @@ class Programacion_model extends CI_model
         $this->db->join('programacion.obj_obra obj', 'obj.id_obj_obra = m.id_obj_obra', 'left');
         $this->db->where('m.id_p_acc =', 1);
         $this->db->where('m.id_p_items', $data['id_p_items']);
+        // $this->db->where('m.vigente', 'true');
         $query = $this->db->get('programacion.p_items m');
         return $query->row_array();
     }
@@ -7210,5 +7565,230 @@ class Programacion_model extends CI_model
         $this->db->order_by('fecha_inicio_vigencia', 'ASC');
         $query = $this->db->get();
         return $query->result_array();
+    }
+
+
+    ///////////////////////versionado 
+    // Obtener la versión actual
+    public function obtener_version_actual($id_enlace)
+    {
+        $this->db->select('MAX(version) as version');
+        $this->db->where('id_enlace', $id_enlace);
+        $query = $this->db->get('programacion.p_items');
+        $row = $query->row();
+        return $row ? $row->version : 1;
+    }
+
+    // Desactivar versión anterior
+    public function desactivar_version_anterior($id_enlace)
+    {
+        $this->db->where('id_enlace', $id_enlace);
+        $this->db->where('vigente', TRUE);
+        $this->db->update('programacion.p_items', ['vigente' => FALSE]);
+    }
+
+    // Insertar nuevo ítem con nueva versión
+    public function agregar_mas_item_versionado($data, $p_ffinanciamiento)
+    {
+        // Obtener nuevo id_p_items
+        $this->db->select('MAX(id_p_items) as id1');
+        $query = $this->db->get('programacion.p_items');
+        $id1 = $query->row()->id1 + 1;
+        $data['id_p_items'] = $id1;
+
+        // Si viene sin id_original, significa que es un item nuevo
+        if (!isset($data['id_original']) || empty($data['id_original'])) {
+            $data['id_original'] = $id1;
+        }
+
+        // Si es una nueva versión, id_original debe venir del item anterior
+        // y la versión anterior debe marcarse como no vigente
+        if (isset($data['id_p_items_ant'])) {
+            $this->db->set('vigente', FALSE);
+            $this->db->where('id_p_items', $data['id_p_items_ant']);
+            $this->db->update('programacion.p_items');
+        }
+
+        // Inserta el nuevo item versionado
+        $insert = $this->db->insert('programacion.p_items', $data);
+
+        if ($insert) {
+            $p_ffinanciamiento['id_p_items'] = $id1;
+            $p_ffinanciamiento['id_original'] = $data['id_original'];
+            $this->db->insert('programacion.p_ffinanciamiento', $p_ffinanciamiento);
+            return true;
+        }
+
+        return false;
+    }
+    public function desactivar_item_versionado($id_p_items, $id_usuario)
+    {
+        $this->db->where('id_p_items', $id_p_items);
+        return $this->db->update('programacion.p_items', [
+            'vigente' => FALSE,
+            'fecha_version' => date('Y-m-d H:i:s'),
+            'usuario_version' => $id_usuario
+        ]);
+    }
+
+    function consultar_scc_version($id_p_acc_centralizada)
+    {
+
+        $this->db->select('pi2.id_p_items,
+                               pi2.id_enlace,
+                               pi2.id_partidad_presupuestaria,
+                               pp.desc_partida_presupuestaria,
+                               pp.codigopartida_presupuestaria,
+                               pi2.id_ccnu,
+                               c2.desc_ccnu,
+                               pi2.fecha_desde,
+                               pi2.fecha_hasta,
+                               pi2.especificacion,
+                               pi2.id_unidad_medida,
+                               um.desc_unidad_medida,
+                               pi2.cantidad,
+                               pi2.costo_unitario,
+                               pi2.i,
+                               pi2.ii,
+                               pi2.iii,
+                               pi2.iv,
+                               pi2.cant_total_distribuir,
+                               pi2.precio_total,
+                               pi2.alicuota_iva,
+                               pi2.iva_estimado,
+                               pi2.monto_estimado,
+                               p.id_p_acc_centralizada');
+        $this->db->join('programacion.ccnu c2', 'c2.codigo_ccnu = pi2.id_ccnu');
+        $this->db->join('programacion.partida_presupuestaria pp', 'pp.id_partida_presupuestaria = pi2.id_partidad_presupuestaria');
+        $this->db->join('programacion.unidad_medida um', 'um.id_unidad_medida = pi2.id_unidad_medida');
+        $this->db->join('programacion.p_acc_centralizada p', 'p.id_p_acc_centralizada = pi2.id_enlace'); // esto viara cuando sea un proyecto consultar tabla proyecto
+        $this->db->where('pi2.id_enlace', $id_p_acc_centralizada);
+        $this->db->where('pi2.id_p_acc', 1);
+        $this->db->where('pi2.vigente', 'TRUE');
+        // $this->db->where('pi2.version', '1');
+
+
+        $this->db->from('programacion.p_items pi2');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function agregar_mas_item_versionado2($data, $p_ffinanciamiento)
+    {
+        // Obtener nuevo id_p_items
+        $this->db->select('MAX(id_p_items) as id1');
+        $query = $this->db->get('programacion.p_items');
+        $id1 = $query->row()->id1 + 1;
+        $data['id_p_items'] = $id1;
+
+        // Si viene sin id_original, significa que es un item nuevo
+        if (!isset($data['id_original']) || empty($data['id_original'])) {
+            $data['id_original'] = $id1;
+        }
+
+        // Si es una nueva versión, id_original debe venir del item anterior
+        // y la versión anterior debe marcarse como no vigente
+        if (isset($data['id_p_items_ant'])) {
+            $this->db->set('vigente', FALSE);
+            $this->db->where('id_p_items', $data['id_p_items_ant']);
+            $this->db->update('programacion.p_items');
+        }
+
+        // Inserta el nuevo item versionado
+        $insert = $this->db->insert('programacion.p_items', $data);
+
+        if ($insert) {
+            $p_ffinanciamiento['id_p_items'] = $id1;
+            $p_ffinanciamiento['id_original'] = $data['id_original'];
+            $this->db->insert('programacion.p_ffinanciamiento', $p_ffinanciamiento);
+            return true;
+        }
+
+        return false;
+    }
+
+    ///reporte de modificaciones 
+    public function consulta_total_objeto_acc($data1)
+    {
+
+        $query = $this->db->query("
+        SELECT  
+            pac.id_p_acc,
+            pac.id_proyecto,
+            pac.id_obj_comercial,
+            ob.desc_objeto_contrata,
+            SUM(to_number(pac.monto_estimado, '999999999999D99')) AS precio_total
+        FROM programacion.p_items pac
+        JOIN programacion.objeto_contrata ob 
+            ON ob.id_objeto_contrata = pac.id_obj_comercial
+        WHERE pac.id_proyecto = '$data1' 
+          AND pac.id_p_acc = '1'
+          AND pac.vigente = TRUE  
+        GROUP BY 
+            pac.id_p_acc,
+            pac.id_proyecto,
+            pac.id_obj_comercial,
+            ob.desc_objeto_contrata
+    ");
+
+        return ($query->num_rows() > 0) ? $query->result() : NULL;
+    }
+    public function consulta_total_acc($data1)
+    {
+        $query = $this->db->query("
+        SELECT  
+            pac.id_p_acc,
+            pac.id_proyecto,
+            SUM(to_number(pac.monto_estimado, '999999999999D99')) AS precio_total
+        FROM programacion.p_items pac
+        WHERE pac.id_proyecto = '$data1' 
+          AND pac.id_p_acc = '1'
+          AND pac.vigente = TRUE   
+        GROUP BY pac.id_p_acc, pac.id_proyecto
+    ");
+
+        return ($query->num_rows() > 0) ? $query->result() : NULL;
+    }
+    public function consulta_total_objeto_py2($data1)
+    {
+        // Totales agrupados por bienes, servicios y obras (proyectos)
+        $query = $this->db->query("
+        SELECT  
+            pac.id_p_acc,
+            pac.id_proyecto,
+            pac.id_obj_comercial,
+            ob.desc_objeto_contrata,
+            SUM(to_number(pac.monto_estimado, '999999999999D99')) AS precio_total
+        FROM programacion.p_items pac
+        JOIN programacion.objeto_contrata ob 
+            ON ob.id_objeto_contrata = pac.id_obj_comercial
+        WHERE pac.id_proyecto = '$data1' 
+          AND pac.id_p_acc = '0'
+          AND pac.vigente = TRUE  -- ✅ Solo ítems vigentes
+        GROUP BY 
+            pac.id_p_acc,
+            pac.id_proyecto,
+            pac.id_obj_comercial,
+            ob.desc_objeto_contrata
+    ");
+
+        return ($query->num_rows() > 0) ? $query->result() : NULL;
+    }
+
+    public function consulta_total_PYT($data1)
+    {
+        $query = $this->db->query("
+        SELECT  
+            pac.id_p_acc,
+            pac.id_proyecto,
+            SUM(to_number(pac.monto_estimado, '999999999999D99')) AS precio_total_py
+        FROM programacion.p_items pac
+        WHERE pac.id_proyecto = '$data1' 
+          AND pac.id_p_acc = '0'
+          AND pac.vigente = TRUE  -- ✅ Solo ítems vigentes
+        GROUP BY pac.id_p_acc, pac.id_proyecto
+    ");
+
+        return ($query->num_rows() > 0) ? $query->result() : NULL;
     }
 }

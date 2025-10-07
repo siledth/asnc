@@ -7,12 +7,12 @@
             <div class="card card-outline-danger text-center bg-white">
                 <div class="card-block">
                     <blockquote class="card-blockquote" style="margin-bottom: -19px;">
-                        <p class="f-s-18 text-inverse f-w-600">Nombre Órgano / Ente: <?=$des_unidad?>.</p>
-                        <p class="f-s-16">RIF.: <?=$rif?> <br>
-                            Código ONAPRE: <?=$codigo_onapre?> <br>
-                            Año: <b><?=$anio?></b></p>
+                        <p class="f-s-18 text-inverse f-w-600">Nombre Órgano / Ente: <?= $des_unidad ?>.</p>
+                        <p class="f-s-16">RIF.: <?= $rif ?> <br>
+                            Código ONAPRE: <?= $codigo_onapre ?> <br>
+                            Año: <b><?= $anio ?></b></p>
                         <input type="hidden" id="id_programacion" name="id_programacion"
-                            value="<?=$id_programacion?>/<?=$id_p_proyecto?>">
+                            value="<?= $id_programacion ?>/<?= $id_p_proyecto ?>">
                     </blockquote>
                 </div>
             </div>
@@ -20,20 +20,20 @@
         <div class="col-lg-12">
             <div class="panel panel-inverse" data-sortable-id="form-validation-1">
 
-                <?php foreach($inf_1 as $inf_1):?><?php endforeach;?>
+                <?php foreach ($inf_1 as $inf_1): ?><?php endforeach; ?>
 
                 <div class="col-9 mt-2 form-group">
                     <label>Nombre del Proyecto <b style="color:red">*</b></label>
-                    <input id="nombre_proyecto_a" name="nombre_proyecto_a" value="<?=$inf_1['nombre_proyecto']?>"
+                    <input id="nombre_proyecto_a" name="nombre_proyecto_a" value="<?= $inf_1['nombre_proyecto'] ?>"
                         type="text" class="form-control" readonly>
                 </div>
 
                 <div class="form-group mt-2 col-3">
                     <label>Objeto de Contratación</label><br>
                     <input type="hidden" id="id_obj_comercial" name="id_obj_comercial"
-                        value="<?=$inf_1['id_obj_comercial']?>">
+                        value="<?= $inf_1['id_obj_comercial'] ?>">
                     <input type="text" id="desc_objeto_contrata" name="desc_objeto_contrata"
-                        value="<?=$inf_1['desc_objeto_contrata']?>" class="form-control" readonly>
+                        value="<?= $inf_1['desc_objeto_contrata'] ?>" class="form-control" readonly>
                 </div>
                 <div class="col-12">
                     <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
@@ -43,12 +43,12 @@
                     enctype="multipart/form-data">
                     <div class="panel-body">
                         <div class="row">
-                        <input type="hidden" id="id_obj_comercial" name="id_obj_comercial"
-                        value="<?=$inf_1['id_obj_comercial']?>">
-                        <input type="hidden" id="id_programacion3" name="id_programacion3"
-                                value="<?=$id_programacion?>">
+                            <input type="hidden" id="id_obj_comercial" name="id_obj_comercial"
+                                value="<?= $inf_1['id_obj_comercial'] ?>">
+                            <input type="hidden" id="id_programacion3" name="id_programacion3"
+                                value="<?= $id_programacion ?>">
                             <input type="hidden" id="id_programacion" name="id_programacion"
-                                value="<?=$id_p_proyecto?>">
+                                value="<?= $id_p_proyecto ?>">
                             <div class="col-12 text-center">
                                 <h4 style="color:red;">Información Items Fuente Financiamiento (IFF)</h4>
                             </div>
@@ -60,10 +60,10 @@
                                     class="default-select2 form-control">
                                     <option value="0">Seleccione</option>
                                     <?php foreach ($part_pres as $data): ?>
-                                    <option
-                                        value="<?=$data['id_partida_presupuestaria']?>/<?=$data['desc_partida_presupuestaria']?>/<?=$data['codigopartida_presupuestaria']?>">
-                                        <?=$data['codigopartida_presupuestaria']?>/<?=$data['desc_partida_presupuestaria']?>
-                                    </option>
+                                        <option
+                                            value="<?= $data['id_partida_presupuestaria'] ?>/<?= $data['desc_partida_presupuestaria'] ?>/<?= $data['codigopartida_presupuestaria'] ?>">
+                                            <?= $data['codigopartida_presupuestaria'] ?>/<?= $data['desc_partida_presupuestaria'] ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -74,7 +74,7 @@
                                     class="default-select2 form-control" multiple="multiple">
                                     <option value="0">Seleccione</option>
                                     <?php foreach ($estados as $data): ?>
-                                    <option value="<?=$data['descedo']?>"><?=$data['descedo']?></option>
+                                        <option value="<?= $data['descedo'] ?>"><?= $data['descedo'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -84,14 +84,15 @@
                                     name="fuente_financiamiento_acc" class="default-select2 form-control">
                                     <option value="0">Seleccione</option>
                                     <?php foreach ($fuente as $data): ?>
-                                    <option
-                                        value="<?=$data['id_fuente_financiamiento']?>/<?=$data['desc_fuente_financiamiento']?>">
-                                        <?=$data['desc_fuente_financiamiento']?></option>
+                                        <option
+                                            value="<?= $data['id_fuente_financiamiento'] ?>/<?= $data['desc_fuente_financiamiento'] ?>">
+                                            <?= $data['desc_fuente_financiamiento'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
                             <div class="form-group col-3">
-                                <input id="porcentaje_acc" name="porcentaje_acc"  type="hidden"  value="0" class="form-control">
+                                <input id="porcentaje_acc" name="porcentaje_acc" type="hidden" value="0"
+                                    class="form-control">
                             </div>
 
                             <div class="col-12">
@@ -111,7 +112,7 @@
                                                 class="fas fa-question-circle"></i></label>
                                         <input title="Debe ingresar una palabra para realizar la busqueda" type="text"
                                             class="form-control" onKeyUp="this.value=this.value.toUpperCase();"
-                                            name="ccnu_b" id="ccnu_b" onblur="buscar_ccnnu();">
+                                            name="ccnu_b" id="ccnu_b" onblur="buscar_ccnnua();">
                                     </div>
 
                                     <div class="col-8">
@@ -123,33 +124,39 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>                        
+                            </div>
                             <div class="form-group col-6">
-                                <label>Especificación <b style="color:red">*</b> <i style="color: red;" title="Ingrese Especificación de CCNU seleccionada, de no existir , elegir no codificado y colocar detalle en la especificación."
+                                <label>Especificación <b style="color:red">*</b> <i style="color: red;"
+                                        title="Ingrese Especificación de CCNU seleccionada, de no existir , elegir no codificado y colocar detalle en la especificación."
                                         class="fas fa-question-circle"></i> </label>
                                 <input id="especificacion_acc" name="especificacion_acc" type="text"
                                     class="form-control" onkeypress="may(this);">
                             </div>
                             <div class="form-group col-6">
-                                <label>Unidad de Medida <b style="color:red">*</b> </label><i style="color: red;" title="Seleccione la Unidad de medida correspondiente."
-                                        class="fas fa-question-circle"></i> <br>
+                                <label>Unidad de Medida <b style="color:red">*</b> </label><i style="color: red;"
+                                    title="Seleccione la Unidad de medida correspondiente."
+                                    class="fas fa-question-circle"></i> <br>
                                 <select style="width: 100%;" id="id_unidad_medida_acc" name="id_unidad_medida_acc"
                                     class="form-control default-select2">
                                     <option value="">SELECCIONE</option>
                                     <?php foreach ($unid as $data): ?>
-                                    <option value="<?=$data['id_unidad_medida']?>/<?=$data['desc_unidad_medida']?>">
-                                        <?=$data['desc_unidad_medida']?></option>
+                                        <option value="<?= $data['id_unidad_medida'] ?>/<?= $data['desc_unidad_medida'] ?>">
+                                            <?= $data['desc_unidad_medida'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
                             <div class="form-group col-6">
-                                <label style="color:red;">Ingrese Rango de Fecha Estimado para Ejecución del Servicio (Obligatorio).leer <b style="color:red">*</b></label><i style="color: red;" title="Seleccione la Fecha estimada de ejecución de la obra."
-                                        class="fas fa-question-circle"></i>
-                                    <div class="input-group input-daterange">
-                                        <input type="text" class="form-control" id="fecha_desde" onchange="verif_d();" onblur="habilitar_trim();" name="start" placeholder="Desde" />
-                                        <span class="input-group-addon">-</span>
-                                        <input type="text" class="form-control"  id="fecha_hasta" onchange="verif_h();" onblur="habilitar_trim();" name="end" placeholder="Hasta" />
-                                    </div>
+                                <label style="color:red;">Ingrese Rango de Fecha Estimado para Ejecución del Servicio
+                                    (Obligatorio).leer <b style="color:red">*</b></label><i style="color: red;"
+                                    title="Seleccione la Fecha estimada de ejecución de la obra."
+                                    class="fas fa-question-circle"></i>
+                                <div class="input-group input-daterange">
+                                    <input type="text" class="form-control" id="fecha_desde" onchange="verif_d();"
+                                        onblur="habilitar_trim();" name="start" placeholder="Desde" />
+                                    <span class="input-group-addon">-</span>
+                                    <input type="text" class="form-control" id="fecha_hasta" onchange="verif_h();"
+                                        onblur="habilitar_trim();" name="end" placeholder="Hasta" />
+                                </div>
                             </div>
                             <div class="col-12">
                                 <div class="card card-outline-danger">
@@ -161,36 +168,39 @@
                                         <div class="form-group col-2">
                                             <label>I<b style="color:red">*</b></label>
                                             <input id="I" name="I" type="text" onblur="calculo();" value="0"
-                                                class="form-control" onkeypress="return valideKey(event);" >
+                                                class="form-control" onkeypress="return valideKey(event);">
                                         </div>
                                         <div class="form-group col-2">
                                             <label>II<b style="color:red">*</b></label>
                                             <input id="II" name="II" type="text" onblur="calculo();" value="0"
-                                                class="form-control" onkeypress="return valideKey(event);" >
+                                                class="form-control" onkeypress="return valideKey(event);">
                                         </div>
                                         <div class="form-group col-2">
                                             <label>III<b style="color:red">*</b></label>
                                             <input id="III" name="III" type="text" onblur="calculo();" value="0"
-                                                class="form-control" onkeypress="return valideKey(event);" >
+                                                class="form-control" onkeypress="return valideKey(event);">
                                         </div>
                                         <div class="form-group col-2">
                                             <label>IV<b style="color:red">*</b></label>
                                             <input id="IV" name="IV" type="text" onblur="calculo();" value="0"
-                                                class="form-control" onkeypress="return valideKey(event);" >
+                                                class="form-control" onkeypress="return valideKey(event);">
                                         </div>
                                         <div class="form-group col-4">
-                                            <label>Cantd. Total Distribuir <b style="color:red">*</b> <i style="color: red;" title="Restara con los valores ingresados en los campos de trimestres, debe dar un Valor de Cero(0)."
-                                        class="fas fa-question-circle"></i></label>
+                                            <label>Cantd. Total Distribuir <b style="color:red">*</b> <i
+                                                    style="color: red;"
+                                                    title="Restara con los valores ingresados en los campos de trimestres, debe dar un Valor de Cero(0)."
+                                                    class="fas fa-question-circle"></i></label>
                                             <input id="cant_total_distribuir" value="100" onblur="calculo();"
                                                 name="cant_total_distribuir" type="number" class="form-control"
-                                                readonly >
+                                                readonly>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group col-4">
-                                <label>Precio Total <b style="color:red">*</b></label><i style="color: red;" title="Ingrese el Costo Total del Servicio para realizar los siguientes cálculos."
-                                        class="fas fa-question-circle"></i>
+                                <label>Precio Total <b style="color:red">*</b></label><i style="color: red;"
+                                    title="Ingrese el Costo Total del Servicio para realizar los siguientes cálculos."
+                                    class="fas fa-question-circle"></i>
                                 <input id="precio_total" name="precio_total" type="text" onclick="cant_total();"
                                     onblur="calculo();" class="form-control">
                             </div>
@@ -200,8 +210,8 @@
                                     class="form-control">
                                     <option value="">SELECCIONE</option>
                                     <?php foreach ($iva as $data): ?>
-                                    <option value="<?=$data['desc_alicuota_iva']?>/<?=$data['desc_porcentaj']?>">
-                                        <?=$data['desc_porcentaj']?></option>
+                                        <option value="<?= $data['desc_alicuota_iva'] ?>/<?= $data['desc_porcentaj'] ?>">
+                                            <?= $data['desc_porcentaj'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -211,7 +221,8 @@
                             </div>
                             <div class="form-group col-3">
                                 <label>Monto total Estimado<b style="color:red">*</b></label>
-                                <input id="monto_estimado" name="monto_estimado" type="text" class="form-control" readonly>
+                                <input id="monto_estimado" name="monto_estimado" type="text" class="form-control"
+                                    readonly>
                             </div>
                             <div class="col-12">
                                 <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
@@ -234,7 +245,8 @@
                             </div>
                             <div class="form-group col-4">
                                 <label>Estimado Total Trimestres</label>
-                                <input id="estimado_total_t" name="estimado_total_t" type="text" class="form-control"readonly>
+                                <input id="estimado_total_t" name="estimado_total_t" type="text" class="form-control"
+                                    readonly>
                             </div>
                             <div class="col-12">
                                 <hr style="border-top: 1px solid rgba(0, 0, 0, 0.39);">
@@ -254,52 +266,53 @@
                         class="table table-bordered table-hover">
                         <thead style="background:#01cdb2">
                             <tr style="text-align:center">
-                            <th style="color:white;">ID</th>
+                                <th style="color:white;">ID</th>
                                 <th style="color:white;">Partida Pres.</th>
                                 <th style="color:white;">Esp.</th>
-                                    <th style="color:white;">Unid. Medida</th>
-                                    <th style="color:white;" >I</th>
-                                    <th style="color:white;">II</th>
-                                    <th style="color:white;">III</th>
-                                    <th style="color:white;">IV</th>
-                                    <th style="color:white;">Precio Total</th>
-                                    <th style="color:white;">IVA </th>
-                                    <th style="color:white;">Monto Iva Est.</th>
-                                    <th style="color:white;">Monto Total Est.</th>
-                                    <th style="color:white;">Acción</th>
+                                <th style="color:white;">Unid. Medida</th>
+                                <th style="color:white;">I</th>
+                                <th style="color:white;">II</th>
+                                <th style="color:white;">III</th>
+                                <th style="color:white;">IV</th>
+                                <th style="color:white;">Precio Total</th>
+                                <th style="color:white;">IVA </th>
+                                <th style="color:white;">Monto Iva Est.</th>
+                                <th style="color:white;">Monto Total Est.</th>
+                                <th style="color:white;">Acción</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach($accion as $data):?>
-                            <tr class="odd gradeX" style="text-align:center">
-                                <td><?=$data['id_p_items']?> </td>
-                                <td><?=$data['codigopartida_presupuestaria']?> </td>
-                                    <td><?=$data['especificacion']?> </td>
-                                    <td><?=$data['desc_unidad_medida']?> </td>
-                                    <td><?=$data['i']?> </td>
-                                    <td><?=$data['ii']?> </td>
-                                    <td><?=$data['iii']?> </td>
-                                    <td><?=$data['iv']?> </td>
-                                    <td><?=$data['precio_total']?> </td>
-                                    <td><?=$data['alicuota_iva']?> </td>
-                                    <td><?=$data['iva_estimado']?> </td>
-                                    <td><?=$data['monto_estimado']?> </td>
-                                     <td class="center">
-                                     <a onclick="modal(<?php echo $data['id_p_items'] ?>);" data-toggle="modal"
-                                        data-target="#myModal_bienes" style="color: white">
-                                        <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
-                                            style="color: darkgreen;"></i>
-                                    </a>
-                                        <a onclick="eliminar_items_servi(<?php echo $data['id_p_items'];?>);"
-                                         class="button"><i class="fas fa-lg fa-fw  fa-trash-alt" style="color:red"></i><a />
+                            <?php foreach ($accion as $data): ?>
+                                <tr class="odd gradeX" style="text-align:center">
+                                    <td><?= $data['id_p_items'] ?> </td>
+                                    <td><?= $data['codigopartida_presupuestaria'] ?> </td>
+                                    <td><?= $data['especificacion'] ?> </td>
+                                    <td><?= $data['desc_unidad_medida'] ?> </td>
+                                    <td><?= $data['i'] ?> </td>
+                                    <td><?= $data['ii'] ?> </td>
+                                    <td><?= $data['iii'] ?> </td>
+                                    <td><?= $data['iv'] ?> </td>
+                                    <td><?= $data['precio_total'] ?> </td>
+                                    <td><?= $data['alicuota_iva'] ?> </td>
+                                    <td><?= $data['iva_estimado'] ?> </td>
+                                    <td><?= $data['monto_estimado'] ?> </td>
+                                    <td class="center">
+                                        <a onclick="modal(<?php echo $data['id_p_items'] ?>);" data-toggle="modal"
+                                            data-target="#myModal_bienes" style="color: white">
+                                            <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
+                                                style="color: darkgreen;"></i>
+                                        </a>
+                                        <a onclick="eliminar_items_servi2(<?php echo $data['id_p_items']; ?>);"
+                                            class="button"><i class="fas fa-lg fa-fw  fa-trash-alt"
+                                                style="color:red"></i><a />
                                     </td>
-                            </tr>
-                            <?php endforeach;?>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
             </div>
-          
+
         </div>
     </div>
 
@@ -312,7 +325,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        
+
                         <input type="hidden" class="form-control" name="id_items_b" id="id_items_b" readonly>
                         <div class="form-group col-8">
                             <label>ID - ITEMS</label>
@@ -321,10 +334,10 @@
                         <div class="form-group col-4">
                             <label>Cod. Partida Presupuestaria</label>
                             <input type="hidden" name="id_part_pres_b" id="id_part_pres_b">
-                            <input id="codigopartida_presupuestaria" name="codigopartida_presupuestaria" class="form-control"
-                                class="form-control" readonly>
-                                <input id="desc_partida_presupuestaria" name="desc_partida_presupuestaria" class="form-control"
-                                class="form-control" readonly>
+                            <input id="codigopartida_presupuestaria" name="codigopartida_presupuestaria"
+                                class="form-control" class="form-control" readonly>
+                            <input id="desc_partida_presupuestaria" name="desc_partida_presupuestaria"
+                                class="form-control" class="form-control" readonly>
                         </div>
                         <div class="form-group col-6">
                             <label>Especificación</label>
@@ -344,52 +357,57 @@
                             </select>
                         </div>
                         <div class="form-group col-12">
-                                <label style="color:red;">Ingrese Rango de Fecha Estimado para Ejecución del Servicio (Obligatorio). <b style="color:red">*leer</b></label><i style="color: red;" title="Seleccione la Fecha estimada de ejecución de la obra."
-                                        class="fas fa-question-circle"></i>
-                                    <div class="input-group input-daterange">
-                                        <input type="text" class="form-control" id="fecha_desde1"  name="start1" placeholder="Desde" />
-                                        <span class="input-group-addon">-</span>
-                                        <input type="text" class="form-control"  id="fecha_hasta1"  name="end1" placeholder="Hasta" />
-                                    </div>
+                            <label style="color:red;">Ingrese Rango de Fecha Estimado para Ejecución del Servicio
+                                (Obligatorio). <b style="color:red">*leer</b></label><i style="color: red;"
+                                title="Seleccione la Fecha estimada de ejecución de la obra."
+                                class="fas fa-question-circle"></i>
+                            <div class="input-group input-daterange">
+                                <input type="text" class="form-control" id="fecha_desde1" name="start1"
+                                    placeholder="Desde" />
+                                <span class="input-group-addon">-</span>
+                                <input type="text" class="form-control" id="fecha_hasta1" name="end1"
+                                    placeholder="Hasta" />
                             </div>
-                            <div class="col-12">
-                                <div class="card card-outline-danger">
-                                    <h5 class="mt-3 text-center"><b>Distribución Porcentual de la Ejecución
-                                            Trimestral</b> <i style="color: red;"
-                                            title="Para ingresar los datos correspondientes a cada trimestre, debe ingresar un Rango de Fecha."
-                                            class="fas fa-question-circle"></i></h5>
-                                    <div class="row mt-3">
-                                        <div class="form-group col-2">
-                                            <label>I<b style="color:red">*</b></label>
-                                            <input id="primero_b" name="primero_b" type="text" onblur="calculo_obras();" value="0"
-                                                class="form-control" onkeypress="return valideKey(event);" >
-                                        </div>
-                                        <div class="form-group col-2">
-                                            <label>II<b style="color:red">*</b></label>
-                                            <input id="segundo_b" name="segundo_b" type="text" onblur="calculo_obras();" value="0"
-                                                class="form-control" onkeypress="return valideKey(event);" >
-                                        </div>
-                                        <div class="form-group col-2">
-                                            <label>III<b style="color:red">*</b></label>
-                                            <input id="tercero_b" name="tercero_b" type="text" onblur="calculo_obras();" value="0"
-                                                class="form-control" onkeypress="return valideKey(event);" >
-                                        </div>
-                                        <div class="form-group col-2">
-                                            <label>IV<b style="color:red">*</b></label>
-                                            <input id="cuarto_b" name="cuarto_b" type="text" onblur="calculo_obras();" value="0"
-                                                class="form-control" onkeypress="return valideKey(event);" >
-                                        </div>
-                                        <div class="form-group col-4">
-                                            <label>Cantd. Total Distribuir <b style="color:red">*leer</b> <i style="color: red;" title="Restara con los valores ingresados en los campos de trimestres, debe dar un Valor de Cero(0)."
-                                        class="fas fa-question-circle"></i></label>
-                                            <input id="cant_total_distribuir1" value="100" onblur="calculo_obras();"
-                                                name="cant_total_distribui1r" type="number" class="form-control"
-                                                readonly >
-                                        </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="card card-outline-danger">
+                                <h5 class="mt-3 text-center"><b>Distribución Porcentual de la Ejecución
+                                        Trimestral</b> <i style="color: red;"
+                                        title="Para ingresar los datos correspondientes a cada trimestre, debe ingresar un Rango de Fecha."
+                                        class="fas fa-question-circle"></i></h5>
+                                <div class="row mt-3">
+                                    <div class="form-group col-2">
+                                        <label>I<b style="color:red">*</b></label>
+                                        <input id="primero_b" name="primero_b" type="text" onblur="calculo_obras();"
+                                            value="0" class="form-control" onkeypress="return valideKey(event);">
+                                    </div>
+                                    <div class="form-group col-2">
+                                        <label>II<b style="color:red">*</b></label>
+                                        <input id="segundo_b" name="segundo_b" type="text" onblur="calculo_obras();"
+                                            value="0" class="form-control" onkeypress="return valideKey(event);">
+                                    </div>
+                                    <div class="form-group col-2">
+                                        <label>III<b style="color:red">*</b></label>
+                                        <input id="tercero_b" name="tercero_b" type="text" onblur="calculo_obras();"
+                                            value="0" class="form-control" onkeypress="return valideKey(event);">
+                                    </div>
+                                    <div class="form-group col-2">
+                                        <label>IV<b style="color:red">*</b></label>
+                                        <input id="cuarto_b" name="cuarto_b" type="text" onblur="calculo_obras();"
+                                            value="0" class="form-control" onkeypress="return valideKey(event);">
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label>Cantd. Total Distribuir <b style="color:red">*leer</b> <i
+                                                style="color: red;"
+                                                title="Restara con los valores ingresados en los campos de trimestres, debe dar un Valor de Cero(0)."
+                                                class="fas fa-question-circle"></i></label>
+                                        <input id="cant_total_distribuir1" value="100" onblur="calculo_obras();"
+                                            name="cant_total_distribui1r" type="number" class="form-control" readonly>
                                     </div>
                                 </div>
                             </div>
-                      
+                        </div>
+
                         <div class="form-group col-4">
                             <label>Precio Total Estimado<b style="color:red">*</b></label>
                             <input id="precio_total_mod_b1" name="precio_total_mod_b1" type="text" class="form-control">
@@ -399,8 +417,8 @@
                             <label>Alícuota IVA Estimado<b style="color:red">*</b></label><br>
                             <div class="row">
                                 <div class="col-5">
-                                    <input type="text" class="form-control" onblur="calculo_obras();"
-                                        name="ali_iva_e_b" id="ali_iva_e_b" readonly>
+                                    <input type="text" class="form-control" onblur="calculo_obras();" name="ali_iva_e_b"
+                                        id="ali_iva_e_b" readonly>
                                 </div>
                                 <div class="col-7">
                                     <select title="Para cambiar la Alicuota de IVA debe seleccionarlo en este campo."
@@ -455,10 +473,12 @@
             </div>
         </div>
     </div>
-    
+    <script>
+        const BASE_URL = '<?= base_url() ?>';
+    </script>
     <!-- ////////////////////////////////////////////GUARDA MAS ITEM EN LA BD DE obras proyecto -->
-    <script src="<?=base_url()?>/js/calculos.js"></script>
-    <script src="<?=base_url()?>/js/eliminar.js"></script>
+    <script src="<?= base_url() ?>/js/calculos.js"></script>
+    <script src="<?= base_url() ?>/js/eliminar.js"></script>
 
     <!-- ///////////////modal -->
-    <script src="<?=base_url()?>/js/obra/guardar_mas_items_py_obra.js"></script>
+    <script src="<?= base_url() ?>/js/obra/guardar_mas_items_py_obra.js"></script>
