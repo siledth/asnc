@@ -2002,7 +2002,7 @@ class Programacion_model extends CI_model
             'vigente' => false,
             'fecha_version' => date('Y-m-d H:i:s'),
             'tipo_operacion' => 'deletd',
-            'usuario_version' => $id_usuario
+            'id_usuario' => $id_usuario
         ]);
 
         // 🔹 2. Marcar los ítems relacionados como NO vigentes
