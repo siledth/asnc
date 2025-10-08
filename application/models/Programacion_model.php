@@ -7808,7 +7808,7 @@ class Programacion_model extends CI_model
             ON ob.id_objeto_contrata = pac.id_obj_comercial
         WHERE pac.id_proyecto = '$data1' 
           AND pac.id_p_acc = '1'
-         AND pac.vigente = FALSE   
+         AND pac.version = '1'  
         GROUP BY 
             pac.id_p_acc,
             pac.id_proyecto,
@@ -7828,7 +7828,7 @@ class Programacion_model extends CI_model
         FROM programacion.p_items pac
         WHERE pac.id_proyecto = '$data1' 
           AND pac.id_p_acc = '1'
-         AND pac.vigente = FALSE   
+         AND pac.version = '1'  
         GROUP BY pac.id_p_acc, pac.id_proyecto
     ");
 
@@ -7850,7 +7850,7 @@ class Programacion_model extends CI_model
             ON ob.id_objeto_contrata = pac.id_obj_comercial
         WHERE pac.id_proyecto = '$data1' 
           AND pac.id_p_acc = '0'
-           AND pac.vigente = FALSE 
+           AND pac.version = '1' 
         GROUP BY 
             pac.id_p_acc,
             pac.id_proyecto,
@@ -7871,7 +7871,7 @@ class Programacion_model extends CI_model
         FROM programacion.p_items pac
         WHERE pac.id_proyecto = '$data1' 
           AND pac.id_p_acc = '0'
-         AND pac.vigente = FALSE    
+          AND pac.version = '1'  
         GROUP BY pac.id_p_acc, pac.id_proyecto
     ");
 
