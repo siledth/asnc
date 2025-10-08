@@ -2335,14 +2335,14 @@ class Programacion extends CI_Controller
         $id_programacion = $data['id'];
 
 
-        $data2 = $this->Programacion_model->consulta_total_objeto_acc($id_programacion);
+        $data2 = $this->Programacion_model->consulta_total_objeto_accv1($id_programacion);
 
-        $data3 = $this->Programacion_model->consulta_total_acc($id_programacion);
+        $data3 = $this->Programacion_model->consulta_total_accv1($id_programacion);
 
-        $data4 = $this->Programacion_model->consulta_total_objeto_py2($id_programacion);
+        $data4 = $this->Programacion_model->consulta_total_objeto_pyv1($id_programacion);
         //print_r($data4);die;
 
-        $data5 = $this->Programacion_model->consulta_total_PYT($id_programacion);
+        $data5 = $this->Programacion_model->consulta_total_PYTv1($id_programacion);
 
         $data = $this->Programacion_model->enviar_snc($data, $des_unidad, $codigo_onapre, $rif, $data2, $data3, $data4, $data5);
         // print_r($data);

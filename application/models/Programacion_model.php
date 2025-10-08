@@ -7723,7 +7723,7 @@ class Programacion_model extends CI_model
             ON ob.id_objeto_contrata = pac.id_obj_comercial
         WHERE pac.id_proyecto = '$data1' 
           AND pac.id_p_acc = '1'
-          AND pac.vigente = TRUE  
+         AND pac.vigente = TRUE  
         GROUP BY 
             pac.id_p_acc,
             pac.id_proyecto,
@@ -7786,6 +7786,92 @@ class Programacion_model extends CI_model
         WHERE pac.id_proyecto = '$data1' 
           AND pac.id_p_acc = '0'
           AND pac.vigente = TRUE  -- ✅ Solo ítems vigentes
+        GROUP BY pac.id_p_acc, pac.id_proyecto
+    ");
+
+        return ($query->num_rows() > 0) ? $query->result() : NULL;
+    }
+
+    /////////////////////////
+    public function consulta_total_objeto_accv1($data1)
+    {
+
+        $query = $this->db->query("
+        SELECT  
+            pac.id_p_acc,
+            pac.id_proyecto,
+            pac.id_obj_comercial,
+            ob.desc_objeto_contrata,
+            SUM(to_number(pac.monto_estimado, '999999999999D99')) AS precio_total
+        FROM programacion.p_items pac
+        JOIN programacion.objeto_contrata ob 
+            ON ob.id_objeto_contrata = pac.id_obj_comercial
+        WHERE pac.id_proyecto = '$data1' 
+          AND pac.id_p_acc = '1'
+         AND pac.version = 1  
+        GROUP BY 
+            pac.id_p_acc,
+            pac.id_proyecto,
+            pac.id_obj_comercial,
+            ob.desc_objeto_contrata
+    ");
+
+        return ($query->num_rows() > 0) ? $query->result() : NULL;
+    }
+    public function consulta_total_accv1($data1)
+    {
+        $query = $this->db->query("
+        SELECT  
+            pac.id_p_acc,
+            pac.id_proyecto,
+            SUM(to_number(pac.monto_estimado, '999999999999D99')) AS precio_total
+        FROM programacion.p_items pac
+        WHERE pac.id_proyecto = '$data1' 
+          AND pac.id_p_acc = '1'
+         AND pac.version = 1  
+        GROUP BY pac.id_p_acc, pac.id_proyecto
+    ");
+
+        return ($query->num_rows() > 0) ? $query->result() : NULL;
+    }
+
+    public function consulta_total_objeto_pyv1($data1)
+    {
+        // Totales agrupados por bienes, servicios y obras (proyectos)
+        $query = $this->db->query("
+        SELECT  
+            pac.id_p_acc,
+            pac.id_proyecto,
+            pac.id_obj_comercial,
+            ob.desc_objeto_contrata,
+            SUM(to_number(pac.monto_estimado, '999999999999D99')) AS precio_total
+        FROM programacion.p_items pac
+        JOIN programacion.objeto_contrata ob 
+            ON ob.id_objeto_contrata = pac.id_obj_comercial
+        WHERE pac.id_proyecto = '$data1' 
+          AND pac.id_p_acc = '0'
+           AND pac.version = 1  
+        GROUP BY 
+            pac.id_p_acc,
+            pac.id_proyecto,
+            pac.id_obj_comercial,
+            ob.desc_objeto_contrata
+    ");
+
+        return ($query->num_rows() > 0) ? $query->result() : NULL;
+    }
+
+    public function consulta_total_PYTv1($data1)
+    {
+        $query = $this->db->query("
+        SELECT  
+            pac.id_p_acc,
+            pac.id_proyecto,
+            SUM(to_number(pac.monto_estimado, '999999999999D99')) AS precio_total_py
+        FROM programacion.p_items pac
+        WHERE pac.id_proyecto = '$data1' 
+          AND pac.id_p_acc = '0'
+          AND pac.version = 1  
         GROUP BY pac.id_p_acc, pac.id_proyecto
     ");
 
