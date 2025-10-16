@@ -319,7 +319,7 @@
                                             <i title="Editar" class="fas  fa-lg fa-fw fa-highlighter"
                                                 style="color: darkgreen;"></i>
                                         </a>
-                                        <a onclick="eliminar_items_bienes(<?php echo $data['id_p_items']; ?>);"
+                                        <a onclick="eliminar_items_bienes23(<?php echo $data['id_p_items']; ?>);"
                                             class="button"><i class="fas fa-lg fa-fw  fa-trash-alt"
                                                 style="color:red"></i><a />
                                     </td>

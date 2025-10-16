@@ -258,7 +258,7 @@ function eliminar_items_servi2(id){
 
 /////////////////////eliminar item Bienes 
 
-function eliminar_items_bienes(id){
+function eliminar_items_bienes23(id){
     event.preventDefault();
     swal.fire({
         title: '¿Seguro que desea eliminar el registro?',
@@ -271,11 +271,9 @@ function eliminar_items_bienes(id){
     }).then((result) => {
         if (result.value == true) {
             var id_p_items = id
-           // var base_url =window.location.origin+'/asnc/index.php/Programacion/eliminar_items_bienes';
 
-            var base_url = '/index.php/Programacion/eliminar_items_bienes';
             $.ajax({
-                url:base_url,
+                url:BASE_URL + 'index.php/Programacion/eliminar_items_bienes',
                 method: 'post',
                 data:{
                     id_p_items: id_p_items
