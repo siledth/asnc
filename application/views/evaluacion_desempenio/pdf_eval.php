@@ -46,8 +46,10 @@
                         <div class="col-3">
                             <h6>Fecha de Solicitud Anulación : <?= $dt_eval['fecha_anulacion'] ?></h6>
                         </div>
-                        <div class="col-3">
-                            <h6>Fecha de Anulación Aprobación: <?= $dt_eval['fecha_aprv_anul'] ?></h6>
+
+                        <div class="col-4">
+                            <h6>Fecha de Anulación Aprobación: <?= date("d/m/Y", strtotime($dt_eval['fecha_aprv_anul'])) ?>
+                            </h6>
                         </div>
                         <div class="col-3">
                             <h6>Nroº de Expediente: <?= $dt_eval['nro_expediente'] ?></h6>
