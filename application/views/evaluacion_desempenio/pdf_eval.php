@@ -51,7 +51,7 @@
                         </div>
 
                         <div class="col-4">
-                            <h6>Fecha de Anulación Aprobación: <?= date("d/m/Y", strtotime($dt_eval['fecha_aprv_anul'])) ?>
+                            <h6>Fecha de Aprobación Anulación : <?= date("d/m/Y", strtotime($dt_eval['fecha_aprv_anul'])) ?>
                             </h6>
                         </div>
                         <div class="col-3">
