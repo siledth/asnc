@@ -939,19 +939,24 @@ class Evaluacion_desempenio_model extends CI_model
         // return $response = $query->result_array();
 
         $query = $this->db->query("SELECT a.id_anulacion,
-                                        	   a.id_evaluacion,
-                                        	   e.rif_contrat,
-                                        	   concat(c.nombre, '', cn.nombre) AS contratante,
-                                               e.calificacion,
-                                        	   e.id_estatus,
-                                        	   e2.descripcion AS estatus,
-                                        	   to_char(a.fecha_reg_anulacion, 'dd-mm-yyyy') AS fech_reg
-                                        FROM evaluacion_desempenio.anulacion a
-                                        JOIN evaluacion_desempenio.evaluacion e ON e.id = a.id_evaluacion
-                                        LEFT JOIN evaluacion_desempenio.contratistas c ON c.rifced = e.rif_contrat
-                                        LEFT JOIN evaluacion_desempenio.contratistas_nr cn ON cn.rifced = e.rif_contrat
-                                        JOIN public.estatus e2 ON e2.id = e.id_estatus 
-                                        where e.id_estatus = 2");
+                                 a.id_evaluacion,
+                                 e.rif_contrat,
+                                 CONCAT(c.nombre, '', cn.nombre) AS contratante,
+                                 e.calificacion,
+                                 e.id_estatus,
+                                 e2.descripcion AS estatus,
+                                 to_char(a.fecha_reg_anulacion, 'dd-mm-yyyy') AS fech_reg,
+                                 e.id_usuario,
+                                 u.rif_organoente AS rif_ente_evaluador,
+                                 oe.descripcion AS nombre_ente_evaluador
+                          FROM evaluacion_desempenio.anulacion a
+                          JOIN evaluacion_desempenio.evaluacion e ON e.id = a.id_evaluacion
+                          LEFT JOIN evaluacion_desempenio.contratistas c ON c.rifced = e.rif_contrat
+                          LEFT JOIN evaluacion_desempenio.contratistas_nr cn ON cn.rifced = e.rif_contrat
+                          JOIN public.estatus e2 ON e2.id = e.id_estatus
+                          LEFT JOIN seguridad.usuarios u ON u.id = e.id_usuario
+                          LEFT JOIN public.organoente oe ON oe.rif = u.rif_organoente
+                          WHERE e.id_estatus = 2");
         return $query->result_array();
     }
 
