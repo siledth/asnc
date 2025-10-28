@@ -43,7 +43,10 @@
                         <div class="col-3">
                             <h6>Nro de Oficio: <?= $dt_eval['nro_oficicio'] ?></h6>
                         </div>
-                        <div class="col-3">
+                        <div class="col-4">
+                            <h6>Fecha de Creacion: <?= $dt_eval['fecha_anulacion'] ?></h6>
+                        </div>
+                        <div class="col-4">
                             <h6>Fecha de Solicitud Anulación : <?= $dt_eval['fecha_anulacion'] ?></h6>
                         </div>
 
@@ -80,9 +83,9 @@
                         <h6>Estatus de Evaluación de Desempeño: <b><?= $eval_ind['descripcion'] ?></b> </h6>
                     </div>
                 <?php endif; ?>
-                <div class="col-12">
+                <!-- <div class="col-12">
                     <h6>Fecha de Registro de la Evaluación de Desempeño: <?= $fecha_reg_eval ?></h6>
-                </div>
+                </div> -->
                 <div class="panel-heading" style="padding: 2px 15px;">
                     <h2 style="font-size: 16px;" class="panel-title text-center"><b>Datos del Contratante</b></h2>
                 </div>
