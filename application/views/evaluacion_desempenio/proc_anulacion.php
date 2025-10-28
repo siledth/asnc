@@ -363,18 +363,36 @@
 </div>
 <style>
     /* Estilos para hacer que los campos readonly se vean como texto plano */
-    .input-sin-fondo[readonly] {
+    /* Más específico para input y textarea, y usando !important */
+    .form-control.input-sin-fondo[readonly],
+    .form-control.input-sin-fondo[readonly]:focus {
+        /* También aplica al estado de foco */
         background-color: transparent !important;
-        /* Fondo transparente */
-        border: none;
-        /* Sin borde */
-        box-shadow: none;
-        /* Sin sombra */
-        padding-left: 0;
-        /* Ajuste para que el texto se alinee bien */
-        font-weight: 500;
-        /* Opcional: un poco más de peso para resaltar la información */
+        /* Quita el color de fondo gris */
+        border-color: transparent !important;
+        /* Opcional: Hace el borde transparente */
+        box-shadow: none !important;
+        /* Elimina cualquier sombra */
+        outline: 0 !important;
+        /* Quita el outline en focus */
+        padding-left: 0.75rem !important;
+        /* Restaura el padding si lo habías quitado demasiado */
+        color: #333 !important;
+        /* Asegura un color de texto oscuro */
+        cursor: default !important;
+        /* Cambia el cursor para indicar que no es editable */
     }
+
+    /* Opcional: si quieres un borde inferior sutil para simular una línea de texto */
+    /*
+.form-control.input-sin-fondo[readonly] {
+    border-bottom: 1px solid #ced4da !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-radius: 0 !important;
+}
+*/
 </style>
 <!-- ---
 
