@@ -298,11 +298,6 @@
 
 ---
 
-## ⚙️ Modales
-
-### Modal de Registro (`#exampleModal`) - Estilizado con `bg-success`
-
-```html
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -366,7 +361,21 @@
         </div>
     </div>
 </div>
-
+<style>
+    /* Estilos para hacer que los campos readonly se vean como texto plano */
+    .input-sin-fondo[readonly] {
+        background-color: transparent !important;
+        /* Fondo transparente */
+        border: none;
+        /* Sin borde */
+        box-shadow: none;
+        /* Sin sombra */
+        padding-left: 0;
+        /* Ajuste para que el texto se alinee bien */
+        font-weight: 500;
+        /* Opcional: un poco más de peso para resaltar la información */
+    }
+</style>
 ---
 
 ### Modal de Visualización (`#exampleModal_ver`) - Estilizado con `bg-info`
@@ -388,51 +397,54 @@
                     <div class="row">
                         <div class="form-group col-2">
                             <label>ID de Evaluación</label>
-                            <input class="form-control text-center" type="text" name="id_ver" id="id_ver" readonly>
+                            <input class="form-control text-center input-sin-fondo" type="text" name="id_ver"
+                                id="id_ver" readonly>
                         </div>
                         <div class="col-10"></div>
                         <div class="form-group col-4">
                             <label>Nro. de Oficio de la Solicitud</label>
-                            <input class="form-control" type="text" name="nro_oficicio_ver" id="nro_oficicio_ver"
-                                readonly>
+                            <input class="form-control input-sin-fondo" type="text" name="nro_oficicio_ver"
+                                id="nro_oficicio_ver" readonly>
                         </div>
                         <div class="form-group col-4">
                             <label>Fecha de Notificación</label>
-                            <input type="text" class="form-control" id="fec_solicitud_ver" name="fec_solicitud_ver"
-                                readonly />
+                            <input type="text" class="form-control input-sin-fondo" id="fec_solicitud_ver"
+                                name="fec_solicitud_ver" readonly />
                         </div>
                         <div class="form-group col-4">
                             <label>Nro. del Expediente</label>
-                            <input class="form-control" type="text" name="nro_expediente_ver" id="nro_expediente_ver"
-                                readonly>
+                            <input class="form-control input-sin-fondo" type="text" name="nro_expediente_ver"
+                                id="nro_expediente_ver" readonly>
                         </div>
                         <div class="form-group col-4">
                             <label>Nro. Gaceta, Resolución o Providencia</label>
-                            <input class="form-control" type="text" name="nro_gacet_resol_ver" id="nro_gacet_resol_ver"
-                                readonly>
+                            <input class="form-control input-sin-fondo" type="text" name="nro_gacet_resol_ver"
+                                id="nro_gacet_resol_ver" readonly>
                         </div>
                         <div class="form-group col-4">
                             <label>Cédula del Sol.</label>
-                            <input class="form-control" type="text" name="cedula_solc_ver" id="cedula_solc_ver"
-                                readonly>
+                            <input class="form-control input-sin-fondo" type="text" name="cedula_solc_ver"
+                                id="cedula_solc_ver" readonly>
                         </div>
                         <div class="form-group col-4">
                             <label>Télefono del Solicitante</label>
-                            <input class="form-control" type="text" name="telf_solc_ver" id="telf_solc_ver" readonly>
+                            <input class="form-control input-sin-fondo" type="text" name="telf_solc_ver"
+                                id="telf_solc_ver" readonly>
                         </div>
                         <div class="form-group col-6">
                             <label>Nombre y Apellido del Solicitante</label>
-                            <input class="form-control" type="text" name="nom_ape_solc_ver" id="nom_ape_solc_ver"
-                                readonly>
+                            <input class="form-control input-sin-fondo" type="text" name="nom_ape_solc_ver"
+                                id="nom_ape_solc_ver" readonly>
                         </div>
                         <div class="form-group col-6">
                             <label>Cargo</label>
-                            <input class="form-control" type="text" name="cargo_ver" id="cargo_ver" readonly>
+                            <input class="form-control input-sin-fondo" type="text" name="cargo_ver" id="cargo_ver"
+                                readonly>
                         </div>
                         <div class="form-group col-12">
                             <label>Breve descripción de la Solicitud</label>
-                            <textarea class="form-control" rows="2" name="descp_anul_ver" id="descp_anul_ver"
-                                readonly></textarea>
+                            <textarea class="form-control input-sin-fondo" rows="2" name="descp_anul_ver"
+                                id="descp_anul_ver" readonly></textarea>
                         </div>
                     </div>
                 </form>
