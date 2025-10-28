@@ -40,7 +40,7 @@
                         </h6>
                     </div>
                     <div class="row ml-1">
-                        <div class="col-3">
+                        <div class="col-12">
                             <h6>Nro de Oficio: <?= $dt_eval['nro_oficicio'] ?></h6>
                         </div>
                         <div class="col-4">
