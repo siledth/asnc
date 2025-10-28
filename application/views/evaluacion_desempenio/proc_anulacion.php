@@ -376,11 +376,11 @@
         /* Opcional: un poco más de peso para resaltar la información */
     }
 </style>
----
+<!-- ---
 
 ### Modal de Visualización (`#exampleModal_ver`) - Estilizado con `bg-info`
 
-```html
+```html -->
 <div class="modal fade" id="exampleModal_ver" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">

@@ -1,17 +1,17 @@
 <style media="screen">
-@media print {
+    @media print {
 
-    .non-printable,
-    .fancybox-outer {
-        display: none;
-    }
+        .non-printable,
+        .fancybox-outer {
+            display: none;
+        }
 
-    .printable,
-    #printDiv {
-        display: block;
-        font-size: 26pt;
+        .printable,
+        #printDiv {
+            display: block;
+            font-size: 26pt;
+        }
     }
-} 
 </style>
 <div class="sidebar-bg"></div>
 <div id="content" class="content">
@@ -32,51 +32,54 @@
             </div>
             <div class="panel panel-inverse">
                 <div class="col-6 mt-2">
-                    <h6>Identificador de Evaluación de Desempeño: <?=$eval_ind['id']?></h6>
+                    <h6>Identificador de Evaluación de Desempeño: <?= $eval_ind['id'] ?></h6>
                 </div>
                 <?php if ($eval_ind['id_estatus'] >= 2): ?>
-                <div class="col-6">
-                    <h6>Estatus de Evaluación de Desempeño: <b style="color:red;"><?=$eval_ind['descripcion']?></b>
-                    </h6>
-                </div>
-                <div class="row ml-1">
-                    <div class="col-3">
-                        <h6>Nro de Oficio: <?=$dt_eval['nro_oficicio']?></h6>
+                    <div class="col-6">
+                        <h6>Estatus de Evaluación de Desempeño: <b style="color:red;"><?= $eval_ind['descripcion'] ?></b>
+                        </h6>
                     </div>
-                    <div class="col-3">
-                        <h6>Fecha de Anulación: <?=$dt_eval['fecha_anulacion']?></h6>
+                    <div class="row ml-1">
+                        <div class="col-3">
+                            <h6>Nro de Oficio: <?= $dt_eval['nro_oficicio'] ?></h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>Fecha de Solicitud Anulación : <?= $dt_eval['fecha_anulacion'] ?></h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>Fecha de Anulación Aprobación: <?= $dt_eval['fecha_aprv_anul'] ?></h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>Nroº de Expediente: <?= $dt_eval['nro_expediente'] ?></h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>Nroº de Gaceta y/o Resolución: <?= $dt_eval['nro_gacet_resol'] ?></h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>Cédula del Solicitante: <?= $dt_eval['cedula_solc'] ?></h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>Télefono del Solicitante: <?= $dt_eval['telf_solc'] ?></h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>Nombre y Apellido del Solicitante: <?= $dt_eval['nom_ape_solc'] ?></h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>Cargo: <?= $dt_eval['cargo'] ?></h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>Breve Descripción: <?= $dt_eval['descp_anul'] ?></h6>
+                        </div>
                     </div>
-                    <div class="col-3">
-                        <h6>Nroº de Expediente: <?=$dt_eval['nro_expediente']?></h6>
-                    </div>
-                    <div class="col-3">
-                        <h6>Nroº de Gaceta y/o Resolución: <?=$dt_eval['nro_gacet_resol']?></h6>
-                    </div>
-                    <div class="col-3">
-                        <h6>Cédula del Solicitante: <?=$dt_eval['cedula_solc']?></h6>
-                    </div>
-                    <div class="col-3">
-                        <h6>Télefono del Solicitante: <?=$dt_eval['telf_solc']?></h6>
-                    </div>
-                    <div class="col-3">
-                        <h6>Nombre y Apellido del Solicitante: <?=$dt_eval['nom_ape_solc']?></h6>
-                    </div>
-                    <div class="col-3">
-                        <h6>Cargo: <?=$dt_eval['cargo']?></h6>
-                    </div>
-                    <div class="col-3">
-                        <h6>Breve Descripción: <?=$dt_eval['descp_anul']?></h6>
-                    </div>
-                </div>
 
                 <?php endif; ?>
                 <?php if ($eval_ind['id_estatus'] == 1): ?>
-                <div class="col-6">
-                    <h6>Estatus de Evaluación de Desempeño: <b><?=$eval_ind['descripcion']?></b> </h6>
-                </div>
+                    <div class="col-6">
+                        <h6>Estatus de Evaluación de Desempeño: <b><?= $eval_ind['descripcion'] ?></b> </h6>
+                    </div>
                 <?php endif; ?>
                 <div class="col-12">
-                    <h6>Fecha de Registro de la Evaluación de Desempeño: <?=$fecha_reg_eval?></h6>
+                    <h6>Fecha de Registro de la Evaluación de Desempeño: <?= $fecha_reg_eval ?></h6>
                 </div>
                 <div class="panel-heading" style="padding: 2px 15px;">
                     <h2 style="font-size: 16px;" class="panel-title text-center"><b>Datos del Contratante</b></h2>
@@ -85,11 +88,11 @@
                     <div class="row" style="margin-bottom: -23px;">
                         <div class="form-group col-2">
                             <h5><b>Rif de Contratante:</b></h5>
-                            <h5><?=$eval_ind['rif_organo']?></h5>
+                            <h5><?= $eval_ind['rif_organo'] ?></h5>
                         </div>
                         <div class="form-group col-10">
                             <h5><b>Nombre Completo:</b></h5>
-                            <h5><?=$eval_ind['organo']?></h5>
+                            <h5><?= $eval_ind['organo'] ?></h5>
                         </div>
                     </div>
                 </div>
@@ -101,23 +104,23 @@
                     <div class="row" style="margin-bottom: -23px;">
                         <div class="form-group col-2">
                             <h5><b>Rif del Contratista:</b></h5>
-                            <h5><?=$eval_ind['rif_contrat']?></h5>
+                            <h5><?= $eval_ind['rif_contrat'] ?></h5>
                         </div>
                         <div class="form-group col-4">
                             <h5><b>Nombre completo:</b></h5>
-                            <h5><?=$eval_ind['nom_comer']?></h5>
+                            <h5><?= $eval_ind['nom_comer'] ?></h5>
                         </div>
                         <div class="form-group col-2">
                             <h5><b>Estado:</b></h5>
-                            <h5><?=$eval_ind['est_contratista']?></h5>
+                            <h5><?= $eval_ind['est_contratista'] ?></h5>
                         </div>
                         <div class="form-group col-2">
                             <h5><b>Municipio:</b></h5>
-                            <h5><?=$eval_ind['mun_contratista']?></h5>
+                            <h5><?= $eval_ind['mun_contratista'] ?></h5>
                         </div>
                         <div class="form-group col-2">
                             <h5><b>Ciudad:</b></h5>
-                            <h5><?=$eval_ind['ciudad']?></h5>
+                            <h5><?= $eval_ind['ciudad'] ?></h5>
                         </div>
                     </div>
                 </div>
@@ -129,15 +132,15 @@
                     <div class="row" style="margin-bottom: -23px;">
                         <div class="form-group col-7">
                             <h5><b>Procedimiento de Selección del Contratista:</b></h5>
-                            <h5><?=$eval_ind['modalidad']?></h5>
+                            <h5><?= $eval_ind['modalidad'] ?></h5>
                         </div>
                         <div class="form-group col-5">
                             <h5><b>Rango de Fecha - Inicio a Culminacion del Contrato:</b></h5>
-                            <h5>Desde: <?=$fec_inicio_cont?> <b>/</b> Hasta: <?=$fec_fin_cont?></h5>
+                            <h5>Desde: <?= $fec_inicio_cont ?> <b>/</b> Hasta: <?= $fec_fin_cont ?></h5>
                         </div>
                         <div class="form-group col-12">
                             <h5><b>Supuestos del Procedimiento de la Selección del Contratista:</b></h5>
-                            <h5><?=$eval_ind['sub_modalidad']?></h5>
+                            <h5><?= $eval_ind['sub_modalidad'] ?></h5>
                         </div>
                     </div>
                 </div>
@@ -148,90 +151,90 @@
                     <div class="row" style="margin-bottom: -12px;">
                         <div class="form-group col-3">
                             <h5><b>Nro. del Procedimiento:</b></h5>
-                            <h5><?=$eval_ind['nro_procedimiento']?></h5>
+                            <h5><?= $eval_ind['nro_procedimiento'] ?></h5>
                         </div>
                         <div class="form-group col-5">
                             <h5><b>Nro. de contrato / Orden de Compra / Orden de Servicio:</b></h5>
-                            <h5><?=$eval_ind['nro_contrato']?></h5>
+                            <h5><?= $eval_ind['nro_contrato'] ?></h5>
                         </div>
                         <div class="form-group col-4">
                             <h5><b>Edo. donde se ejecuto el Contrato:</b></h5>
-                            <h5><?=$eval_ind['estado_contrato']?></h5>
+                            <h5><?= $eval_ind['estado_contrato'] ?></h5>
                         </div>
                         <div class="form-group col-3">
                             <h5><b>Obj. de la Contratación</b></h5>
                             <div class="col-md-12">
                                 <?php if ($eval_ind['bienes'] != null): ?>
-                                <div class="checkbox checkbox-css">
-                                    <input type="checkbox" value="bienes" name="bienes" id="cssCheckbox1" checked
-                                        disabled />
-                                    <label for="cssCheckbox1">Bienes</label>
-                                </div>
+                                    <div class="checkbox checkbox-css">
+                                        <input type="checkbox" value="bienes" name="bienes" id="cssCheckbox1" checked
+                                            disabled />
+                                        <label for="cssCheckbox1">Bienes</label>
+                                    </div>
                                 <?php endif; ?>
                                 <?php if ($eval_ind['servicios'] != null): ?>
-                                <div class="checkbox checkbox-css">
-                                    <input type="checkbox" value="servicios" name="servicios" id="cssCheckbox1" checked
-                                        disabled />
-                                    <label for="cssCheckbox1">Servicios</label>
-                                </div>
+                                    <div class="checkbox checkbox-css">
+                                        <input type="checkbox" value="servicios" name="servicios" id="cssCheckbox1" checked
+                                            disabled />
+                                        <label for="cssCheckbox1">Servicios</label>
+                                    </div>
                                 <?php endif; ?>
                                 <?php if ($eval_ind['obras'] != null): ?>
-                                <div class="checkbox checkbox-css">
-                                    <input type="checkbox" value="obras" name="obras" id="cssCheckbox1" checked
-                                        disabled />
-                                    <label for="cssCheckbox1">Obras</label>
-                                </div>
+                                    <div class="checkbox checkbox-css">
+                                        <input type="checkbox" value="obras" name="obras" id="cssCheckbox1" checked
+                                            disabled />
+                                        <label for="cssCheckbox1">Obras</label>
+                                    </div>
                                 <?php endif; ?>
                             </div>
                         </div>
                         <div class="form-group col-4">
                             <h5><b>Descripción de la Contratación:</b></h5>
-                            <h5><?=$eval_ind['descr_contrato']?></h5>
+                            <h5><?= $eval_ind['descr_contrato'] ?></h5>
                         </div>
                         <div class="form-group col-2">
                             <h5><b>Monto:</b></h5>
-                            <h5><?=$eval_ind['monto']?></h5>
+                            <h5><?= $eval_ind['monto'] ?></h5>
                         </div>
                         <div class="form-group col-2">
                             <h5><b>Moneda</b></h5>
                             <div class="col-md-12 col-2">
                                 <?php if ($eval_ind['dolar'] != null): ?>
-                                <div class="checkbox checkbox-css">
-                                    <input type="checkbox" value="dolar" name="dolar" id="cssCheckbox1" checked
-                                        disabled />
-                                    <label for="cssCheckbox1">dolar</label>
-                                </div class="checkbox checkbox-css">
+                                    <div class="checkbox checkbox-css">
+                                        <input type="checkbox" value="dolar" name="dolar" id="cssCheckbox1" checked
+                                            disabled />
+                                        <label for="cssCheckbox1">dolar</label>
+                                    </div class="checkbox checkbox-css">
                                 <?php endif; ?>
                                 <?php if ($eval_ind['euro'] != null): ?>
-                                <div class="checkbox checkbox-css">
-                                    <input type="checkbox" value="bienes" name="euro" id="cssCheckbox1" checked
-                                        disabled />
-                                    <label for="cssCheckbox1">Euro</label>
-                                </div>
+                                    <div class="checkbox checkbox-css">
+                                        <input type="checkbox" value="bienes" name="euro" id="cssCheckbox1" checked
+                                            disabled />
+                                        <label for="cssCheckbox1">Euro</label>
+                                    </div>
                                 <?php endif; ?>
                                 <?php if ($eval_ind['petros'] != null): ?>
-                                <div class="checkbox checkbox-css">
-                                    <input type="checkbox" value="petros" name="petros" id="cssCheckbox1" checked
-                                        disabled />
-                                    <label for="cssCheckbox1">Petros</label>
-                                </div>
+                                    <div class="checkbox checkbox-css">
+                                        <input type="checkbox" value="petros" name="petros" id="cssCheckbox1" checked
+                                            disabled />
+                                        <label for="cssCheckbox1">Petros</label>
+                                    </div>
                                 <?php endif; ?>
                                 <?php if ($eval_ind['bolivares'] != null): ?>
-                                <div class="checkbox checkbox-css">
-                                    <input type="checkbox" value="bolivares" name="bolivares" id="cssCheckbox1" checked
-                                        disabled />
-                                    <label for="cssCheckbox1">Bolivares</label>
-                                </div>
+                                    <div class="checkbox checkbox-css">
+                                        <input type="checkbox" value="bolivares" name="bolivares" id="cssCheckbox1" checked
+                                            disabled />
+                                        <label for="cssCheckbox1">Bolivares</label>
+                                    </div>
                                 <?php endif; ?>
                                 <?php if ($eval_ind['otro'] != null): ?>
-                                <div class="checkbox checkbox-css">
-                                    <input type="checkbox" value="bolivares" name="bolivares" id="cssCheckbox1" checked
-                                        disabled />
-                                    <label for="cssCheckbox1">Otro</label>
+                                    <div class="checkbox checkbox-css">
+                                        <input type="checkbox" value="bolivares" name="bolivares" id="cssCheckbox1" checked
+                                            disabled />
+                                        <label for="cssCheckbox1">Otro</label>
 
-                                    <h5 class="mt-1"><b>Especifique:</b></h5>
-                                    <h5><?=$eval_ind['mod_otro']?></h5>
-                                </div>
+                                        <h5 class="mt-1"><b>Especifique:</b></h5>
+                                        <h5><?= $eval_ind['mod_otro'] ?></h5>
+                                    </div>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -264,14 +267,14 @@
                                     <td>25</td>
                                     <td>
                                         <?php if ($eval_ind['calidad'] == 1): ?>
-                                        Si
+                                            Si
                                         <?php endif; ?>
                                         <?php if ($eval_ind['calidad'] == 0): ?>
-                                        No
+                                            No
                                         <?php endif; ?>
                                     </td>
                                     <td>
-                                        <?=$calc_cald?>
+                                        <?= $calc_cald ?>
                                     </td>
                                 </tr>
                                 <tr style="font-size: 10px;">
@@ -283,14 +286,14 @@
                                     <td>25</td>
                                     <td>
                                         <?php if ($eval_ind['responsabilidad'] == 1): ?>
-                                        Si
+                                            Si
                                         <?php endif; ?>
                                         <?php if ($eval_ind['responsabilidad'] == 0): ?>
-                                        No
+                                            No
                                         <?php endif; ?>
                                     </td>
                                     <td>
-                                        <?=$calc_responsabilidad?>
+                                        <?= $calc_responsabilidad ?>
                                     </td>
                                 </tr>
                                 <tr style="font-size: 10px;">
@@ -302,14 +305,14 @@
                                     <td>25</td>
                                     <td>
                                         <?php if ($eval_ind['conocimiento'] == 1): ?>
-                                        Si
+                                            Si
                                         <?php endif; ?>
                                         <?php if ($eval_ind['conocimiento'] == 0): ?>
-                                        No
+                                            No
                                         <?php endif; ?>
                                     </td>
                                     <td>
-                                        <?=$calc_conocimiento?>
+                                        <?= $calc_conocimiento ?>
                                     </td>
                                 </tr>
                                 <tr style="font-size: 10px;">
@@ -319,83 +322,83 @@
                                     <td>25</td>
                                     <td>
                                         <?php if ($eval_ind['oportunidad'] == 1): ?>
-                                        Si
+                                            Si
                                         <?php endif; ?>
                                         <?php if ($eval_ind['oportunidad'] == 0): ?>
-                                        No
+                                            No
                                         <?php endif; ?>
                                     </td>
                                     <td>
-                                        <?=$calc_oportunidad?>
+                                        <?= $calc_oportunidad ?>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                         <div class="col-5"></div>
                         <div class="col-3 text-right">
-                            <h5><b>Calificacion:</b> <?=$eval_ind['calificacion']?></h6>
+                            <h5><b>Calificacion:</b> <?= $eval_ind['calificacion'] ?></h6>
                         </div>
                         <div class="col-4 text-right">
-                            <h5><b>Puntuaje Total de la Calificación:</b> <?=$eval_ind['total_calif']?>
+                            <h5><b>Puntuaje Total de la Calificación:</b> <?= $eval_ind['total_calif'] ?>
                         </div>
                     </div>
                 </div>
                 <?php if ($eval_ind['snc'] == 1): ?>
-                <div class="panel-heading" style="padding: 2px 15px;">
-                    <h5 style="font-size: 16px;" class="panel-title text-center"><b>Información de Notificación al
-                            Contratista</b></h5>
-                </div>
-                <div class="panel-body" style="padding: 0px;">
-                    <div class="row" style="margin-bottom: -23px;">
-                        <div class="form-group col-6">
-                            <h5><b>Fecha de la Notificación:</b></h5>
-                            <h5><?=$eval_ind['fecha_not']?></h5>
-                        </div>
-                        <div class="form-group col-6">
-                            <h5><b>Medio de envio de la Notificación:</b></h5>
-                            <?php if ($eval_ind['medio'] == 1): ?>
-                            <div>
-                                <h5>FAX</h5>
-                            </div>
-                            <?php endif; ?>
-                            <?php if ($eval_ind['medio'] == 2): ?>
-                            <div>
-                                <h5>Correo Electronico</h5>
-                            </div>
-                            <?php endif; ?>
-                            <?php if ($eval_ind['medio'] == 3): ?>
-                            <div>
-                                <h5>Oficio / Memo / Notificación</h5>
-                            </div>
-                            <?php endif; ?>
-                        </div>
-                        <div class="form-group col-6">
-                            <h5><b>Nro. de Oficio / Fax / Correo Electronico / Otro:</b></h5>
-                            <h5><?=$eval_ind['nro_oc_os']?></h5>
-                        </div>
-                        
-                      
-                        </div>
-                         
+                    <div class="panel-heading" style="padding: 2px 15px;">
+                        <h5 style="font-size: 16px;" class="panel-title text-center"><b>Información de Notificación al
+                                Contratista</b></h5>
                     </div>
-                </div>
-                <?php endif; ?>
+                    <div class="panel-body" style="padding: 0px;">
+                        <div class="row" style="margin-bottom: -23px;">
+                            <div class="form-group col-6">
+                                <h5><b>Fecha de la Notificación:</b></h5>
+                                <h5><?= $eval_ind['fecha_not'] ?></h5>
+                            </div>
+                            <div class="form-group col-6">
+                                <h5><b>Medio de envio de la Notificación:</b></h5>
+                                <?php if ($eval_ind['medio'] == 1): ?>
+                                    <div>
+                                        <h5>FAX</h5>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if ($eval_ind['medio'] == 2): ?>
+                                    <div>
+                                        <h5>Correo Electronico</h5>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if ($eval_ind['medio'] == 3): ?>
+                                    <div>
+                                        <h5>Oficio / Memo / Notificación</h5>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                            <div class="form-group col-6">
+                                <h5><b>Nro. de Oficio / Fax / Correo Electronico / Otro:</b></h5>
+                                <h5><?= $eval_ind['nro_oc_os'] ?></h5>
+                            </div>
+
+
+                        </div>
+
+                    </div>
             </div>
+        <?php endif; ?>
         </div>
     </div>
 </div>
+</div>
 <script>
-function printContents(imp1) {
-    let printElement = document.getElementById(imp1);
-    var printWindow = window.open('', 'PRINT');
-    printWindow.document.write(document.documentElement.innerHTML);
-    setTimeout(() => { // Needed for large documents
-        printWindow.document.body.style.margin = '0 0';
-        printWindow.document.body.innerHTML = printElement.outerHTML;
-        printWindow.document.close(); // necessary for IE >= 10
-        printWindow.focus(); // necessary for IE >= 10*/
-        printWindow.print();
-        printWindow.close();
-    }, 1000)
-}
+    function printContents(imp1) {
+        let printElement = document.getElementById(imp1);
+        var printWindow = window.open('', 'PRINT');
+        printWindow.document.write(document.documentElement.innerHTML);
+        setTimeout(() => { // Needed for large documents
+            printWindow.document.body.style.margin = '0 0';
+            printWindow.document.body.innerHTML = printElement.outerHTML;
+            printWindow.document.close(); // necessary for IE >= 10
+            printWindow.focus(); // necessary for IE >= 10*/
+            printWindow.print();
+            printWindow.close();
+        }, 1000)
+    }
 </script>
