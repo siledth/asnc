@@ -362,37 +362,37 @@
     </div>
 </div>
 <style>
-    /* Estilos para hacer que los campos readonly se vean como texto plano */
-    /* Más específico para input y textarea, y usando !important */
-    .form-control.input-sin-fondo[readonly],
-    .form-control.input-sin-fondo[readonly]:focus {
-        /* También aplica al estado de foco */
-        background-color: transparent !important;
-        /* Quita el color de fondo gris */
-        border-color: transparent !important;
-        /* Opcional: Hace el borde transparente */
+    /* ESTILOS ESPECÍFICOS PARA EL MODAL DE VISUALIZACIÓN (#exampleModal_ver)
+    Esto asegura que sobreescribe las reglas generales de Bootstrap/Tema.
+*/
+    #exampleModal_ver .form-control.input-sin-fondo[readonly],
+    #exampleModal_ver .form-control.input-sin-fondo[readonly]:focus,
+    #exampleModal_ver .form-control.input-sin-fondo[readonly]:active {
+        /* Quita el fondo gris */
+        background-color: #fff !important;
+        /* Si el fondo sigue viéndose gris, usa el color blanco. */
+
+        /* Quita bordes y sombras para que parezca texto plano */
+        border: none !important;
         box-shadow: none !important;
-        /* Elimina cualquier sombra */
-        outline: 0 !important;
-        /* Quita el outline en focus */
-        padding-left: 0.75rem !important;
-        /* Restaura el padding si lo habías quitado demasiado */
+
+        /* Asegura el color de texto y quita el outline al hacer foco */
         color: #333 !important;
-        /* Asegura un color de texto oscuro */
+        outline: 0 !important;
+
+        /* Ajustes visuales */
         cursor: default !important;
-        /* Cambia el cursor para indicar que no es editable */
+        padding-left: 0.75rem !important;
+        /* Mantiene el padding del texto */
+        padding-right: 0.75rem !important;
     }
 
-    /* Opcional: si quieres un borde inferior sutil para simular una línea de texto */
-    /*
-.form-control.input-sin-fondo[readonly] {
-    border-bottom: 1px solid #ced4da !important;
-    border-top: none !important;
-    border-left: none !important;
-    border-right: none !important;
-    border-radius: 0 !important;
-}
-*/
+    /* Aseguramos que la etiqueta label se vea */
+    #exampleModal_ver .form-group label {
+        font-weight: bold;
+        /* Opcional: Resalta las etiquetas */
+        color: #555;
+    }
 </style>
 <!-- ---
 
