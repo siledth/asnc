@@ -574,20 +574,18 @@ class Comision_contrata_model extends CI_model
             c.acto_adm, c.dura_com_desde, c.dura_com_hasta, c.gaceta, c.fecha_gaceta, 
             tc.descripcion AS tipo_comision, ac.desc_acto_admin,
             
-            -- OBTENEMOS LOS DATOS DEL ENTE ORIGINAL (o) PARA VERIFICAR SI ES FILIAL
-            -- OBTENEMOS LOS DATOS DEL ENTE ADSCRITO (oe_ads) SI ES FILIAL
+            -- Lógica Condicional: SOLO CAMBIA EL RIF si es filial Y SÍ empieza con 'F'
+            CASE 
+                WHEN o.filiar <> 0 AND LEFT(c.rif_organoente, 1) = 'F' AND oe_ads.rif IS NOT NULL 
+                THEN oe_ads.rif 
+                ELSE c.rif_organoente 
+            END AS rif_organoente,     -- Mantiene el nombre ORIGINAL: rif_organoente
             
-            -- Lógica Condicional: SOLO CAMBIA EL RIF si es filial (o.filiar <> 0)
-            CASE WHEN o.filiar <> 0 AND oe_ads.rif IS NOT NULL THEN oe_ads.rif 
-                 ELSE c.rif_organoente 
-            END AS rif_organoente,     -- <<-- Mantiene el nombre ORIGINAL: rif_organoente
+            -- La descripción del Órgano/Ente se mantiene la de la filial
+            o.descripcion,             -- Mantiene el nombre ORIGINAL: descripcion
             
-            -- La descripción del Órgano/Ente se mantiene la de la filial (o.descripcion)
-            o.descripcion,             -- <<-- Mantiene el nombre ORIGINAL: descripcion
-            
-            o.filiar,                  -- Incluir filiar para debug si es necesario
-
-            oe_ads.rif AS rif_adscrito -- Incluir el RIF adscrito para debug
+            o.filiar,                  -- Incluir filiar para referencia/debug
+            oe_ads.rif AS rif_adscrito -- Incluir el RIF adscrito para referencia
             
         FROM comisiones.comision c 
         
