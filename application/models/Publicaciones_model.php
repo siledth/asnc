@@ -1392,7 +1392,6 @@ class Publicaciones_model extends CI_model
 	// 		return NULL;
 	// 	}
 	// }
-
 	function consulta_llamado2($rif_organoente, $numero_proceso)
 	{
 		$sql = "
@@ -1407,10 +1406,14 @@ class Publicaciones_model extends CI_model
             c.estado_sobre, c.municipio_sobre, c.id_llcestatus, c.estatus, 
             m.descripcion AS descr, obj.descripcion AS obj,
             
-            -- Lógica Condicional: SOLO CAMBIA EL RIF
-            CASE WHEN oe.filiar <> 0 AND oe_ads.rif IS NOT NULL THEN oe_ads.rif 
-                 ELSE c.rif_organoente 
-            END AS rif_organoente,     -- <<-- El RIF se cambia si es filial.
+            -- Lógica Condicional: SOLO CAMBIA EL RIF si es filial Y SÍ empieza con 'F'
+            CASE 
+                -- Condición para sustituir: ES FILIAL AND ES RIF TIPO 'F' AND MATRIZ EXISTE
+                WHEN oe.filiar <> 0 AND LEFT(c.rif_organoente, 1) = 'F' AND oe_ads.rif IS NOT NULL 
+                THEN oe_ads.rif 
+                -- Si no cumple la condición, mantiene el RIF original
+                ELSE c.rif_organoente 
+            END AS rif_organoente,
             
             -- ESTOS CAMPOS SE MANTIENEN ORIGINALES (DE LA FILIAL C)
             c.organoente,
@@ -1430,7 +1433,7 @@ class Publicaciones_model extends CI_model
 
 		$query = $this->db->query($sql);
 
-		// ... (Tu lógica de contador y retorno de resultados permanece sin cambios) ...
+		// ... (El bloque de lógica de contador y retorno permanece sin cambios) ...
 
 		if ($query->num_rows() > 0) {
 			$this->db->select('rif_organoente');
