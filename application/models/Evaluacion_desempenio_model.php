@@ -1355,7 +1355,8 @@ class Evaluacion_desempenio_model extends CI_model
         oe.descripcion AS organo_ente,
         e.rif_contrat,
         COALESCE(c.nombre, c_nr.nombre, 'Nombre no encontrado') AS contratista_ev,
-        e.calificacion
+        e.calificacion,
+        e.id_estatus
     ");
         $this->db->from('evaluacion_desempenio.evaluacion AS e');
 

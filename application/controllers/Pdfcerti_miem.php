@@ -86,14 +86,14 @@ class Pdf extends FPDF
         $this->SetY(-35);
         // Add image
         $this->Image(base_url() . 'baner/fp.png', 80, $this->GetY(), 50);
-        $data11 = $this->comision_contrata_model->con_qr($this->id_programacion);
-        if ($data11 != '') {
-            foreach ($data11 as $d11) {
-                $this->Cell(55, 3, '', 0, 'L');
-                $imagePath = $d11->qrcode_path;
-                $this->Image(base_url() . 'assets/img/qrcodemiembros/' . $imagePath, 15, 235, 30);
-            }
-        }
+        // $data11 = $this->comision_contrata_model->con_qr($this->id_programacion);
+        // if ($data11 != '') {
+        //     foreach ($data11 as $d11) {
+        //         $this->Cell(55, 3, '', 0, 'L');
+        //         $imagePath = $d11->qrcode_path;
+        //         $this->Image(base_url() . 'assets/img/qrcodemiembros/' . $imagePath, 15, 235, 30);
+        //     }
+        // }
     }
 }
 
@@ -156,7 +156,7 @@ class Pdfcerti_miem extends CI_Controller
                 $pdf->Cell(20, 5, date("d/m/Y", strtotime($d->fecha_acto)), 0, 0, 'L');
                 $pdf->SetFont('Arial', 'B', 9);
                 $pdf->Cell(20, 5, utf8_decode('Nº del acto:'), 0, 0, 'L');
-                $pdf->SetFont('Arial', '', 9);
+                $pdf->SetFont('Arial', '', 7);
                 $pdf->Cell(1, 5, utf8_decode($d->num_acto), 0, 1, 'L');
                 if ($d->tipo_comi == 2) {
                     $pdf->SetFont('Arial', 'B', 9);

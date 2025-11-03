@@ -4,6 +4,73 @@ $(document).ready(function() {
     var pagina_actual = 1;
     var max_paginas_visibles = 5;
 
+    // function mostrar_pagina(pagina) {
+    //     var inicio = (pagina - 1) * filas_por_pagina;
+    //     var fin = inicio + filas_por_pagina;
+    //     var filas_a_mostrar = reporte_data.slice(inicio, fin);
+
+    //     var tbody = $('#data-table-reporte tbody');
+    //     tbody.empty();
+
+    //     if (filas_a_mostrar.length > 0) {
+    //         $.each(filas_a_mostrar, function(index, item) {
+    //             //var url_ver = '/index.php/Evaluacion_desempenio/ver_evaluacion?id='+ item.id;
+
+    //              var url_ver = '<?= base_url("index.php/Evaluacion_desempenio/ver_evaluacion?id=") ?>' + item.id;
+                
+    //             tbody.append('<tr>' +
+    //                 '<td>' + item.id + '</td>' +
+    //                 '<td>' + item.fecha_reg_eval + '</td>' +
+    //                 '<td>' + item.rif_organoente + '</td>' +
+    //                 '<td>' + item.organo_ente + '</td>' +
+    //                 '<td>' + item.rif_contrat + '</td>' +
+    //                 '<td>' + item.contratista_ev + '</td>' +
+    //                 '<td>' + item.calificacion + '</td>' +
+    //                 '<td>' +
+    //                 '<a title="Visualizar e Imprimir la Evaluación de Desempeño" href="' + url_ver + '" class="button">' +
+    //                 '<i class="fas fa-lg fa-fw fa-eye" style="color: green;"></i>' +
+    //                 '</a>' +
+    //                 '</td>' +
+    //                 '</tr>');
+    //         });
+    //     } else {
+    //         tbody.append('<tr><td colspan="8" class="text-center">No se encontraron evaluaciones para el rango de fechas seleccionado.</td></tr>');
+    //     }
+    // }
+
+    // --- FUNCIÓN AUXILIAR PARA OBTENER EL ESTATUS Y COLOR ---
+    function obtener_estatus(id_estatus) {
+        let nombre_estatus = '';
+        let color_class = ''; // Usaremos clases de Bootstrap (badge o text-*)
+
+        // Convertir a número por si viene como string
+        const estatus = parseInt(id_estatus); 
+
+        switch (estatus) {
+            case 1:
+                nombre_estatus = 'Procesado';
+                color_class = 'text-white bg-success'; // Fondo Verde
+                break;
+            case 2:
+                nombre_estatus = 'Solicitud Anulación';
+                color_class = 'text-dark bg-warning'; // Fondo Anaranjado
+                break;
+            case 3:
+                nombre_estatus = 'Anulado';
+                color_class = 'text-white bg-danger'; // Fondo Rojo
+                break;
+            default:
+                nombre_estatus = 'Desconocido';
+                color_class = 'text-dark bg-secondary';
+                break;
+        }
+
+        // Devolvemos el HTML con la clase de Bootstrap
+        return '<span class="badge ' + color_class + '">' + nombre_estatus + '</span>';
+    }
+    // --------------------------------------------------------
+
+
     function mostrar_pagina(pagina) {
         var inicio = (pagina - 1) * filas_por_pagina;
         var fin = inicio + filas_por_pagina;
@@ -14,9 +81,12 @@ $(document).ready(function() {
 
         if (filas_a_mostrar.length > 0) {
             $.each(filas_a_mostrar, function(index, item) {
+                
+                // Obtener el HTML del estatus formateado
+                const estatus_html = obtener_estatus(item.id_estatus);
                 var url_ver = '/index.php/Evaluacion_desempenio/ver_evaluacion?id='+ item.id;
-
-                // var url_ver = '<?= base_url("index.php/Evaluacion_desempenio/ver_evaluacion?id=") ?>' + item.id;
+                
+             //   var url_ver = '<?= base_url("index.php/Evaluacion_desempenio/ver_evaluacion?id=") ?>' + item.id;
                 
                 tbody.append('<tr>' +
                     '<td>' + item.id + '</td>' +
@@ -26,6 +96,8 @@ $(document).ready(function() {
                     '<td>' + item.rif_contrat + '</td>' +
                     '<td>' + item.contratista_ev + '</td>' +
                     '<td>' + item.calificacion + '</td>' +
+                    // NUEVA COLUMNA DE ESTATUS
+                    '<td>' + estatus_html + '</td>' +
                     '<td>' +
                     '<a title="Visualizar e Imprimir la Evaluación de Desempeño" href="' + url_ver + '" class="button">' +
                     '<i class="fas fa-lg fa-fw fa-eye" style="color: green;"></i>' +
@@ -34,10 +106,10 @@ $(document).ready(function() {
                     '</tr>');
             });
         } else {
-            tbody.append('<tr><td colspan="8" class="text-center">No se encontraron evaluaciones para el rango de fechas seleccionado.</td></tr>');
+            // Asegúrate que el colspan sea 9 (8 columnas de datos + 1 columna de Acciones)
+            tbody.append('<tr><td colspan="9" class="text-center">No se encontraron evaluaciones para el rango de fechas seleccionado.</td></tr>');
         }
     }
-
     function crear_paginacion() {
         var total_filas = reporte_data.length;
         var total_paginas = Math.ceil(total_filas / filas_por_pagina);
@@ -131,7 +203,7 @@ $(document).ready(function() {
         var base_url = '/index.php/evaluacion_desempenio/generar_reporte_evaluacionessnc';
 
         
-        // var base_url = window.location.origin + '/asnc/index.php/evaluacion_desempenio/generar_reporte_evaluacionessnc';
+        //  var base_url = window.location.origin + '/asnc/index.php/evaluacion_desempenio/generar_reporte_evaluacionessnc';
 
         $.ajax({
             url: base_url,

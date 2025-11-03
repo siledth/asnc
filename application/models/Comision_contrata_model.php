@@ -542,24 +542,69 @@ class Comision_contrata_model extends CI_model
     }
 
 
+    // function consulta_total_objeto_acc($data1)
+    // { //da totales agrupados por bienes, servicio, obras
+
+    //     $query = $this->db->query("SELECT c.id_comision, c.rif_organoente,c.observacion, 
+    //         c.id_status, c.fecha_creacion, c.fecha_notifiacion, c.tipo_comi, c.fecha_desig, c.num_acto, c.fecha_acto,
+    //          c.acto_adm, c.dura_com_desde,c.dura_com_hasta, c.gaceta, c.fecha_gaceta, o.descripcion, tc.descripcion as tipo_comision,
+    //          ac.desc_acto_admin
+
+    //              FROM comisiones.comision c 
+    //             join public.organoente o on o.rif = c.rif_organoente	
+    //             join comisiones.tipo_comision tc on tc.id_tipo_comision = c.tipo_comi
+    //             join comisiones.acto_admin ac on ac.id_acto_admin = c.acto_adm	
+
+
+
+    //              where c.id_comision = '$data1' 
+    //               ");
+    //     if ($query->num_rows() > 0) {
+    //         return $query->result();
+    //     } else {
+    //         return NULL;
+    //     }
+    // }
     function consulta_total_objeto_acc($data1)
-    { //da totales agrupados por bienes, servicio, obras
-
-        $query = $this->db->query("SELECT c.id_comision, c.rif_organoente,c.observacion, 
+    {
+        $sql = "
+        SELECT 
+            c.id_comision, c.observacion, 
             c.id_status, c.fecha_creacion, c.fecha_notifiacion, c.tipo_comi, c.fecha_desig, c.num_acto, c.fecha_acto,
-             c.acto_adm, c.dura_com_desde,c.dura_com_hasta, c.gaceta, c.fecha_gaceta, o.descripcion, tc.descripcion as tipo_comision,
-             ac.desc_acto_admin
+            c.acto_adm, c.dura_com_desde, c.dura_com_hasta, c.gaceta, c.fecha_gaceta, 
+            tc.descripcion AS tipo_comision, ac.desc_acto_admin,
             
-                 FROM comisiones.comision c 
-                --  left join public.modalidad m on m.id_modalidad = c.id_modalidad
-                join public.organoente o on o.rif = c.rif_organoente	
-                join comisiones.tipo_comision tc on tc.id_tipo_comision = c.tipo_comi
-                join comisiones.acto_admin ac on ac.id_acto_admin = c.acto_adm	
+            -- OBTENEMOS LOS DATOS DEL ENTE ORIGINAL (o) PARA VERIFICAR SI ES FILIAL
+            -- OBTENEMOS LOS DATOS DEL ENTE ADSCRITO (oe_ads) SI ES FILIAL
+            
+            -- Lógica Condicional: SOLO CAMBIA EL RIF si es filial (o.filiar <> 0)
+            CASE WHEN o.filiar <> 0 AND oe_ads.rif IS NOT NULL THEN oe_ads.rif 
+                 ELSE c.rif_organoente 
+            END AS rif_organoente,     -- <<-- Mantiene el nombre ORIGINAL: rif_organoente
+            
+            -- La descripción del Órgano/Ente se mantiene la de la filial (o.descripcion)
+            o.descripcion,             -- <<-- Mantiene el nombre ORIGINAL: descripcion
+            
+            o.filiar,                  -- Incluir filiar para debug si es necesario
 
-
+            oe_ads.rif AS rif_adscrito -- Incluir el RIF adscrito para debug
+            
+        FROM comisiones.comision c 
+        
+        -- JOIN al organoente del llamado para obtener filiar/adscrito
+        JOIN public.organoente o ON o.rif = c.rif_organoente    
+        
+        -- JOIN al organoente adscrito (matriz) para obtener su RIF
+        LEFT JOIN public.organoente oe_ads ON oe_ads.id_organoente = o.id_organoenteads
+        
+        JOIN comisiones.tipo_comision tc ON tc.id_tipo_comision = c.tipo_comi
+        JOIN comisiones.acto_admin ac ON ac.id_acto_admin = c.acto_adm  
                     
-                 where c.id_comision = '$data1' 
-                  ");
+        WHERE c.id_comision = '$data1' 
+    ";
+
+        $query = $this->db->query($sql);
+
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {

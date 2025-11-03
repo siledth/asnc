@@ -193,33 +193,78 @@ function modal(id){
 
 /**
  * Función para consultar y mostrar la información de anulación en el modal de ver.
+//  * @param {number} id - ID de la evaluación.
+//  */
+// function modal_ver(id){
+//     var id_evaluacion = id;
+//     // Uso de una función para obtener la base_url si es necesario,
+//     // pero mantendremos la ruta relativa por ahora.
+//     // var base_url = '/index.php/Evaluacion_desempenio/consulta_anulacion';
+
+//     $.ajax({
+//         url:BASE_URL + 'index.php/Evaluacion_desempenio/consulta_anulacion',
+//         method:'post',
+//         data: {id_evaluacion: id_evaluacion},
+//         dataType:'json',
+//         success: function(response){
+//             // Verificar si la respuesta no es vacía
+//             if (response) {
+//                 // Mapeo directo de la respuesta a los campos del modal de ver
+//                 $('#id_ver').val(response['id_evaluacion']);
+//                 $('#nro_oficicio_ver').val(response['nro_oficicio']);
+//                 $('#fec_solicitud_ver').val(response['fecha_anulacion']);
+//                 $('#nro_expediente_ver').val(response['nro_expediente']);
+//                 $('#nro_gacet_resol_ver').val(response['nro_gacet_resol']);
+//                 $('#telf_solc_ver').val(response['telf_solc']);
+//                 $('#cedula_solc_ver').val(response['cedula_solc']);
+//                 $('#nom_ape_solc_ver').val(response['nom_ape_solc']);
+//                 $('#cargo_ver').val(response['cargo']);
+//                 $('#descp_anul_ver').val(response['descp_anul']);
+//             } else {
+//                  Swal.fire('Error', 'No se encontraron datos de anulación para esta evaluación.', 'error');
+//             }
+//         },
+//         error: function() {
+//             Swal.fire('Error', 'Hubo un problema al consultar los datos.', 'error');
+//         }
+//     });
+// }
+/**
+/**
+ * Función para consultar y mostrar la información de anulación en el modal de ver.
  * @param {number} id - ID de la evaluación.
  */
 function modal_ver(id){
     var id_evaluacion = id;
-    // Uso de una función para obtener la base_url si es necesario,
-    // pero mantendremos la ruta relativa por ahora.
-    var base_url = '/index.php/Evaluacion_desempenio/consulta_anulacion';
+    
+    // Antes de hacer la llamada AJAX, puedes limpiar el contenido por si acaso.
+    // Aunque el llenado lo sobrescribe, ayuda a evitar que se muestre contenido viejo.
+    $('#exampleModal_ver').modal('hide'); // Ocultar si estaba abierto (opcional)
 
     $.ajax({
-        url: base_url,
+       url:BASE_URL + 'index.php/Evaluacion_desempenio/consulta_anulacion',
         method:'post',
         data: {id_evaluacion: id_evaluacion},
         dataType:'json',
         success: function(response){
             // Verificar si la respuesta no es vacía
             if (response) {
-                // Mapeo directo de la respuesta a los campos del modal de ver
-                $('#id_ver').val(response['id_evaluacion']);
-                $('#nro_oficicio_ver').val(response['nro_oficicio']);
-                $('#fec_solicitud_ver').val(response['fecha_anulacion']);
-                $('#nro_expediente_ver').val(response['nro_expediente']);
-                $('#nro_gacet_resol_ver').val(response['nro_gacet_resol']);
-                $('#telf_solc_ver').val(response['telf_solc']);
-                $('#cedula_solc_ver').val(response['cedula_solc']);
-                $('#nom_ape_solc_ver').val(response['nom_ape_solc']);
-                $('#cargo_ver').val(response['cargo']);
-                $('#descp_anul_ver').val(response['descp_anul']);
+                // Llenado de los campos (Correcto con .text())
+                $('#id_ver').text(response['id_evaluacion']);
+                $('#nro_oficicio_ver').text(response['nro_oficicio']);
+                $('#fec_solicitud_ver').text(response['fecha_anulacion']);
+                $('#nro_expediente_ver').text(response['nro_expediente']);
+                $('#nro_gacet_resol_ver').text(response['nro_gacet_resol']);
+                $('#telf_solc_ver').text(response['telf_solc']);
+                $('#cedula_solc_ver').text(response['cedula_solc']);
+                $('#nom_ape_solc_ver').text(response['nom_ape_solc']);
+                $('#cargo_ver').text(response['cargo']);
+                $('#descp_anul_ver').text(response['descp_anul']); 
+                
+                // >>> ESTO ES LO QUE FALTABA <<<
+                // Una vez que los datos están cargados, forzamos la apertura del modal.
+                $('#exampleModal_ver').modal('show'); 
+                
             } else {
                  Swal.fire('Error', 'No se encontraron datos de anulación para esta evaluación.', 'error');
             }
@@ -229,7 +274,6 @@ function modal_ver(id){
         }
     });
 }
-
 /**
  * Función para validar campos y guardar la solicitud de anulación.
  */

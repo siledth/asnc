@@ -85,6 +85,7 @@
                             <th>RIF Contratista</th>
                             <th>Contratista</th>
                             <th>Calificación</th>
+                            <th>Estatus</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
