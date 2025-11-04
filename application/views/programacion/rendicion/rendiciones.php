@@ -10,14 +10,17 @@
                         <div class="card card-outline-danger text-center bg-white">
                             <div class="card-block">
                                 <blockquote class="card-blockquote" style="margin-bottom: -19px;">
-                                    <p class="f-s-16 text-inverse f-w-600">Nombre Órgano / Ente: <?= $des_unidad ?>.</p>
-                                    <p class="f-s-14">RIF.: <?= $rif ?> <br>
-                                        Código ONAPRE: <?= $codigo_onapre ?></p>
+                                    <p class="f-s-16 text-inverse f-w-600">
+                                        Nombre Órgano / Ente: <?= $des_unidad ?>.
+                                    </p>
+                                    <p class="f-s-14">
+                                        RIF.: <?= $rif ?> <br>
+                                        Código ONAPRE: <?= $codigo_onapre ?>
+                                    </p>
                                 </blockquote>
                             </div>
                         </div>
                     </div>
-
 
                     <div class="col-3">
                         <?php
@@ -25,6 +28,7 @@
                         $mes_actual  = $mes_actual;
                         ?>
                     </div>
+
                     <div class="col-6 text-center mt-1">
                         <h3 class="text-center">Disponibles para Rendir</h3>
                         <table id="tabla-programaciones-anios" class="table table-hover">
@@ -35,20 +39,30 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($ver_programaciones as $lista): ?>
-                                    <?php
+                                <?php
+                                // Cargar instancia del modelo dentro de la vista
+                                $CI = &get_instance();
+                                $CI->load->model('Programacion_model');
+
+                                foreach ($ver_programaciones as $lista):
                                     $anio_programacion = $lista['anio'];
                                     $puede_rendir = false;
 
-                                    // Regla: se puede rendir el año actual o hasta marzo del siguiente
+                                    // Regla base: se puede rendir el año actual o hasta marzo del siguiente
                                     if ($anio_programacion == $anio_actual) {
                                         $puede_rendir = true;
                                     } elseif ($anio_programacion == $anio_actual - 1 && $mes_actual <= 3) {
                                         $puede_rendir = true;
                                     }
-                                    ?>
 
-                                    <tr class="odd gradeX" style="text-align:center">
+                                    // ✅ Verificar excepción especial por RIF + año
+                                    if (!$puede_rendir) {
+                                        if ($CI->Programacion_model->tiene_excepcion_rendicion($rif, $anio_programacion)) {
+                                            $puede_rendir = true;
+                                        }
+                                    }
+                                ?>
+                                    <tr class="odd gradeX text-center">
                                         <td><?= $lista['anio'] ?></td>
                                         <td class="center">
                                             <?php if ($puede_rendir): ?>
@@ -71,6 +85,8 @@
         </div>
     </div>
 </div>
+
+<!-- MODAL DE NOTIFICACIÓN DE RENDICIÓN -->
 <div class="modal fade" id="proyecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -85,33 +101,23 @@
                 <form class="form-horizontal" id="rendir_py" name="rendir_py" data-parsley-validate="true" method="POST"
                     enctype="multipart/form-data">
                     <div class="row">
-                        <div class="col-12"></div>
                         <div class="col-12">
                             <input class="form-control" type="hidden" name="id_programacion" id="id_programacion"
                                 readonly>
-
-                            <label style="color:red;">Seleccione Trimestre a Notificar (Obligatorio).leer <b
-                                    style="color:red">*</b></label><i style="color: red;"
-                                title="Seleccione un Trimestre." class="fas fa-question-circle"></i>
-
+                            <label style="color:red;">Seleccione Trimestre a Notificar (Obligatorio) <b>*</b></label>
+                            <i style="color: red;" title="Seleccione un Trimestre." class="fas fa-question-circle"></i>
                             <select class="form-control" name="llenar_trimestre7" id="llenar_trimestre7">
                                 <option value="0">Seleccione</option>
                                 <option value="1">Primer Trimestre</option>
                                 <option value="2">Segundo Trimestre</option>
                                 <option value="3">Tercer Trimestre</option>
                                 <option value="4">Cuarto Trimestre</option>
-
-
-
                             </select>
                         </div>
-
-
                     </div>
-
-
                 </form>
             </div>
+
             <div class="modal-footer">
                 <button type="button" onclick="javascript:window.location.reload()" class="my-button"
                     data-dismiss="modal">Cerrar</button>
@@ -120,6 +126,7 @@
         </div>
     </div>
 </div>
+
 <script>
     const BASE_URL = '<?= base_url() ?>';
 </script>

@@ -224,7 +224,14 @@
                                                         - Rendición
                                                     </a>
                                                 </li>
+
                                             <?php endif; ?>
+
+                                            <li>
+                                                <a href="<?= base_url() ?>index.php/RendicionExcepciones/excepciones">
+                                                    - Excepciones
+                                                </a>
+                                            </li>
 
                                         </ul>
                                     </li>

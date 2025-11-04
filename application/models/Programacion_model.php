@@ -7877,4 +7877,66 @@ class Programacion_model extends CI_model
 
         return ($query->num_rows() > 0) ? $query->result() : NULL;
     }
+
+
+    // Lista años programados por RIF (según tu tabla programacion.programacion)
+    public function anios_programados_por_rif($rif)
+    {
+        // DISTINCT debe ir sin escapar -> segundo argumento FALSE
+        $this->db->select('DISTINCT p.anio', false);
+        $this->db->from('programacion.programacion p');
+        $this->db->join('public.organoente o', 'o.codigo = p.unidad');
+        $this->db->where('o.rif', $rif);
+        $this->db->order_by('p.anio', 'DESC');
+
+        $q = $this->db->get();
+        return $q->result_array(); // devuelve [ ['anio'=>2025], ... ]
+    }
+
+    // Crear excepción
+    public function crear_excepcion_rendicion($rif, $anio, $fecha_inicio, $fecha_fin, $motivo, $user_id)
+    {
+        $data = [
+            'rif'          => $rif,
+            'anio'         => (int)$anio,
+            'habilitado'   => true,
+            'fecha_inicio' => $fecha_inicio ?: null,
+            'fecha_fin'    => $fecha_fin ?: null,
+            'motivo'       => $motivo,
+            'creado_por'   => $user_id
+        ];
+        return $this->db->insert('programacion.rendicion_excepciones', $data);
+    }
+
+    // Deshabilitar excepción (soft off)
+    public function deshabilitar_excepcion_rendicion($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('programacion.rendicion_excepciones', ['habilitado' => false]);
+    }
+
+    // Listar excepciones por RIF (para panel admin)
+    public function listar_excepciones_por_rif($rif)
+    {
+        $this->db->from('programacion.rendicion_excepciones');
+        $this->db->where('rif', $rif);
+        $this->db->order_by('anio', 'DESC');
+        return $this->db->get()->result_array();
+    }
+
+    // ¿Tiene excepción vigente hoy para ese año?
+    public function tiene_excepcion_rendicion($rif, $anio)
+    {
+        $hoy = date('Y-m-d');
+        $where = "habilitado = true AND rif = ? AND anio = ? AND
+             ( (fecha_inicio IS NULL OR fecha_inicio <= ?) AND
+               (fecha_fin    IS NULL OR fecha_fin    >= ?) )";
+        $q = $this->db->query("
+        SELECT 1 
+          FROM programacion.rendicion_excepciones 
+         WHERE $where 
+         LIMIT 1
+    ", [$rif, (int)$anio, $hoy, $hoy]);
+        return $q->num_rows() > 0;
+    }
 }
