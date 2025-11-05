@@ -7878,7 +7878,7 @@ class Programacion_model extends CI_model
         return ($query->num_rows() > 0) ? $query->result() : NULL;
     }
 
-
+    ////////////////////execiones
     // Lista años programados por RIF (según tu tabla programacion.programacion)
     public function anios_programados_por_rif($rif)
     {
@@ -7891,6 +7891,28 @@ class Programacion_model extends CI_model
 
         $q = $this->db->get();
         return $q->result_array(); // devuelve [ ['anio'=>2025], ... ]
+    }
+    public function ente_por_rif($rif)
+    {
+        if (!$rif) return null;
+        $this->db->select('descripcion, rif, codigo');
+        $this->db->where('rif', $rif);
+        $this->db->limit(1);
+        $q = $this->db->get('public.organoente');
+        return $q->num_rows() ? $q->row_array() : null;
+    }
+
+    public function descripcion_por_rif_exacta($rif)
+    {
+        if (!$rif) return null;
+        // Búsqueda exacta. Si tu columna guarda en mayúsculas, usa strtoupper().
+        return $this->db
+            ->select('descripcion, rif, codigo, cod_onapre')
+            ->from('public.organoente')
+            ->where('rif', trim($rif))   // <-- exacto
+            ->limit(1)
+            ->get()
+            ->row_array();
     }
 
     // Crear excepción
@@ -7909,11 +7931,40 @@ class Programacion_model extends CI_model
     }
 
     // Deshabilitar excepción (soft off)
+    // En Programacion_model.php
+    // Programacion_model.php
+
     public function deshabilitar_excepcion_rendicion($id)
     {
-        $this->db->where('id', $id);
-        return $this->db->update('programacion.rendicion_excepciones', ['habilitado' => false]);
+        if (empty($id)) {
+            return ['ok' => false, 'affected' => 0, 'msg' => 'ID vacío'];
+        }
+
+        $this->db->trans_start();
+
+        // Consulta CORREGIDA: Simplemente actualiza el estado por ID
+        $sql = "
+    UPDATE programacion.rendicion_excepciones
+       SET habilitado = FALSE
+     WHERE id = ? 
+    ";
+        $this->db->query($sql, [(int)$id]);
+
+        $affected = $this->db->affected_rows();
+        $this->db->trans_complete();
+
+        // Mantenemos la lógica de estado para devolver un mensaje informativo
+        $ok = $this->db->trans_status() && ($affected > 0);
+
+        return [
+            'ok'       => $ok,
+            'affected' => $affected,
+            'msg'      => $ok ? 'Excepción deshabilitada' : 'No se actualizó ninguna fila (es posible que ya estuviera deshabilitada o el ID no exista).'
+            // Si $affected es 1, retorna code 1 y el JS recarga.
+            // Si $affected es 0, retorna code 0 y el JS muestra el mensaje de error/informativo.
+        ];
     }
+
 
     // Listar excepciones por RIF (para panel admin)
     public function listar_excepciones_por_rif($rif)

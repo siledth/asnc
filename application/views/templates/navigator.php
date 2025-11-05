@@ -24,21 +24,21 @@
                     <div class="dropdown-divider"></div>
 
                     <?php if (!empty($this->session->userdata('todos_rifs'))): ?>
-                        <?php foreach ($this->session->userdata('todos_rifs') as $rif_info): ?>
-                            <?php
+                    <?php foreach ($this->session->userdata('todos_rifs') as $rif_info): ?>
+                    <?php
                             $is_active = ($rif_info['rif_organoente'] == $this->session->userdata('rif_organoente'));
                             $active_class = $is_active ? 'active' : '';
                             ?>
-                            <a href="<?= base_url() ?>index.php/login/change_organoente/<?= $rif_info['rif_organoente'] ?>"
-                                class="dropdown-item <?= $active_class ?>">
-                                <?= $rif_info['rif_organoente'] ?>
-                                <?php if ($is_active): ?>
-                                    <i class="fa fa-check-circle" style="float: right;"></i>
-                                <?php endif; ?>
-                            </a>
-                        <?php endforeach; ?>
+                    <a href="<?= base_url() ?>index.php/login/change_organoente/<?= $rif_info['rif_organoente'] ?>"
+                        class="dropdown-item <?= $active_class ?>">
+                        <?= $rif_info['rif_organoente'] ?>
+                        <?php if ($is_active): ?>
+                        <i class="fa fa-check-circle" style="float: right;"></i>
+                        <?php endif; ?>
+                    </a>
+                    <?php endforeach; ?>
                     <?php else: ?>
-                        <a href="javascript:;" class="dropdown-item disabled">No hay Órganos/Entes asignados</a>
+                    <a href="javascript:;" class="dropdown-item disabled">No hay Órganos/Entes asignados</a>
                     <?php endif; ?>
 
                     <div class="dropdown-divider"></div>
@@ -61,282 +61,283 @@
                 <?php if (($this->session->userdata('menu_rnce') == 1)) : ?>
 
 
-                    <li class="has-sub">
-                        <a href="javascript:;">
-                            <b class="caret"></b>
-                            <i class="fas fa-sliders-h" style="background:darkred;"></i>
-                            <span>RNCE</span>
-                        </a>
+                <li class="has-sub">
+                    <a href="javascript:;">
+                        <b class="caret"></b>
+                        <i class="fas fa-sliders-h" style="background:darkred;"></i>
+                        <span>RNCE</span>
+                    </a>
 
 
-                        <ul class="sub-menu">
+                    <ul class="sub-menu">
 
-                            <?php if (($this->session->userdata('menu_comisiones') == 1)) : ?>
+                        <?php if (($this->session->userdata('menu_comisiones') == 1)) : ?>
+                        <li class="has-sub">
+
+                            <a href="javascript:;">
+                                <b class="caret"></b>
+                                <span>Comisiones de</span>
+                                <span class="ml-1">Contrataciones</span>
+                            </a>
+                            <ul class="sub-menu">
+                                <?php if (($this->session->userdata('comisiones_interna_mieb') == 1)) : ?>
                                 <li class="has-sub">
-
                                     <a href="javascript:;">
                                         <b class="caret"></b>
-                                        <span>Comisiones de</span>
-                                        <span class="ml-1">Contrataciones</span>
+                                        SNC
                                     </a>
                                     <ul class="sub-menu">
-                                        <?php if (($this->session->userdata('comisiones_interna_mieb') == 1)) : ?>
-                                            <li class="has-sub">
-                                                <a href="javascript:;">
-                                                    <b class="caret"></b>
-                                                    SNC
-                                                </a>
-                                                <ul class="sub-menu">
 
-                                                    <li><a href="<?= base_url() ?>index.php/Comision_contrata/logger_type_snc">-
-                                                            Registro por SNC</a></li>
-                                                    <li><a href="<?= base_url() ?>index.php/Comision_contrata/certificadosnc">-
-                                                            Certificar por SNC</a></li>
-                                                    <li class="has-sub">
-                                                        <a href="javascript:;">
-                                                            <b class="caret"></b>
-                                                            <span>Consultas</span>
-                                                        </a>
-                                                        <ul class="sub-menu">
-                                                            <li>
-                                                                <a
-                                                                    href="<?= base_url() ?>index.php/Comision_contrata/logger_type_sncinactivo">
-                                                                    - Consulta Comisiones Inactivas
-                                                                </a>
+                                        <li><a href="<?= base_url() ?>index.php/Comision_contrata/logger_type_snc">-
+                                                Registro por SNC</a></li>
+                                        <li><a href="<?= base_url() ?>index.php/Comision_contrata/certificadosnc">-
+                                                Certificar por SNC</a></li>
+                                        <li class="has-sub">
+                                            <a href="javascript:;">
+                                                <b class="caret"></b>
+                                                <span>Consultas</span>
+                                            </a>
+                                            <ul class="sub-menu">
+                                                <li>
+                                                    <a
+                                                        href="<?= base_url() ?>index.php/Comision_contrata/logger_type_sncinactivo">
+                                                        - Consulta Comisiones Inactivas
+                                                    </a>
 
-                                                            </li>
-                                                            <li>
-                                                                <a
-                                                                    href="<?= base_url() ?>index.php/Comision_contrata/logger_type_sncactivo">
-                                                                    - Consulta Comisiones Activas
-                                                                </a>
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="<?= base_url() ?>index.php/Comision_contrata/logger_type_sncactivo">
+                                                        - Consulta Comisiones Activas
+                                                    </a>
 
-                                                            </li>
-                                                            <li>
-                                                                <a
-                                                                    href="<?= base_url() ?>index.php/Comision_contrata/logger_type_snc_vencidos">
-                                                                    - Consulta certificado miembros vencidos
-                                                                </a>
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="<?= base_url() ?>index.php/Comision_contrata/logger_type_snc_vencidos">
+                                                        - Consulta certificado miembros vencidos
+                                                    </a>
 
-                                                            </li>
-                                                            <li>
-                                                                <a
-                                                                    href="<?= base_url() ?>index.php/Comision_contrata/logger_type_snc_condicionado">
-                                                                    - Consulta certificado miembros condicionados
-                                                                </a>
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="<?= base_url() ?>index.php/Comision_contrata/logger_type_snc_condicionado">
+                                                        - Consulta certificado miembros condicionados
+                                                    </a>
 
-                                                            </li>
-                                                            <li>
-                                                                <a
-                                                                    href="<?= base_url() ?>index.php/Comision_contrata/logger_type_snc_certificados">
-                                                                    - Consulta certificado miembros Certificado
-                                                                </a>
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="<?= base_url() ?>index.php/Comision_contrata/logger_type_snc_certificados">
+                                                        - Consulta certificado miembros Certificado
+                                                    </a>
 
-                                                            </li>
+                                                </li>
 
 
-                                                        </ul>
-                                                    </li>
+                                            </ul>
+                                        </li>
 
-                                                </ul>
-                                            </li>
-                                        <?php endif; ?>
-
-
-                                        <?php if (($this->session->userdata('notif_comisi_externa_mib') == 1)) : ?>
-                                            <!-- <li><a href="<?= base_url() ?>index.php/Comision_contrata/logger_type_c">-
-                                                    Notificaciòn al SNC</a></li> -->
-                                            <li><a href="<?= base_url() ?>index.php/Comision_contrata/logger_type_snc">-
-                                                    Notificaciòn al SNC</a></li>
-
-                                        <?php endif; ?>
-                                        <?php if (($this->session->userdata('certi_miemb_externo') == 1)) : ?>
-                                            <!-- <li><a href="<?= base_url() ?>index.php/Comision_contrata/certificado">-
-                                                    Certificar Miembros</a></li> -->
-                                            <li><a href="<?= base_url() ?>index.php/Comision_contrata/certificadosnc">-
-                                                    Certificar Miembros</a></li>
-
-                                        <?php endif; ?>
-                                        <?php if (($this->session->userdata('consultas_exter_miembros') == 1)) : ?>
-                                            <li class="has-sub">
-                                                <a href="javascript:;">
-                                                    <b class="caret"></b>
-                                                    <span>-Consultas</span>
-                                                </a>
-                                                <ul class="sub-menu">
-                                                    <li>
-                                                        <a
-                                                            href="<?= base_url() ?>index.php/Comision_contrata/logger_type_sncinactivo">
-                                                            - Consulta Comisiones Inactivas
-                                                        </a>
-
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            href="<?= base_url() ?>index.php/Comision_contrata/logger_type_sncactivo">
-                                                            - Consulta Comisiones Activas
-                                                        </a>
-
-                                                    </li>
-
-                                                </ul>
-                                            </li>
-                                        <?php endif; ?>
                                     </ul>
                                 </li>
-                            <?php endif; ?>
+                                <?php endif; ?>
 
-                            <?php if (($this->session->userdata('menu_progr') == 1)) : ?>
 
+                                <?php if (($this->session->userdata('notif_comisi_externa_mib') == 1)) : ?>
+                                <!-- <li><a href="<?= base_url() ?>index.php/Comision_contrata/logger_type_c">-
+                                                    Notificaciòn al SNC</a></li> -->
+                                <li><a href="<?= base_url() ?>index.php/Comision_contrata/logger_type_snc">-
+                                        Notificaciòn al SNC</a></li>
+
+                                <?php endif; ?>
+                                <?php if (($this->session->userdata('certi_miemb_externo') == 1)) : ?>
+                                <!-- <li><a href="<?= base_url() ?>index.php/Comision_contrata/certificado">-
+                                                    Certificar Miembros</a></li> -->
+                                <li><a href="<?= base_url() ?>index.php/Comision_contrata/certificadosnc">-
+                                        Certificar Miembros</a></li>
+
+                                <?php endif; ?>
+                                <?php if (($this->session->userdata('consultas_exter_miembros') == 1)) : ?>
                                 <li class="has-sub">
                                     <a href="javascript:;">
                                         <b class="caret"></b>
-                                        <span>Programación</span>
+                                        <span>-Consultas</span>
                                     </a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a
+                                                href="<?= base_url() ?>index.php/Comision_contrata/logger_type_sncinactivo">
+                                                - Consulta Comisiones Inactivas
+                                            </a>
+
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="<?= base_url() ?>index.php/Comision_contrata/logger_type_sncactivo">
+                                                - Consulta Comisiones Activas
+                                            </a>
+
+                                        </li>
+
+                                    </ul>
+                                </li>
                                 <?php endif; ?>
-                                <ul class="sub-menu">
-                                    <li class="has-sub">
-                                        <a href="javascript:;">
-                                            <b class="caret"></b>
-                                            <span>Programaciòn Anual</span>
-                                        </a>
-                                        <ul class="sub-menu">
-                                            <?php if (($this->session->userdata('registrar_prog_anual') == 1)) : ?>
+                            </ul>
+                        </li>
+                        <?php endif; ?>
 
+                        <?php if (($this->session->userdata('menu_progr') == 1)) : ?>
+
+                        <li class="has-sub">
+                            <a href="javascript:;">
+                                <b class="caret"></b>
+                                <span>Programación</span>
+                            </a>
+                            <?php endif; ?>
+                            <ul class="sub-menu">
+                                <li class="has-sub">
+                                    <a href="javascript:;">
+                                        <b class="caret"></b>
+                                        <span>Programaciòn Anual</span>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <?php if (($this->session->userdata('registrar_prog_anual') == 1)) : ?>
+
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/programacion">
+                                                - Programación Anual
+                                            </a>
+                                        </li>
+                                        <?php endif; ?>
+                                        <?php if (($this->session->userdata('modi_prog_anual_ley') == 1)) : ?>
+
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/programacion/reprogramar">
+                                                - Modificaciòn-Programación Anual
+                                            </a>
+                                        </li>
+                                        <?php endif; ?>
+                                        <?php if (($this->session->userdata('reg_rend_anual') == 1)) : ?>
+
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/programacion/rendiciones">
+                                                - Rendición
+                                            </a>
+                                        </li>
+
+                                        <?php endif; ?>
+                                        <?php if (($this->session->userdata('resultados_avza') == 1)) : ?>
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/RendicionExcepciones/excepciones">
+                                                - Excepciones
+                                            </a>
+                                        </li>
+                                        <?php endif; ?>
+
+                                    </ul>
+                                </li>
+                                <li class="has-sub">
+                                    <a href="javascript:;">
+                                        <b class="caret"></b>
+                                        <span>Consultas</span>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <?php if (($this->session->userdata('consultar_rendi_anual') == 1)) : ?>
+                                        <li class="has-sub">
+                                            <a href="javascript:;">
+                                                <b class="caret"></b>
+                                                <span>-Consultas Rendiciones</span>
+                                            </a>
+                                            <ul class="sub-menu">
                                                 <li>
-                                                    <a href="<?= base_url() ?>index.php/programacion">
-                                                        - Programación Anual
-                                                    </a>
-                                                </li>
-                                            <?php endif; ?>
-                                            <?php if (($this->session->userdata('modi_prog_anual_ley') == 1)) : ?>
-
-                                                <li>
-                                                    <a href="<?= base_url() ?>index.php/programacion/reprogramar">
-                                                        - Modificaciòn-Programación Anual
-                                                    </a>
-                                                </li>
-                                            <?php endif; ?>
-                                            <?php if (($this->session->userdata('reg_rend_anual') == 1)) : ?>
-
-                                                <li>
-                                                    <a href="<?= base_url() ?>index.php/programacion/rendiciones">
-                                                        - Rendición
-                                                    </a>
-                                                </li>
-
-                                            <?php endif; ?>
-
-                                            <li>
-                                                <a href="<?= base_url() ?>index.php/RendicionExcepciones/excepciones">
-                                                    - Excepciones
-                                                </a>
-                                            </li>
-
-                                        </ul>
-                                    </li>
-                                    <li class="has-sub">
-                                        <a href="javascript:;">
-                                            <b class="caret"></b>
-                                            <span>Consultas</span>
-                                        </a>
-                                        <ul class="sub-menu">
-                                            <?php if (($this->session->userdata('consultar_rendi_anual') == 1)) : ?>
-                                                <li class="has-sub">
-                                                    <a href="javascript:;">
-                                                        <b class="caret"></b>
-                                                        <span>-Consultas Rendiciones</span>
-                                                    </a>
-                                                    <ul class="sub-menu">
-                                                        <li>
-                                                            <a
-                                                                href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_1">
-                                                                - Consulta Rendiciones Notificadas Primer Trimestre
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a
-                                                                href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_2">
-                                                                - Consulta Rendiciones Notificadas Segundo Trimestre
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a
-                                                                href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_3">
-                                                                - Consulta Rendiciones Notificadas Tercer Trimestre
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a
-                                                                href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_4">
-                                                                - Consulta Rendiciones Notificadas Cuarto Trimestre
-                                                            </a>
-                                                        </li>
-
-                                                    </ul>
-                                                </li>
-
-                                            <?php endif; ?>
-
-                                            <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
-                                                <li>
-                                                    <a href="<?= base_url() ?>index.php/Programacion/sending_p">
-                                                        - Consulta grafico
+                                                    <a
+                                                        href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_1">
+                                                        - Consulta Rendiciones Notificadas Primer Trimestre
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="<?= base_url() ?>index.php/Programacion/sending_todo">
-                                                        - Consulta todas Programación Enviada
+                                                    <a
+                                                        href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_2">
+                                                        - Consulta Rendiciones Notificadas Segundo Trimestre
                                                     </a>
-                                                </li>
-                                            <?php endif; ?>
-
-                                            <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
-                                                <li>
-                                                    <a href="<?= base_url() ?>index.php/Programacion/sending_upd">
-                                                        - Consulta Modificaciones Enviada
-                                                    </a>
-                                                </li>
-                                            <?php endif; ?>
-
-                                            <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
-                                                <li>
-                                                    <a href="<?= base_url() ?>index.php/Programacion/sending_rend">
-                                                        - Consulta Rendiciones Enviada
-                                                    </a>
-                                                </li>
-                                            <?php endif; ?>
-                                            <?php if (($this->session->userdata('pdvsa') == 1)) : ?>
-
-                                                <li>
-                                                    <a href="<?= base_url() ?>index.php/Programacion/sending_pdvsa">
-                                                        - Programaciones enviada PDVSA
-                                                    </a>
-
                                                 </li>
                                                 <li>
-                                                    <a href="<?= base_url() ?>index.php/Programacion/sendig_upd_pdvsa">
-                                                        - Programaciones Modificadas Según Ley enviada PDVSA
+                                                    <a
+                                                        href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_3">
+                                                        - Consulta Rendiciones Notificadas Tercer Trimestre
                                                     </a>
-
                                                 </li>
                                                 <li>
-                                                    <a href="<?= base_url() ?>index.php/Programacion/senrendi_pdvsa">
-                                                        - Rendiciones enviadas de PDVSA
+                                                    <a
+                                                        href="<?= base_url() ?>index.php/Programacion/sending_rendiciones_4">
+                                                        - Consulta Rendiciones Notificadas Cuarto Trimestre
                                                     </a>
-
-                                                </li>
-                                                <li>
-                                                    <a href="<?= base_url() ?>index.php/User/listado_usuariosexterno">
-                                                        - Usuarios
-                                                    </a>
-
                                                 </li>
 
-                                            <?php endif; ?>
-                                            <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
+                                            </ul>
+                                        </li>
 
-                                                <!-- <li>
+                                        <?php endif; ?>
+
+                                        <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/Programacion/sending_p">
+                                                - Consulta grafico
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/Programacion/sending_todo">
+                                                - Consulta todas Programación Enviada
+                                            </a>
+                                        </li>
+                                        <?php endif; ?>
+
+                                        <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/Programacion/sending_upd">
+                                                - Consulta Modificaciones Enviada
+                                            </a>
+                                        </li>
+                                        <?php endif; ?>
+
+                                        <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/Programacion/sending_rend">
+                                                - Consulta Rendiciones Enviada
+                                            </a>
+                                        </li>
+                                        <?php endif; ?>
+                                        <?php if (($this->session->userdata('pdvsa') == 1)) : ?>
+
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/Programacion/sending_pdvsa">
+                                                - Programaciones enviada PDVSA
+                                            </a>
+
+                                        </li>
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/Programacion/sendig_upd_pdvsa">
+                                                - Programaciones Modificadas Según Ley enviada PDVSA
+                                            </a>
+
+                                        </li>
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/Programacion/senrendi_pdvsa">
+                                                - Rendiciones enviadas de PDVSA
+                                            </a>
+
+                                        </li>
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/User/listado_usuariosexterno">
+                                                - Usuarios
+                                            </a>
+
+                                        </li>
+
+                                        <?php endif; ?>
+                                        <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
+
+                                        <!-- <li>
                                             <a href="<?= base_url() ?>index.php/Auth_prog/requests_prog">
                                                 - Solicitar Editar Programaciòn Anual
                                             </a>
@@ -344,191 +345,191 @@
                                         </li>
                                         <li><a href="<?= base_url() ?>index.php/Auth_prog/see_prog">-
                                                 Autorizar Editar <b>Programaciòn Anual</b></a></li> -->
-                                            <?php endif; ?>
+                                        <?php endif; ?>
 
-                                        </ul>
-                                    </li>
+                                    </ul>
+                                </li>
 
-                                    <?php if (($this->session->userdata('ver_user_exter') == 1)) : ?>
-                                        <!-- <li>
+                                <?php if (($this->session->userdata('ver_user_exter') == 1)) : ?>
+                                <!-- <li>
                                         <a href="<?= base_url() ?>index.php/Programacion/consulta_general">
                                             - Programación General
                                         </a>
                                     </li> -->
-                                    <?php endif; ?>
-                                </ul>
+                                <?php endif; ?>
+                            </ul>
+                        </li>
+                        <?php if (($this->session->userdata('menu_eval_desem') == 1)) : ?>
+                        <li class="has-sub">
+
+                            <a href="javascript:;">
+                                <b class="caret"></b>
+                                <span>Evaluación de</span>
+                                <span class="ml-1">Desempeño</span>
+                            </a>
+                            <ul class="sub-menu">
+                                <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
+                                <li class="has-sub">
+                                    <a href="javascript:;">
+                                        <b class="caret"></b>
+                                        SNC
+                                    </a>
+                                    <ul class="sub-menu">
+
+                                        <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/registro_snc">-
+                                                Registrar Evalu. SNC</a></li>
+
+
+                                        <li><a href="<?= base_url() ?>index.php/Evaluacion_desempenio/consultar_snc">-
+                                                Listar Eval.</a></li>
+
+                                    </ul>
                                 </li>
-                                <?php if (($this->session->userdata('menu_eval_desem') == 1)) : ?>
-                                    <li class="has-sub">
+                                <?php endif; ?>
+                                <?php if (($this->session->userdata('menu_reg_eval_desem') == 1)) : ?>
+                                <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio">Registrar</a></li>
+                                <?php endif; ?>
+                                <?php if (($this->session->userdata('menu_anulacion') == 1)) : ?>
+                                <li class="has-sub">
+                                    <a href="javascript:;">
+                                        <b class="caret"></b>
+                                        Anulación
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <?php if (($this->session->userdata('menu_soli_anular_eval_desem') == 1)) : ?>
+                                        <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/anulacion">- Sol.
+                                                Anulación</a></li>
+                                        <?php endif; ?>
+                                        <?php if (($this->session->userdata('menu_proc_anular_eval_desem') == 1)) : ?>
+                                        <li><a href="<?= base_url() ?>index.php/Evaluacion_desempenio/proc_anulacion">-
+                                                Proc. Anulaciones</a></li>
+                                        <?php endif; ?>
+                                    </ul>
+                                </li>
+                                <?php endif; ?>
+                                <?php if (($this->session->userdata('menu_repor_evalu') == 1)) : ?>
 
-                                        <a href="javascript:;">
-                                            <b class="caret"></b>
-                                            <span>Evaluación de</span>
-                                            <span class="ml-1">Desempeño</span>
-                                        </a>
-                                        <ul class="sub-menu">
-                                            <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
-                                                <li class="has-sub">
-                                                    <a href="javascript:;">
-                                                        <b class="caret"></b>
-                                                        SNC
-                                                    </a>
-                                                    <ul class="sub-menu">
+                                <li class="has-sub">
+                                    <a href="javascript:;">
+                                        <b class="caret"></b>
+                                        Reportes
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
+                                        <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/reporte">-
+                                                Comprobante Evaluaciones de Desempeño SNC</a></li>
+                                        <?php endif; ?>
 
-                                                        <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/registro_snc">-
-                                                                Registrar Evalu. SNC</a></li>
-
-
-                                                        <li><a href="<?= base_url() ?>index.php/Evaluacion_desempenio/consultar_snc">-
-                                                                Listar Eval.</a></li>
-
-                                                    </ul>
-                                                </li>
-                                            <?php endif; ?>
-                                            <?php if (($this->session->userdata('menu_reg_eval_desem') == 1)) : ?>
-                                                <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio">Registrar</a></li>
-                                            <?php endif; ?>
-                                            <?php if (($this->session->userdata('menu_anulacion') == 1)) : ?>
-                                                <li class="has-sub">
-                                                    <a href="javascript:;">
-                                                        <b class="caret"></b>
-                                                        Anulación
-                                                    </a>
-                                                    <ul class="sub-menu">
-                                                        <?php if (($this->session->userdata('menu_soli_anular_eval_desem') == 1)) : ?>
-                                                            <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/anulacion">- Sol.
-                                                                    Anulación</a></li>
-                                                        <?php endif; ?>
-                                                        <?php if (($this->session->userdata('menu_proc_anular_eval_desem') == 1)) : ?>
-                                                            <li><a href="<?= base_url() ?>index.php/Evaluacion_desempenio/proc_anulacion">-
-                                                                    Proc. Anulaciones</a></li>
-                                                        <?php endif; ?>
-                                                    </ul>
-                                                </li>
-                                            <?php endif; ?>
-                                            <?php if (($this->session->userdata('menu_repor_evalu') == 1)) : ?>
-
-                                                <li class="has-sub">
-                                                    <a href="javascript:;">
-                                                        <b class="caret"></b>
-                                                        Reportes
-                                                    </a>
-                                                    <ul class="sub-menu">
-                                                        <?php if (($this->session->userdata('rif_organoente') == "G200024518")) : ?>
-                                                            <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/reporte">-
-                                                                    Comprobante Evaluaciones de Desempeño SNC</a></li>
-                                                        <?php endif; ?>
-
-                                                        <?php if (($this->session->userdata('menu_comprobante_eval_desem') == 1)) : ?>
-                                                            <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/reporte_externo">-
-                                                                    Comprobante Evaluaciones de Desempeño</a></li>
-                                                        <?php endif; ?>
-                                                        <?php if (($this->session->userdata('menu_estdi_eval_desem') == 1)) : ?>
-                                                            <!-- <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/consulta">-
+                                        <?php if (($this->session->userdata('menu_comprobante_eval_desem') == 1)) : ?>
+                                        <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/reporte_externo">-
+                                                Comprobante Evaluaciones de Desempeño</a></li>
+                                        <?php endif; ?>
+                                        <?php if (($this->session->userdata('menu_estdi_eval_desem') == 1)) : ?>
+                                        <!-- <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/consulta">-
                                                                     Estadistica</a></li> -->
-                                                            <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/estadistica">-
-                                                                    Estadistica</a></li>
-                                                        <?php endif; ?>
-                                                        <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
-                                                            <li><a
-                                                                    href="<?= base_url() ?>index.php/Evaluacion_desempenio/estatus_contratista">-
-                                                                    Comprobante de Empresa <b>NO REGISTRADA</b></a></li>
-                                                        <?php endif; ?>
-                                                    </ul>
-                                                </li>
-                                            <?php endif; ?>
-                                        </ul>
-                                    </li>
+                                        <li><a href="<?= base_url() ?>index.php/evaluacion_desempenio/estadistica">-
+                                                Estadistica</a></li>
+                                        <?php endif; ?>
+                                        <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
+                                        <li><a
+                                                href="<?= base_url() ?>index.php/Evaluacion_desempenio/estatus_contratista">-
+                                                Comprobante de Empresa <b>NO REGISTRADA</b></a></li>
+                                        <?php endif; ?>
+                                    </ul>
+                                </li>
                                 <?php endif; ?>
-                                <?php if (($this->session->userdata('menu_llamado') == 1)) : ?>
-                                    <li class="has-sub">
-                                        <a href="javascript:;">
-                                            <b class="caret"></b>
-                                            <span>Llamado a Concurso</span>
-                                        </a>
-                                        <ul class="sub-menu">
-                                            <?php if (($this->session->userdata('consultar_llamado') == 1)) : ?>
+                            </ul>
+                        </li>
+                        <?php endif; ?>
+                        <?php if (($this->session->userdata('menu_llamado') == 1)) : ?>
+                        <li class="has-sub">
+                            <a href="javascript:;">
+                                <b class="caret"></b>
+                                <span>Llamado a Concurso</span>
+                            </a>
+                            <ul class="sub-menu">
+                                <?php if (($this->session->userdata('consultar_llamado') == 1)) : ?>
 
-                                                <li class="has-sub">
-                                                    <a href="javascript:;">
-                                                        <b class="caret"></b>
-                                                        - Consultar
-                                                    </a>
-                                                    <ul class="sub-menu">
+                                <li class="has-sub">
+                                    <a href="javascript:;">
+                                        <b class="caret"></b>
+                                        - Consultar
+                                    </a>
+                                    <ul class="sub-menu">
 
-                                                        <!-- <li><a href="<?= base_url() ?>index.php/llamadoconcurso">-
+                                        <!-- <li><a href="<?= base_url() ?>index.php/llamadoconcurso">-
                                                 Consultar ant</a></li> -->
-                                                        <li><a href="<?= base_url() ?>index.php/Publicaciones/llamadointerno">-
-                                                                Consultar </a></li>
-                                                        <li><a href="<?= base_url() ?>index.php/Publicaciones/rp_estatus">-
-                                                                Histórico Procesos asociados al Llamado a Concurso</a></li>
-                                                        <li><a href="<?= base_url() ?>index.php/Publicaciones/llcp">-
-                                                                Llamado a concurso Prorrogados</a></li>
-                                                        <?php if (($this->session->userdata('ver_anul_llamado') == 1)) : ?>
-                                                            <li><a href="<?= base_url() ?>index.php/Publicaciones/anulaciones_general">-Anulaciones
-                                                                    General</b></a></li>
-                                                            <li>
-                                                                <a href="<?= base_url() ?>index.php/Publicaciones/Accion2_snc">-Consultar
-                                                                    Acciones al Final de
-                                                                    LLamados a Concurso</a>
-                                                            </li>
-                                                        <?php endif; ?>
+                                        <li><a href="<?= base_url() ?>index.php/Publicaciones/llamadointerno">-
+                                                Consultar </a></li>
+                                        <li><a href="<?= base_url() ?>index.php/Publicaciones/rp_estatus">-
+                                                Histórico Procesos asociados al Llamado a Concurso</a></li>
+                                        <li><a href="<?= base_url() ?>index.php/Publicaciones/llcp">-
+                                                Llamado a concurso Prorrogados</a></li>
+                                        <?php if (($this->session->userdata('ver_anul_llamado') == 1)) : ?>
+                                        <li><a href="<?= base_url() ?>index.php/Publicaciones/anulaciones_general">-Anulaciones
+                                                General</b></a></li>
+                                        <li>
+                                            <a href="<?= base_url() ?>index.php/Publicaciones/Accion2_snc">-Consultar
+                                                Acciones al Final de
+                                                LLamados a Concurso</a>
+                                        </li>
+                                        <?php endif; ?>
 
 
 
 
-                                                    </ul>
-                                                </li>
-
-                                            <?php endif; ?>
-                                            <?php if (($this->session->userdata('reg_llamado') == 1)) : ?>
-                                                <li>
-                                                    <a href="<?= base_url() ?>index.php/regllamadoconcurso">
-                                                        - Registro llamado a consurso
-                                                    </a>
-                                                </li>
-                                            <?php endif; ?>
-                                            <?php if (($this->session->userdata('anul_llamado') == 1)) : ?>
-                                                <li>
-                                                    <a href="<?= base_url() ?>index.php/Publicaciones/anulacion">-Procesos asociados al
-                                                        Llamado a Concurso </a>
-                                                </li>
-
-
-                                            <?php endif; ?>
-                                            <?php if (($this->session->userdata('accion_llamado') == 1)) : ?>
-
-                                                <li>
-                                                    <a href="<?= base_url() ?>index.php/Publicaciones/acciones">-Acciones
-                                                        Llamado a Concurso </a>
-                                                </li>
-                                            <?php endif; ?>
-                                            <?php if (($this->session->userdata('accion_llamado') == 1)) : ?>
-
-                                                <li>
-                                                    <a href="<?= base_url() ?>index.php/Publicaciones/infor_llcacciones">-Acciones
-                                                        llamados a concurso SNC</a>
-                                                </li>
-                                            <?php endif; ?>
-
-
-                                        </ul>
-                                    </li>
-                                <?php endif; ?>
-                                <?php if (($this->session->userdata('certificacion') == 1)) : ?>
+                                    </ul>
+                                </li>
 
                                 <?php endif; ?>
-                                <?php if (($this->session->userdata('ver_conf') == 8)) : ?>
+                                <?php if (($this->session->userdata('reg_llamado') == 1)) : ?>
+                                <li>
+                                    <a href="<?= base_url() ?>index.php/regllamadoconcurso">
+                                        - Registro llamado a consurso
+                                    </a>
+                                </li>
+                                <?php endif; ?>
+                                <?php if (($this->session->userdata('anul_llamado') == 1)) : ?>
+                                <li>
+                                    <a href="<?= base_url() ?>index.php/Publicaciones/anulacion">-Procesos asociados al
+                                        Llamado a Concurso </a>
+                                </li>
 
 
                                 <?php endif; ?>
+                                <?php if (($this->session->userdata('accion_llamado') == 1)) : ?>
 
-                    </li>
+                                <li>
+                                    <a href="<?= base_url() ?>index.php/Publicaciones/acciones">-Acciones
+                                        Llamado a Concurso </a>
+                                </li>
+                                <?php endif; ?>
+                                <?php if (($this->session->userdata('accion_llamado') == 1)) : ?>
+
+                                <li>
+                                    <a href="<?= base_url() ?>index.php/Publicaciones/infor_llcacciones">-Acciones
+                                        llamados a concurso SNC</a>
+                                </li>
+                                <?php endif; ?>
+
+
+                            </ul>
+                        </li>
+                        <?php endif; ?>
+                        <?php if (($this->session->userdata('certificacion') == 1)) : ?>
+
+                        <?php endif; ?>
+                        <?php if (($this->session->userdata('ver_conf') == 8)) : ?>
+
+
+                        <?php endif; ?>
+
+                </li>
 
             </ul>
             </li>
-        <?php endif; ?>
-        <?php if (($this->session->userdata('ver_rnc') == 1)) : ?>
+            <?php endif; ?>
+            <?php if (($this->session->userdata('ver_rnc') == 1)) : ?>
             <li class="has-sub">
                 <a href="javascript:;">
                     <b class="caret"></b>
@@ -550,42 +551,42 @@
                             <li><a href="<?= base_url() ?>index.php/Contratista/infor_contrat_objCont">- Contratista</a>
                             </li>
                             <?php if (($this->session->userdata('ver_avanzado') == 1)) : ?>
-                                <li class="has-sub">
-                                    <a href="javascript:;">
-                                        <b class="caret"></b>
-                                        <span>- Consulta Avanzada</span>
-                                    </a>
-                                    <ul class="sub-menu">
-                                        <?php if (($this->session->userdata('avanz_rnce') == 1)) : ?>
+                            <li class="has-sub">
+                                <a href="javascript:;">
+                                    <b class="caret"></b>
+                                    <span>- Consulta Avanzada</span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <?php if (($this->session->userdata('avanz_rnce') == 1)) : ?>
 
-                                            <li><a href="<?= base_url() ?>index.php/Contratista/comisario_busqueda_rnce">
-                                                    -Consulta Avanzada RNCE </a></li>
-                                        <?php endif; ?>
-                                        <?php if (($this->session->userdata('avanz_rnc') == 1)) : ?>
+                                    <li><a href="<?= base_url() ?>index.php/Contratista/comisario_busqueda_rnce">
+                                            -Consulta Avanzada RNCE </a></li>
+                                    <?php endif; ?>
+                                    <?php if (($this->session->userdata('avanz_rnc') == 1)) : ?>
 
-                                            <li><a href="<?= base_url() ?>index.php/Contratista/comisario_busqueda_rnc">
-                                                    -Consulta Avanzada RNC </a></li>
-                                        <?php endif; ?>
-                                        <?php if (($this->session->userdata('avanz_gne') == 1)) : ?>
+                                    <li><a href="<?= base_url() ?>index.php/Contratista/comisario_busqueda_rnc">
+                                            -Consulta Avanzada RNC </a></li>
+                                    <?php endif; ?>
+                                    <?php if (($this->session->userdata('avanz_gne') == 1)) : ?>
 
-                                            <li><a href="<?= base_url() ?>index.php/Contratista/comisario_busqueda">
-                                                    -Consulta Avanzada </a></li>
-                                            <li><a href="<?= base_url() ?>index.php/Contratista/list">-Consulta de
-                                                    resultado Avanzada</a></li>
-                                        <?php endif; ?>
+                                    <li><a href="<?= base_url() ?>index.php/Contratista/comisario_busqueda">
+                                            -Consulta Avanzada </a></li>
+                                    <li><a href="<?= base_url() ?>index.php/Contratista/list">-Consulta de
+                                            resultado Avanzada</a></li>
+                                    <?php endif; ?>
 
-                                        <!-- <li><a href="<?= base_url() ?>index.php/Contratista/infor_contrat_comi_conta">
+                                    <!-- <li><a href="<?= base_url() ?>index.php/Contratista/infor_contrat_comi_conta">
                                             -Busqueda Avanzada Cédula</a></li>
                                     <li><a href="<?= base_url() ?>index.php/Contratista/infor_contrat_comi_conta_rif">
                                             -Busqueda Avanzada Rif</a></li> -->
-                                        <?php if (($this->session->userdata('resultados_avza') == 1)) : ?>
+                                    <?php if (($this->session->userdata('resultados_avza') == 1)) : ?>
 
-                                            <li><a href="<?= base_url() ?>index.php/Contratista/list">-Consulta de
-                                                    resultado Avanzada</a></li>
-                                        <?php endif; ?>
+                                    <li><a href="<?= base_url() ?>index.php/Contratista/list">-Consulta de
+                                            resultado Avanzada</a></li>
+                                    <?php endif; ?>
 
-                                    </ul>
-                                </li>
+                                </ul>
+                            </li>
 
 
                             <?php endif; ?>
@@ -594,36 +595,36 @@
                     </li>
                     <?php if (($this->session->userdata('pdvsa') == 1)) : ?>
 
-                        <li class="has-sub">
-                            <a href="javascript:;">
-                                <b class="caret"></b>
-                                <span>Analistas RNC</span>
-                            </a>
-                            <ul class="sub-menu">
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                            <b class="caret"></b>
+                            <span>Analistas RNC</span>
+                        </a>
+                        <ul class="sub-menu">
 
 
-                                <?php if (($this->session->userdata('pdvsa') == 1)) : ?>
+                            <?php if (($this->session->userdata('pdvsa') == 1)) : ?>
 
-                                    <li>
-                                        <a href="<?= base_url() ?>index.php/Rnc/see_pay">
-                                            - Pagos Recibidos
-                                        </a>
+                            <li>
+                                <a href="<?= base_url() ?>index.php/Rnc/see_pay">
+                                    - Pagos Recibidos
+                                </a>
 
-                                    </li>
+                            </li>
 
-                                    <li>
-                                        <a href="<?= base_url() ?>index.php/Rnc/auditoria_rnc">
-                                            - Enviados al RAC
-                                        </a>
+                            <li>
+                                <a href="<?= base_url() ?>index.php/Rnc/auditoria_rnc">
+                                    - Enviados al RAC
+                                </a>
 
-                                    </li>
+                            </li>
 
 
 
-                                <?php endif; ?>
-                                <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
+                            <?php endif; ?>
+                            <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1)) : ?>
 
-                                    <!-- <li>
+                            <!-- <li>
                                             <a href="<?= base_url() ?>index.php/Auth_prog/requests_prog">
                                                 - Solicitar Editar Programaciòn Anual
                                             </a>
@@ -631,18 +632,18 @@
                                         </li>
                                         <li><a href="<?= base_url() ?>index.php/Auth_prog/see_prog">-
                                                 Autorizar Editar <b>Programaciòn Anual</b></a></li> -->
-                                <?php endif; ?>
+                            <?php endif; ?>
 
-                            </ul>
-                        </li>
+                        </ul>
+                    </li>
                     <?php endif; ?>
 
                 </ul>
 
             </li>
-        <?php endif; ?>
+            <?php endif; ?>
 
-        <?php if (($this->session->userdata('menu_certi') == 1)) : ?>
+            <?php if (($this->session->userdata('menu_certi') == 1)) : ?>
             <li class="has-sub">
                 <a href="javascript:;">
                     <b class="caret"></b>
@@ -654,23 +655,23 @@
 
                     <?php if (($this->session->userdata('certi_externo') == 1)) : ?>
 
-                        <li class="has-sub">
-                            <a href="javascript:;">
-                                <b class="caret"></b>
-                                Certificación
-                            </a>
-                            <ul class="sub-menu">
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                            <b class="caret"></b>
+                            Certificación
+                        </a>
+                        <ul class="sub-menu">
 
-                                <li><a
-                                        href="<?= base_url() ?>index.php/certificacion/Listado_certificacion_interno_contralodira"><i
-                                            class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Certificación</a>
-                                </li>
-                                <li><a href="<?= base_url() ?>index.php/certificacion/ver_facilitador"><i
-                                            class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Facilitador</a>
-                                </li>
+                            <li><a
+                                    href="<?= base_url() ?>index.php/certificacion/Listado_certificacion_interno_contralodira"><i
+                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Certificación</a>
+                            </li>
+                            <li><a href="<?= base_url() ?>index.php/certificacion/ver_facilitador"><i
+                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Facilitador</a>
+                            </li>
 
 
-                                <!-- <li class="has-sub">
+                            <!-- <li class="has-sub">
                                 <a href="javascript:;">
                                     <b class="caret"></b>
                                     Reportes
@@ -691,8 +692,8 @@
                                 </ul>
                             </li> -->
 
-                            </ul>
-                        </li>
+                        </ul>
+                    </li>
 
                     <?php endif; ?>
 
@@ -712,96 +713,96 @@
 
 
 
-                        <li class="has-sub">
-                            <a href="javascript:;">
-                                <b class="caret"></b>
-                                Certificación SNC
-                            </a>
-                            <ul class="sub-menu">
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                            <b class="caret"></b>
+                            Certificación SNC
+                        </a>
+                        <ul class="sub-menu">
 
-                                <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion"><i
-                                            class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Solicitud de
-                                        Certificación SNC </a>
-                                </li>
-                                <li><a href="<?= base_url() ?>index.php/certificacion/ver_facilitador"><i
-                                            class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Facilitador</a>
-                                </li>
-
-
-                                <li class="has-sub">
-                                    <a href="javascript:;">
-                                        <b class="caret"></b>
-                                        Reportes
-                                    </a>
-                                    <ul class="sub-menu">
-
-                                        <li><a href="<?= base_url() ?>index.php/certificacion/Consulta_certificacion"><i
-                                                    class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> General </a>
-                                        </li>
-
-                                        <li><a href="<?= base_url() ?>index.php/certificacion/fecha_vencimiento"><i
-                                                    class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Fecha de vencimiento </a>
-                                        </li>
-                                        <li><a href="<?= base_url() ?>index.php/certificacion/status"><i
-                                                    class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Estatus </a>
-                                        </li>
-
-                                    </ul>
-                                </li>
-
-                            </ul>
-                        </li>
+                            <li><a href="<?= base_url() ?>index.php/certificacion/Listado_certificacion"><i
+                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Solicitud de
+                                    Certificación SNC </a>
+                            </li>
+                            <li><a href="<?= base_url() ?>index.php/certificacion/ver_facilitador"><i
+                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Facilitador</a>
+                            </li>
 
 
+                            <li class="has-sub">
+                                <a href="javascript:;">
+                                    <b class="caret"></b>
+                                    Reportes
+                                </a>
+                                <ul class="sub-menu">
+
+                                    <li><a href="<?= base_url() ?>index.php/certificacion/Consulta_certificacion"><i
+                                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> General </a>
+                                    </li>
+
+                                    <li><a href="<?= base_url() ?>index.php/certificacion/fecha_vencimiento"><i
+                                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Fecha de vencimiento </a>
+                                    </li>
+                                    <li><a href="<?= base_url() ?>index.php/certificacion/status"><i
+                                                class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>Estatus </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </li>
 
 
 
 
 
 
-                        <li class="has-sub">
-                            <a href="javascript:;">
-                                <b class="caret"></b>
-                                Diplomado
-                            </a>
-                            <ul class="sub-menu">
 
-                                <li><a href="<?= base_url() ?>index.php/Diplomado/Registrar_diplomado"><i
-                                            class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Crear Un Diplomado </a>
-                                </li>
-                                <li><a href="<?= base_url() ?>index.php/Diplomado/sel_participantes"><i
-                                            class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Selección de participantes </a>
-                                </li>
-                                <li><a href="<?= base_url() ?>index.php/Diplomado/sel_participantes_juridico"><i
-                                            class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Selección de participantes
-                                        Juridico </a>
-                                </li>
-                                <li><a href="<?= base_url() ?>index.php/Diplomado/participanteselec"><i
-                                            class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Participante seleccionado </a>
-                                </li>
 
-                                <li><a href="<?= base_url() ?>index.php/Diplomado/conciliado"><i
-                                            class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Conciliar</a>
-                                </li>
-                                <li><a href="<?= base_url() ?>index.php/Diplomado/gestion_aprobacion"><i
-                                            class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Gestión de Aprobación</a>
-                                </li>
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                            <b class="caret"></b>
+                            Diplomado
+                        </a>
+                        <ul class="sub-menu">
 
-                                <li class="has-sub">
-                                    <a href="javascript:;">
-                                        <b class="caret"></b>
-                                        Reportes
-                                    </a>
-                                    <ul class="sub-menu">
-                                        <li><a href="<?= base_url() ?>index.php/Diplomado/reportesgeneral">-
-                                                reporte Persona natural</a></li>
-                                        <!-- <?php if (($this->session->userdata('certi_externo') == 1)) : ?> reporte directora -->
+                            <li><a href="<?= base_url() ?>index.php/Diplomado/Registrar_diplomado"><i
+                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Crear Un Diplomado </a>
+                            </li>
+                            <li><a href="<?= base_url() ?>index.php/Diplomado/sel_participantes"><i
+                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Selección de participantes </a>
+                            </li>
+                            <li><a href="<?= base_url() ?>index.php/Diplomado/sel_participantes_juridico"><i
+                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Selección de participantes
+                                    Juridico </a>
+                            </li>
+                            <li><a href="<?= base_url() ?>index.php/Diplomado/participanteselec"><i
+                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Participante seleccionado </a>
+                            </li>
 
-                                        <li><a href="<?= base_url() ?>index.php/Diplomado/reporteG">-
-                                                Consulta Cuenta CCP</a></li>
-                                        <li><a href="<?= base_url() ?>index.php/Diplomado/reportePago">-
-                                                Reporte de Pagos</a></li>
-                                        <!-- <li><a href="<?= base_url() ?>index.php/EmailSender/correos">-
+                            <li><a href="<?= base_url() ?>index.php/Diplomado/conciliado"><i
+                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Conciliar</a>
+                            </li>
+                            <li><a href="<?= base_url() ?>index.php/Diplomado/gestion_aprobacion"><i
+                                        class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i> Gestión de Aprobación</a>
+                            </li>
+
+                            <li class="has-sub">
+                                <a href="javascript:;">
+                                    <b class="caret"></b>
+                                    Reportes
+                                </a>
+                                <ul class="sub-menu">
+                                    <li><a href="<?= base_url() ?>index.php/Diplomado/reportesgeneral">-
+                                            reporte Persona natural</a></li>
+                                    <!-- <?php if (($this->session->userdata('certi_externo') == 1)) : ?> reporte directora -->
+
+                                    <li><a href="<?= base_url() ?>index.php/Diplomado/reporteG">-
+                                            Consulta Cuenta CCP</a></li>
+                                    <li><a href="<?= base_url() ?>index.php/Diplomado/reportePago">-
+                                            Reporte de Pagos</a></li>
+                                    <!-- <li><a href="<?= base_url() ?>index.php/EmailSender/correos">-
                                                 correos</a></li> -->
 
                                     <?php endif; ?>
@@ -810,20 +811,20 @@
                                     Certificar por SNC</a></li> -->
 
 
-                                    </ul>
-                                </li>
+                                </ul>
+                            </li>
 
-                            </ul>
-                        </li>
+                        </ul>
+                    </li>
                     <?php endif; ?>
 
             </li>
             </ul>
 
             </li>
-        <?php endif; ?>
+            <?php endif; ?>
 
-        <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1 || $this->session->userdata('perfil') == 14)) : ?>
+            <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1 || $this->session->userdata('perfil') == 14)) : ?>
             <li class="has-sub">
                 <a href="javascript:;">
                     <b class="caret"></b>
@@ -876,8 +877,8 @@
                 </ul>
 
             </li>
-        <?php endif; ?>
-        <?php if (($this->session->userdata('ver_conf') == 1)) : ?>
+            <?php endif; ?>
+            <?php if (($this->session->userdata('ver_conf') == 1)) : ?>
             <li class="has-sub">
                 <a href="javascript:;">
                     <b class="caret"></b>
@@ -919,18 +920,18 @@
                                     <i class="fas fa-lg fa-fw m-r-10 fa-city"></i>Unidades Ejecutoras locales
                                 </a>
                             </li>
-                        <?php endif; ?>
-                        <li>
-                            <a href="<?= base_url() ?>index.php/configuracion/list">
-                                <i class="fas fa-lg fa-fw m-r-10 fa-city"></i>Listado
-                            </a>
-                        </li>
+                            <?php endif; ?>
+                            <li>
+                                <a href="<?= base_url() ?>index.php/configuracion/list">
+                                    <i class="fas fa-lg fa-fw m-r-10 fa-city"></i>Listado
+                                </a>
+                            </li>
                     </li>
                 </ul>
             </li>
-        <?php endif; ?>
+            <?php endif; ?>
 
-        <?php if (($this->session->userdata('ver_parametro') == 1)) : ?>
+            <?php if (($this->session->userdata('ver_parametro') == 1)) : ?>
             <li class="has-sub">
                 <a href="javascript:;">
                     <b class="caret"></b>
@@ -1044,8 +1045,8 @@
                     </li>
                 </ul>
             </li>
-        <?php endif; ?>
-        <?php if (($this->session->userdata('ver_conf_publ') == 1)) : ?>
+            <?php endif; ?>
+            <?php if (($this->session->userdata('ver_conf_publ') == 1)) : ?>
             <li class="has-sub">
                 <a href="javascript:;">
                     <b class="caret"></b>
@@ -1090,9 +1091,9 @@
 
                 </ul>
             </li>
-        <?php endif; ?>
+            <?php endif; ?>
 
-        <?php if (($this->session->userdata('ver_user') == 1)) : ?>
+            <?php if (($this->session->userdata('ver_user') == 1)) : ?>
             <li class="has-sub">
                 <a href="javascript:;">
                     <b class="caret"></b>
@@ -1102,71 +1103,71 @@
                 <ul class="sub-menu">
                     <?php if ($this->session->userdata('perfil') == 1 || $this->session->userdata('perfil') == 14) : ?>
 
-                        <?php if (($this->session->userdata('ver_user_exter') == 1)) : ?>
-                            <!-- <li>
+                    <?php if (($this->session->userdata('ver_user_exter') == 1)) : ?>
+                    <!-- <li>
                             <a href="<?= base_url() ?>index.php/user">
                                 <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Registros
                             </a>
                         </li> -->
 
 
-                            <!-- <li>
+                    <!-- <li>
                         <a href="<?= base_url() ?>index.php/user/int">
                             <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Registros Usuarios
                         </a>
                        </li> -->
 
-                            <!-- <li>
+                    <!-- <li>
                                 <a href="<?= base_url() ?>index.php/user/create_user">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Registro Usuarios
                                 </a>
                             </li> -->
-                            <li>
-                                <a href="<?= base_url() ?>index.php/Profile_controller/profile_editor">
-                                    <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Gestion de Usuarios
-                                </a>
-                            </li>
-                            <!-- <li>
+                    <li>
+                        <a href="<?= base_url() ?>index.php/Profile_controller/profile_editor">
+                            <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Gestion de Usuarios
+                        </a>
+                    </li>
+                    <!-- <li>
                                 <a href="<?= base_url() ?>index.php/User_management_controller/v_assign_units">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Asignación de Unidades
                                 </a>
                             </li> -->
-                            <!-- <li>
+                    <!-- <li>
                                 <a href="<?= base_url() ?>index.php/User_management_controller/v_manage_user_rifs">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Gestion de RIFs
                                 </a>
                             </li> -->
-                        <?php endif; ?>
-                        <?php if (($this->session->userdata('ver_user_desb') == 1)) : ?>
-                            <!-- <li>
+                    <?php endif; ?>
+                    <?php if (($this->session->userdata('ver_user_desb') == 1)) : ?>
+                    <!-- <li>
                                 <a href="<?= base_url() ?>index.php/user/bloquear_usuario">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Inhabilitar Usuarios
                                 </a>
                             </li> -->
-                        <?php endif; ?>
-                        <?php if (($this->session->userdata('ver_user_desb') == 1)) : ?>
-                            <!-- <li>
+                    <?php endif; ?>
+                    <?php if (($this->session->userdata('ver_user_desb') == 1)) : ?>
+                    <!-- <li>
                                 <a href="<?= base_url() ?>index.php/user/desblo_usuario">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Desbloqueo de Usuarios
                                 </a>
                             </li> -->
-                        <?php endif; ?>
-                        <?php if (($this->session->userdata('ver_user_lista') == 1)) : ?>
-                            <!-- <li>
+                    <?php endif; ?>
+                    <?php if (($this->session->userdata('ver_user_lista') == 1)) : ?>
+                    <!-- <li>
                                 <a href="<?= base_url() ?>index.php/user/modif_usuarios">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Lista Usuarios SNC activos
                                 </a>
                             </li> -->
-                        <?php endif; ?>
-                        <?php if (($this->session->userdata('ver_user_lista') == 1)) : ?>
-                            <!-- <li>
+                    <?php endif; ?>
+                    <?php if (($this->session->userdata('ver_user_lista') == 1)) : ?>
+                    <!-- <li>
                                 <a href="<?= base_url() ?>index.php/user/lista_user_inactivos_snc">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Lista Usuarios SNC inactivos
                                 </a>
                             </li> -->
-                        <?php endif; ?>
+                    <?php endif; ?>
 
-                        <!-- <?php if (($this->session->userdata('ver_user_perfil') == 1)) : ?>
+                    <!-- <?php if (($this->session->userdata('ver_user_perfil') == 1)) : ?>
                             <li>
                                 <a href="<?= base_url() ?>index.php/user/perfil_">
                                     <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Asignación de Permisos
@@ -1175,33 +1176,33 @@
                         <?php endif; ?> -->
 
 
-                        <?php if (($this->session->userdata('ver_user_perfil') == 1)) : ?>
-                            <li>
-                                <a href="<?= base_url() ?>index.php/User/see_ses">
-                                    <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Sesiones Abiertas
-                                </a>
-                            </li>
-                        <?php endif; ?>
+                    <?php if (($this->session->userdata('ver_user_perfil') == 1)) : ?>
+                    <li>
+                        <a href="<?= base_url() ?>index.php/User/see_ses">
+                            <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Sesiones Abiertas
+                        </a>
+                    </li>
+                    <?php endif; ?>
 
                     <?php endif; ?>
                     <?php if (($this->session->userdata('permisos') == 1)) : ?>
-                        <!-- <li>
+                    <!-- <li>
                             <a href="<?= base_url() ?>index.php/user/create_user">
                                 <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Registro Usuarios
                             </a>
                         </li> -->
-                        <li>
-                            <a href="<?= base_url() ?>index.php/Profile_controller/profile_editor">
-                                <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Gestion de Usuarios
-                            </a>
-                        </li>
+                    <li>
+                        <a href="<?= base_url() ?>index.php/Profile_controller/profile_editor">
+                            <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Gestion de Usuarios
+                        </a>
+                    </li>
                     <?php endif; ?>
                     <?php if (($this->session->userdata('ver_user_lista') == 1)) : ?>
-                        <li>
-                            <a href="<?= base_url() ?>index.php/user/listado_usuarios">
-                                <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Lista Usuarios externos
-                            </a>
-                        </li>
+                    <li>
+                        <a href="<?= base_url() ?>index.php/user/listado_usuarios">
+                            <i class="fas fa-lg fa-fw m-r-10 fa-list-alt"></i>- Lista Usuarios externos
+                        </a>
+                    </li>
                     <?php endif; ?>
                 </ul>
             </li>
@@ -1209,20 +1210,20 @@
             </ul>
             </li>
 
-        <?php endif; ?>
+            <?php endif; ?>
 
-        <li class="mt-5"><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i
-                    class="ion-ios-arrow-back"></i> <span>Cerrar Navegador</span></a></li>
-        </ul>
+            <li class="mt-5"><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i
+                        class="ion-ios-arrow-back"></i> <span>Cerrar Navegador</span></a></li>
+            </ul>
         </div>
     </div>
     <div class="sidebar-bg"></div>
 
     <script>
-        $(document).ready(function() {
-            $('.dropdown-toggle-sub').on('click', function(e) {
-                e.preventDefault();
-                $(this).next('.dropdown-menu-sub').toggle();
-            });
+    $(document).ready(function() {
+        $('.dropdown-toggle-sub').on('click', function(e) {
+            e.preventDefault();
+            $(this).next('.dropdown-menu-sub').toggle();
         });
+    });
     </script>
