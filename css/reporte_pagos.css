@@ -1,0 +1,86 @@
+/*
+ * reporte_pagos.css
+ * Estilos específicos para el reporte de Transacciones de Pago
+ */
+
+/* Encabezado de la tabla (thead) */
+#data-table-reporte thead th {
+    background-color: #dc3545;
+    /* Rojo de Bootstrap danger */
+    color: #ffffff;
+    /* Letras blancas */
+    border: 1px solid #000000;
+    /* Borde negro para celdas del encabezado */
+}
+
+/* Filas del cuerpo de la tabla (tbody) */
+#data-table-reporte tbody tr {
+    background-color: #ffffff;
+    /* Fondo blanco */
+    color: #000000;
+    /* Letras negras */
+}
+
+/* Celdas del cuerpo de la tabla (td) */
+#data-table-reporte tbody td {
+    border: 1px solid #000000;
+    /* Borde negro para celdas del cuerpo */
+}
+
+/* Quitar el color gris que pueda venir de otras clases de data-table o theme */
+/* Esto apunta a las filas pares e impares para asegurar el fondo blanco */
+#data-table-reporte.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #ffffff !important;
+    /* Fondo blanco, sobrescribe striped */
+}
+
+#data-table-reporte.table-striped tbody tr:nth-of-type(even) {
+    background-color: #ffffff !important;
+    /* Fondo blanco, sobrescribe striped */
+}
+
+/* También puedes necesitar ajustar el color del panel para quitar el gris si aplica al panel */
+/* Esto es más general, si el panel-body o panel-heading tienen fondo gris */
+.panel-inverse .panel-body {
+    background-color: #ffffff;
+    /* Fondo blanco para el cuerpo del panel */
+    color: #000000;
+    /* Letras negras */
+}
+
+/* Si el encabezado del panel es gris y quieres que sea blanco con letras negras */
+.panel-inverse .panel-heading {
+    background-color: #ffffff;
+    /* Fondo blanco para el encabezado del panel */
+    color: #000000;
+    /* Letras negras */
+    border-bottom: 1px solid #dee2e6;
+    /* Un borde sutil si lo deseas */
+}
+
+/* Ajuste para el h4 dentro del panel-heading */
+.panel-inverse .panel-heading .panel-title {
+    color: #000000;
+    /* Letras negras para el título del panel */
+}
+
+/* Si tu fondo general es gris y quieres que el fondo del contenido sea blanco */
+/* Esto es más agresivo y depende de tu estructura general */
+#content {
+    background-color: #ffffff;
+    /* Fondo blanco para el área de contenido principal */
+}
+
+/* Asegurarse de que el color del texto de la paginación sea negro si es blanco */
+.pagination .page-link {
+    color: #000000;
+    /* Texto negro para los enlaces de paginación */
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #dc3545;
+    /* Rojo para la página activa */
+    border-color: #dc3545;
+    color: #ffffff;
+    /* Blanco para el texto de la página activa */
+}
