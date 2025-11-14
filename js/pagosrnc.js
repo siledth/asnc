@@ -5,7 +5,6 @@ $(document).ready(function() {
     var max_paginas_visibles = 5;
 
     // --- Definición de Rutas del Controlador Rnc ---
-    // Asegúrate de que BASE_URL esté definida en la vista HTML antes de este script.
     const URL_CONSULTA = BASE_URL + 'index.php/Rnc/generar_reporte_pagos';
     const URL_EXPORTAR_CSV = BASE_URL + 'index.php/Rnc/exportar_pagos_csv';
     // --------------------------------------------------
@@ -18,25 +17,40 @@ $(document).ready(function() {
         var tbody = $('#data-table-reporte tbody');
         tbody.empty();
 
+        const total_columnas = 10; 
+
         if (filas_a_mostrar.length > 0) {
             $.each(filas_a_mostrar, function(index, item) {
                 // Formateo de Moneda y Fecha
                 const monto_formateado = parseFloat(item.amount).toLocaleString('es-VE', { style: 'currency', currency: 'VES' });
-                const fecha_formateada = item.paymentdate ? new Date(item.paymentdate).toLocaleDateString('es-VE') : 'N/A';
+                
+                // Formateo de fecha y hora para TIMESTAMP
+                const fecha_pago = new Date(item.paymentdate);
+                // Ejemplo de formato: 13/11/2025 10:30:00
+                const fecha_formateada = isNaN(fecha_pago) 
+                    ? 'N/A' 
+                    : fecha_pago.toLocaleDateString('es-VE') + ' ' + fecha_pago.toLocaleTimeString('es-VE');
 
+                // ORDEN DE COLUMNAS A MOSTRAR:
+                // paymentdate, id, rif_contratista, nombre_contratista, tipo_inscripcion, 
+                // tipo_transaccion, transactionid, amount, metodo_pago, clasificacion_tarifa
+                
                 tbody.append('<tr>' +
-                    '<td>' + item.id + '</td>' +
-                    '<td>' + fecha_formateada + '</td>' +
-                    '<td>' + item.rif_contratista + '</td>' +
-                    '<td>' + item.nombre_contratista + '</td>' +
-                    '<td>' + monto_formateado + '</td>' +
-                    '<td>' + item.tipo_transaccion + '</td>' +
-                    '<td>' + item.metodo_pago + '</td>' +
-                    '<td>' + item.transactionid + '</td>' +
+                    '<td>' + fecha_formateada + '</td>' + // 1. Fecha Pago
+                    '<td>' + item.id + '</td>' + // 2. ID Proceso
+                    '<td>' + item.rif_contratista + '</td>' + // 3. RIF Contratista
+                    '<td>' + item.nombre_contratista + '</td>' + // 4. Nombre Contratista
+                    '<td>' + item.tipo_inscripcion + '</td>' + // 5. Tipo Inscripción
+                    '<td>' + item.tipo_transaccion + '</td>' + // 6. Tipo Transacción
+                    '<td>' + item.transactionid + '</td>' + // 7. Referencia
+                    '<td>' + monto_formateado + '</td>' + // 8. Monto
+                    '<td>' + item.metodo_pago + '</td>' + // 9. Método Pago
+                    '<td>' + item.clasificacion_tarifa + '</td>' + // 10. Clasificación Tarifa
                     '</tr>');
             });
         } else {
-            tbody.append('<tr><td colspan="8" class="text-center">No se encontraron pagos para los filtros seleccionados.</td></tr>');
+            // Asegurarse de usar 10 columnas en el colspan
+            tbody.append('<tr><td colspan="' + total_columnas + '" class="text-center">No se encontraron pagos para los filtros seleccionados.</td></tr>');
         }
     }
 
@@ -98,7 +112,6 @@ $(document).ready(function() {
         }
     }
     
-    // Funciones auxiliares para Exportación
     function recolectar_filtros() {
         return {
             fecha_desde: $('#fecha_desde').val(),
@@ -112,7 +125,6 @@ $(document).ready(function() {
     }
 
     function habilitar_exportacion(habilitar) {
-        // Solo maneja el botón CSV
         $('#btn_exportar_csv').prop('disabled', !habilitar);
     }
     
@@ -173,7 +185,8 @@ $(document).ready(function() {
                     } else {
                         var tbody = $('#data-table-reporte tbody');
                         tbody.empty();
-                        tbody.append('<tr><td colspan="8" class="text-center">No se encontraron pagos para los filtros seleccionados.</td></tr>');
+                        // Importante: Usar 10 columnas en el colspan
+                        tbody.append('<tr><td colspan="10" class="text-center">No se encontraron pagos para los filtros seleccionados.</td></tr>');
                         $('#paginacion_tabla').empty();
                         habilitar_exportacion(false);
                     }

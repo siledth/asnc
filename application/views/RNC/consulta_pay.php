@@ -78,14 +78,16 @@
                 <table id="data-table-reporte" class="table table-striped table-bordered">
                     <thead>
                         <tr>
-                            <th>ID Proceso</th>
                             <th>Fecha Pago</th>
+                            <th>ID Proceso</th>
                             <th>RIF Contratista</th>
                             <th>Nombre Contratista</th>
-                            <th>Monto</th>
+                            <th>Tipo Inscripción</th>
                             <th>Tipo Transacción</th>
-                            <th>Método Pago</th>
                             <th>Referencia</th>
+                            <th>Monto</th>
+                            <th>Método Pago</th>
+                            <th>Clasificación Tarifa</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -115,6 +117,5 @@
 <script>
     const BASE_URL = '<?= base_url() ?>';
 </script>
-<!-- <link href="<?= base_url() ?>assets/css/reporte_pagos.css" rel="stylesheet" /> -->
 <link href="<?= base_url('css/reporte_pagos.css') ?>" rel="stylesheet">
 <script src="<?= base_url() ?>js/pagosrnc.js"></script>

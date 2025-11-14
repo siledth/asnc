@@ -9,6 +9,7 @@ class Home extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Preguntas_model'); // Cargar el modelo de preguntas
+        $this->load->model('Reportes_model');
     }
     public function index()
     {
@@ -40,6 +41,13 @@ class Home extends CI_Controller
         } else {
             $data['pending_payments'] = [];
         }
+        //  Totales KPI de Ingresos (Solo si el perfil lo requiere)
+        if ($data['perfil_id'] == 1 || $data['perfil_id'] == 3) {
+            $data['kpi_ingresos'] = $this->Reportes_model->get_totales_kpi_home();
+        } else {
+            $data['kpi_ingresos'] = null;
+        }
+
         $this->load->view('templates/header.php');
         $this->load->view('templates/navigator.php');
         $this->load->view('home/index.php', $data);

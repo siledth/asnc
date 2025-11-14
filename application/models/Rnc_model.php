@@ -39,60 +39,116 @@ class Rnc_model extends CI_model
 
 
     // Nueva función para el reporte de Pagos
+    // public function get_reporte_pagos($filtros)
+    // {
+    //     $this->db_b->select("
+    //     p.proceso_id AS id,
+    //     p.amount,
+    //     p.transactionid,
+    //     p.paymentdate,
+    //     c.rifced AS rif_contratista,
+    //     c.nombre AS nombre_contratista,
+
+    //     -- Lógica para obtener el Tipo de Transacción
+    //     CASE 
+    //         WHEN p.id_tptrans = '1' THEN 'Botón de Pago'
+    //         WHEN p.id_tptrans = '2' THEN 'Transferencia'
+    //         WHEN p.id_tptrans = '3' THEN 'Pago Móvil'
+    //         ELSE 'Transferencia multiple'
+    //     END AS tipo_transaccion,
+
+    //     -- Lógica CONDICIONAL para el Método de Pago
+    //     CASE 
+    //         WHEN p.id_tptrans NOT IN ('1', '2', '3') THEN 
+    //             CONCAT(p.paymentmethoddescription, ' / Monto de Transferencias: ', p.paymentmethodnumber)
+    //         ELSE 
+    //             p.paymentmethoddescription
+    //     END AS metodo_pago
+    // ");
+    //     $this->db_b->from('public.pay p');
+    //     $this->db_b->join('public.contratistas c', 'c.id = p.id_contratista', 'inner');
+
+    //     // Construir la cláusula WHERE dinámicamente
+
+    //     if (!empty($filtros['fecha_desde']) && !empty($filtros['fecha_hasta'])) {
+    //         $this->db_b->where("p.paymentdate BETWEEN '{$filtros['fecha_desde']} 00:00:00' AND '{$filtros['fecha_hasta']} 23:59:59'");
+    //     }
+
+    //     if (!empty($filtros['rif_contratista'])) {
+    //         $this->db_b->like('c.rifced', $filtros['rif_contratista']);
+    //     }
+
+    //     if (!empty($filtros['nombre_contratista'])) {
+    //         $this->db_b->like('c.nombre', $filtros['nombre_contratista']);
+    //     }
+
+    //     if (!empty($filtros['transactionid'])) {
+    //         $this->db_b->like('p.transactionid', $filtros['transactionid']);
+    //     }
+
+    //     if (!empty($filtros['proceso_id'])) {
+    //         $this->db_b->where('p.proceso_id', $filtros['proceso_id']);
+    //     }
+
+    //     if (!empty($filtros['id_tptrans'])) {
+    //         $this->db_b->where('p.id_tptrans', $filtros['id_tptrans']);
+    //     }
+
+    //     $query = $this->db_b->get();
+    //     return $query->result_array();
+    // }
     public function get_reporte_pagos($filtros)
     {
-        $this->db_b->select("
-        p.proceso_id AS id,
-        p.amount,
-        p.transactionid,
-        p.paymentdate,
-        c.rifced AS rif_contratista,
-        c.nombre AS nombre_contratista,
-        
-        -- Lógica para obtener el Tipo de Transacción
-        CASE 
-            WHEN p.id_tptrans = '1' THEN 'Botón de Pago'
-            WHEN p.id_tptrans = '2' THEN 'Transferencia'
-            WHEN p.id_tptrans = '3' THEN 'Pago Móvil'
-            ELSE 'Transferencia multiple'
-        END AS tipo_transaccion,
-        
-        -- Lógica CONDICIONAL para el Método de Pago
-        CASE 
-            WHEN p.id_tptrans NOT IN ('1', '2', '3') THEN 
-                CONCAT(p.paymentmethoddescription, ' / Monto de Transferencias: ', p.paymentmethodnumber)
-            ELSE 
-                p.paymentmethoddescription
-        END AS metodo_pago
-    ");
-        $this->db_b->from('public.pay p');
-        $this->db_b->join('public.contratistas c', 'c.id = p.id_contratista', 'inner');
+        // Usamos SELECT * para obtener todas las columnas de la vista
+        $this->db_b->select('*');
+        $this->db_b->from('public.repr_pagos_rnc_view'); // APUNTAMOS A LA VISTA
 
         // Construir la cláusula WHERE dinámicamente
 
+        // Manejo de Fechas (TIMESTAMP Seguro)
         if (!empty($filtros['fecha_desde']) && !empty($filtros['fecha_hasta'])) {
-            $this->db_b->where("p.paymentdate BETWEEN '{$filtros['fecha_desde']} 00:00:00' AND '{$filtros['fecha_hasta']} 23:59:59'");
+            $fecha_hasta_fin_dia = date('Y-m-d', strtotime($filtros['fecha_hasta'] . ' +1 day'));
+            $this->db_b->where("paymentdate >= '{$filtros['fecha_desde']}' AND paymentdate < '{$fecha_hasta_fin_dia}'");
         }
 
         if (!empty($filtros['rif_contratista'])) {
-            $this->db_b->like('c.rifced', $filtros['rif_contratista']);
+            $this->db_b->like('rif_contratista', $filtros['rif_contratista']);
         }
 
         if (!empty($filtros['nombre_contratista'])) {
-            $this->db_b->like('c.nombre', $filtros['nombre_contratista']);
+            $this->db_b->like('nombre_contratista', $filtros['nombre_contratista']);
         }
 
         if (!empty($filtros['transactionid'])) {
-            $this->db_b->like('p.transactionid', $filtros['transactionid']);
+            $this->db_b->like('transactionid', $filtros['transactionid']);
         }
 
         if (!empty($filtros['proceso_id'])) {
-            $this->db_b->where('p.proceso_id', $filtros['proceso_id']);
+            $this->db_b->where('id', $filtros['proceso_id']);
         }
 
+        // SIMPLIFICACIÓN CLAVE: Filtrar por el ID mapeado al nombre de la transacción
         if (!empty($filtros['id_tptrans'])) {
-            $this->db_b->where('p.id_tptrans', $filtros['id_tptrans']);
+            $tipo_trans = '';
+            switch ($filtros['id_tptrans']) {
+                case '1':
+                    $tipo_trans = 'Botón de Pago';
+                    break;
+                case '2':
+                    $tipo_trans = 'Transferencia';
+                    break;
+                case '3':
+                    $tipo_trans = 'Pago Móvil';
+                    break;
+                default:
+                    break; // No aplica filtro si es otro valor
+            }
+            if (!empty($tipo_trans)) {
+                $this->db_b->where('tipo_transaccion', $tipo_trans);
+            }
         }
+
+        $this->db_b->order_by('paymentdate', 'DESC');
 
         $query = $this->db_b->get();
         return $query->result_array();

@@ -58,11 +58,60 @@ class Rnc extends CI_Controller
     }
 
     // Función de Exportación a CSV
+    //     public function exportar_pagos_csv()
+    //     {
+    //         if (!$this->session->userdata('session')) show_error('Acceso denegado', 403);
+
+    //         $filtros = $this->input->get();
+    //         $data_reporte = $this->Rnc_model->get_reporte_pagos($filtros);
+
+    //         if (empty($data_reporte)) {
+    //             echo "No hay datos para exportar.";
+    //             return;
+    //         }
+
+    //         $filename = 'reporte_pagos_' . date('Ymd_His') . '.csv';
+
+    //         header('Content-Type: text/csv; charset=utf-8');
+    //         header('Content-Disposition: attachment; filename="' . $filename . '"');
+
+    //         $output = fopen('php://output', 'w');
+
+    //         // Nombres de las columnas (Header)
+    //         fputcsv($output, [
+    //             'ID Proceso',
+    //             'Fecha Pago',
+    //             'RIF Contratista',
+    //             'Nombre Contratista',
+    //             'Monto',
+    //             'Tipo Transaccion',
+    //             'Metodo Pago',
+    //             'Referencia'
+    //         ]);
+
+    //         // Contenido de las filas
+    //         foreach ($data_reporte as $row) {
+    //             fputcsv($output, [
+    //                 $row['id'],
+    //                 $row['paymentdate'],
+    //                 $row['rif_contratista'],
+    //                 $row['nombre_contratista'],
+    //                 $row['amount'],
+    //                 $row['tipo_transaccion'],
+    //                 $row['metodo_pago'],
+    //                 $row['transactionid']
+    //             ]);
+    //         }
+
+    //         fclose($output);
+    //         exit;
+    //     }
     public function exportar_pagos_csv()
     {
         if (!$this->session->userdata('session')) show_error('Acceso denegado', 403);
 
         $filtros = $this->input->get();
+        // Llamada al modelo con los nuevos filtros
         $data_reporte = $this->Rnc_model->get_reporte_pagos($filtros);
 
         if (empty($data_reporte)) {
@@ -77,29 +126,33 @@ class Rnc extends CI_Controller
 
         $output = fopen('php://output', 'w');
 
-        // Nombres de las columnas (Header)
+        // Nombres de las columnas (Header) - ORDEN FINAL (10 columnas)
         fputcsv($output, [
-            'ID Proceso',
             'Fecha Pago',
+            'ID Proceso',
             'RIF Contratista',
             'Nombre Contratista',
+            'Tipo Inscripción',
+            'Tipo Transacción',
+            'Referencia',
             'Monto',
-            'Tipo Transaccion',
-            'Metodo Pago',
-            'Referencia'
+            'Método Pago',
+            'Clasificación Tarifa'
         ]);
 
-        // Contenido de las filas
+        // Contenido de las filas - ORDEN FINAL (10 columnas)
         foreach ($data_reporte as $row) {
             fputcsv($output, [
-                $row['id'],
                 $row['paymentdate'],
+                $row['id'], // proceso_id
                 $row['rif_contratista'],
                 $row['nombre_contratista'],
-                $row['amount'],
+                $row['tipo_inscripcion'],
                 $row['tipo_transaccion'],
+                $row['transactionid'],
+                $row['amount'],
                 $row['metodo_pago'],
-                $row['transactionid']
+                $row['clasificacion_tarifa']
             ]);
         }
 

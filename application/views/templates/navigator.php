@@ -611,7 +611,12 @@
                                         </a>
 
                                     </li>
+                                    <li>
+                                        <a href="<?= base_url() ?>index.php/Dashboard_controller/index">
+                                            - Graficos
+                                        </a>
 
+                                    </li>
                                     <li>
                                         <a href="<?= base_url() ?>index.php/Rnc/auditoria_rnc">
                                             - Enviados al RAC
