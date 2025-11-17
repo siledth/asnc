@@ -30,48 +30,6 @@
             </div>
         </div>
 
-        <?php if (($perfil_id == 1 || $perfil_id == 3) && !empty($kpi_ingresos)):
-            $totales = $kpi_ingresos['totales'];
-            $total_general = $kpi_ingresos['total_general'];
-        ?>
-            <div id="kpi-section" class="row">
-
-                <div class="col-md-12">
-                    <div class="kpi-card bg-total-general" style="margin-top: 15px;">
-                        <p>MONTO TOTAL Ingresado (<?= date('Y') ?>)</p>
-                        <h4><?= number_format($total_general, 2, ',', '.') ?> Bs</h4>
-                    </div>
-                </div>
-
-                <div class="col-md-3 mt-3">
-                    <div class="kpi-card bg-transferencia">
-                        <h4><?= number_format($totales['transferencia'] ?? 0, 2, ',', '.') ?></h4>
-                        <p>Transferencia</p>
-                    </div>
-                </div>
-
-                <div class="col-md-3 mt-3">
-                    <div class="kpi-card bg-boton-pago">
-                        <h4><?= number_format($totales['boton_de_pago'] ?? 0, 2, ',', '.') ?></h4>
-                        <p>Botón de Pago</p>
-                    </div>
-                </div>
-
-                <div class="col-md-3 mt-3">
-                    <div class="kpi-card bg-transferencia_multiple">
-                        <h4><?= number_format($totales['transferencia_multiple'] ?? 0, 2, ',', '.') ?></h4>
-                        <p>Transferencia Múltiple</p>
-                    </div>
-                </div>
-
-                <div class="col-md-3 mt-3">
-                    <div class="kpi-card bg-pago_movil">
-                        <h4><?= number_format($totales['pago_movil'] ?? 0, 2, ',', '.') ?></h4>
-                        <p>Pago Móvil</p>
-                    </div>
-                </div>
-            </div>
-        <?php endif; ?>
 
         <?php
         if (($perfil_id == 1 || $perfil_id == 9) && count($pending_payments) > 0):

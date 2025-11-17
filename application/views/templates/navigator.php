@@ -828,6 +828,49 @@
 
             </li>
         <?php endif; ?>
+        <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1 || $this->session->userdata('perfil') == 3)) : ?>
+            <li class="has-sub">
+                <a href="javascript:;">
+                    <b class="caret"></b>
+                    <i class="fa fa-list-ol" style="background:darkred;"></i>
+                    <span>Administración</span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                            <b class="caret"></b>
+                            <span>RNC</span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="<?= base_url() ?>index.php/Rnc/general">
+                                    - General Administración
+                                </a>
+
+                            </li>
+                            <li>
+                                <a href="<?= base_url() ?>index.php/Rnc/see_pay">
+                                    - Pagos Recibidos
+                                </a>
+
+                            </li>
+                            <li>
+                                <a href="<?= base_url() ?>index.php/Dashboard_controller/index">
+                                    - Graficos
+                                </a>
+
+                            </li>
+
+
+
+                        </ul>
+                    </li>
+
+
+                </ul>
+
+            </li>
+        <?php endif; ?>
 
         <?php if (($this->session->userdata('menu_noregi_eval_desem') == 1 || $this->session->userdata('perfil') == 14)) : ?>
             <li class="has-sub">

@@ -16,6 +16,12 @@ class Rnc extends CI_Controller
     //     $this->load->view('RNC/consulta_pay.php', $data);
     //     $this->load->view('templates/footer.php');
     // }
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('Reportes_model');
+    }
     public function auditoria_rnc()
     {
         if (!$this->session->userdata('session')) redirect('login');
@@ -158,5 +164,34 @@ class Rnc extends CI_Controller
 
         fclose($output);
         exit;
+    }
+
+    public function general()
+    {
+        if (!$this->session->userdata('session')) {
+            redirect('login');
+        }
+
+        $data['username'] = $this->session->userdata('username');
+        $data['perfil_id'] = $this->session->userdata('perfil');
+        // $this->session->userdata('perfil') == 1
+        $data['menu_rnce'] = $this->session->userdata('menu_rnce');
+        $data['menu_progr'] = $this->session->userdata('menu_progr');
+        $data['perfil_nombre'] = $this->session->userdata('perfil_nombre');
+        $date = date("Y-m-d");
+        $date1 = date("Y-m-d");
+
+
+        //  Totales KPI de Ingresos (Solo si el perfil lo requiere)
+        if ($data['perfil_id'] == 1 || $data['perfil_id'] == 3) {
+            $data['kpi_ingresos'] = $this->Reportes_model->get_totales_kpi_home();
+        } else {
+            $data['kpi_ingresos'] = null;
+        }
+
+        $this->load->view('templates/header.php');
+        $this->load->view('templates/navigator.php');
+        $this->load->view('RNC/genral.php', $data);
+        $this->load->view('templates/footer.php');
     }
 }
