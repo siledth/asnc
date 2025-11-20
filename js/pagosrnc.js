@@ -26,17 +26,19 @@ $(document).ready(function() {
                 
                 // Formateo de fecha y hora para TIMESTAMP
                 const fecha_pago = new Date(item.paymentdate);
+                // const fecha_pago = item.paymentdate;
+
                 // Ejemplo de formato: 13/11/2025 10:30:00
-                const fecha_formateada = isNaN(fecha_pago) 
-                    ? 'N/A' 
-                    : fecha_pago.toLocaleDateString('es-VE') + ' ' + fecha_pago.toLocaleTimeString('es-VE');
+                // const fecha_formateada = isNaN(fecha_pago) 
+                //     ? 'N/A' 
+                //     : fecha_pago.toLocaleDateString('es-VE') + ' ' + fecha_pago.toLocaleTimeString('es-VE');
 
                 // ORDEN DE COLUMNAS A MOSTRAR:
                 // paymentdate, id, rif_contratista, nombre_contratista, tipo_inscripcion, 
                 // tipo_transaccion, transactionid, amount, metodo_pago, clasificacion_tarifa
                 
                 tbody.append('<tr>' +
-                    '<td>' + fecha_formateada + '</td>' + // 1. Fecha Pago
+                    '<td>' + fecha_pago + '</td>' + // 1. Fecha Pago
                     '<td>' + item.id + '</td>' + // 2. ID Proceso
                     '<td>' + item.rif_contratista + '</td>' + // 3. RIF Contratista
                     '<td>' + item.nombre_contratista + '</td>' + // 4. Nombre Contratista

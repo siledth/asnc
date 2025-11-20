@@ -108,7 +108,7 @@ class Rnc_model extends CI_model
         // Manejo de Fechas (TIMESTAMP Seguro)
         if (!empty($filtros['fecha_desde']) && !empty($filtros['fecha_hasta'])) {
             $fecha_hasta_fin_dia = date('Y-m-d', strtotime($filtros['fecha_hasta'] . ' +1 day'));
-            $this->db_b->where("paymentdate >= '{$filtros['fecha_desde']}' AND paymentdate < '{$fecha_hasta_fin_dia}'");
+            $this->db_b->where("fecha_registro >= '{$filtros['fecha_desde']}' AND fecha_registro < '{$fecha_hasta_fin_dia}'");
         }
 
         if (!empty($filtros['rif_contratista'])) {
@@ -148,7 +148,7 @@ class Rnc_model extends CI_model
             }
         }
 
-        $this->db_b->order_by('paymentdate', 'DESC');
+        $this->db_b->order_by('fecha_registro', 'DESC');
 
         $query = $this->db_b->get();
         return $query->result_array();

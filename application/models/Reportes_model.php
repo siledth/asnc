@@ -33,8 +33,8 @@ class Reportes_model extends CI_Model
             FROM
                 repr_pagos_rnc_view
             WHERE
-                paymentdate >= ?  -- Desde el inicio del primer día
-                AND paymentdate < ?  -- Hasta el inicio del día siguiente (excluyente)
+                fecha_registro >= ?  -- Desde el inicio del primer día
+                AND fecha_registro < ?  -- Hasta el inicio del día siguiente (excluyente)
             GROUP BY
                 tipo_transaccion
             ORDER BY
@@ -47,14 +47,14 @@ class Reportes_model extends CI_Model
         // --- Gráfico 2: Evolución Mensual de Transacciones por Tipo (Líneas) ---
         $sql_evolucion_transacciones = "
             SELECT
-                TO_CHAR(paymentdate, 'YYYY-MM') AS mes, -- Extrae el año y mes
+                TO_CHAR(fecha_registro, 'YYYY-MM') AS mes, -- Extrae el año y mes
                 tipo_transaccion,
                 COUNT(id) AS cantidad_transacciones
             FROM
                 repr_pagos_rnc_view
             WHERE
-                paymentdate >= ? 
-                AND paymentdate < ? 
+                fecha_registro >= ? 
+                AND fecha_registro < ? 
             GROUP BY
                 mes, tipo_transaccion
             ORDER BY
@@ -83,13 +83,13 @@ class Reportes_model extends CI_Model
         // 2. Consulta SQL optimizada para ambos años
         $sql = "
             SELECT
-                EXTRACT(YEAR FROM paymentdate) AS ano,
-                EXTRACT(MONTH FROM paymentdate) AS mes,
+                EXTRACT(YEAR FROM fecha_registro) AS ano,
+                EXTRACT(MONTH FROM fecha_registro) AS mes,
                 SUM(amount) AS total_ingresos
             FROM
                 repr_pagos_rnc_view
             WHERE
-                EXTRACT(YEAR FROM paymentdate) IN (?, ?)
+                EXTRACT(YEAR FROM fecha_registro) IN (?, ?)
             GROUP BY
                 ano, mes
             ORDER BY
@@ -136,7 +136,7 @@ class Reportes_model extends CI_Model
             FROM
                 repr_pagos_rnc_view -- Asumiendo que esta es la vista que contiene tipo_transaccion
             WHERE
-                EXTRACT(YEAR FROM paymentdate) = ?
+                EXTRACT(YEAR FROM fecha_registro) = ?
             GROUP BY
                 tipo_transaccion
             ORDER BY
