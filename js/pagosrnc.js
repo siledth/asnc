@@ -25,13 +25,13 @@ $(document).ready(function() {
                 const monto_formateado = parseFloat(item.amount).toLocaleString('es-VE', { style: 'currency', currency: 'VES' });
                 
                 // Formateo de fecha y hora para TIMESTAMP
-                const fecha_pago = new Date(item.paymentdate);
-                // const fecha_pago = item.paymentdate;
+                // const fecha_pago = new Date(item.fecha_registro);
+                 const fecha_pago = item.fecha_registro;
 
                 // Ejemplo de formato: 13/11/2025 10:30:00
-                // const fecha_formateada = isNaN(fecha_pago) 
-                //     ? 'N/A' 
-                //     : fecha_pago.toLocaleDateString('es-VE') + ' ' + fecha_pago.toLocaleTimeString('es-VE');
+                const fecha_formateada = isNaN(fecha_pago) 
+                    ? 'N/A' 
+                    : fecha_pago.toLocaleDateString('es-VE') + ' ' + fecha_pago.toLocaleTimeString('es-VE');
 
                 // ORDEN DE COLUMNAS A MOSTRAR:
                 // paymentdate, id, rif_contratista, nombre_contratista, tipo_inscripcion, 

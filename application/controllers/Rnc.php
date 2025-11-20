@@ -134,7 +134,7 @@ class Rnc extends CI_Controller
 
         // Nombres de las columnas (Header) - ORDEN FINAL (10 columnas)
         fputcsv($output, [
-            'Fecha Pago',
+            'Fecha Registro',
             'ID Proceso',
             'RIF Contratista',
             'Nombre Contratista',
@@ -149,7 +149,7 @@ class Rnc extends CI_Controller
         // Contenido de las filas - ORDEN FINAL (10 columnas)
         foreach ($data_reporte as $row) {
             fputcsv($output, [
-                $row['paymentdate'],
+                $row['fecha_registro'],
                 $row['id'], // proceso_id
                 $row['rif_contratista'],
                 $row['nombre_contratista'],

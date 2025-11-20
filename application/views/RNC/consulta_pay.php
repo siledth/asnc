@@ -78,7 +78,7 @@
                 <table id="data-table-reporte" class="table table-striped table-bordered">
                     <thead>
                         <tr>
-                            <th>Fecha Pago</th>
+                            <th>Fecha Registro</th>
                             <th>ID Proceso</th>
                             <th>RIF Contratista</th>
                             <th>Nombre Contratista</th>
